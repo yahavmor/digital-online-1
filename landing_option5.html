@@ -262,15 +262,15 @@ header{position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);background:rg
 .tip-quote::before, .tip-quote::after{content:'';display:block;width:40px;height:1px;background:linear-gradient(90deg, transparent, var(--gold), transparent);margin:9px auto}
 
 /* ============ HOW IT WORKS (2x2 grid) ============ */
-.how-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:50px 80px;max-width:900px;margin:30px auto 0}
-.step{position:relative;text-align:center;padding:50px 20px 30px;transition:transform .4s}
+.how-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:40px 50px;max-width:900px;margin:30px auto 0}
+.step{position:relative;text-align:center;padding:45px 14px 24px;transition:transform .4s}
 .step:hover{transform:translateY(-8px)}
-.step-bg-num{font-family:'Frank Ruhl Libre',serif;font-size:160px;font-weight:900;color:var(--gold-rich);opacity:0.12;position:absolute;top:-30px;left:50%;transform:translateX(-50%);line-height:0.8;pointer-events:none;letter-spacing:-4px;transition:opacity .4s}
+.step-bg-num{font-family:'Frank Ruhl Libre',serif;font-size:130px;font-weight:900;color:var(--gold-rich);opacity:0.12;position:absolute;top:-22px;left:50%;transform:translateX(-50%);line-height:0.8;pointer-events:none;letter-spacing:-3px;transition:opacity .4s}
 .step:hover .step-bg-num{opacity:0.22}
-.step-icon-clean{position:relative;z-index:1;color:var(--gold-rich);margin-bottom:14px;display:flex;justify-content:center}
+.step-icon-clean{position:relative;z-index:1;color:var(--gold-rich);margin-bottom:12px;display:flex;justify-content:center}
 .step:hover .step-icon-clean{color:var(--gold)}
-.step h3{font-family:'Frank Ruhl Libre',serif;font-size:19px;font-weight:700;margin-bottom:8px;color:var(--on-light);position:relative;z-index:1}
-.step p{font-size:14px;color:var(--on-light-mute);line-height:1.6;position:relative;z-index:1;max-width:240px;margin:0 auto}
+.step h3{font-family:'Frank Ruhl Libre',serif;font-size:17px;font-weight:700;margin-bottom:7px;color:var(--on-light);position:relative;z-index:1}
+.step p{font-size:13px;color:var(--on-light-mute);line-height:1.55;position:relative;z-index:1;max-width:220px;margin:0 auto}
 
 /* Stats */
 .stats-row{display:flex;justify-content:space-around;align-items:flex-start;gap:30px;margin:40px 0 0;flex-wrap:wrap}
@@ -360,9 +360,12 @@ footer .logo-text small{font-size:9px}
   .mobile-toggle{display:block}
   .features-strip{grid-template-columns:repeat(2,1fr);gap:20px}
   .who-grid{grid-template-columns:repeat(2,1fr)}
-  .how-grid{gap:30px 20px}
-  .step{padding:40px 10px 20px}
-  .step-bg-num{font-size:120px}
+  .how-grid{gap:30px 16px}
+  .step{padding:38px 6px 16px}
+  .step-bg-num{font-size:100px;top:-16px}
+  .step h3{font-size:15px}
+  .step p{font-size:12px;line-height:1.5}
+  .step-icon-clean svg{width:38px;height:38px}
   .tip{grid-template-columns:1fr;text-align:center}
   .luxe-bulb{margin:0 auto}
   .final-cta .cta-btn{min-width:0;width:100%}
@@ -371,7 +374,13 @@ footer .logo-text small{font-size:9px}
   section{padding:60px 0}
 }
 @media (max-width:480px){
-  .how-grid{grid-template-columns:1fr;gap:20px}
+  .how-grid{gap:24px 10px;max-width:100%}
+  .step{padding:32px 4px 12px}
+  .step-bg-num{font-size:78px;top:-10px}
+  .step h3{font-size:13.5px;margin-bottom:5px}
+  .step p{font-size:11.5px;max-width:160px}
+  .step-icon-clean svg{width:32px;height:32px}
+  .step-icon-clean{margin-bottom:8px}
 }
 </style>
 </head>
