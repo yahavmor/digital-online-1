@@ -1944,11 +1944,11 @@ document.querySelectorAll('.leadForm, #leadForm').forEach(form => form.addEventL
   const ref          = urlP.get('ref') || variant || '';
   const PAGE_ID = 'digital-online-landing';
 
-  /* ===== 1) Make.com webhook (JSON, fire-and-forget) ===== */
+/* ===== 1) Make.com webhook (JSON, fire-and-forget) ===== */
   try {
     fetch('https://hook.eu1.make.com/jp6ukjt7tpk3y4yly9c691g01f47cq8q', {
       method: 'POST',
-      headers: {'Content-Type':'text/plain;charset=UTF-8'},
+      headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         event: 'lead_form',
         page: PAGE_ID,
