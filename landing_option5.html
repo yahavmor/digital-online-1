@@ -1967,30 +1967,34 @@ document.querySelectorAll('.leadForm, #leadForm').forEach(form => form.addEventL
     }).catch(()=>{});
   } catch (_) {}
 
-  /* ===== 2) Lead Manager API (GET, no-cors, fire-and-forget) ===== */
-  try {
-    const lmP = new URLSearchParams();
-    lmP.append('lm_form', '90867');
-    lmP.append('lm_key',  '4688231a3dff48db88fcc1316dcaa944');
-    lmP.append('subscribers_name',  name);
-    lmP.append('subscribers_phone', phone);
-    lmP.append('subscribers_email', email);
-    lmP.append('fld_144377', '1');                 /* מאשר דיוור */
-    lmP.append('fld_105911', utm_source);          /* מזהה ניתוב */
-    lmP.append('fld_107862', utm_source);          /* כלי פרסומי */
-    lmP.append('lm_supplier', supplier);
-    lmP.append('lm_bc',       utm_source);
-    lmP.append('fields[REF]', ref);
-    lmP.append('utm_medium',   utm_medium);
-    lmP.append('utm_campaign', utm_campaign);
-    lmP.append('page', PAGE_ID);
-    fetch('https://api.leadmanager.co.il/handlers/lm/submit.cms?' + lmP.toString(), {
-      method: 'GET',
-      mode: 'no-cors',
-      keepalive: true
-    }).catch(()=>{});
-  } catch (_) {}
-
+  /* ===== 2) Lead Manager API (image pixel, bulletproof) ===== */
+try {
+  const lmP = new URLSearchParams();
+  lmP.append('lm_form', '90867');
+  lmP.append('lm_key',  '4688231a3dff48db88fcc1316dcaa944');
+  lmP.append('subscribers_name',  name);
+  lmP.append('subscribers_phone', phone);
+  lmP.append('subscribers_email', email);
+  lmP.append('fld_144377', '1');
+  lmP.append('fld_105911', utm_source);
+  lmP.append('fld_107862', utm_source);
+  lmP.append('lm_supplier', supplier);
+  lmP.append('lm_bc',       utm_source);
+  lmP.append('fields[REF]', ref);
+  lmP.append('utm_medium',   utm_medium);
+  lmP.append('utm_campaign', utm_campaign);
+  lmP.append('page', PAGE_ID);
+  
+  const lmUrl = 'https://api.leadmanager.co.il/handlers/lm/submit.cms?' + lmP.toString();
+  console.log('LM URL sent:', lmUrl); // for debugging, remove later
+  
+  // Image pixel: fire-and-forget GET, survives navigation
+  const img = new Image();
+  img.src = lmUrl;
+} catch (e) {
+  console.error('LM error:', e);
+}
+  
   /* ===== UI feedback + redirect to thank-you ===== */
   const btn = e.target.querySelector('.cta-btn');
   const originalText = btn.dataset.original || btn.textContent;
