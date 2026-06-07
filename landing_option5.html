@@ -1924,7 +1924,7 @@ setInterval(tick, 1000);
 tick();
 
 /* Form (event delegation: works for ALL .leadForm elements no matter where they are in the DOM, including modals loaded later) */
-document.addEventListener('submit', async (e) => {
+document.addEventListener('submit', (e) => {
   const form = e.target;
   if (!(form instanceof HTMLFormElement)) return;
   if (!form.matches('.leadForm, #leadForm')) return;
@@ -1942,6 +1942,17 @@ document.addEventListener('submit', async (e) => {
     }
     return;
   }
+
+  /* ===== INSTANT UI feedback (before any network call) ===== */
+  const btn = form.querySelector('button[type=submit], .cta-btn');
+  if (btn) {
+    const originalText = btn.dataset.original || btn.textContent;
+    btn.dataset.original = originalText;
+    btn.textContent = '✓ נשלח בהצלחה!';
+    btn.style.background = 'linear-gradient(135deg, #1dffd4, #00c896)';
+    btn.disabled = true;
+  }
+
   /* ===== collect fields ===== */
   const nameEl  = form.querySelector('input[type=text]');
   const emailEl = form.querySelector('input[type=email]');
@@ -1959,7 +1970,7 @@ document.addEventListener('submit', async (e) => {
   const ref          = urlP.get('ref') || variant || '';
   const PAGE_ID = 'digital-online-landing';
 
-/* ===== 1) Make.com webhook (JSON, fire-and-forget) ===== */
+/* ===== 1) Make.com webhook (fire-and-forget, keepalive) ===== */
   try {
     fetch('https://hook.eu1.make.com/jp6ukjt7tpk3y4yly9c691g01f47cq8q', {
       method: 'POST',
@@ -1982,7 +1993,7 @@ document.addEventListener('submit', async (e) => {
     }).catch(()=>{});
   } catch (_) {}
 
-/* ===== 2) Lead Manager API ===== */
+/* ===== 2) Lead Manager API (fire-and-forget, keepalive - NO await) ===== */
   try {
     const lmP = new URLSearchParams();
     lmP.append('lm_form', '90867');
@@ -1999,23 +2010,17 @@ document.addEventListener('submit', async (e) => {
     lmP.append('utm_medium',   utm_medium);
     lmP.append('utm_campaign', utm_campaign);
     lmP.append('page', PAGE_ID);
-    await fetch('https://api.leadmanager.co.il/handlers/lm/submit.cms?' + lmP.toString(), {
+    fetch('https://api.leadmanager.co.il/handlers/lm/submit.cms?' + lmP.toString(), {
       method: 'GET',
-      mode: 'no-cors'
-    });
+      mode: 'no-cors',
+      keepalive: true
+    }).catch(()=>{});
   } catch (_) {}
 
-  /* ===== UI feedback + redirect to thank-you ===== */
-  const btn = form.querySelector('button[type=submit], .cta-btn');
-  if (btn) {
-    const originalText = btn.dataset.original || btn.textContent;
-    btn.dataset.original = originalText;
-    btn.textContent = '✓ נשלח בהצלחה!';
-    btn.style.background = 'linear-gradient(135deg, #1dffd4, #00c896)';
-  }
+  /* ===== Quick redirect (600ms - enough for requests to leave browser, fast enough that user doesn't wait) ===== */
   setTimeout(() => {
     window.location.href = 'https://funnel.digitalonline.co.il/thankyou';
-  }, 1200);
+  }, 600);
 });
 
 /* Hero video play button */
