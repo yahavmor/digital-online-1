@@ -11,39 +11,19 @@
 
 <style>
   :root {
-    --bg: #f6f7fb;
-    --card: #ffffff;
-    --card-soft: #fafafd;
-    --border: #ececf3;
-    --border-2: #e0e2eb;
-
-    --text: #1f2540;
-    --text-2: #6b7280;
-    --text-3: #9ca3af;
-    --text-4: #c0c4cf;
-
-    --pa: #7c3aed;
-    --pa-2: #6d28d9;
-    --pa-soft: #f3effe;
-    --pa-softer: #faf7ff;
-    --pa-border: #e9defb;
-
-    --pb: #3b82f6;
-    --pb-2: #2563eb;
-    --pb-soft: #eff5ff;
-    --pb-softer: #f5f9ff;
-    --pb-border: #dbe7fb;
-
+    --bg: #f6f7fb; --card: #ffffff; --card-soft: #fafafd;
+    --border: #ececf3; --border-2: #e0e2eb;
+    --text: #1f2540; --text-2: #6b7280; --text-3: #9ca3af; --text-4: #c0c4cf;
+    --pa: #7c3aed; --pa-2: #6d28d9; --pa-soft: #f3effe; --pa-softer: #faf7ff; --pa-border: #e9defb;
+    --pb: #3b82f6; --pb-2: #2563eb; --pb-soft: #eff5ff; --pb-softer: #f5f9ff; --pb-border: #dbe7fb;
     --f1: #7c3aed; --f1-bg: #f3effe; --f1-border: #e9defb;
     --f2: #3b82f6; --f2-bg: #eff5ff; --f2-border: #dbe7fb;
     --f3: #10b981; --f3-bg: #ecfdf5; --f3-border: #d1f5e2;
     --f4: #f59e0b; --f4-bg: #fef6e6; --f4-border: #fde8b8;
-
     --good: #10b981; --good-bg: #ecfdf5; --good-border: #d1f5e2;
     --warn: #f59e0b; --warn-bg: #fef6e6; --warn-border: #fde8b8;
     --bad: #ef4444;  --bad-bg: #fee2e2;  --bad-border: #fecaca;
     --gold: #d4a72c; --gold-bg: #fdf6dc; --gold-border: #f5e3a0;
-
     --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
     --shadow-md: 0 2px 6px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(15, 23, 42, 0.03);
     --shadow-lg: 0 10px 30px rgba(15, 23, 42, 0.06), 0 2px 6px rgba(15, 23, 42, 0.04);
@@ -59,10 +39,8 @@
 
   header.top {
     position: sticky; top: 0; z-index: 40;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-    padding: 14px 28px;
+    background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border); padding: 14px 28px;
     display: flex; align-items: center; gap: 18px;
   }
   .brand { display: flex; align-items: center; gap: 12px; }
@@ -70,8 +48,7 @@
     width: 34px; height: 34px; border-radius: 9px;
     background: linear-gradient(135deg, var(--pa) 0%, var(--pb) 100%);
     color: white; display: flex; align-items: center; justify-content: center;
-    font-weight: 800; font-size: 14px;
-    box-shadow: var(--shadow-md);
+    font-weight: 800; font-size: 14px; box-shadow: var(--shadow-md);
   }
   .brand-text { line-height: 1.2; }
   .brand-text .name { font-size: 15px; font-weight: 700; }
@@ -79,21 +56,18 @@
   .header-right { margin-right: auto; display: flex; align-items: center; gap: 14px; }
   .sync-pill {
     display: inline-flex; align-items: center; gap: 6px;
-    font-size: 11px; color: var(--text-2);
-    background: var(--card-soft);
-    padding: 6px 11px; border-radius: 999px;
-    border: 1px solid var(--border);
+    font-size: 11px; color: var(--text-2); background: var(--card-soft);
+    padding: 6px 11px; border-radius: 999px; border: 1px solid var(--border);
   }
   .sync-pill::before {
     content: ''; width: 7px; height: 7px; border-radius: 50%;
-    background: var(--good);
-    box-shadow: 0 0 0 3px var(--good-bg);
+    background: var(--good); box-shadow: 0 0 0 3px var(--good-bg);
   }
   .sync-pill.err::before { background: var(--bad); box-shadow: 0 0 0 3px var(--bad-bg); }
   .btn-refresh {
-    background: white; border: 1px solid var(--border);
-    color: var(--text); border-radius: 8px; padding: 8px 14px;
-    font-family: inherit; font-size: 12px; font-weight: 500; cursor: pointer;
+    background: white; border: 1px solid var(--border); color: var(--text);
+    border-radius: 8px; padding: 8px 14px; font-family: inherit;
+    font-size: 12px; font-weight: 500; cursor: pointer;
     display: inline-flex; align-items: center; gap: 7px;
     transition: all 0.15s; box-shadow: var(--shadow-sm);
   }
@@ -120,20 +94,15 @@
   .setup-bar strong { color: #78350f; }
   .setup-bar a { color: #78350f; text-decoration: underline; font-weight: 600; }
 
-  .kpi-strip {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
-    margin-bottom: 28px;
-  }
+  .kpi-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
   .kpi {
     background: var(--card); border: 1px solid var(--border);
-    border-radius: 12px; padding: 18px 20px;
-    box-shadow: var(--shadow-sm);
+    border-radius: 12px; padding: 18px 20px; box-shadow: var(--shadow-sm);
     display: flex; align-items: center; gap: 14px;
   }
   .kpi-icon {
     width: 44px; height: 44px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   }
   .kpi-icon.purple { background: var(--pa-soft); color: var(--pa); }
   .kpi-icon.blue { background: var(--pb-soft); color: var(--pb); }
@@ -142,15 +111,12 @@
   .kpi-text { flex: 1; min-width: 0; }
   .kpi-label { font-size: 11px; color: var(--text-2); font-weight: 500; margin-bottom: 2px; }
   .kpi-value {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 26px; font-weight: 700; line-height: 1.1; color: var(--text);
+    font-family: 'JetBrains Mono', monospace; font-size: 26px;
+    font-weight: 700; line-height: 1.1; color: var(--text);
   }
   .kpi-sub { font-size: 10px; color: var(--text-3); margin-top: 3px; }
 
-  .section-head {
-    display: flex; align-items: center; justify-content: space-between;
-    margin: 32px 0 14px;
-  }
+  .section-head { display: flex; align-items: center; justify-content: space-between; margin: 32px 0 14px; }
   .section-head h2 { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
   .section-head .sicn {
     width: 26px; height: 26px; border-radius: 6px;
@@ -163,17 +129,13 @@
 
   .funnel-wrap {
     background: var(--card); border: 1px solid var(--border);
-    border-radius: 14px; padding: 24px 26px;
-    box-shadow: var(--shadow-sm);
+    border-radius: 14px; padding: 24px 26px; box-shadow: var(--shadow-sm);
   }
   .funnel-title-row { text-align: center; margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
   .funnel-title-row h3 { font-size: 17px; font-weight: 700; }
   .funnel-title-row p { font-size: 11px; color: var(--text-3); margin-top: 6px; }
 
-  .funnel-grid {
-    display: grid; grid-template-columns: 110px repeat(4, 1fr);
-    gap: 8px; align-items: stretch;
-  }
+  .funnel-grid { display: grid; grid-template-columns: 110px repeat(4, 1fr); gap: 8px; align-items: stretch; }
   .fcol-head {
     text-align: center; padding: 11px 6px; border-radius: 9px;
     font-weight: 700; font-size: 13px; margin-bottom: 6px;
@@ -191,9 +153,9 @@
   .fcol-head.f4 .dot { background: var(--f4); }
 
   .fstep-lbl {
-    display: flex; align-items: center; justify-content: center;
-    flex-direction: column; gap: 6px; padding: 12px 4px;
-    font-size: 11px; color: var(--text-2); text-align: center; font-weight: 500;
+    display: flex; align-items: center; justify-content: center; flex-direction: column;
+    gap: 6px; padding: 12px 4px; font-size: 11px; color: var(--text-2);
+    text-align: center; font-weight: 500;
   }
   .fstep-lbl .ic {
     width: 28px; height: 28px; border-radius: 50%;
@@ -203,16 +165,14 @@
   .fstep-lbl .ic svg { width: 14px; height: 14px; }
 
   .fcell {
-    background: var(--card-soft); border-radius: 9px;
-    padding: 12px 8px; text-align: center;
-    border: 1px solid var(--border); position: relative;
+    background: var(--card-soft); border-radius: 9px; padding: 12px 8px;
+    text-align: center; border: 1px solid var(--border); position: relative;
   }
   .fcell.f1 { background: var(--f1-bg); border-color: var(--f1-border); }
   .fcell.f2 { background: var(--f2-bg); border-color: var(--f2-border); }
   .fcell.f3 { background: var(--f3-bg); border-color: var(--f3-border); }
   .fcell.f4 { background: var(--f4-bg); border-color: var(--f4-border); }
   .fcell.end { box-shadow: 0 0 0 2px var(--good-bg) inset; }
-
   .fcell-count { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; color: var(--text); }
   .fcell-pct { font-size: 10px; color: var(--text-3); margin-top: 3px; font-weight: 500; }
   .fcell-pct.dropoff { color: var(--bad); font-weight: 600; }
@@ -311,10 +271,9 @@
 
   .ab-vs {
     display: flex; align-items: center; justify-content: center; align-self: center;
-    width: 50px; height: 50px; border-radius: 50%;
-    background: white; border: 1px solid var(--border); color: var(--text-3);
-    font-weight: 700; font-size: 12px; letter-spacing: 0.05em;
-    box-shadow: var(--shadow-sm);
+    width: 50px; height: 50px; border-radius: 50%; background: white;
+    border: 1px solid var(--border); color: var(--text-3);
+    font-weight: 700; font-size: 12px; letter-spacing: 0.05em; box-shadow: var(--shadow-sm);
   }
 
   .ab-winner-pill {
@@ -351,16 +310,6 @@
   }
   .em-card:nth-child(3) .em-bar-fill {
     background: linear-gradient(90deg, var(--good) 0%, #34d399 100%);
-  }
-
-  .col-status-mini {
-    display: inline-flex; align-items: center; gap: 4px;
-    font-size: 9px; padding: 2px 7px; border-radius: 4px;
-    background: var(--card-soft); color: var(--text-3);
-    border: 1px dashed var(--border-2); font-weight: 600; margin-right: 6px;
-  }
-  .col-status-mini.live {
-    background: var(--good-bg); color: var(--good); border: 1px solid var(--good-border);
   }
 
   .toast {
@@ -432,8 +381,8 @@
   </div>
 
   <div class="setup-bar" id="setupBar">
-    ⚠️ <strong>נדרש שלב חיבור:</strong> פתח את הגיליון, לחץ <strong>Share</strong>, שנה ל-<strong>"Anyone with link · Viewer"</strong>, שמור, ולחץ רענן.
-    <a href="https://docs.google.com/spreadsheets/d/1v9iKOsNYJGYdGmA0CDH7tJaCvKVsG1uivWvLDLe2Z5A/edit" target="_blank">פתח גיליון ↗</a>
+    ⚠️ <strong>נדרש שלב חיבור:</strong> פתח את הגיליון, לחץ <strong>Share → Anyone with link → Viewer</strong>, ולחץ רענן.
+    <a id="sheetLink" href="#" target="_blank">פתח גיליון ↗</a>
   </div>
 
   <div class="kpi-strip">
@@ -573,7 +522,7 @@
 
     <div class="em-card">
       <div class="em-head">
-        <div class="em-title">נפתחו <span class="col-status-mini" id="status_em_open">ממתין לעמודה</span></div>
+        <div class="em-title">נפתחו</div>
         <div class="em-icon">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         </div>
@@ -585,7 +534,7 @@
 
     <div class="em-card">
       <div class="em-head">
-        <div class="em-title">קליקים <span class="col-status-mini" id="status_em_click">ממתין לעמודה</span></div>
+        <div class="em-title">קליקים</div>
         <div class="em-icon green">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0-6 0z"/><path d="M21 12c-1.5 4-5 7-9 7s-7.5-3-9-7c1.5-4 5-7 9-7s7.5 3 9 7z"/></svg>
         </div>
@@ -602,63 +551,52 @@
 
 
 <script>
-const SHEET_ID = '1v9iKOsNYJGYdGmA0CDH7tJaCvKVsG1uivWvLDLe2Z5A';
-const SHEET_NAME = 'לידים';
+/* ============================================================================
+   CONFIG · ONE THING TO CHANGE WHEN YOU UPLOAD THE SHEET
+   ============================================================================ */
 
-/* COLUMN MAP — fill in once you confirm. null = card shows 0 + "ממתין לעמודה" */
-const COLS = {
-  date: 0, name: 1, email: 2, phone: 3,
-  landing_variant: 4,
-  funnel: 30,
-  video_1: 19, video_2: 21, video_3: 23, video_4: 25,
-  webinar_signed: 17,
+const SHEET_ID  = 'PASTE_SHEET_ID_HERE';   // ← put the Google Sheet ID here
+const SHEET_TAB = 'Dashboard';             // ← tab name (default 'Dashboard')
 
-  wa_opener_variant:    null,
-  email_opener_variant: null,
-  email_sent:    null,
-  email_opened:  null,
-  email_clicked: null,
-
-  drip_day0_sent: 8,   drip_day0_variant: null,
-  drip_day2_sent: 10,  drip_day2_variant: null,
-  drip_day5_sent: 12,  drip_day5_variant: null,
-  drip_5min_sent: 14,  drip_5min_variant: null,
-
-  back_to_funnel_sent: null,
-  back_to_funnel_variant: null
-};
+/* ============================================================================
+   How data binding works:
+   - The dashboard reads the "Dashboard" tab as a 2D array.
+   - For each row: column A = ID, column C = value.
+   - All metrics below are looked up by ID (case-sensitive).
+   - If an ID isn't found, the dashboard shows 0 for that field.
+   ============================================================================ */
 
 const AB_TESTS = [
   { id: 'landing', title: 'דף נחיתה · A מול B', tag: 'landing', tagLabel: 'דף נחיתה',
-    variantCol: 'landing_variant', sentDescription: 'נכנסו', conversionLabel: 'לוובינר',
+    metricBase: 'ab_landing', sentDescription: 'נכנסו', conversionLabel: 'לוובינר',
     variantA: { name: 'דף A', desc: 'הגרסה המקורית' },
     variantB: { name: 'דף B', desc: 'הגרסה החדשה' } },
-  { id: 'wa_opener', title: 'הודעת WhatsApp פותחת', tag: 'wa', tagLabel: 'WhatsApp',
-    variantCol: 'wa_opener_variant', sentDescription: 'נשלחו', conversionLabel: 'לוובינר',
+  { id: 'wa', title: 'הודעת WhatsApp פותחת', tag: 'wa', tagLabel: 'WhatsApp',
+    metricBase: 'ab_wa', sentDescription: 'נשלחו', conversionLabel: 'לוובינר',
     variantA: { name: 'הודעה A', desc: 'גרסה ראשונה' },
     variantB: { name: 'הודעה B', desc: 'גרסה שניה' } },
-  { id: 'email_opener', title: 'מייל פותח', tag: 'email', tagLabel: 'אימייל',
-    variantCol: 'email_opener_variant', sentDescription: 'נשלחו', conversionLabel: 'לוובינר',
+  { id: 'email', title: 'מייל פותח', tag: 'email', tagLabel: 'אימייל',
+    metricBase: 'ab_email', sentDescription: 'נשלחו', conversionLabel: 'לוובינר',
     variantA: { name: 'מייל A', desc: 'גרסה ראשונה' },
     variantB: { name: 'מייל B', desc: 'גרסה שניה' } },
-  { id: 'drip_day0', title: 'יום 0 · ברוכים הבאים', tag: 'drip', tagLabel: 'טפטוף',
-    variantCol: 'drip_day0_variant', sentDescription: 'נשלחו', conversionLabel: 'לוובינר',
+  { id: 'drip0', title: 'יום 0 · ברוכים הבאים', tag: 'drip', tagLabel: 'טפטוף',
+    metricBase: 'ab_drip0', sentDescription: 'נשלחו', conversionLabel: 'לוובינר',
     variantA: { name: 'גרסה A', desc: 'נוסח ראשון' },
     variantB: { name: 'גרסה B', desc: 'נוסח שני' } },
-  { id: 'drip_day2', title: 'יום 2 · חיזוק', tag: 'drip', tagLabel: 'טפטוף',
-    variantCol: 'drip_day2_variant', sentDescription: 'נשלחו', conversionLabel: 'לוובינר',
+  { id: 'drip2', title: 'יום 2 · חיזוק', tag: 'drip', tagLabel: 'טפטוף',
+    metricBase: 'ab_drip2', sentDescription: 'נשלחו', conversionLabel: 'לוובינר',
     variantA: { name: 'גרסה A', desc: 'נוסח ראשון' },
     variantB: { name: 'גרסה B', desc: 'נוסח שני' } },
-  { id: 'drip_day5', title: 'יום 5 · תזכורת', tag: 'drip', tagLabel: 'טפטוף',
-    variantCol: 'drip_day5_variant', sentDescription: 'נשלחו', conversionLabel: 'לוובינר',
+  { id: 'drip5', title: 'יום 5 · תזכורת', tag: 'drip', tagLabel: 'טפטוף',
+    metricBase: 'ab_drip5', sentDescription: 'נשלחו', conversionLabel: 'לוובינר',
     variantA: { name: 'גרסה A', desc: 'נוסח ראשון' },
     variantB: { name: 'גרסה B', desc: 'נוסח שני' } },
-  { id: 'drip_5min', title: '5 דקות לפני הוובינר', tag: 'drip', tagLabel: 'תזכורת',
-    variantCol: 'drip_5min_variant', sentDescription: 'נשלחו', conversionLabel: 'הגיעו',
+  { id: 'drip5m', title: '5 דקות לפני הוובינר', tag: 'drip', tagLabel: 'תזכורת',
+    metricBase: 'ab_drip5m', sentDescription: 'נשלחו', conversionLabel: 'הגיעו',
     variantA: { name: 'גרסה A', desc: 'נוסח ראשון' },
     variantB: { name: 'גרסה B', desc: 'נוסח שני' } },
-  { id: 'back_to_funnel', title: 'הודעת חזרה למשפך', tag: 'back', tagLabel: 'חזרה',
-    variantCol: 'back_to_funnel_variant', sentDescription: 'נשלחו', conversionLabel: 'לוובינר',
+  { id: 'back', title: 'הודעת חזרה למשפך', tag: 'back', tagLabel: 'חזרה',
+    metricBase: 'ab_back', sentDescription: 'נשלחו', conversionLabel: 'לוובינר',
     variantA: { name: 'גרסה A', desc: 'נוסח ראשון' },
     variantB: { name: 'גרסה B', desc: 'נוסח שני' } }
 ];
@@ -680,116 +618,100 @@ const ICONS = {
   check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>'
 };
 
-const hasV = v => v != null && v !== '' && v !== 'false' && v !== 'FALSE' && v !== '0' && v !== 'undefined';
+/* ============================================================================
+   HELPERS
+   ============================================================================ */
+
+const num = v => {
+  if (v == null || v === '') return 0;
+  const n = parseFloat(String(v).replace(/[^\d.-]/g, ''));
+  return isNaN(n) ? 0 : n;
+};
 const pct = (n, d) => d === 0 ? 0 : (n / d * 100);
 const fmt = n => n == null || isNaN(n) ? '0' : Math.round(n).toLocaleString('en-US');
 const fmtPct = n => isNaN(n) ? '0.0%' : n.toFixed(1) + '%';
 
-let rows = [];
-let computed = {};
+let metrics = {};
+
+/* metric(id) — central lookup. Returns 0 if missing. */
+function m(id) {
+  return num(metrics[id]);
+}
+
+/* ============================================================================
+   FETCH — read the Dashboard tab as a 2D array, build id→value map
+   ============================================================================ */
 
 async function loadData() {
   const syncText = document.getElementById('syncText');
   const setupBar = document.getElementById('setupBar');
+  const sheetLink = document.getElementById('sheetLink');
+
+  if (SHEET_ID === 'PASTE_SHEET_ID_HERE') {
+    setupBar.classList.add('show');
+    setupBar.innerHTML = '⚠️ <strong>נדרש: עדכן את SHEET_ID בקוד.</strong> אחרי שתעלה את הגיליון ל-Google Sheets, פתח את ה-URL וקח את ה-ID (הקטע בין /d/ ל-/edit).';
+    syncText.textContent = 'לא מחובר';
+    syncText.classList.add('err');
+    return;
+  }
+
+  sheetLink.href = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit`;
   syncText.innerHTML = '<span class="loading-dots">מרענן</span>';
   syncText.classList.remove('err');
 
-  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&t=${Date.now()}`;
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_TAB)}&t=${Date.now()}`;
+
   try {
     const res = await fetch(url);
     const txt = await res.text();
-    const m = txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/);
-    if (!m) throw new Error('Sheet not accessible');
-    const json = JSON.parse(m[1]);
-    rows = (json.table.rows || []).map(r =>
-      (r.c || []).map(c => c && c.v != null ? String(c.v).trim() : '')
-    );
+    const match = txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/);
+    if (!match) throw new Error('Sheet not accessible');
+    const json = JSON.parse(match[1]);
+
+    // Build the id → value map
+    metrics = {};
+    (json.table.rows || []).forEach(row => {
+      const cells = row.c || [];
+      const id = cells[0] && cells[0].v != null ? String(cells[0].v).trim() : '';
+      const value = cells[2] && cells[2].v != null ? cells[2].v : '';
+      if (id) metrics[id] = value;
+    });
+
     setupBar.classList.remove('show');
     syncText.textContent = 'עודכן ' + new Date().toLocaleTimeString('he-IL', {hour: '2-digit', minute: '2-digit'});
-    compute();
     render();
   } catch (e) {
     setupBar.classList.add('show');
+    setupBar.innerHTML = '⚠️ <strong>נדרש שלב חיבור:</strong> פתח את הגיליון, לחץ <strong>Share → Anyone with link → Viewer</strong>, ולחץ רענן. <a href="' + sheetLink.href + '" target="_blank">פתח גיליון ↗</a>';
     syncText.textContent = 'שגיאת חיבור';
     syncText.classList.add('err');
     console.error(e);
-    rows = [];
-    compute();
+    metrics = {};
     render();
   }
 }
 
-function val(row, colKey) {
-  const idx = COLS[colKey];
-  if (idx == null) return '';
-  return row[idx] || '';
-}
-
-function compute() {
-  const total = rows.length;
-  const webinar = rows.filter(r => hasV(val(r, 'webinar_signed'))).length;
-
-  const abResults = {};
-  AB_TESTS.forEach(test => {
-    const colIdx = COLS[test.variantCol];
-    if (colIdx == null) {
-      abResults[test.id] = { ready: false, A: { sent: 0, conv: 0 }, B: { sent: 0, conv: 0 } };
-      return;
-    }
-    const counts = { A: { sent: 0, conv: 0 }, B: { sent: 0, conv: 0 } };
-    rows.forEach(r => {
-      const variant = (r[colIdx] || '').toString().trim().toUpperCase();
-      if (variant !== 'A' && variant !== 'B') return;
-      counts[variant].sent++;
-      if (hasV(val(r, 'webinar_signed'))) counts[variant].conv++;
-    });
-    abResults[test.id] = { ready: true, ...counts };
-  });
-
-  const funnels = {};
-  [1, 2, 3, 4].forEach(n => {
-    funnels[n] = { entry: 0, landing: 0, video_1: 0, video_2: 0, video_3: 0, video_4: 0, webinar: 0 };
-  });
-  rows.forEach(r => {
-    const fn = parseInt(val(r, 'funnel'));
-    if (!funnels[fn]) return;
-    funnels[fn].entry++;
-    funnels[fn].landing++;
-    if (hasV(val(r, 'video_1'))) funnels[fn].video_1++;
-    if (hasV(val(r, 'video_2'))) funnels[fn].video_2++;
-    if (hasV(val(r, 'video_3'))) funnels[fn].video_3++;
-    if (hasV(val(r, 'video_4'))) funnels[fn].video_4++;
-    if (hasV(val(r, 'webinar_signed'))) funnels[fn].webinar++;
-  });
-
-  const emailSent    = COLS.email_sent    != null ? rows.filter(r => hasV(val(r, 'email_sent'))).length    : 0;
-  const emailOpened  = COLS.email_opened  != null ? rows.filter(r => hasV(val(r, 'email_opened'))).length  : 0;
-  const emailClicked = COLS.email_clicked != null ? rows.filter(r => hasV(val(r, 'email_clicked'))).length : 0;
-  const fallbackEmailSent = COLS.email_sent == null
-    ? rows.filter(r => hasV(val(r, 'email'))).length
-    : 0;
-
-  computed = {
-    total, webinar, rate: pct(webinar, total),
-    abResults, funnels,
-    email: {
-      sent: COLS.email_sent != null ? emailSent : fallbackEmailSent,
-      sentReady: COLS.email_sent != null || COLS.email != null,
-      opened: emailOpened, openedReady: COLS.email_opened != null,
-      clicked: emailClicked, clickedReady: COLS.email_clicked != null
-    }
-  };
-}
+/* ============================================================================
+   RENDER
+   ============================================================================ */
 
 function render() {
-  document.getElementById('kpi_total').textContent = fmt(computed.total);
-  document.getElementById('kpi_webinar').textContent = fmt(computed.webinar);
-  document.getElementById('kpi_rate').textContent = fmtPct(computed.rate);
+  document.getElementById('kpi_total').textContent = fmt(m('total_leads'));
+  document.getElementById('kpi_webinar').textContent = fmt(m('webinar_total'));
 
-  const readyTests = AB_TESTS.filter(t => computed.abResults[t.id].ready).length;
-  const pendingTests = AB_TESTS.length - readyTests;
+  // conv rate: prefer explicit, else compute from totals
+  const explicitRate = m('conv_rate_pct');
+  const computedRate = pct(m('webinar_total'), m('total_leads'));
+  const rateToShow = explicitRate > 0 ? explicitRate : computedRate;
+  document.getElementById('kpi_rate').textContent = fmtPct(rateToShow);
+
+  // count of A/B tests with data
+  const liveTests = AB_TESTS.filter(t =>
+    m(t.metricBase + '_a_sent') + m(t.metricBase + '_b_sent') > 0
+  ).length;
+  const pendingTests = AB_TESTS.length - liveTests;
   document.getElementById('kpi_ab_sub').textContent =
-    `${readyTests} חיים · ${pendingTests} ממתינים`;
+    `${liveTests} חיים · ${pendingTests} ממתינים`;
 
   renderFunnelComparison();
   renderABCards();
@@ -808,15 +730,16 @@ function renderFunnelComparison() {
     </div>`;
 
     [1, 2, 3, 4].forEach(fn => {
-      const count = computed.funnels[fn][step.key] || 0;
+      const count = m(`f${fn}_${step.key}`);
       let pctText = '', pctClass = '';
 
       if (idx === 0) {
-        const ofTotal = computed.total > 0 ? pct(count, computed.total) : 0;
+        const total = m('total_leads');
+        const ofTotal = total > 0 ? pct(count, total) : 0;
         pctText = ofTotal > 0 ? `${ofTotal.toFixed(1)}% מסה״כ` : '';
       } else {
         const prevKey = FUNNEL_STEPS[idx - 1].key;
-        const prev = computed.funnels[fn][prevKey] || 0;
+        const prev = m(`f${fn}_${prevKey}`);
         const p = pct(count, prev);
         pctText = prev > 0 ? `${p.toFixed(0)}%` : '';
         if (p < 50 && prev > 5) pctClass = 'dropoff';
@@ -832,8 +755,7 @@ function renderFunnelComparison() {
     html += `</div>`;
 
     if (idx < FUNNEL_STEPS.length - 1) {
-      html += `<div class="farrow-row">`;
-      html += `<div></div>`;
+      html += `<div class="farrow-row"><div></div>`;
       [1, 2, 3, 4].forEach(() => html += `<div class="farrow">↓</div>`);
       html += `</div>`;
     }
@@ -843,15 +765,15 @@ function renderFunnelComparison() {
 
   let bestRate = 0, bestFn = null;
   [1, 2, 3, 4].forEach(fn => {
-    const r = pct(computed.funnels[fn].webinar, computed.funnels[fn].entry);
-    if (computed.funnels[fn].entry >= 30 && r > bestRate) {
-      bestRate = r; bestFn = fn;
-    }
+    const entry = m(`f${fn}_entry`);
+    const web = m(`f${fn}_webinar`);
+    const r = pct(web, entry);
+    if (entry >= 30 && r > bestRate) { bestRate = r; bestFn = fn; }
   });
 
   [1, 2, 3, 4].forEach(fn => {
     const el = document.getElementById('fw_' + fn);
-    const rate = pct(computed.funnels[fn].webinar, computed.funnels[fn].entry);
+    const rate = pct(m(`f${fn}_webinar`), m(`f${fn}_entry`));
     el.querySelector('.fwinner-rate').textContent = fmtPct(rate);
     el.querySelector('.fwinner-trophy').textContent = bestFn === fn ? '🏆' : '';
     el.classList.toggle('is-winner', bestFn === fn);
@@ -863,21 +785,27 @@ function renderABCards() {
   let html = '';
 
   AB_TESTS.forEach(test => {
-    const r = computed.abResults[test.id];
-    const rateA = r.ready ? pct(r.A.conv, r.A.sent) : 0;
-    const rateB = r.ready ? pct(r.B.conv, r.B.sent) : 0;
+    const aSent = m(test.metricBase + '_a_sent');
+    const aConv = m(test.metricBase + '_a_conv');
+    const bSent = m(test.metricBase + '_b_sent');
+    const bConv = m(test.metricBase + '_b_conv');
+
+    const rateA = pct(aConv, aSent);
+    const rateB = pct(bConv, bSent);
 
     let winnerSide = null;
-    if (r.ready && r.A.sent >= 30 && r.B.sent >= 30) {
-      if (Math.abs(rateA - rateB) >= 0.5) {
-        winnerSide = rateA > rateB ? 'a' : 'b';
-      }
+    if (aSent >= 30 && bSent >= 30 && Math.abs(rateA - rateB) >= 0.5) {
+      winnerSide = rateA > rateB ? 'a' : 'b';
     }
 
     let statusText, statusClass;
-    if (!r.ready) { statusText = 'ממתין לעמודה'; statusClass = 'waiting'; }
-    else if (r.A.sent === 0 && r.B.sent === 0) { statusText = 'מחובר · מחכה לנתונים'; statusClass = 'pending'; }
-    else { statusText = 'פעיל'; statusClass = ''; }
+    if (aSent === 0 && bSent === 0) {
+      statusText = 'מחכה לנתונים'; statusClass = 'waiting';
+    } else if (aSent < 30 || bSent < 30) {
+      statusText = 'אוסף דגימות'; statusClass = 'pending';
+    } else {
+      statusText = 'פעיל'; statusClass = '';
+    }
 
     const RING_R = 34;
     const CIRC = 2 * Math.PI * RING_R;
@@ -906,11 +834,11 @@ function renderABCards() {
               <div class="ab-stats">
                 <div>
                   <div class="ab-stat-lbl">${test.sentDescription}</div>
-                  <div class="ab-stat-val mono">${fmt(r.A.sent)}</div>
+                  <div class="ab-stat-val mono">${fmt(aSent)}</div>
                 </div>
                 <div>
                   <div class="ab-stat-lbl">המרות</div>
-                  <div class="ab-stat-val mono">${fmt(r.A.conv)}</div>
+                  <div class="ab-stat-val mono">${fmt(aConv)}</div>
                 </div>
                 <div>
                   <div class="ab-stat-lbl">שיעור המרה</div>
@@ -924,11 +852,9 @@ function renderABCards() {
                     <circle class="ab-ring-fill"  cx="43" cy="43" r="${RING_R}"
                       stroke-dasharray="${CIRC}" stroke-dashoffset="${offA}"/>
                   </svg>
-                  <div class="ab-ring-center">
-                    <div class="num">${fmtPct(rateA)}</div>
-                  </div>
+                  <div class="ab-ring-center"><div class="num">${fmtPct(rateA)}</div></div>
                 </div>
-                <div class="ab-ring-sub">(${fmt(r.A.conv)} ${test.conversionLabel})</div>
+                <div class="ab-ring-sub">(${fmt(aConv)} ${test.conversionLabel})</div>
               </div>
             </div>
           </div>
@@ -946,11 +872,11 @@ function renderABCards() {
               <div class="ab-stats">
                 <div>
                   <div class="ab-stat-lbl">${test.sentDescription}</div>
-                  <div class="ab-stat-val mono">${fmt(r.B.sent)}</div>
+                  <div class="ab-stat-val mono">${fmt(bSent)}</div>
                 </div>
                 <div>
                   <div class="ab-stat-lbl">המרות</div>
-                  <div class="ab-stat-val mono">${fmt(r.B.conv)}</div>
+                  <div class="ab-stat-val mono">${fmt(bConv)}</div>
                 </div>
                 <div>
                   <div class="ab-stat-lbl">שיעור המרה</div>
@@ -964,11 +890,9 @@ function renderABCards() {
                     <circle class="ab-ring-fill"  cx="43" cy="43" r="${RING_R}"
                       stroke-dasharray="${CIRC}" stroke-dashoffset="${offB}"/>
                   </svg>
-                  <div class="ab-ring-center">
-                    <div class="num">${fmtPct(rateB)}</div>
-                  </div>
+                  <div class="ab-ring-center"><div class="num">${fmtPct(rateB)}</div></div>
                 </div>
-                <div class="ab-ring-sub">(${fmt(r.B.conv)} ${test.conversionLabel})</div>
+                <div class="ab-ring-sub">(${fmt(bConv)} ${test.conversionLabel})</div>
               </div>
             </div>
           </div>
@@ -981,24 +905,21 @@ function renderABCards() {
 }
 
 function renderEmailTracking() {
-  const e = computed.email;
+  const sent = m('email_sent');
+  const opened = m('email_opened');
+  const clicked = m('email_clicked');
 
-  document.getElementById('em_sent').textContent = fmt(e.sent);
-  document.getElementById('em_opened').textContent = fmt(e.opened);
+  document.getElementById('em_sent').textContent = fmt(sent);
+  document.getElementById('em_opened').textContent = fmt(opened);
+  document.getElementById('em_clicked').textContent = fmt(clicked);
 
-  const openRate = pct(e.opened, e.sent);
+  const openRate = pct(opened, sent);
   document.getElementById('em_open_rate').textContent = fmtPct(openRate);
   document.getElementById('em_open_bar').style.width = Math.min(openRate, 100) + '%';
 
-  document.getElementById('em_clicked').textContent = fmt(e.clicked);
-  const clickRate = pct(e.clicked, e.sent);
+  const clickRate = pct(clicked, sent);
   document.getElementById('em_click_rate').textContent = fmtPct(clickRate);
   document.getElementById('em_click_bar').style.width = Math.min(clickRate * 4, 100) + '%';
-
-  const openStatus  = document.getElementById('status_em_open');
-  const clickStatus = document.getElementById('status_em_click');
-  if (e.openedReady)  { openStatus.textContent  = 'חי'; openStatus.classList.add('live'); }
-  if (e.clickedReady) { clickStatus.textContent = 'חי'; clickStatus.classList.add('live'); }
 }
 
 const refreshBtn = document.getElementById('refreshBtn');
@@ -1012,7 +933,6 @@ refreshBtn.addEventListener('click', async () => {
 });
 
 setInterval(() => loadData(), 5 * 60 * 1000);
-
 loadData();
 </script>
 
