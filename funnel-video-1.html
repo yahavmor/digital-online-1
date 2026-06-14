@@ -156,13 +156,13 @@ function playVideo(){
 })();
 
 var PAGE='funnel_video_1';
-var WEBHOOK='';
+var WEBHOOK='https://hook.eu1.make.com/ylf5uesfcqpyaxaxtvayjx08h9rrwqr2';
 var WEBHOOK2='https://hook.eu1.make.com/ylf5uesfcqpyaxaxtvayjx08h9rrwqr2';
 var YT_VIDEO_ID='WpM_ZaomLHM';
 window.dataLayer=window.dataLayer||[];
 var P=new URLSearchParams(location.search);
 var variant=P.get('variant')||'',sup=P.get('lm_supplier')||P.get('supplier')||'',src=P.get('utm_source')||'';
-var leadPhone=P.get('phone')||'';
+var leadPhone=P.get('phone')||'',leadEmail=P.get('email')||'';
 dataLayer.push({event:'page_view',page:PAGE,source_variant:variant,supplier:sup,utm_source:src});
 if(typeof fbq!=='undefined')fbq('track','PageView');
 
@@ -193,6 +193,7 @@ function sendAbandonWebhook(){
     body:JSON.stringify({
       event:'video_abandoned',
       phone:leadPhone,
+      email:leadEmail,
       page:PAGE,
       video_time_seconds:lastPos,
       video_time_display:Math.floor(lastPos/60)+':'+(('0'+(lastPos%60)).slice(-2)),
@@ -284,7 +285,7 @@ function onPlayerStateChange(e){
     var pct=totalDur?Math.round((lastPos/totalDur)*100):0;
     dataLayer.push({event:'video_pause',page:PAGE,time:lastPos,pct_watched:pct});
     fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({event:'video_pause',page:PAGE,position_sec:lastPos,pct_watched:pct,supplier:sup,utm_source:src,timestamp:new Date().toLocaleString('he-IL')})
+      body:JSON.stringify({event:'video_pause',page:PAGE,position_sec:lastPos,pct_watched:pct,phone:leadPhone,email:leadEmail,supplier:sup,utm_source:src,timestamp:new Date().toLocaleString('he-IL')})
     }).catch(function(){});
   }
 
@@ -295,7 +296,7 @@ function onPlayerStateChange(e){
     dataLayer.push({event:'video_ended',page:PAGE});
     if(typeof fbq!=='undefined')fbq('track','ViewContent',{content_name:PAGE});
     fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({event:'video_completed',page:PAGE,pct_watched:100,supplier:sup,utm_source:src,timestamp:new Date().toLocaleString('he-IL')})
+      body:JSON.stringify({event:'video_completed',page:PAGE,pct_watched:100,phone:leadPhone,email:leadEmail,supplier:sup,utm_source:src,timestamp:new Date().toLocaleString('he-IL')})
     }).catch(function(){});
   }
 }
