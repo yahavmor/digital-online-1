@@ -391,7 +391,7 @@
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       </div>
       <div class="kpi-text">
-        <div class="kpi-label">סה״כ כניסות לפאנל</div>
+        <div class="kpi-label">סה״כ נשלח ללידים</div>
         <div class="kpi-value mono" id="kpi_total">0</div>
         <div class="kpi-sub">כל המבחנים</div>
       </div>
@@ -445,7 +445,7 @@
   <div class="funnel-wrap">
     <div class="funnel-title-row">
       <h3>בדיקת משפך המרות · 4 גרסאות</h3>
-      <p>המספר ליד החץ = שיעור המעבר מהשלב הקודם · המנצח מוכתר לפי המרה סופית (מינ׳ 30 דגימות)</p>
+      <p>המספר ליד החץ = כמה נטשו את הדף · המנצח מוכתר לפי המרה סופית (מינ׳ 30 דגימות)</p>
     </div>
 
     <div class="funnel-grid">
@@ -568,7 +568,7 @@ const SHEET_TAB = 'Dashboard';             // ← tab name (default 'Dashboard')
 
 const AB_TESTS = [
   { id: 'landing', title: 'דף נחיתה · A מול B', tag: 'landing', tagLabel: 'דף נחיתה',
-    metricBase: 'ab_landing', sentDescription: 'נכנסו', conversionLabel: 'לפאנל',
+    metricBase: 'ab_landing', sentDescription: 'נשלחו', conversionLabel: 'לפאנל',
     variantA: { name: 'landing_option1', desc: 'הגרסה המקורית' },
     variantB: { name: 'landing_option5', desc: 'הגרסה החדשה' } },
   { id: 'wa', title: 'הודעת שליחה יזומה ווצאפ', tag: 'wa', tagLabel: 'WhatsApp',
@@ -603,11 +603,11 @@ const AB_TESTS = [
 
 const FUNNEL_STEPS = [
   { key: 'entry',   label: '-',  icon: 'users' },
-  { key: 'landing', label: 'דף נחיתה',     icon: 'doc' },
-  { key: 'video_1', label: 'וידאו 1',      icon: 'play' },
-  { key: 'video_2', label: 'וידאו 2',      icon: 'play' },
-  { key: 'video_3', label: 'וידאו 3',      icon: 'play' },
-  { key: 'video_4', label: 'וידאו 4',      icon: 'play' },
+  { key: 'landing', label: 'דף נחיתה - נשלחו',     icon: 'doc' },
+  { key: 'video_1', label: 'וידאו 1 ננטש',      icon: 'play' },
+  { key: 'video_2', label: 'וידאו 2 ננטש',      icon: 'play' },
+  { key: 'video_3', label: 'וידאו 3 ננטש',      icon: 'play' },
+  { key: 'video_4', label: 'וידאו 4 ננטש',      icon: 'play' },
   { key: 'webinar', label: 'נרשמו לוובינר', icon: 'check', isEnd: true }
 ];
 
@@ -837,11 +837,11 @@ function renderABCards() {
                   <div class="ab-stat-val mono">${fmt(aSent)}</div>
                 </div>
                 <div>
-                  <div class="ab-stat-lbl">המרות</div>
+                  <div class="ab-stat-lbl">-</div>
                   <div class="ab-stat-val mono">${fmt(aConv)}</div>
                 </div>
                 <div>
-                  <div class="ab-stat-lbl">שיעור המרה</div>
+                  <div class="ab-stat-lbl">- -</div>
                   <div class="ab-stat-val mono rate-a">${fmtPct(rateA)}</div>
                 </div>
               </div>
@@ -875,11 +875,11 @@ function renderABCards() {
                   <div class="ab-stat-val mono">${fmt(bSent)}</div>
                 </div>
                 <div>
-                  <div class="ab-stat-lbl">המרות</div>
+                  <div class="ab-stat-lbl">=</div>
                   <div class="ab-stat-val mono">${fmt(bConv)}</div>
                 </div>
                 <div>
-                  <div class="ab-stat-lbl">שיעור המרה</div>
+                  <div class="ab-stat-lbl">= =</div>
                   <div class="ab-stat-val mono rate-b">${fmtPct(rateB)}</div>
                 </div>
               </div>
