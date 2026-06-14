@@ -571,11 +571,11 @@ const AB_TESTS = [
     metricBase: 'ab_landing', sentDescription: 'נכנסו', conversionLabel: 'לפאנל',
     variantA: { name: 'landing_option1', desc: 'הגרסה המקורית' },
     variantB: { name: 'landing_option5', desc: 'הגרסה החדשה' } },
-  { id: 'wa', title: 'הודעת WhatsApp פותחת', tag: 'wa', tagLabel: 'WhatsApp',
+  { id: 'wa', title: 'הודעת שליחה יזומה ווצאפ', tag: 'wa', tagLabel: 'WhatsApp',
     metricBase: 'ab_wa', sentDescription: 'נשלחו', conversionLabel: 'לוובינר',
     variantA: { name: 'הודעה A', desc: 'גרסה ראשונה' },
     variantB: { name: 'הודעה B', desc: 'גרסה שניה' } },
-  { id: 'email', title: 'מייל פותח', tag: 'email', tagLabel: 'אימייל',
+  { id: 'email', title: 'מייל שליחה יזומה', tag: 'email', tagLabel: 'אימייל',
     metricBase: 'ab_email', sentDescription: 'נשלחו', conversionLabel: 'לוובינר',
     variantA: { name: 'מייל A', desc: 'גרסה ראשונה' },
     variantB: { name: 'מייל B', desc: 'גרסה שניה' } },
@@ -602,7 +602,7 @@ const AB_TESTS = [
 ];
 
 const FUNNEL_STEPS = [
-  { key: 'entry',   label: 'נכנסו למשפך',  icon: 'users' },
+  { key: 'entry',   label: '-',  icon: 'users' },
   { key: 'landing', label: 'דף נחיתה',     icon: 'doc' },
   { key: 'video_1', label: 'וידאו 1',      icon: 'play' },
   { key: 'video_2', label: 'וידאו 2',      icon: 'play' },
