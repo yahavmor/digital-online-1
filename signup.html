@@ -26,7 +26,7 @@ function submitWebinar() {
   try { dataLayer.push({event:'webinar_signup',page:'webinar-signup'}); } catch(e) {}
   try { if(typeof fbq==='function') fbq('track','Lead'); } catch(e) {}
   var urlP = new URLSearchParams(location.search);
-  fetch('https://hook.eu1.make.com/jp6ukjt7tpk3y4yly9c691g01f47cq8q', {
+  fetch('https://hook.eu1.make.com/j0dlss962fq8xih7x4ndw7ch7o3qvb8x', {
     method:'POST', headers:{'Content-Type':'application/json'},
     body: JSON.stringify({
       event:'webinar_signup', page:'webinar-signup',
