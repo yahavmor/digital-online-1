@@ -204,15 +204,8 @@ footer .sep{margin:0 6px;color:rgba(255,255,255,.06);}
   <a href="/cdn-cgi/l/email-protection#b4c7c1c4c4dbc6c0f4d0ddd3ddc0d5d8dbdad8dddad19ad7db9addd8">&#115;upport&#64;digitalonline.co.il</a><br>
   <a href="privacy.html">מדיניות פרטיות</a><span class="sep">|</span><a href="terms.html">תנאי שימוש</a>
 </footer>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js">
-/* UNLOCK AFTER 60 SECONDS */
-setTimeout(function(){
-  var btn=document.getElementById('btnNext');
-  if(!btn||btn.classList.contains('unlocked'))return;
-  btn.classList.add('unlocked');
-  setTimeout(function(){btn.scrollIntoView({behavior:'smooth',block:'center'});},300);
-},60000);
-</script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script>
 (function(){
   const c=document.getElementById('particles'),ctx=c.getContext('2d');
   let W,H,pts=[];
@@ -236,11 +229,16 @@ setTimeout(function(){
   }
   draw();
 })();
+
+if(localStorage.getItem('ck')){var _cb=document.getElementById('cookieBanner');if(_cb)_cb.style.display='none';}
+
 const PAGE='funnel_c_video_1';
 const WEBHOOK='https://hook.eu1.make.com/ylf5uesfcqpyaxaxtvayjx08h9rrwqr2';
 window.dataLayer=window.dataLayer||[];
 const P=new URLSearchParams(location.search);
 const variant=P.get('variant')||'',sup=P.get('lm_supplier')||P.get('supplier')||'',src=P.get('utm_source')||'';
+const phone=P.get('phone')||'',email=P.get('email')||'';
+(function(){var nb=document.getElementById('btnNext');if(nb&&location.search)nb.setAttribute('href',nb.getAttribute('href').split('?')[0]+location.search);})();
 dataLayer.push({event:'page_view',page:PAGE,source_variant:variant,supplier:sup,utm_source:src});
 if(typeof fbq!=='undefined')fbq('track','PageView');
 const sd={};[25,50,75,100].forEach(d=>sd[d]=0);
@@ -251,6 +249,7 @@ window.addEventListener('scroll',()=>{
 },{passive:true});
 const t0=Date.now();
 const vm={};[25,50,75,100].forEach(m=>vm[m]=0);
+let lastPos=0,lastPct=0;
 window.addEventListener('load',()=>{
   const iframe=document.getElementById('vimeoPlayer');
   const player=new Vimeo.Player(iframe);
@@ -273,6 +272,7 @@ window.addEventListener('load',()=>{
   });
   let maxTime=0,isSeeking=false;
   player.on('timeupdate',(data)=>{
+    lastPos=data.seconds;lastPct=Math.round(data.percent*100);
     if(!isSeeking&&data.seconds>maxTime+1.5){
       isSeeking=true;player.setCurrentTime(maxTime).then(()=>{isSeeking=false;});return;
     }
@@ -291,18 +291,16 @@ window.addEventListener('load',()=>{
     btnNext.innerHTML='&#9658;&nbsp; לעבור לשלב הבא &nbsp;<span class="btn-arrow">←</span>';
     setTimeout(()=>{btnNext.scrollIntoView({behavior:'smooth',block:'center'});},300);
   });
-  window.addEventListener('beforeunload',()=>{
-    player.getCurrentTime().then((pos)=>{player.getDuration().then((d)=>{
-      const pct=d?Math.round((pos/d)*100):0;
-      if(navigator.sendBeacon)navigator.sendBeacon(WEBHOOK,JSON.stringify({
-        event:'page_exit',page:PAGE,position_sec:Math.round(pos),pct_watched:pct,
-        seconds_on_page:Math.round((Date.now()-t0)/1000),supplier:sup,utm_source:src,
-        timestamp:new Date().toLocaleString('he-IL')
-      }));
-    });});
-  });
 });
-<script>if(localStorage.getItem('ck'))document.a
+window.addEventListener('beforeunload',()=>{
+  if(navigator.sendBeacon){
+    navigator.sendBeacon(WEBHOOK,JSON.stringify({
+      event:'page_exit',page:PAGE,phone:phone,email:email,position_sec:Math.round(lastPos),pct_watched:lastPct,
+      seconds_on_page:Math.round((Date.now()-t0)/1000),supplier:sup,utm_source:src,
+      timestamp:new Date().toLocaleString('he-IL')
+    }));
+  }
+});
 </script>
 <script>
 setTimeout(function(){
@@ -316,3 +314,5 @@ setTimeout(function(){
   setTimeout(function(){b.scrollIntoView({behavior:'smooth',block:'center'});},300);
 },60000);
 </script>
+</body>
+</html>
