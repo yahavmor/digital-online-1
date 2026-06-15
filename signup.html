@@ -476,7 +476,7 @@ footer .sep{margin:0 6px;color:rgba(255,255,255,.07);}
   <a href="privacy.html">מדיניות פרטיות</a><span class="sep">|</span><a href="terms.html">תנאי שימוש</a>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://player.vimeo.com/api/player.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script>
 (function(){
   var c=document.getElementById('particles'),ctx=c.getContext('2d');
@@ -502,6 +502,15 @@ footer .sep{margin:0 6px;color:rgba(255,255,255,.07);}
   draw();
 })();
 
+// pre-fill the form from URL params carried through the funnel (name/phone/email)
+try{
+  var pf=new URLSearchParams(location.search);
+  var pfName=pf.get('name')||'',pfPhone=pf.get('phone')||'',pfEmail=pf.get('email')||'';
+  if(pfName){var wn=document.getElementById('wName');if(wn&&!wn.value)wn.value=pfName;}
+  if(pfPhone){var wp=document.getElementById('wPhone');if(wp&&!wp.value)wp.value=pfPhone;}
+  if(pfEmail){var we=document.getElementById('wEmail');if(we&&!we.value)we.value=pfEmail;}
+}catch(e){}
+
 window.dataLayer=window.dataLayer||[];
 try{
   var urlP=new URLSearchParams(location.search);
@@ -514,4 +523,9 @@ window.addEventListener('scroll',function(){
   var s=document.body.scrollHeight-window.innerHeight;if(!s)return;
   var pct=Math.round(window.scrollY/s*100);
   [25,50,75,100].forEach(function(d){
-    if(!sd[d]&&pct>=d){sd[d]=1;try{dataLayer.push({event:'scroll_depth',depth:d+'%',pag
+    if(!sd[d]&&pct>=d){sd[d]=1;try{dataLayer.push({event:'scroll_depth',depth:d+'%',page:'webinar-signup'});}catch(e){}}
+  });
+},{passive:true});
+</script>
+</body>
+</html>
