@@ -299,6 +299,8 @@ const YT_VIDEO_ID='3dK8A7DWA1A';
 window.dataLayer=window.dataLayer||[];
 const P=new URLSearchParams(location.search);
 const variant=P.get('variant')||'',sup=P.get('lm_supplier')||P.get('supplier')||'',src=P.get('utm_source')||'';
+const phone=P.get('phone')||'',email=P.get('email')||'';
+(function(){var nb=document.getElementById('btnNext');if(nb&&location.search)nb.setAttribute('href',nb.getAttribute('href').split('?')[0]+location.search);})();
 dataLayer.push({event:'page_view',page:PAGE,source_variant:variant,supplier:sup,utm_source:src});
 if(typeof fbq!=='undefined')fbq('track','PageView');
 
@@ -418,7 +420,7 @@ window.addEventListener('beforeunload',()=>{
   const pct=totalDur?Math.round((lastPos/totalDur)*100):0;
   if(navigator.sendBeacon){
     navigator.sendBeacon(WEBHOOK,JSON.stringify({
-      event:'page_exit',page:PAGE,position_sec:lastPos,pct_watched:pct,
+      event:'page_exit',page:PAGE,phone:phone,email:email,position_sec:lastPos,pct_watched:pct,
       seconds_on_page:Math.round((Date.now()-t0)/1000),supplier:sup,utm_source:src,
       timestamp:new Date().toLocaleString('he-IL')
     }));
