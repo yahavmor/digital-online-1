@@ -602,8 +602,10 @@ const AB_TESTS = [
 ];
 
 const FUNNEL_STEPS = [
-  { key: 'entry',   label: '-',  icon: 'users' },
-  { key: 'landing', label: 'דף נחיתה - נשלחו',     icon: 'doc' },
+  // hidden:true  =>  הנתון עדיין נטען ומחושב כרגיל, רק השורה לא מצוירת בדף.
+  // כדי להחזיר שורה לתצוגה ברגע אחד: שנה hidden ל-false (או מחק את המאפיין).
+  { key: 'entry',   label: '-',  icon: 'users', hidden: true },
+  { key: 'landing', label: 'דף נחיתה - נשלחו',     icon: 'doc', hidden: true },
   { key: 'video_1', label: 'וידאו 1 ננטש',      icon: 'play' },
   { key: 'video_2', label: 'וידאו 2 ננטש',      icon: 'play' },
   { key: 'video_3', label: 'וידאו 3 ננטש',      icon: 'play' },
@@ -633,13 +635,13 @@ const fmtPct = n => isNaN(n) ? '0.0%' : n.toFixed(1) + '%';
 
 let metrics = {};
 
-/* metric(id) — central lookup. Returns 0 if missing. */
+/* metric(id): central lookup. Returns 0 if missing. */
 function m(id) {
   return num(metrics[id]);
 }
 
 /* ============================================================================
-   FETCH — read the Dashboard tab as a 2D array, build id→value map
+   FETCH: read the Dashboard tab as a 2D array, build id-to-value map
    ============================================================================ */
 
 async function loadData() {
@@ -720,9 +722,22 @@ function render() {
 
 function renderFunnelComparison() {
   const container = document.getElementById('funnel_steps');
+  if (!container) return; // section not present, skip safely
   let html = '';
 
+  let renderedAny = false; // tracks if a visible row already came out (controls arrows)
+
   FUNNEL_STEPS.forEach((step, idx) => {
+    // hidden steps: data is still pulled and used by m(), the row just isn't drawn.
+    if (step.hidden) return;
+
+    // connecting arrow goes BETWEEN visible rows, so only after the first visible one
+    if (renderedAny) {
+      html += `<div class="farrow-row"><div></div>`;
+      [1, 2, 3, 4].forEach(() => html += `<div class="farrow">↓</div>`);
+      html += `</div>`;
+    }
+
     html += `<div class="funnel-grid">`;
     html += `<div class="fstep-lbl">
       <span class="ic">${ICONS[step.icon] || ''}</span>
@@ -753,12 +768,7 @@ function renderFunnelComparison() {
     });
 
     html += `</div>`;
-
-    if (idx < FUNNEL_STEPS.length - 1) {
-      html += `<div class="farrow-row"><div></div>`;
-      [1, 2, 3, 4].forEach(() => html += `<div class="farrow">↓</div>`);
-      html += `</div>`;
-    }
+    renderedAny = true;
   });
 
   container.innerHTML = html;
@@ -773,6 +783,7 @@ function renderFunnelComparison() {
 
   [1, 2, 3, 4].forEach(fn => {
     const el = document.getElementById('fw_' + fn);
+    if (!el) return;
     const rate = pct(m(`f${fn}_webinar`), m(`f${fn}_entry`));
     el.querySelector('.fwinner-rate').textContent = fmtPct(rate);
     el.querySelector('.fwinner-trophy').textContent = bestFn === fn ? '🏆' : '';
