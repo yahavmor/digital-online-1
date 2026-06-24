@@ -10,6 +10,39 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Rubik:wght@400;500;600;700;800;900&family=Frank+Ruhl+Libre:wght@500;700;900&family=Bellefair&family=Cormorant+Garamond:ital,wght@0,500;1,500;1,700&family=Suez+One&family=Noto+Serif+Hebrew:wght@300;400;700;900&display=swap" rel="stylesheet">
 
+<!-- Google Tag Manager -->
+<script>
+  (function(w,d,s,l,i){
+    w[l]=w[l]||[];
+    w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+    var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+    j.async=true;
+    j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+    f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-WHCW874B');
+</script>
+
+<!-- Facebook Pixel -->
+<script>
+  !function(f,b,e,v,n,t,s){
+    if(f.fbq)return;
+    n=f.fbq=function(){ n.callMethod ?
+      n.callMethod.apply(n, arguments) : n.queue.push(arguments) };
+    if(!f._fbq) f._fbq=n;
+    n.push=n; n.loaded=!0; n.version='2.0'; n.queue=[];
+    t=b.createElement(e); t.async=!0; t.src=v;
+    s=b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t,s);
+  }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+
+  fbq('init', '2401943686950969');
+  fbq('track', 'PageView');
+</script>
+
+
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=2401943686950969&ev=PageView&noscript=1"/>
+</noscript>
+
 <style>
 :root{
   --black:#000000;
@@ -1586,6 +1619,10 @@ footer .logo-text small{font-size:9px}
 </style>
 </head>
 <body>
+  
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WHCW874B"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
 
 <header>
   <nav class="nav">
@@ -1922,7 +1959,72 @@ function tick(){
 }
 setInterval(tick, 1000);
 tick();
+/* ===== GTM Tracking ===== */
+window.dataLayer = window.dataLayer || [];
+const VARIANT = 'v5_luxury_community';
+const PAGE    = 'landing_option5';
 
+// page_view
+dataLayer.push({
+  event:      'page_view',
+  variant:    VARIANT,
+  page:       PAGE,
+  utm_source: (new URLSearchParams(location.search)).get('utm_source') || '',
+  supplier:   (new URLSearchParams(location.search)).get('supplier')   || ''
+});
+
+// scroll_depth
+(function(){
+  const sd = {25:0,50:0,75:0,100:0};
+  window.addEventListener('scroll', function(){
+    const s = document.body.scrollHeight - window.innerHeight;
+    if (!s) return;
+    const p = Math.round(window.scrollY / s * 100);
+    [25,50,75,100].forEach(function(d){
+      if (!sd[d] && p >= d){
+        sd[d] = 1;
+        dataLayer.push({event:'scroll_depth', depth:d+'%', variant:VARIANT, page:PAGE});
+      }
+    });
+  }, {passive:true});
+})();
+
+// form_started + form_field_filled
+(function(){
+  let formStarted = false;
+  let submitted   = false;
+  document.addEventListener('focusin', function(e){
+    const el = e.target;
+    if (!el.matches('input[type=text],input[type=tel],input[type=email]')) return;
+    if (!formStarted){
+      formStarted = true;
+      dataLayer.push({event:'form_started', variant:VARIANT, page:PAGE});
+    }
+  });
+  document.addEventListener('focusout', function(e){
+    const el = e.target;
+    if (!el.matches('input[type=text],input[type=tel],input[type=email]')) return;
+    if (el.value.trim()){
+      dataLayer.push({event:'form_field_filled', field:el.type||el.id, variant:VARIANT, page:PAGE});
+    }
+  });
+  // page_time + form_abandoned
+  const t0 = Date.now();
+  document.addEventListener('gtm_form_submitted', function(){ submitted = true; });
+  window.addEventListener('beforeunload', function(){
+    dataLayer.push({event:'page_time', seconds:Math.round((Date.now()-t0)/1000), variant:VARIANT, page:PAGE});
+    if (formStarted && !submitted){
+      dataLayer.push({event:'form_abandoned', variant:VARIANT, page:PAGE});
+    }
+  });
+})();
+
+// cta_clicked
+document.addEventListener('click', function(e){
+  const btn = e.target.closest('button, .cta-btn');
+  if (!btn) return;
+  dataLayer.push({event:'cta_clicked', label:(btn.textContent||'').trim().substring(0,50), variant:VARIANT, page:PAGE});
+});
 /* Form (event delegation: works for ALL .leadForm elements no matter where they are in the DOM, including modals loaded later) */
 document.addEventListener('submit', (e) => {
   const form = e.target;
@@ -2016,6 +2118,26 @@ document.addEventListener('submit', (e) => {
       keepalive: true
     }).catch(()=>{});
   } catch (_) {}
+    /* ===== GTM: form_submitted + FB Lead ===== */
+  dataLayer.push({
+    event:        'form_submitted',
+    variant:      VARIANT,
+    page:         PAGE,
+    name:         name,
+    email:        email,
+    phone:        phone,
+    supplier:     supplier,
+    utm_source:   utm_source,
+    utm_medium:   utm_medium,
+    utm_campaign: utm_campaign
+  });
+  if (typeof fbq !== 'undefined') fbq('track', 'Lead');
+  document.dispatchEvent(new Event('gtm_form_submitted'));
+
+  /* ===== Quick redirect ===== */
+  setTimeout(() => {
+    window.location.href = 'https://funnel.digitalonline.co.il/thankyou';
+  }, 600);
 
   /* ===== Quick redirect (600ms - enough for requests to leave browser, fast enough that user doesn't wait) ===== */
   setTimeout(() => {

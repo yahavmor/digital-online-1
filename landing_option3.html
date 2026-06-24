@@ -16,7 +16,7 @@
   j.async=true;
   j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
   f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-WNJN9XQT');
+})(window,document,'script','dataLayer','GTM-WHCW874B');
 </script>
 
 <script>
@@ -118,7 +118,7 @@ footer .sep{margin:0 6px;color:rgba(255,255,255,.08);}
 <script>
 window.openPopup = function openPopup() {
   document.getElementById('popup').classList.add('open');
-  try { dataLayer.push({event:'cta_click',page:'landing_option3'}); } catch(e) {}
+  try { dataLayer.push({event:'cta_clicked', variant:'v3', page:'landing_option3'});} catch(e) {}
   try { if(typeof fbq==='function') fbq('track','InitiateCheckout'); } catch(e) {}
 }
 window.submitForm = function submitForm() {
@@ -138,7 +138,8 @@ window.submitForm = function submitForm() {
   var btn = document.getElementById('popupBtn');
   btn.disabled = true;
   btn.textContent = 'שולח…';
-  try { dataLayer.push({event:'form_submit',page:'landing_option3'}); } catch(e) {}
+  submitted3 = 1;
+  try { dataLayer.push({event:'form_submitted', name:name, phone:phone, email:email, page:'landing_option3'});} catch(e) {}
   try { if(typeof fbq==='function') fbq('track','Lead'); } catch(e) {}
   var urlP = new URLSearchParams(location.search);
   fetch('https://hook.eu1.make.com/jp6ukjt7tpk3y4yly9c691g01f47cq8q', {
@@ -180,7 +181,7 @@ window.submitForm = function submitForm() {
 </script>
 </head>
 <body>
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WNJN9XQT" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WHCW874B" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <canvas id="particles"></canvas>
 <div style="position:fixed;bottom:0;left:0;right:0;z-index:999;background:rgba(10,10,10,.97);border-top:1px solid rgba(212,168,67,.2);padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-family:'Assistant',sans-serif;font-size:12px;color:rgba(255,255,255,.5);" id="cookieBanner">
   <span>אנו משתמשים בעוגיות לשיפור חווית הגלישה. <a href="privacy.html" style="color:#d4a843;text-decoration:underline;">מדיניות פרטיות</a></span>
@@ -295,6 +296,28 @@ setTimeout(function() {
 }, 5000);
 
 window.dataLayer = window.dataLayer || [];
+var formStarted3 = 0;
+document.addEventListener('focusin', function(e) {
+  if (!e.target.matches('#fName,#fPhone,#fEmail')) return;
+  if (!formStarted3) {
+    formStarted3 = 1;
+    dataLayer.push({event:'form_started', page:'landing_option3'});
+  }
+});
+var submitted3 = 0;
+var t0_3 = Date.now();
+window.addEventListener('beforeunload', function() {
+  dataLayer.push({event:'page_time', seconds:Math.round((Date.now()-t0_3)/1000), page:'landing_option3'});
+  if (formStarted3 && !submitted3) {
+    dataLayer.push({event:'form_abandoned', page:'landing_option3'});
+  }
+});
+document.addEventListener('focusout', function(e) {
+  if (!e.target.matches('#fName,#fPhone,#fEmail')) return;
+  if (e.target.value.trim()) {
+    dataLayer.push({event:'form_field_filled', field:e.target.id, page:'landing_option3'});
+  }
+});
 try {
   var urlP = new URLSearchParams(location.search);
   dataLayer.push({event:'page_view',page:'landing_option3',utm_source:urlP.get('utm_source')||'',supplier:urlP.get('lm_supplier')||urlP.get('supplier')||''});
@@ -310,4 +333,3 @@ window.addEventListener('scroll', function() {
   });
 }, {passive:true});
 
-window.
