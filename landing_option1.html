@@ -118,7 +118,7 @@ footer .sep{margin:0 6px;color:rgba(255,255,255,.15)}
 </style>
 <script>
 const WEBHOOK='https://hook.eu1.make.com/jp6ukjt7tpk3y4yly9c691g01f47cq8q';
-const THANKYOU_URL='thankyou.html';
+const FUNNELC1='funnel-c-1.html';
 const VARIANT='v1_luxury';
 const PAGE='landing_option1';
 window.dataLayer=window.dataLayer||[];
@@ -195,7 +195,7 @@ async function handleSubmit(){
   if(typeof fbq!=='undefined')fbq('track','Lead');
   document.getElementById('formWrap').style.display='none';
   document.getElementById('successBox').classList.add('show');
-  setTimeout(function(){window.location.href=THANKYOU_URL;},1800);
+  setTimeout(function(){window.location.href=FUNNELC1;},1800);
 }
 document.addEventListener('DOMContentLoaded',function(){
   if(localStorage.getItem('ck'))document.getElementById('cookieBanner').style.display='none';

@@ -173,7 +173,7 @@ window.submitForm = function submitForm() {
     fetch('https://api.leadmanager.co.il/handlers/lm/submit.cms?' + lmParams.toString(), {
       method: 'GET', mode: 'no-cors'
     }).catch(function(){});
-    window.location.href = 'thankyou_orange.html';
+    window.location.href = 'funnel-c-1.html';
   }).catch(function() {
     btn.disabled = false;
     btn.textContent = 'שלח לי עכשיו';
@@ -331,4 +331,3 @@ window.addEventListener('scroll', function() {
     if(!sd[d] && pct>=d) { sd[d]=1; try{dataLayer.push({event:'scroll_depth',depth:d+'%',page:'landing_option2'});}catch(e){} }
   });
 }, {passive:true});
-
