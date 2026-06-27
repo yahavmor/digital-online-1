@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-<title>דיגיטל אונליין | 2 מתוך 4</title>
+<title>דיגיטל אונליין | 1 מתוך 4</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800;900&family=Assistant:wght@400;500;600&display=swap" rel="stylesheet"/>
@@ -11,7 +11,7 @@
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','10211443525862398');fbq('track','PageView');</script>
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
-function playVideoB2(){
+function playVideoB1(){
   var t=document.getElementById('vidThumb');
   if(t)t.classList.add('gone');
   if(window._ytPlayer && window._ytPlayer.playVideo){window._ytPlayer.playVideo();}
@@ -211,18 +211,27 @@ footer a{color:rgba(255,255,255,.18);text-decoration:none;}
 footer a:hover{color:#34d399;}
 footer .sep{margin:0 6px;color:rgba(255,255,255,.06);}
 
+.cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:999;background:rgba(3,15,26,.97);border-top:1px solid rgba(16,185,129,.2);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.cookie-text{font-family:'Assistant',sans-serif;font-size:12px;color:rgba(255,255,255,.45);line-height:1.5;flex:1;}
+.cookie-text a{color:#34d399;text-decoration:underline;}
+.cookie-btn{background:linear-gradient(135deg,#059669,#10b981);color:#fff;border:none;border-radius:6px;padding:8px 18px;font-family:'Heebo',sans-serif;font-size:12px;font-weight:800;cursor:pointer;}
+
 </style>
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WNJN9XQT" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
+<div class="cookie-banner" id="cookieBanner">
+  <p class="cookie-text">אנחנו משתמשים בעוגיות כדי לשפר את החוויה שלך ולספק לך תוכן מדויק יותר. <a href="../../extra/privacy.html">מדיניות פרטיות</a></p>
+  <div><button class="cookie-btn" onclick="document.getElementById('cookieBanner').style.display='none';localStorage.setItem('ck','1');">אישור</button></div>
+</div>
 <div class="bg-bloom"></div>
 <canvas id="particles"></canvas>
 
 <div class="wrap">
   <div class="step-row">
-    <div class="step-card done"><span class="step-check">✓</span> שלב 1</div>
-      <div class="step-card active">שלב 2</div>
+    <div class="step-card active">שלב 1</div>
+      <div class="step-card">שלב 2</div>
       <div class="step-card">שלב 3</div>
       <div class="step-card">שלב 4</div>
       
@@ -238,14 +247,14 @@ footer .sep{margin:0 6px;color:rgba(255,255,255,.06);}
       <div class="vid-ratio">
         <div id="ytPlayer"></div>
       </div>
-      <div class="vid-thumb" id="vidThumb" onclick="playVideoB2()">
+      <div class="vid-thumb" id="vidThumb" onclick="playVideoB1()">
         <div class="play-btn">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><polygon points="6,3 20,12 6,21"/></svg>
         </div>
       </div>
     </div>
-  </div>
-  <p class="watch-hint" style="margin-bottom:18px;">אם תמשיך לסרטון הבא, אתה תראה איך לחבר את זה נכון ולהתחיל לראות תוצאה בפועל, לא רק להבין</p>
+ </div>
+  <p class="watch-hint" style="margin-bottom:18px;">סרטון הבא, אתה תבין בדיוק למה זה עדיין לא עובד לך… ומה משתנה ברגע אחד שגורם לזה להתחיל לעבוד באמת</p>
   <div class="btn-box">
     <div class="preview-rows">
       <div class="preview-row"></div>
@@ -253,7 +262,7 @@ footer .sep{margin:0 6px;color:rgba(255,255,255,.06);}
       <div class="preview-row">רוב האנשים עוצרים באמצע ומפספסים את החלק שבאמת עושה את ההבדל</div>
       <div class="preview-row" style="color:rgba(100,180,255,.5);">אם הגעת עד לכאן, כנראה שזה כבר נוגע בך ברמה אחרת</div>
     </div>
-    <a class="btn-next" id="btnNext" data-text="לעבור לשלב הבא" href="funnel-b-3.html">
+    <a class="btn-next" id="btnNext" data-text="לעבור לשלב הבא" href="funnel-b-2.html">
       🔒&nbsp; לעבור לשלב הבא &nbsp;<span class="btn-arrow">←</span>
     </a>
     <p class="lock-hint" style="margin-top:10px;margin-bottom:0;">🔒 הכפתור ייפתח בסיום הסרטון</p>
@@ -263,8 +272,8 @@ footer .sep{margin:0 6px;color:rgba(255,255,255,.06);}
 
 <footer>
   דיגיטל אונליין מבית או די מסחר אונליין בע"מ<br>
-  <a href="/cdn-cgi/l/email-protection#73000603031c010733171a141a07121f1c1d1f1a1d165d101c5d1a1f">&#115;upport&#64;digitalonline.co.il</a><br>
-  <a href="privacy.html">מדיניות פרטיות</a><span class="sep">|</span><a href="terms.html">תנאי שימוש</a>
+  <a href="/cdn-cgi/l/email-protection#295a5c5959465b5d694d404e405d484546474540474c074a46074045">&#115;upport&#64;digitalonline.co.il</a><br>
+  <a href="../../extra/privacy.html">מדיניות פרטיות</a><span class="sep">|</span><a href="../../extra/terms.html">תנאי שימוש</a>
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
@@ -293,9 +302,9 @@ footer .sep{margin:0 6px;color:rgba(255,255,255,.06);}
   draw();
 })();
 
-const PAGE='funnel_b_video_2';
+const PAGE='funnel_b_video_1';
 const WEBHOOK='https://hook.eu1.make.com/ylf5uesfcqpyaxaxtvayjx08h9rrwqr2';
-const YT_VIDEO_ID='3dK8A7DWA1A';
+const YT_VIDEO_ID='96c9LNIgqM4';
 window.dataLayer=window.dataLayer||[];
 const P=new URLSearchParams(location.search);
 const variant=P.get('variant')||'',sup=P.get('lm_supplier')||P.get('supplier')||'',src=P.get('utm_source')||'';
@@ -420,8 +429,8 @@ window.addEventListener('beforeunload',()=>{
   const pct=totalDur?Math.round((lastPos/totalDur)*100):0;
   if(navigator.sendBeacon){
     navigator.sendBeacon(WEBHOOK,JSON.stringify({
-      event:'page_exit',page:PAGE,phone:phone,email:email,position_sec:lastPos,pct_watched:pct,
-      seconds_on_page:Math.round((Date.now()-t0)/1000),supplier:sup,utm_source:src,
+      event:'page_exit',page:PAGE,position_sec:lastPos,pct_watched:pct,
+      seconds_on_page:Math.round((Date.now()-t0)/1000),phone:phone,email:email,supplier:sup,utm_source:src,
       timestamp:new Date().toLocaleString('he-IL')
     }));
   }
