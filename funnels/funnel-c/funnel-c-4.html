@@ -161,13 +161,10 @@ footer .sep{margin:0 6px;color:rgba(255,255,255,.06);}
   <div class="vid-outer">
     <div class="vid-box">
       <div class="vid-ratio">
-        <iframe id="vimeoPlayer" autoplay muted
-          src="https://player.vimeo.com/video/1182205824?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;title=0&amp;byline=0&amp;portrait=0&amp;autoplay=1&amp;muted=1"
-          frameborder="0"
-          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          title="סרטון 4">
-        </iframe>
+      <video id="vimeoPlayer" autoplay  playsinline controls
+        src="../../extra/funnel-c4.mp4"
+        style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
+      </video>
       </div>
       <div class="vid-thumb" id="vidThumb" onclick="playVideoC4()">
         <div class="play-btn">
@@ -195,7 +192,7 @@ footer .sep{margin:0 6px;color:rgba(255,255,255,.06);}
       <div class="preview-row">ההבדל בין מי שמתקדם לבין מי שנשאר — זה הרגע שהוא מחליט להיכנס לעומק</div>
       <div class="preview-row" style="color:rgba(192,132,252,.35);">אם הגעת עד לכאן — אתה כבר בצד הנכון</div>
     </div>
-    <a class="btn-next" id="btnNext" data-text="שריין מקום לוובינר" href="signup.html">
+    <a class="btn-next" id="btnNext" data-text="שריין מקום לוובינר" href="../../extra/signup.html">
       🔒&nbsp; שריין מקום לוובינר &nbsp;<span class="btn-arrow">←</span>
     </a>
     <p class="lock-hint" style="margin-top:10px;margin-bottom:0;">🔒 הכפתור ייפתח בסיום הסרטון</p>
@@ -252,36 +249,28 @@ const t0=Date.now();
 const vm={};[25,50,75,100].forEach(m=>vm[m]=0);
 let lastPos=0,lastPct=0;
 window.addEventListener('load',()=>{
-  const iframe=document.getElementById('vimeoPlayer');
-  const player=new Vimeo.Player(iframe);
-  window._vpc4=player;
-  if(window._pending_vpc4)player.play();
+  const video=document.getElementById('vimeoPlayer');
   const thumb=document.getElementById('vidThumb');
   const btnNext=document.getElementById('btnNext');
-  thumb.onclick=function(){thumb.classList.add('gone');player.play();};
-  player.on('play',(data)=>{
+  thumb.onclick=function(){thumb.classList.add('gone');video.play();};
+  video.addEventListener('play',()=>{
     thumb.classList.add('gone');btnNext.classList.add('watching');
-    dataLayer.push({event:'video_play',page:PAGE,time:Math.round(data.seconds)});
+    dataLayer.push({event:'video_play',page:PAGE});
   });
-  player.on('pause',(data)=>{
+  video.addEventListener('pause',()=>{
     btnNext.classList.remove('watching');
-    const pos=Math.round(data.seconds),pct=Math.round(data.percent*100);
+    const pos=Math.round(video.currentTime),pct=Math.round(video.currentTime/video.duration*100);
     dataLayer.push({event:'video_pause',page:PAGE,time:pos,pct_watched:pct});
     fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({event:'video_pause',page:PAGE,position_sec:pos,pct_watched:pct,supplier:sup,utm_source:src,timestamp:new Date().toLocaleString('he-IL')})
     }).catch(()=>{});
   });
-  let maxTime=0,isSeeking=false;
-  player.on('timeupdate',(data)=>{
-    lastPos=data.seconds;lastPct=Math.round(data.percent*100);
-    if(!isSeeking&&data.seconds>maxTime+1.5){
-      isSeeking=true;player.setCurrentTime(maxTime).then(()=>{isSeeking=false;});return;
-    }
-    if(!isSeeking&&data.seconds>maxTime)maxTime=data.seconds;
-    const pct=data.percent*100;
-    [25,50,75,100].forEach(m=>{if(!vm[m]&&pct>=m){vm[m]=1;dataLayer.push({event:'video_progress',milestone:m+'%',time:Math.round(data.seconds),page:PAGE});}});
+  video.addEventListener('timeupdate',()=>{
+    lastPos=video.currentTime;lastPct=Math.round(video.currentTime/video.duration*100);
+    const pct=video.currentTime/video.duration*100;
+    [25,50,75,100].forEach(m=>{if(!vm[m]&&pct>=m){vm[m]=1;dataLayer.push({event:'video_progress',milestone:m+'%',time:Math.round(video.currentTime),page:PAGE});}});
   });
-  player.on('ended',()=>{
+  video.addEventListener('ended',()=>{
     btnNext.classList.remove('watching');
     dataLayer.push({event:'video_ended',page:PAGE});
     if(typeof fbq!=='undefined')fbq('track','ViewContent',{content_name:PAGE});

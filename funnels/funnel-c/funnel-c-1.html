@@ -61,8 +61,7 @@ body{
   50%{filter:drop-shadow(0 0 28px rgba(168,85,247,.4));}
 }
 .vid-box{width:100%;border:1.5px solid #7c3aed;border-radius:14px;overflow:hidden;background:#000;position:relative;}
-.vid-ratio{position:relative;width:100%;padding-bottom:177.78%;height:0;overflow:hidden;}
-.vid-ratio iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;display:block;}
+.vid-ratio{position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;}.vid-ratio iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;display:block;}
 .vid-thumb{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:5;cursor:pointer;background:rgba(0,0,0,.12);transition:background .2s;}
 .vid-thumb:hover{background:rgba(0,0,0,.04);}
 .vid-thumb.gone{display:none;}
@@ -170,11 +169,9 @@ footer .sep{margin:0 6px;color:rgba(255,255,255,.06);}
   <div class="vid-outer">
     <div class="vid-box">
       <div class="vid-ratio">
-        <iframe id="vimeoPlayer" autoplay muted
-          src="https://player.vimeo.com/video/1182205857?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;title=0&amp;byline=0&amp;portrait=0&amp;autoplay=1&amp;muted=1"
-          frameborder="0"
-          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
+        <iframe id="vimeoPlayer"
+          src="https://www.youtube.com/embed/sK-wyasBwpg?rel=0&modestbranding=1&enablejsapi=1"          allow="autoplay; fullscreen; picture-in-picture"
+          allowfullscreen
           title="סרטון 1">
         </iframe>
       </div>
@@ -250,47 +247,44 @@ window.addEventListener('scroll',()=>{
 const t0=Date.now();
 const vm={};[25,50,75,100].forEach(m=>vm[m]=0);
 let lastPos=0,lastPct=0;
-window.addEventListener('load',()=>{
-  const iframe=document.getElementById('vimeoPlayer');
-  const player=new Vimeo.Player(iframe);
-  window._vpc1=player;
-  if(window._pending_vpc1)player.play();
-  const thumb=document.getElementById('vidThumb');
-  const btnNext=document.getElementById('btnNext');
-  thumb.onclick=function(){thumb.classList.add('gone');player.play();};
-  player.on('play',(data)=>{
-    thumb.classList.add('gone');btnNext.classList.add('watching');
-    dataLayer.push({event:'video_play',page:PAGE,time:Math.round(data.seconds)});
-  });
-  player.on('pause',(data)=>{
-    btnNext.classList.remove('watching');
-    const pos=Math.round(data.seconds),pct=Math.round(data.percent*100);
-    dataLayer.push({event:'video_pause',page:PAGE,time:pos,pct_watched:pct});
-    fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({event:'video_pause',page:PAGE,position_sec:pos,pct_watched:pct,supplier:sup,utm_source:src,timestamp:new Date().toLocaleString('he-IL')})
-    }).catch(()=>{});
-  });
-  let maxTime=0,isSeeking=false;
-  player.on('timeupdate',(data)=>{
-    lastPos=data.seconds;lastPct=Math.round(data.percent*100);
-    if(!isSeeking&&data.seconds>maxTime+1.5){
-      isSeeking=true;player.setCurrentTime(maxTime).then(()=>{isSeeking=false;});return;
+const thumb=document.getElementById('vidThumb');
+const btnNext=document.getElementById('btnNext');
+
+window.onYouTubeIframeAPIReady=function(){
+  const player=new YT.Player('vimeoPlayer',{
+    events:{
+      onReady:function(e){
+        thumb.onclick=function(){thumb.classList.add('gone');e.target.playVideo();};
+      },
+      onStateChange:function(e){
+        if(e.data===YT.PlayerState.PLAYING){
+          thumb.classList.add('gone');btnNext.classList.add('watching');
+          dataLayer.push({event:'video_play',page:PAGE});
+        }
+        if(e.data===YT.PlayerState.PAUSED){
+          btnNext.classList.remove('watching');
+          dataLayer.push({event:'video_pause',page:PAGE});
+        }
+        if(e.data===YT.PlayerState.ENDED){
+          btnNext.classList.remove('watching');
+          dataLayer.push({event:'video_ended',page:PAGE});
+          if(typeof fbq!=='undefined')fbq('track','ViewContent',{content_name:PAGE});
+          fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({event:'video_completed',page:PAGE,pct_watched:100,supplier:sup,utm_source:src,timestamp:new Date().toLocaleString('he-IL')})
+          }).catch(()=>{});
+          btnNext.classList.add('unlocked');
+          btnNext.innerHTML='&#9658;&nbsp; לעבור לשלב הבא &nbsp;<span class="btn-arrow">←</span>';
+          setTimeout(()=>{btnNext.scrollIntoView({behavior:'smooth',block:'center'});},300);
+        }
+      }
     }
-    if(!isSeeking&&data.seconds>maxTime)maxTime=data.seconds;
-    const pct=data.percent*100;
-    [25,50,75,100].forEach(m=>{if(!vm[m]&&pct>=m){vm[m]=1;dataLayer.push({event:'video_progress',milestone:m+'%',time:Math.round(data.seconds),page:PAGE});}});
   });
-  player.on('ended',()=>{
-    btnNext.classList.remove('watching');
-    dataLayer.push({event:'video_ended',page:PAGE});
-    if(typeof fbq!=='undefined')fbq('track','ViewContent',{content_name:PAGE});
-    fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({event:'video_completed',page:PAGE,pct_watched:100,supplier:sup,utm_source:src,timestamp:new Date().toLocaleString('he-IL')})
-    }).catch(()=>{});
-    btnNext.classList.add('unlocked');
-    btnNext.innerHTML='&#9658;&nbsp; לעבור לשלב הבא &nbsp;<span class="btn-arrow">←</span>';
-    setTimeout(()=>{btnNext.scrollIntoView({behavior:'smooth',block:'center'});},300);
-  });
+};
+
+window.addEventListener('load',()=>{
+  const tag=document.createElement('script');
+  tag.src='https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
 });
 window.addEventListener('beforeunload',()=>{
   if(navigator.sendBeacon){
