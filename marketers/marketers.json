@@ -1,0 +1,22 @@
+{  
+  "yahav": {
+    "lm_supplier": 35213,
+    "fb_pixel": "2401943686950969"
+  },
+  "amir": {
+    "lm_supplier": 49217,
+    "fb_pixel": "PIXEL_ID_AMIR"
+  },
+  "moria": {
+    "lm_supplier": 10002,
+    "fb_pixel": "PIXEL_ID_MORIA"
+  },
+  "rami": {
+    "lm_supplier": 10003,
+    "fb_pixel": "PIXEL_ID_RAMi"
+  },
+  "daniel": {
+    "lm_supplier": 10004,
+    "fb_pixel": "PIXEL_ID_DANIEL"
+  }
+}

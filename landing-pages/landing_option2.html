@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800;900&family=Assistant:wght@400;500;600&display=swap" rel="stylesheet"/>
 
+<script src="/shared/params.js"></script>
+<script src="/shared/pixels.js"></script>
 
 <script>
 (function(w,d,s,l,i){
@@ -19,26 +21,6 @@
   f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-WHCW874B');
 </script>
-
-<script>
-!function(f,b,e,v,n,t,s){
-  if(f.fbq)return;
-  n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;
-  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];
-  t=b.createElement(e);t.async=!0;t.src=v;
-  s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)
-}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init','2401943686950969');
-fbq('track','PageView');
-</script>
-
-<noscript>
-  <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2401943686950969&ev=PageView&noscript=1"/>
-</noscript>
-
-
 
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -142,19 +124,26 @@ window.submitForm = function submitForm() {
   submitted2 = 1;
   try { dataLayer.push({event:'form_submitted', name:name, phone:phone, email:email, page:'landing_option2'}); } catch(e) {}
   try { if(typeof fbq==='function') fbq('track','Lead'); } catch(e) {}
-  var urlP = new URLSearchParams(location.search);
+  const p = getParams();
+  const marketer = p.marketer;
+  const supplier = p.supplier;
+
   fetch('https://hook.eu1.make.com/jp6ukjt7tpk3y4yly9c691g01f47cq8q', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
     body: JSON.stringify({
-      event: 'lead_form', page: 'landing_option2',
-      name: name, phone: phone, email: email,
-      supplier: urlP.get('lm_supplier') || urlP.get('supplier') || '',
-      utm_source: urlP.get('utm_source') || '',
-      variant: urlP.get('variant') || '',
-      timestamp: new Date().toLocaleString('he-IL')
-    })
-  }).then(function() {
+    event: 'lead_form',
+    page: 'landing_option2',
+    name: name,
+    phone: phone,
+    email: email,
+    supplier: p.supplier,      
+    utm_source: p.src,       
+    variant: p.ref,          
+    timestamp: new Date().toLocaleString('he-IL')
+  })
+})
+.then(function() {
     var lmParams = new URLSearchParams();
     lmParams.append('lm_form', '89937');
     lmParams.append('lm_key', '5403c690523845fdadf0c18bfe002da0');
@@ -162,13 +151,13 @@ window.submitForm = function submitForm() {
     lmParams.append('subscribers_phone', phone);
     lmParams.append('subscribers_email', email);
     lmParams.append('fld_144377', '1');
-    lmParams.append('fld_105911', urlP.get('utm_source') || '');
-    lmParams.append('fld_107862', urlP.get('utm_source') || '');
-    lmParams.append('lm_supplier', urlP.get('lm_supplier') || urlP.get('supplier') || '');
-    lmParams.append('lm_bc', urlP.get('utm_source') || '');
-    lmParams.append('fields[REF]', urlP.get('ref') || urlP.get('variant') || '');
-    lmParams.append('utm_medium', urlP.get('utm_medium') || '');
-    lmParams.append('utm_campaign', urlP.get('utm_campaign') || '');
+    lmParams.append('fld_105911', p.src);
+    lmParams.append('fld_107862', p.src);
+    lmParams.append('lm_supplier', p.supplier);
+    lmParams.append('lm_bc', p.src);
+    lmParams.append('fields[REF]', p.ref);
+    lmParams.append('utm_medium', p.medium);
+    lmParams.append('utm_campaign', p.campaign);
     lmParams.append('page', 'landing_option2');
     fetch('https://api.leadmanager.co.il/handlers/lm/submit.cms?' + lmParams.toString(), {
       method: 'GET', mode: 'no-cors'
@@ -286,6 +275,9 @@ window.submitForm = function submitForm() {
 window.addEventListener('scroll', function() {
   document.getElementById('stickyCta').classList.toggle('visible', window.scrollY > 180);
 }, {passive:true});
+document.addEventListener('DOMContentLoaded', () => {
+    loadFacebookPixel();
+});
 
 setTimeout(function() {
   var btns = document.querySelectorAll('.btn-main');
