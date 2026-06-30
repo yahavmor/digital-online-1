@@ -1,11 +1,12 @@
 async function loadFacebookPixel() {
-    const p = getParams();
-    if (!p.marketer) return;
+  const p = new URLSearchParams(location.search);
+  const marketer = p.get('marketer') || '';
+  if (!marketer) return;
 
+  try {
     const res = await fetch('/shared/marketers.json');
     const marketers = await res.json();
-
-    const m = marketers[p.marketer];
+    const m = marketers[marketer];
     if (!m || !m.fb_pixel) return;
 
     const s = document.createElement('script');
@@ -24,6 +25,7 @@ async function loadFacebookPixel() {
       fbq('track', 'PageView');
     `;
     document.head.appendChild(s);
+  } catch (e) {}
 }
 
 loadFacebookPixel();

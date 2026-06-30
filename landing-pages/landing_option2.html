@@ -143,8 +143,9 @@ window.submitForm = function submitForm() {
     timestamp: new Date().toLocaleString('he-IL')
   })
 })
-.then(function() {
+.then(async function() {
     var lmParams = new URLSearchParams();
+    const resolvedSupplier = await resolveSupplier(p);
     lmParams.append('lm_form', '89937');
     lmParams.append('lm_key', '5403c690523845fdadf0c18bfe002da0');
     lmParams.append('subscribers_name', name);
@@ -153,7 +154,7 @@ window.submitForm = function submitForm() {
     lmParams.append('fld_144377', '1');
     lmParams.append('fld_105911', p.src);
     lmParams.append('fld_107862', p.src);
-    lmParams.append('lm_supplier', p.supplier);
+    lmParams.append('lm_supplier', resolvedSupplier);
     lmParams.append('lm_bc', p.src);
     lmParams.append('fields[REF]', p.ref);
     lmParams.append('utm_medium', p.medium);
@@ -271,6 +272,19 @@ window.submitForm = function submitForm() {
   }
   draw();
 })();
+
+async function resolveSupplier(p) {
+  if (p.supplier) return p.supplier;
+  if (!p.marketer) return '';
+  try {
+    const res = await fetch('/marketers/marketers.json');
+    const marketers = await res.json();
+    const entry = marketers[p.marketer];
+    return entry ? entry.lm_supplier : '';
+  } catch (e) {
+    return '';
+  }
+}
 
 window.addEventListener('scroll', function() {
   document.getElementById('stickyCta').classList.toggle('visible', window.scrollY > 180);

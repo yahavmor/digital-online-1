@@ -111,6 +111,18 @@ const med = p.medium;
 const camp = p.campaign;
 let formSt=0, dn=0;
 function acceptCookie(){localStorage.setItem('ck','1');document.getElementById('cookieBanner').style.display='none';}
+async function resolveSupplier(p) {
+  if (p.supplier) return p.supplier;
+  if (!p.marketer) return '';
+  try {
+    const res = await fetch('/marketers/marketers.json');
+    const marketers = await res.json();
+    const entry = marketers[p.marketer];
+    return entry ? entry.lm_supplier : '';
+  } catch (e) {
+    return '';
+  }
+}
 function openModal(){
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow='hidden';
@@ -159,6 +171,7 @@ async function handleSubmit(){
   try{await fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});}catch(e){}
   try{
     const lmParams=new URLSearchParams();
+    const resolvedSupplier = await resolveSupplier(p);
     lmParams.append('lm_form','89907');
     lmParams.append('lm_key','28250230ddcd4b8a9f3929b7ab8744a1');
     lmParams.append('subscribers_name',data.name);
@@ -167,7 +180,7 @@ async function handleSubmit(){
     lmParams.append('fld_144377','1');
     lmParams.append('fld_105911',src);
     lmParams.append('fld_107862',src);
-    lmParams.append('lm_supplier', p.supplier);
+    lmParams.append('lm_supplier', resolvedSupplier);
     lmParams.append('lm_bc',src);
     lmParams.append('fields[REF]', p.ref || VARIANT);
     lmParams.append('utm_medium',med);

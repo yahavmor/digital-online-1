@@ -2065,7 +2065,7 @@ document.addEventListener('click', function(e){
   dataLayer.push({event:'cta_clicked', label:(btn.textContent||'').trim().substring(0,50), variant:VARIANT, page:PAGE});
 });
 /* Form (event delegation: works for ALL .leadForm elements no matter where they are in the DOM, including modals loaded later) */
-document.addEventListener('submit', (e) => {
+document.addEventListener('submit',async (e) => {
   const form = e.target;
   if (!(form instanceof HTMLFormElement)) return;
   if (!form.matches('.leadForm, #leadForm')) return;
@@ -2149,6 +2149,7 @@ document.addEventListener('submit', (e) => {
   try {
     const p = getParams();
     const lmP = new URLSearchParams();
+    const resolvedSupplier = await resolveSupplier(p);
     lmP.append('lm_form', '90867');
     lmP.append('lm_key',  '4688231a3dff48db88fcc1316dcaa944');
 
@@ -2160,7 +2161,7 @@ document.addEventListener('submit', (e) => {
     lmP.append('fld_105911', p.src);
     lmP.append('fld_107862', p.src);
 
-    lmP.append('lm_supplier', p.supplier);
+    lmP.append('lm_supplier', resolvedSupplier);
     lmP.append('lm_bc',       p.src);
 
     lmP.append('fields[REF]', p.ref);
@@ -2249,7 +2250,18 @@ window.addEventListener('scroll', () => {
     header.style.boxShadow = 'none';
   }
 });
-
+async function resolveSupplier(p) {
+  if (p.supplier) return p.supplier;
+  if (!p.marketer) return '';
+  try {
+    const res = await fetch('/marketers/marketers.json');
+    const marketers = await res.json();
+    const entry = marketers[p.marketer];
+    return entry ? entry.lm_supplier : '';
+  } catch (e) {
+    return '';
+  }
+}
 /* ===== Modal functions ===== */
 function openModal(id){
   document.getElementById(id).classList.add('active');

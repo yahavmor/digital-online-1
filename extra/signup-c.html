@@ -9,18 +9,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800;900&family=Assistant:wght@400;500;600&display=swap" rel="stylesheet"/>
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-WNJN9XQT');</script>
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','10211443525862398');fbq('track','PageView');</script>
-
+<script src="/shared/pixels.js"></script>
 <script>
-  
-document.addEventListener('DOMContentLoaded', function() {
-  var urlP = new URLSearchParams(location.search);
-  var supplier = urlP.get('lm_supplier') || urlP.get('supplier') || '';
-
-  console.log("מספר ספק שהגיע לדף:", supplier);
-});
-
-fbq('track', 'Lead');
+loadFacebookPixel();
 </script>
+
 
 <script>
 function submitWebinar() {
@@ -37,33 +30,45 @@ function submitWebinar() {
   btn.disabled = true; btn.textContent = 'שולח…';
   try { dataLayer.push({event:'webinar_signup',page:'webinar-signup'}); } catch(e) {}
   try { if(typeof fbq==='function') fbq('track','Lead'); } catch(e) {}
-  var urlP = new URLSearchParams(location.search);
+  const p = {
+    marketer: urlP.get('marketer') || '',
+    supplier: urlP.get('lm_supplier') || urlP.get('supplier') || '',
+    src: urlP.get('utm_source') || '',
+    medium: urlP.get('utm_medium') || '',
+    campaign: urlP.get('utm_campaign') || '',
+    ref: urlP.get('ref') || urlP.get('variant') || ''
+  };
   fetch('https://hook.eu1.make.com/j0dlss962fq8xih7x4ndw7ch7o3qvb8x', {
     method:'POST', headers:{'Content-Type':'application/json'},
     body: JSON.stringify({
       event:'webinar_signup', page:'webinar-signup',
       name:name, phone:phone, email:email,
-      supplier:urlP.get('lm_supplier')||urlP.get('supplier')||'',
-      utm_source:urlP.get('utm_source')||'',
+      supplier:p.supplier,
+      utm_source:p.src,
+      utm_medium:p.medium,
+      utm_campaign:p.campaign,
+      ref:p.ref,
       timestamp:new Date().toLocaleString('he-IL')
     })
-  }).then(function() {
+  }).then(async function() {
     /* ── LEADMANAGER ── */
     var lmP = new URLSearchParams();
+    const resolvedSupplier = await resolveSupplier(p);
+
     lmP.append('lm_form', '91391');
     lmP.append('lm_key', '49660f23b0274b899031f9a10580db9d');
     lmP.append('subscribers_name', name);
     lmP.append('subscribers_phone', phone);
     lmP.append('subscribers_email', email);
-    lmP.append('fld_144377', '1');
-    lmP.append('fld_105911', urlP.get('utm_source') || '');
-    lmP.append('fld_107862', urlP.get('utm_source') || '');
-    lmP.append('lm_supplier', urlP.get('lm_supplier') || urlP.get('supplier') || '');
-    lmP.append('lm_bc', urlP.get('utm_source') || '');
-    lmP.append('fields[REF]', urlP.get('ref') || urlP.get('variant') || '');
-    lmP.append('utm_medium', urlP.get('utm_medium') || '');
-    lmP.append('utm_campaign', urlP.get('utm_campaign') || '');
-    lmP.append('page', 'webinar-signup');
+    lmP.append('fld_144377', '1');          // קבוע — תקין
+    lmP.append('fld_105911', p.src);        // UTM Source
+    lmP.append('fld_107862', p.src);        // UTM Source (שדה נוסף)
+    lmP.append('lm_supplier', resolvedSupplier);  // מספר ספק מתוך marketers.json
+    lmP.append('lm_bc', p.src);             // מקור תנועה
+    lmP.append('fields[REF]', p.ref);       // REF / variant
+    lmP.append('utm_medium', p.medium);     // UTM Medium
+    lmP.append('utm_campaign', p.campaign); // UTM Campaign
+    lmP.append('page', 'webinar-signup');   // שם הדף
     fetch('https://api.leadmanager.co.il/handlers/lm/submit.cms?' + lmP.toString(), {
       method: 'GET', mode: 'no-cors'
     }).catch(function(){});
@@ -514,6 +519,19 @@ footer .sep{margin:0 6px;color:rgba(255,255,255,.07);}
   draw();
 })();
 
+async function resolveSupplier(p) {
+  if (p.supplier) return p.supplier;
+  if (!p.marketer) return '';
+  try {
+    const res = await fetch('/marketers/marketers.json');
+    const marketers = await res.json();
+    const entry = marketers[p.marketer];
+    return entry ? entry.lm_supplier : '';
+  } catch (e) {
+    return '';
+  }
+}
+
 // pre-fill the form from URL params carried through the funnel (name/phone/email)
 try{
   var pf=new URLSearchParams(location.search);
@@ -526,7 +544,13 @@ try{
 window.dataLayer=window.dataLayer||[];
 try{
   var urlP=new URLSearchParams(location.search);
-  dataLayer.push({event:'page_view',page:'webinar-signup',utm_source:urlP.get('utm_source')||'',supplier:urlP.get('lm_supplier')||urlP.get('supplier')||''});
+  const p = getParams();
+  dataLayer.push({
+    event:'page_view',
+    page:'webinar-signup',
+    utm_source:p.src,
+    supplier:p.supplier
+  });
 }catch(e){}
 try{if(typeof fbq==='function')fbq('track','PageView');}catch(e){}
 
