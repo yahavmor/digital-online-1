@@ -173,7 +173,7 @@ window.submitForm = function submitForm() {
     fetch('https://api.leadmanager.co.il/handlers/lm/submit.cms?' + lmParams.toString(), {
       method: 'GET', mode: 'no-cors'
     }).catch(function(){});
-    window.location.href = '../funnels/funnel-c/funnel-c-1.html'
+    window.location.href = '../funnels/funnel-c/funnel-c-1.html' + location.search;
   }).catch(function() {
     btn.disabled = false;
     btn.textContent = 'שלח לי עכשיו';
