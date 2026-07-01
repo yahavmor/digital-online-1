@@ -10,7 +10,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Rubik:wght@400;500;600;700;800;900&family=Frank+Ruhl+Libre:wght@500;700;900&family=Bellefair&family=Cormorant+Garamond:ital,wght@0,500;1,500;1,700&family=Suez+One&family=Noto+Serif+Hebrew:wght@300;400;700;900&display=swap" rel="stylesheet">
-
+<script src="/shared/params.js"></script>
+<script src="/shared/pixels.js"></script>
 <!-- Google Tag Manager -->
 <script>
   (function(w,d,s,l,i){
@@ -2170,7 +2171,7 @@ document.addEventListener('submit',async (e) => {
 
     lmP.append('page', PAGE_ID);
 
-    fetch('https://api.leadmanager.co.il/handlers/lm/submit.cms?' + lmP.toString(), {
+    await fetch('https://api.leadmanager.co.il/handlers/lm/submit.cms?' + lmP.toString(), {
       method: 'GET',
       mode: 'no-cors',
       keepalive: true
@@ -2193,10 +2194,7 @@ dataLayer.push({
   if (typeof fbq !== 'undefined') fbq('track', 'Lead');
   document.dispatchEvent(new Event('gtm_form_submitted'));
 
-  /* ===== Quick redirect ===== */
-  setTimeout(() => {
-    window.location.href = '../funnels/funnel-d/funnel-d-1.html' + location.search;
-  }, 600);
+window.location.href = '../funnels/funnel-d/funnel-d-1.html' + location.search;
 });
 
 /* Hero video play button */

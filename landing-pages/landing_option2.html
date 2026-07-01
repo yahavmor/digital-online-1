@@ -98,17 +98,32 @@ footer a:hover{color:#d4a843;}
 footer .sep{margin:0 6px;color:rgba(255,255,255,.08);}
 </style>
 <script>
+  async function resolveSupplier(p) {
+  if (p.supplier) return p.supplier;
+  if (!p.marketer) return '';
+  try {
+    const res = await fetch('/marketers/marketers.json');
+    const marketers = await res.json();
+    const entry = marketers[p.marketer];
+    return entry ? entry.lm_supplier : '';
+  } catch (e) {
+    return '';
+  }
+}
+
 window.openPopup = function openPopup() {
   document.getElementById('popup').classList.add('open');
   try { dataLayer.push({event:'cta_clicked', variant:'v2', page:'landing_option2'});} catch(e) {}
   try { if(typeof fbq==='function') fbq('track','InitiateCheckout'); } catch(e) {}
 }
 
-window.submitForm = function submitForm() {
+window.submitForm = async function submitForm() {
   var name  = document.getElementById('fName').value.trim();
   var phone = document.getElementById('fPhone').value.trim();
   var email = document.getElementById('fEmail').value.trim();
   var ok = true;
+  const p = getParams();
+  const resolvedSupplier = await resolveSupplier(p);
   document.getElementById('eName').classList.remove('show');
   document.getElementById('ePhone').classList.remove('show');
   document.getElementById('eEmail').classList.remove('show');
@@ -118,34 +133,35 @@ window.submitForm = function submitForm() {
   if(!email || email.indexOf('@')<0) { document.getElementById('eEmail').classList.add('show'); ok=false; }
   if(!document.getElementById('legalBox').checked) { document.getElementById('eLegal').classList.add('show'); ok=false; }
   if(!ok) return;
+
   var btn = document.getElementById('popupBtn');
   btn.disabled = true;
   btn.textContent = 'שולח…';
   submitted2 = 1;
+
   try { dataLayer.push({event:'form_submitted', name:name, phone:phone, email:email, page:'landing_option2'}); } catch(e) {}
   try { if(typeof fbq==='function') fbq('track','Lead'); } catch(e) {}
-  const p = getParams();
-  const marketer = p.marketer;
-  const supplier = p.supplier;
 
-  fetch('https://hook.eu1.make.com/jp6ukjt7tpk3y4yly9c691g01f47cq8q', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({
-    event: 'lead_form',
-    page: 'landing_option2',
-    name: name,
-    phone: phone,
-    email: email,
-    supplier: p.supplier,      
-    utm_source: p.src,       
-    variant: p.ref,          
-    timestamp: new Date().toLocaleString('he-IL')
-  })
-})
-.then(async function() {
+  // ← קודם כל resolve הספק
+
+  try {
+    await fetch('https://hook.eu1.make.com/jp6ukjt7tpk3y4yly9c691g01f47cq8q', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        event: 'lead_form',
+        page: 'landing_option2',
+        name: name,
+        phone: phone,
+        email: email,
+        supplier: resolvedSupplier,  // ← עכשיו נכנס גם ל-webhook
+        timestamp: new Date().toLocaleString('he-IL')
+      })
+    });
+  } catch(e) {}
+
+  try {
     var lmParams = new URLSearchParams();
-    const resolvedSupplier = await resolveSupplier(p);
     lmParams.append('lm_form', '89937');
     lmParams.append('lm_key', '5403c690523845fdadf0c18bfe002da0');
     lmParams.append('subscribers_name', name);
@@ -163,14 +179,10 @@ window.submitForm = function submitForm() {
     fetch('https://api.leadmanager.co.il/handlers/lm/submit.cms?' + lmParams.toString(), {
       method: 'GET', mode: 'no-cors'
     }).catch(function(){});
-    window.location.href = '../funnels/funnel-c/funnel-c-1.html' + location.search;
-  }).catch(function() {
-    btn.disabled = false;
-    btn.textContent = 'שלח לי עכשיו';
-    alert('שגיאה בשליחה, נסה שוב');
-  });
-}
+  } catch(e) {}
 
+  window.location.href = '../funnels/funnel-c/funnel-c-1.html' + location.search;
+}
 </script>
 </head>
 <body>
@@ -273,18 +285,6 @@ window.submitForm = function submitForm() {
   draw();
 })();
 
-async function resolveSupplier(p) {
-  if (p.supplier) return p.supplier;
-  if (!p.marketer) return '';
-  try {
-    const res = await fetch('/marketers/marketers.json');
-    const marketers = await res.json();
-    const entry = marketers[p.marketer];
-    return entry ? entry.lm_supplier : '';
-  } catch (e) {
-    return '';
-  }
-}
 
 window.addEventListener('scroll', function() {
   document.getElementById('stickyCta').classList.toggle('visible', window.scrollY > 180);
