@@ -425,7 +425,7 @@
       </div>
       <div class="kpi-text">
         <div class="kpi-label">מבחני A/B פעילים</div>
-        <div class="kpi-value mono" id="kpi_ab" style="color: #b8881d;">8</div>
+        <div class="kpi-value mono" id="kpi_ab" style="color: #b8881d;">0</div>
         <div class="kpi-sub" id="kpi_ab_sub">3 חיים · 5 ממתינים</div>
       </div>
     </div>
@@ -445,7 +445,7 @@
   <div class="funnel-wrap">
     <div class="funnel-title-row">
       <h3>בדיקת משפך המרות · 4 גרסאות</h3>
-      <p>המספר ליד החץ = כמה נטשו את הדף · המנצח מוכתר לפי המרה סופית (מינ׳ 30 דגימות)</p>
+      <p>המספר ליד החץ = אחוז שהמשיכו לשלב הבא · המנצח מוכתר לפי המרה סופית (מינ׳ 30 דגימות)</p>
     </div>
 
     <div class="funnel-grid">
@@ -712,6 +712,7 @@ function render() {
     m(t.metricBase + '_a_sent') + m(t.metricBase + '_b_sent') > 0
   ).length;
   const pendingTests = AB_TESTS.length - liveTests;
+  document.getElementById('kpi_ab').textContent = AB_TESTS.length;
   document.getElementById('kpi_ab_sub').textContent =
     `${liveTests} חיים · ${pendingTests} ממתינים`;
 
@@ -757,7 +758,7 @@ function renderFunnelComparison() {
         const prev = m(`f${fn}_${prevKey}`);
         const p = pct(count, prev);
         pctText = prev > 0 ? `${p.toFixed(0)}%` : '';
-        if (p < 50 && prev > 5) pctClass = 'dropoff';
+        if (p < 30 && prev > 5) pctClass = 'dropoff';
       }
 
       const endClass = step.isEnd ? 'end' : '';
@@ -848,12 +849,12 @@ function renderABCards() {
                   <div class="ab-stat-val mono">${fmt(aSent)}</div>
                 </div>
                 <div>
-                  <div class="ab-stat-lbl">-</div>
-                  <div class="ab-stat-val mono">${fmt(aConv)}</div>
+                <div class="ab-stat-lbl">${test.conversionLabel}</div>
+                <div class="ab-stat-val mono">${fmt(aConv)}</div>
                 </div>
                 <div>
-                  <div class="ab-stat-lbl">- -</div>
-                  <div class="ab-stat-val mono rate-a">${fmtPct(rateA)}</div>
+                <div class="ab-stat-lbl">שיעור המרה</div>
+                <div class="ab-stat-val mono rate-a">${fmtPct(rateA)}</div>
                 </div>
               </div>
               <div>
@@ -886,12 +887,12 @@ function renderABCards() {
                   <div class="ab-stat-val mono">${fmt(bSent)}</div>
                 </div>
                 <div>
-                  <div class="ab-stat-lbl">=</div>
-                  <div class="ab-stat-val mono">${fmt(bConv)}</div>
+                <div class="ab-stat-lbl">${test.conversionLabel}</div>
+                <div class="ab-stat-val mono">${fmt(bConv)}</div>
                 </div>
                 <div>
-                  <div class="ab-stat-lbl">= =</div>
-                  <div class="ab-stat-val mono rate-b">${fmtPct(rateB)}</div>
+                <div class="ab-stat-lbl">שיעור המרה</div>
+                <div class="ab-stat-val mono rate-b">${fmtPct(rateB)}</div>
                 </div>
               </div>
               <div>
@@ -930,7 +931,7 @@ function renderEmailTracking() {
 
   const clickRate = pct(clicked, sent);
   document.getElementById('em_click_rate').textContent = fmtPct(clickRate);
-  document.getElementById('em_click_bar').style.width = Math.min(clickRate * 4, 100) + '%';
+  document.getElementById('em_click_bar').style.width = Math.min(clickRate, 100) + '%';
 }
 
 const refreshBtn = document.getElementById('refreshBtn');
