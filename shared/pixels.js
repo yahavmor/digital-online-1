@@ -4,7 +4,7 @@ async function loadFacebookPixel() {
   if (!marketer) return;
 
   try {
-    const res = await fetch('/shared/marketers.json');
+    const res = await fetch('/marketers/marketers.json');
     const marketers = await res.json();
     const m = marketers[marketer];
     if (!m || !m.fb_pixel) return;
