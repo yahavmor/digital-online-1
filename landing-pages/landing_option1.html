@@ -161,9 +161,10 @@ async function handleSubmit(){
   const btn=document.getElementById('submitBtn'),bc=document.getElementById('bc');
   btn.disabled=true;
   bc.innerHTML='<div class="spinner"></div><span>שולח...</span>';
+  const resolvedSupplier = await resolveSupplier(p);
   const payload={
     fullName:data.name,email:data.email,phone:data.phone,
-    variant:VARIANT,page:PAGE,supplier:sup,
+    variant:VARIANT,page:PAGE,supplier:resolvedSupplier,
     utm_source:src,utm_medium:med,utm_campaign:camp,
     timestamp:new Date().toLocaleString('he-IL'),
     landing_url:location.href
@@ -171,7 +172,6 @@ async function handleSubmit(){
   try{await fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});}catch(e){}
   try{
     const lmParams=new URLSearchParams();
-    const resolvedSupplier = await resolveSupplier(p);
     lmParams.append('lm_form','89907');
     lmParams.append('lm_key','28250230ddcd4b8a9f3929b7ab8744a1');
     lmParams.append('subscribers_name',data.name);
@@ -180,22 +180,35 @@ async function handleSubmit(){
     lmParams.append('fld_144377','1');
     lmParams.append('fld_105911',src);
     lmParams.append('fld_107862',src);
-    lmParams.append('lm_supplier', resolvedSupplier);
+    lmParams.append('lm_supplier',resolvedSupplier);
     lmParams.append('lm_bc',src);
-    lmParams.append('fields[REF]', p.ref || VARIANT);
+    lmParams.append('fields[REF]',p.ref||VARIANT);
     lmParams.append('utm_medium',med);
     lmParams.append('utm_campaign',camp);
     lmParams.append('page',PAGE);
     await fetch('https://api.leadmanager.co.il/handlers/lm/submit.cms?'+lmParams.toString(),{method:'GET',mode:'no-cors'});
   }catch(e){}
+  try{
+    await fetch('https://cp.responder.co.il/api/v1.0/subscribers',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization':'Bearer b66d164ad1d065d550b843cbefd9094b09fe9356d216fd70cc224a1747f853b1'
+      },
+      body:JSON.stringify({
+        list_id:107443,
+        email:data.email,
+        name:data.name
+      })
+    });
+  }catch(e){}
   dn=1;
-  dataLayer.push({event:'form_submitted',variant:VARIANT,page:PAGE,name:data.name,email:data.email,phone:data.phone,supplier:sup});
+  dataLayer.push({event:'form_submitted',variant:VARIANT,page:PAGE,name:data.name,email:data.email,phone:data.phone,supplier:resolvedSupplier});
   if(typeof fbq!=='undefined')fbq('track','Lead');
   document.getElementById('formWrap').style.display='none';
   document.getElementById('successBox').classList.add('show');
   setTimeout(function(){window.location.href=FUNNELC1+location.search;},1800);
 }
-
 
 
 
