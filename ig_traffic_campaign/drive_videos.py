@@ -96,16 +96,19 @@ def resolve_folder_entry(drive_file: dict) -> dict:
     return drive_file
 
 
-def find_video_and_text_in_folder(drive_file: dict) -> tuple:
+def find_media_and_text_in_folder(drive_file: dict) -> tuple:
     """
-    עבור תת-תיקייה (המקרה האמיתי כאן - כל "וידאו" ברשימה הוא בפועל תיקייה) - מאתרת
-    בתוכה קובץ וידאו יחיד, וקובץ טקסט יחיד (אופציונלי - Google Doc או .txt) שמשמש
-    כטקסט הראשי של המודעה. מטפלת גם בקיצורי דרך (shortcut).
-    מחזירה (video_file, text_file_or_None).
+    עבור תת-תיקייה (המקרה האמיתי כאן - כל "מדיה" ברשימה היא בפועל תיקייה) - מאתרת
+    בתוכה קובץ מדיה יחיד (וידאו *או* תמונה - נבחר לפי מה שקיים בפועל בתיקייה),
+    וקובץ טקסט יחיד (אופציונלי - Google Doc או .txt) שמשמש כטקסט הראשי של המודעה.
+    מטפלת גם בקיצורי דרך (shortcut).
+    מחזירה (media_file, text_file_or_None, media_type) כאשר media_type הוא "video" או "image".
     """
     drive_file = resolve_folder_entry(drive_file)
     if drive_file.get("mimeType") != FOLDER_MIME_TYPE:
-        return drive_file, None  # קובץ וידאו ישיר, לא תיקייה - אין קובץ טקסט לצדו
+        # קובץ ישיר, לא תיקייה - אין קובץ טקסט לצדו. סוג המדיה לפי mimeType עצמו.
+        media_type = "image" if drive_file.get("mimeType", "").startswith("image/") else "video"
+        return drive_file, None, media_type
 
     inner_files = list_folder_files(drive_file["id"])
     text_files = [
@@ -115,23 +118,31 @@ def find_video_and_text_in_folder(drive_file: dict) -> tuple:
     ]
     text_ids = {f["id"] for f in text_files}
     video_files = [f for f in inner_files if f.get("mimeType", "").startswith("video/")]
+    image_files = [f for f in inner_files if f.get("mimeType", "").startswith("image/")]
     non_text_files = [f for f in inner_files if f["id"] not in text_ids]
 
-    video_candidates = video_files or non_text_files  # fallback אם ל-Drive אין mimeType video/* מזוהה
-    if len(video_candidates) == 0:
-        raise RuntimeError(f"התיקייה '{drive_file['name']}' ריקה - אין בה קובץ וידאו.")
-    if len(video_candidates) > 1:
-        raise RuntimeError(f"נמצאו {len(video_candidates)} מועמדים לווידאו בתיקייה "
-                            f"'{drive_file['name']}': {[f['name'] for f in video_candidates]} - "
+    if video_files:
+        media_candidates, media_type = video_files, "video"
+    elif image_files:
+        media_candidates, media_type = image_files, "image"
+    else:
+        # fallback אם ל-Drive אין mimeType video/* או image/* מזוהה - מניחים וידאו.
+        media_candidates, media_type = non_text_files, "video"
+
+    if len(media_candidates) == 0:
+        raise RuntimeError(f"התיקייה '{drive_file['name']}' ריקה - אין בה קובץ מדיה.")
+    if len(media_candidates) > 1:
+        raise RuntimeError(f"נמצאו {len(media_candidates)} מועמדים למדיה בתיקייה "
+                            f"'{drive_file['name']}': {[f['name'] for f in media_candidates]} - "
                             f"לא ברור איזה להשתמש.")
-    video_file = resolve_folder_entry(video_candidates[0])
+    media_file = resolve_folder_entry(media_candidates[0])
 
     if len(text_files) > 1:
         raise RuntimeError(f"נמצאו {len(text_files)} קבצי טקסט בתיקייה '{drive_file['name']}': "
                             f"{[f['name'] for f in text_files]} - לא ברור איזה להשתמש כטקסט המודעה.")
     text_file = text_files[0] if text_files else None
 
-    return video_file, text_file
+    return media_file, text_file, media_type
 
 
 def read_message_text(text_file: dict) -> str:
@@ -181,16 +192,17 @@ def download_file(file_id: str, dest_path: Path) -> Path:
 
 def ensure_videos_downloaded() -> dict:
     """
-    עבור כל וידאו ב-config.VIDEOS, מוודא שהוא קיים מקומית (מוריד אם צריך), וקורא את
-    טקסט המודעה מקובץ הטקסט שנמצא באותה תת-תיקייה בדרייב (אם קיים כזה - אחרת נופל
+    עבור כל וידאו/תמונה ב-config.VIDEOS, מוודא שהוא קיים מקומית (מוריד אם צריך), וקורא
+    את טקסט המודעה מקובץ הטקסט שנמצא באותה תת-תיקייה בדרייב (אם קיים כזה - אחרת נופל
     חזרה ל-message הקבוע ב-config.VIDEOS).
-    מחזיר dict: ad_set_name -> {"path": Path מקומי, "message": str}.
+    מחזיר dict: ad_set_name -> {"path": Path מקומי, "message": str, "media_type": "video"/"image"}.
     """
     if config.DRY_RUN:
         return {
             v["ad_set_name"]: {
                 "path": Path(config.LOCAL_VIDEO_DIR) / f"DRY_RUN_{v['match']}",
                 "message": v["message"],
+                "media_type": v.get("media_type", "video"),
             }
             for v in config.VIDEOS
         }
@@ -201,12 +213,12 @@ def ensure_videos_downloaded() -> dict:
 
     for video in config.VIDEOS:
         matched = find_file_by_hint(files, video["match"])
-        video_file, text_file = find_video_and_text_in_folder(matched)
+        media_file, text_file, media_type = find_media_and_text_in_folder(matched)
 
-        local_path = local_dir / video_file["name"]
+        local_path = local_dir / media_file["name"]
         if not local_path.exists():
-            print(f"מוריד '{video_file['name']}' מתוך '{matched['name']}' (drive id={video_file['id']})...")
-            download_file(video_file["id"], local_path)
+            print(f"מוריד '{media_file['name']}' מתוך '{matched['name']}' (drive id={media_file['id']})...")
+            download_file(media_file["id"], local_path)
         else:
             print(f"'{local_path.name}' כבר קיים מקומית - מדלג על הורדה.")
 
@@ -217,6 +229,6 @@ def ensure_videos_downloaded() -> dict:
             message = video["message"]
             print(f"  לא נמצא קובץ טקסט בתיקייה '{matched['name']}' - נשאר עם ה-message הקבוע מ-config.py.")
 
-        result[video["ad_set_name"]] = {"path": local_path, "message": message}
+        result[video["ad_set_name"]] = {"path": local_path, "message": message, "media_type": media_type}
 
     return result

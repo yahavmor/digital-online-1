@@ -22,6 +22,7 @@ import requests
 
 import config
 import drive_videos
+import image_upload
 import insights
 import logger
 import video_upload
@@ -125,8 +126,9 @@ def create_ad_set(campaign_id: str, name: str, targeting: dict) -> str:
     return adset_id
 
 
-def create_ad_creative(name: str, video_id: str, thumbnail_url: str, message: str,
-                        title: str = "", description: str = "") -> str:
+def create_ad_creative(name: str, message: str, title: str = "", description: str = "",
+                        media_type: str = "video", video_id: str = None, thumbnail_url: str = None,
+                        image_hash: str = None) -> str:
     if config.DRY_RUN:
         logger.print_and_log({"level": "dry_run", "action": "create_ad_creative", "name": name})
         return f"DRY_RUN_CREATIVE_ID_{name}"
@@ -137,26 +139,44 @@ def create_ad_creative(name: str, video_id: str, thumbnail_url: str, message: st
     # ל-Business Portfolio בלי קישור קלאסי ל-PAGE_ID הזה, אז לא ניתן "לפרסם כ"
     # אותו IG actor מהדף הזה. לא נדרש בכל מקרה - היעד בפועל הוא הלינק בקריאה-לפעולה
     # (call_to_action), לא זהות המפרסם.
-    # title -> "headline" (הכותרת המודגשת מתחת לווידאו), description -> "link_description"
+    # title -> "headline" (הכותרת המודגשת מתחת למדיה), description -> "link_description"/"description"
     # (התיאור הקטן יותר מתחת לכותרת) - שני השדות האלה היו ריקים קודם.
-    video_data = {
-        "video_id": video_id,
-        "image_url": thumbnail_url,
-        "message": message,
-        "call_to_action": {
-            "type": config.CTA_TYPE,
-            "value": {"link": config.DESTINATION_URL},
-        },
-    }
-    if title:
-        video_data["title"] = title
-    if description:
-        video_data["link_description"] = description
-
-    object_story_spec = {
-        "page_id": config.PAGE_ID,
-        "video_data": video_data,
-    }
+    if media_type == "image":
+        link_data = {
+            "image_hash": image_hash,
+            "link": config.DESTINATION_URL,
+            "message": message,
+            "call_to_action": {
+                "type": config.CTA_TYPE,
+                "value": {"link": config.DESTINATION_URL},
+            },
+        }
+        if title:
+            link_data["name"] = title
+        if description:
+            link_data["description"] = description
+        object_story_spec = {
+            "page_id": config.PAGE_ID,
+            "link_data": link_data,
+        }
+    else:
+        video_data = {
+            "video_id": video_id,
+            "image_url": thumbnail_url,
+            "message": message,
+            "call_to_action": {
+                "type": config.CTA_TYPE,
+                "value": {"link": config.DESTINATION_URL},
+            },
+        }
+        if title:
+            video_data["title"] = title
+        if description:
+            video_data["link_description"] = description
+        object_story_spec = {
+            "page_id": config.PAGE_ID,
+            "video_data": video_data,
+        }
 
     url = f"{config.GRAPH_URL}/act_{config.AD_ACCOUNT_ID}/adcreatives"
     resp = requests.post(url, data={
@@ -248,22 +268,36 @@ def main():
         print(f"\n[{name}]")
         local_path = videos_data[name]["path"]
         message = videos_data[name]["message"]
-
-        print("  מעלה וידאו ל-Meta וממתין לעיבוד...")
-        upload_result = video_upload.upload_and_prepare(local_path, name=name)
+        media_type = videos_data[name]["media_type"]
 
         print("  יוצר Ad Set...")
         adset_id = create_ad_set(campaign_id, name, targeting=build_targeting(video))
 
-        print("  יוצר קריאטיב...")
-        creative_id = create_ad_creative(
-            name=name,
-            video_id=upload_result["video_id"],
-            thumbnail_url=upload_result["thumbnail_url"],
-            message=message,
-            title=video.get("title", ""),
-            description=video.get("description", ""),
-        )
+        if media_type == "image":
+            print("  מעלה תמונה ל-Meta...")
+            upload_result = image_upload.upload_and_prepare(local_path, name=name)
+            print("  יוצר קריאטיב...")
+            creative_id = create_ad_creative(
+                name=name,
+                message=message,
+                title=video.get("title", ""),
+                description=video.get("description", ""),
+                media_type="image",
+                image_hash=upload_result["image_hash"],
+            )
+        else:
+            print("  מעלה וידאו ל-Meta וממתין לעיבוד...")
+            upload_result = video_upload.upload_and_prepare(local_path, name=name)
+            print("  יוצר קריאטיב...")
+            creative_id = create_ad_creative(
+                name=name,
+                message=message,
+                title=video.get("title", ""),
+                description=video.get("description", ""),
+                media_type="video",
+                video_id=upload_result["video_id"],
+                thumbnail_url=upload_result["thumbnail_url"],
+            )
 
         print("  יוצר מודעה...")
         ad_id = create_ad(adset_id, name, creative_id)
