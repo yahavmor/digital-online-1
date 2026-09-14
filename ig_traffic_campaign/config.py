@@ -40,6 +40,11 @@ PAGE_ID = "1067237409815794"
 IG_ACTOR_ID = "17841446812678634"
 IG_USERNAME = "ben_nahum_1"  # לתיעוד/ולידציה בלבד - ה-API עובד לפי IG_ACTOR_ID
 
+# מזהה מספרי שונה מ-IG_ACTOR_ID - נדרש ב-call_to_action.value.app_link של קריאטיב
+# "ביקור בפרופיל אינסטגרם" (VIEW_INSTAGRAM_PROFILE). אומת בפועל (14/9/2026) מתוך
+# הקריאטיב שה-UI של Ads Manager בנה אוטומטית (debug_inspect_creative.py) - לא ניחוש.
+IG_NUMERIC_USER_ID = "46949072422"
+
 # ==== הקמפיין ====
 # מעבר מוחלט (14/9/2026): הקמפיין המקורי הושהה לצמיתות ברמת הקמפיין, והוחלף בקמפיין
 # חדש שנוצר ע"י שכפול ידני ב-Ads Manager עם מטרת "מעורבות" (OUTCOME_ENGAGEMENT,

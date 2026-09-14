@@ -1,19 +1,23 @@
 # -*- coding: utf-8 -*-
 """
-ממלא קריאטיב לכל מודעה ריקה בקמפיין החדש (config.CAMPAIGN_NAME - קמפיין "מעורבות",
-Instagram Profile Visits) שנוצר ע"י שכפול ידני ב-Ads Manager של הקמפיין המקורי:
-ה-Ad Sets תקינים (שוכפלו עם conversion_location/performance_goal נכונים), אבל
-המודעות בתוכם נוצרו ריקות - בלי קריאטיב.
+מחליף את הקריאטיב הריק שה-UI של Ads Manager בנה אוטומטית לכל מודעה בקמפיין החדש
+(config.CAMPAIGN_NAME - קמפיין "מעורבות", Instagram Profile Visits) בקריאטיב אמיתי
+עם הווידאו/תמונה/טקסט של אותו סרטון מ-config.VIDEOS.
+
+אומת בפועל (14/9/2026, debug_inspect_creative.py) שכשמגדירים Conversion location=
+Instagram Profile ב-UI, Meta בונה אוטומטית קריאטיב placeholder גנרי: object_type=
+SHARE, בלי video/image בכלל, רק link_data.link לכתובת הפרופיל וכפתור
+VIEW_INSTAGRAM_PROFILE - זה מה ש"נראה ריק". השדות האמיתיים שנדרשים (מתוך אותו
+placeholder עצמו, לא ניחוש): instagram_user_id (לא instagram_actor_id!),
+call_to_action.type=VIEW_INSTAGRAM_PROFILE עם value.app_link (כולל
+config.IG_NUMERIC_USER_ID) ו-value.link.
 
 משתמש בקבצי המטמון הקיימים (video_upload_cache.json / image_upload_cache.json)
 כדי לא להעלות מחדש קבצים שכבר קיימים אצל Meta מהריצה המקורית של campaign_launch.py -
 צריך להריץ את זה מאותה תיקייה/מחשב שבו רץ campaign_launch.py בעבר.
 
-שונה מהקריאטיב של הקמפיין המקורי (LINK_CLICKS, רק page_id, בלי instagram_actor_id -
-כי זה נדחה שם): כאן היעד הוא ביקור בפרופיל אינסטגרם, אז מנסים עם page_id +
-instagram_actor_id, ובלי call_to_action שמפנה ללינק חיצוני (Meta אמורה להציג כפתור
-"צפייה בפרופיל" באופן טבעי לפי ה-conversion_location של הסט). זה תחום לא-נבדק -
-אם ה-API דוחה שדה מסוים, השגיאה האמיתית תגיד בדיוק מה לתקן.
+שים לב: חלק מהמודעות בקמפיין הזה כבר ACTIVE (רצות בפועל) - זה מחליף את הקריאטיב
+שלהן ישירות, בלי לעצור אותן קודם.
 
 הרצה:
     python fill_engagement_creatives.py
@@ -43,7 +47,8 @@ def load_cache(path) -> dict:
 def get_adsets_with_ads(campaign_id: str) -> list:
     url = f"{config.GRAPH_URL}/{campaign_id}"
     resp = requests.get(url, params={
-        "fields": "adsets.limit(200){name,ads{id,name,creative}}",
+        "fields": "adsets.limit(200){name,ads{id,name,creative{object_type,video_id,"
+                  "link_data}}}",
         "access_token": config.ACCESS_TOKEN,
     }, timeout=30)
     data = resp.json()
@@ -52,8 +57,33 @@ def get_adsets_with_ads(campaign_id: str) -> list:
     return data.get("adsets", {}).get("data", [])
 
 
+def is_placeholder_creative(creative: dict | None) -> bool:
+    """
+    מזהה את הקריאטיב הגנרי שה-UI בונה אוטומטית (object_type=SHARE, בלי video_id,
+    בלי image_hash ב-link_data) - כדי להחליף רק אותו, ולדלג על קריאטיב שכבר תוקן.
+    """
+    if not creative:
+        return True
+    if creative.get("video_id"):
+        return False
+    link_data = creative.get("link_data") or {}
+    if link_data.get("image_hash"):
+        return False
+    return True
+
+
 def find_video_by_ad_set_name(name: str) -> dict | None:
     return next((v for v in config.VIDEOS if v["ad_set_name"] == name), None)
+
+
+def build_call_to_action() -> dict:
+    return {
+        "type": "VIEW_INSTAGRAM_PROFILE",
+        "value": {
+            "app_link": f"instagram://user?username={config.IG_USERNAME}&userid={config.IG_NUMERIC_USER_ID}",
+            "link": f"http://instagram.com/{config.IG_USERNAME}",
+        },
+    }
 
 
 def build_object_story_spec(video: dict, cached_upload: dict) -> dict:
@@ -61,16 +91,22 @@ def build_object_story_spec(video: dict, cached_upload: dict) -> dict:
     message = video["message"]
     title = video.get("title", "")
     description = video.get("description", "")
+    call_to_action = build_call_to_action()
 
     if media_type == "image":
-        link_data = {"image_hash": cached_upload["image_hash"], "message": message}
+        link_data = {
+            "image_hash": cached_upload["image_hash"],
+            "message": message,
+            "link": f"http://instagram.com/{config.IG_USERNAME}",
+            "call_to_action": call_to_action,
+        }
         if title:
             link_data["name"] = title
         if description:
             link_data["description"] = description
         return {
             "page_id": config.PAGE_ID,
-            "instagram_actor_id": config.IG_ACTOR_ID,
+            "instagram_user_id": config.IG_ACTOR_ID,
             "link_data": link_data,
         }
 
@@ -78,6 +114,7 @@ def build_object_story_spec(video: dict, cached_upload: dict) -> dict:
         "video_id": cached_upload["video_id"],
         "image_url": cached_upload["thumbnail_url"],
         "message": message,
+        "call_to_action": call_to_action,
     }
     if title:
         video_data["title"] = title
@@ -85,7 +122,7 @@ def build_object_story_spec(video: dict, cached_upload: dict) -> dict:
         video_data["link_description"] = description
     return {
         "page_id": config.PAGE_ID,
-        "instagram_actor_id": config.IG_ACTOR_ID,
+        "instagram_user_id": config.IG_ACTOR_ID,
         "video_data": video_data,
     }
 
@@ -136,8 +173,8 @@ def main():
             continue
 
         ad = ads[0]
-        if ad.get("creative"):
-            print(f"[{name}] - כבר יש קריאטיב למודעה, מדלג.")
+        if not is_placeholder_creative(ad.get("creative")):
+            print(f"[{name}] - כבר יש קריאטיב אמיתי (עם וידאו/תמונה) למודעה, מדלג.")
             continue
 
         video = find_video_by_ad_set_name(name)
