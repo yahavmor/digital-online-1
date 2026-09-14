@@ -41,7 +41,12 @@ IG_ACTOR_ID = "17841446812678634"
 IG_USERNAME = "ben_nahum_1"  # לתיעוד/ולידציה בלבד - ה-API עובד לפי IG_ACTOR_ID
 
 # ==== הקמפיין ====
-CAMPAIGN_NAME = "תנועה לאינסטגרם - ben_nahum_1 - סדרת סרטונים"
+# מעבר מוחלט (14/9/2026): הקמפיין המקורי הושהה לצמיתות ברמת הקמפיין, והוחלף בקמפיין
+# חדש שנוצר ע"י שכפול ידני ב-Ads Manager עם מטרת "מעורבות" (OUTCOME_ENGAGEMENT,
+# Conversion location=Instagram Profile) - לא נוצר ע"י campaign_launch.py. הדשבורד
+# (dashboard.py, דרך insights.find_campaign) מסונן לפי השם הזה בלבד, אז זה השדה
+# שקובע על איזה קמפיין רואים נתונים.
+CAMPAIGN_NAME = "מעורבות לאינסטגרם - ben_nahum_1"
 
 # אומת בפועל (8/9/2026) אחרי ניפוי ארוך: OUTCOME_ENGAGEMENT + destination_type=
 # INSTAGRAM_PROFILE + optimization_goal=PROFILE_AND_PAGE_ENGAGEMENT (ה"ביקור בפרופיל
