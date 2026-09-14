@@ -46,7 +46,9 @@ IG_USERNAME = "ben_nahum_1"  # לתיעוד/ולידציה בלבד - ה-API ע�
 # Conversion location=Instagram Profile) - לא נוצר ע"י campaign_launch.py. הדשבורד
 # (dashboard.py, דרך insights.find_campaign) מסונן לפי השם הזה בלבד, אז זה השדה
 # שקובע על איזה קמפיין רואים נתונים.
-CAMPAIGN_NAME = "מעורבות לאינסטגרם - ben_nahum_1"
+# השם מתחיל בתו RLM בלתי-נראה (‏) - Meta הוסיפה אותו אוטומטית בשכפול; אומת
+# בפועל מול ה-API (debug_find_campaign_name.py) - אל תסירו אותו, בלעדיו ההתאמה נכשלת.
+CAMPAIGN_NAME = "‏מעורבות לאינסטגרם - ben_nahum_1"
 
 # אומת בפועל (8/9/2026) אחרי ניפוי ארוך: OUTCOME_ENGAGEMENT + destination_type=
 # INSTAGRAM_PROFILE + optimization_goal=PROFILE_AND_PAGE_ENGAGEMENT (ה"ביקור בפרופיל
