@@ -115,9 +115,13 @@ def build_object_story_spec(video: dict, cached_upload: dict) -> dict:
             "link_data": link_data,
         }
 
+    # ה-thumbnail_url הממוטמן הוא URL חתום עם תוקף מ-CDN של Meta - עלול לפוג עד
+    # שמריצים את הסקריפט הזה (ימים אחרי ההעלאה המקורית ב-campaign_launch.py).
+    # video_id עצמו לא פג, אז שולפים thumbnail טרי בכל הרצה במקום להסתמך על המטמון.
+    fresh_thumbnail_url = video_upload.get_thumbnail_url(cached_upload["video_id"])
     video_data = {
         "video_id": cached_upload["video_id"],
-        "image_url": cached_upload["thumbnail_url"],
+        "image_url": fresh_thumbnail_url,
         "message": message,
         "call_to_action": call_to_action,
     }
