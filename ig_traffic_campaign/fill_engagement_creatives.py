@@ -48,7 +48,7 @@ def get_adsets_with_ads(campaign_id: str) -> list:
     url = f"{config.GRAPH_URL}/{campaign_id}"
     resp = requests.get(url, params={
         "fields": "adsets.limit(200){name,ads{id,name,creative{object_type,video_id,"
-                  "link_data}}}",
+                  "object_story_spec}}}",
         "access_token": config.ACCESS_TOKEN,
     }, timeout=30)
     data = resp.json()
@@ -60,13 +60,18 @@ def get_adsets_with_ads(campaign_id: str) -> list:
 def is_placeholder_creative(creative: dict | None) -> bool:
     """
     מזהה את הקריאטיב הגנרי שה-UI בונה אוטומטית (object_type=SHARE, בלי video_id,
-    בלי image_hash ב-link_data) - כדי להחליף רק אותו, ולדלג על קריאטיב שכבר תוקן.
+    בלי image_hash ב-object_story_spec.link_data) - כדי להחליף רק אותו, ולדלג על
+    קריאטיב שכבר תוקן. link_data/video_data הם שדות בתוך object_story_spec,
+    לא שדות ישירים על ה-creative עצמו.
     """
     if not creative:
         return True
     if creative.get("video_id"):
         return False
-    link_data = creative.get("link_data") or {}
+    story_spec = creative.get("object_story_spec") or {}
+    if story_spec.get("video_data"):
+        return False
+    link_data = story_spec.get("link_data") or {}
     if link_data.get("image_hash"):
         return False
     return True
