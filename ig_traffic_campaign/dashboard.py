@@ -51,12 +51,29 @@ def _badge(rank: int, total: int) -> tuple[str, str]:
     return "", ""
 
 
+RLM_LRM_CHARS = "‎‏"
+
+
 def _display_name(ad_name: str) -> str:
-    """מסיר סיומת ' - Ad' / קובץ וידאו מהשם לתצוגה נקייה יותר."""
-    ad_name = ad_name.removesuffix(" - Ad")
-    for ext in (".mov", ".mp4", ".MOV", ".MP4"):
-        if ad_name.endswith(ext):
-            return ad_name[: -len(ext)]
+    """
+    מנקה שם מודעה לתצוגה: מסיר תווי RLM/LRM בלתי-נראים שMeta מוסיפה לפעמים,
+    סיומות שכפול חוזרות ("- עותק", גם מוכפלות כמו "- עותק - עותק"), סיומת
+    " - Ad", וסיומת קובץ וידאו - בכל סדר, כדי ששני שכפולים של אותה מודעה
+    (אחד עם "- עותק" ואחד בלי) יתכנסו לאותו שם בדיוק ויתמזגו יחד ב-build_rows.
+    """
+    ad_name = ad_name.strip(RLM_LRM_CHARS).strip()
+    changed = True
+    while changed:
+        changed = False
+        for suffix in (" - עותק", " - Ad"):
+            stripped = ad_name.removesuffix(suffix).strip(RLM_LRM_CHARS).strip()
+            if stripped != ad_name:
+                ad_name = stripped
+                changed = True
+        for ext in (".mov", ".mp4", ".MOV", ".MP4"):
+            if ad_name.endswith(ext):
+                ad_name = ad_name[: -len(ext)]
+                changed = True
     return ad_name
 
 
@@ -64,6 +81,11 @@ def build_rows() -> list[dict]:
     """
     מחזיר שורות ביצועים רק עבור מודעות שנוצרו ע"י campaign_launch.py (קמפיין
     config.CAMPAIGN_NAME) - לא כל מודעה אחרת שכבר קיימת בחשבון act_330184635273905.
+
+    ממזג שורות עם אותו שם-תצוגה נקי (אחרי _display_name) לשורה אחת מסוכמת -
+    כי אותו תוכן/סרטון יכול להיות מיוצג ביותר ממודעה אחת בפועל (שכפול ידני
+    ב-Ads Manager, כולל מודעות "- עותק") - בלי מיזוג, אותו תוכן מופיע כמה
+    פעמים עם CTR שונה וסותר, מה שנראה כמו נתונים שגויים.
     """
     campaign = insights.find_campaign()
     if not campaign:
@@ -72,17 +94,34 @@ def build_rows() -> list[dict]:
     insight_rows = insights.fetch_ad_insights(campaign["id"])
     statuses = insights.get_ads_status(campaign["id"])
 
-    rows = []
+    merged: dict[str, dict] = {}
     for r in insight_rows:
+        name = _display_name(r.get("ad_name", r["ad_id"]))
+        status = statuses.get(r["ad_id"], "UNKNOWN")
         impressions = int(float(r.get("impressions", 0)))
-        clicks = insights.extract_link_clicks(r)
         spend = float(r.get("spend", 0))
+        clicks = insights.extract_link_clicks(r)
+
+        if name not in merged:
+            merged[name] = {"ad_name": name, "status": status, "spend": 0.0,
+                             "impressions": 0, "clicks": 0}
+        m = merged[name]
+        m["spend"] += spend
+        m["impressions"] += impressions
+        m["clicks"] += clicks
+        # אם אחת מהמודעות הממוזגות פעילה, מציגים "פעילה" - זה המידע הכי רלוונטי
+        # (יש תוכן חי מהסוג הזה), גם אם שכפול ישן שלה כבר מושהה.
+        if status == "ACTIVE":
+            m["status"] = status
+
+    rows = []
+    for m in merged.values():
+        impressions, clicks, spend = m["impressions"], m["clicks"], m["spend"]
         ctr = (clicks / impressions * 100) if impressions else 0.0
         cpc = (spend / clicks) if clicks else 0.0
         rows.append({
-            "ad_id": r["ad_id"],
-            "ad_name": _display_name(r.get("ad_name", r["ad_id"])),
-            "status": statuses.get(r["ad_id"], "UNKNOWN"),
+            "ad_name": m["ad_name"],
+            "status": m["status"],
             "spend": spend,
             "impressions": impressions,
             "clicks": clicks,
