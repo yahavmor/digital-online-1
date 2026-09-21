@@ -14,6 +14,7 @@ import requests
 
 import config
 import insights
+from redact import redact
 
 
 def main():
@@ -28,7 +29,7 @@ def main():
     if "error" in data:
         print(f"שגיאה: {data['error']}")
     else:
-        print(json.dumps(data, ensure_ascii=False, indent=2))
+        print(json.dumps(redact(data), ensure_ascii=False, indent=2))
 
     print("\n=== recommendations על הקמפיין עצמו ===")
     campaign = insights.find_campaign()
@@ -42,7 +43,7 @@ def main():
         "access_token": config.ACCESS_TOKEN,
     }, timeout=30)
     data = resp.json()
-    print(json.dumps(data, ensure_ascii=False, indent=2) if "error" not in data
+    print(json.dumps(redact(data), ensure_ascii=False, indent=2) if "error" not in data
           else f"שגיאה: {data['error']}")
 
     print("\n=== issues_info / learning_stage_info / recommendations לכל Ad Set ===")
@@ -74,7 +75,7 @@ def main():
         "access_token": config.ACCESS_TOKEN,
     }, timeout=30)
     data = resp.json()
-    print(json.dumps(data, ensure_ascii=False, indent=2) if "error" not in data
+    print(json.dumps(redact(data), ensure_ascii=False, indent=2) if "error" not in data
           else f"שגיאה: {data['error']}")
 
 

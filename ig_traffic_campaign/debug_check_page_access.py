@@ -15,6 +15,7 @@ import json
 import requests
 
 import config
+from redact import redact
 
 
 def main():
@@ -25,7 +26,7 @@ def main():
         "access_token": config.ACCESS_TOKEN,
     }, timeout=30)
     data = resp.json()
-    print(json.dumps(data, ensure_ascii=False, indent=2))
+    print(json.dumps(redact(data), ensure_ascii=False, indent=2))
 
     if "error" in data:
         print("\n❌ אין גישה לדף הזה עם הטוקן הנוכחי - זה כנראה השורש של השגיאה "

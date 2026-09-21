@@ -14,6 +14,7 @@ import json
 import requests
 
 import config
+from redact import redact
 
 NEWER_VERSION = "v25.0"
 TEST_CAMPAIGN_ID = "120250423680850697"  # מ-debug_fresh_campaign_test.py
@@ -38,7 +39,7 @@ def main():
         "access_token": config.ACCESS_TOKEN,
     }, timeout=30)
     data = resp.json()
-    print(json.dumps(data, ensure_ascii=False, indent=2))
+    print(json.dumps(redact(data), ensure_ascii=False, indent=2))
 
     if "error" in data:
         print(f"\n❌ נכשל גם עם {NEWER_VERSION} - הגרסה כנראה לא הבעיה.")

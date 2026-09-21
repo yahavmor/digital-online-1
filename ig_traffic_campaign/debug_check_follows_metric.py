@@ -16,6 +16,7 @@ import requests
 
 import config
 import insights
+from redact import redact
 
 # מועמדים סבירים לשם השדה/action_type - top-level fields וגם action_types בתוך actions.
 CANDIDATE_TOP_LEVEL_FIELDS = [
@@ -51,7 +52,7 @@ def main():
         }, timeout=30)
         data = resp.json()
         print(f"--- שדה: {field} ---")
-        print(json.dumps(data, ensure_ascii=False, indent=2)[:1500])
+        print(json.dumps(redact(data), ensure_ascii=False, indent=2)[:1500])
         print()
 
     print("\n=== שלב 2: בודק אם action_type כלשהו מהמועמדים מופיע ב-actions בפועל ===\n")

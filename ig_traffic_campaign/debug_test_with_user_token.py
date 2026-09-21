@@ -30,6 +30,7 @@ import sys
 import requests
 
 import config
+from redact import redact
 
 TEST_CAMPAIGN_ID = "120250423680850697"  # מ-debug_fresh_campaign_test.py - קמפיין טסט PAUSED זמני
 
@@ -57,7 +58,7 @@ def main():
         "access_token": user_token,
     }, timeout=30)
     data = resp.json()
-    print(json.dumps(data, ensure_ascii=False, indent=2))
+    print(json.dumps(redact(data), ensure_ascii=False, indent=2))
 
     if "error" in data:
         print("\n❌ נכשל גם עם טוקן אישי - זו כנראה לא בעיית System User. צריך "

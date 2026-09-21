@@ -14,6 +14,7 @@ import sys
 import requests
 
 import config
+from redact import redact
 
 
 def main():
@@ -28,7 +29,7 @@ def main():
         "access_token": config.ACCESS_TOKEN,
     }, timeout=30)
     data = resp.json()
-    print(json.dumps(data, ensure_ascii=False, indent=2))
+    print(json.dumps(redact(data), ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":
