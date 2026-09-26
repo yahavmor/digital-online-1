@@ -47,7 +47,7 @@ def load_cache(path) -> dict:
 def get_adsets_with_ads(campaign_id: str) -> list:
     url = f"{config.GRAPH_URL}/{campaign_id}"
     resp = requests.get(url, params={
-        "fields": "adsets.limit(200){name,ads{id,name,creative{object_type,video_id,"
+        "fields": "adsets.limit(200){id,name,ads{id,name,creative{object_type,video_id,"
                   "object_story_spec}}}",
         "access_token": config.ACCESS_TOKEN,
     }, timeout=30)
@@ -160,6 +160,27 @@ def attach_creative(ad_id: str, creative_id: str) -> None:
         raise RuntimeError(f"נכשל בעדכון מודעה {ad_id} עם קריאטיב {creative_id}: {data['error']}")
 
 
+def create_ad(adset_id: str, name: str, creative_id: str) -> str:
+    """
+    יוצר מודעה חדשה בסט שאין בו אף מודעה - אומת בפועל (26/9/2026) ש-Duplicate ב-
+    Ads Manager על סט מודעות בודד לא בהכרח משכפל גם את המודעה שבתוכו (תלוי אילו
+    checkboxes סומנו בדיאלוג ה-Duplicate), אז אי אפשר להסתמך על כך שתמיד יהיה
+    ad קיים לעדכן - לפעמים צריך ליצור אחד חדש מאפס.
+    """
+    url = f"{config.GRAPH_URL}/act_{config.AD_ACCOUNT_ID}/ads"
+    resp = requests.post(url, data={
+        "name": f"{name} - Ad",
+        "adset_id": adset_id,
+        "creative": json.dumps({"creative_id": creative_id}),
+        "status": config.CREATED_STATUS,
+        "access_token": config.ACCESS_TOKEN,
+    }, timeout=30)
+    data = resp.json()
+    if "error" in data:
+        raise RuntimeError(f"נכשל ביצירת מודעה '{name}': {data['error']}")
+    return data["id"]
+
+
 def main():
     campaign = insights.find_campaign()
     if not campaign:
@@ -176,13 +197,12 @@ def main():
     for adset in adsets:
         name = adset["name"].removesuffix(" - Ad Set")
         ads = adset.get("ads", {}).get("data", [])
+        ad = ads[0] if ads else None
 
-        if not ads:
-            print(f"[{name}] - אין שום מודעה בסט הזה, מדלג (בדוק ידנית).")
-            continue
-
-        ad = ads[0]
-        if not is_placeholder_creative(ad.get("creative")):
+        # ad=None קורה בפועל כש-Duplicate ב-Ads Manager שוכפל רק את הסט עצמו בלי
+        # המודעה שבתוכו (תלוי בצ'קבוקסים שסומנו בדיאלוג) - אז יוצרים מודעה חדשה
+        # מאפס במקום לעדכן קיימת.
+        if ad and not is_placeholder_creative(ad.get("creative")):
             print(f"[{name}] - כבר יש קריאטיב אמיתי (עם וידאו/תמונה) למודעה, מדלג.")
             continue
 
@@ -203,8 +223,13 @@ def main():
         print(f"[{name}] - יוצר קריאטיב חדש (media_type={media_type})...")
         object_story_spec = build_object_story_spec(video, cached_upload)
         creative_id = create_creative(name, object_story_spec)
-        print(f"  creative_id={creative_id} - מצרף למודעה {ad['id']}...")
-        attach_creative(ad["id"], creative_id)
+        if ad:
+            print(f"  creative_id={creative_id} - מצרף למודעה {ad['id']}...")
+            attach_creative(ad["id"], creative_id)
+        else:
+            print(f"  creative_id={creative_id} - אין מודעה קיימת בסט, יוצר מודעה חדשה...")
+            ad_id = create_ad(adset["id"], name, creative_id)
+            print(f"  נוצרה מודעה {ad_id}.")
         print("  הצליח.")
 
     print("\nסיום. עברו על כל המודעות ב-Ads Manager (תצוגה מקדימה של הקריאטיב) לפני הפעלה.")
