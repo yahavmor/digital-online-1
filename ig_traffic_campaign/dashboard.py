@@ -294,7 +294,6 @@ def generate_dashboard() -> str:
   <div class="kpi"><div class="value">₪{t['spend']:,.0f}</div><div class="label">הוצאה · {recent_label}</div></div>
   <div class="kpi"><div class="value">{t['visits']:,}</div><div class="label">ביקורים בפרופיל · {recent_label}</div></div>
   <div class="kpi hl"><div class="value">{t['follows']:,}</div><div class="label">עוקבים · {recent_label}</div></div>
-  <div class="kpi hl"><div class="value">{_money(t['cpf'])}</div><div class="label">עלות ממוצעת לעוקב</div></div>
   <div class="kpi"><div class="value">₪{daily_budget:,.0f}</div><div class="label">תקציב יומי כולל של כל הקבוצות הפעילות (לא לכל מודעה)<br>{budget_note}</div></div>
 </div>
 
