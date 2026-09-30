@@ -66,6 +66,8 @@ h1 .accent{background:linear-gradient(135deg,var(--blurple-2),var(--blurple));-w
 .btn-discord{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;max-width:400px;height:60px;background:linear-gradient(135deg,var(--gold-2),var(--gold));color:#1a1400;font-family:'Heebo',sans-serif;font-size:18px;font-weight:900;border:none;border-radius:13px;cursor:pointer;position:relative;overflow:hidden;letter-spacing:.2px;box-shadow:0 8px 30px rgba(240,192,64,.45);transition:transform .2s,box-shadow .2s;animation:ctaGlow 2.6s ease-in-out infinite,ctaWiggle 4.5s 1.5s ease-in-out infinite;}
 .btn-discord:hover{transform:translateY(-2px) scale(1.01);box-shadow:0 12px 40px rgba(240,192,64,.7);animation-play-state:paused;}
 .btn-discord:active{transform:translateY(0) scale(.98);}
+.btn-discord:disabled{opacity:.7;cursor:default;animation:none;box-shadow:0 8px 30px rgba(240,192,64,.45);}
+.btn-discord:disabled::after{display:none;}
 .btn-discord::after{content:'';position:absolute;top:0;left:-120%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);animation:shine 2.6s ease-in-out infinite;}
 .btn-discord svg{flex-shrink:0;}
 .btn-discord svg path,.btn-discord svg circle{stroke:#1a1400;}
@@ -76,28 +78,12 @@ h1 .accent{background:linear-gradient(135deg,var(--blurple-2),var(--blurple));-w
 .card-title{font-family:'Heebo',sans-serif;font-size:17.5px;font-weight:900;color:#fff;margin-bottom:10px;text-align:center;}
 .card-text{font-size:14px;color:rgba(255,255,255,.6);line-height:1.75;text-align:center;margin-bottom:16px;}
 
-.compare-row{display:flex;gap:10px;}
-.compare-item{flex:1;border-radius:12px;padding:16px 12px;text-align:center;}
-.compare-item.bad{background:rgba(237,66,69,.08);border:1px solid rgba(237,66,69,.3);}
-.compare-item.good{background:rgba(88,101,242,.12);border:1.5px solid var(--blurple);}
-.compare-icon{font-size:24px;margin-bottom:6px;display:block;}
-.compare-name{font-family:'Heebo',sans-serif;font-size:13.5px;font-weight:800;margin-bottom:4px;}
-.compare-item.bad .compare-name{color:#f28b8d;}
-.compare-item.good .compare-name{color:#a3b1ff;}
-.compare-desc{font-size:12px;color:rgba(255,255,255,.55);line-height:1.5;}
-
-.chip-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;}
-.chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.05);border:1px solid rgba(88,101,242,.25);border-radius:99px;padding:7px 14px;font-size:12.5px;font-weight:700;color:rgba(255,255,255,.8);}
-
 .proof-shots{display:flex;flex-direction:column;gap:16px;}
 .proof-shot{position:relative;}
 .proof-shot img{width:100%;border-radius:16px;border:1.5px solid rgba(88,101,242,.35);display:block;box-shadow:0 10px 34px rgba(0,0,0,.5);}
 .proof-tag{position:absolute;top:10px;right:10px;background:rgba(8,8,13,.85);backdrop-filter:blur(4px);border:1px solid rgba(240,192,64,.5);color:var(--gold);font-family:'Heebo',sans-serif;font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:99px;display:flex;align-items:center;gap:5px;}
 .proof-tag .rdot{width:6px;height:6px;border-radius:50%;background:#ef4444;animation:pulseBadge 1.6s ease-in-out infinite;}
 .proof-caption{font-size:12px;color:rgba(255,255,255,.5);text-align:center;margin-top:8px;}
-
-.pull-quote{width:100%;text-align:center;padding:28px 18px;margin-top:18px;position:relative;}
-.pull-quote p{font-family:'Heebo',sans-serif;font-size:clamp(18px,4.8vw,22px);font-weight:900;line-height:1.5;background:linear-gradient(135deg,#dfe4ff,var(--blurple-2),var(--blurple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 
 .steps{display:flex;flex-direction:column;gap:10px;margin-bottom:6px;}
 .step-item{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:13px 14px;}
@@ -133,6 +119,9 @@ footer .sep{margin:0 6px;color:rgba(255,255,255,.12)}
 .guide-cover small{font-size:9.5px;color:rgba(255,255,255,.6);margin-top:5px;}
 .guide-list{list-style:none;font-size:13.5px;color:rgba(255,255,255,.8);line-height:1.8;}
 .guide-list li::before{content:'✓ ';color:var(--gold);font-weight:900;}
+.guide-preview{margin-bottom:14px;}
+.guide-preview img{width:100%;border-radius:10px;border:1px solid rgba(240,192,64,.35);display:block;box-shadow:0 6px 18px rgba(0,0,0,.4);}
+.guide-preview-caption{font-size:11px;color:rgba(255,255,255,.45);text-align:center;margin-top:6px;}
 .lead-form{display:flex;flex-direction:column;gap:10px;}
 .lead-form input[type=text],.lead-form input[type=tel]{width:100%;height:52px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:#fff;font-size:16px;padding:0 14px;direction:rtl;}
 .lead-form input[type=tel]{direction:ltr;text-align:right;}
@@ -213,17 +202,19 @@ document.addEventListener('DOMContentLoaded', function(){
   });
 
   /* The sticky CTA bar is meant to keep the button reachable once the
-     visitor has scrolled past the hero's own button -- not to duplicate it
-     on screen at the same time. Toggle it off exactly while the hero
-     button is still visible, on regardless of page length or viewport
-     height (a fixed pixel scroll threshold would break on short/tall
-     screens). */
-  var heroCta = document.getElementById('heroCta');
+     visitor has scrolled past the guide form -- not to duplicate it or sit
+     on top of it while it's still on screen. Watch the whole #guideForm
+     card (not just the submit button) so the sticky bar stays hidden as
+     long as any part of the form -- including the input fields -- is still
+     visible, on short screens too (e.g. iPhone SE, 375x667), where the
+     button alone could scroll out of view while the fields are still
+     showing. */
+  var guideCard = document.getElementById('guideForm');
   var stickyCta = document.querySelector('.sticky-cta');
-  if (heroCta && stickyCta && 'IntersectionObserver' in window) {
+  if (guideCard && stickyCta && 'IntersectionObserver' in window) {
     new IntersectionObserver(function(entries){
       stickyCta.classList.toggle('visible', !entries[0].isIntersecting);
-    }).observe(heroCta);
+    }).observe(guideCard);
   } else if (stickyCta) {
     stickyCta.classList.add('visible'); // no IO support: fail open rather than hiding the CTA entirely
   }
@@ -242,10 +233,14 @@ function normPhone(v){
 var leadSent = 0;
 function submitLead(ev){
   ev.preventDefault();
+  var btn = document.getElementById('heroCta');
+  if (btn.disabled) return false; // already submitting -- ignore extra clicks/taps
   var ph = normPhone(document.getElementById('leadPhone').value);
   var err = document.getElementById('formErr');
   if (!/^05\d{8}$/.test(ph)) { err.style.display = 'block'; return false; }
   err.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = 'שולח...';
   if (!leadSent) {
     leadSent = 1;
     try {
@@ -258,11 +253,13 @@ function submitLead(ev){
     try { dataLayer.push({event:'lead_submit', page:PAGE, utm_source:p.src}); } catch(e) {}
     try { if (typeof fbq !== 'undefined') fbq('track', 'Lead'); } catch(e) {}
   }
-  document.getElementById('leadForm').style.display = 'none';
-  document.getElementById('skipLink').style.display = 'none';
-  document.getElementById('doneBox').style.display = 'block';
-  var sb = document.getElementById('stickyBtn');
-  if (sb) { sb.href = DISCORD_INVITE_URL; sb.target = '_blank'; sb.textContent = 'להיכנס לקהילה בחינם 🚀'; sb.onclick = trackJoinClick; }
+  setTimeout(function(){
+    document.getElementById('leadForm').style.display = 'none';
+    document.getElementById('skipLink').style.display = 'none';
+    document.getElementById('doneBox').style.display = 'block';
+    var sb = document.getElementById('stickyBtn');
+    if (sb) { sb.href = DISCORD_INVITE_URL; sb.target = '_blank'; sb.textContent = 'להיכנס לקהילה בחינם 🚀'; sb.onclick = trackJoinClick; }
+  }, 500);
   return false;
 }
 document.addEventListener('DOMContentLoaded', function(){
@@ -302,6 +299,11 @@ function acceptCookie(){
       </ul>
     </div>
 
+    <div class="guide-preview">
+      <img src="../assets/discord-guide-preview.webp" alt="עמוד לדוגמה מתוך המדריך - כלי 1, מאיזו תודעה אתה פועל" loading="lazy" width="700" height="875"/>
+      <p class="guide-preview-caption">עמוד לדוגמה מתוך המדריך</p>
+    </div>
+
     <form class="lead-form" id="leadForm" novalidate onsubmit="return submitLead(event)">
       <input type="text" id="leadName" name="name" placeholder="שם פרטי" autocomplete="given-name" maxlength="40"/>
       <input type="tel" id="leadPhone" name="phone" placeholder="מספר וואטסאפ (050...)" autocomplete="tel" inputmode="tel" maxlength="16" required/>
@@ -331,45 +333,15 @@ function acceptCookie(){
     <div class="proof-shots">
       <div class="proof-shot">
         <span class="proof-tag"><span class="rdot"></span>צילום אמיתי</span>
-        <img src="../assets/discord-proof-channels.png" alt="רשימת החדרים האמיתית בקהילה ב-Discord" loading="lazy"/>
+        <img src="../assets/discord-proof-channels.png" alt="רשימת החדרים האמיתית בקהילה ב-Discord" loading="lazy" width="1179" height="2556"/>
         <p class="proof-caption">החדרים האמיתיים בקהילה, מחולקים לפי נושא</p>
       </div>
       <div class="proof-shot">
         <span class="proof-tag"><span class="rdot"></span>צילום אמיתי</span>
-        <img src="../assets/discord-proof-conversation.png" alt="דיון אמיתי בין חברי הקהילה" loading="lazy"/>
+        <img src="../assets/discord-proof-conversation.png" alt="דיון אמיתי בין חברי הקהילה" loading="lazy" width="1179" height="2556"/>
         <p class="proof-caption">דיון אמיתי שקרה בקהילה השבוע</p>
       </div>
     </div>
-  </div>
-
-  <div class="card">
-    <p class="card-title">למה לא עוד קבוצת ווטסאפ?</p>
-    <div class="compare-row">
-      <div class="compare-item bad">
-        <span class="compare-icon">❌</span>
-        <div class="compare-name">WhatsApp</div>
-        <div class="compare-desc">הכול נעלם בתוך מאות הודעות</div>
-      </div>
-      <div class="compare-item good">
-        <span class="compare-icon">✅</span>
-        <div class="compare-name">Discord</div>
-        <div class="compare-desc">הידע נשאר מסודר ונגיש, תמיד</div>
-      </div>
-    </div>
-    <p class="card-text" style="margin-top:16px;margin-bottom:8px;">מה תמצאו בפנים:</p>
-    <div class="chip-row">
-      <span class="chip">📈 שוק ההון</span>
-      <span class="chip">₿ ביטקוין</span>
-      <span class="chip">💰 פיננסים</span>
-      <span class="chip">🤖 AI</span>
-      <span class="chip">🧠 תודעה</span>
-      <span class="chip">🎤 תקשורת והשפעה</span>
-      <span class="chip">🌱 התפתחות</span>
-    </div>
-  </div>
-
-  <div class="pull-quote">
-    <p>לא בנינו עוד קבוצת הודעות.<br>בנינו מקום שאפשר באמת לצמוח בתוכו.</p>
   </div>
 
   <div class="card">
