@@ -58,7 +58,6 @@ h1 .accent{background:linear-gradient(135deg,var(--blurple-2),var(--blurple));-w
 .trust-text{font-size:12px;color:rgba(255,255,255,.75);line-height:1.5;}
 .trust-text strong{color:#fff;font-family:'Heebo',sans-serif;}
 .trust-text a{color:var(--gold);text-decoration:underline;}
-.placeholder-inline{color:var(--gold);border-bottom:1px dashed rgba(240,192,64,.6);white-space:nowrap;}
 
 .stats-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:20px;animation:fadeUp .5s .18s ease both;}
 .stat-pill{background:rgba(240,192,64,.08);border:1px solid rgba(240,192,64,.3);border-radius:12px;padding:10px 14px;text-align:center;min-width:82px;}
@@ -79,13 +78,6 @@ h1 .accent{background:linear-gradient(135deg,var(--blurple-2),var(--blurple));-w
 .card{width:100%;background:linear-gradient(150deg,rgba(22,22,34,.92),rgba(14,14,22,.96));border:1px solid rgba(88,101,242,.22);border-radius:16px;padding:22px 20px;margin-top:18px;animation:fadeUp .5s ease both;}
 .card-title{font-family:'Heebo',sans-serif;font-size:17.5px;font-weight:900;color:#fff;margin-bottom:10px;text-align:center;}
 .card-text{font-size:14px;color:rgba(255,255,255,.6);line-height:1.75;text-align:center;margin-bottom:16px;}
-
-.proof-shots{display:flex;flex-direction:column;gap:16px;}
-.proof-shot{position:relative;}
-.proof-shot img{width:100%;border-radius:16px;border:1.5px solid rgba(88,101,242,.35);display:block;box-shadow:0 10px 34px rgba(0,0,0,.5);}
-.proof-tag{position:absolute;top:10px;right:10px;background:rgba(8,8,13,.85);backdrop-filter:blur(4px);border:1px solid rgba(240,192,64,.5);color:var(--gold);font-family:'Heebo',sans-serif;font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:99px;display:flex;align-items:center;gap:5px;}
-.proof-tag .rdot{width:6px;height:6px;border-radius:50%;background:#ef4444;animation:pulseBadge 1.6s ease-in-out infinite;}
-.proof-caption{font-size:12px;color:rgba(255,255,255,.5);text-align:center;margin-top:8px;}
 
 .steps{display:flex;flex-direction:column;gap:10px;margin-bottom:6px;}
 .step-item{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:13px 14px;}
@@ -140,18 +132,8 @@ footer .sep{margin:0 6px;color:rgba(255,255,255,.12)}
 .btn-guide{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:52px;border-radius:12px;border:1.5px solid var(--gold);color:var(--gold);font-family:'Heebo',sans-serif;font-size:16px;font-weight:900;margin-bottom:12px;background:rgba(240,192,64,.06);}
 .ig-tip{display:none;font-size:12px;color:rgba(255,255,255,.55);background:rgba(88,101,242,.1);border:1px solid rgba(88,101,242,.3);border-radius:10px;padding:9px 12px;margin-top:12px;line-height:1.6;}
 
-/* Placeholder content markers -- anything with this treatment is NOT real data.
-   Dashed gold border + explicit tag so it's unmistakable in the live page
-   that it still needs to be replaced with a real photo/number before this
-   content should be trusted as genuine by a visitor. Kept intentionally
-   minimal (a small avatar + numeric stat pills) rather than full fabricated
-   bios/quotes, which read as fake to a skeptical cold visitor. */
-.placeholder-tag{display:inline-block;background:rgba(240,192,64,.18);color:var(--gold);font-family:'Heebo',sans-serif;font-weight:800;font-size:9px;padding:2px 8px;border-radius:999px;margin-bottom:6px;letter-spacing:.3px;}
-.photo-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:rgba(255,255,255,.04);border:1.5px dashed rgba(240,192,64,.5);border-radius:50%;color:rgba(240,192,64,.85);font-size:10px;text-align:center;line-height:1.35;flex-shrink:0;}
-
-.video-placeholder{position:relative;width:100%;aspect-ratio:16/9;background:linear-gradient(160deg,#1c1c28,#0b0b12);border:1.5px dashed rgba(240,192,64,.5);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px;}
-.video-placeholder .play-icon{width:52px;height:52px;border-radius:50%;background:rgba(240,192,64,.15);border:1.5px solid rgba(240,192,64,.5);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:20px;}
-.video-note{font-size:11px;color:rgba(240,192,64,.75);max-width:280px;line-height:1.6;text-align:center;}
+.trust-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0;}
+.video-embed{width:100%;aspect-ratio:480/854;border-radius:14px;display:block;background:#000;object-fit:cover;}
 
 .faq{display:flex;flex-direction:column;gap:8px;}
 .faq-item{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:2px 14px;}
@@ -316,18 +298,16 @@ function acceptCookie(){
   <p class="hero-sub">מדריך PDF חינמי מבן נחום, ועוד קהילה חינמית שמתרגלת את זה יחד איתך - שבוע אחרי שבוע.</p>
 
   <div class="trust-strip">
-    <div class="photo-placeholder" style="width:44px;height:44px;font-size:8px;">
-      <span>📷</span>
-    </div>
+    <img class="trust-avatar" src="../assets/ben-nahum-avatar.webp" alt="בן נחום" width="44" height="44" loading="lazy"/>
     <div class="trust-text">
       <strong>בן נחום</strong> · <a href="https://www.instagram.com/ben_nahum_1/" target="_blank" rel="noopener">@ben_nahum_1</a>
     </div>
   </div>
 
   <div class="stats-row">
-    <div class="stat-pill"><b class="placeholder-inline">[מספר]</b><span>חברי קהילה</span></div>
-    <div class="stat-pill"><b class="placeholder-inline">[מספר]</b><span>הורדות מדריך</span></div>
-    <div class="stat-pill"><b class="placeholder-inline">[מספר]</b><span>תלמידים שתרגלו</span></div>
+    <div class="stat-pill"><b>35</b><span>חברי קהילה</span></div>
+    <div class="stat-pill"><b>67</b><span>הורדות מדריך</span></div>
+    <div class="stat-pill"><b>22</b><span>תלמידים שתרגלו</span></div>
   </div>
 
   <div class="guide-card" id="guideForm">
@@ -370,13 +350,9 @@ function acceptCookie(){
   <p class="cta-note">אין לך Discord עדיין? אין בעיה - יש הסבר מלא ופשוט בהמשך הדף.</p>
 
   <div class="card">
-    <p class="card-title">לפני שממשיכים, 90 שניות מבן נחום</p>
+    <p class="card-title">לפני שממשיכים, כמה דקות מבן נחום</p>
     <p class="card-text">מי אני, מה יש במדריך, ולמה שווה לכם 2 דקות התקנה בשביל הקהילה.</p>
-    <div class="video-placeholder">
-      <span class="placeholder-tag">placeholder</span>
-      <div class="play-icon">▶</div>
-      <p class="video-note">החליפו כאן בסרטון אמיתי (עד 90 שניות): מי אתה, מה יש במדריך, ולמה שווה להצטרף לקהילה. אפשר embed מיוטיוב/וימאו, או תג video עם קובץ mp4.</p>
-    </div>
+    <video class="video-embed" src="../assets/ben-nahum-intro.mp4" poster="../assets/ben-nahum-poster.jpg" controls playsinline preload="metadata"></video>
     <a class="btn-discord" href="#guideForm" style="margin-top:16px;">🎁 כן, תנו לי את 7 הכלים</a>
   </div>
 
@@ -384,23 +360,6 @@ function acceptCookie(){
     <p class="card-title">רוצים לראות עוד לפני שמצטרפים?</p>
     <p class="card-text">תעקבו אחרי בן נחום באינסטגרם ותראו את התוכן בעצמכם - בלי מילים שלנו באמצע.</p>
     <a class="btn-guide" href="https://www.instagram.com/ben_nahum_1/" target="_blank" rel="noopener">📸 לעקוב ב-Instagram · @ben_nahum_1</a>
-  </div>
-
-  <div class="card">
-    <p class="card-title">ככה זה נראה בפנים, ממש עכשיו</p>
-    <p class="card-text">לא הדמיה - צילומי מסך אמיתיים מתוך הקהילה שלנו</p>
-    <div class="proof-shots">
-      <div class="proof-shot">
-        <span class="proof-tag"><span class="rdot"></span>צילום אמיתי</span>
-        <img src="../assets/discord-proof-channels.png" alt="רשימת החדרים האמיתית בקהילה ב-Discord" loading="lazy" width="1179" height="2556"/>
-        <p class="proof-caption">החדרים האמיתיים בקהילה, מחולקים לפי נושא</p>
-      </div>
-      <div class="proof-shot">
-        <span class="proof-tag"><span class="rdot"></span>צילום אמיתי</span>
-        <img src="../assets/discord-proof-conversation.png" alt="דיון אמיתי בין חברי הקהילה" loading="lazy" width="1179" height="2556"/>
-        <p class="proof-caption">דיון אמיתי שקרה בקהילה השבוע</p>
-      </div>
-    </div>
   </div>
 
   <div class="card">
@@ -482,7 +441,7 @@ function acceptCookie(){
 
   <div class="scarcity">
     <p class="scarcity-num">הקהילה <strong>גדלה</strong> - כל יום מצטרפים עוד אנשים</p>
-    <p class="scarcity-progress">כרגע <span class="placeholder-inline">[מספר]</span> מתוך 500 מקומות תפוסים</p>
+    <p class="scarcity-progress">כרגע <span style="color:var(--gold);">35</span> מתוך 500 מקומות תפוסים</p>
     <p class="scarcity-text">השלב החינמי הזה קיים כי אני רוצה להכיר אישית את מי שנכנס עכשיו ולהיות זמין לכל שאלה - וזה לא יישאר ככה כשהקהילה תגדל.</p>
     <p class="scarcity-warn">ברגע שנגיע ל-500 חברים - ההצטרפות החינמית נסגרת.</p>
     <p class="scarcity-warn" style="color:rgba(255,255,255,.55);font-weight:700;">אל תיתן לדקה של התקנה לגרום לך להישאר בחוץ.</p>
