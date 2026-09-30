@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-<title>בן נחום | המדריך "לשנות את הסיפור" + קהילה חינמית</title>
+<title>בן נחום | תפסיק לתת לסיפור הישן לנהל את החיים שלך</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800;900&family=Assistant:wght@400;500;600;700&display=swap" rel="stylesheet"/>
@@ -50,18 +50,14 @@ a{text-decoration:none;color:inherit}
 .top-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(88,101,242,.14);border:1px solid rgba(88,101,242,.45);color:#a3b1ff;font-family:'Heebo',sans-serif;font-size:12.5px;font-weight:800;border-radius:99px;padding:7px 16px;margin:26px 0 18px;letter-spacing:.2px;animation:fadeUp .5s ease both,pulseBadge 2.4s ease-in-out infinite;}
 .top-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--blurple);}
 
-h1{font-family:'Heebo',sans-serif;font-size:clamp(28px,7.5vw,42px);font-weight:900;line-height:1.16;text-align:center;margin-bottom:12px;color:#fff;animation:fadeUp .5s .05s ease both;letter-spacing:-.3px;}
+h1{font-family:'Heebo',sans-serif;font-size:clamp(26px,7vw,38px);font-weight:900;line-height:1.22;text-align:center;margin-bottom:12px;color:#fff;animation:fadeUp .5s .05s ease both;letter-spacing:-.3px;}
 h1 .accent{background:linear-gradient(135deg,var(--blurple-2),var(--blurple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.hero-sub{font-size:clamp(15px,3.8vw,17px);color:rgba(255,255,255,.66);text-align:center;line-height:1.7;max-width:420px;margin-bottom:18px;animation:fadeUp .5s .1s ease both;}
+.hero-sub{font-size:clamp(15px,3.8vw,17px);color:rgba(255,255,255,.66);text-align:center;line-height:1.7;max-width:420px;margin-bottom:16px;animation:fadeUp .5s .1s ease both;}
 
-.hero-proof{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:22px;animation:fadeUp .5s .15s ease both;}
-.hero-proof .avatars{display:flex;}
-.hero-proof .avatars span{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--blurple-2),var(--blurple));border:2px solid #08080d;margin-inline-start:-9px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff;animation:avatarPop 2.4s ease-in-out infinite;}
-.hero-proof .avatars span:first-child{margin-inline-start:0}
-.hero-proof .avatars span:nth-child(2){animation-delay:.2s}
-.hero-proof .avatars span:nth-child(3){animation-delay:.4s}
-.hero-proof span.label{font-size:12.5px;font-weight:700;color:rgba(255,255,255,.7);}
-.hero-proof span.label strong{color:var(--gold);}
+.trust-strip{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:99px;padding:8px 16px 8px 8px;margin-bottom:20px;animation:fadeUp .5s .15s ease both;}
+.trust-text{font-size:12px;color:rgba(255,255,255,.75);line-height:1.5;}
+.trust-text strong{color:#fff;font-family:'Heebo',sans-serif;}
+.placeholder-inline{color:var(--gold);border-bottom:1px dashed rgba(240,192,64,.6);white-space:nowrap;}
 
 .btn-discord{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;max-width:400px;height:60px;background:linear-gradient(135deg,var(--gold-2),var(--gold));color:#1a1400;font-family:'Heebo',sans-serif;font-size:18px;font-weight:900;border:none;border-radius:13px;cursor:pointer;position:relative;overflow:hidden;letter-spacing:.2px;box-shadow:0 8px 30px rgba(240,192,64,.45);transition:transform .2s,box-shadow .2s;animation:ctaGlow 2.6s ease-in-out infinite,ctaWiggle 4.5s 1.5s ease-in-out infinite;}
 .btn-discord:hover{transform:translateY(-2px) scale(1.01);box-shadow:0 12px 40px rgba(240,192,64,.7);animation-play-state:paused;}
@@ -92,7 +88,7 @@ h1 .accent{background:linear-gradient(135deg,var(--blurple-2),var(--blurple));-w
 .steps-caption{font-size:12px;color:rgba(255,255,255,.4);text-align:center;margin-top:10px;}
 
 .scarcity{width:100%;background:linear-gradient(150deg,rgba(237,66,69,.12),rgba(22,14,14,.94));border:1.5px solid rgba(237,66,69,.4);border-radius:16px;padding:22px 20px;margin-top:18px;text-align:center;}
-.scarcity-num{font-family:'Heebo',sans-serif;font-size:clamp(24px,6.5vw,30px);font-weight:900;color:#fff;margin-bottom:10px;}
+.scarcity-num{font-family:'Heebo',sans-serif;font-size:clamp(22px,6vw,28px);font-weight:900;color:#fff;margin-bottom:10px;}
 .scarcity-num strong{color:#ff8a8d;}
 .scarcity-text{font-size:13.5px;color:rgba(255,255,255,.62);line-height:1.7;margin-bottom:12px;}
 .scarcity-warn{font-family:'Heebo',sans-serif;font-size:14px;font-weight:800;color:#ff8a8d;line-height:1.6;margin-bottom:4px;}
@@ -129,12 +125,46 @@ footer .sep{margin:0 6px;color:rgba(255,255,255,.12)}
 .consent{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:rgba(255,255,255,.55);line-height:1.5;cursor:pointer;}
 .consent input{margin-top:3px;width:16px;height:16px;accent-color:#f0c040;flex-shrink:0;}
 .form-err{display:none;font-size:12.5px;color:#ff8a8d;text-align:center;}
-.skip-link{display:block;text-align:center;font-size:13px;color:#a3b1ff;text-decoration:underline;margin-top:12px;}
+.skip-link{display:block;text-align:center;font-size:11.5px;color:rgba(255,255,255,.4);text-decoration:underline;margin-top:14px;}
 .done-box{display:none;text-align:center;}
 .done-box h3{font-family:'Heebo',sans-serif;font-size:21px;font-weight:900;margin-bottom:6px;}
 .done-box p{font-size:14px;color:rgba(255,255,255,.65);line-height:1.7;margin-bottom:14px;}
 .btn-guide{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:52px;border-radius:12px;border:1.5px solid var(--gold);color:var(--gold);font-family:'Heebo',sans-serif;font-size:16px;font-weight:900;margin-bottom:12px;background:rgba(240,192,64,.06);}
 .ig-tip{display:none;font-size:12px;color:rgba(255,255,255,.55);background:rgba(88,101,242,.1);border:1px solid rgba(88,101,242,.3);border-radius:10px;padding:9px 12px;margin-top:12px;line-height:1.6;}
+
+/* Placeholder content markers -- anything with this treatment is NOT real data.
+   Dashed gold border + explicit tag so it's unmistakable in the live page
+   that it still needs to be replaced with a real photo/bio/testimonial
+   before this content should be trusted as genuine by a visitor. */
+.placeholder-tag{display:inline-block;background:rgba(240,192,64,.18);color:var(--gold);font-family:'Heebo',sans-serif;font-weight:800;font-size:9px;padding:2px 8px;border-radius:999px;margin-bottom:6px;letter-spacing:.3px;}
+.photo-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:rgba(255,255,255,.04);border:1.5px dashed rgba(240,192,64,.5);border-radius:50%;color:rgba(240,192,64,.85);font-size:10px;text-align:center;line-height:1.35;flex-shrink:0;}
+
+.about-photo-wrap{display:flex;justify-content:center;margin-bottom:14px;}
+.about-photo-placeholder{width:110px;height:110px;font-size:11px;}
+.about-stats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+.stat-pill{background:rgba(240,192,64,.08);border:1px solid rgba(240,192,64,.3);border-radius:12px;padding:10px 14px;text-align:center;min-width:82px;}
+.stat-pill b{display:block;font-family:'Heebo',sans-serif;font-size:17px;font-weight:900;color:var(--gold);}
+.stat-pill span{font-size:10px;color:rgba(255,255,255,.6);}
+.about-bio{text-align:right;}
+
+.testimonials{display:flex;flex-direction:column;gap:14px;}
+.testimonial-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px;}
+.stars{font-size:13px;margin-bottom:8px;text-align:center;letter-spacing:2px;}
+.testimonial-quote{font-size:13.5px;color:rgba(255,255,255,.8);line-height:1.7;text-align:center;margin-bottom:12px;font-style:italic;}
+.testimonial-author{display:flex;align-items:center;gap:10px;justify-content:center;}
+.testimonial-avatar{width:38px;height:38px;font-size:13px;}
+.testimonial-author .who{text-align:right;}
+.testimonial-author b{display:block;font-family:'Heebo',sans-serif;font-size:13px;color:#fff;}
+.testimonial-author span{font-size:11px;color:rgba(255,255,255,.5);}
+
+.faq{display:flex;flex-direction:column;gap:8px;}
+.faq-item{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:2px 14px;}
+.faq-item summary{cursor:pointer;padding:12px 0;font-family:'Heebo',sans-serif;font-size:13.5px;font-weight:700;color:#fff;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.faq-item summary::-webkit-details-marker{display:none;}
+.faq-item summary::after{content:'+';color:var(--gold);font-size:18px;font-weight:900;flex-shrink:0;transition:transform .2s;}
+.faq-item[open] summary::after{transform:rotate(45deg);}
+.faq-item p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;padding-bottom:14px;margin:0;}
+
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;}
 }
@@ -258,7 +288,7 @@ function submitLead(ev){
     document.getElementById('skipLink').style.display = 'none';
     document.getElementById('doneBox').style.display = 'block';
     var sb = document.getElementById('stickyBtn');
-    if (sb) { sb.href = DISCORD_INVITE_URL; sb.target = '_blank'; sb.textContent = 'להיכנס לקהילה בחינם 🚀'; sb.onclick = trackJoinClick; }
+    if (sb) { sb.href = DISCORD_INVITE_URL; sb.target = '_blank'; sb.textContent = '🚀 להצטרף לקהילה עכשיו'; sb.onclick = trackJoinClick; }
   }, 500);
   return false;
 }
@@ -284,10 +314,19 @@ function acceptCookie(){
 
 <div class="page-wrap">
 
-  <div class="top-badge"><span class="dot"></span>🎁 מתנה + קהילה חינמית</div>
+  <div class="top-badge"><span class="dot"></span>🎁 מדריך חינם + קהילה חינמית</div>
 
-  <h1>המדריך "לשנות את הסיפור" <span class="accent">+ קהילה חינמית</span></h1>
-  <p class="hero-sub">7 כלים קצרים של בן נחום לשנות את הסיפור שאתה מספר לעצמך על כסף, רגש והחלטות. ומקום בקהילה שבה מתרגלים את זה יחד.</p>
+  <h1>תפסיק לתת ל<span class="accent">סיפור הישן</span> שלך לנהל את הכסף, הרגש וההחלטות שלך</h1>
+  <p class="hero-sub">מדריך PDF חינמי עם 7 כלים פשוטים מבן נחום, ועוד קהילה חינמית שמתרגלת את זה יחד איתך - שבוע אחרי שבוע.</p>
+
+  <div class="trust-strip">
+    <div class="photo-placeholder" style="width:44px;height:44px;font-size:8px;">
+      <span>📷</span>
+    </div>
+    <div class="trust-text">
+      <strong>בן נחום</strong> · <span class="placeholder-inline">[X] שנות ניסיון</span> · <span class="placeholder-inline">[Y] תלמידים</span>
+    </div>
+  </div>
 
   <div class="guide-card" id="guideForm">
     <div class="guide-head">
@@ -309,7 +348,8 @@ function acceptCookie(){
       <input type="tel" id="leadPhone" name="phone" placeholder="מספר וואטסאפ (050...)" autocomplete="tel" inputmode="tel" maxlength="16" required/>
       <label class="consent"><input type="checkbox" id="leadConsent"/> <span>מאשר/ת לקבל מבן נחום עדכונים ותוכן בוואטסאפ (אפשר להסיר בכל רגע)</span></label>
       <p class="form-err" id="formErr">נראה שמספר הטלפון לא תקין. נסו שוב 🙏</p>
-      <button type="submit" class="btn-discord" id="heroCta" style="max-width:none;">🎁 שלחו לי את המדריך</button>
+      <button type="submit" class="btn-discord" id="heroCta" style="max-width:none;">🎁 כן, שלחו לי את המדריך</button>
+      <p class="cta-note" style="margin-top:2px;">🔒 הפרטים שלך מוצפנים ולא מועברים לאף גורם שלישי</p>
     </form>
 
     <div class="done-box" id="doneBox">
@@ -318,14 +358,60 @@ function acceptCookie(){
       <a class="btn-guide" href="/landing-pages/ben-nahum-guide.pdf" target="_blank" rel="noopener" onclick="trackMetric('guide_download')">📘 להוריד את המדריך</a>
       <a class="btn-discord" href="https://discord.gg/UbbCvQMCgY" target="_blank" rel="noopener noreferrer" onclick="trackJoinClick()" style="max-width:none;">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 6.5C4 5.12 5.12 4 6.5 4h11A2.5 2.5 0 0 1 20 6.5v13a.5.5 0 0 1-.8.4l-2.85-2.14a1 1 0 0 0-.6-.2H6.5A2.5 2.5 0 0 1 4 15V6.5Z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/><circle cx="9" cy="11" r="1.3" fill="white"/><circle cx="15" cy="11" r="1.3" fill="white"/><path d="M8.5 14.5c1.2.7 2.3 1 3.5 1s2.3-.3 3.5-1" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
-        להיכנס לקהילה בחינם 🚀
+        🚀 להצטרף לקהילה עכשיו
       </a>
     </div>
 
     <p class="ig-tip" id="igTip">💡 פתחתם מתוך אינסטגרם? אם הקהילה לא נפתחת באפליקציית Discord, לחצו על שלוש הנקודות למעלה ובחרו "פתח בדפדפן".</p>
-    <a class="skip-link" id="skipLink" href="https://discord.gg/UbbCvQMCgY" target="_blank" rel="noopener noreferrer" onclick="trackJoinClick()">רק רוצה להיכנס לקהילה, בלי המדריך ←</a>
+    <a class="skip-link" id="skipLink" href="https://discord.gg/UbbCvQMCgY" target="_blank" rel="noopener noreferrer" onclick="trackJoinClick()">מעדיפים לדלג על המדריך ולהיכנס ישר לקהילה? ←</a>
   </div>
-  <p class="cta-note">אין לך Discord עדיין? אין בעיה - הלחיצה תוביל אותך לתהליך ההצטרפות.</p>
+  <p class="cta-note">אין לך Discord עדיין? אין בעיה - יש הסבר מלא ופשוט בהמשך הדף.</p>
+
+  <div class="card">
+    <p class="card-title">מי זה בן נחום?</p>
+    <div class="about-photo-wrap">
+      <div class="photo-placeholder about-photo-placeholder">
+        <span class="placeholder-tag">placeholder</span>
+        📷 החליפו בתמונה שלכם
+      </div>
+    </div>
+    <div class="about-stats">
+      <div class="stat-pill"><b>[X]</b><span>שנות ניסיון</span></div>
+      <div class="stat-pill"><b>[Y]</b><span>תלמידים</span></div>
+      <div class="stat-pill"><b>[Z]</b><span>[נתון סמכות נוסף]</span></div>
+    </div>
+    <p class="card-text about-bio">[placeholder: 2-3 משפטים על הרקע והניסיון שלך. מה גרם לך להתחיל ללמד את זה? למה אתה הכתובת הנכונה לנושא הזה? אפשר גם לינק לאינסטגרם @ben_nahum_1]</p>
+  </div>
+
+  <div class="card">
+    <p class="card-title">מה אומרים חברי הקהילה</p>
+    <div class="testimonials">
+      <div class="testimonial-card">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p class="testimonial-quote">"[placeholder: ציטוט אמיתי מתלמיד/חבר קהילה שמתאר תוצאה קונקרטית]"</p>
+        <div class="testimonial-author">
+          <div class="photo-placeholder testimonial-avatar">📷</div>
+          <div class="who"><b>[שם התלמיד]</b><span>[הקשר קצר, למשל: חבר קהילה מאז 2025]</span></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p class="testimonial-quote">"[placeholder: ציטוט שני, רצוי על תוצאה שונה מהראשון]"</p>
+        <div class="testimonial-author">
+          <div class="photo-placeholder testimonial-avatar">📷</div>
+          <div class="who"><b>[שם התלמיד]</b><span>[הקשר קצר]</span></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p class="testimonial-quote">"[placeholder: ציטוט שלישי, אפשר על החוויה בקהילה עצמה ולא רק על המדריך]"</p>
+        <div class="testimonial-author">
+          <div class="photo-placeholder testimonial-avatar">📷</div>
+          <div class="who"><b>[שם התלמיד]</b><span>[הקשר קצר]</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="card">
     <p class="card-title">ככה זה נראה בפנים, ממש עכשיו</p>
@@ -345,8 +431,19 @@ function acceptCookie(){
   </div>
 
   <div class="card">
-    <p class="card-title">איך נכנסים?</p>
-    <p class="card-text" style="margin-bottom:14px;">זה פשוט ולוקח בערך דקה:</p>
+    <p class="card-title">למה בכלל להצטרף לקהילה?</p>
+    <p class="card-text">המדריך נותן לך את הכלים. הקהילה היא המקום שבו הם הופכים להרגל.</p>
+    <div class="steps">
+      <div class="step-item"><span class="step-num" style="font-size:15px;">💬</span><span class="step-text">שואלים שאלות ומקבלים תשובות בזמן אמת, לא רק קוראים לבד</span></div>
+      <div class="step-item"><span class="step-num" style="font-size:15px;">🎯</span><span class="step-text">מתרגלים יחד עם אנשים שנמצאים באותו מסע, ולא נשארים עם זה לבד</span></div>
+      <div class="step-item"><span class="step-num" style="font-size:15px;">📈</span><span class="step-text">תוכן ומשימות חדשות כל שבוע, לא רק PDF אחד ותו לא</span></div>
+      <div class="step-item"><span class="step-num" style="font-size:15px;">🤝</span><span class="step-text">גישה ישירה לבן נחום עצמו, לא רק דרך רשתות חברתיות</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="card-title">אף פעם לא השתמשת ב-Discord? זה בסדר גמור</p>
+    <p class="card-text" style="margin-bottom:14px;">זה עובד בדיוק כמו וואטסאפ או טלגרם - רק מסודר יותר. אין צורך בשום ידע טכני, וזה לוקח פחות מ-2 דקות:</p>
     <div class="steps">
       <div class="step-item"><span class="step-num">1</span><span class="step-text">לוחצים על הכפתור למטה</span></div>
       <div class="step-item"><span class="step-num">2</span><span class="step-text">אם עדיין אין לך Discord - מורידים את האפליקציה בחינם</span></div>
@@ -364,9 +461,43 @@ function acceptCookie(){
   </div>
   -->
 
+  <div class="card">
+    <p class="card-title">שאלות נפוצות</p>
+    <div class="faq">
+      <details class="faq-item">
+        <summary>זה באמת בחינם, בלי עלות נסתרת?</summary>
+        <p>כן. גם המדריך וגם ההצטרפות לקהילה חינמיים לגמרי, בלי כרטיס אשראי ובלי שום התחייבות.</p>
+      </details>
+      <details class="faq-item">
+        <summary>אני לא מכיר Discord בכלל, זה יהיה לי מסובך?</summary>
+        <p>ממש לא. זה עובד כמו וואטסאפ, ולוקח פחות מ-2 דקות להתקין ולהצטרף. יש הסבר מלא למעלה בדף.</p>
+      </details>
+      <details class="faq-item">
+        <summary>למה בכלל להצטרף לקהילה ולא רק לקרוא את המדריך?</summary>
+        <p>כלים עובדים הכי טוב כשמתרגלים אותם יחד עם אחרים, שואלים שאלות ומקבלים תמיכה - לא רק קוראים לבד ושוכחים תוך יומיים.</p>
+      </details>
+      <details class="faq-item">
+        <summary>תשלחו לי ספאם בוואטסאפ?</summary>
+        <p>לא. המספר משמש לשליחת המדריך, ורק אם תאשרו זאת בתיבת ההסכמה - גם עדכונים ותוכן נוסף. אפשר להסיר את עצמכם בכל רגע.</p>
+      </details>
+      <details class="faq-item">
+        <summary>חייבים להשאיר מספר טלפון?</summary>
+        <p>לא. אם אתם רק רוצים להצטרף לקהילה בלי המדריך, יש לכך אפשרות נפרדת מתחת לטופס.</p>
+      </details>
+      <details class="faq-item">
+        <summary>כמה זמן לוקח לעבור על המדריך?</summary>
+        <p>פחות מ-20 דקות בסך הכול. כל כלי לוקח כ-5 דקות לקרוא ולתרגל.</p>
+      </details>
+      <details class="faq-item">
+        <summary>מי זה בן נחום ולמה לסמוך עליו?</summary>
+        <p>[placeholder: תשובה קצרה עם הרקע שלך - אפשר להעתיק ולקצר מהאזור "מי זה בן נחום" למעלה בדף]</p>
+      </details>
+    </div>
+  </div>
+
   <div class="scarcity">
     <p class="scarcity-num">הקהילה <strong>גדלה</strong> - כל יום מצטרפים עוד אנשים</p>
-    <p class="scarcity-text">ועדיין יש מקום בשלב החינמי - 500 המקומות הראשונים פתוחים בחינם. מי שנכנס עכשיו לא רק מקבל גישה לתוכן - הוא נכנס מההתחלה, מכיר את האנשים הראשונים והופך לחלק מהקהילה כשהיא נבנית וצומחת.</p>
+    <p class="scarcity-text">ועדיין יש מקום בשלב החינמי - 500 המקומות הראשונים פתוחים בחינם. השלב הזה חינמי כי אני רוצה להכיר אישית את מי שנכנס עכשיו ולהיות זמין לכל שאלה - וזה לא יישאר ככה כשהקהילה תגדל.</p>
     <p class="scarcity-warn">ברגע שנגיע ל-500 חברים - ההצטרפות החינמית נסגרת.</p>
     <p class="scarcity-warn" style="color:rgba(255,255,255,.55);font-weight:700;">אל תיתן לדקה של התקנה לגרום לך להישאר בחוץ.</p>
   </div>
@@ -374,14 +505,14 @@ function acceptCookie(){
   <div class="card" style="text-align:center;">
     <a class="btn-discord" href="#guideForm" style="margin:0 auto;">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 6.5C4 5.12 5.12 4 6.5 4h11A2.5 2.5 0 0 1 20 6.5v13a.5.5 0 0 1-.8.4l-2.85-2.14a1 1 0 0 0-.6-.2H6.5A2.5 2.5 0 0 1 4 15V6.5Z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/><circle cx="9" cy="11" r="1.3" fill="white"/><circle cx="15" cy="11" r="1.3" fill="white"/><path d="M8.5 14.5c1.2.7 2.3 1 3.5 1s2.3-.3 3.5-1" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
-      🎁 המדריך + הקהילה, בחינם
+      🎁 קבלו את המדריך בחינם
     </a>
   </div>
 
 </div>
 
 <div class="sticky-cta">
-  <a class="btn-discord" id="stickyBtn" href="#guideForm">🎁 המדריך + הקהילה, בחינם</a>
+  <a class="btn-discord" id="stickyBtn" href="#guideForm">🎁 קבלו את המדריך בחינם</a>
   <div class="sticky-sub">מדריך PDF מתנה • קהילה חינמית • ללא התחייבות</div>
 </div>
 
