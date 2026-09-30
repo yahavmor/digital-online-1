@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-<title>דיגיטל אונליין | הצטרפו לקהילה שלנו ב-Discord</title>
+<title>בן נחום | המדריך "לשנות את הסיפור" + קהילה חינמית</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800;900&family=Assistant:wght@400;500;600;700&display=swap" rel="stylesheet"/>
@@ -125,6 +125,27 @@ footer .sep{margin:0 6px;color:rgba(255,255,255,.12)}
 .sticky-cta .btn-discord{max-width:420px;height:54px;font-size:16px;margin-bottom:5px;}
 .sticky-sub{font-size:10.5px;color:rgba(255,255,255,.4);text-align:center;}
 
+
+.guide-card{width:100%;background:linear-gradient(150deg,rgba(40,32,10,.55),rgba(14,14,22,.96));border:1.5px solid rgba(240,192,64,.45);border-radius:18px;padding:20px 18px 18px;margin-bottom:6px;animation:fadeUp .5s .2s ease both;}
+.guide-head{display:flex;gap:14px;align-items:center;margin-bottom:14px;}
+.guide-cover{width:74px;height:96px;flex-shrink:0;border-radius:8px;background:linear-gradient(160deg,#1c1c28,#0b0b12);border:1px solid rgba(240,192,64,.6);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6px;box-shadow:0 8px 22px rgba(0,0,0,.5);}
+.guide-cover b{font-family:'Heebo',sans-serif;font-weight:900;font-size:12.5px;line-height:1.2;color:var(--gold);}
+.guide-cover small{font-size:9.5px;color:rgba(255,255,255,.6);margin-top:5px;}
+.guide-list{list-style:none;font-size:13.5px;color:rgba(255,255,255,.8);line-height:1.8;}
+.guide-list li::before{content:'✓ ';color:var(--gold);font-weight:900;}
+.lead-form{display:flex;flex-direction:column;gap:10px;}
+.lead-form input[type=text],.lead-form input[type=tel]{width:100%;height:52px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:#fff;font-size:16px;padding:0 14px;direction:rtl;}
+.lead-form input[type=tel]{direction:ltr;text-align:right;}
+.lead-form input:focus{border-color:var(--gold);}
+.consent{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:rgba(255,255,255,.55);line-height:1.5;cursor:pointer;}
+.consent input{margin-top:3px;width:16px;height:16px;accent-color:#f0c040;flex-shrink:0;}
+.form-err{display:none;font-size:12.5px;color:#ff8a8d;text-align:center;}
+.skip-link{display:block;text-align:center;font-size:13px;color:#a3b1ff;text-decoration:underline;margin-top:12px;}
+.done-box{display:none;text-align:center;}
+.done-box h3{font-family:'Heebo',sans-serif;font-size:21px;font-weight:900;margin-bottom:6px;}
+.done-box p{font-size:14px;color:rgba(255,255,255,.65);line-height:1.7;margin-bottom:14px;}
+.btn-guide{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:52px;border-radius:12px;border:1.5px solid var(--gold);color:var(--gold);font-family:'Heebo',sans-serif;font-size:16px;font-weight:900;margin-bottom:12px;background:rgba(240,192,64,.06);}
+.ig-tip{display:none;font-size:12px;color:rgba(255,255,255,.55);background:rgba(88,101,242,.1);border:1px solid rgba(88,101,242,.3);border-radius:10px;padding:9px 12px;margin-top:12px;line-height:1.6;}
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;}
 }
@@ -207,6 +228,48 @@ document.addEventListener('DOMContentLoaded', function(){
     stickyCta.classList.add('visible'); // no IO support: fail open rather than hiding the CTA entirely
   }
 });
+
+const LEAD_HOOK = 'https://hook.eu1.make.com/ty18n2vppa1pphgodpkzh660ycc64cg7';
+const DISCORD_INVITE_URL = 'https://discord.gg/UbbCvQMCgY';
+function trackMetric(metric){
+  try { fetch(TRACK_HOOK, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ metric:metric, panel:PANEL }), keepalive:true}).catch(function(){}); } catch(e) {}
+}
+function normPhone(v){
+  var d = (v||'').replace(/[^0-9]/g,'');
+  if (d.indexOf('972') === 0) d = '0' + d.slice(3);
+  return d;
+}
+var leadSent = 0;
+function submitLead(ev){
+  ev.preventDefault();
+  var ph = normPhone(document.getElementById('leadPhone').value);
+  var err = document.getElementById('formErr');
+  if (!/^05\d{8}$/.test(ph)) { err.style.display = 'block'; return false; }
+  err.style.display = 'none';
+  if (!leadSent) {
+    leadSent = 1;
+    try {
+      fetch(LEAD_HOOK, {method:'POST', headers:{'Content-Type':'application/json'}, keepalive:true,
+        body: JSON.stringify({ name: document.getElementById('leadName').value || '', phone: ph,
+          consent: document.getElementById('leadConsent').checked, source: 'landing_discord',
+          utm_source: p.src || '', utm_campaign: p.campaign || '' })}).catch(function(){});
+    } catch(e) {}
+    trackMetric('guide_submit');
+    try { dataLayer.push({event:'lead_submit', page:PAGE, utm_source:p.src}); } catch(e) {}
+    try { if (typeof fbq !== 'undefined') fbq('track', 'Lead'); } catch(e) {}
+  }
+  document.getElementById('leadForm').style.display = 'none';
+  document.getElementById('skipLink').style.display = 'none';
+  document.getElementById('doneBox').style.display = 'block';
+  var sb = document.getElementById('stickyBtn');
+  if (sb) { sb.href = DISCORD_INVITE_URL; sb.target = '_blank'; sb.textContent = 'להיכנס לקהילה בחינם 🚀'; sb.onclick = trackJoinClick; }
+  return false;
+}
+document.addEventListener('DOMContentLoaded', function(){
+  if (/Instagram|FBAN|FBAV/i.test(navigator.userAgent || '')) {
+    var t = document.getElementById('igTip'); if (t) t.style.display = 'block';
+  }
+});
 function acceptCookie(){
   localStorage.setItem('ck','1');
   var cb=document.getElementById('cookieBanner'); if(cb) cb.style.display='none';
@@ -224,20 +287,42 @@ function acceptCookie(){
 
 <div class="page-wrap">
 
-  <div class="top-badge"><span class="dot"></span>500 המקומות הראשונים בלבד</div>
+  <div class="top-badge"><span class="dot"></span>🎁 מתנה + קהילה חינמית</div>
 
-  <h1>עוד דקה ואתה <span class="accent">בתוך הקהילה</span> 🚀</h1>
-  <p class="hero-sub">קהילה אמיתית ומסודרת ב-Discord - לא עוד קבוצת ווטסאפ שבה הכול נעלם בתוך מאות הודעות.</p>
+  <h1>המדריך "לשנות את הסיפור" <span class="accent">+ קהילה חינמית</span></h1>
+  <p class="hero-sub">7 כלים קצרים של בן נחום לשנות את הסיפור שאתה מספר לעצמך על כסף, רגש והחלטות. ומקום בקהילה שבה מתרגלים את זה יחד.</p>
 
-  <div class="hero-proof">
-    <span class="avatars"><span>ר</span><span>מ</span><span>א</span></span>
-    <span class="label">הקהילה <strong>גדלה</strong> - מצטרפים עוד אנשים כל יום</span>
+  <div class="guide-card" id="guideForm">
+    <div class="guide-head">
+      <div class="guide-cover"><b>לשנות<br>את הסיפור</b><small>7 כלים · PDF</small></div>
+      <ul class="guide-list">
+        <li>מאיזו תודעה אתה פועל עם כסף</li>
+        <li>למה הרגש מחליט לפני ההיגיון</li>
+        <li>תרגיל קצר לכל כלי, 5 דקות</li>
+      </ul>
+    </div>
+
+    <form class="lead-form" id="leadForm" novalidate onsubmit="return submitLead(event)">
+      <input type="text" id="leadName" name="name" placeholder="שם פרטי" autocomplete="given-name" maxlength="40"/>
+      <input type="tel" id="leadPhone" name="phone" placeholder="מספר וואטסאפ (050...)" autocomplete="tel" inputmode="tel" maxlength="16" required/>
+      <label class="consent"><input type="checkbox" id="leadConsent"/> <span>מאשר/ת לקבל מבן נחום עדכונים ותוכן בוואטסאפ (אפשר להסיר בכל רגע)</span></label>
+      <p class="form-err" id="formErr">נראה שמספר הטלפון לא תקין. נסו שוב 🙏</p>
+      <button type="submit" class="btn-discord" id="heroCta" style="max-width:none;">🎁 שלחו לי את המדריך</button>
+    </form>
+
+    <div class="done-box" id="doneBox">
+      <h3>המדריך שלך מוכן 🎉</h3>
+      <p>הורידו אותו עכשיו, ואז בואו לקהילה. ביום ראשון עולה שם משימת השבוע, וביום חמישי משתפים ניצחונות.</p>
+      <a class="btn-guide" href="/landing-pages/ben-nahum-guide.pdf" target="_blank" rel="noopener" onclick="trackMetric('guide_download')">📘 להוריד את המדריך</a>
+      <a class="btn-discord" href="https://discord.gg/UbbCvQMCgY" target="_blank" rel="noopener noreferrer" onclick="trackJoinClick()" style="max-width:none;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 6.5C4 5.12 5.12 4 6.5 4h11A2.5 2.5 0 0 1 20 6.5v13a.5.5 0 0 1-.8.4l-2.85-2.14a1 1 0 0 0-.6-.2H6.5A2.5 2.5 0 0 1 4 15V6.5Z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/><circle cx="9" cy="11" r="1.3" fill="white"/><circle cx="15" cy="11" r="1.3" fill="white"/><path d="M8.5 14.5c1.2.7 2.3 1 3.5 1s2.3-.3 3.5-1" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
+        להיכנס לקהילה בחינם 🚀
+      </a>
+    </div>
+
+    <p class="ig-tip" id="igTip">💡 פתחתם מתוך אינסטגרם? אם הקהילה לא נפתחת באפליקציית Discord, לחצו על שלוש הנקודות למעלה ובחרו "פתח בדפדפן".</p>
+    <a class="skip-link" id="skipLink" href="https://discord.gg/UbbCvQMCgY" target="_blank" rel="noopener noreferrer" onclick="trackJoinClick()">רק רוצה להיכנס לקהילה, בלי המדריך ←</a>
   </div>
-
-  <a class="btn-discord" id="heroCta" href="https://discord.gg/UbbCvQMCgY" target="_blank" rel="noopener noreferrer" onclick="trackJoinClick()">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 6.5C4 5.12 5.12 4 6.5 4h11A2.5 2.5 0 0 1 20 6.5v13a.5.5 0 0 1-.8.4l-2.85-2.14a1 1 0 0 0-.6-.2H6.5A2.5 2.5 0 0 1 4 15V6.5Z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/><circle cx="9" cy="11" r="1.3" fill="white"/><circle cx="15" cy="11" r="1.3" fill="white"/><path d="M8.5 14.5c1.2.7 2.3 1 3.5 1s2.3-.3 3.5-1" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
-    אני רוצה להיכנס לקהילה בחינם 🚀
-  </a>
   <p class="cta-note">אין לך Discord עדיין? אין בעיה - הלחיצה תוביל אותך לתהליך ההצטרפות.</p>
 
   <div class="card">
@@ -315,21 +400,17 @@ function acceptCookie(){
   </div>
 
   <div class="card" style="text-align:center;">
-    <a class="btn-discord" href="https://discord.gg/UbbCvQMCgY" target="_blank" rel="noopener noreferrer" onclick="trackJoinClick()" style="margin:0 auto;">
+    <a class="btn-discord" href="#guideForm" style="margin:0 auto;">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 6.5C4 5.12 5.12 4 6.5 4h11A2.5 2.5 0 0 1 20 6.5v13a.5.5 0 0 1-.8.4l-2.85-2.14a1 1 0 0 0-.6-.2H6.5A2.5 2.5 0 0 1 4 15V6.5Z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/><circle cx="9" cy="11" r="1.3" fill="white"/><circle cx="15" cy="11" r="1.3" fill="white"/><path d="M8.5 14.5c1.2.7 2.3 1 3.5 1s2.3-.3 3.5-1" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
-      אני רוצה להיכנס לקהילה בחינם 🚀
+      🎁 המדריך + הקהילה, בחינם
     </a>
-    <p class="cta-note">אין לך Discord עדיין? אין בעיה - הלחיצה תוביל אותך לתהליך ההצטרפות.</p>
   </div>
 
 </div>
 
 <div class="sticky-cta">
-  <a class="btn-discord" href="https://discord.gg/UbbCvQMCgY" target="_blank" rel="noopener noreferrer" onclick="trackJoinClick()">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 6.5C4 5.12 5.12 4 6.5 4h11A2.5 2.5 0 0 1 20 6.5v13a.5.5 0 0 1-.8.4l-2.85-2.14a1 1 0 0 0-.6-.2H6.5A2.5 2.5 0 0 1 4 15V6.5Z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/><circle cx="9" cy="11" r="1.3" fill="white"/><circle cx="15" cy="11" r="1.3" fill="white"/><path d="M8.5 14.5c1.2.7 2.3 1 3.5 1s2.3-.3 3.5-1" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
-    אני רוצה להיכנס לקהילה בחינם 🚀
-  </a>
-  <div class="sticky-sub">🚀 500 מקומות ראשונים • חינם • ללא התחייבות</div>
+  <a class="btn-discord" id="stickyBtn" href="#guideForm">🎁 המדריך + הקהילה, בחינם</a>
+  <div class="sticky-sub">מדריך PDF מתנה • קהילה חינמית • ללא התחייבות</div>
 </div>
 
 <footer>
