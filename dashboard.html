@@ -508,6 +508,31 @@
   .lp-stat-rate { font-size: 10px; color: var(--text-3); margin-top: 3px; }
   .lp-stat.entry .lp-stat-val { color: var(--good); }
 
+  .nlp-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+  .nlp-filter { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .nlp-filter label { font-size: 11px; color: var(--text-2); display: flex; align-items: center; gap: 6px; }
+  .nlp-filter input[type="date"] {
+    font-family: inherit; font-size: 12px; color: var(--text); background: white;
+    border: 1px solid var(--border); border-radius: 8px; padding: 6px 8px;
+  }
+  .nlp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin-bottom: 28px; }
+  .nlp-sub-title { font-size: 12px; font-weight: 700; color: var(--text-2); margin: 18px 0 8px; }
+  .nlp-funnel { display: flex; flex-direction: column; gap: 6px; }
+  .nlp-fun-row { display: grid; grid-template-columns: 54px 1fr 50px; align-items: center; gap: 8px; }
+  .nlp-fun-lbl { font-size: 11px; color: var(--text-3); }
+  .nlp-fun-bar-wrap { background: var(--card-soft); border: 1px solid var(--border); border-radius: 6px; height: 10px; overflow: hidden; }
+  .nlp-fun-bar { background: linear-gradient(90deg, var(--pa) 0%, var(--pb) 100%); height: 100%; border-radius: 6px; }
+  .nlp-fun-pct { font-size: 11px; color: var(--text-2); text-align: left; }
+  .nlp-fun-row.biggest-drop .nlp-fun-bar { background: linear-gradient(90deg, var(--bad) 0%, #f87171 100%); }
+  .nlp-fun-row.biggest-drop .nlp-fun-lbl { color: var(--bad); font-weight: 700; }
+  .nlp-cta-breakdown { display: flex; flex-wrap: wrap; gap: 8px; }
+  .nlp-cta-row { background: var(--card-soft); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; font-size: 11px; display: flex; gap: 8px; align-items: center; }
+  .nlp-cta-empty { font-size: 11px; color: var(--text-3); }
+  .nlp-purchase-row { display: flex; align-items: flex-end; gap: 10px; flex-wrap: wrap; }
+  .nlp-purchase-row label { font-size: 11px; color: var(--text-2); display: flex; flex-direction: column; gap: 4px; }
+  .nlp-purchase-row input { font-family: inherit; font-size: 12px; border: 1px solid var(--border); border-radius: 8px; padding: 6px 8px; }
+  .nlp-purchase-row input.nlp-purchase-num { width: 80px; }
+
   .watchtime-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
   .watchtime-card-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
 
@@ -831,6 +856,28 @@
   </div>
 
   <div class="standalone-grid" id="standalone_pages_grid"></div>
+
+  <div class="section-head">
+    <h2>
+      <span class="sicn" style="background:var(--pa-soft);color:var(--pa);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
+      </span>
+      דפי מכירה NLP · השוואת גרסאות a / b / c
+    </h2>
+    <span class="meta">בן נחום · קורס NLP · הגרסה הפעילה מתחלפת ידנית כל שבוע ב-/nlp/index.html</span>
+  </div>
+
+  <div class="nlp-toolbar">
+    <div class="nlp-filter">
+      <label>מתאריך <input type="date" id="nlp_from"></label>
+      <label>עד תאריך <input type="date" id="nlp_to"></label>
+      <button class="btn-refresh" id="nlp_filter_btn" type="button">סנן</button>
+      <button class="btn-refresh" id="nlp_filter_clear" type="button">הצג הכל</button>
+    </div>
+    <div class="sync-pill" id="nlp_sync">לא מחובר</div>
+  </div>
+
+  <div class="nlp-grid" id="nlp_grid"></div>
 
   <div class="section-head">
     <h2>
@@ -1580,6 +1627,248 @@ function renderStandalonePages() {
   grid.innerHTML = STANDALONE_PAGES.map(renderStandalonePageCard).join('');
 }
 
+/* ============================================================================
+   NLP LANDING PAGES (Ben Nahum) · a/b/c variant comparison
+   Separate data source from the rest of the dashboard: raw per-visit events
+   (not pre-aggregated counters), read from its own spreadsheet/tabs and kept
+   in nlpEvents/nlpPurchases. Purchases happen off-site (Schooler/Cardcom), so
+   they're entered manually here, once a week, per variant.
+   ============================================================================ */
+
+const NLP_SHEET_ID = '1F66pK4B7LGgTddZC8LmWiTSp15ALOq_6Q6yCxt1w7UM';
+const NLP_HOOK_URL = 'https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6jc';
+const NLP_VARIANTS = ['a', 'b', 'c'];
+const NLP_PAGE_URL = { a: SITE_BASE + 'nlp/a.html', b: SITE_BASE + 'nlp/b.html', c: SITE_BASE + 'nlp/c.html' };
+/* Mirror of ACTIVE_VARIANT in /nlp/index.html -- update by hand on the same
+   weekly variant swap so the "פעיל כרגע" pill stays accurate. */
+const NLP_ACTIVE_VARIANT = 'a';
+
+let nlpEvents = [];
+let nlpPurchases = [];
+let nlpFrom = null;
+let nlpTo = null;
+
+async function fetchGvizJson(sheetId, tabName) {
+  const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(tabName)}&t=${Date.now()}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  const txt = await res.text();
+  const match = txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/);
+  if (!match) throw new Error('Sheet not accessible');
+  const json = JSON.parse(match[1]);
+  if (json.status === 'error') throw new Error((json.errors && json.errors[0] && json.errors[0].detailed_message) || 'Query error');
+  return json;
+}
+
+function nlpRowVal(row) {
+  const c = (row && row.c) || [];
+  return i => (c[i] && c[i].v != null) ? c[i].v : '';
+}
+
+async function loadNlpData() {
+  const syncEl = document.getElementById('nlp_sync');
+  if (syncEl) { syncEl.innerHTML = '<span class="loading-dots">מרענן</span>'; syncEl.classList.remove('err'); }
+  try {
+    const [eventsJson, purchasesJson] = await Promise.all([
+      fetchGvizJson(NLP_SHEET_ID, 'Events'),
+      fetchGvizJson(NLP_SHEET_ID, 'Purchases')
+    ]);
+    // Positional column access (A..M / A..D), not label-based -- matches the
+    // sheet's fixed layout and avoids depending on gviz's header auto-detection.
+    nlpEvents = (eventsJson.table.rows || []).map(row => {
+      const v = nlpRowVal(row);
+      return {
+        ts: v(0), ev: v(1), variant: v(2), sid: v(3), sec_on_page: v(4),
+        max_section: v(5), sections: v(6), max_scroll_pct: v(7), qs: v(8),
+        at_section: v(9), section: v(10), name: v(11), video: v(12)
+      };
+    });
+    nlpPurchases = (purchasesJson.table.rows || []).map(row => {
+      const v = nlpRowVal(row);
+      return { variant: v(0), week: v(1), purchases: v(2), updated_at: v(3) };
+    });
+    if (syncEl) syncEl.textContent = 'עודכן ' + new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' });
+    renderNlp();
+  } catch (e) {
+    console.error(e);
+    if (syncEl) { syncEl.textContent = 'שגיאת חיבור לגיליון NLP'; syncEl.classList.add('err'); }
+    renderNlp();
+  }
+}
+
+function nlpEventsInRange() {
+  return nlpEvents.filter(e => {
+    const d = String(e.ts || '').slice(0, 10);
+    if (nlpFrom && d < nlpFrom) return false;
+    if (nlpTo && d > nlpTo) return false;
+    return true;
+  });
+}
+
+function nlpPurchasesSum(variant) {
+  return nlpPurchases
+    .filter(r => String(r.variant) === variant)
+    .filter(r => {
+      const d = String(r.week || '').slice(0, 10);
+      if (nlpFrom && d && d < nlpFrom) return false;
+      if (nlpTo && d && d > nlpTo) return false;
+      return true;
+    })
+    .reduce((a, r) => a + num(r.purchases), 0);
+}
+
+function computeNlpStats(variant) {
+  const rows = nlpEventsInRange().filter(e => String(e.variant) === variant);
+  const bySid = {};
+  rows.forEach(e => {
+    const sid = e.sid;
+    if (!sid) return;
+    if (!bySid[sid]) bySid[sid] = { hasView: false, maxSec: 0, maxSection: 0, maxScroll: 0, sections: 0, cta: [], videos: new Set() };
+    const s = bySid[sid];
+    if (e.ev === 'view') s.hasView = true;
+    s.maxSec = Math.max(s.maxSec, num(e.sec_on_page));
+    s.maxSection = Math.max(s.maxSection, num(e.max_section));
+    s.maxScroll = Math.max(s.maxScroll, num(e.max_scroll_pct));
+    s.sections = Math.max(s.sections, num(e.sections));
+    if (e.ev === 'cta_click') s.cta.push(num(e.at_section));
+    if (e.ev === 'video_play') s.videos.add(num(e.video));
+  });
+  const sids = Object.keys(bySid);
+  const visitSids = sids.filter(sid => bySid[sid].hasView);
+  const visits = visitSids.length;
+  const avgTime = visits ? visitSids.reduce((a, sid) => a + bySid[sid].maxSec, 0) / visits : 0;
+  const avgScroll = visits ? visitSids.reduce((a, sid) => a + bySid[sid].maxScroll, 0) / visits : 0;
+  const N = visitSids.reduce((mx, sid) => Math.max(mx, bySid[sid].sections), 0);
+  const funnel = [];
+  for (let k = 1; k <= N; k++) {
+    const reached = visitSids.filter(sid => bySid[sid].maxSection >= k).length;
+    funnel.push({ step: k, reached, pct: pct(reached, visits) });
+  }
+  const ctaSids = visitSids.filter(sid => bySid[sid].cta.length > 0);
+  const ctaBreakdown = {};
+  ctaSids.forEach(sid => bySid[sid].cta.forEach(sec => { ctaBreakdown[sec] = (ctaBreakdown[sec] || 0) + 1; }));
+  const videoSids = visitSids.filter(sid => bySid[sid].videos.size > 0);
+  return {
+    visits, avgTime, avgScroll, N, funnel,
+    ctaCount: ctaSids.length, ctaPct: pct(ctaSids.length, visits), ctaBreakdown,
+    videoViews: videoSids.length
+  };
+}
+
+function nlpIsoMonday(d) {
+  const dt = new Date(d);
+  const day = (dt.getDay() + 6) % 7; // 0 = Monday
+  dt.setDate(dt.getDate() - day);
+  return dt.toISOString().slice(0, 10);
+}
+
+function fmtSeconds(sec) {
+  sec = Math.max(0, Math.round(sec || 0));
+  const m = Math.floor(sec / 60), s = sec % 60;
+  return m + ':' + String(s).padStart(2, '0');
+}
+
+function renderNlpCard(variant) {
+  const stats = computeNlpStats(variant);
+  const purchases = nlpPurchasesSum(variant);
+  const conv = pct(purchases, stats.visits);
+  const defaultWeek = nlpIsoMonday(new Date());
+  const existing = nlpPurchases.find(r => String(r.variant) === variant && String(r.week).slice(0, 10) === defaultWeek);
+  const existingVal = existing ? num(existing.purchases) : 0;
+
+  const statusPill = variant === NLP_ACTIVE_VARIANT
+    ? '<span class="pr-pill pr-live">🟢 פעיל כרגע</span>'
+    : '<span class="pr-pill pr-off">⚪ לא פעיל כרגע</span>';
+
+  let prevPct = 100, maxDropIdx = -1, maxDrop = -1;
+  stats.funnel.forEach((f, i) => {
+    const drop = prevPct - f.pct;
+    if (drop > maxDrop) { maxDrop = drop; maxDropIdx = i; }
+    prevPct = f.pct;
+  });
+  const funnelRows = stats.funnel.length
+    ? stats.funnel.map((f, i) => `
+      <div class="nlp-fun-row ${i === maxDropIdx ? 'biggest-drop' : ''}">
+        <div class="nlp-fun-lbl">חלק ${f.step}</div>
+        <div class="nlp-fun-bar-wrap"><div class="nlp-fun-bar" style="width:${f.pct.toFixed(0)}%"></div></div>
+        <div class="nlp-fun-pct mono">${fmtPct(f.pct)}</div>
+      </div>`).join('')
+    : '<div class="nlp-cta-empty">אין עדיין נתונים</div>';
+
+  const ctaKeys = Object.keys(stats.ctaBreakdown).sort((a, b) => a - b);
+  const ctaRows = ctaKeys.length
+    ? ctaKeys.map(sec => `<div class="nlp-cta-row"><span>חלק ${sec}</span><span class="mono">${stats.ctaBreakdown[sec]}</span></div>`).join('')
+    : '<div class="nlp-cta-empty">אין עדיין לחיצות</div>';
+
+  return `
+    <div class="lp-stats-card nlp-card">
+      <div class="lp-card-head">
+        <a class="title-link" href="${NLP_PAGE_URL[variant]}" target="_blank" rel="noopener">גרסה ${variant.toUpperCase()}</a>
+        ${statusPill}
+      </div>
+      <div class="lp-stats-grid">
+        <div class="lp-stat entry"><div class="lp-stat-val mono">${fmt(stats.visits)}</div><div class="lp-stat-lbl">ביקורים ייחודיים</div></div>
+        <div class="lp-stat"><div class="lp-stat-val mono">${fmtSeconds(stats.avgTime)}</div><div class="lp-stat-lbl">זמן ממוצע בדף</div></div>
+        <div class="lp-stat"><div class="lp-stat-val mono">${stats.avgScroll.toFixed(0)}%</div><div class="lp-stat-lbl">גלילה ממוצעת</div></div>
+        <div class="lp-stat"><div class="lp-stat-val mono">${fmt(stats.videoViews)}</div><div class="lp-stat-lbl">צפו בסרטון</div></div>
+        <div class="lp-stat">
+          <div class="lp-stat-val mono">${fmt(stats.ctaCount)}</div>
+          <div class="lp-stat-lbl">לחצו לתשלום</div>
+          <div class="lp-stat-rate">${fmtPct(stats.ctaPct)} מהביקורים</div>
+        </div>
+        <div class="lp-stat"><div class="lp-stat-val mono" style="color:var(--good);">${fmtPct(conv)}</div><div class="lp-stat-lbl">אחוז המרה (רכישות)</div></div>
+      </div>
+
+      <div class="nlp-sub-title">משפך חלקים בדף${stats.N ? ' (1–' + stats.N + ')' : ''}</div>
+      <div class="nlp-funnel">${funnelRows}</div>
+
+      <div class="nlp-sub-title">לחיצות לתשלום לפי חלק בדף</div>
+      <div class="nlp-cta-breakdown">${ctaRows}</div>
+
+      <div class="nlp-sub-title">רכישות (עדכון ידני · Schooler / Cardcom)</div>
+      <div class="nlp-purchase-row">
+        <label>שבוע (יום שני)<input type="date" class="nlp-week-input" data-variant="${variant}" value="${defaultWeek}"></label>
+        <label>רכישות<input type="number" min="0" step="1" class="nlp-purchase-num" data-variant="${variant}" value="${existingVal}"></label>
+        <button class="btn-refresh nlp-save-purchase" data-variant="${variant}" type="button">שמור</button>
+      </div>
+    </div>`;
+}
+
+function renderNlp() {
+  const grid = document.getElementById('nlp_grid');
+  if (!grid) return;
+  grid.innerHTML = NLP_VARIANTS.map(renderNlpCard).join('');
+  grid.querySelectorAll('.nlp-save-purchase').forEach(btn => {
+    btn.addEventListener('click', onNlpSavePurchase);
+  });
+}
+
+async function onNlpSavePurchase(ev) {
+  const btn = ev.currentTarget;
+  const variant = btn.dataset.variant;
+  const card = btn.closest('.nlp-card');
+  const week = card.querySelector('.nlp-week-input').value;
+  const purchases = num(card.querySelector('.nlp-purchase-num').value);
+  if (!week) { alert('יש לבחור שבוע'); return; }
+  btn.disabled = true;
+  btn.textContent = 'שומר...';
+  try {
+    await fetch(NLP_HOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ev: 'purchase_manual', variant, week, purchases })
+    });
+  } catch (e) { /* fire-and-forget, same as the rest of the site's TRACK_HOOK calls */ }
+  const existing = nlpPurchases.find(r => String(r.variant) === variant && String(r.week).slice(0, 10) === week);
+  if (existing) existing.purchases = purchases;
+  else nlpPurchases.push({ variant, week, purchases, updated_at: '' });
+  renderNlp();
+  if (typeof toast !== 'undefined' && toast) {
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+  }
+}
+
 
 /* ============================================================================
    EMAIL SEQUENCE PERFORMANCE (opens / clicks) · RavMessage A/B/C automation
@@ -2050,14 +2339,31 @@ const refreshBtn = document.getElementById('refreshBtn');
 const toast = document.getElementById('toast');
 refreshBtn.addEventListener('click', async () => {
   refreshBtn.classList.add('spinning');
-  await loadData();
+  await Promise.all([loadData(), loadNlpData()]);
   refreshBtn.classList.remove('spinning');
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 2000);
 });
 
+const nlpFilterBtn = document.getElementById('nlp_filter_btn');
+const nlpFilterClear = document.getElementById('nlp_filter_clear');
+if (nlpFilterBtn) nlpFilterBtn.addEventListener('click', () => {
+  nlpFrom = document.getElementById('nlp_from').value || null;
+  nlpTo = document.getElementById('nlp_to').value || null;
+  renderNlp();
+});
+if (nlpFilterClear) nlpFilterClear.addEventListener('click', () => {
+  nlpFrom = null;
+  nlpTo = null;
+  document.getElementById('nlp_from').value = '';
+  document.getElementById('nlp_to').value = '';
+  renderNlp();
+});
+
 setInterval(() => loadData(), 5 * 60 * 1000);
+setInterval(() => loadNlpData(), 5 * 60 * 1000);
 loadData();
+loadNlpData();
 </script>
 
 </body>

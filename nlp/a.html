@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="he" dir="rtl" data-variant="a">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NLP · בן נחום</title>
+<meta name="description" content="תוכנית NLP דיגיטלית של בן נחום: 142 שיעורים, כ-28 שעות תוכן. 297 ₪ או 3 תשלומים של 99 ₪.">
+<meta property="og:image" content="assets/ben.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800;900&family=Assistant:wght@400;600;700&display=swap">
+<style>
+:root{
+  --bg:#F5F6F8; --surface:#FFFFFF; --ink:#13151B; --muted:#585E6C; --line:#DFE2E8;
+  --gold:#A87A12; --gold-soft:#F3E7C8; --on-gold:#13151B;
+  --band:#13151B; --band-ink:#EEF0F4; --band-muted:#A3A9B6; --band-gold:#E3B649; --band-line:#2A2E38;
+  --ph:#7A5BD6; --ph-bg:rgba(122,91,214,.07);
+  --display:"Heebo","Arial Hebrew",Arial,sans-serif; --body:"Assistant","Heebo",Arial,sans-serif; --r:14px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E1015; --surface:#171A21; --ink:#ECEEF2; --muted:#9CA2AF; --line:#272B35; --gold:#E3B649; --gold-soft:#2C2614;
+  --band:#05060A; --band-line:#22252E; --ph:#A68CF0; --ph-bg:rgba(166,140,240,.09); color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1015; --surface:#171A21; --ink:#ECEEF2; --muted:#9CA2AF; --line:#272B35; --gold:#E3B649; --gold-soft:#2C2614;
+  --band:#05060A; --band-line:#22252E; --ph:#A68CF0; --ph-bg:rgba(166,140,240,.09); color-scheme:dark}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.65;direction:rtl;-webkit-font-smoothing:antialiased}
+.wrap{max-width:640px;margin:0 auto;padding-inline:20px}
+section{padding-block:56px;scroll-margin-top:40px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:clamp(32px,8.6vw,50px);font-weight:900}
+h2{font-size:clamp(26px,6.6vw,36px);font-weight:800}
+h3{font-size:20px;font-weight:800}
+p{margin:0} img,video{max-width:100%}
+.stack{display:flex;flex-direction:column;gap:18px}
+.part{font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:.04em;color:var(--gold);display:flex;align-items:center;gap:10px}
+.part::after{content:"";flex:1;height:1px;background:currentColor;opacity:.35}
+.lead{font-size:20px;color:var(--muted)}
+mark{background:none;color:var(--gold);font-weight:800}
+.band{background:var(--band);color:var(--band-ink)}
+.band .part,.band mark{color:var(--band-gold)} .band .lead,.band .muted{color:var(--band-muted)}
+.cta{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:60px;padding:14px 22px;border-radius:999px;background:var(--band-gold);color:var(--on-gold);font-family:var(--display);font-weight:800;font-size:20px;text-decoration:none;box-shadow:0 8px 24px -10px rgba(227,182,73,.7);transition:transform .15s}
+.cta:hover{transform:translateY(-2px)} .cta:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.cta-note{text-align:center;font-size:15px;color:var(--muted)} .band .cta-note{color:var(--band-muted)}
+/* progress */
+.prog{position:fixed;top:0;inset-inline:0;z-index:30;background:var(--band);color:var(--band-muted);font-family:var(--display);font-size:13px;padding:calc(6px + env(safe-area-inset-top,0px)) 16px 6px;display:flex;justify-content:center;gap:8px;transform:translateY(-100%);transition:transform .25s}
+.prog.on{transform:none} .prog b{color:var(--band-gold);font-weight:800}
+.prog i{position:absolute;inset-inline-start:0;bottom:0;height:3px;background:var(--band-gold);width:0;transition:width .2s}
+/* hero with photo */
+.hero{position:relative;background:var(--band) url(assets/ben.jpg) center 18%/cover no-repeat;color:var(--band-ink);display:flex;align-items:flex-end;padding-block:max(300px,46vh) 40px;background-position:center top}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,11,15,.25) 0%,rgba(10,11,15,0) 18%,rgba(10,11,15,.35) 38%,rgba(10,11,15,.94) 55%)}
+.hero .wrap{position:relative;width:100%}
+.hero .part{color:var(--band-gold)} .hero mark{color:var(--band-gold)} .hero .lead{color:#C9CDD6}
+.brand{position:absolute;top:20px;inset-inline:20px;display:flex;justify-content:space-between;font-family:var(--display);font-size:15px;color:#E6E8EE;z-index:1}
+.brand b{font-weight:800}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--band-line);border:1px solid var(--band-line);border-radius:var(--r);overflow:hidden}
+.facts div{background:rgba(19,21,27,.85);padding:12px 6px;text-align:center}
+.facts b{display:block;font-family:var(--display);font-size:26px;font-weight:900;color:var(--band-ink);line-height:1.1}
+.facts span{font-size:13px;color:var(--band-muted)}
+/* lists & cards */
+.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.list li{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:flex;gap:12px}
+.list li::before{content:"";flex:0 0 8px;height:8px;border-radius:50%;background:var(--gold);margin-top:11px}
+.band .list li{background:rgba(255,255,255,.04);border-color:var(--band-line)}
+.outcome{display:grid;gap:12px}
+.outcome div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.outcome h3{margin-bottom:6px} .outcome p{color:var(--muted);font-size:17px}
+.layers{display:flex;flex-direction:column;border-inline-start:2px solid var(--band-line);margin-inline-start:6px}
+.layer{position:relative;padding:0 22px 26px 0} .layer:last-child{padding-bottom:0}
+.layer::before{content:"";position:absolute;right:-8px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--band);border:3px solid var(--band-gold)}
+.layer .k{font-family:var(--display);font-size:14px;font-weight:700;color:var(--band-gold)} .layer p{color:var(--band-muted);font-size:17px}
+.module{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;color:var(--ink)}
+.module header{padding:20px 20px 16px;display:flex;flex-direction:column;gap:8px}
+.module header p{color:var(--muted);font-size:17px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--display);font-size:14px;font-weight:700;padding:3px 12px;border-radius:999px;background:var(--gold-soft);color:var(--ink)}
+.mtag{font-family:var(--display);font-size:13px;font-weight:700;color:var(--gold)}
+details{border-top:1px solid var(--line)}
+summary{cursor:pointer;list-style:none;padding:14px 20px;font-family:var(--display);font-weight:700;font-size:16px;color:var(--gold);display:flex;justify-content:space-between;align-items:center;gap:12px}
+summary::-webkit-details-marker{display:none} summary::after{content:"+";font-size:22px;line-height:1} details[open] summary::after{content:"-"}
+.lessons{margin:0;padding:0 20px 18px;list-style:none;font-size:16px}
+.lessons li{padding:7px 0;border-bottom:1px solid var(--line)} .lessons li:last-child{border-bottom:0}
+/* testimonials */
+.vids{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.vids figure{margin:0;display:flex;flex-direction:column;gap:6px}
+.vids video{width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:var(--r);background:#000}
+.vids video.wide{object-fit:contain}
+.vids figcaption{font-size:14px;color:var(--muted);text-align:center}
+.quote{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:10px}
+.quote p{font-size:18px} .quote p::before{content:"״";color:var(--gold);font-weight:900;font-size:26px;line-height:0;margin-inline-end:4px}
+.quote cite{font-style:normal;font-family:var(--display);font-weight:700;font-size:15px;color:var(--muted)}
+.ph{border:2px dashed var(--ph);background:var(--ph-bg);border-radius:var(--r);padding:16px;font-size:15px}
+.ph::before{content:"PLACEHOLDER · להשלים לפני עלייה לאוויר";display:block;font-family:var(--display);font-weight:800;font-size:12px;color:var(--ph);margin-bottom:6px}
+/* offer */
+.offer{background:var(--surface);border:2px solid var(--band-gold);border-radius:22px;padding:26px 20px;display:flex;flex-direction:column;gap:18px;color:var(--ink)}
+.includes{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;font-size:17px}
+.includes li{display:flex;gap:10px} .includes li::before{content:"✓";color:var(--gold);font-weight:900}
+.price{display:flex;align-items:baseline;justify-content:center;gap:8px;font-family:var(--display)}
+.price b{font-size:64px;font-weight:900;line-height:1} .price span{font-size:26px;font-weight:800}
+.psub{text-align:center;color:var(--muted);font-size:16px;margin-top:-10px}
+.trust{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;font-size:14px;color:var(--muted)}
+.math{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.math div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 12px;text-align:center;color:var(--ink)}
+.math b{display:block;font-family:var(--display);font-size:clamp(24px,6.4vw,32px);font-weight:900}
+.math span{font-size:15px;color:var(--muted)}
+.fit{display:grid;gap:14px} .fit>div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.fit ul{margin:10px 0 0;padding-inline-start:20px;display:flex;flex-direction:column;gap:6px;font-size:17px}
+.faq details{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.faq summary{color:var(--ink);font-size:18px;padding:16px 18px} .faq summary::after{color:var(--gold)}
+.faq .a{padding:0 18px 18px;color:var(--muted);font-size:17px}
+.bio{display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:center}
+.bio img{width:96px;height:96px;border-radius:50%;object-fit:cover;object-position:center 20%}
+footer{padding-block:32px 120px;text-align:center;font-size:14px;color:var(--muted)}
+.sticky{position:fixed;inset-inline:0;bottom:0;z-index:20;background:var(--band);border-top:1px solid var(--band-line);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:12px;transform:translateY(110%);transition:transform .25s}
+.sticky.on{transform:none} .sticky .p{color:var(--band-ink);font-family:var(--display);line-height:1.15}
+.sticky .p b{font-size:24px;font-weight:900} .sticky .p small{display:block;color:var(--band-muted);font-size:12px}
+.sticky .cta{min-height:50px;font-size:18px;box-shadow:none;flex:1}
+@media (min-width:900px){.sticky{max-width:640px;margin:0 auto;border-radius:18px 18px 0 0}}
+</style>
+</head>
+<body>
+<div class="prog" id="prog" aria-hidden="true"><span id="progLbl"></span><i id="progFill"></i></div>
+<header class="hero" data-sec="1" data-name="מי אני">
+<div class="brand"><b>בן נחום</b><span>NLP · תוכנית דיגיטלית</span></div>
+<div class="wrap stack">
+<p class="part">חלק 1 · מי אני</p>
+<h1>אני בן נחום, ואני מלמד אנשים <mark>לשנות את הדרך שבה הם חושבים ומשפיעים</mark></h1>
+<p class="lead">ריכזתי את כל מה שאני מלמד לתוכנית אחת מסודרת: 142 שיעורים, מהדפוסים שמחזיקים אותך במקום ועד שיחה שמזיזה אנשים לפעולה.</p>
+<div class="facts"><div><b>142</b><span>שיעורי וידאו</span></div><div><b>~28</b><span>שעות תוכן</span></div><div><b>4</b><span>חלקים</span></div></div>
+<a class="cta" href="#offer">תראה לי מה יש בפנים <span>←</span></a>
+<p class="cta-note" style="color:#C9CDD6">צופים מהנייד · בקצב שלך · גישה ללא הגבלת זמן</p>
+</div></header>
+<section data-sec="2" data-name="הסיפור שלי" ><div class="wrap stack">
+<p class="part">חלק 2 · הסיפור שלי</p>
+<div class="bio"><img src="assets/ben.jpg" alt="בן נחום"><div class="stack" style="gap:6px"><h3>בן נחום</h3><p class="muted" style="color:var(--muted)">15 שנה בעולם ה-NLP · מאות אנשים בליווי אישי</p></div></div>
+<p>ב-15 השנים האחרונות אני חי יום-יום את עולם ה-NLP, שינוי דפוסי חשיבה והטמעת אמונות חדשות. עם השנים בניתי לעצמי שיטה ברורה שמאפשרת לי לנהל את המחשבות שלי בצורה מודעת, וכשהמחשבות משתנות, גם הפעולות והתוצאות משתנות יחד איתן.</p>
+<p>ליוויתי באופן אישי מאות אנשים בתהליכי שינוי, וראיתי שוב ושוב שאנשים שונים מגיעים עם אתגרים שונים, אבל המנגנון שמייצר שינוי נשאר דומה. ברגע שמזהים את האמונה או הדפוס שמעכבים אותך, ומתחילים להטמיע במקומם דרך חשיבה חדשה, יכול להיווצר שינוי עמוק בהתנהגות ובחוויה.</p>
+<p>את כל מה שלמדתי, תרגלתי והעברתי לאחרים במשך שנים הכנסתי לתוכן הזה בצורה פרקטית וישירה. המטרה היא שכל סרטון לא רק יגרום לך לחשוב אחרת, אלא ייתן לך כלי שאפשר להתחיל ליישם כבר באותו רגע.</p>
+</div></section>
+<section data-sec="3" data-name="למי זה מתאים" ><div class="wrap stack">
+<p class="part">חלק 3 · למי זה מתאים</p>
+<h2>זה בשבילך?</h2><ul class="list">
+<li>אתה מתכנן, מחכה לרגע המושלם, ובסוף לא מתחיל.</li>
+<li>פחד מטעות או מביקורת מנהל אותך יותר ממה שהיית רוצה להודות.</li>
+<li>יש לך סיפור פנימי על כסף, הצלחה או על עצמך, ואתה לא בטוח שהוא שלך.</li>
+<li>מוטיבציה מגיעה בגלים: שבוע של אש, ואז שבועיים של כלום.</li>
+<li>בשיחה חשובה אתה מאבד את האדם שמולך, או שומע "אני צריך לחשוב על זה".</li>
+<li>אתה לוקח דברים אישית, מגיב מהרגש ומתחרט אחר כך.</li>
+</ul><div class="fit">
+<div><h3>מתאים לך אם</h3><ul>
+<li>אתה מרגיש שהראש שלך עוצר אותך יותר מהנסיבות</li>
+<li>אתה רוצה להבין את המנגנון, לא רק לקבל משפט מעורר השראה</li>
+<li>אתה מדבר עם אנשים בעבודה, במכירה או בעסק ורוצה להשפיע טוב יותר</li>
+<li>אתה מוכן להקדיש כמה דקות ביום, באופן קבוע</li></ul></div>
+<div><h3 style="color:var(--muted)">פחות מתאים לך אם</h3><ul>
+<li>אתה מחפש פתרון קסם בלי לעשות כלום</li>
+<li>אתה מחפש טיפול פסיכולוגי או ליווי אישי</li>
+<li>אתה לא מתכוון לצפות בשיעורים</li></ul></div>
+</div>
+</div></section>
+<section class="band" data-sec="4" data-name="מה זה ייתן לך" ><div class="wrap stack">
+<p class="part">חלק 4 · מה זה ייתן לך</p>
+<h2>מה משתנה <mark>בחיים עצמם</mark></h2><p class="lead">לא רק מה יש בשיעורים, אלא מה תוכל לעשות אחריהם.</p><div class="outcome">
+<div><h3>להפסיק לחכות לרגע המושלם</h3><p>להבין למה המוח מעדיף להישאר במקום (פחד, פרפקציוניזם, תקיעות) ולקבל כלים לצאת מזה בפועל.</p></div>
+<div><h3>לכתוב מחדש את הסיפור הפנימי</h3><p>לזהות את הפרשנות שאתה נותן לדברים ואת הדיבור העצמי, ולבחור סיפור שמקדם אותך במקום לעצור אותך.</p></div>
+<div><h3>לנהל רגש במקום שהוא ינהל אותך</h3><p>חוק 90 השניות, מנגנון הכעס, איך להפסיק לקחת דברים אישית. פחות תגובות שמתחרטים עליהן.</p></div>
+<div><h3>להשפיע בשיחה</h3><p>ראפור, טון דיבור, עוגן רגשי, ואיך לא לשמוע "אני צריך לחשוב על זה". בעבודה, במכירה ובחיים.</p></div>
+<div><h3>לשנות את היחס לכסף ולשפע</h3><p>ממחסור לשפע, פרדוקס הכסף, ושבירת משוואת הזמן והכסף.</p></div>
+</div>
+</div></section>
+<section data-sec="5" data-name="מה יש בפנים" ><div class="wrap stack">
+<p class="part">חלק 5 · מה יש בפנים</p>
+<h2>4 חלקים. <mark>142 שיעורים.</mark></h2><p class="lead">אלה שמות השיעורים האמיתיים.</p><article class="module"><header><span class="mtag">חלק 1</span><h3>שינוי תפיסה</h3><div class="chips"><span class="chip">102 שיעורים</span><span class="chip">כ-10 שעות</span><span class="chip">4 עד 9 דק' לשיעור</span></div><p>הבסיס. שיעורים קצרים שנכנסים גם ליום עמוס, כל אחד על מנגנון אחד.</p></header><details><summary>דוגמאות לשיעורים</summary><ul class="lessons"><li class="mtag">פחד ותקיעות</li><li>הפסיכולוגיה של הפחד</li><li>פרפקציוניזם: דרך טובה של המוח לגרום לנו להישאר במקום</li><li>הפסיכולוגיה של התקיעות</li><li>שלושה כלים לצאת מתקיעות</li>
+<li class="mtag">הסיפור הפנימי</li><li>הסיפור שאנו מספרים לעצמנו</li><li>כוחה של פרשנות</li><li>הכוח החבוי של דיבור עצמי</li><li>הרגל 3 השורות: כתיבת סיפור פנימי</li>
+<li class="mtag">כסף ושפע</li><li>ממחסור לשפע: חוקים חדשים</li><li>פרדוקס הכסף</li><li>לשבור את משוואת הזמן וכסף</li>
+<li class="mtag">רגש ושליטה עצמית</li><li>המנוע הרגשי</li><li>מנגנון הכעס</li><li>חוק 90 השניות: שליטה ברושם</li><li>איך להפסיק לקחת דברים אישית</li>
+<li class="mtag" style="color:var(--muted)">ועוד 87 שיעורים</li></ul></details></article>
+<article class="module"><header><span class="mtag">חלק 2</span><h3>מבפנים לבחוץ: השפעה</h3><div class="chips"><span class="chip">25 שיעורים</span><span class="chip">כ-4 שעות</span></div><p>איך מעבירים את השינוי הפנימי לשיחה: ראפור, רגש, טון, התנגדויות.</p></header><details><summary>כל 25 השיעורים</summary><ul class="lessons"><li>הקדמה לקורס: רגע לפני שמתחילים</li><li>תודעת שפע</li><li>מודול אדם העל, חלק 1: נוכחות</li><li>מודול אדם העל, חלק 2: פרספקטיבה</li><li>מודול אדם העל, חלק 3: מודעות</li><li>מבפנים לבחוץ</li><li>ככה בונים חזון</li><li>ככה יוצרים עוגן רגשי</li><li>רגש = מחשבה במומנט גבוה</li><li>מוכרים רציונל מאחורי רגש</li><li>אנשים קונים רציונל: מחקר ומדע</li><li>ראפור</li><li>חוק ה-90 שניות</li><li>כאב</li><li>לסגור בשאלה רטורית</li><li>אומנות הפרומושן</li><li>טון דיבור</li><li>ככה לא נקבל "אני רוצה לחשוב על זה"</li><li>שימוש בשם פרטי</li><li>דמיון מודרך</li><li>הבעיה שלך היא לא הבעיה שלי</li><li>גישה של אדם מצליח</li><li>הדיאלוג הפנימי</li><li>דרך</li><li>מפרקים את מכונת המכירות</li></ul></details></article>
+<article class="module"><header><span class="mtag">חלק 3</span><h3>הדרכות לייב: תקשורת והשפעה</h3><div class="chips"><span class="chip">6 הדרכות</span><span class="chip">כ-50 דקות</span></div><p>מודל שיחה ב-4 שלבים, ואיך מנטרלים התנגדות לפני שהיא עולה.</p></header><details><summary>כל 6 ההדרכות</summary><ul class="lessons"><li>שולט או נשלט?</li><li>מודל 4 שלבים: הקדמה</li><li>שלב 1: מקרב</li><li>למה להיות נוכח עוזר לנו במכירות</li><li>מבטלים את ההתנגדות לפני שהיא צפה</li><li>האופן שבו אנחנו מדברים חשוב יותר ממה שאנחנו אומרים</li></ul></details></article>
+<article class="module"><header><span class="mtag">חלק 4</span><h3>הקלטות זום מלאות</h3><div class="chips"><span class="chip">9 הקלטות</span><span class="chip">כ-13 שעות</span></div><p>מפגשי עבודה מלאים, לא ערוכים: פתיחה ומנטליות, מטרות השיחה, דוגמאות אמיתיות ודיבור בתועלות.</p></header></article>
+</div></section>
+<section data-sec="6" data-name="תלמידים מספרים" ><div class="wrap stack">
+<p class="part">חלק 6 · תלמידים מספרים</p>
+<h2>מה אומרים מי שכבר עברו את זה</h2><div class="vids">
+<figure><video controls playsinline preload="none" poster="assets/t1.jpg" src="assets/t1.mp4"></video><figcaption>תלמידים מספרים · 1:52</figcaption></figure>
+<figure><video class="wide" controls playsinline preload="none" poster="assets/t2.jpg" src="assets/t2.mp4"></video><figcaption>תלמידים מספרים · 3:08</figcaption></figure>
+</div><div class="quote"><p>הפרספקטיבה שלי השתנתה מקצה לקצה, ואני יוצאת מהתהליך הזה אדם חדש לגמרי.</p><cite>מור · על הכלים: אמנות ההשפעה, פרשנות ותפיסת מציאות, מודל אדם העל ובניית חזון</cite></div>
+<div class="quote"><p>קיבלתי כלים השפעתיים ותקשורתיים חזקים. הדבר הכי חזק שלקחתי ממך הוא טוהר המילה, והחשיבות של לחשוב טוב לפני שאני מוציא משהו מהפה.</p><cite>ירין</cite></div>
+</div></section>
+<section class="band" id="offer" data-sec="7" data-name="ההצעה" data-buyzone><div class="wrap stack">
+<p class="part">חלק 7 · ההצעה</p>
+<h2 style="text-align:center">כל התוכנית, <mark>במקום אחד</mark></h2>
+<div class="offer">
+<ul class="includes">
+<li><span><strong>חלק 1: שינוי תפיסה</strong>, 102 שיעורים</span></li>
+<li><span><strong>חלק 2: מבפנים לבחוץ</strong>, 25 שיעורי השפעה</span></li>
+<li><span><strong>חלק 3: 6 הדרכות לייב</strong> ומודל 4 השלבים</span></li>
+<li><span><strong>חלק 4: 9 הקלטות זום</strong>, כ-13 שעות</span></li>
+<li><span>גישה ללא הגבלת זמן, מהנייד או מהמחשב</span></li>
+</ul>
+<p class="mtag" style="margin:0">ובונוס: 3 חוברות עבודה שנשלחות אליך במייל</p>
+<ul class="includes">
+<li><span><strong>יומן 3 השורות</strong>: 30 יום לכתוב מחדש את הסיפור הפנימי</span></li>
+<li><span><strong>לפני שיחה חשובה</strong>: צ'קליסט ודף עבודה של 10 דקות</span></li>
+<li><span><strong>מחסור או שפע?</strong> מבחן עצמי ו-5 תרגילים</span></li>
+</ul>
+<div class="math"><div><b>~2 ₪</b><span>לשיעור</span></div><div><b>~10.6 ₪</b><span>לשעת תוכן</span></div></div>
+<div class="price"><b>297</b><span>₪</span></div>
+<p class="psub">או 3 תשלומים של 99 ₪ · בלי מנוי חודשי</p>
+<a class="cta" data-checkout href="#">להצטרפות ב-297 ₪ <span>←</span></a>
+<div class="trust"><span>תשלום מאובטח</span><span>·</span><span>גישה מיד אחרי הרכישה</span><span>·</span><span>החזר מלא תוך 7 ימים</span></div>
+</div></div></section>
+<section class="faq" data-sec="8" data-name="שאלות"><div class="wrap stack"><p class="part">חלק 8 · שאלות</p><h2>שאלות לפני הצטרפות</h2><details><summary>האם זה מתאים לי?</summary><div class="a"><p>אם לפחות שניים מהמצבים שתיארנו מוכרים לך, כן. התוכנית מתחילה מהבסיס, איך הרגש והתפיסה עובדים, ורק אחר כך עוברת להשפעה ולשיחות.</p></div></details><details><summary>מה בדיוק אני מקבל?</summary><div class="a"><p>4 חלקים: 102 שיעורי שינוי תפיסה, 25 שיעורי השפעה, 6 הדרכות לייב ו-9 הקלטות זום מלאות. סך הכל 142 שיעורי וידאו וכ-28 שעות.</p></div></details><details><summary>האם זה שווה 297 ₪?</summary><div class="a"><p>זה יוצא בערך 2 ₪ לשיעור ופחות מ-11 ₪ לשעת תוכן. ואפשר גם ב-3 תשלומים של 99 ₪.</p></div></details><details><summary>כמה זמן זה לוקח?</summary><div class="a"><p>כמה שאתה רוצה. השיעורים בחלק 1 נמשכים 4 עד 9 דקות, כך ששיעור ביום נכנס גם ליום עמוס. אין לוח זמנים.</p></div></details><details><summary>ומה אם זה לא בשבילי?</summary><div class="a"><p>יש לך שבוע. אם עברת על התוכן, נתת לו הזדמנות אמיתית והרגשת שהוא לא שווה את ה-297 ₪, שולחים לנו מייל ומקבלים החזר מלא. בלי ויכוחים ובלי אותיות קטנות.</p></div></details><details><summary>אני צריך ניסיון ב-NLP?</summary><div class="a"><p>לא. מתחילים מהיסודות, והשיעור הראשון עוסק במנוע הרגשי, הבסיס לכל השאר.</p></div></details><details><summary>איך אני מקבל גישה?</summary><div class="a"><p>נרשמים בדף הרכישה, משלמים בדף מאובטח, והשיעורים נפתחים לצפייה. צופים מהנייד או מהמחשב, והגישה ללא הגבלת זמן.</p></div></details><details><summary>מה קורה אחרי שאני משלם?</summary><div class="a"><p>נכנסים לפלטפורמת הקורס עם המייל והסיסמה שבחרת בהרשמה, ומתחילים משיעור 1, "המנוע הרגשי", בקצב שלך.</p></div></details></div></section>
+<section class="band" data-buyzone><div class="wrap stack">
+<p class="part">אחריות מלאה</p>
+<h2>או שהתוכן הזה שווה לך הרבה יותר מ-297 ₪, <mark>או שאנחנו מחזירים לך את כל הכסף.</mark></h2>
+<p class="lead">אנחנו לא רוצים שתישאר רק כי שילמת. אנחנו רוצים שתישאר כי הרגשת שקיבלת כאן משהו שבאמת משנה לך את הדרך שבה אתה חושב, רואה, מחליט ופועל.</p>
+<p>אם במהלך השבוע הראשון עברת על התוכן, נתת לו הזדמנות אמיתית, והרגשת שהוא לא נותן לך זוויות ראייה חדשות, כלים פרקטיים, עוגנים, שיטה וערך אמיתי שמצדיק את ה-297 ₪, פשוט שולחים לנו מייל ומקבלים החזר מלא.</p>
+<p><strong>בלי ויכוחים. בלי משחקים. בלי אותיות קטנות.</strong></p>
+<p>אנחנו בטוחים בלב שלם במה שנפתח לך ברגע ההצטרפות: יותר בהירות, יותר חיות, יותר חזון, יותר שליטה בדרך שבה אתה פועל, וכלים שילכו איתך הרבה אחרי שסיימת לצפות בתוכן.</p>
+<h3 style="color:var(--band-gold)">הסיכון עלינו. ההחלטה להתחיל עליך.</h3>
+<p class="muted">במקרה הכי גרוע, ניסית וקיבלת את כל הכסף בחזרה. במקרה הטוב, התחלת שינוי שיכול להשפיע על כל הדרך שבה אתה חווה את החיים.</p>
+<a class="cta" data-checkout href="#">אני נכנס עכשיו - 297 ₪ <span>←</span></a>
+<p class="cta-note">או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
+</div></section>
+
+<footer><div class="wrap">© בן נחום · תוכנית NLP דיגיטלית<br>התוכנית היא תוכן לימודי ואינה מחליפה ייעוץ או טיפול מקצועי.</div></footer>
+<div class="sticky" id="sticky" aria-hidden="true"><div class="p"><b>297 ₪</b><small>או 3 × 99 ₪</small></div><a class="cta" data-checkout href="#">להצטרפות <span>←</span></a></div>
+<script>
+/* ===== CONFIG ===== */
+const CHECKOUT_URL = "https://my.schooler.biz/s/53500/user/signup?bundle=50774";
+const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6jc";  /* כתובת ה-webhook של Make (נשלח כ-form-urlencoded). ריק = רק dataLayer / Meta Pixel */
+(function(){
+  const V = document.documentElement.dataset.variant;
+  const sid = (self.crypto && crypto.randomUUID) ? crypto.randomUUID() : (Date.now()+"-"+Math.random().toString(36).slice(2));
+  const t0 = Date.now(); let maxSec = 1, maxPct = 0, sent = false;
+  const secs = [...document.querySelectorAll("[data-sec]")];
+  const N = secs.length;
+  function send(ev, extra){
+    const p = Object.assign({ev, variant:V, sid, sec_on_page:Math.round((Date.now()-t0)/1000), max_section:maxSec, sections:N, max_scroll_pct:maxPct, qs:location.search.slice(1)}, extra||{});
+    (window.dataLayer = window.dataLayer || []).push(Object.assign({event:"lp_"+ev}, p));
+    try{ if(window.fbq) fbq("trackCustom","LP_"+ev,p); }catch(e){}
+    if(TRACK_ENDPOINT){ try{ const f=new URLSearchParams(); for(const k in p) f.append(k, p[k]); if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT, f))) fetch(TRACK_ENDPOINT,{method:"POST",body:f,mode:"no-cors",keepalive:true}); }catch(e){} }
+  }
+  send("view");
+  // checkout links (keeps Instagram UTMs + variant)
+  const qs = new URLSearchParams(location.search); if(!qs.has("utm_content")) qs.set("utm_content","lp_"+V);
+  document.querySelectorAll("[data-checkout]").forEach(a=>{
+    a.href = CHECKOUT_URL + (CHECKOUT_URL.includes("?")?"&":"?") + qs.toString();
+    a.addEventListener("click",()=>{ const s=a.closest("[data-sec]"); send("cta_click",{at_section:s?+s.dataset.sec:0}); try{ if(window.fbq) fbq("track","InitiateCheckout",{value:297,currency:"ILS"}); }catch(e){} });
+  });
+  // progress bar + section reach
+  const bar=document.getElementById("prog"), lbl=document.getElementById("progLbl"), fill=document.getElementById("progFill");
+  function cur(){ let c=secs[0]; for(const s of secs){ if(s.getBoundingClientRect().top < innerHeight*0.45) c=s; } return c; }
+  function onScroll(){
+    const h=document.documentElement; const pct=Math.min(100,Math.round((h.scrollTop+innerHeight)/h.scrollHeight*100));
+    if(pct>maxPct) maxPct=pct;
+    const c=cur(); const n=+c.dataset.sec;
+    if(n>maxSec){ maxSec=n; send("section",{section:n,name:c.dataset.name}); }
+    bar.classList.toggle("on", h.scrollTop > innerHeight*0.6);
+    lbl.innerHTML = "חלק <b>"+n+"</b> מתוך "+N+" · "+c.dataset.name;
+    fill.style.width = (n/N*100)+"%";
+    sticky();
+  }
+  // sticky CTA: after hero, hidden while offer/final visible
+  const st=document.getElementById("sticky"); const zones=[...document.querySelectorAll("[data-buyzone]")];
+  function sticky(){ const past=document.documentElement.scrollTop>innerHeight*0.8; const inZone=zones.some(z=>{const r=z.getBoundingClientRect();return r.top<innerHeight*0.8&&r.bottom>innerHeight*0.2}); const on=past&&!inZone; st.classList.toggle("on",on); st.setAttribute("aria-hidden",String(!on)); }
+  addEventListener("scroll",onScroll,{passive:true}); onScroll();
+  // video plays
+  document.querySelectorAll("video").forEach((v,i)=>v.addEventListener("play",()=>send("video_play",{video:i+1}),{once:true}));
+  // leave / time on page
+  function leave(){ if(sent) return; sent=true; send("leave"); }
+  addEventListener("pagehide",leave); document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden") leave(); else sent=false; });
+})();
+</script>
+</body>
+</html>
