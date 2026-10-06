@@ -115,6 +115,37 @@ footer{padding-block:32px 120px;text-align:center;font-size:14px;color:var(--mut
 .sticky .p b{font-size:24px;font-weight:900} .sticky .p small{display:block;color:var(--band-muted);font-size:12px}
 .sticky .cta{min-height:50px;font-size:18px;box-shadow:none;flex:1}
 @media (min-width:900px){.sticky{max-width:640px;margin:0 auto;border-radius:18px 18px 0 0}}
+
+.prog{background:transparent;padding:0;height:3px} .prog span{display:none}
+.prog i{top:0;bottom:auto;height:3px}
+.kicker{font-family:var(--display);font-weight:700;font-size:14px;color:var(--gold);letter-spacing:.03em}
+.band .kicker,.hero .kicker{color:var(--band-gold)}
+.nos{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:17px}
+.nos li{display:flex;gap:10px} .nos li::before{content:"✕";color:var(--band-gold);font-weight:900}
+.hero .nos{color:#D6D9E0}
+.creds{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.creds li{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;text-align:center}
+.creds b{display:block;font-family:var(--display);font-size:26px;font-weight:900;color:var(--gold)}
+.creds span{font-size:15px;color:var(--muted)}
+.wa{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start}
+.wa img{width:100%;border-radius:var(--r);border:1px solid var(--line)}
+.bonus{display:grid;grid-template-columns:84px 1fr;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px}
+.bonus img{width:84px;border-radius:8px;box-shadow:0 6px 16px -8px rgba(0,0,0,.5)}
+.bonus h3{font-size:17px} .bonus p{font-size:15px;color:var(--muted)}
+.steps{list-style:none;margin:0;padding:0;counter-reset:s;display:flex;flex-direction:column;gap:12px}
+.steps li{counter-increment:s;display:flex;gap:14px;align-items:flex-start}
+.steps li::before{content:counter(s);flex:0 0 32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--band-gold);color:var(--on-gold);font-family:var(--display);font-weight:900}
+.note{font-size:19px;line-height:1.75}
+.peek{display:grid;gap:10px}
+.mock{background:#0F1014;border:1px solid #2A2E38;border-radius:var(--r);overflow:hidden;color:#E6E8EE;font-size:15px}
+.mock .mh{display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #2A2E38;font-family:var(--display)}
+.mock .mh span{color:#9CA2AF}
+.mock ul{list-style:none;margin:0;padding:0}
+.mock li{display:flex;justify-content:space-between;gap:12px;padding:10px 16px;border-bottom:1px solid #1E2129}
+.mock li:first-child{background:#1A1D25}
+.mock .ld{color:#8A8F9B;font-variant-numeric:tabular-nums;flex:0 0 auto}
+.mock .mf{padding:10px 16px;color:#E3B649;font-family:var(--display);font-size:14px}
+.peek img{width:100%;border-radius:var(--r);border:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -122,36 +153,68 @@ footer{padding-block:32px 120px;text-align:center;font-size:14px;color:var(--mut
 <header class="hero" data-sec="1" data-name="פתיחה">
 <div class="brand"><b>בן נחום</b><span>NLP · תוכנית דיגיטלית</span></div>
 <div class="wrap stack">
-<p class="part">NLP · שינוי תפיסה והשפעה</p>
-<h1>אתה יודע מה צריך לעשות. <mark>משהו עוצר אותך.</mark></h1>
-<p class="lead">רוב האנשים לא תקועים בגלל חוסר מידע, אלא בגלל תוכנה שרצה ברקע. תוכנית ה-NLP של בן נחום מלמדת לזהות אותה ולשנות אותה.</p>
-<div class="facts"><div><b>142</b><span>שיעורי וידאו</span></div><div><b>~28</b><span>שעות תוכן</span></div><div><b>4</b><span>חלקים</span></div></div>
-<a class="cta" href="#offer">אני רוצה לשנות את זה <span>←</span></a>
-<p class="cta-note" style="color:#C9CDD6">צופים מהנייד · בקצב שלך · גישה ללא הגבלת זמן</p>
+<p class="kicker">תוכנית NLP דיגיטלית</p>
+<h1>איך לקחת שליטה על המחשבות, <mark>להפסיק להיתקע ולהתחיל לפעול</mark>, גם אם כבר ניסית הכל</h1>
+<p class="lead">142 שיעורים קצרים ומעשיים, מהבנת הפחד והסיפור הפנימי ועד שיחה שמזיזה אנשים לפעולה. 4 עד 9 דקות ביום, מהנייד.</p>
+<ul class="nos"><li>בלי עוד סרטוני מוטיבציה שנגמרים אחרי יום</li><li>בלי לחכות לרגע המושלם</li><li>בלי עוד שנה באותו מקום</li></ul>
+<div class="facts"><div><b>142</b><span>שיעורי וידאו</span></div><div><b>~28</b><span>שעות תוכן</span></div><div><b>15</b><span>שנות ניסיון</span></div></div>
+<a class="cta" href="#offer">כן, אני רוצה לקחת שליטה <span>←</span></a>
+<p class="cta-note" style="color:#C9CDD6">297 ₪ או 3 × 99 ₪ · החזר מלא תוך 7 ימים</p>
 </div></header>
-<section data-sec="2" data-name="נשמע מוכר?" ><div class="wrap stack">
-<p class="part">חלק 2 · נשמע מוכר?</p>
-<h2>אם אחד מאלה מוכר לך</h2><ul class="list">
-<li>אתה מתכנן, מחכה לרגע המושלם, ובסוף לא מתחיל.</li>
+<section data-sec="2" data-name="כנות"><div class="wrap stack">
+<h2>בוא נדבר רגע בכנות</h2>
+<p class="lead">אם אתה כאן, כנראה שמשהו לא זז כמו שרצית.</p>
+<p>אתה יודע מה אתה רוצה. אתה אפילו יודע מה צריך לעשות. ובכל זאת, כבר שנתיים ויותר אתה באותו מקום, ורק הזמן עובר.</p>
+<ul class="list">
+<li>אתה מתכנן, מתלהב, ואז מוצא סיבה טובה לדחות.</li>
 <li>פחד מטעות או מביקורת מנהל אותך יותר ממה שהיית רוצה להודות.</li>
-<li>יש לך סיפור פנימי על כסף, הצלחה או על עצמך, ואתה לא בטוח שהוא שלך.</li>
-<li>מוטיבציה מגיעה בגלים: שבוע של אש, ואז שבועיים של כלום.</li>
-<li>בשיחה חשובה אתה מאבד את האדם שמולך, או שומע "אני צריך לחשוב על זה".</li>
-<li>אתה לוקח דברים אישית, מגיב מהרגש ומתחרט אחר כך.</li>
-</ul><p>כל אחד מהדברים האלה מקבל בתוכנית שיעור משלו. לא השראה לרגע, אלא מנגנון שמבינים ואז משנים.</p>
+<li>יש לך סיפור פנימי על כסף, על הצלחה ועל מה "מתאים לך", ואתה כבר לא בטוח שהוא שלך.</li>
+<li>המוטיבציה מגיעה בגלים: שבוע של אש, ואז שבועיים של כלום.</li>
+<li>אתה מגיב מהרגש, לוקח דברים אישית, ומתחרט אחר כך.</li>
+<li>בשיחות חשובות אתה מרגיש שאתה לא מצליח להעביר את מה שבאמת בתוכך.</li>
+</ul>
+<p>זה לא כי משהו לא בסדר איתך. זה כי אף אחד לא לימד אותך איך המחשבות שלך באמת עובדות, ואיך משנים אותן.</p>
 </div></section>
-<section class="band" data-sec="3" data-name="הפתרון" ><div class="wrap stack">
-<p class="part">חלק 3 · הפתרון</p>
-<h2>שלוש שכבות. <mark>מבפנים החוצה.</mark></h2>
-<div class="layers">
-<div class="layer stack"><span class="k">שכבה 1 · תפיסה</span><h3>מה קורה בראש שלך</h3><p>פחד, פרפקציוניזם, הסיפור הפנימי, שפע מול מחסור, ניהול רגש.</p></div>
-<div class="layer stack"><span class="k">שכבה 2 · השפעה</span><h3>איך זה עובר לאנשים אחרים</h3><p>ראפור, טון דיבור, עוגן רגשי, דמיון מודרך, טיפול בהתנגדויות.</p></div>
-<div class="layer stack"><span class="k">שכבה 3 · יישום</span><h3>איך זה נראה בשיחה אמיתית</h3><p>הדרכות לייב, מודל 4 שלבים ו-13 שעות של הקלטות זום.</p></div>
+<section class="band" data-sec="3" data-name="מה משתנה"><div class="wrap stack">
+<h2>מה משתנה <mark>אחרי התוכנית?</mark></h2>
+<div class="outcome">
+<div><h3>אתה מפסיק להיות קורבן של הפרשנות</h3><p>לומדים לזהות את הסיפור שהמוח מספר על כל סיטואציה, ולבחור פרשנות שמקדמת אותך במקום לעצור אותך.</p></div>
+<div><h3>כלים פרקטיים שאפשר ליישם באותו יום</h3><p>כל שיעור נותן כלי אחד, ברור, שאפשר להתחיל להשתמש בו כבר אחרי הצפייה. בלי תיאוריה שנשארת על הנייר.</p></div>
+<div><h3>אתה קם בבוקר עם כיוון</h3><p>חזון, עוגן רגשי, ודרך להחזיר את התשוקה גם כשהמוטיבציה יורדת.</p></div>
+<div><h3>מסלול ברור, צעד קטן כל יום</h3><p>שיעור קצר של 4 עד 9 דקות ביום. לא צריך לפנות ערבים שלמים. צעד אחד ביום, ואתה רואה את הדברים זזים.</p></div>
+<div><h3>אתה משפיע על אנשים, לא רק על עצמך</h3><p>ראפור, טון דיבור, ואיך להוביל שיחה בלי לשמוע "אני צריך לחשוב על זה". בעבודה, בעסק ובבית.</p></div>
 </div>
 </div></section>
-<section data-sec="4" data-name="מה יש בפנים" ><div class="wrap stack">
-<p class="part">חלק 4 · מה יש בפנים</p>
-<h2>מה בדיוק מקבלים</h2><article class="module"><header><span class="mtag">חלק 1</span><h3>שינוי תפיסה</h3><div class="chips"><span class="chip">102 שיעורים</span><span class="chip">כ-10 שעות</span><span class="chip">4 עד 9 דק' לשיעור</span></div><p>הבסיס. שיעורים קצרים שנכנסים גם ליום עמוס, כל אחד על מנגנון אחד.</p></header><details><summary>דוגמאות לשיעורים</summary><ul class="lessons"><li class="mtag">פחד ותקיעות</li><li>הפסיכולוגיה של הפחד</li><li>פרפקציוניזם: דרך טובה של המוח לגרום לנו להישאר במקום</li><li>הפסיכולוגיה של התקיעות</li><li>שלושה כלים לצאת מתקיעות</li>
+<section data-sec="4" data-name="הסיפור שלי"><div class="wrap stack">
+<h2>הסיפור שלי</h2>
+<div class="bio"><img src="assets/ben.jpg" alt="בן נחום"><div class="stack" style="gap:4px"><h3>בן נחום</h3><p style="color:var(--muted)">NLP, שינוי דפוסי חשיבה והטמעת אמונות</p></div></div>
+<p>ב-15 השנים האחרונות אני חי יום-יום את עולם ה-NLP, שינוי דפוסי חשיבה והטמעת אמונות חדשות. עם השנים בניתי לעצמי שיטה ברורה שמאפשרת לי לנהל את המחשבות שלי בצורה מודעת, וכשהמחשבות משתנות, גם הפעולות והתוצאות משתנות יחד איתן.</p>
+<p>ליוויתי באופן אישי מאות אנשים בתהליכי שינוי, וראיתי שוב ושוב שאנשים שונים מגיעים עם אתגרים שונים, אבל המנגנון שמייצר שינוי נשאר דומה. ברגע שמזהים את האמונה או הדפוס שמעכבים אותך, ומתחילים להטמיע במקומם דרך חשיבה חדשה, יכול להיווצר שינוי עמוק בהתנהגות ובחוויה.</p>
+<p>את כל מה שלמדתי, תרגלתי והעברתי לאחרים במשך שנים הכנסתי לתוכן הזה בצורה פרקטית וישירה. המטרה היא שכל סרטון לא רק יגרום לך לחשוב אחרת, אלא ייתן לך כלי שאפשר להתחיל ליישם כבר באותו רגע.</p>
+<h3 style="margin-top:8px">למה ללמוד דווקא איתי?</h3>
+<ul class="creds"><li><b>15</b><span>שנים בעולם ה-NLP</span></li><li><b>מאות</b><span>אנשים בליווי אישי</span></li><li><b>142</b><span>שיעורים שבניתי</span></li><li><b>1</b><span>שיטה ברורה, צעד אחר צעד</span></li></ul>
+</div></section>
+<section class="band" data-sec="5" data-name="המנגנון"><div class="wrap stack">
+<h2>המנגנון: <mark>3 המפתחות לשינוי</mark></h2>
+<p class="lead">שינוי אמיתי קורה מבפנים החוצה. זה הסדר שבו התוכנית בנויה.</p>
+<div class="layers">
+<div class="layer stack"><span class="k">מפתח 1</span><h3>התפיסה הנכונה</h3><p>לזהות את הפחד, הפרפקציוניזם והסיפור הפנימי שעוצרים אותך, ולהחליף אותם בדרך חשיבה חדשה.</p></div>
+<div class="layer stack"><span class="k">מפתח 2</span><h3>ההשפעה הנכונה</h3><p>להעביר את השינוי הפנימי החוצה: ראפור, רגש, טון דיבור, ושיחות שמזיזות אנשים לפעולה.</p></div>
+<div class="layer stack"><span class="k">מפתח 3</span><h3>היישום הנכון</h3><p>לראות את זה קורה בשיחות אמיתיות: הדרכות לייב, מודל 4 שלבים, ו-13 שעות של הקלטות זום.</p></div>
+</div>
+</div></section>
+<section data-sec="6" data-name="המלצות"><div class="wrap stack">
+<h2>מה אומרים מי שכבר עברו את הדרך</h2>
+<div class="vids">
+<figure><video controls playsinline preload="none" poster="assets/t1.jpg" src="assets/t1.mp4"></video><figcaption>תלמידי Moudle Z מספרים</figcaption></figure>
+<figure><video class="wide" controls playsinline preload="none" poster="assets/t2.jpg" src="assets/t2.mp4"></video><figcaption>תלמידי Moudle Z מספרים</figcaption></figure>
+</div>
+<div class="wa"><img src="assets/wa-mor.jpg" alt="המלצה של מור" loading="lazy"><img src="assets/wa-yarin.jpg" alt="המלצה של ירין" loading="lazy"></div>
+</div></section>
+<section data-sec="7" data-name="מה מקבלים"><div class="wrap stack">
+<h2>מה בדיוק <mark>מקבלים ב-297 ₪?</mark></h2>
+<p class="lead">גישה מלאה לתוכנית דיגיטלית אחת, מסודרת, עם 142 שיעורי וידאו וכ-28 שעות תוכן. זה מה שיש בפנים:</p>
+<article class="module"><header><span class="mtag">חלק 1</span><h3>שינוי תפיסה</h3><div class="chips"><span class="chip">102 שיעורים</span><span class="chip">כ-10 שעות</span><span class="chip">4 עד 9 דק' לשיעור</span></div><p>הבסיס. שיעורים קצרים שנכנסים גם ליום עמוס, כל אחד על מנגנון אחד.</p></header><details><summary>דוגמאות לשיעורים</summary><ul class="lessons"><li class="mtag">פחד ותקיעות</li><li>הפסיכולוגיה של הפחד</li><li>פרפקציוניזם: דרך טובה של המוח לגרום לנו להישאר במקום</li><li>הפסיכולוגיה של התקיעות</li><li>שלושה כלים לצאת מתקיעות</li>
 <li class="mtag">הסיפור הפנימי</li><li>הסיפור שאנו מספרים לעצמנו</li><li>כוחה של פרשנות</li><li>הכוח החבוי של דיבור עצמי</li><li>הרגל 3 השורות: כתיבת סיפור פנימי</li>
 <li class="mtag">כסף ושפע</li><li>ממחסור לשפע: חוקים חדשים</li><li>פרדוקס הכסף</li><li>לשבור את משוואת הזמן וכסף</li>
 <li class="mtag">רגש ושליטה עצמית</li><li>המנוע הרגשי</li><li>מנגנון הכעס</li><li>חוק 90 השניות: שליטה ברושם</li><li>איך להפסיק לקחת דברים אישית</li>
@@ -159,20 +222,15 @@ footer{padding-block:32px 120px;text-align:center;font-size:14px;color:var(--mut
 <article class="module"><header><span class="mtag">חלק 2</span><h3>מבפנים לבחוץ: השפעה</h3><div class="chips"><span class="chip">25 שיעורים</span><span class="chip">כ-4 שעות</span></div><p>איך מעבירים את השינוי הפנימי לשיחה: ראפור, רגש, טון, התנגדויות.</p></header><details><summary>כל 25 השיעורים</summary><ul class="lessons"><li>הקדמה לקורס: רגע לפני שמתחילים</li><li>תודעת שפע</li><li>מודול אדם העל, חלק 1: נוכחות</li><li>מודול אדם העל, חלק 2: פרספקטיבה</li><li>מודול אדם העל, חלק 3: מודעות</li><li>מבפנים לבחוץ</li><li>ככה בונים חזון</li><li>ככה יוצרים עוגן רגשי</li><li>רגש = מחשבה במומנט גבוה</li><li>מוכרים רציונל מאחורי רגש</li><li>אנשים קונים רציונל: מחקר ומדע</li><li>ראפור</li><li>חוק ה-90 שניות</li><li>כאב</li><li>לסגור בשאלה רטורית</li><li>אומנות הפרומושן</li><li>טון דיבור</li><li>ככה לא נקבל "אני רוצה לחשוב על זה"</li><li>שימוש בשם פרטי</li><li>דמיון מודרך</li><li>הבעיה שלך היא לא הבעיה שלי</li><li>גישה של אדם מצליח</li><li>הדיאלוג הפנימי</li><li>דרך</li><li>מפרקים את מכונת המכירות</li></ul></details></article>
 <article class="module"><header><span class="mtag">חלק 3</span><h3>הדרכות לייב: תקשורת והשפעה</h3><div class="chips"><span class="chip">6 הדרכות</span><span class="chip">כ-50 דקות</span></div><p>מודל שיחה ב-4 שלבים, ואיך מנטרלים התנגדות לפני שהיא עולה.</p></header><details><summary>כל 6 ההדרכות</summary><ul class="lessons"><li>שולט או נשלט?</li><li>מודל 4 שלבים: הקדמה</li><li>שלב 1: מקרב</li><li>למה להיות נוכח עוזר לנו במכירות</li><li>מבטלים את ההתנגדות לפני שהיא צפה</li><li>האופן שבו אנחנו מדברים חשוב יותר ממה שאנחנו אומרים</li></ul></details></article>
 <article class="module"><header><span class="mtag">חלק 4</span><h3>הקלטות זום מלאות</h3><div class="chips"><span class="chip">9 הקלטות</span><span class="chip">כ-13 שעות</span></div><p>מפגשי עבודה מלאים, לא ערוכים: פתיחה ומנטליות, מטרות השיחה, דוגמאות אמיתיות ודיבור בתועלות.</p></header></article>
+<div class="peek"><p class="kicker" style="margin:0">הצצה מבפנים: ככה נראית רשימת השיעורים בקורס</p>
+<div class="mock"><div class="mh"><b>שינוי תפיסה</b><span>0/102</span></div><ul><li><span class="lt">▶ המנוע הרגשי</span><span class="ld">05:29</span></li><li><span class="lt">🔒 הדחף הטבעי להתרחבות</span><span class="ld">05:30</span></li><li><span class="lt">🔒 כוחה של פרשנות</span><span class="ld">04:34</span></li><li><span class="lt">🔒 הפסיכולוגיה של הפחד</span><span class="ld">05:08</span></li><li><span class="lt">🔒 חוק ההתרחבות</span><span class="ld">05:31</span></li><li><span class="lt">🔒 פרפקציוניזם: דרך טובה של המוח לגרום לנו להישאר במקום</span><span class="ld">04:56</span></li><li><span class="lt">🔒 שינוי תודעתי: מאוטומט לפעולה</span><span class="ld">04:24</span></li></ul><div class="mf">ועוד 95 שיעורים בחלק הזה, ו-3 חלקים נוספים</div></div></div>
+<h3 style="margin-top:6px">ובנוסף: 3 חוברות עבודה, ישר למייל</h3>
+<div class="bonus"><img src="assets/cover-1.jpg" alt=""><div><h3>יומן 3 השורות</h3><p>30 יום לכתוב מחדש את הסיפור הפנימי. 3 דקות בערב.</p></div></div>
+<div class="bonus"><img src="assets/cover-2.jpg" alt=""><div><h3>לפני שיחה חשובה</h3><p>צ'קליסט ודף עבודה של 10 דקות לפני כל שיחה שחשובה לך.</p></div></div>
+<div class="bonus"><img src="assets/cover-3.jpg" alt=""><div><h3>מחסור או שפע?</h3><p>מבחן עצמי ו-5 תרגילים לשנות את נקודת המבט על כסף וזמן.</p></div></div>
 </div></section>
-<section data-sec="5" data-name="תלמידים ובן" ><div class="wrap stack">
-<p class="part">חלק 5 · תלמידים ובן</p>
-<h2>מי מלמד, ומה אומרים התלמידים</h2><div class="bio"><img src="assets/ben.jpg" alt="בן נחום"><div class="stack" style="gap:6px"><h3>בן נחום</h3><p class="muted" style="color:var(--muted)">15 שנה בעולם ה-NLP · מאות אנשים בליווי אישי</p></div></div>
-<p>ב-15 השנים האחרונות אני חי יום-יום את עולם ה-NLP, שינוי דפוסי חשיבה והטמעת אמונות חדשות. עם השנים בניתי לעצמי שיטה ברורה שמאפשרת לי לנהל את המחשבות שלי בצורה מודעת, וכשהמחשבות משתנות, גם הפעולות והתוצאות משתנות יחד איתן.</p>
-<p>ליוויתי באופן אישי מאות אנשים בתהליכי שינוי, וראיתי שוב ושוב שאנשים שונים מגיעים עם אתגרים שונים, אבל המנגנון שמייצר שינוי נשאר דומה. ברגע שמזהים את האמונה או הדפוס שמעכבים אותך, ומתחילים להטמיע במקומם דרך חשיבה חדשה, יכול להיווצר שינוי עמוק בהתנהגות ובחוויה.</p>
-<p>את כל מה שלמדתי, תרגלתי והעברתי לאחרים במשך שנים הכנסתי לתוכן הזה בצורה פרקטית וישירה. המטרה היא שכל סרטון לא רק יגרום לך לחשוב אחרת, אלא ייתן לך כלי שאפשר להתחיל ליישם כבר באותו רגע.</p><div class="vids">
-<figure><video controls playsinline preload="none" poster="assets/t1.jpg" src="assets/t1.mp4"></video><figcaption>תלמידים מספרים · 1:52</figcaption></figure>
-<figure><video class="wide" controls playsinline preload="none" poster="assets/t2.jpg" src="assets/t2.mp4"></video><figcaption>תלמידים מספרים · 3:08</figcaption></figure>
-</div><div class="quote"><p>הפרספקטיבה שלי השתנתה מקצה לקצה, ואני יוצאת מהתהליך הזה אדם חדש לגמרי.</p><cite>מור · על הכלים: אמנות ההשפעה, פרשנות ותפיסת מציאות, מודל אדם העל ובניית חזון</cite></div>
-<div class="quote"><p>קיבלתי כלים השפעתיים ותקשורתיים חזקים. הדבר הכי חזק שלקחתי ממך הוא טוהר המילה, והחשיבות של לחשוב טוב לפני שאני מוציא משהו מהפה.</p><cite>ירין</cite></div>
-</div></section>
-<section class="band" id="offer" data-sec="6" data-name="ההצעה" data-buyzone><div class="wrap stack">
-<p class="part">חלק 6 · ההצעה</p>
+<section class="band" id="offer" data-sec="8" data-name="ההצעה" data-buyzone><div class="wrap stack">
+<p class="kicker">ההצעה</p>
 <h2 style="text-align:center">כל התוכנית, <mark>במקום אחד</mark></h2>
 <div class="offer">
 <ul class="includes">
@@ -194,9 +252,37 @@ footer{padding-block:32px 120px;text-align:center;font-size:14px;color:var(--mut
 <a class="cta" data-checkout href="#">להצטרפות ב-297 ₪ <span>←</span></a>
 <div class="trust"><span>תשלום מאובטח</span><span>·</span><span>גישה מיד אחרי הרכישה</span><span>·</span><span>החזר מלא תוך 7 ימים</span></div>
 </div></div></section>
-<section class="faq" data-sec="7" data-name="שאלות"><div class="wrap stack"><p class="part">חלק 7 · שאלות</p><h2>שאלות לפני הצטרפות</h2><details><summary>האם זה מתאים לי?</summary><div class="a"><p>אם לפחות שניים מהמצבים שתיארנו מוכרים לך, כן. התוכנית מתחילה מהבסיס, איך הרגש והתפיסה עובדים, ורק אחר כך עוברת להשפעה ולשיחות.</p></div></details><details><summary>מה בדיוק אני מקבל?</summary><div class="a"><p>4 חלקים: 102 שיעורי שינוי תפיסה, 25 שיעורי השפעה, 6 הדרכות לייב ו-9 הקלטות זום מלאות. סך הכל 142 שיעורי וידאו וכ-28 שעות.</p></div></details><details><summary>האם זה שווה 297 ₪?</summary><div class="a"><p>זה יוצא בערך 2 ₪ לשיעור ופחות מ-11 ₪ לשעת תוכן. ואפשר גם ב-3 תשלומים של 99 ₪.</p></div></details><details><summary>כמה זמן זה לוקח?</summary><div class="a"><p>כמה שאתה רוצה. השיעורים בחלק 1 נמשכים 4 עד 9 דקות, כך ששיעור ביום נכנס גם ליום עמוס. אין לוח זמנים.</p></div></details><details><summary>ומה אם זה לא בשבילי?</summary><div class="a"><p>יש לך שבוע. אם עברת על התוכן, נתת לו הזדמנות אמיתית והרגשת שהוא לא שווה את ה-297 ₪, שולחים לנו מייל ומקבלים החזר מלא. בלי ויכוחים ובלי אותיות קטנות.</p></div></details><details><summary>אני צריך ניסיון ב-NLP?</summary><div class="a"><p>לא. מתחילים מהיסודות, והשיעור הראשון עוסק במנוע הרגשי, הבסיס לכל השאר.</p></div></details><details><summary>איך אני מקבל גישה?</summary><div class="a"><p>נרשמים בדף הרכישה, משלמים בדף מאובטח, והשיעורים נפתחים לצפייה. צופים מהנייד או מהמחשב, והגישה ללא הגבלת זמן.</p></div></details><details><summary>מה קורה אחרי שאני משלם?</summary><div class="a"><p>נכנסים לפלטפורמת הקורס עם המייל והסיסמה שבחרת בהרשמה, ומתחילים משיעור 1, "המנוע הרגשי", בקצב שלך.</p></div></details></div></section>
+<section data-sec="9" data-name="למי זה מתאים"><div class="wrap stack">
+<h2>למי התוכנית מתאימה?</h2>
+<div class="fit">
+<div><h3>היא בשבילך אם</h3><ul>
+<li>אתה מרגיש שכבר שנתיים ויותר אתה באותו מקום, ורק הזמן עובר</li>
+<li>יש לך הבנה ורצון להשתנות, אבל משהו בפנים ממשיך לעצור אותך</li>
+<li>נמאס לך מהשראה רגעית, ואתה רוצה להבין את המנגנון ולשנות אותו</li>
+<li>אתה מדבר עם אנשים בעבודה או בעסק ורוצה להשפיע טוב יותר</li>
+<li>אתה מוכן לתת לזה כמה דקות ביום, כל יום</li></ul></div>
+<div><h3 style="color:var(--muted)">היא לא בשבילך אם</h3><ul>
+<li>אתה מחפש פתרון קסם בלי לעשות כלום</li>
+<li>אתה מחפש טיפול פסיכולוגי או ליווי אישי</li>
+<li>אתה לא מתכוון לצפות בשיעורים וליישם</li></ul></div>
+</div>
+</div></section>
+<section class="faq" data-sec="10" data-name="שאלות"><div class="wrap stack"><h2>שאלות לפני הצטרפות</h2><details><summary>האם זה מתאים לי?</summary><div class="a"><p>אם לפחות שניים מהמצבים שתיארנו מוכרים לך, כן. התוכנית מתחילה מהבסיס, איך הרגש והתפיסה עובדים, ורק אחר כך עוברת להשפעה ולשיחות.</p></div></details><details><summary>מה בדיוק אני מקבל?</summary><div class="a"><p>4 חלקים: 102 שיעורי שינוי תפיסה, 25 שיעורי השפעה, 6 הדרכות לייב ו-9 הקלטות זום מלאות. סך הכל 142 שיעורי וידאו וכ-28 שעות.</p></div></details><details><summary>האם זה שווה 297 ₪?</summary><div class="a"><p>זה יוצא בערך 2 ₪ לשיעור ופחות מ-11 ₪ לשעת תוכן. ואפשר גם ב-3 תשלומים של 99 ₪.</p></div></details><details><summary>כמה זמן זה לוקח?</summary><div class="a"><p>כמה שאתה רוצה. השיעורים בחלק 1 נמשכים 4 עד 9 דקות, כך ששיעור ביום נכנס גם ליום עמוס. אין לוח זמנים.</p></div></details><details><summary>ומה אם זה לא בשבילי?</summary><div class="a"><p>יש לך שבוע. אם עברת על התוכן, נתת לו הזדמנות אמיתית והרגשת שהוא לא שווה את ה-297 ₪, שולחים לנו מייל ומקבלים החזר מלא. בלי ויכוחים ובלי אותיות קטנות.</p></div></details><details><summary>אני צריך ניסיון ב-NLP?</summary><div class="a"><p>לא. מתחילים מהיסודות, והשיעור הראשון עוסק במנוע הרגשי, הבסיס לכל השאר.</p></div></details><details><summary>איך אני מקבל גישה?</summary><div class="a"><p>נרשמים בדף הרכישה, משלמים בדף מאובטח, והשיעורים נפתחים לצפייה. צופים מהנייד או מהמחשב, והגישה ללא הגבלת זמן.</p></div></details><details><summary>מה קורה אחרי שאני משלם?</summary><div class="a"><p>נכנסים לפלטפורמת הקורס עם המייל והסיסמה שבחרת בהרשמה, ומתחילים משיעור 1, "המנוע הרגשי", בקצב שלך.</p></div></details></div></section>
+<section data-sec="11" data-name="אחרי ההצטרפות"><div class="wrap stack">
+<h2>מה קורה אחרי ההצטרפות?</h2>
+<ol class="steps">
+<li><span><strong>נרשמים ומשלמים</strong> בדף תשלום מאובטח: 297 ₪ או 3 × 99 ₪.</span></li>
+<li><span><strong>מקבלים מייל</strong> עם פרטי הכניסה לקורס ו-3 חוברות הבונוס.</span></li>
+<li><span><strong>מתחילים משיעור 1</strong>, "המנוע הרגשי", מהנייד או מהמחשב, בקצב שלך. הגישה ללא הגבלת זמן.</span></li>
+</ol>
+</div></section>
+<section data-sec="12" data-name="תזכורת"><div class="wrap stack">
+<h2>תזכורת קטנה ממני</h2>
+<p class="note">לא צריך לדעת הכל מראש. לא צריך ניסיון, ולא צריך לחכות לרגע המושלם. צריך רק להתחיל. שיעור אחד, כלי אחד, צעד אחד. וברגע שאתה מבין איך המחשבות שלך עובדות, משהו משתנה.</p>
+<p class="sign" style="font-family:var(--display);font-weight:800;color:var(--gold);font-size:20px">בן</p>
+</div></section>
 <section class="band" data-buyzone><div class="wrap stack">
-<p class="part">אחריות מלאה</p>
+<p class="kicker">אחריות מלאה</p>
 <h2>או שהתוכן הזה שווה לך הרבה יותר מ-297 ₪, <mark>או שאנחנו מחזירים לך את כל הכסף.</mark></h2>
 <p class="lead">אנחנו לא רוצים שתישאר רק כי שילמת. אנחנו רוצים שתישאר כי הרגשת שקיבלת כאן משהו שבאמת משנה לך את הדרך שבה אתה חושב, רואה, מחליט ופועל.</p>
 <p>אם במהלך השבוע הראשון עברת על התוכן, נתת לו הזדמנות אמיתית, והרגשת שהוא לא נותן לך זוויות ראייה חדשות, כלים פרקטיים, עוגנים, שיטה וערך אמיתי שמצדיק את ה-297 ₪, פשוט שולחים לנו מייל ומקבלים החזר מלא.</p>
