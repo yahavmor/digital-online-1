@@ -527,6 +527,15 @@
   .nlp-fun-row.biggest-drop .nlp-fun-lbl { color: var(--bad); font-weight: 700; }
   .nlp-cta-breakdown { display: flex; flex-wrap: wrap; gap: 8px; }
   .nlp-cta-row { background: var(--card-soft); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; font-size: 11px; display: flex; gap: 8px; align-items: center; }
+  .nlp-summary { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin: 0 0 14px; }
+  .nlp-sum-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; box-shadow: var(--shadow-sm); }
+  .nlp-sum-box .k { font-size: 11px; color: var(--text-3); font-weight: 600; }
+  .nlp-sum-box .v { font-size: 26px; font-weight: 800; color: var(--text); line-height: 1.2; margin-top: 4px; }
+  .nlp-sum-box .s { font-size: 11px; color: var(--text-2); margin-top: 4px; line-height: 1.5; }
+  .nlp-sum-box.verdict { grid-column: 1 / -1; border-color: var(--pa-border); background: var(--pa-softer); }
+  .nlp-sum-box.verdict.win { border-color: var(--good-border); background: var(--good-bg); }
+  .nlp-sum-box.verdict .v { font-size: 17px; }
+  .nlp-rule { font-size: 11px; color: var(--text-3); margin-top: 8px; line-height: 1.6; }
   .nlp-cta-empty { font-size: 11px; color: var(--text-3); }
   .nlp-purchase-row { display: flex; align-items: flex-end; gap: 10px; flex-wrap: wrap; }
   .nlp-purchase-row label { font-size: 11px; color: var(--text-2); display: flex; flex-direction: column; gap: 4px; }
@@ -877,6 +886,7 @@
     <div class="sync-pill" id="nlp_sync">לא מחובר</div>
   </div>
 
+  <div class="nlp-summary" id="nlp_summary"></div>
   <div class="nlp-grid" id="nlp_grid"></div>
 
   <div class="section-head">
@@ -1733,7 +1743,7 @@ function computeNlpStats(variant) {
   rows.forEach(e => {
     const sid = e.sid;
     if (!sid) return;
-    if (!bySid[sid]) bySid[sid] = { hasView: false, maxSec: 0, maxSection: 0, maxScroll: 0, sections: 0, cta: [], buttons: new Set(), videos: new Set() };
+    if (!bySid[sid]) bySid[sid] = { hasView: false, maxSec: 0, maxSection: 0, maxScroll: 0, sections: 0, cta: [], buttons: new Set(), videos: new Set(), lead: false };
     const s = bySid[sid];
     if (e.ev === 'view') s.hasView = true;
     s.maxSec = Math.max(s.maxSec, num(e.sec_on_page));
@@ -1743,6 +1753,7 @@ function computeNlpStats(variant) {
     if (e.ev === 'cta_click') s.cta.push(num(e.at_section));
     if ((e.ev === 'cta_click' || e.ev === 'shortcut_click') && e.cta) s.buttons.add(String(e.cta));
     if (e.ev === 'video_play') s.videos.add(num(e.video));
+    if (e.ev === 'lead') s.lead = true;
   });
   const sids = Object.keys(bySid);
   const visitSids = sids.filter(sid => bySid[sid].hasView);
@@ -1765,7 +1776,8 @@ function computeNlpStats(variant) {
   return {
     visits, avgTime, avgScroll, N, funnel,
     ctaCount: ctaSids.length, ctaPct: pct(ctaSids.length, visits), buttonCtr,
-    videoViews: videoSids.length
+    videoViews: videoSids.length,
+    leads: sids.filter(sid => bySid[sid].lead).length
   };
 }
 
@@ -1830,6 +1842,7 @@ function renderNlpCard(variant) {
           <div class="lp-stat-lbl">לחצו לתשלום</div>
           <div class="lp-stat-rate">${fmtPct(stats.ctaPct)} מהביקורים</div>
         </div>
+        <div class="lp-stat"><div class="lp-stat-val mono">${fmt(stats.leads)}</div><div class="lp-stat-lbl">רשימת המתנה</div><div class="lp-stat-rate">${fmtPct(pct(stats.leads, stats.visits))} מהביקורים</div></div>
         <div class="lp-stat"><div class="lp-stat-val mono" style="color:var(--good);">${fmtPct(conv)}</div><div class="lp-stat-lbl">אחוז המרה (רכישות)</div></div>
       </div>
 
@@ -1852,9 +1865,57 @@ function renderNlp() {
   const grid = document.getElementById('nlp_grid');
   if (!grid) return;
   grid.innerHTML = NLP_VARIANTS.map(renderNlpCard).join('');
+  renderNlpSummary();
   grid.querySelectorAll('.nlp-save-purchase').forEach(btn => {
     btn.addEventListener('click', onNlpSavePurchase);
   });
+}
+
+
+/* ---- NLP summary + A/B decision rule ----
+   Rule (fixed in advance, so we don't stop early on noise):
+   1) at least NLP_MIN_VISITS unique visits per variant AND NLP_MIN_DAYS days of data;
+   2) metric = purchases/visits if any purchases were logged, else waitlist leads/visits
+      (while checkout is in waitlist mode), else checkout-click rate;
+   3) winner = leader beats runner-up with >= 90% confidence (two-proportion z-test)
+      AND a relative lift of >= 15%. Otherwise keep collecting. */
+const NLP_MIN_VISITS = 200, NLP_MIN_DAYS = 7, NLP_MIN_CONF = 0.90, NLP_MIN_LIFT = 0.15;
+function nlpNormCdf(z) { const t = 1 / (1 + 0.2316419 * Math.abs(z)); const d = 0.3989423 * Math.exp(-z * z / 2);
+  const p = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274)))); return z > 0 ? 1 - p : p; }
+function renderNlpSummary() {
+  const box = document.getElementById('nlp_summary'); if (!box) return;
+  const rows = nlpEventsInRange();
+  const buys = rows.filter(e => e.ev === 'purchase' && !/test_event/.test(String(e.qs || '')));
+  const per = NLP_VARIANTS.map(v => { const s = computeNlpStats(v); return { v, visits: s.visits, leads: s.leads, cta: s.ctaCount, buys: nlpPurchasesSum(v) }; });
+  const totLeads = per.reduce((a, p) => a + p.leads, 0), totBuys = per.reduce((a, p) => a + p.buys, 0);
+  const metric = totBuys > 0 ? 'buys' : (totLeads > 0 ? 'leads' : 'cta');
+  const mLabel = { buys: 'אחוז רכישה', leads: 'אחוז הרשמה לרשימת המתנה', cta: 'אחוז לחיצה לתשלום' }[metric];
+  per.forEach(p => { p.k = p[metric]; p.rate = p.visits ? p.k / p.visits : 0; });
+  const dates = rows.map(e => String(e.ts || '').slice(0, 10)).filter(Boolean).sort();
+  const days = dates.length ? Math.round((new Date(dates[dates.length - 1]) - new Date(dates[0])) / 864e5) + 1 : 0;
+  const sorted = per.slice().sort((a, b) => b.rate - a.rate);
+  const [L, R] = sorted;
+  let verdict, win = false;
+  const minV = Math.min(...per.map(p => p.visits));
+  if (minV < NLP_MIN_VISITS || days < NLP_MIN_DAYS) {
+    verdict = `עוד לא מכריעים: צריך לפחות ${NLP_MIN_VISITS} ביקורים לכל גרסה ו-${NLP_MIN_DAYS} ימי נתונים (כרגע ${per.map(p => p.v.toUpperCase() + ': ' + p.visits).join(' · ')} · ${days} ימים).`;
+  } else {
+    const pp = (L.k + R.k) / (L.visits + R.visits);
+    const se = Math.sqrt(pp * (1 - pp) * (1 / L.visits + 1 / R.visits));
+    const z = se ? (L.rate - R.rate) / se : 0, conf = nlpNormCdf(z);
+    const lift = R.rate ? (L.rate - R.rate) / R.rate : (L.rate > 0 ? 1 : 0);
+    if (conf >= NLP_MIN_CONF && lift >= NLP_MIN_LIFT) { win = true;
+      verdict = `🏆 גרסה ${L.v.toUpperCase()} מנצחת: ${(L.rate * 100).toFixed(1)}% מול ${(R.rate * 100).toFixed(1)}% (גרסה ${R.v.toUpperCase()}), ביטחון ${(conf * 100).toFixed(0)}%, שיפור ${(lift * 100).toFixed(0)}%.`;
+    } else {
+      verdict = `אין עדיין הבדל מובהק. מובילה כרגע: גרסה ${L.v.toUpperCase()} (${(L.rate * 100).toFixed(1)}%), ביטחון ${(conf * 100).toFixed(0)}% מתוך ${NLP_MIN_CONF * 100}% הנדרשים. ממשיכים לצבור.`;
+    }
+  }
+  box.innerHTML = `
+    <div class="nlp-sum-box"><div class="k">רכישות מ-Schooler (אוטומטי)</div><div class="v mono">${fmt(buys.length)}</div><div class="s">כל הצטרפות לקורס, דרך Webhook. רכישות לפי גרסה: עדכון ידני בכל כרטיס</div></div>
+    <div class="nlp-sum-box"><div class="k">רשימת המתנה (סה"כ)</div><div class="v mono">${fmt(totLeads)}</div><div class="s">${per.map(p => p.v.toUpperCase() + ': ' + p.leads).join(' · ')}</div></div>
+    <div class="nlp-sum-box"><div class="k">ביקורים ייחודיים (סה"כ)</div><div class="v mono">${fmt(per.reduce((a, p) => a + p.visits, 0))}</div><div class="s">${per.map(p => p.v.toUpperCase() + ': ' + p.visits).join(' · ')}</div></div>
+    <div class="nlp-sum-box verdict ${win ? 'win' : ''}"><div class="k">הכרעה בין הגרסאות · מדד: ${mLabel}</div><div class="v">${verdict}</div>
+      <div class="nlp-rule">הכלל: לפחות ${NLP_MIN_VISITS} ביקורים לכל גרסה ו-${NLP_MIN_DAYS} ימים · מדד לפי סדר עדיפות: רכישות, ואם אין אז רשימת המתנה, ואם אין אז לחיצות לתשלום · מנצחת רק אם היא עדיפה על השנייה בביטחון של ${NLP_MIN_CONF * 100}% לפחות ובשיפור של ${NLP_MIN_LIFT * 100}% לפחות.</div></div>`;
 }
 
 async function onNlpSavePurchase(ev) {
