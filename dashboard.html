@@ -1642,6 +1642,16 @@ const NLP_PAGE_URL = { a: SITE_BASE + 'nlp/a.html', b: SITE_BASE + 'nlp/b.html',
 /* Mirror of ACTIVE_VARIANT in /nlp/index.html -- update by hand on the same
    weekly variant swap so the "פעיל כרגע" pill stays accurate. */
 const NLP_ACTIVE_VARIANT = 'a';
+/* Every data-cta id on the pages, in page order. hero_shortcut fires
+   "shortcut_click" (it jumps to the offer, not a checkout click) -- every
+   other id fires "cta_click". Keep this in sync with the pages' data-cta
+   attributes if a button is ever added, renamed or removed. */
+const NLP_BUTTONS = ['hero_main', 'hero_shortcut', 'cta1', 'cta2', 'cta3', 'cta4', 'cta5', 'cta6', 'offer', 'final', 'sticky'];
+const NLP_BUTTON_LABELS = {
+  hero_main: 'Hero · כפתור ראשי', hero_shortcut: 'Hero · קיצור להצעה',
+  cta1: 'CTA 1', cta2: 'CTA 2', cta3: 'CTA 3', cta4: 'CTA 4', cta5: 'CTA 5', cta6: 'CTA 6',
+  offer: 'ההצעה', final: 'סיום', sticky: 'כפתור צף (Sticky)'
+};
 
 let nlpEvents = [];
 let nlpPurchases = [];
@@ -1680,7 +1690,7 @@ async function loadNlpData() {
       return {
         ts: v(0), ev: v(1), variant: v(2), sid: v(3), sec_on_page: v(4),
         max_section: v(5), sections: v(6), max_scroll_pct: v(7), qs: v(8),
-        at_section: v(9), section: v(10), name: v(11), video: v(12)
+        at_section: v(9), section: v(10), name: v(11), video: v(12), cta: v(13)
       };
     });
     nlpPurchases = (purchasesJson.table.rows || []).map(row => {
@@ -1723,7 +1733,7 @@ function computeNlpStats(variant) {
   rows.forEach(e => {
     const sid = e.sid;
     if (!sid) return;
-    if (!bySid[sid]) bySid[sid] = { hasView: false, maxSec: 0, maxSection: 0, maxScroll: 0, sections: 0, cta: [], videos: new Set() };
+    if (!bySid[sid]) bySid[sid] = { hasView: false, maxSec: 0, maxSection: 0, maxScroll: 0, sections: 0, cta: [], buttons: new Set(), videos: new Set() };
     const s = bySid[sid];
     if (e.ev === 'view') s.hasView = true;
     s.maxSec = Math.max(s.maxSec, num(e.sec_on_page));
@@ -1731,6 +1741,7 @@ function computeNlpStats(variant) {
     s.maxScroll = Math.max(s.maxScroll, num(e.max_scroll_pct));
     s.sections = Math.max(s.sections, num(e.sections));
     if (e.ev === 'cta_click') s.cta.push(num(e.at_section));
+    if ((e.ev === 'cta_click' || e.ev === 'shortcut_click') && e.cta) s.buttons.add(String(e.cta));
     if (e.ev === 'video_play') s.videos.add(num(e.video));
   });
   const sids = Object.keys(bySid);
@@ -1745,12 +1756,15 @@ function computeNlpStats(variant) {
     funnel.push({ step: k, reached, pct: pct(reached, visits) });
   }
   const ctaSids = visitSids.filter(sid => bySid[sid].cta.length > 0);
-  const ctaBreakdown = {};
-  ctaSids.forEach(sid => bySid[sid].cta.forEach(sec => { ctaBreakdown[sec] = (ctaBreakdown[sec] || 0) + 1; }));
+  const buttonCtr = {};
+  NLP_BUTTONS.forEach(btn => {
+    const clicks = visitSids.filter(sid => bySid[sid].buttons.has(btn)).length;
+    buttonCtr[btn] = { clicks, pct: pct(clicks, visits) };
+  });
   const videoSids = visitSids.filter(sid => bySid[sid].videos.size > 0);
   return {
     visits, avgTime, avgScroll, N, funnel,
-    ctaCount: ctaSids.length, ctaPct: pct(ctaSids.length, visits), ctaBreakdown,
+    ctaCount: ctaSids.length, ctaPct: pct(ctaSids.length, visits), buttonCtr,
     videoViews: videoSids.length
   };
 }
@@ -1795,10 +1809,10 @@ function renderNlpCard(variant) {
       </div>`).join('')
     : '<div class="nlp-cta-empty">אין עדיין נתונים</div>';
 
-  const ctaKeys = Object.keys(stats.ctaBreakdown).sort((a, b) => a - b);
-  const ctaRows = ctaKeys.length
-    ? ctaKeys.map(sec => `<div class="nlp-cta-row"><span>חלק ${sec}</span><span class="mono">${stats.ctaBreakdown[sec]}</span></div>`).join('')
-    : '<div class="nlp-cta-empty">אין עדיין לחיצות</div>';
+  const btnRows = NLP_BUTTONS.map(btn => {
+    const b = stats.buttonCtr[btn] || { clicks: 0, pct: 0 };
+    return `<div class="nlp-cta-row"><span>${NLP_BUTTON_LABELS[btn] || btn}</span><span class="mono">${fmt(b.clicks)} · ${fmtPct(b.pct)}</span></div>`;
+  }).join('');
 
   return `
     <div class="lp-stats-card nlp-card">
@@ -1822,8 +1836,8 @@ function renderNlpCard(variant) {
       <div class="nlp-sub-title">משפך חלקים בדף${stats.N ? ' (1–' + stats.N + ')' : ''}</div>
       <div class="nlp-funnel">${funnelRows}</div>
 
-      <div class="nlp-sub-title">לחיצות לתשלום לפי חלק בדף</div>
-      <div class="nlp-cta-breakdown">${ctaRows}</div>
+      <div class="nlp-sub-title">CTR לכל כפתור</div>
+      <div class="nlp-cta-breakdown">${btnRows}</div>
 
       <div class="nlp-sub-title">רכישות (עדכון ידני · Schooler / Cardcom)</div>
       <div class="nlp-purchase-row">
