@@ -389,6 +389,23 @@ html.js .rv.zoom{transform:scale(.96)}
 html.js .rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}html.js .rv{opacity:1;transform:none}}
 video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--font);font-weight:700;font-size:20px;background:rgba(0,0,0,.72);color:#fff}
+
+.wl{position:fixed;inset:0;z-index:80;display:none;align-items:flex-end;justify-content:center;background:rgba(4,5,8,.72);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);padding:0}
+.wl.on{display:flex}
+.wl .sheet{width:100%;max-width:520px;background:#111319;border:1px solid var(--gold-b);border-radius:24px 24px 0 0;padding:26px 20px calc(22px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:14px;animation:up .45s var(--ease) both;max-height:92vh;overflow:auto}
+@media (min-width:600px){.wl{align-items:center}.wl .sheet{border-radius:24px;padding:32px 30px}}
+.wl h3{font-size:clamp(22px,5.6vw,28px);font-weight:900;line-height:1.25}
+.wl p{color:var(--muted);font-size:16px;line-height:1.65}
+.wl label{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500;color:var(--ink2)}
+.wl input{font:inherit;font-size:17px;color:var(--ink);background:rgba(255,255,255,.04);border:1px solid var(--gold-a);border-radius:12px;padding:13px 14px;direction:rtl}
+.wl input:focus{outline:none;border-color:var(--gold2);box-shadow:0 0 0 3px rgba(211,183,122,.18)}
+.wl input[type=email],.wl input[type=tel]{direction:ltr;text-align:right}
+.wl .x{align-self:flex-end;background:none;border:0;color:var(--muted);font-size:26px;line-height:1;cursor:pointer;padding:0 4px;margin-bottom:-28px}
+.wl .err{color:#E8A0A0;font-size:14px;min-height:1em}
+.wl .ok{text-align:center;display:none;flex-direction:column;gap:12px;align-items:center}
+.wl.done form{display:none}.wl.done .ok{display:flex}
+.wl .ok b{font-size:44px}
+.wl .fine{font-size:12px;color:var(--dim)}
 </style>
 </head>
 <body>
@@ -605,7 +622,7 @@ const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6
     try{ if(window.fbq) fbq("trackCustom","LP_"+ev,p); }catch(e){}
     if(TRACK_ENDPOINT){ try{ const f=new URLSearchParams(); for(const k in p) f.append(k, p[k]); if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT, f))) fetch(TRACK_ENDPOINT,{method:"POST",body:f,mode:"no-cors",keepalive:true}); }catch(e){} }
   }
-  send("view");
+  window.__lpSend = send; send("view");
   // checkout links (keeps Instagram UTMs + variant)
   const qs = new URLSearchParams(location.search); if(!qs.has("utm_content")) qs.set("utm_content","lp_"+V);
   document.querySelectorAll("[data-checkout]").forEach(a=>{
@@ -662,5 +679,29 @@ var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isInt
  if(e.target===flow){[].forEach.call(flow.children,function(li,i){setTimeout(function(){li.classList.add('on')},300+i*380)})}
 })},{threshold:.4});
 document.querySelectorAll('[data-count]').forEach(function(e){io2.observe(e)}); if(flow)io2.observe(flow);
-})();</script></body>
+})();</script><div class="wl" id="wl" role="dialog" aria-modal="true" aria-labelledby="wlT"><div class="sheet">
+<button class="x" type="button" aria-label="סגירה">×</button>
+<form novalidate>
+<div class="stack" style="gap:14px">
+<h3 id="wlT">ההרשמה נפתחת מחדש ממש בקרוב</h3>
+<p>יש לנו תקלה זמנית במערכת התשלום, ואנחנו כבר מטפלים בה. השאירו פרטים, ותהיו הראשונים לקבל הודעה ברגע שאפשר להצטרף, באותו מחיר: 297 ₪ עם כל 5 הבונוסים.</p>
+<label>שם<input name="n" autocomplete="name" required></label>
+<label>טלפון<input name="p" type="tel" inputmode="tel" autocomplete="tel" required></label>
+<label>מייל<input name="e" type="email" inputmode="email" autocomplete="email" required></label>
+<p class="err" aria-live="polite"></p>
+<button class="cta" type="submit">שמרו לי מקום <span>←</span></button>
+<p class="fine">לא נשלח ספאם. אפשר להסיר את עצמך בכל רגע.</p>
+</div></form>
+<div class="ok"><b>✓</b><h3>מעולה, שמרנו לך מקום</h3><p>ניצור איתך קשר ממש בקרוב עם קישור להצטרפות.</p><button class="cta" type="button" data-close>חזרה לדף</button></div>
+</div></div><script>(function(){var w=document.getElementById('wl');if(!w)return;var f=w.querySelector('form'),er=w.querySelector('.err'),last=null;
+function open(src){last=src;w.classList.add('on');document.documentElement.style.overflow='hidden';setTimeout(function(){f.n.focus()},60);try{window.__lpSend&&window.__lpSend('lead_open',{cta:src||''})}catch(e){}}
+function close(){w.classList.remove('on');document.documentElement.style.overflow=''}
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[data-checkout]');if(!a)return;e.preventDefault();open(a.dataset.cta)},true);
+w.addEventListener('click',function(e){if(e.target===w||e.target.closest('.x')||e.target.closest('[data-close]'))close()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+f.addEventListener('submit',function(e){e.preventDefault();var n=f.n.value.trim(),p=f.p.value.replace(/[^0-9+]/g,''),m=f.e.value.trim();
+if(n.length<2){er.textContent='נא למלא שם';return}if(p.length<9){er.textContent='נא למלא טלפון תקין';return}if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m)){er.textContent='נא למלא מייל תקין';return}er.textContent='';
+try{window.__lpSend('lead',{cta:last||'',lead_name:n,lead_phone:p,lead_email:m})}catch(x){}
+try{if(window.fbq)fbq('track','Lead',{content_name:'nlp_waitlist'})}catch(x){}
+w.classList.add('done')});})();</script></body>
 </html>
