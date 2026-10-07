@@ -1716,9 +1716,15 @@ async function loadNlpData() {
   }
 }
 
+function nlpIsoDay(t) {
+  const s = String(t || ''); const m = s.match(/^Date\((\d+),(\d+),(\d+)/);
+  if (m) return m[1] + '-' + String(+m[2] + 1).padStart(2, '0') + '-' + String(+m[3]).padStart(2, '0');
+  return s.slice(0, 10);
+}
+
 function nlpEventsInRange() {
   return nlpEvents.filter(e => {
-    const d = String(e.ts || '').slice(0, 10);
+    const d = nlpIsoDay(e.ts);
     if (nlpFrom && d < nlpFrom) return false;
     if (nlpTo && d > nlpTo) return false;
     return true;
