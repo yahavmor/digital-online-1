@@ -1891,8 +1891,9 @@ function renderNlpSummary() {
   const metric = totBuys > 0 ? 'buys' : (totLeads > 0 ? 'leads' : 'cta');
   const mLabel = { buys: 'אחוז רכישה', leads: 'אחוז הרשמה לרשימת המתנה', cta: 'אחוז לחיצה לתשלום' }[metric];
   per.forEach(p => { p.k = p[metric]; p.rate = p.visits ? p.k / p.visits : 0; });
-  const dates = rows.map(e => String(e.ts || '').slice(0, 10)).filter(Boolean).sort();
-  const days = dates.length ? Math.round((new Date(dates[dates.length - 1]) - new Date(dates[0])) / 864e5) + 1 : 0;
+  const toDay = t => { const s = String(t || ''); const m = s.match(/^Date\((\d+),(\d+),(\d+)/); if (m) return new Date(+m[1], +m[2], +m[3]).getTime(); const d = new Date(s.slice(0, 10)); return isNaN(d) ? null : d.getTime(); };
+  const dates = rows.map(e => toDay(e.ts)).filter(x => x != null).sort((x, y) => x - y);
+  const days = dates.length ? Math.round((dates[dates.length - 1] - dates[0]) / 864e5) + 1 : 0;
   const sorted = per.slice().sort((a, b) => b.rate - a.rate);
   const [L, R] = sorted;
   let verdict, win = false;
