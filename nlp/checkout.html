@@ -57,6 +57,26 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 .paytitle span{font-size:13.5px;font-weight:500;color:var(--muted)}
 .terms{text-align:center;font-size:13px;color:var(--muted);margin:8px 0 0}
 .terms a{color:var(--ink2)}
+.incl{list-style:none;margin:14px 0 0;padding:12px 0 0;border-top:1px dashed var(--line);display:grid;gap:6px;text-align:right}
+.incl li{display:flex;gap:9px;font-size:15px;color:var(--ink2)}
+.incl li::before{content:"✓";font-weight:900;color:var(--gold)}
+.why{margin:18px 0 0;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r)}
+.why h2,.deal h2,.safe h2{font-size:16px;font-weight:800;margin:0 0 8px}
+.frow{display:grid;grid-template-columns:86px 1fr;gap:10px;padding:7px 0;border-top:1px solid #F1EEE7;font-size:14.5px}
+.frow:first-of-type{border-top:0}
+.frow b{font-weight:700}
+.frow span{color:var(--muted);line-height:1.5}
+.deal{margin:28px 0 0}
+.deal dl{margin:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.deal dl>div{display:grid;grid-template-columns:104px 1fr;gap:10px;padding:10px 14px;border-top:1px solid var(--line);font-size:14.5px}
+.deal dl>div:first-child{border-top:0}
+.deal dt{font-weight:700;color:var(--ink)}
+.deal dd{margin:0;color:var(--ink2);line-height:1.5}
+.safe{margin:20px 0 0}
+.safe ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.safe li{position:relative;padding-inline-start:30px;font-size:14px;color:var(--muted);line-height:1.5}
+.safe li::before{content:"🔒";position:absolute;inset-inline-start:0;top:1px;font-size:15px}
+.safe li b{display:block;color:var(--ink);font-size:14.5px}
 </style>
 <script>try{if(top!==self)top.location.replace(location.href)}catch(e){}</script>
 </head>
@@ -74,6 +94,19 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 <p class="price"><b>297</b><span>₪</span></p>
 <p class="once">תשלום חד-פעמי</p>
 <p class="nosub">ללא מנוי · ללא חיובים נוספים</p>
+<ul class="incl">
+<li>כל שיעורי התוכנית: 4 חלקים, 142 שיעורים קצרים</li>
+<li>תרגולים מעשיים ליישום ביום-יום</li>
+<li>3 חוברות עבודה + כל הבונוסים</li>
+<li>גישה מיידית, מהטלפון או מהמחשב</li>
+</ul>
+</section>
+
+<section class="why" aria-label="למה אנחנו מבקשים את הפרטים">
+<h2>הפרטים שתתבקש למלא</h2>
+<div class="frow"><b>שם מלא</b><span>לצורך הפקת החשבונית על שמך</span></div>
+<div class="frow"><b>מייל</b><span>לקבלת החשבונית והגישה לקורס. לשם נשלח קישור הכניסה וכל הבונוסים</span></div>
+<div class="frow"><b>טלפון נייד</b><span>למקרה שנצטרך לעזור לך עם הגישה. לא נעביר אותו לאף אחד</span></div>
 </section>
 
 <section class="pay" aria-label="תשלום">
@@ -86,6 +119,28 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 <p class="secure">🔒 תשלום מאובטח · גישה מיידית לאחר אישור העסקה</p>
 <p class="terms" id="terms" hidden>בלחיצה על התשלום אני מאשר/ת את <a id="termsLink" href="#" target="_blank" rel="noopener">תנאי השימוש</a> ו<a id="privLink" href="#" target="_blank" rel="noopener">מדיניות הפרטיות</a></p>
 <p class="help" id="help" hidden><a id="helpLink" href="#" target="_blank" rel="noopener">צריך עזרה? אנחנו זמינים ב-WhatsApp</a></p>
+</section>
+<section class="deal" aria-label="פרטי העסקה">
+<h2>פרטי העסקה</h2>
+<dl>
+<div><dt>מוצר</dt><dd>השיטה - הקורס המלא + כל הבונוסים</dd></div>
+<div><dt>סכום לתשלום</dt><dd>297 ₪, כולל הכל</dd></div>
+<div><dt>אופן התשלום</dt><dd>תשלום חד-פעמי בכרטיס אשראי. ללא מנוי, ללא חיוב חוזר וללא עלויות נסתרות</dd></div>
+<div><dt>חשבונית</dt><dd>נשלחת אוטומטית למייל שהזנת מיד לאחר אישור העסקה</dd></div>
+<div><dt>גישה לקורס</dt><dd>נפתחת מיד לאחר אישור התשלום, ללא הגבלת זמן</dd></div>
+<div><dt>אחריות</dt><dd>7 ימים. אם הקורס לא מתאים לך, שולחים מייל ומקבלים החזר מלא</dd></div>
+<div><dt>תמיכה</dt><dd>זמינים בוואטסאפ לכל שאלה לפני ואחרי הרכישה</dd></div>
+</dl>
+</section>
+
+<section class="safe" aria-label="אבטחת התשלום">
+<h2>התשלום שלך מאובטח</h2>
+<ul>
+<li><b>סליקה דרך Cardcom</b>חברת סליקה ישראלית. פרטי הכרטיס מוזנים ישירות בדף המאובטח שלה</li>
+<li><b>פרטי הכרטיס לא נשמרים אצלנו</b>אנחנו לא רואים ולא שומרים את מספר הכרטיס</li>
+<li><b>חיבור מוצפן</b>כל המידע עובר בחיבור מאובטח (SSL)</li>
+<li><b>אימות בנקאי</b>ייתכן שהבנק יבקש אישור קצר בטלפון. זה חלק רגיל מאבטחת העסקה</li>
+</ul>
 </section>
 <a class="back" href="./" id="back">חזרה לדף</a>
 </main>
