@@ -202,6 +202,16 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 .story p{font-size:18px;line-height:1.8}
 .story h3{color:var(--gold);font-size:22px;margin-top:6px}
 .fitlist{margin:0;padding-inline-start:20px;display:flex;flex-direction:column;gap:10px;font-size:18px}
+
+.car{position:relative;max-width:420px;margin:0 auto;width:100%}
+.car-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;border-radius:18px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.car-track::-webkit-scrollbar{display:none}
+.car-slide{flex:0 0 100%;scroll-snap-align:center;margin:0}
+.car-slide img{display:block;width:100%;height:auto;border-radius:18px}
+.car-btn{position:absolute;top:45%;width:42px;height:42px;border-radius:50%;border:0;background:rgba(227,182,73,.95);color:#14203A;font-size:28px;font-weight:900;line-height:1;cursor:pointer;display:grid;place-items:center}
+.car-btn.prev{right:8px} .car-btn.next{left:8px}
+.car-dots{display:flex;justify-content:center;gap:8px;padding-top:12px}
+.car-dots i{width:9px;height:9px;border-radius:50%;background:var(--line)} .car-dots i.on{background:var(--gold)}
 </style>
 </head>
 <body>
@@ -242,8 +252,6 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 <h2>תוצאות אמיתיות של אנשים אמיתיים:</h2>
 <p class="res-intro">אנשים מכל מקום בחיים: בעלי עסקים, אנשי מכירות, הורים, צעירים שרק מתחילים. מה שמשותף לכולם: הם הפסיקו לחכות, והתחילו לחשוב אחרת.</p>
 <figure style="margin:0"><video controls playsinline preload="metadata" src="assets/t-merged.mp4#t=0.5" style="width:100%;max-width:360px;margin:0 auto;display:block;aspect-ratio:9/16;border-radius:var(--r);background:#000;object-fit:cover"></video><figcaption class="who" style="text-align:center">תלמידי Moudle Z מספרים</figcaption></figure>
-<figure style="margin:0"><img class="shot" src="assets/wa-mor.jpg" alt="המלצה של מור" loading="lazy"><figcaption class="who" style="text-align:center">מור</figcaption></figure>
-<figure style="margin:0"><img class="shot" src="assets/wa-dan.jpg" alt="המלצה של דן" loading="lazy"><figcaption class="who" style="text-align:center">דן</figcaption></figure>
 </div></section>
 <section class="band" data-sec="5" data-name="המנגנון"><div class="wrap stack">
 <h2>המנגנון המוכח של השיטה:</h2>
@@ -260,9 +268,11 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 <p class="fine">*אחרי התשלום מקבלים מייל עם גישה מיידית ו-4 בונוסים · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
 </div></section>
 <section data-sec="6" data-name="מה אומרים"><div class="wrap stack">
-<h2>מה אומרים מי שכבר בפנים:</h2>
-<figure style="margin:0"><img class="shot" src="assets/wa-mor3.jpg" alt="המלצה של מור, מחזור 3" loading="lazy"><figcaption class="who" style="text-align:center">מור, מחזור 3</figcaption></figure>
-<figure style="margin:0"><img class="shot" src="assets/wa-avraham.jpg" alt="המלצה של אברהם" loading="lazy"><figcaption class="who" style="text-align:center">אברהם</figcaption></figure>
+<h2>מה אומרים מי שכבר בפנים:</h2><p class="res-intro" style="text-align:center">החליקו כדי לראות עוד ←</p><div class="car" data-carousel>
+<div class="car-track"><figure class="car-slide"><img src="assets/car-2.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure><figure class="car-slide"><img src="assets/car-3.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure><figure class="car-slide"><img src="assets/car-4.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure><figure class="car-slide"><img src="assets/car-5.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure><figure class="car-slide"><img src="assets/car-6.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure><figure class="car-slide"><img src="assets/car-7.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure></div>
+<button class="car-btn prev" type="button" aria-label="הקודם">›</button><button class="car-btn next" type="button" aria-label="הבא">‹</button>
+<div class="car-dots"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</div>
 </div></section>
 <section class="ctab" data-buyzone><div class="wrap stack">
 <h2>להצטרפות לשיטה, לחצו על הכפתור:</h2>
@@ -277,7 +287,6 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 <li>למי שנמאס לו מהשראה רגעית, ורוצה להבין את המנגנון ולשנות אותו באמת</li>
 <li>לכל מי שמדבר עם אנשים, בעבודה, בעסק או בבית, ורוצה להשפיע טוב יותר</li>
 </ul>
-<figure style="margin:0"><img class="shot" src="assets/wa-yarin.jpg" alt="המלצה של ירין" loading="lazy"><figcaption class="who" style="text-align:center">ירין</figcaption></figure>
 </div></section>
 <section class="ctab" data-buyzone><div class="wrap stack">
 <h2>להצטרפות לשיטה, לחצו על הכפתור:</h2>
@@ -301,16 +310,7 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 <a class="cta" data-cta="cta5" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <span>←</span></a>
 <p class="fine">*אחרי התשלום מקבלים מייל עם גישה מיידית ו-4 בונוסים · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
 </div></section>
-<section data-sec="9" data-name="עוד המלצות"><div class="wrap stack">
-<h2>ועוד כמה מילים מתלמידים:</h2>
-<figure style="margin:0"><img class="shot" src="assets/wa-thanks.jpg" alt="המלצה של מהצ'אטים שלנו" loading="lazy"><figcaption class="who" style="text-align:center">מהצ'אטים שלנו</figcaption></figure>
-</div></section>
-<section class="ctab" data-buyzone><div class="wrap stack">
-<h2>להצטרפות לשיטה, לחצו על הכפתור:</h2>
-<a class="cta" data-cta="cta6" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <span>←</span></a>
-<p class="fine">*אחרי התשלום מקבלים מייל עם גישה מיידית ו-4 בונוסים · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
-</div></section>
-<section data-sec="10" data-name="למה בניתי"><div class="wrap stack">
+<section data-sec="9" data-name="למה בניתי"><div class="wrap stack">
 <div class="story stack">
 <h2>למה בניתי את השיטה?</h2>
 <div class="bio"><img src="assets/ben.jpg" alt="בן נחום"><div><h3 style="color:var(--ink);margin:0">היי, קוראים לי בן נחום</h3><p style="color:var(--muted);font-size:16px">NLP, שינוי דפוסי חשיבה והטמעת אמונות</p></div></div>
@@ -322,13 +322,13 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 <p class="key">כי בסוף, החיים שלנו לא משתנים רק בגלל מה שאנחנו יודעים. הם משתנים כשדרך החשיבה שמייצרת את הבחירות שלנו משתנה.</p>
 </div>
 </div></section>
-<section class="band" data-sec="11" data-name="מה באמת קונים"><div class="wrap stack">
+<section class="band" data-sec="10" data-name="מה באמת קונים"><div class="wrap stack">
 <h2>מה באמת קונים כאן?</h2>
 <p class="lead">לא 142 סרטונים. מערכת שאתה יכול לפתוח בכל פעם שאתה מרגיש תקוע:</p>
 <ul class="bought"><li>כלים לזהות את המחשבה שמנהלת אותך</li><li>דרך לעבוד עם רגש בזמן אמת</li><li>שיטה לבניית אמונות ודיאלוג פנימי חדשים</li><li>ומסלול שמכניס את כל זה לחיים שלך, כמה דקות בכל יום</li></ul>
 <p class="key" style="color:var(--band-gold)">הסרטונים הם רק הדרך להעביר לך את השיטה. השינוי שקורה איתה הוא המוצר.</p>
 </div></section>
-<section data-sec="12" data-name="מה יש בפנים"><div class="wrap stack">
+<section data-sec="11" data-name="מה יש בפנים"><div class="wrap stack">
 <h2>מה יש בפנים</h2><p class="lead">4 חלקים שבנויים מבפנים החוצה: מהחשיבה, דרך הרגש, ועד שיחות והשפעה על אנשים אחרים.</p><article class="module"><header><span class="mtag">חלק 1</span><h3>שינוי תפיסה</h3><div class="chips"><span class="chip">102 שיעורים</span><span class="chip">כ-10 שעות</span><span class="chip">4 עד 9 דק' לשיעור</span></div><p>הבסיס. שיעורים קצרים שנכנסים גם ליום עמוס, כל אחד על מנגנון אחד.</p></header><details><summary>דוגמאות לשיעורים</summary><ul class="lessons"><li class="mtag">פחד ותקיעות</li><li>הפסיכולוגיה של הפחד</li><li>פרפקציוניזם: דרך טובה של המוח לגרום לנו להישאר במקום</li><li>הפסיכולוגיה של התקיעות</li><li>שלושה כלים לצאת מתקיעות</li>
 <li class="mtag">הסיפור הפנימי</li><li>הסיפור שאנו מספרים לעצמנו</li><li>כוחה של פרשנות</li><li>הכוח החבוי של דיבור עצמי</li><li>הרגל 3 השורות: כתיבת סיפור פנימי</li>
 <li class="mtag">כסף ושפע</li><li>ממחסור לשפע: חוקים חדשים</li><li>פרדוקס הכסף</li><li>לשבור את משוואת הזמן וכסף</li>
@@ -339,10 +339,10 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 <article class="module"><header><span class="mtag">חלק 4</span><h3>הקלטות זום מלאות</h3><div class="chips"><span class="chip">9 הקלטות</span><span class="chip">כ-13 שעות</span></div><p>מפגשי עבודה מלאים, לא ערוכים: פתיחה ומנטליות, מטרות השיחה, דוגמאות אמיתיות ודיבור בתועלות.</p></header></article><div class="peek"><p class="kicker" style="margin:0">הצצה מבפנים: ככה נראית רשימת השיעורים בקורס</p>
 <div class="mock"><div class="mh"><b>שינוי תפיסה</b><span>0/102</span></div><ul><li><span class="lt">▶ המנוע הרגשי</span><span class="ld">05:29</span></li><li><span class="lt">🔒 הדחף הטבעי להתרחבות</span><span class="ld">05:30</span></li><li><span class="lt">🔒 כוחה של פרשנות</span><span class="ld">04:34</span></li><li><span class="lt">🔒 הפסיכולוגיה של הפחד</span><span class="ld">05:08</span></li><li><span class="lt">🔒 חוק ההתרחבות</span><span class="ld">05:31</span></li><li><span class="lt">🔒 פרפקציוניזם: דרך טובה של המוח לגרום לנו להישאר במקום</span><span class="ld">04:56</span></li><li><span class="lt">🔒 שינוי תודעתי: מאוטומט לפעולה</span><span class="ld">04:24</span></li></ul><div class="mf">ועוד 95 שיעורים בחלק הזה, ו-3 חלקים נוספים</div></div></div>
 </div></section>
-<section data-sec="13" data-name="בונוסים"><div class="wrap stack">
+<section data-sec="12" data-name="בונוסים"><div class="wrap stack">
 <h2>ובנוסף, <mark>4 בונוסים</mark> שמגיעים עם ההצטרפות</h2><div class="bonus"><img src="assets/cover-1.jpg" alt=""><div><h3>מפת שינוי הסיפור: 30 יום</h3><p>יומן של 3 שורות בערב: מה קרה, איזה סיפור סיפרתי לעצמי, ואיזה סיפור אני בוחר מעכשיו.</p><p class="why">למה זה חשוב: ככה הכלים מהסרטונים הופכים להרגל יומי, ולא נשארים בגדר השראה.</p></div></div><div class="bonus"><img src="assets/cover-2.jpg" alt=""><div><h3>ערכת השיחה החשובה</h3><p>צ'קליסט של 10 דקות ודף עבודה לפני כל שיחה שחשובה לך: מכירה, בוס, זוגיות.</p><p class="why">למה זה חשוב: נכנסים לשיחה מוכנים, מחוברים ובטוחים, ויוצאים עם החלטה ולא עם "נדבר".</p></div></div><div class="bonus"><img src="assets/cover-3.jpg" alt=""><div><h3>מבחן המחסור והשפע</h3><p>מבחן עצמי של 5 דקות ו-5 תרגילים לשנות את נקודת המבט על כסף, זמן ואנשים.</p><p class="why">למה זה חשוב: מגלים מאיזה מקום אתה מקבל החלטות, ומתחילים לשנות אותו.</p></div></div><div class="bonus"><div style="width:84px;height:110px;border-radius:8px;background:#5865F2;display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:900;font-size:14px">Discord</div><div><h3>הקהילה הסגורה בדיסקורד</h3><p>מקום לשאול, לשתף ולהתקדם יחד עם אנשים שעוברים את אותה דרך.</p><p class="why">למה זה חשוב: שינוי מחזיק יותר כשאתה לא עושה אותו לבד.</p></div></div>
 </div></section>
-<section class="band" id="offer" data-sec="14" data-name="ההצעה" data-buyzone><div class="wrap stack">
+<section class="band" id="offer" data-sec="13" data-name="ההצעה" data-buyzone><div class="wrap stack">
 <p class="kicker">ההצעה</p>
 <h2 style="text-align:center">השיטה המלאה, <mark>ב-297 ₪</mark></h2>
 <div class="offer">
@@ -360,7 +360,7 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 <a class="cta" data-cta="offer" data-checkout href="#">להצטרפות ב-297 ₪ <span>←</span></a>
 <div class="trust"><span>תשלום מאובטח</span><span>·</span><span>גישה מיד אחרי הרכישה</span><span>·</span><span>החזר מלא תוך 7 ימים</span></div>
 </div></div></section>
-<section class="faq" data-sec="15" data-name="שאלות"><div class="wrap stack"><h2>שאלות לפני הצטרפות</h2><details><summary>האם זה מתאים לי?</summary><div class="a"><p>אם לפחות שניים מהמצבים שתיארנו מוכרים לך, כן. התוכנית מתחילה מהבסיס, איך הרגש והתפיסה עובדים, ורק אחר כך עוברת להשפעה ולשיחות.</p></div></details><details><summary>מה בדיוק אני מקבל?</summary><div class="a"><p>4 חלקים: 102 שיעורי שינוי תפיסה, 25 שיעורי השפעה, 6 הדרכות לייב ו-9 הקלטות זום מלאות. סך הכל 142 שיעורי וידאו וכ-28 שעות.</p></div></details><details><summary>האם זה שווה 297 ₪?</summary><div class="a"><p>297 ₪ על שיטה שאתה לוקח איתך לכל שיחה, החלטה ורגש, לאורך זמן. ואם תוך שבוע תרגיש שזה לא שווה את זה, מקבלים החזר מלא. אפשר גם ב-3 תשלומים של 99 ₪.</p></div></details><details><summary>כמה זמן זה לוקח?</summary><div class="a"><p>כמה שאתה רוצה. השיעורים בחלק 1 נמשכים 4 עד 9 דקות, כך ששיעור ביום נכנס גם ליום עמוס. אין לוח זמנים.</p></div></details><details><summary>ומה אם זה לא בשבילי?</summary><div class="a"><p>יש לך שבוע. אם עברת על התוכן, נתת לו הזדמנות אמיתית והרגשת שהוא לא שווה את ה-297 ₪, שולחים לנו מייל ומקבלים החזר מלא. בלי ויכוחים ובלי אותיות קטנות.</p></div></details><details><summary>אני צריך ניסיון ב-NLP?</summary><div class="a"><p>לא. מתחילים מהיסודות, והשיעור הראשון עוסק במנוע הרגשי, הבסיס לכל השאר.</p></div></details><details><summary>איך אני מקבל גישה?</summary><div class="a"><p>נרשמים בדף הרכישה, משלמים בדף מאובטח, והשיעורים נפתחים לצפייה. צופים מהנייד או מהמחשב, והגישה ללא הגבלת זמן.</p></div></details><details><summary>מה קורה אחרי שאני משלם?</summary><div class="a"><p>נכנסים לפלטפורמת הקורס עם המייל והסיסמה שבחרת בהרשמה, ומתחילים משיעור 1, "המנוע הרגשי", בקצב שלך.</p></div></details></div></section>
+<section class="faq" data-sec="14" data-name="שאלות"><div class="wrap stack"><h2>שאלות לפני הצטרפות</h2><details><summary>האם זה מתאים לי?</summary><div class="a"><p>אם לפחות שניים מהמצבים שתיארנו מוכרים לך, כן. התוכנית מתחילה מהבסיס, איך הרגש והתפיסה עובדים, ורק אחר כך עוברת להשפעה ולשיחות.</p></div></details><details><summary>מה בדיוק אני מקבל?</summary><div class="a"><p>4 חלקים: 102 שיעורי שינוי תפיסה, 25 שיעורי השפעה, 6 הדרכות לייב ו-9 הקלטות זום מלאות. סך הכל 142 שיעורי וידאו וכ-28 שעות.</p></div></details><details><summary>האם זה שווה 297 ₪?</summary><div class="a"><p>297 ₪ על שיטה שאתה לוקח איתך לכל שיחה, החלטה ורגש, לאורך זמן. ואם תוך שבוע תרגיש שזה לא שווה את זה, מקבלים החזר מלא. אפשר גם ב-3 תשלומים של 99 ₪.</p></div></details><details><summary>כמה זמן זה לוקח?</summary><div class="a"><p>כמה שאתה רוצה. השיעורים בחלק 1 נמשכים 4 עד 9 דקות, כך ששיעור ביום נכנס גם ליום עמוס. אין לוח זמנים.</p></div></details><details><summary>ומה אם זה לא בשבילי?</summary><div class="a"><p>יש לך שבוע. אם עברת על התוכן, נתת לו הזדמנות אמיתית והרגשת שהוא לא שווה את ה-297 ₪, שולחים לנו מייל ומקבלים החזר מלא. בלי ויכוחים ובלי אותיות קטנות.</p></div></details><details><summary>אני צריך ניסיון ב-NLP?</summary><div class="a"><p>לא. מתחילים מהיסודות, והשיעור הראשון עוסק במנוע הרגשי, הבסיס לכל השאר.</p></div></details><details><summary>איך אני מקבל גישה?</summary><div class="a"><p>נרשמים בדף הרכישה, משלמים בדף מאובטח, והשיעורים נפתחים לצפייה. צופים מהנייד או מהמחשב, והגישה ללא הגבלת זמן.</p></div></details><details><summary>מה קורה אחרי שאני משלם?</summary><div class="a"><p>נכנסים לפלטפורמת הקורס עם המייל והסיסמה שבחרת בהרשמה, ומתחילים משיעור 1, "המנוע הרגשי", בקצב שלך.</p></div></details></div></section>
 <section class="band" data-buyzone><div class="wrap stack">
 <p class="kicker">אחריות מלאה</p>
 <h2>או שהתוכן הזה שווה לך הרבה יותר מ-297 ₪, <mark>או שאנחנו מחזירים לך את כל הכסף.</mark></h2>
@@ -424,5 +424,10 @@ const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6
   addEventListener("pagehide",leave); document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden") leave(); else sent=false; });
 })();
 </script>
-</body>
+<script>(function(){document.querySelectorAll('[data-carousel]').forEach(function(c){var t=c.querySelector('.car-track'),d=[].slice.call(c.querySelectorAll('.car-dots i')),seen={};
+function idx(){return Math.round(Math.abs(t.scrollLeft)/t.clientWidth)}
+function upd(){var i=idx();d.forEach(function(x,k){x.classList.toggle('on',k===i)}); if(!seen[i]){seen[i]=1; try{(window.dataLayer=window.dataLayer||[]).push({event:'lp_carousel_slide',slide:i+1})}catch(e){}}}
+t.addEventListener('scroll',function(){clearTimeout(t._s);t._s=setTimeout(upd,80)},{passive:true});
+function go(n){var i=Math.max(0,Math.min(d.length-1,idx()+n)); var dir=getComputedStyle(t).direction==='rtl'?-1:1; t.scrollTo({left:dir*i*t.clientWidth,behavior:'smooth'})}
+c.querySelector('.prev').addEventListener('click',function(){go(-1)}); c.querySelector('.next').addEventListener('click',function(){go(1)}); upd();});})();</script></body>
 </html>
