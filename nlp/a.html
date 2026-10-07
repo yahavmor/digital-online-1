@@ -2,272 +2,304 @@
 <html lang="he" dir="rtl" data-variant="a">
 <head>
 <meta charset="utf-8">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#0E1A30">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>השיטה · בן נחום</title>
 <meta name="description" content="תוכנית NLP דיגיטלית של בן נחום: 142 שיעורים, כ-28 שעות תוכן. 297 ₪ או 3 תשלומים של 99 ₪.">
-<meta property="og:image" content="assets/ben.jpg">
+<meta property="og:title" content="השיטה · בן נחום">
+<meta property="og:description" content="תוכנית NLP דיגיטלית: 142 שיעורים קצרים + 5 בונוסים. 297 ₪ או 3 תשלומים של 99 ₪.">
+<meta property="og:image" content="https://funnel.digitalonline.co.il/nlp/assets/ben.jpg">
+<link rel="preload" as="image" href="assets/ben.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@700;900&family=Heebo:wght@400;700;800;900&family=Assistant:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@700;900&family=Heebo:wght@500;600;700;800&family=Assistant:wght@400;600;700&display=swap">
 <style>
 :root{
-  --bg:#F5F6F8; --surface:#FFFFFF; --ink:#13151B; --muted:#585E6C; --line:#DFE2E8;
-  --gold:#A87A12; --gold-soft:#F3E7C8; --on-gold:#13151B;
-  --band:#13151B; --band-ink:#EEF0F4; --band-muted:#A3A9B6; --band-gold:#E3B649; --band-line:#2A2E38;
-  --ph:#7A5BD6; --ph-bg:rgba(122,91,214,.07);
-  --display:"Heebo","Arial Hebrew",Arial,sans-serif; --body:"Assistant","Heebo",Arial,sans-serif; --r:14px;
+  --bg:#FFFFFF; --alt:#F8F5EF; --surface:#FFFFFF; --ink:#141A26; --ink-2:#2B3240; --muted:#4F5766; --line:#E9E4D9; --line-2:#F0ECE3;
+  --gold:#B48A36; --gold-ink:#7D5F1F; --gold-soft:#F5ECD9;
+  --navy:#0E1A30; --navy-2:#16243F; --on-navy:#F2F3F6; --on-navy-2:#B9C0CE;
+  --cta:#CC9B3C; --cta-hover:#BC8C2F; --on-cta:#17120A;
+  --display:"Heebo","Arial Hebrew",Arial,sans-serif; --body:"Assistant","Heebo",Arial,sans-serif; --serif:"Frank Ruhl Libre","Heebo",serif;
+  --r:16px; --r-sm:12px; --shadow:0 1px 2px rgba(20,26,38,.04),0 8px 24px -12px rgba(20,26,38,.12);
+  --shadow-lg:0 2px 4px rgba(20,26,38,.04),0 24px 48px -20px rgba(20,26,38,.22);
+  --sec:64px; color-scheme:light;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#0E1015; --surface:#171A21; --ink:#ECEEF2; --muted:#9CA2AF; --line:#272B35; --gold:#E3B649; --gold-soft:#2C2614;
-  --band:#05060A; --band-line:#22252E; --ph:#A68CF0; --ph-bg:rgba(166,140,240,.09); color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0E1015; --surface:#171A21; --ink:#ECEEF2; --muted:#9CA2AF; --line:#272B35; --gold:#E3B649; --gold-soft:#2C2614;
-  --band:#05060A; --band-line:#22252E; --ph:#A68CF0; --ph-bg:rgba(166,140,240,.09); color-scheme:dark}
-*{box-sizing:border-box} html{scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.65;direction:rtl;-webkit-font-smoothing:antialiased}
-.wrap{max-width:640px;margin:0 auto;padding-inline:20px}
-section{padding-block:56px;scroll-margin-top:40px}
-h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.2;margin:0}
-h1{font-size:clamp(32px,8.6vw,50px);font-weight:900}
-h2{font-size:clamp(26px,6.6vw,36px);font-weight:800}
-h3{font-size:20px;font-weight:800}
-p{margin:0} img,video{max-width:100%}
-.stack{display:flex;flex-direction:column;gap:18px}
-.part{font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:.04em;color:var(--gold);display:flex;align-items:center;gap:10px}
-.part::after{content:"";flex:1;height:1px;background:currentColor;opacity:.35}
-.lead{font-size:20px;color:var(--muted)}
-mark{background:none;color:var(--gold);font-weight:800}
-.band{background:var(--band);color:var(--band-ink)}
-.band .part,.band mark{color:var(--band-gold)} .band .lead,.band .muted{color:var(--band-muted)}
-.cta{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:60px;padding:14px 22px;border-radius:999px;background:var(--band-gold);color:var(--on-gold);font-family:var(--display);font-weight:800;font-size:20px;text-decoration:none;box-shadow:0 8px 24px -10px rgba(227,182,73,.7);transition:transform .15s}
-.cta:hover{transform:translateY(-2px)} .cta:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
-.cta-note{text-align:center;font-size:15px;color:var(--muted)} .band .cta-note{color:var(--band-muted)}
-/* progress */
-.prog{position:fixed;top:0;inset-inline:0;z-index:30;background:var(--band);color:var(--band-muted);font-family:var(--display);font-size:13px;padding:calc(6px + env(safe-area-inset-top,0px)) 16px 6px;display:flex;justify-content:center;gap:8px;transform:translateY(-100%);transition:transform .25s}
-.prog.on{transform:none} .prog b{color:var(--band-gold);font-weight:800}
-.prog i{position:absolute;inset-inline-start:0;bottom:0;height:3px;background:var(--band-gold);width:0;transition:width .2s}
-/* hero with photo */
-.hero{position:relative;background:var(--band) url(assets/ben.jpg) center 18%/cover no-repeat;color:var(--band-ink);display:flex;align-items:flex-end;padding-block:max(300px,46vh) 40px;background-position:center top}
-.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,11,15,.25) 0%,rgba(10,11,15,0) 18%,rgba(10,11,15,.35) 38%,rgba(10,11,15,.94) 55%)}
-.hero .wrap{position:relative;width:100%}
-.hero .part{color:var(--band-gold)} .hero mark{color:var(--band-gold)} .hero .lead{color:#C9CDD6}
-.brand{position:absolute;top:20px;inset-inline:20px;display:flex;justify-content:space-between;font-family:var(--display);font-size:15px;color:#E6E8EE;z-index:1}
-.brand b{font-weight:800}
-.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--band-line);border:1px solid var(--band-line);border-radius:var(--r);overflow:hidden}
-.facts div{background:rgba(19,21,27,.85);padding:12px 6px;text-align:center}
-.facts b{display:block;font-family:var(--display);font-size:26px;font-weight:900;color:var(--band-ink);line-height:1.1}
-.facts span{font-size:13px;color:var(--band-muted)}
-/* lists & cards */
-.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
-.list li{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:flex;gap:12px}
-.list li::before{content:"";flex:0 0 8px;height:8px;border-radius:50%;background:var(--gold);margin-top:11px}
-.band .list li{background:rgba(255,255,255,.04);border-color:var(--band-line)}
-.outcome{display:grid;gap:12px}
-.outcome div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px}
-.outcome h3{margin-bottom:6px} .outcome p{color:var(--muted);font-size:17px}
-.layers{display:flex;flex-direction:column;border-inline-start:2px solid var(--band-line);margin-inline-start:6px}
-.layer{position:relative;padding:0 22px 26px 0} .layer:last-child{padding-bottom:0}
-.layer::before{content:"";position:absolute;right:-8px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--band);border:3px solid var(--band-gold)}
-.layer .k{font-family:var(--display);font-size:14px;font-weight:700;color:var(--band-gold)} .layer p{color:var(--band-muted);font-size:17px}
-.module{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;color:var(--ink)}
-.module header{padding:20px 20px 16px;display:flex;flex-direction:column;gap:8px}
+@media (min-width:768px){:root{--sec:96px}}
+*{box-sizing:border-box} html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.7;direction:rtl;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,video{max-width:100%;height:auto}
+p{margin:0}
+.wrap{max-width:720px;margin:0 auto;padding-inline:20px}
+.stack{display:flex;flex-direction:column;gap:20px}
+
+/* ---------- type ---------- */
+h1,h2,h3{font-family:var(--display);color:inherit;margin:0;text-wrap:balance}
+h2{font-size:clamp(27px,6.4vw,38px);font-weight:800;line-height:1.22;letter-spacing:-.01em}
+h3{font-size:19px;font-weight:700;line-height:1.35}
+section > .wrap > h2{margin-bottom:4px}
+section > .wrap > h2::after{content:"";display:block;width:44px;height:3px;border-radius:3px;margin-top:16px;background:var(--gold)}
+section[style*="center"] h2::after,.center h2::after,#offer h2::after{margin-inline:auto}
+mark{background:none;color:var(--gold-ink);font-weight:inherit}
+.lead,.res-intro{font-size:19px;line-height:1.65;color:var(--muted);max-width:60ch}
+.kicker,.mtag{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.06em;color:var(--gold-ink)}
+strong{font-weight:700;color:var(--ink)}
+
+/* ---------- sections ---------- */
+section{padding-block:var(--sec);scroll-margin-top:24px;background:var(--bg)}
+section.alt{background:var(--alt)}
+section + section.alt, section.alt + section:not(.alt){border-top:1px solid var(--line-2)}
+
+/* ---------- CTA ---------- */
+.cta{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:nowrap;width:100%;min-height:62px;padding:16px 24px;border:0;border-radius:14px;
+  background:var(--cta);color:var(--on-cta);font-family:var(--display);font-weight:800;font-size:19px;line-height:1.25;text-align:center;text-decoration:none;
+  box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 10px 24px -10px rgba(160,116,30,.65);transition:transform .18s ease,box-shadow .18s ease,background-color .18s ease;-webkit-tap-highlight-color:transparent}
+.cta:hover{background:var(--cta-hover);transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 14px 28px -10px rgba(160,116,30,.7)}
+.cta:active{transform:translateY(0)}
+.cta span{font-size:1.05em;transition:transform .18s ease} .cta:hover span{transform:translateX(-3px)}
+.cta .was{font-weight:600;opacity:.6;font-size:.82em;white-space:nowrap}
+@media (max-width:420px){.cta{font-size:18px;padding-inline:16px;gap:8px} .ctab .box{padding:22px 16px 20px}}
+@media (max-width:480px){.ctab .cta,.guar .cta{font-size:17px;padding-inline:12px} .ctab .cta>span:last-child,.guar .cta>span:last-child{display:none}}
+@media (max-width:374px){.ctab .cta,.guar .cta{font-size:16px} .pcard .pay{margin:12px 10px;padding-inline:12px} .pcard .cta{font-size:17px}}
+a:focus-visible,.cta:focus-visible,summary:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.was{color:inherit;opacity:.65;font-weight:600}
+.trustrow{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;font-size:14px;font-weight:600;color:var(--muted)}
+.trustrow li{display:inline-flex;align-items:center;gap:6px}
+.trustrow svg{width:16px;height:16px;flex:0 0 16px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@media (min-width:768px){.cta{width:auto;min-width:380px;margin-inline:auto;padding-inline:40px}}
+
+/* ---------- progress ---------- */
+.prog{position:fixed;top:0;inset-inline:0;z-index:30;height:3px;pointer-events:none;opacity:0;transition:opacity .25s}
+.prog.on{opacity:1} .prog span{display:none}
+.prog i{position:absolute;inset-inline-start:0;top:0;height:3px;width:0;background:var(--gold);transition:width .25s}
+
+/* ---------- hero ---------- */
+.hero7{position:relative;background:var(--navy);color:var(--on-navy);overflow:hidden}
+.hero7 .media{position:relative;height:min(48vh,440px);min-height:300px;background:var(--navy) url(assets/ben.jpg) center 14%/cover no-repeat}
+.hero7 .media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,26,48,.35) 0%,rgba(14,26,48,0) 22%,rgba(14,26,48,0) 52%,rgba(14,26,48,.85) 82%,var(--navy) 100%)}
+.hero7 .brand{position:absolute;top:calc(16px + env(safe-area-inset-top,0px));inset-inline:20px;z-index:1;display:flex;justify-content:space-between;align-items:center;font-family:var(--display);font-size:14px;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.35)}
+.hero7 .brand b{font-weight:800;letter-spacing:.01em} .hero7 .brand span{opacity:.85}
+.hero7 .body{position:relative;margin-top:-88px;padding-bottom:44px;text-align:center;gap:16px}
+.hero7 .nl-quote{margin-top:10px}
+.hero7 .nl-title{font-family:var(--serif);font-weight:900;font-size:clamp(56px,16vw,92px);line-height:.95;letter-spacing:.01em;color:#fff;margin:0}
+.hero7 .nl-title small{display:block;font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.32em;color:var(--gold);margin-bottom:12px}
+.hero7 .nl-sub{font-size:clamp(18px,4.6vw,22px);line-height:1.5;font-weight:600;color:#fff;max-width:34ch;margin-inline:auto}
+.hero7 .nl-quote{font-family:var(--display);font-size:15px;font-weight:600;color:#D9B66A;max-width:40ch;margin-inline:auto}
+.hero7 .nl-p{font-size:17px;line-height:1.7;color:var(--on-navy-2);max-width:52ch;margin-inline:auto}
+.hero7 .pricechip{display:flex;justify-content:center;align-items:baseline;gap:10px;font-family:var(--display);font-size:16px;color:var(--on-navy-2);margin-top:6px}
+.hero7 .pricechip b{font-size:30px;font-weight:800;color:#fff}
+.hero7 .trustrow{color:#C9CFDB} .hero7 .trustrow svg{stroke:#D9B66A}
+.hero7 .ghost{display:inline-block;align-self:center;color:#E7EAF0;font-family:var(--display);font-size:16px;font-weight:600;text-decoration:underline;text-decoration-color:rgba(217,182,106,.6);text-underline-offset:6px;padding:6px 8px}
+.hero7 .ghost:hover{color:#fff}
+.proofbar{background:var(--navy-2);color:var(--on-navy);border-top:1px solid rgba(255,255,255,.06)}
+.proofbar ul{list-style:none;margin:0 auto;padding:18px 12px;max-width:720px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.proofbar b{display:block;font-family:var(--display);font-size:clamp(20px,5.4vw,26px);font-weight:800;color:#fff;line-height:1.15}
+.proofbar span{font-size:13px;color:var(--on-navy-2);line-height:1.35;display:block;margin-top:2px}
+@media (min-width:600px) and (max-width:959px){.hero7 .media{background-position:center 24%;height:min(52vh,520px)}}
+@media (min-width:960px){
+  .hero7{display:grid;grid-template-columns:1fr 1fr;min-height:min(88vh,820px)}
+  .hero7 .media{order:2;height:auto;min-height:100%}
+  .hero7 .media::after{background:linear-gradient(270deg,var(--navy) 0%,rgba(14,26,48,.6) 18%,rgba(14,26,48,0) 45%)}
+  .hero7 .body{margin:0;align-self:center;padding:72px 56px 72px 32px;max-width:640px;justify-self:end;text-align:right}
+  .hero7 .nl-sub,.hero7 .nl-quote,.hero7 .nl-p{margin-inline:0}
+  .hero7 .pricechip,.hero7 .trustrow{justify-content:flex-start}
+  .hero7 .cta{margin-inline:0}
+  .hero7 .ghost{align-self:flex-start}
+}
+
+/* ---------- generic cards ---------- */
+.card,.reality .r,.six>div,.wins li,.fitlist li,.bonus6,.module,.faq details,.stack6,.bought li{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+/* reality */
+.reality{display:grid;gap:14px}
+.reality .r{display:grid;grid-template-columns:52px 1fr;gap:16px;align-items:start;padding:20px}
+.reality .ic{width:52px;height:52px;border-radius:14px;background:var(--gold-soft);display:grid;place-items:center}
+.reality .ic svg{width:26px;height:26px;stroke:var(--gold-ink);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.reality h3{margin-bottom:4px} .reality p{color:var(--muted);font-size:17px;line-height:1.65}
+
+/* "ככה ש" */
+.ifs{gap:18px}
+.ifs p{font-size:19px;line-height:1.8;max-width:62ch}
+.ifs p strong{color:var(--ink);background:linear-gradient(transparent 62%,var(--gold-soft) 62%)}
+.ifs p:last-child{font-weight:600;color:var(--ink);padding-inline-start:16px;border-inline-start:3px solid var(--gold)}
+
+/* CTA band */
+.ctab{padding-block:8px calc(var(--sec) * .8)}
+.ctab .wrap{max-width:600px}
+.ctab .box{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-lg);padding:26px 20px 22px;display:flex;flex-direction:column;gap:14px;text-align:center}
+.ctab h2{font-size:clamp(19px,4.8vw,22px);font-weight:700;color:var(--ink-2)}
+.ctab h2::after{display:none}
+.ctab .fine{font-size:14px;line-height:1.6;color:var(--muted)}
+.ctab .cta{width:100%;min-width:0}
+
+/* results */
+.vidcard{margin:0 auto;max-width:360px;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:10px;box-shadow:var(--shadow-lg)}
+.vidcard video{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:14px;background:#000}
+.vidcard figcaption,.who{font-family:var(--display);font-weight:700;font-size:15px;color:var(--ink-2);text-align:center;padding:12px 4px 4px}
+.vidcard figcaption small{display:block;font-weight:500;color:var(--muted);font-size:13px}
+
+/* mechanism */
+.layers{display:flex;flex-direction:column;gap:0;position:relative;margin-top:6px}
+.layer{position:relative;padding:0 56px 28px 0;gap:6px}
+.layer:last-child{padding-bottom:0}
+.layer::before{content:attr(data-n);position:absolute;right:0;top:0;width:38px;height:38px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:16px}
+.layer::after{content:"";position:absolute;right:18px;top:42px;bottom:4px;width:2px;background:var(--line)}
+.layer:last-child::after{display:none}
+.layer .k{font-family:var(--display);font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--gold-ink)}
+.layer p{color:var(--muted);font-size:17px}
+
+/* testimonials carousel */
+.car{position:relative;max-width:420px;margin:0 auto;width:100%}
+.car-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:4px 2px 14px}
+.car-track::-webkit-scrollbar{display:none}
+.car-slide{flex:0 0 100%;scroll-snap-align:center;margin:0;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:8px;box-shadow:var(--shadow)}
+.car-slide img{display:block;width:100%;height:auto;border-radius:14px}
+.car-btn{position:absolute;top:calc(50% - 30px);width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.96);color:var(--ink);font-size:26px;line-height:1;cursor:pointer;display:grid;place-items:center;box-shadow:var(--shadow);transition:transform .15s}
+.car-btn:hover{transform:scale(1.06)}
+.car-btn.prev{right:-6px} .car-btn.next{left:-6px}
+@media (min-width:560px){.car-btn.prev{right:-58px} .car-btn.next{left:-58px}}
+.car-dots{display:flex;justify-content:center;gap:8px;padding-top:4px}
+.car-dots i{width:8px;height:8px;border-radius:999px;background:#D9D3C6;transition:width .2s,background-color .2s} .car-dots i.on{width:22px;background:var(--gold)}
+.swipe{text-align:center;font-size:14px;color:var(--muted);font-weight:600}
+
+/* lists as cards */
+.fitlist,.wins{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.fitlist li,.wins li{display:flex;gap:14px;align-items:flex-start;padding:16px 18px;font-size:18px;line-height:1.55}
+.fitlist li::before,.wins li::before,.bought li::before{content:"";flex:0 0 24px;height:24px;margin-top:1px;border-radius:50%;background:var(--gold-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237D5F1F' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/14px no-repeat}
+@media (min-width:768px){.wins{grid-template-columns:1fr 1fr}}
+
+/* six */
+.six{display:grid;gap:12px}
+.six>div{padding:20px;position:relative}
+.six>div::before{content:"";position:absolute;top:20px;right:0;width:3px;height:26px;border-radius:0 3px 3px 0;background:var(--gold)}
+.six h3{margin-bottom:4px} .six p{color:var(--muted);font-size:17px}
+@media (min-width:768px){.six{grid-template-columns:1fr 1fr}}
+section > .wrap > h3{color:var(--muted);font-weight:600;font-size:19px;margin-top:-8px}
+
+/* story */
+.story{gap:18px}
+.story p{font-size:18px;line-height:1.8;max-width:62ch}
+.story h3{color:var(--ink);font-size:21px;margin-top:8px}
+.bio{display:grid;grid-template-columns:76px 1fr;gap:16px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;box-shadow:var(--shadow)}
+.bio img{width:76px;height:76px;border-radius:50%;object-fit:cover;object-position:center 18%}
+.bio h3{font-size:19px!important}
+.key{font-family:var(--serif);font-weight:700;font-size:clamp(22px,5.6vw,28px);line-height:1.45;color:var(--ink);padding:6px 20px 6px 0;border-inline-start:3px solid var(--gold);text-wrap:balance}
+
+/* bought */
+.bought{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.bought li{display:flex;gap:14px;align-items:flex-start;padding:15px 18px;font-size:18px;line-height:1.5}
+
+/* modules */
+.module{overflow:hidden}
+.module header{padding:22px 20px 18px;display:flex;flex-direction:column;gap:10px}
 .module header p{color:var(--muted);font-size:17px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{font-family:var(--display);font-size:14px;font-weight:700;padding:3px 12px;border-radius:999px;background:var(--gold-soft);color:var(--ink)}
-.mtag{font-family:var(--display);font-size:13px;font-weight:700;color:var(--gold)}
-details{border-top:1px solid var(--line)}
-summary{cursor:pointer;list-style:none;padding:14px 20px;font-family:var(--display);font-weight:700;font-size:16px;color:var(--gold);display:flex;justify-content:space-between;align-items:center;gap:12px}
-summary::-webkit-details-marker{display:none} summary::after{content:"+";font-size:22px;line-height:1} details[open] summary::after{content:"-"}
-.lessons{margin:0;padding:0 20px 18px;list-style:none;font-size:16px}
-.lessons li{padding:7px 0;border-bottom:1px solid var(--line)} .lessons li:last-child{border-bottom:0}
-/* testimonials */
-.vids{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.vids figure{margin:0;display:flex;flex-direction:column;gap:6px}
-.vids video{width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:var(--r);background:#000}
-.vids video.wide{object-fit:contain}
-.vids figcaption{font-size:14px;color:var(--muted);text-align:center}
-.quote{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:10px}
-.quote p{font-size:18px} .quote p::before{content:"״";color:var(--gold);font-weight:900;font-size:26px;line-height:0;margin-inline-end:4px}
-.quote cite{font-style:normal;font-family:var(--display);font-weight:700;font-size:15px;color:var(--muted)}
-.ph{border:2px dashed var(--ph);background:var(--ph-bg);border-radius:var(--r);padding:16px;font-size:15px}
-.ph::before{content:"PLACEHOLDER · להשלים לפני עלייה לאוויר";display:block;font-family:var(--display);font-weight:800;font-size:12px;color:var(--ph);margin-bottom:6px}
-/* offer */
-.offer{background:var(--surface);border:2px solid var(--band-gold);border-radius:22px;padding:26px 20px;display:flex;flex-direction:column;gap:18px;color:var(--ink)}
-.includes{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;font-size:17px}
-.includes li{display:flex;gap:10px} .includes li::before{content:"✓";color:var(--gold);font-weight:900}
-.price{display:flex;align-items:baseline;justify-content:center;gap:8px;font-family:var(--display)}
-.price b{font-size:64px;font-weight:900;line-height:1} .price span{font-size:26px;font-weight:800}
-.psub{text-align:center;color:var(--muted);font-size:16px;margin-top:-10px}
-.trust{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;font-size:14px;color:var(--muted)}
-.math{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.math div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 12px;text-align:center;color:var(--ink)}
-.math b{display:block;font-family:var(--display);font-size:clamp(24px,6.4vw,32px);font-weight:900}
-.math span{font-size:15px;color:var(--muted)}
-.fit{display:grid;gap:14px} .fit>div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px}
-.fit ul{margin:10px 0 0;padding-inline-start:20px;display:flex;flex-direction:column;gap:6px;font-size:17px}
-.faq details{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
-.faq summary{color:var(--ink);font-size:18px;padding:16px 18px} .faq summary::after{color:var(--gold)}
-.faq .a{padding:0 18px 18px;color:var(--muted);font-size:17px}
-.bio{display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:center}
-.bio img{width:96px;height:96px;border-radius:50%;object-fit:cover;object-position:center 20%}
-footer{padding-block:32px 120px;text-align:center;font-size:14px;color:var(--muted)}
-.sticky{position:fixed;inset-inline:0;bottom:0;z-index:20;background:var(--band);border-top:1px solid var(--band-line);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:12px;transform:translateY(110%);transition:transform .25s}
-.sticky.on{transform:none} .sticky .p{color:var(--band-ink);font-family:var(--display);line-height:1.15}
-.sticky .p b{font-size:24px;font-weight:900} .sticky .p small{display:block;color:var(--band-muted);font-size:12px}
-.sticky .cta{min-height:50px;font-size:18px;box-shadow:none;flex:1}
-@media (min-width:900px){.sticky{max-width:640px;margin:0 auto;border-radius:18px 18px 0 0}}
-
-.prog{background:transparent;padding:0;height:3px} .prog span{display:none}
-.prog i{top:0;bottom:auto;height:3px}
-.kicker{font-family:var(--display);font-weight:700;font-size:14px;color:var(--gold);letter-spacing:.03em}
-.band .kicker,.hero .kicker{color:var(--band-gold)}
-.nos{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:17px}
-.nos li{display:flex;gap:10px} .nos li::before{content:"✕";color:var(--band-gold);font-weight:900}
-.hero .nos{color:#D6D9E0}
-.creds{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.creds li{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;text-align:center}
-.creds b{display:block;font-family:var(--display);font-size:26px;font-weight:900;color:var(--gold)}
-.creds span{font-size:15px;color:var(--muted)}
-.wa{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start}
-.wa img{width:100%;border-radius:var(--r);border:1px solid var(--line)}
-.bonus{display:grid;grid-template-columns:84px 1fr;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px}
-.bonus img{width:84px;border-radius:8px;box-shadow:0 6px 16px -8px rgba(0,0,0,.5)}
-.bonus h3{font-size:17px} .bonus p{font-size:15px;color:var(--muted)}
-.steps{list-style:none;margin:0;padding:0;counter-reset:s;display:flex;flex-direction:column;gap:12px}
-.steps li{counter-increment:s;display:flex;gap:14px;align-items:flex-start}
-.steps li::before{content:counter(s);flex:0 0 32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--band-gold);color:var(--on-gold);font-family:var(--display);font-weight:900}
-.note{font-size:19px;line-height:1.75}
-.peek{display:grid;gap:10px}
-.mock{background:#0F1014;border:1px solid #2A2E38;border-radius:var(--r);overflow:hidden;color:#E6E8EE;font-size:15px}
+.chip{font-family:var(--display);font-size:13px;font-weight:600;padding:4px 12px;border-radius:999px;background:var(--alt);border:1px solid var(--line);color:var(--ink-2)}
+.module details{border-top:1px solid var(--line)}
+.module summary{cursor:pointer;list-style:none;padding:14px 20px;font-family:var(--display);font-weight:700;font-size:16px;color:var(--gold-ink);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.lessons{margin:0;padding:0 20px 16px;list-style:none;font-size:16px}
+.lessons li{padding:8px 0;border-bottom:1px solid var(--line-2)} .lessons li:last-child{border-bottom:0}
+.lessons li.mtag{padding-top:14px;border-bottom:0}
+.peek{display:grid;gap:10px;margin-top:8px}
+.mock{background:#0F1014;border:1px solid #2A2E38;border-radius:var(--r);overflow:hidden;color:#E6E8EE;font-size:15px;box-shadow:var(--shadow-lg)}
 .mock .mh{display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #2A2E38;font-family:var(--display)}
 .mock .mh span{color:#9CA2AF}
 .mock ul{list-style:none;margin:0;padding:0}
 .mock li{display:flex;justify-content:space-between;gap:12px;padding:10px 16px;border-bottom:1px solid #1E2129}
 .mock li:first-child{background:#1A1D25}
+.mock .lt{min-width:0;overflow-wrap:anywhere}
 .mock .ld{color:#8A8F9B;font-variant-numeric:tabular-nums;flex:0 0 auto}
 .mock .mf{padding:10px 16px;color:#E3B649;font-family:var(--display);font-size:14px}
+
+/* accordions (shared) */
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";flex:0 0 22px;height:22px;border-radius:50%;background:var(--alt) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237D5F1F' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center/14px no-repeat;transition:transform .25s ease}
+details[open]>summary::after{transform:rotate(180deg)}
+details .a,.lessons{overflow:hidden}
+
+/* bonuses */
+.bonus6{display:grid;grid-template-columns:84px 1fr;gap:16px;padding:16px;align-items:start}
+.bonus6 img,.bonus6 .dc{width:84px;border-radius:8px;box-shadow:0 8px 18px -10px rgba(20,26,38,.5)}
+.bonus6 .dc{height:108px;background:#5865F2;display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:13px}
+.bonus6 h3{font-size:18px;margin:2px 0 4px} .bonus6 p{font-size:16px;line-height:1.6;color:var(--muted)}
+.bonus6 .why{color:var(--ink-2);font-weight:600;font-size:15px;margin-top:6px}
+.bonus6 .val{display:inline-flex;margin-top:10px;font-family:var(--display);font-weight:700;font-size:13px;padding:4px 12px;border-radius:999px;background:var(--gold-soft);color:var(--gold-ink)}
+.btot{text-align:center;font-family:var(--display);font-size:19px;font-weight:700;padding-top:6px}
+.btot s{opacity:.55;font-weight:600} .btot b{color:var(--gold-ink)}
+@media (min-width:560px){.bonus6{grid-template-columns:104px 1fr;gap:20px;padding:20px} .bonus6 img,.bonus6 .dc{width:104px} .bonus6 .dc{height:134px}}
+
+/* pricing card */
+#offer{background:var(--bg);border-top:1px solid var(--line-2)}
+.faq{background:var(--alt);border-top:1px solid var(--line-2)}
+#offer .wrap{max-width:600px}
+#offer h2{text-align:center}
+#offer .offer-lead{text-align:center;color:var(--muted);font-size:17px;max-width:46ch;margin-inline:auto}
+.pcard{background:var(--surface);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow-lg);overflow:hidden;position:relative}
+.pcard::before{content:"";position:absolute;inset-inline:0;top:0;height:4px;background:var(--gold)}
+.pcard .head{padding:26px 22px 6px;text-align:center}
+.pcard .tag{display:inline-block;font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--gold-ink);background:var(--gold-soft);padding:5px 12px;border-radius:999px}
+.stack6{border:0;box-shadow:none;border-radius:0;padding:8px 22px 4px;background:transparent}
+.stack6 .row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:11px 0;border-bottom:1px solid var(--line-2);font-size:16px;line-height:1.45;color:var(--ink-2)}
+.stack6 .row span{min-width:0}
+.stack6 .row b{font-family:var(--display);font-weight:600;white-space:nowrap;color:var(--muted)}
+.stack6 .tot{display:flex;justify-content:space-between;padding:14px 0 6px;font-family:var(--display);font-weight:700;font-size:17px;color:var(--muted)}
+.stack6 .tot span:last-child{text-decoration:line-through;text-decoration-thickness:2px}
+.pcard .pay{margin:14px 14px 14px;padding:24px 18px 20px;border-radius:18px;background:var(--alt);display:flex;flex-direction:column;gap:12px;text-align:center}
+.pcard .now-l{font-family:var(--display);font-size:16px;font-weight:600;color:var(--muted)}
+.pcard .now{font-family:var(--display);font-weight:800;font-size:clamp(64px,19vw,84px);line-height:.95;color:var(--ink);letter-spacing:-.02em}
+.pcard .now span{font-size:.42em;font-weight:700;margin-inline-start:4px}
+.pcard .inst{display:inline-flex;align-self:center;gap:6px;align-items:center;font-family:var(--display);font-size:15px;font-weight:600;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);padding:6px 14px;border-radius:999px}
+.pcard .once{font-size:14px;color:var(--muted);margin-top:-4px}
+.pcard .cta{width:100%;min-width:0;margin-top:4px}
+
+/* FAQ */
+.faq .wrap{gap:12px}
+.faq h2{margin-bottom:12px}
+.faq details{box-shadow:none;transition:border-color .2s,box-shadow .2s}
+.faq details[open]{border-color:#DCCFB3;box-shadow:var(--shadow)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:18px 20px;font-family:var(--display);font-weight:700;font-size:17px;line-height:1.4;color:var(--ink);min-height:60px}
+.faq .a{padding:0 20px 18px;color:var(--muted);font-size:17px;line-height:1.7}
+
+/* guarantee */
+.guar .wrap{max-width:680px}
+.seal{width:96px;height:96px;border-radius:50%;margin:0 auto 4px;display:grid;place-items:center;text-align:center;background:var(--surface);border:2px solid var(--gold);box-shadow:0 0 0 6px var(--gold-soft);font-family:var(--display);color:var(--gold-ink);line-height:1.05}
+.seal b{display:block;font-size:30px;font-weight:800;color:var(--ink)} .seal small{font-size:12px;font-weight:700}
+.guar .kicker,.guar h2{text-align:center} .guar h2::after{margin-inline:auto}
+.guar p{font-size:18px;line-height:1.8}
+.guar h3{color:var(--gold-ink)!important;font-size:21px;text-align:center;margin-top:6px}
+.guar .muted{color:var(--muted)}
+.cta-note{text-align:center;font-size:14px;color:var(--muted);margin-top:-6px}
+
+footer{padding-block:36px 130px;text-align:center;font-size:14px;line-height:1.7;color:var(--muted);background:var(--bg);border-top:1px solid var(--line-2)}
+
+/* sticky (mobile only) */
+.sticky{position:fixed;inset-inline:0;bottom:0;z-index:20;display:flex;align-items:center;gap:14px;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));
+  background:rgba(255,255,255,.94);-webkit-backdrop-filter:saturate(1.4) blur(12px);backdrop-filter:saturate(1.4) blur(12px);border-top:1px solid var(--line);box-shadow:0 -8px 24px -16px rgba(20,26,38,.25);
+  transform:translateY(110%);transition:transform .3s ease}
+.sticky.on{transform:none}
+.sticky .p{font-family:var(--display);line-height:1.1;color:var(--ink);white-space:nowrap}
+.sticky .p b{font-size:22px;font-weight:800} .sticky .p small{display:block;font-size:12px;color:var(--muted);text-decoration:line-through}
+.sticky .cta{min-height:50px;font-size:17px;flex:1;width:auto;min-width:0;margin:0;box-shadow:0 6px 16px -8px rgba(160,116,30,.6)}
+@media (min-width:900px){.sticky{display:none}}
+
 video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-weight:700;font-size:20px;background:rgba(0,0,0,.72);color:#fff}
-.peek img{width:100%;border-radius:var(--r);border:1px solid var(--line)}
-
-:root{--band:#14203A;--band-line:#26365A;--bg:#F7F7F4}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--band:#0C1427;--band-line:#1E2B47;--bg:#0E1015}}
-:root[data-theme="dark"]{--band:#0C1427;--band-line:#1E2B47;--bg:#0E1015}
-.hero{background-color:#0C1427}
-.hero::before{background:linear-gradient(180deg,rgba(12,20,39,.2) 0%,rgba(12,20,39,0) 18%,rgba(12,20,39,.45) 38%,rgba(12,20,39,.96) 56%)}
-.hero h1{font-size:clamp(28px,7.4vw,44px)}
-.hero{padding-block:max(230px,34vh) 36px}
-.sub{font-size:19px;color:#E6E8EE;border-inline-start:3px solid var(--band-gold);padding-inline-start:12px}
-.chipsrow{display:flex;flex-wrap:wrap;gap:8px}
-.chipsrow span{font-family:var(--display);font-size:14px;font-weight:700;padding:5px 12px;border-radius:999px;background:rgba(227,182,73,.14);color:var(--band-gold)}
-.cta.ghost{background:transparent;color:var(--band-gold);border:2px solid var(--band-gold);box-shadow:none;min-height:52px;font-size:18px}
-.life{display:grid;gap:12px}
-.life div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;border-top:3px solid var(--gold)}
-.life h3{margin-bottom:4px}
-.life p{color:var(--muted);font-size:17px}
-.know{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:19px;font-weight:600}
-.know li::before{content:"✓ ";color:var(--gold)}
-.key{font-family:var(--display);font-weight:900;font-size:clamp(22px,6vw,30px);line-height:1.3;color:var(--gold);text-wrap:balance}
-.bought{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;font-size:18px}
-.bought li{display:flex;gap:10px} .bought li::before{content:"◆";color:var(--band-gold)}
-.diff{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.diff div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px}
-.diff h3{font-size:16px;margin-bottom:4px} .diff p{font-size:15px;color:var(--muted)}
-@media (max-width:420px){.diff{grid-template-columns:1fr}}
-.bonus .why{font-size:14px;color:var(--gold);font-weight:700;margin-top:4px}
-
-.nl-hero{background:var(--band);color:var(--band-ink);padding-block:28px 44px;text-align:center}
-.nl-hero .brand{position:static;padding-bottom:18px}
-.nl-title{font-family:var(--display);font-weight:900;font-size:clamp(40px,12vw,72px);letter-spacing:.02em;line-height:1;margin:0;color:#fff}
-.nl-title small{display:block;font-size:.32em;letter-spacing:.2em;color:var(--band-gold);margin-bottom:10px}
-.rule{display:flex;align-items:center;gap:14px;justify-content:center} .rule::before,.rule::after{content:"";height:2px;width:56px;background:var(--band-gold)}
-.nl-sub{font-size:19px;color:#D6DBE6;text-decoration:underline;text-decoration-color:rgba(227,182,73,.5);text-underline-offset:6px}
-.nl-quote{font-family:var(--display);font-weight:800;font-size:17px;color:var(--band-gold)}
-.nl-media{border-radius:16px;overflow:hidden;border:2px solid rgba(227,182,73,.45);max-width:420px;margin:0 auto;width:100%}
-.nl-media img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center 20%}
-.nl-p{font-size:18px;color:#D6DBE6;text-align:right}
-.reality{display:flex;flex-direction:column;gap:14px}
-.reality .r{display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
-.reality .ic{width:96px;height:96px;border-radius:18px;background:var(--band);display:grid;place-items:center}
-.reality .ic svg{width:48px;height:48px;stroke:var(--band-gold);fill:none;stroke-width:2}
-.reality h3{color:var(--ink);margin-bottom:4px} .reality p{color:var(--muted);font-size:16px}
-.ifs p{font-size:18px;line-height:1.75}
-.ifs p strong{color:var(--gold)}
-.ctab{background:var(--band);color:var(--band-ink);padding-block:34px;text-align:center}
-.ctab h2{font-size:clamp(20px,5.4vw,26px)} .ctab .fine{font-size:14px;color:var(--band-muted)}
-.res-intro{font-size:18px}
-.who{font-family:var(--display);font-weight:800;font-size:16px;color:var(--gold);margin-top:6px}
-.shot{width:100%;max-width:380px;margin:0 auto;display:block;border-radius:var(--r);border:1px solid var(--line)}
-.six{display:grid;gap:12px}
-.six div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;border-inline-start:4px solid var(--gold)}
-.six h3{margin-bottom:4px} .six p{color:var(--muted);font-size:16px}
-.story p{font-size:18px;line-height:1.8}
-.story h3{color:var(--gold);font-size:22px;margin-top:6px}
-.fitlist{margin:0;padding-inline-start:20px;display:flex;flex-direction:column;gap:10px;font-size:18px}
-
-.car{position:relative;max-width:420px;margin:0 auto;width:100%}
-.car-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;border-radius:18px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-.car-track::-webkit-scrollbar{display:none}
-.car-slide{flex:0 0 100%;scroll-snap-align:center;margin:0}
-.car-slide img{display:block;width:100%;height:auto;border-radius:18px}
-.car-btn{position:absolute;top:45%;width:42px;height:42px;border-radius:50%;border:0;background:rgba(227,182,73,.95);color:#14203A;font-size:28px;font-weight:900;line-height:1;cursor:pointer;display:grid;place-items:center}
-.car-btn.prev{right:8px} .car-btn.next{left:8px}
-.car-dots{display:flex;justify-content:center;gap:8px;padding-top:12px}
-.car-dots i{width:9px;height:9px;border-radius:50%;background:var(--line)} .car-dots i.on{background:var(--gold)}
-
-:root{--bg:#F4F1EA;--surface:#FFFFFF;--line:#E4DED0;--gold:#9C7A2E;--band:#0D1830;--band-line:#22304F;--band-gold:#D9B45A}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0B1222;--surface:#121B30;--line:#24304A;--gold:#D9B45A;--band:#070D1A}}
-:root[data-theme="dark"]{--bg:#0B1222;--surface:#121B30;--line:#24304A;--gold:#D9B45A;--band:#070D1A}
-h1,h2,.nl-title,.key,.price b{font-family:"Frank Ruhl Libre","Heebo",serif}
-h2{font-weight:900;letter-spacing:-.005em}
-section{padding-block:64px}
-section > .wrap > h2::after,.ctab h2::after{content:"";display:block;width:56px;height:2px;margin-top:14px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.cta{background:linear-gradient(180deg,#E8C772 0%,#C99A37 100%);color:#1A1405;box-shadow:0 10px 30px -12px rgba(201,154,55,.8),inset 0 1px 0 rgba(255,255,255,.4)}
-.was{color:inherit;opacity:.6;font-weight:600;margin-inline-start:6px}
-.cta .was{opacity:.55;font-size:.8em}
-/* hero: photo blended into the page */
-.lux-hero{position:relative;background:var(--band) url(assets/ben.jpg) center 12%/cover no-repeat;color:#fff;padding-block:max(330px,50vh) 46px;text-align:center}
-.lux-hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,24,48,.25) 0%,rgba(13,24,48,0) 22%,rgba(13,24,48,.55) 45%,#0D1830 64%)}
-.lux-hero .wrap{position:relative}
-.lux-hero .brand{position:absolute;top:calc(-1 * max(330px,50vh) + 22px);inset-inline:20px;display:flex;justify-content:space-between;font-family:var(--display);font-size:15px;color:#E6E8EE}
-.lux-hero .nl-title{font-size:clamp(52px,15vw,84px);text-shadow:0 6px 30px rgba(0,0,0,.45)}
-.lux-hero .nl-title small{font-family:var(--display);letter-spacing:.35em}
-.pricechip{display:inline-flex;gap:10px;align-items:baseline;justify-content:center;font-family:var(--display);font-size:18px;color:#E6E8EE}
-.pricechip b{font-size:26px;color:var(--band-gold);font-weight:900}
-.wins{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.wins li{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:flex;gap:12px;align-items:flex-start;font-size:18px}
-.wins li::before{content:"✦";color:var(--gold);font-size:18px;line-height:1.6}
-.bonus6{display:grid;grid-template-columns:96px 1fr;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;position:relative}
-.bonus6 img,.bonus6 .dc{width:96px;border-radius:8px;box-shadow:0 8px 20px -10px rgba(0,0,0,.5)}
-.bonus6 .dc{height:124px;background:#5865F2;display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:900;font-size:14px}
-.bonus6 h3{font-size:18px} .bonus6 p{font-size:15px;color:var(--muted)}
-.bonus6 .why{color:var(--gold);font-weight:700;font-size:14px;margin-top:4px}
-.bonus6 .val{display:inline-block;margin-top:8px;font-family:var(--display);font-weight:800;font-size:14px;padding:3px 10px;border-radius:999px;background:var(--gold-soft);color:var(--ink)}
-.btot{text-align:center;font-family:var(--display);font-size:20px;font-weight:800}
-.btot s{opacity:.6} .btot b{color:var(--gold)}
-.stack6{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:8px 18px}
-.stack6 .row{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px dashed var(--line);font-size:17px}
-.stack6 .row b{font-family:var(--display);white-space:nowrap}
-.stack6 .tot{display:flex;justify-content:space-between;padding:14px 0 10px;font-family:var(--display);font-weight:900;font-size:20px}
-.offer6{background:linear-gradient(180deg,#121F3D,#0D1830);border:1px solid rgba(217,180,90,.45);border-radius:24px;padding:28px 20px;color:#EEF0F4;display:flex;flex-direction:column;gap:14px;text-align:center}
-.offer6 .was2{font-family:var(--display);font-size:22px;color:#A9B3C7}
-.offer6 .was2 s{color:#C9CFDB}
-.offer6 .now{font-family:"Frank Ruhl Libre",serif;font-size:76px;font-weight:900;color:var(--band-gold);line-height:1}
-.offer6 .now span{font-size:30px}
-.offer6 p{color:#C9CFDB}
-.offer6 .why{font-size:17px;line-height:1.7;color:#E6E8EE}
 </style>
 </head>
 <body>
 <div class="prog" id="prog" aria-hidden="true"><span id="progLbl"></span><i id="progFill"></i></div>
-<header class="lux-hero" data-sec="1" data-name="פתיחה"><div class="wrap stack">
-<div class="brand"><b>בן נחום</b><span>NLP · רגש · תודעה</span></div>
-<div class="rule"><h1 class="nl-title"><small>בן נחום</small>השיטה</h1></div>
+<header class="hero7" data-sec="1" data-name="פתיחה">
+<div class="media" role="img" aria-label="בן נחום"><div class="brand"><b>בן נחום</b><span>NLP · רגש · תודעה</span></div></div>
+<div class="wrap stack body">
+<h1 class="nl-title"><small>בן נחום</small>השיטה</h1>
 <p class="nl-sub">לכל מי שיודע מה הוא רוצה, אבל עדיין חוזר לאותם דפוסים: שיטה שנכנסת איתך לחיים עצמם ומשנה את הדרך שבה אתה חושב, מפרש ופועל</p>
-<p class="nl-quote">המטרה היא לא לדעת את הידע. המטרה היא להפוך להיות המהות שלו.</p>
-<p class="nl-p">לא עוד קורס שרואים ושוכחים. מערכת פרקטית שמשלבת NLP, רגש ותודעה כדי לזהות בזמן אמת את המחשבות והאמונות שמנהלות אותך, ולבנות במקומן דרך חשיבה חדשה. צעד אחד בכל יום.</p>
 <div class="pricechip"><span>היום</span><b>297 ₪</b><span>במקום <s class="was">2,140 ₪</s></span></div>
 <a class="cta" data-cta="hero_main" data-checkout href="#">אני רוצה לעלות שלב <span>←</span></a>
-<a class="cta ghost" data-cta="hero_shortcut" href="#offer">מה בדיוק מקבלים?</a>
+<ul class="trustrow"><li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg>גישה מיידית</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>החזר מלא תוך 7 ימים</li></ul>
+<p class="nl-quote">המטרה היא לא לדעת את הידע. המטרה היא להפוך להיות המהות שלו.</p>
+<p class="nl-p">לא עוד קורס שרואים ושוכחים. מערכת פרקטית שמשלבת NLP, רגש ותודעה כדי לזהות בזמן אמת את המחשבות והאמונות שמנהלות אותך, ולבנות במקומן דרך חשיבה חדשה. צעד אחד בכל יום.</p>
+<a class="ghost" data-cta="hero_shortcut" href="#offer">מה בדיוק מקבלים?</a>
 </div></header>
+<div class="proofbar"><ul><li><b>15 שנה</b><span>ניסיון ב-NLP</span></li><li><b>מאות</b><span>אנשים בליווי אישי</span></li><li><b>142</b><span>שיעורים קצרים</span></li></ul></div>
 <section data-sec="2" data-name="איך נראית המציאות"><div class="wrap stack">
 <h2>איך נראית המציאות כשהשיטה עובדת:</h2>
 <div class="reality">
@@ -276,7 +308,7 @@ section > .wrap > h2::after,.ctab h2::after{content:"";display:block;width:56px;
 <div class="r"><div class="ic"><svg viewBox="0 0 24 24"><path d="M9.5 3A3.5 3.5 0 0 0 6 6.5 3.5 3.5 0 0 0 4 12a3.5 3.5 0 0 0 2 5.5A3.5 3.5 0 0 0 12 19V5a3 3 0 0 0-2.5-2z"/><path d="M14.5 3A3.5 3.5 0 0 1 18 6.5a3.5 3.5 0 0 1 2 5.5 3.5 3.5 0 0 1-2 5.5A3.5 3.5 0 0 1 12 19"/></svg></div><div><h3>יותר שליטה</h3><p>אתה תופס את המחשבה כשהיא נוצרת ויודע מה לעשות איתה, במקום להבין רק בדיעבד למה התעצבנת, פחדת או נסגרת.</p></div></div>
 </div>
 </div></section>
-<section data-sec="3" data-name="ככה ש"><div class="wrap stack">
+<section class="alt" data-sec="3" data-name="ככה ש"><div class="wrap stack">
 <h2>ככה ש...</h2>
 <div class="ifs stack">
 <p>אם אתה יודע מה אתה רוצה, אבל כבר שנתיים ויותר מוצא את עצמך באותו מקום, ורק הזמן עובר, <strong>אנחנו נעזור לך לזהות את הדפוס שמחזיק אותך ולשבור אותו.</strong></p>
@@ -285,43 +317,43 @@ section > .wrap > h2::after,.ctab h2::after{content:"";display:block;width:56px;
 <p>אז כל עוד יש בך רצון אמיתי להשתנות, ונמאס לך לדעת הכל ולא להיות שם, השיטה הזאת נבנתה בשבילך.</p>
 </div>
 </div></section>
-<section class="ctab" data-buyzone><div class="wrap stack">
+<section class="ctab alt" data-buyzone><div class="wrap"><div class="box">
 <h2>להצטרפות לשיטה, לחצו על הכפתור:</h2>
 <a class="cta" data-cta="cta1" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
 <p class="fine">*גישה מיידית + 5 בונוסים בשווי 850 ₪ במתנה · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
-</div></section>
+</div></div></section>
 <section data-sec="4" data-name="תוצאות אמיתיות"><div class="wrap stack">
 <h2>תוצאות אמיתיות של אנשים אמיתיים:</h2>
 <p class="res-intro">אנשים מכל מקום בחיים: בעלי עסקים, אנשי מכירות, הורים, צעירים שרק מתחילים. מה שמשותף לכולם: הם הפסיקו לחכות, והתחילו לחשוב אחרת.</p>
-<figure style="margin:0"><video controls playsinline preload="metadata" poster="assets/t1.jpg" src="assets/t1.mp4" style="width:100%;max-width:360px;margin:0 auto;display:block;aspect-ratio:9/16;border-radius:var(--r);background:#000;object-fit:cover"></video><figcaption class="who" style="text-align:center">תלמידי Moudle Z מספרים · 1:52</figcaption></figure>
+<figure class="vidcard"><video controls playsinline preload="metadata" poster="assets/t1.jpg" src="assets/t1.mp4"></video><figcaption>תלמידי Module Z מספרים<small>1:52 דקות</small></figcaption></figure>
 </div></section>
-<section class="band" data-sec="5" data-name="המנגנון"><div class="wrap stack">
+<section class="alt" data-sec="5" data-name="המנגנון"><div class="wrap stack">
 <h2>המנגנון המוכח של השיטה:</h2>
 <p class="lead">שינוי אמיתי קורה מבפנים החוצה. זה הסדר שבו התוכנית בנויה.</p>
 <div class="layers">
-<div class="layer stack"><span class="k">מפתח 1</span><h3>התפיסה הנכונה</h3><p>לזהות את הפחד, הפרפקציוניזם והסיפור הפנימי שעוצרים אותך, ולהחליף אותם בדרך חשיבה חדשה.</p></div>
-<div class="layer stack"><span class="k">מפתח 2</span><h3>ההשפעה הנכונה</h3><p>להעביר את השינוי הפנימי החוצה: ראפור, רגש, טון דיבור, ושיחות שמזיזות אנשים לפעולה.</p></div>
-<div class="layer stack"><span class="k">מפתח 3</span><h3>היישום הנכון</h3><p>לראות את זה קורה בשיחות אמיתיות: הדרכות לייב, מודל 4 שלבים, ו-13 שעות של הקלטות זום.</p></div>
+<div class="layer stack" data-n="1"><span class="k">מפתח 1</span><h3>התפיסה הנכונה</h3><p>לזהות את הפחד, הפרפקציוניזם והסיפור הפנימי שעוצרים אותך, ולהחליף אותם בדרך חשיבה חדשה.</p></div>
+<div class="layer stack" data-n="2"><span class="k">מפתח 2</span><h3>ההשפעה הנכונה</h3><p>להעביר את השינוי הפנימי החוצה: ראפור, רגש, טון דיבור, ושיחות שמזיזות אנשים לפעולה.</p></div>
+<div class="layer stack" data-n="3"><span class="k">מפתח 3</span><h3>היישום הנכון</h3><p>לראות את זה קורה בשיחות אמיתיות: הדרכות לייב, מודל 4 שלבים, ו-13 שעות של הקלטות זום.</p></div>
 </div>
 </div></section>
-<section class="ctab" data-buyzone><div class="wrap stack">
+<section class="ctab alt" data-buyzone><div class="wrap"><div class="box">
 <h2>להצטרפות לשיטה, לחצו על הכפתור:</h2>
 <a class="cta" data-cta="cta2" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
 <p class="fine">*גישה מיידית + 5 בונוסים בשווי 850 ₪ במתנה · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
-</div></section>
+</div></div></section>
 <section data-sec="6" data-name="מה אומרים"><div class="wrap stack">
-<h2>מה אומרים מי שכבר בפנים:</h2><p class="res-intro" style="text-align:center">החליקו כדי לראות עוד ←</p><div class="car" data-carousel>
+<h2>מה אומרים מי שכבר בפנים:</h2><p class="swipe">החליקו כדי לראות עוד ←</p><div class="car" data-carousel>
 <div class="car-track"><figure class="car-slide"><img src="assets/car-2.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure><figure class="car-slide"><img src="assets/car-3.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure><figure class="car-slide"><img src="assets/car-4.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure><figure class="car-slide"><img src="assets/car-5.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure><figure class="car-slide"><img src="assets/car-6.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure><figure class="car-slide"><img src="assets/car-7.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure></div>
 <button class="car-btn prev" type="button" aria-label="הקודם">›</button><button class="car-btn next" type="button" aria-label="הבא">‹</button>
 <div class="car-dots"><i></i><i></i><i></i><i></i><i></i><i></i></div>
 </div>
 </div></section>
-<section class="ctab" data-buyzone><div class="wrap stack">
+<section class="ctab" data-buyzone><div class="wrap"><div class="box">
 <h2>להצטרפות לשיטה, לחצו על הכפתור:</h2>
 <a class="cta" data-cta="cta3" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
 <p class="fine">*גישה מיידית + 5 בונוסים בשווי 850 ₪ במתנה · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
-</div></section>
-<section data-sec="7" data-name="למי מתאים"><div class="wrap stack">
+</div></div></section>
+<section class="alt" data-sec="7" data-name="למי מתאים"><div class="wrap stack">
 <h2>למי מתאימה השיטה?</h2>
 <ul class="fitlist">
 <li>למי שמרגיש שכבר שנתיים ויותר הוא באותו מקום, ורק הזמן עובר</li>
@@ -342,12 +374,12 @@ section > .wrap > h2::after,.ctab h2::after{content:"";display:block;width:56px;
 <li>יותר ויותר פעולות אקטיביות בחיים, ואיתן מציאות חדשה שאתה יוצר</li>
 </ul>
 </div></section>
-<section class="ctab" data-buyzone><div class="wrap stack">
+<section class="ctab" data-buyzone><div class="wrap"><div class="box">
 <h2>להצטרפות לשיטה, לחצו על הכפתור:</h2>
 <a class="cta" data-cta="cta4" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
 <p class="fine">*גישה מיידית + 5 בונוסים בשווי 850 ₪ במתנה · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
-</div></section>
-<section data-sec="9" data-name="6 נקודות"><div class="wrap stack">
+</div></div></section>
+<section class="alt" data-sec="9" data-name="6 נקודות"><div class="wrap stack">
 <h2>השיטה שונה מכל קורס שראית או לקחת עד היום</h2>
 <h3>והנה 6 נקודות שמוכיחות את זה:</h3>
 <div class="six">
@@ -359,11 +391,11 @@ section > .wrap > h2::after,.ctab h2::after{content:"";display:block;width:56px;
 <div><h3>מה שעובד עכשיו</h3><p>פחד, תקיעות, ביטחון, כסף ותקשורת: הנושאים שתוקעים אנשים היום, עם כלים לעכשיו.</p></div>
 </div>
 </div></section>
-<section class="ctab" data-buyzone><div class="wrap stack">
+<section class="ctab alt" data-buyzone><div class="wrap"><div class="box">
 <h2>להצטרפות לשיטה, לחצו על הכפתור:</h2>
 <a class="cta" data-cta="cta5" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
 <p class="fine">*גישה מיידית + 5 בונוסים בשווי 850 ₪ במתנה · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
-</div></section>
+</div></div></section>
 <section data-sec="10" data-name="למה בניתי"><div class="wrap stack">
 <div class="story stack">
 <h2>למה בניתי את השיטה?</h2>
@@ -376,7 +408,7 @@ section > .wrap > h2::after,.ctab h2::after{content:"";display:block;width:56px;
 <p class="key">כי בסוף, החיים שלנו לא משתנים רק בגלל מה שאנחנו יודעים. הם משתנים כשדרך החשיבה שמייצרת את הבחירות שלנו משתנה.</p>
 </div>
 </div></section>
-<section class="band" data-sec="11" data-name="מה באמת קונים"><div class="wrap stack">
+<section class="alt" data-sec="11" data-name="מה באמת קונים"><div class="wrap stack">
 <h2>מה באמת קונים כאן?</h2>
 <p class="lead">לא 142 סרטונים. מערכת שאתה יכול לפתוח בכל פעם שאתה מרגיש תקוע:</p>
 <ul class="bought"><li>כלים לזהות את המחשבה שמנהלת אותך</li><li>דרך לעבוד עם רגש בזמן אמת</li><li>שיטה לבניית אמונות ודיאלוג פנימי חדשים</li><li>ומסלול שמכניס את כל זה לחיים שלך, כמה דקות בכל יום</li></ul>
@@ -393,37 +425,41 @@ section > .wrap > h2::after,.ctab h2::after{content:"";display:block;width:56px;
 <article class="module"><header><span class="mtag">חלק 4</span><h3>הקלטות זום מלאות</h3><div class="chips"><span class="chip">9 הקלטות</span><span class="chip">כ-13 שעות</span></div><p>מפגשי עבודה מלאים, לא ערוכים: פתיחה ומנטליות, מטרות השיחה, דוגמאות אמיתיות ודיבור בתועלות.</p></header></article><div class="peek"><p class="kicker" style="margin:0">הצצה מבפנים: ככה נראית רשימת השיעורים בקורס</p>
 <div class="mock"><div class="mh"><b>שינוי תפיסה</b><span>0/102</span></div><ul><li><span class="lt">▶ המנוע הרגשי</span><span class="ld">05:29</span></li><li><span class="lt">🔒 הדחף הטבעי להתרחבות</span><span class="ld">05:30</span></li><li><span class="lt">🔒 כוחה של פרשנות</span><span class="ld">04:34</span></li><li><span class="lt">🔒 הפסיכולוגיה של הפחד</span><span class="ld">05:08</span></li><li><span class="lt">🔒 חוק ההתרחבות</span><span class="ld">05:31</span></li><li><span class="lt">🔒 פרפקציוניזם: דרך טובה של המוח לגרום לנו להישאר במקום</span><span class="ld">04:56</span></li><li><span class="lt">🔒 שינוי תודעתי: מאוטומט לפעולה</span><span class="ld">04:24</span></li></ul><div class="mf">ועוד 95 שיעורים בחלק הזה, ו-3 חלקים נוספים</div></div></div>
 </div></section>
-<section data-sec="13" data-name="בונוסים"><div class="wrap stack">
+<section class="alt" data-sec="13" data-name="בונוסים"><div class="wrap stack">
 <h2>ובנוסף, <mark>5 בונוסים</mark> שמגיעים איתך</h2><div class="bonus6"><img src="assets/cover-4.jpg" alt=""><div><p class="mtag" style="margin:0">בונוס 1</p><h3>מפת החסמים האישית</h3><p>שאלון קצר של 12 שאלות מכוונות, שמראה לך מה באמת עוצר אותך ובמה לשים את הפוקוס קודם.</p><p class="why">תדייק את הנתיב שלך: מאיפה להתחיל בתוכנית, ומה ישנה הכי הרבה בחיים שלך עכשיו.</p><span class="val">שווי 214 ₪ · אצלך בחינם</span></div></div><div class="bonus6"><img src="assets/cover-1.jpg" alt=""><div><p class="mtag" style="margin:0">בונוס 2</p><h3>מפת שינוי הסיפור: 30 יום</h3><p>יומן של 3 שורות בערב: מה קרה, איזה סיפור סיפרתי לעצמי, ואיזה סיפור אני בוחר.</p><p class="why">ככה הכלים מהשיעורים הופכים להרגל יומי, ולא נשארים בגדר השראה.</p><span class="val">שווי 197 ₪ · אצלך בחינם</span></div></div><div class="bonus6"><img src="assets/cover-2.jpg" alt=""><div><p class="mtag" style="margin:0">בונוס 3</p><h3>ערכת השיחה החשובה</h3><p>צ'קליסט של 10 דקות ודף עבודה לפני כל שיחה שחשובה לך: מכירה, בוס, זוגיות.</p><p class="why">תיכנס לשיחה מוכן, מחובר ובטוח, ותצא עם החלטה ולא עם "נדבר".</p><span class="val">שווי 147 ₪ · אצלך בחינם</span></div></div><div class="bonus6"><img src="assets/cover-3.jpg" alt=""><div><p class="mtag" style="margin:0">בונוס 4</p><h3>מבחן המחסור והשפע</h3><p>מבחן עצמי של 5 דקות ו-5 תרגילים לשנות את נקודת המבט על כסף, זמן ואנשים.</p><p class="why">תגלה מאיזה מקום אתה מקבל החלטות, ותתחיל לשנות אותו.</p><span class="val">שווי 97 ₪ · אצלך בחינם</span></div></div><div class="bonus6"><div class="dc">Discord</div><div><p class="mtag" style="margin:0">בונוס 5</p><h3>הקהילה הסגורה בדיסקורד</h3><p>מקום לשאול, לשתף ולהתקדם יחד עם אנשים שעוברים את אותה דרך.</p><p class="why">שינוי מחזיק יותר כשאתה לא עושה אותו לבד.</p><span class="val">שווי 195 ₪ · אצלך בחינם</span></div></div><p class="btot">שווי כל הבונוסים: <s>850 ₪</s> · <b>אצלך בחינם</b></p>
 </div></section>
 <section id="offer" data-sec="14" data-name="ההצעה" data-buyzone><div class="wrap stack">
-<h2 style="text-align:center">כל מה שאתה מקבל</h2>
+<h2>כל מה שאתה מקבל</h2>
+<p class="offer-lead">אנחנו רוצים שהתהליך הזה יהיה נגיש לכמה שיותר אנשים, ושכמה שיותר אנשים יתחילו לחשוב, להרגיש ולפעול אחרת.</p>
+<div class="pcard">
+<div class="head"><span class="tag">השיטה + 5 בונוסים</span></div>
 <div class="stack6"><div class="row"><span>השיטה המלאה: 4 חלקים, 142 שיעורים</span><b>1,290 ₪</b></div><div class="row"><span>בונוס: מפת החסמים האישית</span><b>214 ₪</b></div><div class="row"><span>בונוס: מפת שינוי הסיפור: 30 יום</span><b>197 ₪</b></div><div class="row"><span>בונוס: ערכת השיחה החשובה</span><b>147 ₪</b></div><div class="row"><span>בונוס: מבחן המחסור והשפע</span><b>97 ₪</b></div><div class="row"><span>בונוס: הקהילה הסגורה בדיסקורד</span><b>195 ₪</b></div><div class="tot"><span>שווי כולל</span><span>2,140 ₪</span></div></div>
-<div class="offer6">
-<p class="why">אנחנו רוצים שהתהליך הזה יהיה נגיש לכמה שיותר אנשים, ושכמה שיותר אנשים יתחילו לחשוב, להרגיש ולפעול אחרת.</p>
-<p class="was2">שווי כולל: <s>2,140 ₪</s></p>
-<p style="margin:0">היום, הכל ב-</p>
-<p class="now">297<span> ₪</span></p>
-<p>או 3 תשלומים של 99 ₪ · תשלום חד-פעמי, בלי מנוי</p>
+<div class="pay">
+<p class="now-l">היום, הכל ב-</p>
+<p class="now">297<span>₪</span></p>
+<span class="inst">או 3 תשלומים של 99 ₪</span>
+<p class="once">תשלום חד-פעמי, בלי מנוי</p>
 <a class="cta" data-cta="offer" data-checkout href="#">אני רוצה את הכל ב-297 ₪ <span>←</span></a>
-<p style="font-size:14px">תשלום מאובטח · גישה מיידית · החזר מלא תוך 7 ימים</p>
-</div></div></section>
+<ul class="trustrow"><li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg>גישה מיידית</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>החזר מלא תוך 7 ימים</li></ul>
+</div></div>
+</div></section>
 <section class="faq" data-sec="15" data-name="שאלות"><div class="wrap stack"><h2>שאלות לפני ואחרי ההצטרפות</h2><details><summary>מה קורה אחרי שאני משלם?</summary><div class="a"><p>מיד אחרי התשלום נפתחת לך הגישה לתוכנית, ונשלח אליך מייל עם פרטי הכניסה, קישור ישיר וכל 5 הבונוסים. מתחילים משיעור 1, "המנוע הרגשי".</p></div></details><details><summary>מה אם אני לא מצליח להתחבר?</summary><div class="a"><p>במייל יש קישור כניסה ישיר, בלי שם משתמש וסיסמה. אם בכל זאת משהו לא עובד, אפשר לאפס סיסמה במסך הכניסה, או לפנות אלינו ונסדר את זה מהר.</p></div></details><details><summary>לא קיבלתי את המייל. מה עושים?</summary><div class="a"><p>כדאי לבדוק בתיקיית הספאם או קידומי מכירות. אם הוא לא שם, פנו אלינו ונשלח שוב.</p></div></details><details><summary>לכמה זמן יש לי גישה?</summary><div class="a"><p>ללא הגבלת זמן. צופים מהנייד או מהמחשב, בקצב שלך.</p></div></details><details><summary>אני צריך ניסיון קודם ב-NLP?</summary><div class="a"><p>לא. מתחילים מהיסודות, וכל שיעור נותן כלי אחד שאפשר ליישם באותו יום.</p></div></details><details><summary>כמה זמן זה לוקח ביום?</summary><div class="a"><p>השיעורים נמשכים 4 עד 9 דקות. שיעור אחד ביום מספיק כדי להתחיל לראות שינוי.</p></div></details><details><summary>ומה אם זה לא בשבילי?</summary><div class="a"><p>יש לך שבוע. אם עברת על התוכן, נתת לו הזדמנות אמיתית והרגשת שהוא לא שווה את ה-297 ₪, שולחים לנו מייל ומקבלים החזר מלא. בלי ויכוחים.</p></div></details><details><summary>אפשר לשלם בתשלומים?</summary><div class="a"><p>כן, 3 תשלומים של 99 ₪.</p></div></details></div></section>
-<section class="band" data-buyzone><div class="wrap stack">
+<section class="guar alt" data-buyzone><div class="wrap stack">
+<div class="seal" aria-hidden="true"><div><b>7</b><small>ימי אחריות</small></div></div>
 <p class="kicker">אחריות מלאה</p>
 <h2>או שהתוכן הזה שווה לך הרבה יותר מ-297 ₪, <mark>או שאנחנו מחזירים לך את כל הכסף.</mark></h2>
 <p class="lead">אנחנו לא רוצים שתישאר רק כי שילמת. אנחנו רוצים שתישאר כי הרגשת שקיבלת כאן משהו שבאמת משנה לך את הדרך שבה אתה חושב, רואה, מחליט ופועל.</p>
 <p>אם במהלך השבוע הראשון עברת על התוכן, נתת לו הזדמנות אמיתית, והרגשת שהוא לא נותן לך זוויות ראייה חדשות, כלים פרקטיים, עוגנים, שיטה וערך אמיתי שמצדיק את ה-297 ₪, פשוט שולחים לנו מייל ומקבלים החזר מלא.</p>
 <p><strong>בלי ויכוחים. בלי משחקים. בלי אותיות קטנות.</strong></p>
 <p>אנחנו בטוחים בלב שלם במה שנפתח לך ברגע ההצטרפות: יותר בהירות, יותר חיות, יותר חזון, יותר שליטה בדרך שבה אתה פועל, וכלים שילכו איתך הרבה אחרי שסיימת לצפות בתוכן.</p>
-<h3 style="color:var(--band-gold)">הסיכון עלינו. ההחלטה להתחיל עליך.</h3>
+<h3>הסיכון עלינו. ההחלטה להתחיל עליך.</h3>
 <p class="muted">במקרה הכי גרוע, ניסית וקיבלת את כל הכסף בחזרה. במקרה הטוב, התחלת שינוי שיכול להשפיע על כל הדרך שבה אתה חווה את החיים.</p>
 <a class="cta" data-cta="final" data-checkout href="#">אני נכנס עכשיו: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
 <p class="cta-note">או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
 </div></section>
 
 <footer><div class="wrap">© בן נחום · תוכנית NLP דיגיטלית<br>התוכנית היא תוכן לימודי ואינה מחליפה ייעוץ או טיפול מקצועי.</div></footer>
-<div class="sticky" id="sticky" aria-hidden="true"><div class="p"><b>297 ₪</b><small>במקום 2,140 ₪</small></div><a class="cta" data-cta="sticky" data-checkout href="#">להצטרפות <span>←</span></a></div>
+<div class="sticky" id="sticky" aria-hidden="true"><div class="p"><b>297 ₪</b><small>2,140 ₪</small></div><a class="cta" data-cta="sticky" data-checkout href="#">להצטרפות <span>←</span></a></div>
 <script>
 /* ===== CONFIG ===== */
 const CHECKOUT_URL = "https://my.schooler.biz/s/53500/user/signup?bundle=50774";
@@ -477,5 +513,7 @@ function idx(){return Math.round(Math.abs(t.scrollLeft)/t.clientWidth)}
 function upd(){var i=idx();d.forEach(function(x,k){x.classList.toggle('on',k===i)}); if(!seen[i]){seen[i]=1; try{(window.dataLayer=window.dataLayer||[]).push({event:'lp_carousel_slide',slide:i+1})}catch(e){}}}
 t.addEventListener('scroll',function(){clearTimeout(t._s);t._s=setTimeout(upd,80)},{passive:true});
 function go(n){var i=Math.max(0,Math.min(d.length-1,idx()+n)); var dir=getComputedStyle(t).direction==='rtl'?-1:1; t.scrollTo({left:dir*i*t.clientWidth,behavior:'smooth'})}
-c.querySelector('.prev').addEventListener('click',function(){go(-1)}); c.querySelector('.next').addEventListener('click',function(){go(1)}); upd();});})();</script></body>
+c.querySelector('.prev').addEventListener('click',function(){go(-1)}); c.querySelector('.next').addEventListener('click',function(){go(1)}); upd();});})();</script><script>(function(){var R=matchMedia('(prefers-reduced-motion: reduce)').matches;document.querySelectorAll('details').forEach(function(d){var s=d.querySelector('summary'),b=s&&s.nextElementSibling;if(!b||R)return;
+s.addEventListener('click',function(e){e.preventDefault();if(d._a)return;var open=d.open;if(!open){d.open=true;var h=b.scrollHeight;b.style.height='0px';b.style.opacity='0';requestAnimationFrame(function(){b.style.transition='height .28s ease,opacity .28s ease';b.style.height=h+'px';b.style.opacity='1'})}else{b.style.height=b.scrollHeight+'px';requestAnimationFrame(function(){b.style.transition='height .24s ease,opacity .2s ease';b.style.height='0px';b.style.opacity='0'})}d._a=1;
+b.addEventListener('transitionend',function t(ev){if(ev.propertyName!=='height')return;b.removeEventListener('transitionend',t);if(open)d.open=false;b.style.cssText='';d._a=0})})})})();</script></body>
 </html>
