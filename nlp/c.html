@@ -7,7 +7,7 @@
 <meta name="description" content="תוכנית NLP דיגיטלית של בן נחום: 142 שיעורים, כ-28 שעות תוכן. 297 ₪ או 3 תשלומים של 99 ₪.">
 <meta property="og:image" content="assets/ben.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800;900&family=Assistant:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@700;900&family=Heebo:wght@400;700;800;900&family=Assistant:wght@400;600;700&display=swap">
 <style>
 :root{
   --bg:#F5F6F8; --surface:#FFFFFF; --ink:#13151B; --muted:#585E6C; --line:#DFE2E8;
@@ -212,19 +212,61 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 .car-btn.prev{right:8px} .car-btn.next{left:8px}
 .car-dots{display:flex;justify-content:center;gap:8px;padding-top:12px}
 .car-dots i{width:9px;height:9px;border-radius:50%;background:var(--line)} .car-dots i.on{background:var(--gold)}
+
+:root{--bg:#F4F1EA;--surface:#FFFFFF;--line:#E4DED0;--gold:#9C7A2E;--band:#0D1830;--band-line:#22304F;--band-gold:#D9B45A}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0B1222;--surface:#121B30;--line:#24304A;--gold:#D9B45A;--band:#070D1A}}
+:root[data-theme="dark"]{--bg:#0B1222;--surface:#121B30;--line:#24304A;--gold:#D9B45A;--band:#070D1A}
+h1,h2,.nl-title,.key,.price b{font-family:"Frank Ruhl Libre","Heebo",serif}
+h2{font-weight:900;letter-spacing:-.005em}
+section{padding-block:64px}
+section > .wrap > h2::after,.ctab h2::after{content:"";display:block;width:56px;height:2px;margin-top:14px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.cta{background:linear-gradient(180deg,#E8C772 0%,#C99A37 100%);color:#1A1405;box-shadow:0 10px 30px -12px rgba(201,154,55,.8),inset 0 1px 0 rgba(255,255,255,.4)}
+.was{color:inherit;opacity:.6;font-weight:600;margin-inline-start:6px}
+.cta .was{opacity:.55;font-size:.8em}
+/* hero: photo blended into the page */
+.lux-hero{position:relative;background:var(--band) url(assets/ben.jpg) center 12%/cover no-repeat;color:#fff;padding-block:max(330px,50vh) 46px;text-align:center}
+.lux-hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,24,48,.25) 0%,rgba(13,24,48,0) 22%,rgba(13,24,48,.55) 45%,#0D1830 64%)}
+.lux-hero .wrap{position:relative}
+.lux-hero .brand{position:absolute;top:calc(-1 * max(330px,50vh) + 22px);inset-inline:20px;display:flex;justify-content:space-between;font-family:var(--display);font-size:15px;color:#E6E8EE}
+.lux-hero .nl-title{font-size:clamp(52px,15vw,84px);text-shadow:0 6px 30px rgba(0,0,0,.45)}
+.lux-hero .nl-title small{font-family:var(--display);letter-spacing:.35em}
+.pricechip{display:inline-flex;gap:10px;align-items:baseline;justify-content:center;font-family:var(--display);font-size:18px;color:#E6E8EE}
+.pricechip b{font-size:26px;color:var(--band-gold);font-weight:900}
+.wins{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.wins li{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:flex;gap:12px;align-items:flex-start;font-size:18px}
+.wins li::before{content:"✦";color:var(--gold);font-size:18px;line-height:1.6}
+.bonus6{display:grid;grid-template-columns:96px 1fr;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;position:relative}
+.bonus6 img,.bonus6 .dc{width:96px;border-radius:8px;box-shadow:0 8px 20px -10px rgba(0,0,0,.5)}
+.bonus6 .dc{height:124px;background:#5865F2;display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:900;font-size:14px}
+.bonus6 h3{font-size:18px} .bonus6 p{font-size:15px;color:var(--muted)}
+.bonus6 .why{color:var(--gold);font-weight:700;font-size:14px;margin-top:4px}
+.bonus6 .val{display:inline-block;margin-top:8px;font-family:var(--display);font-weight:800;font-size:14px;padding:3px 10px;border-radius:999px;background:var(--gold-soft);color:var(--ink)}
+.btot{text-align:center;font-family:var(--display);font-size:20px;font-weight:800}
+.btot s{opacity:.6} .btot b{color:var(--gold)}
+.stack6{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:8px 18px}
+.stack6 .row{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px dashed var(--line);font-size:17px}
+.stack6 .row b{font-family:var(--display);white-space:nowrap}
+.stack6 .tot{display:flex;justify-content:space-between;padding:14px 0 10px;font-family:var(--display);font-weight:900;font-size:20px}
+.offer6{background:linear-gradient(180deg,#121F3D,#0D1830);border:1px solid rgba(217,180,90,.45);border-radius:24px;padding:28px 20px;color:#EEF0F4;display:flex;flex-direction:column;gap:14px;text-align:center}
+.offer6 .was2{font-family:var(--display);font-size:22px;color:#A9B3C7}
+.offer6 .was2 s{color:#C9CFDB}
+.offer6 .now{font-family:"Frank Ruhl Libre",serif;font-size:76px;font-weight:900;color:var(--band-gold);line-height:1}
+.offer6 .now span{font-size:30px}
+.offer6 p{color:#C9CFDB}
+.offer6 .why{font-size:17px;line-height:1.7;color:#E6E8EE}
 </style>
 </head>
 <body>
 <div class="prog" id="prog" aria-hidden="true"><span id="progLbl"></span><i id="progFill"></i></div>
-<header class="nl-hero" data-sec="1" data-name="פתיחה"><div class="wrap stack">
-<div class="brand" style="color:#E6E8EE;display:flex;justify-content:space-between;font-family:var(--display);font-size:15px"><b>בן נחום</b><span>NLP · רגש · תודעה</span></div>
+<header class="lux-hero" data-sec="1" data-name="פתיחה"><div class="wrap stack">
+<div class="brand"><b>בן נחום</b><span>NLP · רגש · תודעה</span></div>
 <div class="rule"><h1 class="nl-title"><small>בן נחום</small>השיטה</h1></div>
 <p class="nl-sub">מור, תלמידה: הפרספקטיבה שלי השתנתה מקצה לקצה, ואני יוצאת מהתהליך אדם חדש. השיטה שמאות אנשים כבר עברו, עכשיו בתוכנית דיגיטלית</p>
 <p class="nl-quote">המטרה היא לא לדעת את הידע. המטרה היא להפוך להיות המהות שלו.</p>
-<div class="nl-media"><img src="assets/ben.jpg" alt="בן נחום"></div>
-<p class="nl-p">לא עוד קורס שרואים ושוכחים. לא עוד סרטון מוטיבציה שנגמר אחרי יום. מערכת פרקטית שמשלבת NLP, רגש ותודעה כדי לזהות בזמן אמת את המחשבות והאמונות שמנהלות אותך, ולהתחיל לבנות במקומן דרך חשיבה חדשה. צעד אחד בכל יום.</p>
+<p class="nl-p">לא עוד קורס שרואים ושוכחים. מערכת פרקטית שמשלבת NLP, רגש ותודעה כדי לזהות בזמן אמת את המחשבות והאמונות שמנהלות אותך, ולבנות במקומן דרך חשיבה חדשה. צעד אחד בכל יום.</p>
+<div class="pricechip"><span>היום</span><b>297 ₪</b><span>במקום <s class="was">2,140 ₪</s></span></div>
 <a class="cta" data-cta="hero_main" data-checkout href="#">אני רוצה לעלות שלב <span>←</span></a>
-<a class="cta ghost" data-cta="hero_shortcut" href="#offer">מה בדיוק מקבלים ב-297 ₪?</a>
+<a class="cta ghost" data-cta="hero_shortcut" href="#offer">מה בדיוק מקבלים?</a>
 </div></header>
 <section data-sec="2" data-name="איך נראית המציאות"><div class="wrap stack">
 <h2>איך נראית המציאות כשהשיטה עובדת:</h2>
@@ -245,13 +287,13 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 </div></section>
 <section class="ctab" data-buyzone><div class="wrap stack">
 <h2>להצטרפות לשיטה, לחצו על הכפתור:</h2>
-<a class="cta" data-cta="cta1" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <span>←</span></a>
-<p class="fine">*אחרי התשלום מקבלים מייל עם גישה מיידית ו-4 בונוסים · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
+<a class="cta" data-cta="cta1" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
+<p class="fine">*גישה מיידית + 5 בונוסים בשווי 850 ₪ במתנה · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
 </div></section>
 <section data-sec="4" data-name="תוצאות אמיתיות"><div class="wrap stack">
 <h2>תוצאות אמיתיות של אנשים אמיתיים:</h2>
 <p class="res-intro">אנשים מכל מקום בחיים: בעלי עסקים, אנשי מכירות, הורים, צעירים שרק מתחילים. מה שמשותף לכולם: הם הפסיקו לחכות, והתחילו לחשוב אחרת.</p>
-<figure style="margin:0"><video controls playsinline preload="metadata" src="assets/t-merged.mp4#t=0.5" style="width:100%;max-width:360px;margin:0 auto;display:block;aspect-ratio:9/16;border-radius:var(--r);background:#000;object-fit:cover"></video><figcaption class="who" style="text-align:center">תלמידי Moudle Z מספרים</figcaption></figure>
+<figure style="margin:0"><video controls playsinline preload="metadata" poster="assets/t1.jpg" src="assets/t1.mp4" style="width:100%;max-width:360px;margin:0 auto;display:block;aspect-ratio:9/16;border-radius:var(--r);background:#000;object-fit:cover"></video><figcaption class="who" style="text-align:center">תלמידי Moudle Z מספרים · 1:52</figcaption></figure>
 </div></section>
 <section class="band" data-sec="5" data-name="המנגנון"><div class="wrap stack">
 <h2>המנגנון המוכח של השיטה:</h2>
@@ -264,8 +306,8 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 </div></section>
 <section class="ctab" data-buyzone><div class="wrap stack">
 <h2>להצטרפות לשיטה, לחצו על הכפתור:</h2>
-<a class="cta" data-cta="cta2" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <span>←</span></a>
-<p class="fine">*אחרי התשלום מקבלים מייל עם גישה מיידית ו-4 בונוסים · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
+<a class="cta" data-cta="cta2" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
+<p class="fine">*גישה מיידית + 5 בונוסים בשווי 850 ₪ במתנה · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
 </div></section>
 <section data-sec="6" data-name="מה אומרים"><div class="wrap stack">
 <h2>מה אומרים מי שכבר בפנים:</h2><p class="res-intro" style="text-align:center">החליקו כדי לראות עוד ←</p><div class="car" data-carousel>
@@ -276,8 +318,8 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 </div></section>
 <section class="ctab" data-buyzone><div class="wrap stack">
 <h2>להצטרפות לשיטה, לחצו על הכפתור:</h2>
-<a class="cta" data-cta="cta3" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <span>←</span></a>
-<p class="fine">*אחרי התשלום מקבלים מייל עם גישה מיידית ו-4 בונוסים · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
+<a class="cta" data-cta="cta3" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
+<p class="fine">*גישה מיידית + 5 בונוסים בשווי 850 ₪ במתנה · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
 </div></section>
 <section data-sec="7" data-name="למי מתאים"><div class="wrap stack">
 <h2>למי מתאימה השיטה?</h2>
@@ -288,12 +330,24 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 <li>לכל מי שמדבר עם אנשים, בעבודה, בעסק או בבית, ורוצה להשפיע טוב יותר</li>
 </ul>
 </div></section>
+<section data-sec="8" data-name="עם מה תצא"><div class="wrap stack">
+<h2>עם מה <mark>תצא מהשיטה</mark></h2>
+<p class="lead">אנשים לא קונים קורס. הם קונים את מה שישתנה להם בחיים בזכותו:</p>
+<ul class="wins">
+<li>הערכה עצמית גבוהה יותר, שלא תלויה במה שאחרים חושבים</li>
+<li>ביטחון עצמי בכל סיטואציה חברתית: בשיחה, בפגישה, מול קהל</li>
+<li>תקשורת שמשפיעה: אנשים מקשיבים לך, מבינים אותך ופועלים</li>
+<li>פרשנות נכונה ומקדמת לכל מה שקורה לך, במקום סיפור שעוצר אותך</li>
+<li>דיאלוג פנימי חדש: המחשבות שאתה חושב בינך לבין עצמך עובדות בשבילך</li>
+<li>יותר ויותר פעולות אקטיביות בחיים, ואיתן מציאות חדשה שאתה יוצר</li>
+</ul>
+</div></section>
 <section class="ctab" data-buyzone><div class="wrap stack">
 <h2>להצטרפות לשיטה, לחצו על הכפתור:</h2>
-<a class="cta" data-cta="cta4" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <span>←</span></a>
-<p class="fine">*אחרי התשלום מקבלים מייל עם גישה מיידית ו-4 בונוסים · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
+<a class="cta" data-cta="cta4" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
+<p class="fine">*גישה מיידית + 5 בונוסים בשווי 850 ₪ במתנה · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
 </div></section>
-<section data-sec="8" data-name="6 נקודות"><div class="wrap stack">
+<section data-sec="9" data-name="6 נקודות"><div class="wrap stack">
 <h2>השיטה שונה מכל קורס שראית או לקחת עד היום</h2>
 <h3>והנה 6 נקודות שמוכיחות את זה:</h3>
 <div class="six">
@@ -307,10 +361,10 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 </div></section>
 <section class="ctab" data-buyzone><div class="wrap stack">
 <h2>להצטרפות לשיטה, לחצו על הכפתור:</h2>
-<a class="cta" data-cta="cta5" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <span>←</span></a>
-<p class="fine">*אחרי התשלום מקבלים מייל עם גישה מיידית ו-4 בונוסים · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
+<a class="cta" data-cta="cta5" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
+<p class="fine">*גישה מיידית + 5 בונוסים בשווי 850 ₪ במתנה · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
 </div></section>
-<section data-sec="9" data-name="למה בניתי"><div class="wrap stack">
+<section data-sec="10" data-name="למה בניתי"><div class="wrap stack">
 <div class="story stack">
 <h2>למה בניתי את השיטה?</h2>
 <div class="bio"><img src="assets/ben.jpg" alt="בן נחום"><div><h3 style="color:var(--ink);margin:0">היי, קוראים לי בן נחום</h3><p style="color:var(--muted);font-size:16px">NLP, שינוי דפוסי חשיבה והטמעת אמונות</p></div></div>
@@ -322,13 +376,13 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 <p class="key">כי בסוף, החיים שלנו לא משתנים רק בגלל מה שאנחנו יודעים. הם משתנים כשדרך החשיבה שמייצרת את הבחירות שלנו משתנה.</p>
 </div>
 </div></section>
-<section class="band" data-sec="10" data-name="מה באמת קונים"><div class="wrap stack">
+<section class="band" data-sec="11" data-name="מה באמת קונים"><div class="wrap stack">
 <h2>מה באמת קונים כאן?</h2>
 <p class="lead">לא 142 סרטונים. מערכת שאתה יכול לפתוח בכל פעם שאתה מרגיש תקוע:</p>
 <ul class="bought"><li>כלים לזהות את המחשבה שמנהלת אותך</li><li>דרך לעבוד עם רגש בזמן אמת</li><li>שיטה לבניית אמונות ודיאלוג פנימי חדשים</li><li>ומסלול שמכניס את כל זה לחיים שלך, כמה דקות בכל יום</li></ul>
 <p class="key" style="color:var(--band-gold)">הסרטונים הם רק הדרך להעביר לך את השיטה. השינוי שקורה איתה הוא המוצר.</p>
 </div></section>
-<section data-sec="11" data-name="מה יש בפנים"><div class="wrap stack">
+<section data-sec="12" data-name="מה יש בפנים"><div class="wrap stack">
 <h2>מה יש בפנים</h2><p class="lead">4 חלקים שבנויים מבפנים החוצה: מהחשיבה, דרך הרגש, ועד שיחות והשפעה על אנשים אחרים.</p><article class="module"><header><span class="mtag">חלק 1</span><h3>שינוי תפיסה</h3><div class="chips"><span class="chip">102 שיעורים</span><span class="chip">כ-10 שעות</span><span class="chip">4 עד 9 דק' לשיעור</span></div><p>הבסיס. שיעורים קצרים שנכנסים גם ליום עמוס, כל אחד על מנגנון אחד.</p></header><details><summary>דוגמאות לשיעורים</summary><ul class="lessons"><li class="mtag">פחד ותקיעות</li><li>הפסיכולוגיה של הפחד</li><li>פרפקציוניזם: דרך טובה של המוח לגרום לנו להישאר במקום</li><li>הפסיכולוגיה של התקיעות</li><li>שלושה כלים לצאת מתקיעות</li>
 <li class="mtag">הסיפור הפנימי</li><li>הסיפור שאנו מספרים לעצמנו</li><li>כוחה של פרשנות</li><li>הכוח החבוי של דיבור עצמי</li><li>הרגל 3 השורות: כתיבת סיפור פנימי</li>
 <li class="mtag">כסף ושפע</li><li>ממחסור לשפע: חוקים חדשים</li><li>פרדוקס הכסף</li><li>לשבור את משוואת הזמן וכסף</li>
@@ -339,28 +393,22 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 <article class="module"><header><span class="mtag">חלק 4</span><h3>הקלטות זום מלאות</h3><div class="chips"><span class="chip">9 הקלטות</span><span class="chip">כ-13 שעות</span></div><p>מפגשי עבודה מלאים, לא ערוכים: פתיחה ומנטליות, מטרות השיחה, דוגמאות אמיתיות ודיבור בתועלות.</p></header></article><div class="peek"><p class="kicker" style="margin:0">הצצה מבפנים: ככה נראית רשימת השיעורים בקורס</p>
 <div class="mock"><div class="mh"><b>שינוי תפיסה</b><span>0/102</span></div><ul><li><span class="lt">▶ המנוע הרגשי</span><span class="ld">05:29</span></li><li><span class="lt">🔒 הדחף הטבעי להתרחבות</span><span class="ld">05:30</span></li><li><span class="lt">🔒 כוחה של פרשנות</span><span class="ld">04:34</span></li><li><span class="lt">🔒 הפסיכולוגיה של הפחד</span><span class="ld">05:08</span></li><li><span class="lt">🔒 חוק ההתרחבות</span><span class="ld">05:31</span></li><li><span class="lt">🔒 פרפקציוניזם: דרך טובה של המוח לגרום לנו להישאר במקום</span><span class="ld">04:56</span></li><li><span class="lt">🔒 שינוי תודעתי: מאוטומט לפעולה</span><span class="ld">04:24</span></li></ul><div class="mf">ועוד 95 שיעורים בחלק הזה, ו-3 חלקים נוספים</div></div></div>
 </div></section>
-<section data-sec="12" data-name="בונוסים"><div class="wrap stack">
-<h2>ובנוסף, <mark>4 בונוסים</mark> שמגיעים עם ההצטרפות</h2><div class="bonus"><img src="assets/cover-1.jpg" alt=""><div><h3>מפת שינוי הסיפור: 30 יום</h3><p>יומן של 3 שורות בערב: מה קרה, איזה סיפור סיפרתי לעצמי, ואיזה סיפור אני בוחר מעכשיו.</p><p class="why">למה זה חשוב: ככה הכלים מהסרטונים הופכים להרגל יומי, ולא נשארים בגדר השראה.</p></div></div><div class="bonus"><img src="assets/cover-2.jpg" alt=""><div><h3>ערכת השיחה החשובה</h3><p>צ'קליסט של 10 דקות ודף עבודה לפני כל שיחה שחשובה לך: מכירה, בוס, זוגיות.</p><p class="why">למה זה חשוב: נכנסים לשיחה מוכנים, מחוברים ובטוחים, ויוצאים עם החלטה ולא עם "נדבר".</p></div></div><div class="bonus"><img src="assets/cover-3.jpg" alt=""><div><h3>מבחן המחסור והשפע</h3><p>מבחן עצמי של 5 דקות ו-5 תרגילים לשנות את נקודת המבט על כסף, זמן ואנשים.</p><p class="why">למה זה חשוב: מגלים מאיזה מקום אתה מקבל החלטות, ומתחילים לשנות אותו.</p></div></div><div class="bonus"><div style="width:84px;height:110px;border-radius:8px;background:#5865F2;display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:900;font-size:14px">Discord</div><div><h3>הקהילה הסגורה בדיסקורד</h3><p>מקום לשאול, לשתף ולהתקדם יחד עם אנשים שעוברים את אותה דרך.</p><p class="why">למה זה חשוב: שינוי מחזיק יותר כשאתה לא עושה אותו לבד.</p></div></div>
+<section data-sec="13" data-name="בונוסים"><div class="wrap stack">
+<h2>ובנוסף, <mark>5 בונוסים</mark> שמגיעים איתך</h2><div class="bonus6"><img src="assets/cover-4.jpg" alt=""><div><p class="mtag" style="margin:0">בונוס 1</p><h3>מפת החסמים האישית</h3><p>שאלון קצר של 12 שאלות מכוונות, שמראה לך מה באמת עוצר אותך ובמה לשים את הפוקוס קודם.</p><p class="why">תדייק את הנתיב שלך: מאיפה להתחיל בתוכנית, ומה ישנה הכי הרבה בחיים שלך עכשיו.</p><span class="val">שווי 214 ₪ · אצלך בחינם</span></div></div><div class="bonus6"><img src="assets/cover-1.jpg" alt=""><div><p class="mtag" style="margin:0">בונוס 2</p><h3>מפת שינוי הסיפור: 30 יום</h3><p>יומן של 3 שורות בערב: מה קרה, איזה סיפור סיפרתי לעצמי, ואיזה סיפור אני בוחר.</p><p class="why">ככה הכלים מהשיעורים הופכים להרגל יומי, ולא נשארים בגדר השראה.</p><span class="val">שווי 197 ₪ · אצלך בחינם</span></div></div><div class="bonus6"><img src="assets/cover-2.jpg" alt=""><div><p class="mtag" style="margin:0">בונוס 3</p><h3>ערכת השיחה החשובה</h3><p>צ'קליסט של 10 דקות ודף עבודה לפני כל שיחה שחשובה לך: מכירה, בוס, זוגיות.</p><p class="why">תיכנס לשיחה מוכן, מחובר ובטוח, ותצא עם החלטה ולא עם "נדבר".</p><span class="val">שווי 147 ₪ · אצלך בחינם</span></div></div><div class="bonus6"><img src="assets/cover-3.jpg" alt=""><div><p class="mtag" style="margin:0">בונוס 4</p><h3>מבחן המחסור והשפע</h3><p>מבחן עצמי של 5 דקות ו-5 תרגילים לשנות את נקודת המבט על כסף, זמן ואנשים.</p><p class="why">תגלה מאיזה מקום אתה מקבל החלטות, ותתחיל לשנות אותו.</p><span class="val">שווי 97 ₪ · אצלך בחינם</span></div></div><div class="bonus6"><div class="dc">Discord</div><div><p class="mtag" style="margin:0">בונוס 5</p><h3>הקהילה הסגורה בדיסקורד</h3><p>מקום לשאול, לשתף ולהתקדם יחד עם אנשים שעוברים את אותה דרך.</p><p class="why">שינוי מחזיק יותר כשאתה לא עושה אותו לבד.</p><span class="val">שווי 195 ₪ · אצלך בחינם</span></div></div><p class="btot">שווי כל הבונוסים: <s>850 ₪</s> · <b>אצלך בחינם</b></p>
 </div></section>
-<section class="band" id="offer" data-sec="13" data-name="ההצעה" data-buyzone><div class="wrap stack">
-<p class="kicker">ההצעה</p>
-<h2 style="text-align:center">השיטה המלאה, <mark>ב-297 ₪</mark></h2>
-<div class="offer">
-<ul class="includes">
-<li><span><strong>חלק 1: שינוי תפיסה</strong>, 102 שיעורים</span></li>
-<li><span><strong>חלק 2: מבפנים לבחוץ</strong>, 25 שיעורי השפעה</span></li>
-<li><span><strong>חלק 3: 6 הדרכות לייב</strong> ומודל 4 השלבים</span></li>
-<li><span><strong>חלק 4: 9 הקלטות זום</strong>, כ-13 שעות</span></li>
-<li><span>גישה ללא הגבלת זמן, מהנייד או מהמחשב</span></li>
-</ul>
-<ul class="includes"><li><span><strong>+ 4 בונוסים</strong>: מפת שינוי הסיפור, ערכת השיחה החשובה, מבחן המחסור והשפע, והקהילה בדיסקורד</span></li></ul>
-
-<div class="price"><b>297</b><span>₪</span></div>
-<p class="psub">או 3 תשלומים של 99 ₪ · בלי מנוי חודשי</p>
-<a class="cta" data-cta="offer" data-checkout href="#">להצטרפות ב-297 ₪ <span>←</span></a>
-<div class="trust"><span>תשלום מאובטח</span><span>·</span><span>גישה מיד אחרי הרכישה</span><span>·</span><span>החזר מלא תוך 7 ימים</span></div>
+<section id="offer" data-sec="14" data-name="ההצעה" data-buyzone><div class="wrap stack">
+<h2 style="text-align:center">כל מה שאתה מקבל</h2>
+<div class="stack6"><div class="row"><span>השיטה המלאה: 4 חלקים, 142 שיעורים</span><b>1,290 ₪</b></div><div class="row"><span>בונוס: מפת החסמים האישית</span><b>214 ₪</b></div><div class="row"><span>בונוס: מפת שינוי הסיפור: 30 יום</span><b>197 ₪</b></div><div class="row"><span>בונוס: ערכת השיחה החשובה</span><b>147 ₪</b></div><div class="row"><span>בונוס: מבחן המחסור והשפע</span><b>97 ₪</b></div><div class="row"><span>בונוס: הקהילה הסגורה בדיסקורד</span><b>195 ₪</b></div><div class="tot"><span>שווי כולל</span><span>2,140 ₪</span></div></div>
+<div class="offer6">
+<p class="why">אנחנו רוצים שהתהליך הזה יהיה נגיש לכמה שיותר אנשים, ושכמה שיותר אנשים יתחילו לחשוב, להרגיש ולפעול אחרת.</p>
+<p class="was2">שווי כולל: <s>2,140 ₪</s></p>
+<p style="margin:0">היום, הכל ב-</p>
+<p class="now">297<span> ₪</span></p>
+<p>או 3 תשלומים של 99 ₪ · תשלום חד-פעמי, בלי מנוי</p>
+<a class="cta" data-cta="offer" data-checkout href="#">אני רוצה את הכל ב-297 ₪ <span>←</span></a>
+<p style="font-size:14px">תשלום מאובטח · גישה מיידית · החזר מלא תוך 7 ימים</p>
 </div></div></section>
-<section class="faq" data-sec="14" data-name="שאלות"><div class="wrap stack"><h2>שאלות לפני הצטרפות</h2><details><summary>האם זה מתאים לי?</summary><div class="a"><p>אם לפחות שניים מהמצבים שתיארנו מוכרים לך, כן. התוכנית מתחילה מהבסיס, איך הרגש והתפיסה עובדים, ורק אחר כך עוברת להשפעה ולשיחות.</p></div></details><details><summary>מה בדיוק אני מקבל?</summary><div class="a"><p>4 חלקים: 102 שיעורי שינוי תפיסה, 25 שיעורי השפעה, 6 הדרכות לייב ו-9 הקלטות זום מלאות. סך הכל 142 שיעורי וידאו וכ-28 שעות.</p></div></details><details><summary>האם זה שווה 297 ₪?</summary><div class="a"><p>297 ₪ על שיטה שאתה לוקח איתך לכל שיחה, החלטה ורגש, לאורך זמן. ואם תוך שבוע תרגיש שזה לא שווה את זה, מקבלים החזר מלא. אפשר גם ב-3 תשלומים של 99 ₪.</p></div></details><details><summary>כמה זמן זה לוקח?</summary><div class="a"><p>כמה שאתה רוצה. השיעורים בחלק 1 נמשכים 4 עד 9 דקות, כך ששיעור ביום נכנס גם ליום עמוס. אין לוח זמנים.</p></div></details><details><summary>ומה אם זה לא בשבילי?</summary><div class="a"><p>יש לך שבוע. אם עברת על התוכן, נתת לו הזדמנות אמיתית והרגשת שהוא לא שווה את ה-297 ₪, שולחים לנו מייל ומקבלים החזר מלא. בלי ויכוחים ובלי אותיות קטנות.</p></div></details><details><summary>אני צריך ניסיון ב-NLP?</summary><div class="a"><p>לא. מתחילים מהיסודות, והשיעור הראשון עוסק במנוע הרגשי, הבסיס לכל השאר.</p></div></details><details><summary>איך אני מקבל גישה?</summary><div class="a"><p>נרשמים בדף הרכישה, משלמים בדף מאובטח, והשיעורים נפתחים לצפייה. צופים מהנייד או מהמחשב, והגישה ללא הגבלת זמן.</p></div></details><details><summary>מה קורה אחרי שאני משלם?</summary><div class="a"><p>נכנסים לפלטפורמת הקורס עם המייל והסיסמה שבחרת בהרשמה, ומתחילים משיעור 1, "המנוע הרגשי", בקצב שלך.</p></div></details></div></section>
+<section class="faq" data-sec="15" data-name="שאלות"><div class="wrap stack"><h2>שאלות לפני ואחרי ההצטרפות</h2><details><summary>מה קורה אחרי שאני משלם?</summary><div class="a"><p>מיד אחרי התשלום נפתחת לך הגישה לתוכנית, ונשלח אליך מייל עם פרטי הכניסה, קישור ישיר וכל 5 הבונוסים. מתחילים משיעור 1, "המנוע הרגשי".</p></div></details><details><summary>מה אם אני לא מצליח להתחבר?</summary><div class="a"><p>במייל יש קישור כניסה ישיר, בלי שם משתמש וסיסמה. אם בכל זאת משהו לא עובד, אפשר לאפס סיסמה במסך הכניסה, או לפנות אלינו ונסדר את זה מהר.</p></div></details><details><summary>לא קיבלתי את המייל. מה עושים?</summary><div class="a"><p>כדאי לבדוק בתיקיית הספאם או קידומי מכירות. אם הוא לא שם, פנו אלינו ונשלח שוב.</p></div></details><details><summary>לכמה זמן יש לי גישה?</summary><div class="a"><p>ללא הגבלת זמן. צופים מהנייד או מהמחשב, בקצב שלך.</p></div></details><details><summary>אני צריך ניסיון קודם ב-NLP?</summary><div class="a"><p>לא. מתחילים מהיסודות, וכל שיעור נותן כלי אחד שאפשר ליישם באותו יום.</p></div></details><details><summary>כמה זמן זה לוקח ביום?</summary><div class="a"><p>השיעורים נמשכים 4 עד 9 דקות. שיעור אחד ביום מספיק כדי להתחיל לראות שינוי.</p></div></details><details><summary>ומה אם זה לא בשבילי?</summary><div class="a"><p>יש לך שבוע. אם עברת על התוכן, נתת לו הזדמנות אמיתית והרגשת שהוא לא שווה את ה-297 ₪, שולחים לנו מייל ומקבלים החזר מלא. בלי ויכוחים.</p></div></details><details><summary>אפשר לשלם בתשלומים?</summary><div class="a"><p>כן, 3 תשלומים של 99 ₪.</p></div></details></div></section>
 <section class="band" data-buyzone><div class="wrap stack">
 <p class="kicker">אחריות מלאה</p>
 <h2>או שהתוכן הזה שווה לך הרבה יותר מ-297 ₪, <mark>או שאנחנו מחזירים לך את כל הכסף.</mark></h2>
@@ -370,12 +418,12 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 <p>אנחנו בטוחים בלב שלם במה שנפתח לך ברגע ההצטרפות: יותר בהירות, יותר חיות, יותר חזון, יותר שליטה בדרך שבה אתה פועל, וכלים שילכו איתך הרבה אחרי שסיימת לצפות בתוכן.</p>
 <h3 style="color:var(--band-gold)">הסיכון עלינו. ההחלטה להתחיל עליך.</h3>
 <p class="muted">במקרה הכי גרוע, ניסית וקיבלת את כל הכסף בחזרה. במקרה הטוב, התחלת שינוי שיכול להשפיע על כל הדרך שבה אתה חווה את החיים.</p>
-<a class="cta" data-cta="final" data-checkout href="#">אני נכנס עכשיו - 297 ₪ <span>←</span></a>
+<a class="cta" data-cta="final" data-checkout href="#">אני נכנס עכשיו: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
 <p class="cta-note">או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
 </div></section>
 
 <footer><div class="wrap">© בן נחום · תוכנית NLP דיגיטלית<br>התוכנית היא תוכן לימודי ואינה מחליפה ייעוץ או טיפול מקצועי.</div></footer>
-<div class="sticky" id="sticky" aria-hidden="true"><div class="p"><b>297 ₪</b><small>או 3 × 99 ₪</small></div><a class="cta" data-cta="sticky" data-checkout href="#">להצטרפות <span>←</span></a></div>
+<div class="sticky" id="sticky" aria-hidden="true"><div class="p"><b>297 ₪</b><small>במקום 2,140 ₪</small></div><a class="cta" data-cta="sticky" data-checkout href="#">להצטרפות <span>←</span></a></div>
 <script>
 /* ===== CONFIG ===== */
 const CHECKOUT_URL = "https://my.schooler.biz/s/53500/user/signup?bundle=50774";
