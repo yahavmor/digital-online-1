@@ -2,305 +2,433 @@
 <html lang="he" dir="rtl" data-variant="b">
 <head>
 <meta charset="utf-8">
-<meta name="color-scheme" content="light">
-<meta name="theme-color" content="#0E1A30">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#08090C">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>השיטה · בן נחום</title>
 <meta name="description" content="תוכנית NLP דיגיטלית של בן נחום: 142 שיעורים, כ-28 שעות תוכן. 297 ₪ או 3 תשלומים של 99 ₪.">
 <meta property="og:title" content="השיטה · בן נחום">
 <meta property="og:description" content="תוכנית NLP דיגיטלית: 142 שיעורים קצרים + 5 בונוסים. 297 ₪ או 3 תשלומים של 99 ₪.">
 <meta property="og:image" content="https://funnel.digitalonline.co.il/nlp/assets/ben.jpg">
-<link rel="preload" as="image" href="assets/ben.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@700;900&family=Heebo:wght@500;600;700;800&family=Assistant:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap">
 <style>
 :root{
-  --bg:#FFFFFF; --alt:#F8F5EF; --surface:#FFFFFF; --ink:#141A26; --ink-2:#2B3240; --muted:#4F5766; --line:#E9E4D9; --line-2:#F0ECE3;
-  --gold:#B48A36; --gold-ink:#7D5F1F; --gold-soft:#F5ECD9;
-  --navy:#0E1A30; --navy-2:#16243F; --on-navy:#F2F3F6; --on-navy-2:#B9C0CE;
-  --cta:#CC9B3C; --cta-hover:#BC8C2F; --on-cta:#17120A;
-  --display:"Heebo","Arial Hebrew",Arial,sans-serif; --body:"Assistant","Heebo",Arial,sans-serif; --serif:"Frank Ruhl Libre","Heebo",serif;
-  --r:16px; --r-sm:12px; --shadow:0 1px 2px rgba(20,26,38,.04),0 8px 24px -12px rgba(20,26,38,.12);
-  --shadow-lg:0 2px 4px rgba(20,26,38,.04),0 24px 48px -20px rgba(20,26,38,.22);
-  --sec:64px; color-scheme:light;
+  --bg0:#08090C; --bg1:#0C0D12; --bg2:#111319; --bg3:#060708;
+  --ink:#F3EDE2; --ink2:#DCD5C8; --muted:#A8A296; --dim:#7D786F;
+  --gold:#C9A96E; --gold2:#D3B77A; --gold-a:rgba(211,183,122,.16); --gold-b:rgba(211,183,122,.32);
+  --card:rgba(255,255,255,.028); --card2:rgba(255,255,255,.045);
+  --font:"Heebo","Arial Hebrew",Arial,sans-serif;
+  --r:18px; --ease:cubic-bezier(.2,.7,.2,1);
+  --sec:76px; --max:1160px; --text:720px; color-scheme:dark;
 }
-@media (min-width:768px){:root{--sec:96px}}
-*{box-sizing:border-box} html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.7;direction:rtl;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-img,video{max-width:100%;height:auto}
-p{margin:0}
-.wrap{max-width:720px;margin:0 auto;padding-inline:20px}
-.stack{display:flex;flex-direction:column;gap:20px}
+@media (min-width:900px){:root{--sec:124px}}
+*{box-sizing:border-box} html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;background:var(--bg0)}
+body{margin:0;background:var(--bg0);color:var(--ink);font-family:var(--font);font-weight:400;font-size:18px;line-height:1.75;direction:rtl;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+@media (min-width:900px){body{font-size:19px}}
+body::before{content:"";position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .7 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+img,video{max-width:100%;height:auto} p{margin:0}
+.wrap{max-width:var(--max);margin:0 auto;padding-inline:20px}
+@media (min-width:900px){.wrap{padding-inline:40px}}
+.stack{display:flex;flex-direction:column;gap:22px}
+.stack>p,.lead,.res-intro{max-width:var(--text)}
+::selection{background:var(--gold);color:var(--bg1)}
 
-/* ---------- type ---------- */
-h1,h2,h3{font-family:var(--display);color:inherit;margin:0;text-wrap:balance}
-h2{font-size:clamp(27px,6.4vw,38px);font-weight:800;line-height:1.22;letter-spacing:-.01em}
-h3{font-size:19px;font-weight:700;line-height:1.35}
-section > .wrap > h2{margin-bottom:4px}
-section > .wrap > h2::after{content:"";display:block;width:44px;height:3px;border-radius:3px;margin-top:16px;background:var(--gold)}
-section[style*="center"] h2::after,.center h2::after,#offer h2::after{margin-inline:auto}
-mark{background:none;color:var(--gold-ink);font-weight:inherit}
-.lead,.res-intro{font-size:19px;line-height:1.65;color:var(--muted);max-width:60ch}
-.kicker,.mtag{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.06em;color:var(--gold-ink)}
+/* type */
+h1,h2,h3{font-family:var(--font);margin:0;text-wrap:balance;color:var(--ink)}
+h2{font-size:clamp(32px,8.6vw,64px);font-weight:900;line-height:1.12;letter-spacing:-.015em;max-width:16ch}
+h3{font-size:20px;font-weight:700;line-height:1.35}
+@media (min-width:900px){h3{font-size:22px}}
+mark{background:none;color:var(--gold2);font-weight:inherit}
+.lead,.res-intro{font-size:19px;color:var(--muted);line-height:1.7}
+.kicker,.mtag,.eyebrow{font-weight:700;font-size:13px;letter-spacing:.14em;color:var(--gold)}
 strong{font-weight:700;color:var(--ink)}
+section > .wrap > h2::after{content:"";display:block;width:64px;height:1px;margin-top:22px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
 
-/* ---------- sections ---------- */
-section{padding-block:var(--sec);scroll-margin-top:24px;background:var(--bg)}
-section.alt{background:var(--alt)}
-section + section.alt, section.alt + section:not(.alt){border-top:1px solid var(--line-2)}
+/* sections */
+section{position:relative;padding-block:var(--sec);background:var(--bg1);scroll-margin-top:20px;overflow:hidden}
+section.alt{background:var(--bg2)}
+section[data-num]::before{content:attr(data-num);position:absolute;top:calc(var(--sec) * .35);inset-inline-start:max(12px,calc(50% - var(--max)/2 + 20px));font-weight:900;font-size:clamp(88px,26vw,200px);line-height:1;color:rgba(211,183,122,.055);pointer-events:none;letter-spacing:-.04em}
+section > .wrap{position:relative}
+section::after{content:"";position:absolute;top:0;inset-inline:0;height:1px;background:linear-gradient(90deg,transparent,rgba(211,183,122,.22),transparent)}
+section.orb{background-image:radial-gradient(640px circle at 88% 8%,rgba(201,169,110,.09),transparent 62%)}
+section.orb.alt{background-image:radial-gradient(640px circle at 12% 12%,rgba(201,169,110,.08),transparent 62%)}
 
-/* ---------- CTA ---------- */
-.cta{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:nowrap;width:100%;min-height:62px;padding:16px 24px;border:0;border-radius:14px;
-  background:var(--cta);color:var(--on-cta);font-family:var(--display);font-weight:800;font-size:19px;line-height:1.25;text-align:center;text-decoration:none;
-  box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 10px 24px -10px rgba(160,116,30,.65);transition:transform .18s ease,box-shadow .18s ease,background-color .18s ease;-webkit-tap-highlight-color:transparent}
-.cta:hover{background:var(--cta-hover);transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 14px 28px -10px rgba(160,116,30,.7)}
+/* CTA */
+.cta{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:nowrap;width:100%;min-height:62px;padding:16px 26px;border:0;border-radius:14px;
+  background:linear-gradient(180deg,#EADBB5 0%,#D3B77A 55%,#C9A96E 100%);color:#121318;font-family:var(--font);font-weight:800;font-size:19px;line-height:1.25;text-align:center;text-decoration:none;
+  box-shadow:0 1px 0 rgba(255,255,255,.45) inset,0 14px 34px -16px rgba(211,183,122,.7);transition:transform .2s var(--ease),box-shadow .2s var(--ease),filter .2s;-webkit-tap-highlight-color:transparent}
+.cta:hover{transform:translateY(-2px);filter:brightness(1.04);box-shadow:0 1px 0 rgba(255,255,255,.45) inset,0 0 0 1px rgba(234,219,181,.35),0 18px 40px -14px rgba(211,183,122,.75)}
 .cta:active{transform:translateY(0)}
-.cta span{font-size:1.05em;transition:transform .18s ease} .cta:hover span{transform:translateX(-3px)}
-.cta .was{font-weight:600;opacity:.6;font-size:.82em;white-space:nowrap}
-@media (max-width:420px){.cta{font-size:18px;padding-inline:16px;gap:8px} .ctab .box{padding:22px 16px 20px}}
-@media (max-width:480px){.ctab .cta,.guar .cta{font-size:17px;padding-inline:12px} .ctab .cta>span:last-child,.guar .cta>span:last-child{display:none}}
-@media (max-width:374px){.ctab .cta,.guar .cta{font-size:16px} .pcard .pay{margin:12px 10px;padding-inline:12px} .pcard .cta{font-size:17px}}
-a:focus-visible,.cta:focus-visible,summary:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
-.was{color:inherit;opacity:.65;font-weight:600}
-.trustrow{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;font-size:14px;font-weight:600;color:var(--muted)}
-.trustrow li{display:inline-flex;align-items:center;gap:6px}
-.trustrow svg{width:16px;height:16px;flex:0 0 16px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-@media (min-width:768px){.cta{width:auto;min-width:380px;margin-inline:auto;padding-inline:40px}}
+.cta span{transition:transform .2s var(--ease)} .cta:hover span{transform:translateX(-4px)}
+.cta .was{font-weight:500;opacity:.55;font-size:.8em;white-space:nowrap;text-decoration-thickness:1px}
+@media (min-width:768px){.cta{width:auto;min-width:400px;padding-inline:44px}}
+@media (max-width:480px){.cta{font-size:18px;padding-inline:16px;gap:8px} .ctab .cta,.guar .cta{font-size:17px;padding-inline:12px} .ctab .cta>span:last-child,.guar .cta>span:last-child{display:none}}
+@media (max-width:374px){.ctab .cta,.guar .cta{font-size:16px}}
+a:focus-visible,.cta:focus-visible,summary:focus-visible,button:focus-visible{outline:2px solid var(--gold2);outline-offset:4px}
+.was{color:inherit;opacity:.6;font-weight:500;text-decoration-thickness:1px}
+.trustrow{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 20px;font-size:14px;font-weight:500;color:var(--muted)}
+.trustrow li{display:inline-flex;align-items:center;gap:7px}
+.trustrow svg{width:15px;height:15px;flex:0 0 15px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
-/* ---------- progress ---------- */
-.prog{position:fixed;top:0;inset-inline:0;z-index:30;height:3px;pointer-events:none;opacity:0;transition:opacity .25s}
+/* progress */
+.prog{position:fixed;top:0;inset-inline:0;z-index:30;height:2px;pointer-events:none;opacity:0;transition:opacity .3s}
 .prog.on{opacity:1} .prog span{display:none}
-.prog i{position:absolute;inset-inline-start:0;top:0;height:3px;width:0;background:var(--gold);transition:width .25s}
+.prog i{position:absolute;inset-inline-start:0;top:0;height:2px;width:0;background:linear-gradient(90deg,var(--gold),#EADBB5);box-shadow:0 0 12px rgba(211,183,122,.6);transition:width .3s}
 
-/* ---------- hero ---------- */
-.hero7{position:relative;background:var(--navy);color:var(--on-navy);overflow:hidden}
-.hero7 .media{position:relative;height:min(48vh,440px);min-height:300px;background:var(--navy) url(assets/ben.jpg) center 14%/cover no-repeat}
-.hero7 .media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,26,48,.35) 0%,rgba(14,26,48,0) 22%,rgba(14,26,48,0) 52%,rgba(14,26,48,.85) 82%,var(--navy) 100%)}
-.hero7 .brand{position:absolute;top:calc(16px + env(safe-area-inset-top,0px));inset-inline:20px;z-index:1;display:flex;justify-content:space-between;align-items:center;font-family:var(--display);font-size:14px;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.35)}
-.hero7 .brand b{font-weight:800;letter-spacing:.01em} .hero7 .brand span{opacity:.85}
-.hero7 .body{position:relative;margin-top:-88px;padding-bottom:44px;text-align:center;gap:16px}
-.hero7 .nl-quote{margin-top:10px}
-.hero7 .nl-title{font-family:var(--serif);font-weight:900;font-size:clamp(56px,16vw,92px);line-height:.95;letter-spacing:.01em;color:#fff;margin:0}
-.hero7 .nl-title small{display:block;font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.32em;color:var(--gold);margin-bottom:12px}
-.hero7 .nl-sub{font-size:clamp(18px,4.6vw,22px);line-height:1.5;font-weight:600;color:#fff;max-width:34ch;margin-inline:auto}
-.hero7 .nl-quote{font-family:var(--display);font-size:15px;font-weight:600;color:#D9B66A;max-width:40ch;margin-inline:auto}
-.hero7 .nl-p{font-size:17px;line-height:1.7;color:var(--on-navy-2);max-width:52ch;margin-inline:auto}
-.hero7 .pricechip{display:flex;justify-content:center;align-items:baseline;gap:10px;font-family:var(--display);font-size:16px;color:var(--on-navy-2);margin-top:6px}
-.hero7 .pricechip b{font-size:30px;font-weight:800;color:#fff}
-.hero7 .trustrow{color:#C9CFDB} .hero7 .trustrow svg{stroke:#D9B66A}
-.hero7 .ghost{display:inline-block;align-self:center;color:#E7EAF0;font-family:var(--display);font-size:16px;font-weight:600;text-decoration:underline;text-decoration-color:rgba(217,182,106,.6);text-underline-offset:6px;padding:6px 8px}
-.hero7 .ghost:hover{color:#fff}
-.proofbar{background:var(--navy-2);color:var(--on-navy);border-top:1px solid rgba(255,255,255,.06)}
-.proofbar ul{list-style:none;margin:0 auto;padding:18px 12px;max-width:720px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
-.proofbar b{display:block;font-family:var(--display);font-size:clamp(20px,5.4vw,26px);font-weight:800;color:#fff;line-height:1.15}
-.proofbar span{font-size:13px;color:var(--on-navy-2);line-height:1.35;display:block;margin-top:2px}
-@media (min-width:600px) and (max-width:959px){.hero7 .media{background-position:center 24%;height:min(52vh,520px)}}
+/* ---------- HERO (shared) ---------- */
+.hero8{position:relative;overflow:hidden;background:var(--bg0);padding:calc(22px + env(safe-area-inset-top,0px)) 0 56px;isolation:isolate}
+.hero8 .brand{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:500;color:var(--muted);letter-spacing:.04em;margin-bottom:40px}
+.hero8 .brand b{color:var(--ink);font-weight:700;letter-spacing:.02em}
+.hero8 .inner{display:grid;gap:28px;align-items:center}
+.hero8 .copy{display:flex;flex-direction:column;gap:20px;text-align:center;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;border:1px solid var(--gold-b);background:rgba(211,183,122,.06);color:var(--gold2);font-size:13px;font-weight:500;line-height:1.4;text-align:center}
+.badge::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold2);box-shadow:0 0 10px var(--gold2);flex:0 0 6px}
+.hero8 h1{font-size:clamp(46px,13vw,96px);font-weight:900;line-height:1.02;letter-spacing:-.02em;max-width:14ch}
+.hero8 h1.title{font-size:clamp(64px,19vw,128px);line-height:.95}
+.hero8 .sub{font-size:clamp(18px,4.7vw,22px);font-weight:500;line-height:1.55;color:var(--ink2);max-width:36ch}
+.hero8 .quote{font-size:16px;font-weight:500;color:var(--gold2);max-width:40ch}
+.hero8 .p{font-size:16px;line-height:1.75;color:var(--muted);max-width:52ch}
+.pricechip{display:flex;justify-content:center;align-items:baseline;gap:10px;font-size:16px;color:var(--muted)}
+.pricechip b{font-size:32px;font-weight:900;color:var(--ink);letter-spacing:-.01em}
+.hero8 .ghost{color:var(--ink2);font-size:15px;font-weight:500;text-decoration:underline;text-decoration-color:var(--gold-b);text-underline-offset:6px;padding:4px 8px}
+.hero8 .ghost:hover{color:var(--ink)}
+.hero8::before{content:"";position:absolute;inset:-20% -30% auto;height:120%;z-index:-1;background:radial-gradient(closest-side,rgba(201,169,110,.16),transparent 70%);top:-10%;pointer-events:none}
+@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.hero8 .copy>*,.hero8 .visual{animation:up .8s var(--ease) both}
+.hero8 .copy>*:nth-child(2){animation-delay:.08s}.hero8 .copy>*:nth-child(3){animation-delay:.16s}.hero8 .copy>*:nth-child(4){animation-delay:.24s}
+.hero8 .copy>*:nth-child(5){animation-delay:.32s}.hero8 .copy>*:nth-child(6){animation-delay:.4s}.hero8 .copy>*:nth-child(n+7){animation-delay:.48s}.hero8 .visual{animation-delay:.3s}
 @media (min-width:960px){
-  .hero7{display:grid;grid-template-columns:1fr 1fr;min-height:min(88vh,820px)}
-  .hero7 .media{order:2;height:auto;min-height:100%}
-  .hero7 .media::after{background:linear-gradient(270deg,var(--navy) 0%,rgba(14,26,48,.6) 18%,rgba(14,26,48,0) 45%)}
-  .hero7 .body{margin:0;align-self:center;padding:72px 56px 72px 32px;max-width:640px;justify-self:end;text-align:right}
-  .hero7 .nl-sub,.hero7 .nl-quote,.hero7 .nl-p{margin-inline:0}
-  .hero7 .pricechip,.hero7 .trustrow{justify-content:flex-start}
-  .hero7 .cta{margin-inline:0}
-  .hero7 .ghost{align-self:flex-start}
+  .hero8{padding-bottom:96px}
+  .hero8 .inner{grid-template-columns:1.1fr .9fr;gap:56px;min-height:min(74vh,720px)}
+  .hero8 .copy{text-align:right;align-items:flex-start}
+  .hero8 .pricechip,.hero8 .trustrow{justify-content:flex-start}
+  .hero8 .cta{margin:0}
 }
 
-/* ---------- generic cards ---------- */
-.card,.reality .r,.six>div,.wins li,.fitlist li,.bonus6,.module,.faq details,.stack6,.bought li{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+/* A: method flow */
+.flow{list-style:none;margin:0;padding:22px 16px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px 10px;position:relative;border:1px solid var(--gold-a);border-radius:24px;background:var(--card)}
+.flow li{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;font-weight:700;font-size:15px;color:var(--ink2)}
+.flow li i{font-style:normal;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--gold-b);color:var(--gold2);font-size:13px;font-weight:700;background:var(--bg1);transition:background .5s,box-shadow .5s,color .5s}
+.flow li.on i{background:var(--gold2);color:var(--bg1);box-shadow:0 0 24px rgba(211,183,122,.45)}
+.flow li:last-child{color:var(--gold2)}
+.flow-cap{text-align:center;font-size:13px;color:var(--dim);margin-top:10px;letter-spacing:.06em}
+@media (min-width:960px){.flow{grid-template-columns:repeat(2,1fr);padding:32px 24px;gap:30px 18px} .flow li{flex-direction:row;justify-content:flex-start;text-align:right;font-size:17px}}
+
+/* B: photo hero */
+.hero8.photo{background:var(--bg0)}
+.hero8.photo .bgimg{position:absolute;inset:0;z-index:-2;background:url(assets/ben.jpg) center 18%/cover no-repeat;opacity:.26;filter:grayscale(.3) contrast(1.05)}
+.hero8.photo .bgimg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,9,12,.55),rgba(8,9,12,.35) 30%,rgba(8,9,12,.92) 75%,var(--bg0))}
+.hero8.photo .inner{min-height:min(84vh,780px);grid-template-columns:1fr}
+.hero8.photo .copy{align-self:end}
+@media (min-width:960px){.hero8.photo .bgimg{background-position:left 20%;background-size:auto 120%;opacity:.42}.hero8.photo .bgimg::after{background:linear-gradient(270deg,var(--bg0) 30%,rgba(8,9,12,.55) 65%,rgba(8,9,12,.15))} .hero8.photo .copy{align-self:center;max-width:680px}}
+
+/* C: collage */
+.collage{position:relative;height:340px;max-width:440px;margin:0 auto;width:100%}
+.collage img{position:absolute;width:56%;border-radius:16px;border:1px solid var(--gold-a);box-shadow:0 30px 60px -24px rgba(0,0,0,.85)}
+.collage img:nth-child(1){top:20px;right:0;transform:rotate(4deg);z-index:1}
+.collage img:nth-child(2){top:0;left:22%;z-index:3}
+.collage img:nth-child(3){top:34px;left:0;transform:rotate(-4deg);z-index:2}
+@media (min-width:960px){.collage{height:520px}}
+
+/* proof numbers */
+.proofbar{background:var(--bg0);border-top:1px solid var(--gold-a);border-bottom:1px solid var(--gold-a)}
+.proofbar ul{list-style:none;margin:0 auto;padding:22px 12px;max-width:var(--max);display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.proofbar b{display:block;font-size:clamp(26px,7vw,44px);font-weight:900;color:var(--ink);line-height:1.05;letter-spacing:-.02em}
+.proofbar span{font-size:13px;color:var(--muted);line-height:1.35;display:block;margin-top:4px}
+.proofbar.four ul{grid-template-columns:repeat(2,1fr);row-gap:18px}
+@media (min-width:768px){.proofbar.four ul{grid-template-columns:repeat(4,1fr)}}
+
+/* cards */
+.card,.reality .r,.six>div,.wins li,.fitlist li,.bonus8,.module,.faq details,.bought li,.split>div,.ba>div,.wall figure{background:var(--card);border:1px solid var(--gold-a);border-radius:var(--r)}
+
+/* split know / embody (A) */
+.split{display:grid;gap:14px;position:relative}
+.split>div{padding:26px 22px;display:flex;flex-direction:column;gap:14px}
+.split h3{font-size:clamp(26px,7vw,40px);font-weight:900;letter-spacing:-.01em}
+.split .know{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;color:var(--muted);font-size:18px}
+.split .know li::before{content:"· ";color:var(--dim)}
+.split .do{border-color:var(--gold-b);background:linear-gradient(180deg,rgba(211,183,122,.07),rgba(211,183,122,.02))}
+.split .do h3{color:var(--gold2)}
+.split .do p{color:var(--ink2)}
+@media (min-width:900px){.split{grid-template-columns:1fr 1fr;gap:0}.split>div{padding:40px 44px}.split>div:first-child{border-radius:0 var(--r) var(--r) 0;border-left:0}.split>div:last-child{border-radius:var(--r) 0 0 var(--r)}
+  .split::after{content:"";position:absolute;top:12%;bottom:12%;left:50%;width:1px;background:linear-gradient(180deg,transparent,var(--gold),transparent)}}
+.key{font-weight:900;font-size:clamp(24px,6.4vw,40px);line-height:1.3;color:var(--ink);text-wrap:balance;max-width:24ch;letter-spacing:-.01em}
+.key::before{content:"";display:block;width:40px;height:2px;background:var(--gold);margin-bottom:18px}
+
+/* B: beats, problem, before/after */
+.beats{padding-block:calc(var(--sec) * .4)}
+.beat{min-height:42vh;display:flex;align-items:center;justify-content:center;text-align:center;font-size:clamp(34px,9.4vw,72px);font-weight:900;line-height:1.12;letter-spacing:-.02em;color:var(--ink);text-wrap:balance}
+.beat em{font-style:normal;color:var(--gold2)}
+.beats .k0{text-align:center;color:var(--gold);font-size:13px;letter-spacing:.14em;font-weight:700}
+.problem{text-align:center}
+.problem .wrap{align-items:center}
+.problem .ghostword{position:absolute;inset:0;display:grid;place-items:center;font-size:clamp(160px,46vw,420px);font-weight:900;color:rgba(243,237,226,.05);letter-spacing:-.04em;pointer-events:none;line-height:1;white-space:nowrap}
+.problem h2{max-width:none;margin-inline:auto} .problem h2::after{margin-inline:auto}
+.problem .bigline{font-size:clamp(28px,7.6vw,56px);font-weight:900;line-height:1.2;max-width:18ch;margin-inline:auto}
+.problem .bigline span{display:block;color:var(--muted);font-weight:500;font-size:.62em;margin-bottom:10px}
+.problem p{margin-inline:auto}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ba>div{padding:22px 18px;display:flex;flex-direction:column;gap:12px}
+.ba h3{font-size:13px;letter-spacing:.14em;color:var(--dim);font-weight:700}
+.ba ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;font-size:clamp(19px,5vw,26px);font-weight:700}
+.ba .before{color:var(--dim)} .ba .before li{text-decoration:line-through;text-decoration-color:rgba(168,162,150,.4);text-decoration-thickness:1px}
+.ba .after{border-color:var(--gold-b);background:linear-gradient(180deg,rgba(211,183,122,.08),rgba(211,183,122,.02))} .ba .after h3{color:var(--gold)} .ba .after li{color:var(--ink)}
+.ba .after li::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--gold2);margin-inline-end:10px;vertical-align:middle;box-shadow:0 0 10px var(--gold2)}
 
 /* reality */
 .reality{display:grid;gap:14px}
-.reality .r{display:grid;grid-template-columns:52px 1fr;gap:16px;align-items:start;padding:20px}
-.reality .ic{width:52px;height:52px;border-radius:14px;background:var(--gold-soft);display:grid;place-items:center}
-.reality .ic svg{width:26px;height:26px;stroke:var(--gold-ink);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.reality h3{margin-bottom:4px} .reality p{color:var(--muted);font-size:17px;line-height:1.65}
+.reality .r{display:grid;grid-template-columns:48px 1fr;gap:16px;align-items:start;padding:24px 22px}
+.reality .ic{width:48px;height:48px;border-radius:14px;border:1px solid var(--gold-a);display:grid;place-items:center;background:rgba(211,183,122,.05)}
+.reality .ic svg{width:24px;height:24px;stroke:var(--gold2);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.reality h3{margin-bottom:6px} .reality p{color:var(--muted);font-size:17px;line-height:1.7}
+@media (min-width:900px){.reality{grid-template-columns:repeat(3,1fr);gap:18px}.reality .r{grid-template-columns:1fr;padding:32px 28px}}
 
-/* "ככה ש" */
-.ifs{gap:18px}
-.ifs p{font-size:19px;line-height:1.8;max-width:62ch}
-.ifs p strong{color:var(--ink);background:linear-gradient(transparent 62%,var(--gold-soft) 62%)}
-.ifs p:last-child{font-weight:600;color:var(--ink);padding-inline-start:16px;border-inline-start:3px solid var(--gold)}
+/* so-that */
+.ifs{gap:22px}
+.ifs p{font-size:19px;line-height:1.85;color:var(--ink2);max-width:var(--text)}
+.ifs p strong{color:var(--ink);font-weight:700;background:linear-gradient(transparent 70%,rgba(211,183,122,.22) 70%)}
+.ifs p:last-child{font-size:clamp(22px,5.6vw,30px);font-weight:900;line-height:1.4;color:var(--ink);padding-top:12px}
 
-/* CTA band */
-.ctab{padding-block:8px calc(var(--sec) * .8)}
-.ctab .wrap{max-width:600px}
-.ctab .box{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-lg);padding:26px 20px 22px;display:flex;flex-direction:column;gap:14px;text-align:center}
-.ctab h2{font-size:clamp(19px,4.8vw,22px);font-weight:700;color:var(--ink-2)}
+/* CTA block */
+.ctab{padding-block:12px calc(var(--sec) * .7)}
+.ctab::after{display:none}
+.ctab .box{max-width:620px;margin:0 auto;border:1px solid var(--gold-b);border-radius:22px;padding:28px 20px 22px;display:flex;flex-direction:column;gap:14px;text-align:center;
+  background:radial-gradient(420px circle at 50% 0%,rgba(211,183,122,.1),transparent 70%),var(--card)}
+.ctab h2{font-size:clamp(19px,4.8vw,22px);font-weight:700;color:var(--ink2);max-width:none;margin-inline:auto}
 .ctab h2::after{display:none}
 .ctab .fine{font-size:14px;line-height:1.6;color:var(--muted)}
 .ctab .cta{width:100%;min-width:0}
+@media (max-width:420px){.ctab .box{padding:24px 16px 20px}}
 
-/* results */
-.vidcard{margin:0 auto;max-width:360px;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:10px;box-shadow:var(--shadow-lg)}
-.vidcard video{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:14px;background:#000}
-.vidcard figcaption,.who{font-family:var(--display);font-weight:700;font-size:15px;color:var(--ink-2);text-align:center;padding:12px 4px 4px}
-.vidcard figcaption small{display:block;font-weight:500;color:var(--muted);font-size:13px}
+/* video */
+.vid{position:relative;margin:0 auto;max-width:380px;width:100%;border-radius:22px;padding:8px;border:1px solid var(--gold-b);background:var(--card);box-shadow:0 40px 80px -40px rgba(0,0,0,.9)}
+.vid video{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:16px;background:#000}
+.vid .play{position:absolute;inset:8px;border:0;border-radius:16px;cursor:pointer;display:grid;place-items:center;background:linear-gradient(180deg,rgba(8,9,12,0) 50%,rgba(8,9,12,.75));color:var(--ink);font:inherit}
+.vid .play i{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;background:rgba(243,237,226,.94);box-shadow:0 0 0 10px rgba(243,237,226,.14);transition:transform .25s var(--ease)}
+.vid .play i::before{content:"";margin-left:6px;border-style:solid;border-width:13px 0 13px 21px;border-color:transparent transparent transparent #121318}
+.vid .play:hover i{transform:scale(1.06)}
+.vid .play span{position:absolute;bottom:22px;inset-inline:16px;text-align:center;font-weight:700;font-size:15px}
+.vid.playing .play{display:none}
+.vid figcaption{text-align:center;padding:12px 4px 4px;font-size:14px;color:var(--muted);font-weight:500}
 
-/* mechanism */
-.layers{display:flex;flex-direction:column;gap:0;position:relative;margin-top:6px}
-.layer{position:relative;padding:0 56px 28px 0;gap:6px}
+/* mechanism timeline */
+.layers{display:flex;flex-direction:column;margin-top:8px}
+.layer{position:relative;padding:0 64px 34px 0;gap:8px}
 .layer:last-child{padding-bottom:0}
-.layer::before{content:attr(data-n);position:absolute;right:0;top:0;width:38px;height:38px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:16px}
-.layer::after{content:"";position:absolute;right:18px;top:42px;bottom:4px;width:2px;background:var(--line)}
+.layer::before{content:"0" attr(data-n);position:absolute;right:0;top:0;width:44px;height:44px;border-radius:50%;border:1px solid var(--gold-b);background:var(--bg1);color:var(--gold2);display:grid;place-items:center;font-weight:700;font-size:14px;transition:background .6s,color .6s,box-shadow .6s}
+.layer::after{content:"";position:absolute;right:21px;top:50px;bottom:6px;width:1px;background:linear-gradient(180deg,var(--gold-b),transparent)}
 .layer:last-child::after{display:none}
-.layer .k{font-family:var(--display);font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--gold-ink)}
-.layer p{color:var(--muted);font-size:17px}
+.layer.in::before{background:var(--gold2);color:var(--bg1);box-shadow:0 0 28px rgba(211,183,122,.5)}
+.layer .k{font-size:13px;font-weight:700;letter-spacing:.14em;color:var(--gold)}
+.layer h3{font-size:clamp(22px,5.8vw,30px);font-weight:900}
+.layer p{color:var(--muted);font-size:17px;max-width:56ch}
+@media (min-width:900px){.layers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.layer{padding:32px 28px;border:1px solid var(--gold-a);border-radius:var(--r);background:var(--card)}.layer::before{position:static;margin-bottom:10px}.layer::after{display:none}.layer.in{border-color:var(--gold-b)}}
 
 /* testimonials carousel */
-.car{position:relative;max-width:420px;margin:0 auto;width:100%}
-.car-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:4px 2px 14px}
+.car{position:relative;max-width:440px;margin:0 auto;width:100%}
+.car-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:4px 2px 16px}
 .car-track::-webkit-scrollbar{display:none}
-.car-slide{flex:0 0 100%;scroll-snap-align:center;margin:0;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:8px;box-shadow:var(--shadow)}
-.car-slide img{display:block;width:100%;height:auto;border-radius:14px}
-.car-btn{position:absolute;top:calc(50% - 30px);width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.96);color:var(--ink);font-size:26px;line-height:1;cursor:pointer;display:grid;place-items:center;box-shadow:var(--shadow);transition:transform .15s}
-.car-btn:hover{transform:scale(1.06)}
+.car-slide{flex:0 0 100%;scroll-snap-align:center;margin:0;border:1px solid var(--gold-a);border-radius:22px;padding:8px;background:var(--card)}
+.car-slide img{display:block;width:100%;height:auto;border-radius:16px}
+.car-btn{position:absolute;top:calc(50% - 32px);width:46px;height:46px;border-radius:50%;border:1px solid var(--gold-b);background:rgba(12,13,18,.9);color:var(--ink);font-size:26px;line-height:1;cursor:pointer;display:grid;place-items:center;transition:background .2s,transform .2s}
+.car-btn:hover{background:var(--gold2);color:var(--bg1)}
 .car-btn.prev{right:-6px} .car-btn.next{left:-6px}
-@media (min-width:560px){.car-btn.prev{right:-58px} .car-btn.next{left:-58px}}
+@media (min-width:600px){.car-btn.prev{right:-64px} .car-btn.next{left:-64px}}
 .car-dots{display:flex;justify-content:center;gap:8px;padding-top:4px}
-.car-dots i{width:8px;height:8px;border-radius:999px;background:#D9D3C6;transition:width .2s,background-color .2s} .car-dots i.on{width:22px;background:var(--gold)}
-.swipe{text-align:center;font-size:14px;color:var(--muted);font-weight:600}
+.car-dots i{width:7px;height:7px;border-radius:999px;background:rgba(243,237,226,.18);transition:width .3s,background-color .3s} .car-dots i.on{width:24px;background:var(--gold2)}
+.swipe{text-align:center;font-size:14px;color:var(--muted)}
 
-/* lists as cards */
-.fitlist,.wins{list-style:none;margin:0;padding:0;display:grid;gap:12px}
-.fitlist li,.wins li{display:flex;gap:14px;align-items:flex-start;padding:16px 18px;font-size:18px;line-height:1.55}
-.fitlist li::before,.wins li::before,.bought li::before{content:"";flex:0 0 24px;height:24px;margin-top:1px;border-radius:50%;background:var(--gold-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237D5F1F' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/14px no-repeat}
-@media (min-width:768px){.wins{grid-template-columns:1fr 1fr}}
+/* C wall */
+.wall{columns:2;column-gap:12px}
+.wall figure{break-inside:avoid;margin:0 0 12px;padding:8px;display:block}
+.wall img{display:block;width:100%;border-radius:12px}
+.wall figcaption{font-size:14px;font-weight:700;color:var(--ink2);padding:10px 6px 4px}
+.wall figcaption span{display:block;font-weight:400;color:var(--dim);font-size:12px}
+@media (min-width:900px){.wall{columns:3;column-gap:18px}.wall figure{margin-bottom:18px}}
+.wallvid{display:grid;gap:24px}
+@media (min-width:900px){.wallvid{grid-template-columns:380px 1fr;align-items:start}}
+
+/* lists */
+.fitlist{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.fitlist li{display:flex;gap:14px;align-items:flex-start;padding:18px 20px;font-size:18px;line-height:1.6;color:var(--ink2)}
+.fitlist li::before,.bought li::before{content:"";flex:0 0 22px;height:22px;margin-top:3px;border-radius:50%;border:1px solid var(--gold-b);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D3B77A' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/13px no-repeat}
+@media (min-width:900px){.fitlist{grid-template-columns:1fr 1fr;gap:16px}}
+.wins{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:w}
+.wins li{counter-increment:w;padding:24px 22px;font-size:18px;line-height:1.55;color:var(--ink2);display:flex;flex-direction:column;gap:12px}
+.wins li::before{content:"0" counter(w);font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--gold)}
+@media (min-width:700px){.wins{grid-template-columns:1fr 1fr}} @media (min-width:1000px){.wins{grid-template-columns:repeat(3,1fr);gap:18px}.wins li{padding:30px 26px;font-size:19px}}
 
 /* six */
 .six{display:grid;gap:12px}
-.six>div{padding:20px;position:relative}
-.six>div::before{content:"";position:absolute;top:20px;right:0;width:3px;height:26px;border-radius:0 3px 3px 0;background:var(--gold)}
-.six h3{margin-bottom:4px} .six p{color:var(--muted);font-size:17px}
-@media (min-width:768px){.six{grid-template-columns:1fr 1fr}}
-section > .wrap > h3{color:var(--muted);font-weight:600;font-size:19px;margin-top:-8px}
+.six>div{padding:24px 22px}
+.six h3{margin-bottom:6px;color:var(--ink)} .six p{color:var(--muted);font-size:17px}
+@media (min-width:700px){.six{grid-template-columns:1fr 1fr}} @media (min-width:1000px){.six{grid-template-columns:repeat(3,1fr);gap:18px}.six>div{padding:30px 26px}}
+section > .wrap > h3{color:var(--muted);font-weight:500;font-size:19px;margin-top:-6px}
 
 /* story */
-.story{gap:18px}
-.story p{font-size:18px;line-height:1.8;max-width:62ch}
-.story h3{color:var(--ink);font-size:21px;margin-top:8px}
-.bio{display:grid;grid-template-columns:76px 1fr;gap:16px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;box-shadow:var(--shadow)}
-.bio img{width:76px;height:76px;border-radius:50%;object-fit:cover;object-position:center 18%}
-.bio h3{font-size:19px!important}
-.key{font-family:var(--serif);font-weight:700;font-size:clamp(22px,5.6vw,28px);line-height:1.45;color:var(--ink);padding:6px 20px 6px 0;border-inline-start:3px solid var(--gold);text-wrap:balance}
+.story{gap:20px}
+.story p{font-size:18px;line-height:1.85;color:var(--ink2);max-width:var(--text)}
+.story h3{color:var(--gold2)!important;font-size:22px;margin-top:10px}
+.bio{display:grid;grid-template-columns:88px 1fr;gap:18px;align-items:center;padding:16px 18px;border:1px solid var(--gold-a);border-radius:var(--r);background:var(--card);max-width:var(--text)}
+.bio img{width:88px;height:88px;border-radius:50%;object-fit:cover;object-position:center 18%;border:1px solid var(--gold-b)}
+.bio h3{font-size:20px!important;color:var(--ink)!important;margin:0!important}
+.bio p{color:var(--muted)!important;font-size:15px!important}
 
 /* bought */
-.bought{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.bought li{display:flex;gap:14px;align-items:flex-start;padding:15px 18px;font-size:18px;line-height:1.5}
+.bought{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.bought li{display:flex;gap:14px;align-items:flex-start;padding:18px 20px;font-size:18px;line-height:1.55;color:var(--ink2)}
+@media (min-width:900px){.bought{grid-template-columns:1fr 1fr;gap:16px}}
 
 /* modules */
+.mods{display:grid;gap:14px}
+@media (min-width:1000px){.mods{grid-template-columns:1fr 1fr;gap:18px;align-items:start}}
 .module{overflow:hidden}
-.module header{padding:22px 20px 18px;display:flex;flex-direction:column;gap:10px}
+.module header{padding:24px 22px 20px;display:flex;flex-direction:column;gap:10px}
 .module header p{color:var(--muted);font-size:17px}
+.module h3{font-size:22px;font-weight:900}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{font-family:var(--display);font-size:13px;font-weight:600;padding:4px 12px;border-radius:999px;background:var(--alt);border:1px solid var(--line);color:var(--ink-2)}
-.module details{border-top:1px solid var(--line)}
-.module summary{cursor:pointer;list-style:none;padding:14px 20px;font-family:var(--display);font-weight:700;font-size:16px;color:var(--gold-ink);display:flex;justify-content:space-between;align-items:center;gap:12px}
-.lessons{margin:0;padding:0 20px 16px;list-style:none;font-size:16px}
-.lessons li{padding:8px 0;border-bottom:1px solid var(--line-2)} .lessons li:last-child{border-bottom:0}
-.lessons li.mtag{padding-top:14px;border-bottom:0}
-.peek{display:grid;gap:10px;margin-top:8px}
-.mock{background:#0F1014;border:1px solid #2A2E38;border-radius:var(--r);overflow:hidden;color:#E6E8EE;font-size:15px;box-shadow:var(--shadow-lg)}
-.mock .mh{display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #2A2E38;font-family:var(--display)}
-.mock .mh span{color:#9CA2AF}
+.chip{font-size:13px;font-weight:500;padding:4px 12px;border-radius:999px;border:1px solid var(--gold-a);color:var(--ink2)}
+.module details{border-top:1px solid var(--gold-a)}
+.module summary{cursor:pointer;list-style:none;padding:15px 22px;font-weight:700;font-size:15px;color:var(--gold2);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.lessons{margin:0;padding:0 22px 18px;list-style:none;font-size:16px;color:var(--ink2)}
+.lessons li{padding:9px 0;border-bottom:1px solid rgba(243,237,226,.06)} .lessons li:last-child{border-bottom:0}
+.lessons li.mtag{padding-top:16px;border-bottom:0}
+.peek{display:grid;gap:12px;margin-top:6px;max-width:620px}
+.mock{background:#0A0B0F;border:1px solid var(--gold-a);border-radius:var(--r);overflow:hidden;color:#E6E8EE;font-size:15px}
+.mock .mh{display:flex;justify-content:space-between;padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.06)}
+.mock .mh span{color:var(--dim)}
 .mock ul{list-style:none;margin:0;padding:0}
-.mock li{display:flex;justify-content:space-between;gap:12px;padding:10px 16px;border-bottom:1px solid #1E2129}
-.mock li:first-child{background:#1A1D25}
-.mock .lt{min-width:0;overflow-wrap:anywhere}
-.mock .ld{color:#8A8F9B;font-variant-numeric:tabular-nums;flex:0 0 auto}
-.mock .mf{padding:10px 16px;color:#E3B649;font-family:var(--display);font-size:14px}
+.mock li{display:flex;justify-content:space-between;gap:12px;padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--ink2)}
+.mock li:first-child{background:rgba(211,183,122,.07);color:var(--ink)}
+.mock .lt{min-width:0;overflow-wrap:anywhere} .mock .ld{color:var(--dim);font-variant-numeric:tabular-nums;flex:0 0 auto}
+.mock .mf{padding:11px 16px;color:var(--gold2);font-size:14px}
 
-/* accordions (shared) */
+/* accordions */
 summary::-webkit-details-marker{display:none}
-summary::after{content:"";flex:0 0 22px;height:22px;border-radius:50%;background:var(--alt) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237D5F1F' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center/14px no-repeat;transition:transform .25s ease}
+summary::after{content:"";flex:0 0 26px;height:26px;border-radius:50%;border:1px solid var(--gold-b);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D3B77A' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center/14px no-repeat;transition:transform .3s var(--ease)}
 details[open]>summary::after{transform:rotate(180deg)}
 details .a,.lessons{overflow:hidden}
 
 /* bonuses */
-.bonus6{display:grid;grid-template-columns:84px 1fr;gap:16px;padding:16px;align-items:start}
-.bonus6 img,.bonus6 .dc{width:84px;border-radius:8px;box-shadow:0 8px 18px -10px rgba(20,26,38,.5)}
-.bonus6 .dc{height:108px;background:#5865F2;display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:13px}
-.bonus6 h3{font-size:18px;margin:2px 0 4px} .bonus6 p{font-size:16px;line-height:1.6;color:var(--muted)}
-.bonus6 .why{color:var(--ink-2);font-weight:600;font-size:15px;margin-top:6px}
-.bonus6 .val{display:inline-flex;margin-top:10px;font-family:var(--display);font-weight:700;font-size:13px;padding:4px 12px;border-radius:999px;background:var(--gold-soft);color:var(--gold-ink)}
-.btot{text-align:center;font-family:var(--display);font-size:19px;font-weight:700;padding-top:6px}
-.btot s{opacity:.55;font-weight:600} .btot b{color:var(--gold-ink)}
-@media (min-width:560px){.bonus6{grid-template-columns:104px 1fr;gap:20px;padding:20px} .bonus6 img,.bonus6 .dc{width:104px} .bonus6 .dc{height:134px}}
+.bonuses{display:grid;gap:16px}
+@media (min-width:760px){.bonuses{grid-template-columns:1fr 1fr;gap:18px}}
+.bonus8{display:flex;flex-direction:column;overflow:hidden}
+.bonus8 .shot{position:relative;display:grid;place-items:center;padding:28px 20px 20px;background:radial-gradient(260px circle at 50% 60%,rgba(211,183,122,.14),transparent 70%),rgba(255,255,255,.015);border-bottom:1px solid var(--gold-a)}
+.bonus8 .shot img{width:132px;border-radius:6px;transform:perspective(700px) rotateY(-14deg) rotateX(3deg);box-shadow:-18px 24px 40px -14px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.06)}
+.bonus8 .dc{width:132px;height:170px;border-radius:10px;display:grid;place-items:center;text-align:center;border:1px solid var(--gold-b);background:linear-gradient(160deg,#1A1C24,#0C0D12);color:var(--ink);font-weight:900;font-size:16px;line-height:1.2;transform:perspective(700px) rotateY(-14deg);box-shadow:-18px 24px 40px -14px rgba(0,0,0,.85)}
+.bonus8 .dc small{display:block;font-weight:500;font-size:12px;color:var(--gold2);margin-top:6px}
+.bonus8 .no{position:absolute;top:14px;right:16px;font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--gold)}
+.bonus8 .txt{padding:20px 22px 24px;display:flex;flex-direction:column;gap:8px;flex:1}
+.bonus8 h3{font-size:21px;font-weight:900}
+.bonus8 p{font-size:16px;line-height:1.65;color:var(--muted)}
+.bonus8 .why{color:var(--ink2);font-weight:500}
+.bonus8 .val{margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid rgba(243,237,226,.06);font-size:14px;color:var(--muted)}
+.bonus8 .val b{font-size:18px;color:var(--gold2);font-weight:700}
+.btot{text-align:center;font-size:clamp(19px,4.8vw,24px);font-weight:700;padding-top:10px;color:var(--ink2)}
+.btot s{opacity:.5;font-weight:500;text-decoration-thickness:1px} .btot b{color:var(--gold2)}
 
-/* pricing card */
-#offer{background:var(--bg);border-top:1px solid var(--line-2)}
-.faq{background:var(--alt);border-top:1px solid var(--line-2)}
-#offer .wrap{max-width:600px}
-#offer h2{text-align:center}
-#offer .offer-lead{text-align:center;color:var(--muted);font-size:17px;max-width:46ch;margin-inline:auto}
-.pcard{background:var(--surface);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow-lg);overflow:hidden;position:relative}
-.pcard::before{content:"";position:absolute;inset-inline:0;top:0;height:4px;background:var(--gold)}
-.pcard .head{padding:26px 22px 6px;text-align:center}
-.pcard .tag{display:inline-block;font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--gold-ink);background:var(--gold-soft);padding:5px 12px;border-radius:999px}
-.stack6{border:0;box-shadow:none;border-radius:0;padding:8px 22px 4px;background:transparent}
-.stack6 .row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:11px 0;border-bottom:1px solid var(--line-2);font-size:16px;line-height:1.45;color:var(--ink-2)}
+/* pricing */
+#offer{background:var(--bg0);background-image:radial-gradient(700px circle at 50% 30%,rgba(201,169,110,.12),transparent 65%)}
+#offer .wrap{max-width:680px}
+#offer h2,#offer .offer-lead{text-align:center;margin-inline:auto} #offer h2::after{margin-inline:auto}
+#offer .offer-lead{color:var(--muted);font-size:17px;max-width:46ch}
+.pcard{position:relative;border:1px solid var(--gold-b);border-radius:28px;background:linear-gradient(180deg,rgba(211,183,122,.06),rgba(255,255,255,.02));overflow:hidden;box-shadow:0 60px 120px -50px rgba(0,0,0,.9)}
+.pcard::before{content:"";position:absolute;inset-inline:15%;top:0;height:1px;background:linear-gradient(90deg,transparent,#EADBB5,transparent)}
+.pcard .head{padding:30px 22px 4px;text-align:center}
+.pcard .tag{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--gold2)}
+.stack6{padding:10px 24px 6px}
+.stack6 .row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:12px 0;border-bottom:1px solid rgba(243,237,226,.06);font-size:16px;line-height:1.45;color:var(--ink2)}
 .stack6 .row span{min-width:0}
-.stack6 .row b{font-family:var(--display);font-weight:600;white-space:nowrap;color:var(--muted)}
-.stack6 .tot{display:flex;justify-content:space-between;padding:14px 0 6px;font-family:var(--display);font-weight:700;font-size:17px;color:var(--muted)}
-.stack6 .tot span:last-child{text-decoration:line-through;text-decoration-thickness:2px}
-.pcard .pay{margin:14px 14px 14px;padding:24px 18px 20px;border-radius:18px;background:var(--alt);display:flex;flex-direction:column;gap:12px;text-align:center}
-.pcard .now-l{font-family:var(--display);font-size:16px;font-weight:600;color:var(--muted)}
-.pcard .now{font-family:var(--display);font-weight:800;font-size:clamp(64px,19vw,84px);line-height:.95;color:var(--ink);letter-spacing:-.02em}
-.pcard .now span{font-size:.42em;font-weight:700;margin-inline-start:4px}
-.pcard .inst{display:inline-flex;align-self:center;gap:6px;align-items:center;font-family:var(--display);font-size:15px;font-weight:600;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);padding:6px 14px;border-radius:999px}
-.pcard .once{font-size:14px;color:var(--muted);margin-top:-4px}
-.pcard .cta{width:100%;min-width:0;margin-top:4px}
+.stack6 .row b{font-weight:500;white-space:nowrap;color:var(--muted)}
+.stack6 .tot{display:flex;justify-content:space-between;padding:16px 0 4px;font-weight:700;font-size:17px;color:var(--muted)}
+.stack6 .tot span:last-child{text-decoration:line-through;text-decoration-thickness:1px}
+.pcard .pay{margin:16px;padding:28px 18px 22px;border-radius:20px;background:rgba(8,9,12,.6);border:1px solid var(--gold-a);display:flex;flex-direction:column;gap:12px;text-align:center}
+.pcard .now-l{font-size:16px;font-weight:500;color:var(--muted)}
+.pcard .now{font-weight:900;font-size:clamp(80px,24vw,120px);line-height:.92;color:var(--ink);letter-spacing:-.04em;text-shadow:0 0 60px rgba(211,183,122,.25)}
+.pcard .now span{font-size:.38em;font-weight:700;margin-inline-start:6px;color:var(--gold2)}
+.pcard .inst{display:inline-flex;align-self:center;font-size:15px;font-weight:500;color:var(--ink2);border:1px solid var(--gold-a);padding:6px 16px;border-radius:999px}
+.pcard .once{font-size:14px;color:var(--dim);margin-top:-4px}
+.pcard .cta{width:100%;min-width:0;margin-top:6px}
+@media (max-width:374px){.pcard .pay{margin:12px 10px;padding-inline:12px}.pcard .cta{font-size:17px}}
 
 /* FAQ */
-.faq .wrap{gap:12px}
-.faq h2{margin-bottom:12px}
-.faq details{box-shadow:none;transition:border-color .2s,box-shadow .2s}
-.faq details[open]{border-color:#DCCFB3;box-shadow:var(--shadow)}
-.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:18px 20px;font-family:var(--display);font-weight:700;font-size:17px;line-height:1.4;color:var(--ink);min-height:60px}
-.faq .a{padding:0 20px 18px;color:var(--muted);font-size:17px;line-height:1.7}
+.faq .wrap{max-width:820px}
+.faq .wrap.stack{gap:12px}
+.faq h2{margin-bottom:14px}
+.faq details{transition:border-color .3s,background-color .3s}
+.faq details[open]{border-color:var(--gold-b);background:var(--card2)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:20px 22px;font-weight:700;font-size:18px;line-height:1.4;color:var(--ink);min-height:64px}
+.faq .a{padding:0 22px 20px;color:var(--muted);font-size:17px;line-height:1.75}
 
 /* guarantee */
-.guar .wrap{max-width:680px}
-.seal{width:96px;height:96px;border-radius:50%;margin:0 auto 4px;display:grid;place-items:center;text-align:center;background:var(--surface);border:2px solid var(--gold);box-shadow:0 0 0 6px var(--gold-soft);font-family:var(--display);color:var(--gold-ink);line-height:1.05}
-.seal b{display:block;font-size:30px;font-weight:800;color:var(--ink)} .seal small{font-size:12px;font-weight:700}
-.guar .kicker,.guar h2{text-align:center} .guar h2::after{margin-inline:auto}
-.guar p{font-size:18px;line-height:1.8}
-.guar h3{color:var(--gold-ink)!important;font-size:21px;text-align:center;margin-top:6px}
+.guar{background:var(--bg3)!important}
+.guar .wrap{max-width:820px;align-items:center;text-align:center}
+.guar .shield{position:absolute;left:50%;top:40px;transform:translateX(-50%);width:min(560px,120vw);opacity:.05;stroke:var(--gold2);fill:none;stroke-width:.6;pointer-events:none}
+.seal{width:112px;height:112px;border-radius:50%;display:grid;place-items:center;text-align:center;border:1px solid var(--gold-b);box-shadow:0 0 0 8px rgba(211,183,122,.06),0 0 60px rgba(211,183,122,.18);color:var(--gold2);line-height:1.05;background:var(--bg1)}
+.seal b{display:block;font-size:40px;font-weight:900;color:var(--ink)} .seal small{font-size:12px;font-weight:700;letter-spacing:.08em}
+.guar h2{max-width:20ch;margin-inline:auto;font-size:clamp(30px,8vw,60px)} .guar h2::after{margin-inline:auto}
+.guar p{font-size:18px;line-height:1.85;color:var(--ink2);margin-inline:auto}
+.guar .lead{color:var(--muted)}
+.guar h3{color:var(--gold2)!important;font-size:clamp(22px,5.6vw,30px);font-weight:900}
 .guar .muted{color:var(--muted)}
 .cta-note{text-align:center;font-size:14px;color:var(--muted);margin-top:-6px}
 
-footer{padding-block:36px 130px;text-align:center;font-size:14px;line-height:1.7;color:var(--muted);background:var(--bg);border-top:1px solid var(--line-2)}
+footer{padding-block:40px 130px;text-align:center;font-size:13px;line-height:1.8;color:var(--dim);background:var(--bg3);border-top:1px solid var(--gold-a)}
 
-/* sticky (mobile only) */
-.sticky{position:fixed;inset-inline:0;bottom:0;z-index:20;display:flex;align-items:center;gap:14px;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));
-  background:rgba(255,255,255,.94);-webkit-backdrop-filter:saturate(1.4) blur(12px);backdrop-filter:saturate(1.4) blur(12px);border-top:1px solid var(--line);box-shadow:0 -8px 24px -16px rgba(20,26,38,.25);
-  transform:translateY(110%);transition:transform .3s ease}
+/* sticky */
+.sticky{position:fixed;inset-inline:0;bottom:0;z-index:40;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));background:linear-gradient(180deg,rgba(8,9,12,0),rgba(8,9,12,.92) 30%);transform:translateY(120%);transition:transform .4s var(--ease)}
 .sticky.on{transform:none}
-.sticky .p{font-family:var(--display);line-height:1.1;color:var(--ink);white-space:nowrap}
-.sticky .p b{font-size:22px;font-weight:800} .sticky .p small{display:block;font-size:12px;color:var(--muted);text-decoration:line-through}
-.sticky .cta{min-height:50px;font-size:17px;flex:1;width:auto;min-width:0;margin:0;box-shadow:0 6px 16px -8px rgba(160,116,30,.6)}
+.sticky .cta{min-height:54px;font-size:18px;width:100%;margin:0;min-width:0}
 @media (min-width:900px){.sticky{display:none}}
 
-video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-weight:700;font-size:20px;background:rgba(0,0,0,.72);color:#fff}
+/* reveal */
+html.js .rv{opacity:0;transform:translateY(26px);transition:opacity .75s var(--ease) var(--d,0ms),transform .75s var(--ease) var(--d,0ms)}
+html.js .rv.zoom{transform:scale(.96)}
+html.js .rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}html.js .rv{opacity:1;transform:none}}
+video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--font);font-weight:700;font-size:20px;background:rgba(0,0,0,.72);color:#fff}
 </style>
 </head>
 <body>
 <div class="prog" id="prog" aria-hidden="true"><span id="progLbl"></span><i id="progFill"></i></div>
-<header class="hero7" data-sec="1" data-name="פתיחה">
-<div class="media" role="img" aria-label="בן נחום"><div class="brand"><b>בן נחום</b><span>NLP · רגש · תודעה</span></div></div>
-<div class="wrap stack body">
-<h1 class="nl-title"><small>בן נחום</small>השיטה</h1>
-<p class="nl-sub">כבר שנתיים באותו מקום? הבעיה היא לא אתה. זה הסיפור שהמוח שלך מספר, ואת הסיפור הזה אפשר לשנות</p>
+<header class="hero8 photo" data-sec="1" data-name="פתיחה"><div class="bgimg" role="img" aria-label="בן נחום"></div><div class="wrap"><div class="brand"><b>בן נחום</b><span>NLP · רגש · תודעה</span></div>
+<div class="inner"><div class="copy">
+<span class="badge">השיטה · תוכנית NLP דיגיטלית</span>
+<h1>אתה יודע מה צריך לעשות. אז למה אתה עדיין חוזר ל<mark>אותו מקום</mark>?</h1>
+<p class="sub">הבעיה היא לא אתה. זה הסיפור שהמוח שלך מספר, ואת הסיפור הזה אפשר לשנות</p>
 <div class="pricechip"><span>היום</span><b>297 ₪</b><span>במקום <s class="was">2,140 ₪</s></span></div>
 <a class="cta" data-cta="hero_main" data-checkout href="#">אני רוצה לעלות שלב <span>←</span></a>
-<ul class="trustrow"><li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg>גישה מיידית</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>החזר מלא תוך 7 ימים</li></ul>
-<p class="nl-quote">המטרה היא לא לדעת את הידע. המטרה היא להפוך להיות המהות שלו.</p>
-<p class="nl-p">לא עוד קורס שרואים ושוכחים. מערכת פרקטית שמשלבת NLP, רגש ותודעה כדי לזהות בזמן אמת את המחשבות והאמונות שמנהלות אותך, ולבנות במקומן דרך חשיבה חדשה. צעד אחד בכל יום.</p>
+<ul class="trustrow"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg>גישה מיידית</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>7 ימי אחריות</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</li></ul>
 <a class="ghost" data-cta="hero_shortcut" href="#offer">מה בדיוק מקבלים?</a>
-</div></header>
-<div class="proofbar"><ul><li><b>15 שנה</b><span>ניסיון ב-NLP</span></li><li><b>מאות</b><span>אנשים בליווי אישי</span></li><li><b>142</b><span>שיעורים קצרים</span></li></ul></div>
-<section data-sec="2" data-name="איך נראית המציאות"><div class="wrap stack">
+</div></div></div></header>
+<div class="proofbar"><ul><li><b data-count="15" data-suf="+">15+</b><span>שנות ניסיון ב-NLP</span></li><li><b>מאות</b><span>אנשים בליווי אישי</span></li><li><b data-count="142">142</b><span>שיעורים קצרים</span></li></ul></div>
+<section class="beats" data-sec="2" data-name="זה אתה"><div class="wrap stack">
+<p class="k0">זה אתה?</p>
+<p class="beat"><span>אתה מתחיל חזק, <em>ונעלם.</em></span></p>
+<p class="beat"><span>אתה מבין, <em>ולא מיישם.</em></span></p>
+<p class="beat"><span>אתה יודע, <em>ולא פועל.</em></span></p>
+</div></section>
+<section class="problem" data-sec="3" data-name="הבעיה האמיתית"><div class="wrap stack">
+<div class="ghostword" aria-hidden="true">דפוס</div>
+<h2>הבעיה האמיתית</h2>
+<p class="bigline"><span>הבעיה היא לא ידע.</span>הבעיה היא <mark>הדפוס.</mark></p>
+<p class="lead">אבל לדעת זה לא להיות. והפער הזה, בין מה שאתה יודע לבין איך שאתה חושב, מרגיש ופועל ברגע האמת, הוא בדיוק המקום שעליו בניתי את השיטה הזאת.</p>
+</div></section>
+<section data-num="01" class="alt" data-sec="4" data-name="מה משתנה"><div class="wrap stack">
+<h2>מה <mark>משתנה</mark></h2>
+<div class="ba">
+<div class="before"><h3>לפני</h3><ul><li>אוטומט</li><li>דחיינות</li><li>חוסר עקביות</li><li>תגובה רגשית</li></ul></div>
+<div class="after"><h3>אחרי</h3><ul><li>מודעות</li><li>שליטה</li><li>פעולה</li><li>חזרתיות</li></ul></div>
+</div>
+</div></section>
+<section class="ctab alt" data-buyzone><div class="wrap"><div class="box">
+<h2>להצטרפות לשיטה, לחצו על הכפתור:</h2>
+<a class="cta" data-cta="cta1" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
+<p class="fine">*גישה מיידית + 5 בונוסים בשווי 850 ₪ במתנה · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
+</div></div></section>
+<section data-num="02" data-sec="5" data-name="איך נראית המציאות"><div class="wrap stack">
 <h2>איך נראית המציאות כשהשיטה עובדת:</h2>
 <div class="reality">
 <div class="r"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></div><div><h3>יותר בהירות</h3><p>פחות רעש בראש. אתה מפסיק לנהל כל החלטה דרך עשרות תרחישים, פחדים ו"מה יגידו", ויותר קל לך לבחור ולזוז.</p></div></div>
@@ -308,7 +436,7 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 <div class="r"><div class="ic"><svg viewBox="0 0 24 24"><path d="M9.5 3A3.5 3.5 0 0 0 6 6.5 3.5 3.5 0 0 0 4 12a3.5 3.5 0 0 0 2 5.5A3.5 3.5 0 0 0 12 19V5a3 3 0 0 0-2.5-2z"/><path d="M14.5 3A3.5 3.5 0 0 1 18 6.5a3.5 3.5 0 0 1 2 5.5 3.5 3.5 0 0 1-2 5.5A3.5 3.5 0 0 1 12 19"/></svg></div><div><h3>יותר שליטה</h3><p>אתה תופס את המחשבה כשהיא נוצרת ויודע מה לעשות איתה, במקום להבין רק בדיעבד למה התעצבנת, פחדת או נסגרת.</p></div></div>
 </div>
 </div></section>
-<section class="alt" data-sec="3" data-name="ככה ש"><div class="wrap stack">
+<section data-num="03" class="alt" data-sec="6" data-name="ככה ש"><div class="wrap stack">
 <h2>ככה ש...</h2>
 <div class="ifs stack">
 <p>אם אתה יודע מה אתה רוצה, אבל כבר שנתיים ויותר מוצא את עצמך באותו מקום, ורק הזמן עובר, <strong>אנחנו נעזור לך לזהות את הדפוס שמחזיק אותך ולשבור אותו.</strong></p>
@@ -319,15 +447,16 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 </div></section>
 <section class="ctab alt" data-buyzone><div class="wrap"><div class="box">
 <h2>להצטרפות לשיטה, לחצו על הכפתור:</h2>
-<a class="cta" data-cta="cta1" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
+<a class="cta" data-cta="cta2" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
 <p class="fine">*גישה מיידית + 5 בונוסים בשווי 850 ₪ במתנה · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
 </div></div></section>
-<section data-sec="4" data-name="תוצאות אמיתיות"><div class="wrap stack">
+<section data-num="04" data-sec="7" data-name="תוצאות אמיתיות"><div class="wrap stack">
 <h2>תוצאות אמיתיות של אנשים אמיתיים:</h2>
 <p class="res-intro">אנשים מכל מקום בחיים: בעלי עסקים, אנשי מכירות, הורים, צעירים שרק מתחילים. מה שמשותף לכולם: הם הפסיקו לחכות, והתחילו לחשוב אחרת.</p>
-<figure class="vidcard"><video controls playsinline preload="metadata" poster="assets/t1.jpg" src="assets/t1.mp4"></video><figcaption>תלמידי Module Z מספרים<small>1:52 דקות</small></figcaption></figure>
+<figure class="vid"><video playsinline preload="none" poster="assets/t1.jpg" src="assets/t1.mp4"></video>
+<button class="play" type="button" aria-label="הפעלת הסרטון"><i></i><span>תלמידי Module Z מספרים · 1:52</span></button></figure>
 </div></section>
-<section class="alt" data-sec="5" data-name="המנגנון"><div class="wrap stack">
+<section data-num="05" class="alt orb" data-sec="8" data-name="המנגנון"><div class="wrap stack">
 <h2>המנגנון המוכח של השיטה:</h2>
 <p class="lead">שינוי אמיתי קורה מבפנים החוצה. זה הסדר שבו התוכנית בנויה.</p>
 <div class="layers">
@@ -338,10 +467,10 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 </div></section>
 <section class="ctab alt" data-buyzone><div class="wrap"><div class="box">
 <h2>להצטרפות לשיטה, לחצו על הכפתור:</h2>
-<a class="cta" data-cta="cta2" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
+<a class="cta" data-cta="cta3" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
 <p class="fine">*גישה מיידית + 5 בונוסים בשווי 850 ₪ במתנה · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
 </div></div></section>
-<section data-sec="6" data-name="מה אומרים"><div class="wrap stack">
+<section data-num="06" data-sec="9" data-name="מה אומרים"><div class="wrap stack">
 <h2>מה אומרים מי שכבר בפנים:</h2><p class="swipe">החליקו כדי לראות עוד ←</p><div class="car" data-carousel>
 <div class="car-track"><figure class="car-slide"><img src="assets/car-2.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure><figure class="car-slide"><img src="assets/car-3.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure><figure class="car-slide"><img src="assets/car-4.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure><figure class="car-slide"><img src="assets/car-5.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure><figure class="car-slide"><img src="assets/car-6.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure><figure class="car-slide"><img src="assets/car-7.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure></div>
 <button class="car-btn prev" type="button" aria-label="הקודם">›</button><button class="car-btn next" type="button" aria-label="הבא">‹</button>
@@ -350,10 +479,10 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 </div></section>
 <section class="ctab" data-buyzone><div class="wrap"><div class="box">
 <h2>להצטרפות לשיטה, לחצו על הכפתור:</h2>
-<a class="cta" data-cta="cta3" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
+<a class="cta" data-cta="cta4" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
 <p class="fine">*גישה מיידית + 5 בונוסים בשווי 850 ₪ במתנה · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
 </div></div></section>
-<section class="alt" data-sec="7" data-name="למי מתאים"><div class="wrap stack">
+<section data-num="07" class="alt" data-sec="10" data-name="למי מתאים"><div class="wrap stack">
 <h2>למי מתאימה השיטה?</h2>
 <ul class="fitlist">
 <li>למי שמרגיש שכבר שנתיים ויותר הוא באותו מקום, ורק הזמן עובר</li>
@@ -362,7 +491,7 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 <li>לכל מי שמדבר עם אנשים, בעבודה, בעסק או בבית, ורוצה להשפיע טוב יותר</li>
 </ul>
 </div></section>
-<section data-sec="8" data-name="עם מה תצא"><div class="wrap stack">
+<section data-num="08" class="orb" data-sec="11" data-name="עם מה תצא"><div class="wrap stack">
 <h2>עם מה <mark>תצא מהשיטה</mark></h2>
 <p class="lead">אנשים לא קונים קורס. הם קונים את מה שישתנה להם בחיים בזכותו:</p>
 <ul class="wins">
@@ -376,10 +505,10 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 </div></section>
 <section class="ctab" data-buyzone><div class="wrap"><div class="box">
 <h2>להצטרפות לשיטה, לחצו על הכפתור:</h2>
-<a class="cta" data-cta="cta4" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
+<a class="cta" data-cta="cta5" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
 <p class="fine">*גישה מיידית + 5 בונוסים בשווי 850 ₪ במתנה · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
 </div></div></section>
-<section class="alt" data-sec="9" data-name="6 נקודות"><div class="wrap stack">
+<section data-num="09" class="alt" data-sec="12" data-name="6 נקודות"><div class="wrap stack">
 <h2>השיטה שונה מכל קורס שראית או לקחת עד היום</h2>
 <h3>והנה 6 נקודות שמוכיחות את זה:</h3>
 <div class="six">
@@ -393,10 +522,10 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 </div></section>
 <section class="ctab alt" data-buyzone><div class="wrap"><div class="box">
 <h2>להצטרפות לשיטה, לחצו על הכפתור:</h2>
-<a class="cta" data-cta="cta5" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
+<a class="cta" data-cta="cta6" data-checkout href="#">אני רוצה לעלות שלב: 297 ₪ <s class="was">2,140 ₪</s> <span>←</span></a>
 <p class="fine">*גישה מיידית + 5 בונוסים בשווי 850 ₪ במתנה · או 3 תשלומים של 99 ₪ · החזר מלא תוך 7 ימים</p>
 </div></div></section>
-<section data-sec="10" data-name="למה בניתי"><div class="wrap stack">
+<section data-num="10" data-sec="13" data-name="למה בניתי"><div class="wrap stack">
 <div class="story stack">
 <h2>למה בניתי את השיטה?</h2>
 <div class="bio"><img src="assets/ben.jpg" alt="בן נחום"><div><h3 style="color:var(--ink);margin:0">היי, קוראים לי בן נחום</h3><p style="color:var(--muted);font-size:16px">NLP, שינוי דפוסי חשיבה והטמעת אמונות</p></div></div>
@@ -408,31 +537,31 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 <p class="key">כי בסוף, החיים שלנו לא משתנים רק בגלל מה שאנחנו יודעים. הם משתנים כשדרך החשיבה שמייצרת את הבחירות שלנו משתנה.</p>
 </div>
 </div></section>
-<section class="alt" data-sec="11" data-name="מה באמת קונים"><div class="wrap stack">
+<section data-num="11" class="alt" data-sec="14" data-name="מה באמת קונים"><div class="wrap stack">
 <h2>מה באמת קונים כאן?</h2>
 <p class="lead">לא 142 סרטונים. מערכת שאתה יכול לפתוח בכל פעם שאתה מרגיש תקוע:</p>
 <ul class="bought"><li>כלים לזהות את המחשבה שמנהלת אותך</li><li>דרך לעבוד עם רגש בזמן אמת</li><li>שיטה לבניית אמונות ודיאלוג פנימי חדשים</li><li>ומסלול שמכניס את כל זה לחיים שלך, כמה דקות בכל יום</li></ul>
 <p class="key" style="color:var(--band-gold)">הסרטונים הם רק הדרך להעביר לך את השיטה. השינוי שקורה איתה הוא המוצר.</p>
 </div></section>
-<section data-sec="12" data-name="מה יש בפנים"><div class="wrap stack">
-<h2>מה יש בפנים</h2><p class="lead">4 חלקים שבנויים מבפנים החוצה: מהחשיבה, דרך הרגש, ועד שיחות והשפעה על אנשים אחרים.</p><article class="module"><header><span class="mtag">חלק 1</span><h3>שינוי תפיסה</h3><div class="chips"><span class="chip">102 שיעורים</span><span class="chip">כ-10 שעות</span><span class="chip">4 עד 9 דק' לשיעור</span></div><p>הבסיס. שיעורים קצרים שנכנסים גם ליום עמוס, כל אחד על מנגנון אחד.</p></header><details><summary>דוגמאות לשיעורים</summary><ul class="lessons"><li class="mtag">פחד ותקיעות</li><li>הפסיכולוגיה של הפחד</li><li>פרפקציוניזם: דרך טובה של המוח לגרום לנו להישאר במקום</li><li>הפסיכולוגיה של התקיעות</li><li>שלושה כלים לצאת מתקיעות</li>
+<section data-num="12" data-sec="15" data-name="מה יש בפנים"><div class="wrap stack">
+<h2>מה יש בפנים</h2><p class="lead">4 חלקים שבנויים מבפנים החוצה: מהחשיבה, דרך הרגש, ועד שיחות והשפעה על אנשים אחרים.</p><div class="mods"><article class="module"><header><span class="mtag">חלק 1</span><h3>שינוי תפיסה</h3><div class="chips"><span class="chip">102 שיעורים</span><span class="chip">כ-10 שעות</span><span class="chip">4 עד 9 דק' לשיעור</span></div><p>הבסיס. שיעורים קצרים שנכנסים גם ליום עמוס, כל אחד על מנגנון אחד.</p></header><details><summary>דוגמאות לשיעורים</summary><ul class="lessons"><li class="mtag">פחד ותקיעות</li><li>הפסיכולוגיה של הפחד</li><li>פרפקציוניזם: דרך טובה של המוח לגרום לנו להישאר במקום</li><li>הפסיכולוגיה של התקיעות</li><li>שלושה כלים לצאת מתקיעות</li>
 <li class="mtag">הסיפור הפנימי</li><li>הסיפור שאנו מספרים לעצמנו</li><li>כוחה של פרשנות</li><li>הכוח החבוי של דיבור עצמי</li><li>הרגל 3 השורות: כתיבת סיפור פנימי</li>
 <li class="mtag">כסף ושפע</li><li>ממחסור לשפע: חוקים חדשים</li><li>פרדוקס הכסף</li><li>לשבור את משוואת הזמן וכסף</li>
 <li class="mtag">רגש ושליטה עצמית</li><li>המנוע הרגשי</li><li>מנגנון הכעס</li><li>חוק 90 השניות: שליטה ברושם</li><li>איך להפסיק לקחת דברים אישית</li>
 <li class="mtag" style="color:var(--muted)">ועוד 87 שיעורים</li></ul></details></article>
 <article class="module"><header><span class="mtag">חלק 2</span><h3>מבפנים לבחוץ: השפעה</h3><div class="chips"><span class="chip">25 שיעורים</span><span class="chip">כ-4 שעות</span></div><p>איך מעבירים את השינוי הפנימי לשיחה: ראפור, רגש, טון, התנגדויות.</p></header><details><summary>כל 25 השיעורים</summary><ul class="lessons"><li>הקדמה לקורס: רגע לפני שמתחילים</li><li>תודעת שפע</li><li>מודול אדם העל, חלק 1: נוכחות</li><li>מודול אדם העל, חלק 2: פרספקטיבה</li><li>מודול אדם העל, חלק 3: מודעות</li><li>מבפנים לבחוץ</li><li>ככה בונים חזון</li><li>ככה יוצרים עוגן רגשי</li><li>רגש = מחשבה במומנט גבוה</li><li>מוכרים רציונל מאחורי רגש</li><li>אנשים קונים רציונל: מחקר ומדע</li><li>ראפור</li><li>חוק ה-90 שניות</li><li>כאב</li><li>לסגור בשאלה רטורית</li><li>אומנות הפרומושן</li><li>טון דיבור</li><li>ככה לא נקבל "אני רוצה לחשוב על זה"</li><li>שימוש בשם פרטי</li><li>דמיון מודרך</li><li>הבעיה שלך היא לא הבעיה שלי</li><li>גישה של אדם מצליח</li><li>הדיאלוג הפנימי</li><li>דרך</li><li>מפרקים את מכונת המכירות</li></ul></details></article>
 <article class="module"><header><span class="mtag">חלק 3</span><h3>הדרכות לייב: תקשורת והשפעה</h3><div class="chips"><span class="chip">6 הדרכות</span><span class="chip">כ-50 דקות</span></div><p>מודל שיחה ב-4 שלבים, ואיך מנטרלים התנגדות לפני שהיא עולה.</p></header><details><summary>כל 6 ההדרכות</summary><ul class="lessons"><li>שולט או נשלט?</li><li>מודל 4 שלבים: הקדמה</li><li>שלב 1: מקרב</li><li>למה להיות נוכח עוזר לנו במכירות</li><li>מבטלים את ההתנגדות לפני שהיא צפה</li><li>האופן שבו אנחנו מדברים חשוב יותר ממה שאנחנו אומרים</li></ul></details></article>
-<article class="module"><header><span class="mtag">חלק 4</span><h3>הקלטות זום מלאות</h3><div class="chips"><span class="chip">9 הקלטות</span><span class="chip">כ-13 שעות</span></div><p>מפגשי עבודה מלאים, לא ערוכים: פתיחה ומנטליות, מטרות השיחה, דוגמאות אמיתיות ודיבור בתועלות.</p></header></article><div class="peek"><p class="kicker" style="margin:0">הצצה מבפנים: ככה נראית רשימת השיעורים בקורס</p>
+<article class="module"><header><span class="mtag">חלק 4</span><h3>הקלטות זום מלאות</h3><div class="chips"><span class="chip">9 הקלטות</span><span class="chip">כ-13 שעות</span></div><p>מפגשי עבודה מלאים, לא ערוכים: פתיחה ומנטליות, מטרות השיחה, דוגמאות אמיתיות ודיבור בתועלות.</p></header></article></div><div class="peek"><p class="kicker" style="margin:0">הצצה מבפנים: ככה נראית רשימת השיעורים בקורס</p>
 <div class="mock"><div class="mh"><b>שינוי תפיסה</b><span>0/102</span></div><ul><li><span class="lt">▶ המנוע הרגשי</span><span class="ld">05:29</span></li><li><span class="lt">🔒 הדחף הטבעי להתרחבות</span><span class="ld">05:30</span></li><li><span class="lt">🔒 כוחה של פרשנות</span><span class="ld">04:34</span></li><li><span class="lt">🔒 הפסיכולוגיה של הפחד</span><span class="ld">05:08</span></li><li><span class="lt">🔒 חוק ההתרחבות</span><span class="ld">05:31</span></li><li><span class="lt">🔒 פרפקציוניזם: דרך טובה של המוח לגרום לנו להישאר במקום</span><span class="ld">04:56</span></li><li><span class="lt">🔒 שינוי תודעתי: מאוטומט לפעולה</span><span class="ld">04:24</span></li></ul><div class="mf">ועוד 95 שיעורים בחלק הזה, ו-3 חלקים נוספים</div></div></div>
 </div></section>
-<section class="alt" data-sec="13" data-name="בונוסים"><div class="wrap stack">
-<h2>ובנוסף, <mark>5 בונוסים</mark> שמגיעים איתך</h2><div class="bonus6"><img src="assets/cover-4.jpg" alt=""><div><p class="mtag" style="margin:0">בונוס 1</p><h3>מפת החסמים האישית</h3><p>שאלון קצר של 12 שאלות מכוונות, שמראה לך מה באמת עוצר אותך ובמה לשים את הפוקוס קודם.</p><p class="why">תדייק את הנתיב שלך: מאיפה להתחיל בתוכנית, ומה ישנה הכי הרבה בחיים שלך עכשיו.</p><span class="val">שווי 214 ₪ · אצלך בחינם</span></div></div><div class="bonus6"><img src="assets/cover-1.jpg" alt=""><div><p class="mtag" style="margin:0">בונוס 2</p><h3>מפת שינוי הסיפור: 30 יום</h3><p>יומן של 3 שורות בערב: מה קרה, איזה סיפור סיפרתי לעצמי, ואיזה סיפור אני בוחר.</p><p class="why">ככה הכלים מהשיעורים הופכים להרגל יומי, ולא נשארים בגדר השראה.</p><span class="val">שווי 197 ₪ · אצלך בחינם</span></div></div><div class="bonus6"><img src="assets/cover-2.jpg" alt=""><div><p class="mtag" style="margin:0">בונוס 3</p><h3>ערכת השיחה החשובה</h3><p>צ'קליסט של 10 דקות ודף עבודה לפני כל שיחה שחשובה לך: מכירה, בוס, זוגיות.</p><p class="why">תיכנס לשיחה מוכן, מחובר ובטוח, ותצא עם החלטה ולא עם "נדבר".</p><span class="val">שווי 147 ₪ · אצלך בחינם</span></div></div><div class="bonus6"><img src="assets/cover-3.jpg" alt=""><div><p class="mtag" style="margin:0">בונוס 4</p><h3>מבחן המחסור והשפע</h3><p>מבחן עצמי של 5 דקות ו-5 תרגילים לשנות את נקודת המבט על כסף, זמן ואנשים.</p><p class="why">תגלה מאיזה מקום אתה מקבל החלטות, ותתחיל לשנות אותו.</p><span class="val">שווי 97 ₪ · אצלך בחינם</span></div></div><div class="bonus6"><div class="dc">Discord</div><div><p class="mtag" style="margin:0">בונוס 5</p><h3>הקהילה הסגורה בדיסקורד</h3><p>מקום לשאול, לשתף ולהתקדם יחד עם אנשים שעוברים את אותה דרך.</p><p class="why">שינוי מחזיק יותר כשאתה לא עושה אותו לבד.</p><span class="val">שווי 195 ₪ · אצלך בחינם</span></div></div><p class="btot">שווי כל הבונוסים: <s>850 ₪</s> · <b>אצלך בחינם</b></p>
+<section data-num="13" class="alt orb" data-sec="16" data-name="בונוסים"><div class="wrap stack">
+<h2>ובנוסף, <mark>5 בונוסים</mark> שמגיעים איתך</h2><div class="bonuses"><article class="bonus8"><div class="shot"><span class="no">בונוס 01</span><img src="assets/cover-4.jpg" alt="" loading="lazy"></div><div class="txt"><h3>מפת החסמים האישית</h3><p>שאלון קצר של 12 שאלות מכוונות, שמראה לך מה באמת עוצר אותך ובמה לשים את הפוקוס קודם.</p><p class="why">תדייק את הנתיב שלך: מאיפה להתחיל בתוכנית, ומה ישנה הכי הרבה בחיים שלך עכשיו.</p><p class="val"><span>שווי</span><b>214 ₪ · אצלך בחינם</b></p></div></article><article class="bonus8"><div class="shot"><span class="no">בונוס 02</span><img src="assets/cover-1.jpg" alt="" loading="lazy"></div><div class="txt"><h3>מפת שינוי הסיפור: 30 יום</h3><p>יומן של 3 שורות בערב: מה קרה, איזה סיפור סיפרתי לעצמי, ואיזה סיפור אני בוחר.</p><p class="why">ככה הכלים מהשיעורים הופכים להרגל יומי, ולא נשארים בגדר השראה.</p><p class="val"><span>שווי</span><b>197 ₪ · אצלך בחינם</b></p></div></article><article class="bonus8"><div class="shot"><span class="no">בונוס 03</span><img src="assets/cover-2.jpg" alt="" loading="lazy"></div><div class="txt"><h3>ערכת השיחה החשובה</h3><p>צ'קליסט של 10 דקות ודף עבודה לפני כל שיחה שחשובה לך: מכירה, בוס, זוגיות.</p><p class="why">תיכנס לשיחה מוכן, מחובר ובטוח, ותצא עם החלטה ולא עם "נדבר".</p><p class="val"><span>שווי</span><b>147 ₪ · אצלך בחינם</b></p></div></article><article class="bonus8"><div class="shot"><span class="no">בונוס 04</span><img src="assets/cover-3.jpg" alt="" loading="lazy"></div><div class="txt"><h3>מבחן המחסור והשפע</h3><p>מבחן עצמי של 5 דקות ו-5 תרגילים לשנות את נקודת המבט על כסף, זמן ואנשים.</p><p class="why">תגלה מאיזה מקום אתה מקבל החלטות, ותתחיל לשנות אותו.</p><p class="val"><span>שווי</span><b>97 ₪ · אצלך בחינם</b></p></div></article><article class="bonus8"><div class="shot"><span class="no">בונוס 05</span><div class="dc"><div>קהילה סגורה<small>Discord</small></div></div></div><div class="txt"><h3>הקהילה הסגורה בדיסקורד</h3><p>מקום לשאול, לשתף ולהתקדם יחד עם אנשים שעוברים את אותה דרך.</p><p class="why">שינוי מחזיק יותר כשאתה לא עושה אותו לבד.</p><p class="val"><span>שווי</span><b>195 ₪ · אצלך בחינם</b></p></div></article></div><p class="btot">שווי כל הבונוסים: <s>850 ₪</s> · <b>אצלך בחינם</b></p>
 </div></section>
-<section id="offer" data-sec="14" data-name="ההצעה" data-buyzone><div class="wrap stack">
+<section id="offer" data-sec="17" data-name="ההצעה" data-buyzone><div class="wrap stack">
 <h2>כל מה שאתה מקבל</h2>
 <p class="offer-lead">אנחנו רוצים שהתהליך הזה יהיה נגיש לכמה שיותר אנשים, ושכמה שיותר אנשים יתחילו לחשוב, להרגיש ולפעול אחרת.</p>
 <div class="pcard">
-<div class="head"><span class="tag">השיטה + 5 בונוסים</span></div>
+<div class="head"><span class="tag">כל המערכת + כל הבונוסים</span></div>
 <div class="stack6"><div class="row"><span>השיטה המלאה: 4 חלקים, 142 שיעורים</span><b>1,290 ₪</b></div><div class="row"><span>בונוס: מפת החסמים האישית</span><b>214 ₪</b></div><div class="row"><span>בונוס: מפת שינוי הסיפור: 30 יום</span><b>197 ₪</b></div><div class="row"><span>בונוס: ערכת השיחה החשובה</span><b>147 ₪</b></div><div class="row"><span>בונוס: מבחן המחסור והשפע</span><b>97 ₪</b></div><div class="row"><span>בונוס: הקהילה הסגורה בדיסקורד</span><b>195 ₪</b></div><div class="tot"><span>שווי כולל</span><span>2,140 ₪</span></div></div>
 <div class="pay">
 <p class="now-l">היום, הכל ב-</p>
@@ -440,11 +569,11 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 <span class="inst">או 3 תשלומים של 99 ₪</span>
 <p class="once">תשלום חד-פעמי, בלי מנוי</p>
 <a class="cta" data-cta="offer" data-checkout href="#">אני רוצה את הכל ב-297 ₪ <span>←</span></a>
-<ul class="trustrow"><li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg>גישה מיידית</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>החזר מלא תוך 7 ימים</li></ul>
+<ul class="trustrow"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg>גישה מיידית</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>7 ימי אחריות</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</li></ul>
 </div></div>
 </div></section>
-<section class="faq" data-sec="15" data-name="שאלות"><div class="wrap stack"><h2>שאלות לפני ואחרי ההצטרפות</h2><details><summary>מה קורה אחרי שאני משלם?</summary><div class="a"><p>מיד אחרי התשלום נפתחת לך הגישה לתוכנית, ונשלח אליך מייל עם פרטי הכניסה, קישור ישיר וכל 5 הבונוסים. מתחילים משיעור 1, "המנוע הרגשי".</p></div></details><details><summary>מה אם אני לא מצליח להתחבר?</summary><div class="a"><p>במייל יש קישור כניסה ישיר, בלי שם משתמש וסיסמה. אם בכל זאת משהו לא עובד, אפשר לאפס סיסמה במסך הכניסה, או לפנות אלינו ונסדר את זה מהר.</p></div></details><details><summary>לא קיבלתי את המייל. מה עושים?</summary><div class="a"><p>כדאי לבדוק בתיקיית הספאם או קידומי מכירות. אם הוא לא שם, פנו אלינו ונשלח שוב.</p></div></details><details><summary>לכמה זמן יש לי גישה?</summary><div class="a"><p>ללא הגבלת זמן. צופים מהנייד או מהמחשב, בקצב שלך.</p></div></details><details><summary>אני צריך ניסיון קודם ב-NLP?</summary><div class="a"><p>לא. מתחילים מהיסודות, וכל שיעור נותן כלי אחד שאפשר ליישם באותו יום.</p></div></details><details><summary>כמה זמן זה לוקח ביום?</summary><div class="a"><p>השיעורים נמשכים 4 עד 9 דקות. שיעור אחד ביום מספיק כדי להתחיל לראות שינוי.</p></div></details><details><summary>ומה אם זה לא בשבילי?</summary><div class="a"><p>יש לך שבוע. אם עברת על התוכן, נתת לו הזדמנות אמיתית והרגשת שהוא לא שווה את ה-297 ₪, שולחים לנו מייל ומקבלים החזר מלא. בלי ויכוחים.</p></div></details><details><summary>אפשר לשלם בתשלומים?</summary><div class="a"><p>כן, 3 תשלומים של 99 ₪.</p></div></details></div></section>
-<section class="guar alt" data-buyzone><div class="wrap stack">
+<section class="faq alt" data-sec="18" data-name="שאלות"><div class="wrap stack"><h2>שאלות לפני ואחרי ההצטרפות</h2><details><summary>מה קורה אחרי שאני משלם?</summary><div class="a"><p>מיד אחרי התשלום נפתחת לך הגישה לתוכנית, ונשלח אליך מייל עם פרטי הכניסה, קישור ישיר וכל 5 הבונוסים. מתחילים משיעור 1, "המנוע הרגשי".</p></div></details><details><summary>מה אם אני לא מצליח להתחבר?</summary><div class="a"><p>במייל יש קישור כניסה ישיר, בלי שם משתמש וסיסמה. אם בכל זאת משהו לא עובד, אפשר לאפס סיסמה במסך הכניסה, או לפנות אלינו ונסדר את זה מהר.</p></div></details><details><summary>לא קיבלתי את המייל. מה עושים?</summary><div class="a"><p>כדאי לבדוק בתיקיית הספאם או קידומי מכירות. אם הוא לא שם, פנו אלינו ונשלח שוב.</p></div></details><details><summary>לכמה זמן יש לי גישה?</summary><div class="a"><p>ללא הגבלת זמן. צופים מהנייד או מהמחשב, בקצב שלך.</p></div></details><details><summary>אני צריך ניסיון קודם ב-NLP?</summary><div class="a"><p>לא. מתחילים מהיסודות, וכל שיעור נותן כלי אחד שאפשר ליישם באותו יום.</p></div></details><details><summary>כמה זמן זה לוקח ביום?</summary><div class="a"><p>השיעורים נמשכים 4 עד 9 דקות. שיעור אחד ביום מספיק כדי להתחיל לראות שינוי.</p></div></details><details><summary>ומה אם זה לא בשבילי?</summary><div class="a"><p>יש לך שבוע. אם עברת על התוכן, נתת לו הזדמנות אמיתית והרגשת שהוא לא שווה את ה-297 ₪, שולחים לנו מייל ומקבלים החזר מלא. בלי ויכוחים.</p></div></details><details><summary>אפשר לשלם בתשלומים?</summary><div class="a"><p>כן, 3 תשלומים של 99 ₪.</p></div></details></div></section>
+<section class="guar" data-buyzone><svg class="shield" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l8 3.3v6.4c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V5.8z"/><path d="M8.5 12.2l2.4 2.4 4.6-4.8"/></svg><div class="wrap stack">
 <div class="seal" aria-hidden="true"><div><b>7</b><small>ימי אחריות</small></div></div>
 <p class="kicker">אחריות מלאה</p>
 <h2>או שהתוכן הזה שווה לך הרבה יותר מ-297 ₪, <mark>או שאנחנו מחזירים לך את כל הכסף.</mark></h2>
@@ -459,7 +588,7 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--display);font-
 </div></section>
 
 <footer><div class="wrap">© בן נחום · תוכנית NLP דיגיטלית<br>התוכנית היא תוכן לימודי ואינה מחליפה ייעוץ או טיפול מקצועי.</div></footer>
-<div class="sticky" id="sticky" aria-hidden="true"><div class="p"><b>297 ₪</b><small>2,140 ₪</small></div><a class="cta" data-cta="sticky" data-checkout href="#">להצטרפות <span>←</span></a></div>
+<div class="sticky" id="sticky" aria-hidden="true"><a class="cta" data-cta="sticky" data-checkout href="#">להצטרפות - 297 ₪ <span>←</span></a></div>
 <script>
 /* ===== CONFIG ===== */
 const CHECKOUT_URL = "https://my.schooler.biz/s/53500/user/signup?bundle=50774";
@@ -499,7 +628,7 @@ const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6
   }
   // sticky CTA: after hero, hidden while offer/final visible
   const st=document.getElementById("sticky"); const zones=[...document.querySelectorAll("[data-buyzone]")];
-  function sticky(){ const past=document.documentElement.scrollTop>innerHeight*0.8; const inZone=zones.some(z=>{const r=z.getBoundingClientRect();return r.top<innerHeight*0.8&&r.bottom>innerHeight*0.2}); const on=past&&!inZone; st.classList.toggle("on",on); st.setAttribute("aria-hidden",String(!on)); }
+  function sticky(){ const past=document.documentElement.scrollTop>(document.documentElement.scrollHeight-innerHeight)*0.25; const inZone=zones.some(z=>{const r=z.getBoundingClientRect();return r.top<innerHeight*0.8&&r.bottom>innerHeight*0.2}); const on=past&&!inZone; st.classList.toggle("on",on); st.setAttribute("aria-hidden",String(!on)); }
   addEventListener("scroll",onScroll,{passive:true}); onScroll();
   // video plays
   document.querySelectorAll("video").forEach((v,i)=>v.addEventListener("play",()=>send("video_play",{video:i+1}),{once:true}));
@@ -515,5 +644,23 @@ t.addEventListener('scroll',function(){clearTimeout(t._s);t._s=setTimeout(upd,80
 function go(n){var i=Math.max(0,Math.min(d.length-1,idx()+n)); var dir=getComputedStyle(t).direction==='rtl'?-1:1; t.scrollTo({left:dir*i*t.clientWidth,behavior:'smooth'})}
 c.querySelector('.prev').addEventListener('click',function(){go(-1)}); c.querySelector('.next').addEventListener('click',function(){go(1)}); upd();});})();</script><script>(function(){var R=matchMedia('(prefers-reduced-motion: reduce)').matches;document.querySelectorAll('details').forEach(function(d){var s=d.querySelector('summary'),b=s&&s.nextElementSibling;if(!b||R)return;
 s.addEventListener('click',function(e){e.preventDefault();if(d._a)return;var open=d.open;if(!open){d.open=true;var h=b.scrollHeight;b.style.height='0px';b.style.opacity='0';requestAnimationFrame(function(){b.style.transition='height .28s ease,opacity .28s ease';b.style.height=h+'px';b.style.opacity='1'})}else{b.style.height=b.scrollHeight+'px';requestAnimationFrame(function(){b.style.transition='height .24s ease,opacity .2s ease';b.style.height='0px';b.style.opacity='0'})}d._a=1;
-b.addEventListener('transitionend',function t(ev){if(ev.propertyName!=='height')return;b.removeEventListener('transitionend',t);if(open)d.open=false;b.style.cssText='';d._a=0})})})})();</script></body>
+b.addEventListener('transitionend',function t(ev){if(ev.propertyName!=='height')return;b.removeEventListener('transitionend',t);if(open)d.open=false;b.style.cssText='';d._a=0})})})})();</script><script>(function(){var d=document.documentElement,RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.querySelectorAll('.vid').forEach(function(f){var v=f.querySelector('video'),b=f.querySelector('.play');b.addEventListener('click',function(){f.classList.add('playing');v.controls=true;v.play();});});
+var flow=document.querySelector('[data-flow]');
+function count(el){var t=+el.dataset.count,s=el.dataset.suf||'',t0=null;if(RM){return}function f(ts){if(!t0)t0=ts;var p=Math.min(1,(ts-t0)/1200),e=1-Math.pow(1-p,3);el.textContent=Math.round(t*e)+s;if(p<1)requestAnimationFrame(f)}requestAnimationFrame(f)}
+if(!('IntersectionObserver' in window)||RM){return}
+d.classList.add('js');
+var single='[data-num] > .wrap > h2, [data-num] > .wrap > .lead, [data-num] > .wrap > h3, .ctab .box, .vid, .car, .pcard, #offer h2, .faq h2, .guar .seal, .guar h2, .key, .ifs p, .story p, .story h3, .bio, .peek, .btot, .problem .bigline, .beats .beat, .layer';
+var groups='.reality, .six, .wins, .fitlist, .bonuses, .bought, .split, .ba, .wall, .mods, .faq .wrap';
+document.querySelectorAll(single).forEach(function(e){e.classList.add('rv')});
+document.querySelectorAll(groups).forEach(function(p){[].forEach.call(p.children,function(c,i){if(c.tagName==='H2')return;c.classList.add('rv');c.style.setProperty('--d',Math.min(i,6)*110+'ms')})});
+document.querySelectorAll('.vid,.car,.bio').forEach(function(e){e.classList.add('zoom')});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;e.target.classList.add('in');io.unobserve(e.target)})},{rootMargin:'0px 0px -10% 0px',threshold:.06});
+document.querySelectorAll('.rv').forEach(function(e){io.observe(e)});
+var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;io2.unobserve(e.target);
+ if(e.target.dataset.count)count(e.target);
+ if(e.target===flow){[].forEach.call(flow.children,function(li,i){setTimeout(function(){li.classList.add('on')},300+i*380)})}
+})},{threshold:.4});
+document.querySelectorAll('[data-count]').forEach(function(e){io2.observe(e)}); if(flow)io2.observe(flow);
+})();</script></body>
 </html>
