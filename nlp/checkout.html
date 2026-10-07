@@ -48,6 +48,15 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 .help{text-align:center;font-size:14px;margin:16px 0 0}
 .help a{color:var(--ink2)}
 .back{display:block;text-align:center;font-size:13px;color:var(--muted);margin-top:20px}
+.top{text-align:center;padding:22px 0 4px}
+.order{text-align:center}
+.order .item{font-size:18px;font-weight:800;margin:0}
+.order .price{margin:8px 0 0}
+.nosub{font-size:14px;color:var(--ok);font-weight:600;margin:6px 0 0}
+.paytitle{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px 12px;font-size:17px;font-weight:800;margin:0 0 10px}
+.paytitle span{font-size:13.5px;font-weight:500;color:var(--muted)}
+.terms{text-align:center;font-size:13px;color:var(--muted);margin:8px 0 0}
+.terms a{color:var(--ink2)}
 </style>
 <script>try{if(top!==self)top.location.replace(location.href)}catch(e){}</script>
 </head>
@@ -56,33 +65,27 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 <div class="brand"><i></i>בן נחום · השיטה</div>
 
 <section class="top">
-<h1>עוד רגע ואתם בפנים</h1>
-<p class="what">התהליך המלא + כל התרגולים והחוברות</p>
-<p class="price"><b>297</b><span>₪</span></p>
-<p class="once">297 ₪ בתשלום חד-פעמי · ללא מנוי</p>
-<p class="access">⚡ הגישה נפתחת מיד לאחר השלמת התשלום</p>
+<h1>השלמת הרכישה</h1>
+<p class="what">עוד רגע זה שלך. לאחר אישור התשלום תקבל גישה מיידית לקורס ולכל הבונוסים.</p>
 </section>
 
 <section class="order" aria-label="ההזמנה שלך">
-<h2>ההזמנה שלך</h2>
-<p class="item">התהליך המלא</p>
-<ul>
-<li>כל שיעורי התוכנית</li>
-<li>תרגולים מעשיים</li>
-<li>3 חוברות עבודה</li>
-<li>גישה מיידית לאחר הרכישה</li>
-</ul>
-<div class="sum"><span>סה"כ לתשלום<small>תשלום חד-פעמי · ללא מנוי וללא חיוב מתחדש</small></span><span>297 ₪</span></div>
+<p class="item">הקורס המלא + כל הבונוסים</p>
+<p class="price"><b>297</b><span>₪</span></p>
+<p class="once">תשלום חד-פעמי</p>
+<p class="nosub">ללא מנוי · ללא חיובים נוספים</p>
 </section>
 
 <section class="pay" aria-label="תשלום">
-<div class="err" id="err" role="alert"><b>התשלום לא הושלם</b>לא בוצע חיוב. בדקו את פרטי הכרטיס ונסו שוב.</div>
+<div class="err" id="err" role="alert"><b>נראה שהתשלום לא עבר</b>הכול בסדר - לא בוצע חיוב. אפשר לנסות שוב עם אותו הכרטיס או עם כרטיס אחר.</div>
+<p class="paytitle">פרטי תשלום<span>🔒 התשלום מאובטח באמצעות Cardcom</span></p>
 <div class="frame">
 <div class="loading" id="loading"><div class="spin" aria-hidden="true"></div><span id="loadTxt">טוען תשלום מאובטח...</span><button class="retry" id="retry" type="button">נסו שוב</button></div>
 <iframe id="cc" title="תשלום מאובטח" allow="payment *" hidden></iframe>
 </div>
-<p class="secure">🔒 תשלום מאובטח דרך Cardcom · גישה מיידית לאחר אישור העסקה</p>
-<p class="help" id="help" hidden><a id="helpLink" href="#" target="_blank" rel="noopener">יש שאלה לפני התשלום? כתבו לנו בוואטסאפ</a></p>
+<p class="secure">🔒 תשלום מאובטח · גישה מיידית לאחר אישור העסקה</p>
+<p class="terms" id="terms" hidden>בלחיצה על התשלום אני מאשר/ת את <a id="termsLink" href="#" target="_blank" rel="noopener">תנאי השימוש</a> ו<a id="privLink" href="#" target="_blank" rel="noopener">מדיניות הפרטיות</a></p>
+<p class="help" id="help" hidden><a id="helpLink" href="#" target="_blank" rel="noopener">צריך עזרה? אנחנו זמינים ב-WhatsApp</a></p>
 </section>
 <a class="back" href="./" id="back">חזרה לדף</a>
 </main>
@@ -90,7 +93,9 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 /* ===== CONFIG ===== */
 const CHECKOUT_ENDPOINT = "https://hook.eu1.make.com/9yp88pz9bfvxbr7w6xkb4ckun82ote6a"; /* Make webhook: יוצר דף Low Profile ומחזיר {url} */
 const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6jc";
-const SUPPORT_WA = "972526951092"; /* לדוגמה 9725XXXXXXXX. ריק = מוסתר */
+const SUPPORT_WA = "972526951092";
+const TERMS_URL = "";   /* קישור לתנאי השימוש. ריק = השורה מוסתרת */
+const PRIVACY_URL = ""; /* קישור למדיניות הפרטיות */ /* לדוגמה 9725XXXXXXXX. ריק = מוסתר */
 (function(){
   const qs = new URLSearchParams(location.search);
   const variant = qs.get("v") || (qs.get("utm_content")||"").replace("lp_","") || "x";
@@ -98,6 +103,7 @@ const SUPPORT_WA = "972526951092"; /* לדוגמה 9725XXXXXXXX. ריק = מוס
   const $ = id => document.getElementById(id);
   if (variant !== "x") $("back").href = variant + ".html" + location.search;
   if (SUPPORT_WA){ $("help").hidden = false; $("helpLink").href = "https://wa.me/" + SUPPORT_WA; }
+  if (TERMS_URL && PRIVACY_URL){ $("terms").hidden=false; $("termsLink").href=TERMS_URL; $("privLink").href=PRIVACY_URL; }
   if (qs.get("status") === "failed") $("err").classList.add("on");
   function track(ev, extra){
     if(!TRACK_ENDPOINT || TRACK_ENDPOINT[0]==="%") return;
