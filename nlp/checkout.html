@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#ffffff">
+<title>תשלום · השיטה · בן נחום</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap">
+<style>
+:root{--ink:#14161B;--ink2:#3A3E47;--muted:#6B707B;--line:#E7E3DA;--soft:#FAF8F4;--gold:#A8823F;--gold2:#C9A96E;--ok:#1F7A4D;--err:#B42318;--r:16px}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.5}
+.wrap{max-width:520px;margin:0 auto;padding:18px 16px 40px}
+.brand{display:flex;justify-content:center;align-items:center;gap:8px;font-size:14px;font-weight:700;letter-spacing:.04em;color:var(--ink2);padding:4px 0 14px;border-bottom:1px solid var(--line)}
+.brand i{width:7px;height:7px;border-radius:50%;background:var(--gold2)}
+.top{text-align:center;padding:20px 0 6px}
+.top h1{font-size:clamp(26px,7.4vw,34px);font-weight:900;line-height:1.15;margin:0 0 6px}
+.top .what{font-size:17px;color:var(--ink2);margin:0}
+.price{display:flex;justify-content:center;align-items:baseline;gap:6px;margin:14px 0 2px}
+.price b{font-size:52px;font-weight:900;line-height:1;letter-spacing:-.02em}
+.price span{font-size:24px;font-weight:800;color:var(--gold)}
+.once{font-size:15px;color:var(--muted);margin:0}
+.access{display:inline-flex;align-items:center;gap:8px;margin:12px 0 0;font-size:15px;font-weight:600;color:var(--ok);background:#EEF7F1;border-radius:999px;padding:6px 14px}
+.order{margin:20px 0 0;border:1px solid var(--line);border-radius:var(--r);background:var(--soft);padding:16px 18px}
+.order h2{font-size:15px;font-weight:700;color:var(--muted);margin:0 0 8px;letter-spacing:.02em}
+.order .item{font-size:18px;font-weight:800;margin:0 0 8px}
+.order ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.order li{display:flex;gap:9px;align-items:center;font-size:15.5px;color:var(--ink2)}
+.order li::before{content:"✓";font-weight:900;color:var(--gold)}
+.order .sum{display:flex;justify-content:space-between;align-items:baseline;border-top:1px dashed var(--line);margin-top:12px;padding-top:12px;font-weight:800;font-size:17px}
+.order .sum small{display:block;font-size:13px;font-weight:500;color:var(--muted)}
+.pay{margin:20px 0 0}
+.err{display:none;border:1px solid #F3C9C4;background:#FEF3F2;color:var(--err);border-radius:12px;padding:12px 14px;margin:0 0 12px;font-size:15px}
+.err b{display:block;font-size:16px}
+.err.on{display:block}
+.frame{position:relative;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:#fff;min-height:620px}
+.frame iframe{display:block;width:100%;height:960px;border:0}
+.loading{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:12px;color:var(--muted);font-size:15px;background:#fff}
+.spin{width:30px;height:30px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--gold);animation:s 0.9s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}}
+.retry{display:none;margin-top:6px;font:inherit;font-weight:700;font-size:16px;color:#fff;background:var(--ink);border:0;border-radius:12px;padding:12px 22px;cursor:pointer}
+.secure{text-align:center;font-size:14px;color:var(--muted);margin:12px 0 0}
+.help{text-align:center;font-size:14px;margin:16px 0 0}
+.help a{color:var(--ink2)}
+.back{display:block;text-align:center;font-size:13px;color:var(--muted);margin-top:20px}
+</style>
+<script>try{if(top!==self)top.location.replace(location.href)}catch(e){}</script>
+</head>
+<body>
+<main class="wrap">
+<div class="brand"><i></i>בן נחום · השיטה</div>
+
+<section class="top">
+<h1>עוד רגע ואתם בפנים</h1>
+<p class="what">התהליך המלא + כל התרגולים והחוברות</p>
+<p class="price"><b>297</b><span>₪</span></p>
+<p class="once">תשלום חד-פעמי · ללא מנוי</p>
+<p class="access">⚡ הגישה נפתחת מיד לאחר השלמת התשלום</p>
+</section>
+
+<section class="order" aria-label="ההזמנה שלך">
+<h2>ההזמנה שלך</h2>
+<p class="item">התהליך המלא</p>
+<ul>
+<li>כל שיעורי התוכנית</li>
+<li>תרגולים מעשיים</li>
+<li>חוברות עבודה</li>
+<li>גישה מיידית לאחר הרכישה</li>
+</ul>
+<div class="sum"><span>סה"כ לתשלום<small>ללא מנוי וללא חיוב מתחדש</small></span><span>297 ₪</span></div>
+</section>
+
+<section class="pay" aria-label="תשלום">
+<div class="err" id="err" role="alert"><b>התשלום לא הושלם</b>לא בוצע חיוב. בדקו את פרטי הכרטיס ונסו שוב.</div>
+<div class="frame">
+<div class="loading" id="loading"><div class="spin" aria-hidden="true"></div><span id="loadTxt">טוען תשלום מאובטח...</span><button class="retry" id="retry" type="button">נסו שוב</button></div>
+<iframe id="cc" title="תשלום מאובטח" allow="payment *" hidden></iframe>
+</div>
+<p class="secure">🔒 תשלום מאובטח דרך Cardcom · גישה מיידית לאחר אישור העסקה</p>
+<p class="help" id="help" hidden><a id="helpLink" href="#" target="_blank" rel="noopener">יש שאלה לפני התשלום? כתבו לנו בוואטסאפ</a></p>
+</section>
+<a class="back" href="./" id="back">חזרה לדף</a>
+</main>
+<script>
+/* ===== CONFIG ===== */
+const CHECKOUT_ENDPOINT = "https://hook.eu1.make.com/9yp88pz9bfvxbr7w6xkb4ckun82ote6a"; /* Make webhook: יוצר דף Low Profile ומחזיר {url} */
+const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6jc";
+const SUPPORT_WA = ""; /* לדוגמה 9725XXXXXXXX. ריק = מוסתר */
+(function(){
+  const qs = new URLSearchParams(location.search);
+  const variant = qs.get("v") || (qs.get("utm_content")||"").replace("lp_","") || "x";
+  const sid = qs.get("sid") || ((self.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now()+"-"+Math.random().toString(36).slice(2));
+  const $ = id => document.getElementById(id);
+  if (variant !== "x") $("back").href = variant + ".html" + location.search;
+  if (SUPPORT_WA){ $("help").hidden = false; $("helpLink").href = "https://wa.me/" + SUPPORT_WA; }
+  if (qs.get("status") === "failed") $("err").classList.add("on");
+  function track(ev, extra){
+    if(!TRACK_ENDPOINT || TRACK_ENDPOINT[0]==="%") return;
+    try{ const f=new URLSearchParams(Object.assign({ev, variant, sid, qs:location.search.slice(1)}, extra||{}));
+      if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT,f))) fetch(TRACK_ENDPOINT,{method:"POST",body:f,mode:"no-cors",keepalive:true}); }catch(e){}
+  }
+  track(qs.get("status")==="failed" ? "checkout_failed" : "checkout_view");
+  try{ if(window.fbq) fbq("track","InitiateCheckout",{value:297,currency:"ILS"}); }catch(e){}
+  function fail(){ $("loadTxt").textContent = "לא הצלחנו לטעון את דף התשלום."; $("retry").style.display = "inline-block"; document.querySelector(".spin").style.display="none"; track("checkout_load_error"); }
+  function load(){
+    $("retry").style.display = "none"; document.querySelector(".spin").style.display=""; $("loadTxt").textContent = "טוען תשלום מאובטח...";
+    const body = new URLSearchParams({variant, sid, utm_source:qs.get("utm_source")||"", utm_medium:qs.get("utm_medium")||"", utm_campaign:qs.get("utm_campaign")||"", utm_content:qs.get("utm_content")||""});
+    const ctl = ("AbortController" in self) ? new AbortController() : null; const t = setTimeout(()=>ctl&&ctl.abort(), 15000);
+    fetch(CHECKOUT_ENDPOINT, {method:"POST", body, signal: ctl?ctl.signal:undefined})
+      .then(r => r.json()).then(d => {
+        clearTimeout(t);
+        if(!d || !d.url) return fail();
+        const f = $("cc"); f.src = d.url; f.hidden = false;
+        f.addEventListener("load", ()=>{ $("loading").style.display="none"; }, {once:true});
+      }).catch(()=>{ clearTimeout(t); fail(); });
+  }
+  $("retry").addEventListener("click", load);
+  load();
+})();
+</script>
+</body>
+</html>
