@@ -59,7 +59,7 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 <h1>עוד רגע ואתם בפנים</h1>
 <p class="what">התהליך המלא + כל התרגולים והחוברות</p>
 <p class="price"><b>297</b><span>₪</span></p>
-<p class="once">תשלום חד-פעמי · ללא מנוי</p>
+<p class="once">297 ₪ בתשלום חד-פעמי · ללא מנוי</p>
 <p class="access">⚡ הגישה נפתחת מיד לאחר השלמת התשלום</p>
 </section>
 
@@ -69,10 +69,10 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 <ul>
 <li>כל שיעורי התוכנית</li>
 <li>תרגולים מעשיים</li>
-<li>חוברות עבודה</li>
+<li>3 חוברות עבודה</li>
 <li>גישה מיידית לאחר הרכישה</li>
 </ul>
-<div class="sum"><span>סה"כ לתשלום<small>ללא מנוי וללא חיוב מתחדש</small></span><span>297 ₪</span></div>
+<div class="sum"><span>סה"כ לתשלום<small>תשלום חד-פעמי · ללא מנוי וללא חיוב מתחדש</small></span><span>297 ₪</span></div>
 </section>
 
 <section class="pay" aria-label="תשלום">
@@ -109,12 +109,14 @@ const SUPPORT_WA = ""; /* לדוגמה 9725XXXXXXXX. ריק = מוסתר */
   function fail(){ $("loadTxt").textContent = "לא הצלחנו לטעון את דף התשלום."; $("retry").style.display = "inline-block"; document.querySelector(".spin").style.display="none"; track("checkout_load_error"); }
   function load(){
     $("retry").style.display = "none"; document.querySelector(".spin").style.display=""; $("loadTxt").textContent = "טוען תשלום מאובטח...";
-    const body = new URLSearchParams({variant, sid, utm_source:qs.get("utm_source")||"", utm_medium:qs.get("utm_medium")||"", utm_campaign:qs.get("utm_campaign")||"", utm_content:qs.get("utm_content")||""});
+    let prev=""; try{ if(qs.get("status")==="failed") prev=sessionStorage.getItem("cc_lp")||""; }catch(e){}
+    const body = new URLSearchParams({variant, sid, utm_source:qs.get("utm_source")||"", utm_medium:qs.get("utm_medium")||"", utm_campaign:qs.get("utm_campaign")||"", utm_content:qs.get("utm_content")||""}); if(prev) body.set("prev_lp", prev);
     const ctl = ("AbortController" in self) ? new AbortController() : null; const t = setTimeout(()=>ctl&&ctl.abort(), 15000);
     fetch(CHECKOUT_ENDPOINT, {method:"POST", body, signal: ctl?ctl.signal:undefined})
       .then(r => r.json()).then(d => {
         clearTimeout(t);
         if(!d || !d.url) return fail();
+        try{ if(d.lp) sessionStorage.setItem("cc_lp", d.lp); }catch(e){}
         const f = $("cc"); f.src = d.url; f.hidden = false;
         f.addEventListener("load", ()=>{ $("loading").style.display="none"; }, {once:true});
       }).catch(()=>{ clearTimeout(t); fail(); });
