@@ -1,0 +1,208 @@
+# ============================================================================
+#  VIDEO FACTORY — master configuration
+#  Every value here can be overridden by:
+#    1. config/local.yaml           (your machine / brand overrides, git-ignored)
+#    2. a per-video sidecar  <video>.yaml next to the raw file in workspace/input
+#    3. CLI flags  (--preset, --set key.path=value)
+# ============================================================================
+
+paths:
+  input: workspace/input
+  processing: workspace/processing
+  output: workspace/output
+  archive: workspace/archive
+  failed: workspace/failed
+  broll: library/broll
+  music: library/music
+  sfx: library/sfx
+  luts: library/luts
+  fonts: library/fonts
+  models: models
+
+# Which deliverables to produce for every input.
+deliverables:
+  youtube: true          # 16:9 long-form master
+  vertical: true         # 9:16 full-length vertical version
+  shorts: true           # N viral clips extracted from the best moments
+  captions: true         # .srt / .vtt / .ass sidecars
+  project_files: true    # FCPXML + EDL + timeline.json for Premiere / Resolve / FCP
+  thumbnails: true       # candidate thumbnail frames
+
+# ----------------------------------------------------------------------------
+transcription:
+  backend: faster-whisper      # faster-whisper | sidecar | none
+  language: auto               # auto | he | en
+  # Model per language. Any faster-whisper model name, HF repo id or local path.
+  models:
+    he: ivrit-ai/whisper-large-v3-turbo-ct2
+    en: large-v3-turbo
+    detect: small               # used only to auto-detect the language
+  device: auto                 # auto | cpu | cuda
+  compute_type: auto           # auto | int8 | float16 | int8_float16
+  beam_size: 5
+  vad_filter: true
+  # Sidecars beside the raw file are used instead of transcribing:
+  #   video.words.json (factory format) or video.srt
+  use_sidecars: true
+
+# ----------------------------------------------------------------------------
+cleanup:
+  # Pace control. Lower = tighter, more aggressive jump cuts.
+  max_gap: 0.30            # seconds of silence allowed between words before a cut
+  pad_before: 0.06         # breathing room kept before a word
+  pad_after: 0.10          # and after
+  min_segment: 0.30        # drop kept fragments shorter than this
+  remove_fillers: true
+  remove_soft_fillers: false   # "like", "כאילו", "בעצם" — only when isolated by pauses
+  remove_stutters: true        # "I I think" -> "I think"
+  remove_retakes: true         # restarted sentences: keep the LAST take
+  retake_ngram: 3
+  # Fallback when there is no transcript: pure audio-energy cutting
+  silence_db: -35
+  silence_min: 0.35
+
+# ----------------------------------------------------------------------------
+audio:
+  enhance: true
+  highpass_hz: 80
+  lowpass_hz: 14000
+  denoise: true
+  denoise_nr: 12            # afftdn noise reduction, dB
+  deesser: true
+  eq:                       # voice presence / warmth (freq Hz, width Q, gain dB)
+    - [180, 1.0, 1.5]       # body
+    - [350, 1.2, -2.0]      # mud cut
+    - [3200, 1.0, 2.5]      # presence
+    - [9000, 0.8, 1.5]      # air
+  compressor: {threshold: -20, ratio: 3.5, attack: 8, release: 120, makeup: 3}
+  loudness:                 # final master, EBU R128 two-pass
+    youtube: {I: -14, TP: -1.0, LRA: 9}
+    vertical: {I: -14, TP: -1.0, LRA: 7}
+  click_fade: 0.012         # micro-fades at every cut (seconds)
+  music:
+    enabled: true
+    mood: auto              # auto | energetic | inspiring | dramatic | calm | corporate
+    volume_db: -24          # bed level under speech
+    duck: true              # sidechain duck under the voice
+    fade_in: 1.5
+    fade_out: 2.5
+  sfx:
+    enabled: true
+    whoosh_on_zoom: true
+    impact_on_emphasis: true
+    volume_db: -16
+    min_spacing: 2.0        # never stack SFX closer than this
+
+# ----------------------------------------------------------------------------
+color:
+  enabled: true
+  denoise: auto             # auto (only for low-res / noisy sources) | true | false
+  denoise_strength: 2.0
+  auto_levels: true         # exposure / white-balance normalisation from analysis
+  contrast: 1.06
+  saturation: 1.10
+  gamma: 1.0
+  skin_protect: true        # gentle warm push in midtones, keeps faces natural
+  look: cinematic_warm      # none | cinematic_warm | teal_orange | clean_bright | moody
+  lut: null                 # file name inside library/luts (.cube) — overrides `look`
+  sharpen: auto             # auto | true | false
+  vignette: 0.18            # 0 = off
+  upscale_filter: lanczos
+
+# ----------------------------------------------------------------------------
+motion:
+  enabled: true
+  shot_min: 2.0             # a new visual "beat" every 2–5 s
+  shot_max: 4.5
+  zoom_levels: [1.00, 1.12, 1.00, 1.22, 1.06]   # cycled punch-in pattern
+  emphasis_zoom: 1.32       # snap-zoom on emphasised words
+  slow_push: 0.05           # subtle continuous push-in within a shot
+  shake_on_impact: false
+  face_anchor: true         # punch-ins centre on the tracked face, not frame centre
+
+reframe:
+  face_tracking: true
+  sample_fps: 3             # face detection samples per second
+  smoothing: 0.85           # 0..1 — higher = steadier virtual camera
+  vertical_mode: auto       # auto | crop | blur_fill | split
+  # auto: crop when the 9:16 crop keeps >= this many source pixels in width,
+  # otherwise blurred-background "fill" so low-res footage still looks premium.
+  min_crop_width: 540
+
+# ----------------------------------------------------------------------------
+captions:
+  style: hormozi            # see config/caption_styles.yaml
+  words_per_line: auto      # auto = style default
+  max_chars: 22
+  position_youtube: 0.80    # vertical position as fraction of height
+  position_vertical: 0.68
+  uppercase_latin: true
+  emphasis:
+    numbers: true
+    keywords: true          # config/keywords.yaml
+    long_words: 8           # words with >= N letters get secondary colour
+  burn_in: true
+
+graphics:
+  progress_bar: {vertical: true, youtube: false}
+  hook_title: true          # big kinetic title over the first seconds
+  hook_title_seconds: 2.8
+  lower_third: true         # name / role card (from sidecar or local.yaml brand)
+  lower_third_at: 4.0
+  keyword_popups: true      # animated keyword cards on top emphasis moments
+  arrows: true              # animated arrow pointing at popups
+  end_card: true            # CTA at the end
+  cta_text: {he: "עקבו לעוד", en: "FOLLOW FOR MORE"}
+
+brand:
+  name: ""                  # lower-third name
+  role: ""                  # lower-third role / title
+  primary: "#FFD400"        # caption highlight
+  secondary: "#00E5FF"      # secondary highlight
+  accent: "#FF3B5C"         # warnings / emphasis
+  text: "#FFFFFF"
+  outline: "#000000"
+  font: Rubik               # must be installed or present in library/fonts
+  font_he: Rubik
+
+# ----------------------------------------------------------------------------
+structure:
+  # Cold open: play the single strongest line first as a teaser, then start the story.
+  cold_open_youtube: true
+  cold_open_vertical: true
+  cold_open_shorts: true
+  cold_open_search_window: 0.6   # search the first 60% of the video for the teaser line
+  cold_open_max: 7.0             # seconds
+
+shorts:
+  count: 6                 # target number of clips (3–10)
+  min_duration: 18
+  max_duration: 58
+  target_duration: 35
+  min_gap_between: 5        # seconds between clips in the source
+  require_hook: true        # each clip must open on a hook-scored sentence
+  title_card: true
+
+broll:
+  enabled: true
+  every: 7.0                # one cutaway opportunity per N seconds (max)
+  duration: 2.2
+  insert_matched: true      # auto-insert clips from library/broll that match keywords
+  layout: full              # full | pip
+
+# ----------------------------------------------------------------------------
+export:
+  youtube:   {width: 1920, height: 1080, fps: 30, crf: 18, preset: slow, audio_bitrate: 192k}
+  vertical:  {width: 1080, height: 1920, fps: 30, crf: 19, preset: slow, audio_bitrate: 192k}
+  intermediate: {crf: 12, preset: veryfast}
+  pixel_format: yuv420p
+  faststart: true
+  threads: 0
+  parallel_segments: 3
+
+pipeline:
+  keep_intermediates: false
+  resume: true              # skip stages whose outputs already exist
+  watch_interval: 5         # seconds between input-folder scans
+  stable_seconds: 4         # file must stop growing this long before pickup
+  video_extensions: [.mp4, .mov, .mkv, .m4v, .avi, .webm, .mts]

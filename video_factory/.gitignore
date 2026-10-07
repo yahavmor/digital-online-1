@@ -1,0 +1,14 @@
+# Media never goes into git — only the factory itself.
+workspace/*/*
+!workspace/*/.gitkeep
+workspace/factory.log
+library/*/*
+!library/*/.gitkeep
+!library/*/README.md
+config/local.yaml
+models/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+test_run/

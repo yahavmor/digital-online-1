@@ -1,0 +1,72 @@
+# Caption style presets. Colours are #RRGGBB; "brand.primary" etc. are resolved from config.
+# size is relative to output height (0.05 = 5% of frame height).
+
+hormozi:                    # bold, all-caps, one hot word at a time
+  font: brand.font
+  size_vertical: 0.060
+  size_youtube: 0.072
+  words_per_line: 3
+  bold: true
+  base_color: brand.text
+  active_color: brand.primary
+  emphasis_color: brand.secondary
+  outline: 7
+  shadow: 3
+  box: false
+  pop_scale: 118            # % scale of the active word at onset
+  pop_ms: 90
+  entry: pop                # pop | slide | fade
+  uppercase: true
+
+mrbeast:                    # huge, punchy, word-by-word
+  font: brand.font
+  size_vertical: 0.078
+  size_youtube: 0.088
+  words_per_line: 1
+  bold: true
+  base_color: brand.text
+  active_color: brand.text
+  emphasis_color: brand.primary
+  outline: 9
+  shadow: 4
+  box: false
+  pop_scale: 130
+  pop_ms: 80
+  entry: pop
+  uppercase: true
+
+clean:                      # premium / corporate / LinkedIn
+  font: brand.font
+  size_vertical: 0.046
+  size_youtube: 0.052
+  words_per_line: 5
+  bold: true
+  base_color: brand.text
+  active_color: brand.primary
+  emphasis_color: brand.primary
+  outline: 0
+  shadow: 0
+  box: true
+  box_color: "#000000"
+  box_alpha: 0.55
+  pop_scale: 104
+  pop_ms: 120
+  entry: fade
+  uppercase: false
+
+karaoke:                    # full line visible, sweeping highlight
+  font: brand.font
+  size_vertical: 0.054
+  size_youtube: 0.062
+  words_per_line: 4
+  bold: true
+  base_color: "#BFBFBF"
+  active_color: brand.primary
+  emphasis_color: brand.secondary
+  outline: 5
+  shadow: 2
+  box: false
+  pop_scale: 110
+  pop_ms: 100
+  entry: slide
+  uppercase: true

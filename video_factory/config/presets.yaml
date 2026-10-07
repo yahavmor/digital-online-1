@@ -1,0 +1,59 @@
+# Named presets — select with  `factory process --preset tiktok`  or in a sidecar:  preset: linkedin
+# A preset is a partial config deep-merged over default.yaml.
+
+youtube:
+  deliverables: {youtube: true, vertical: false, shorts: true}
+  captions: {style: karaoke}
+  cleanup: {max_gap: 0.40}
+  motion: {shot_min: 3.0, shot_max: 6.0, zoom_levels: [1.00, 1.10, 1.00, 1.18]}
+  graphics: {progress_bar: {youtube: false}}
+
+tiktok:
+  deliverables: {youtube: false, vertical: true, shorts: true}
+  captions: {style: hormozi}
+  cleanup: {max_gap: 0.22, remove_soft_fillers: true}
+  motion: {shot_min: 1.6, shot_max: 3.2, emphasis_zoom: 1.38}
+  shorts: {max_duration: 45, target_duration: 28}
+
+reels:
+  deliverables: {youtube: false, vertical: true, shorts: true}
+  captions: {style: hormozi, position_vertical: 0.64}   # clear of the Reels UI
+  cleanup: {max_gap: 0.25}
+  motion: {shot_min: 1.8, shot_max: 3.5}
+  shorts: {max_duration: 58}
+
+shorts:
+  deliverables: {youtube: false, vertical: true, shorts: true}
+  captions: {style: mrbeast}
+  cleanup: {max_gap: 0.22}
+  shorts: {max_duration: 58, target_duration: 40}
+
+linkedin:
+  deliverables: {youtube: true, vertical: true, shorts: true}
+  captions: {style: clean}
+  cleanup: {max_gap: 0.40, remove_soft_fillers: false}
+  motion: {shot_min: 3.5, shot_max: 6.5, zoom_levels: [1.00, 1.08, 1.00, 1.12], emphasis_zoom: 1.15}
+  audio: {sfx: {enabled: false}, music: {mood: corporate, volume_db: -28}}
+  color: {look: clean_bright}
+
+facebook:
+  deliverables: {youtube: true, vertical: true, shorts: true}
+  captions: {style: hormozi}
+  cleanup: {max_gap: 0.30}
+
+sales:              # VSL / funnel videos: authority, clarity, trust
+  deliverables: {youtube: true, vertical: true, shorts: true}
+  captions: {style: clean}
+  cleanup: {max_gap: 0.35, remove_soft_fillers: true}
+  motion: {shot_min: 3.0, shot_max: 5.5, zoom_levels: [1.00, 1.10, 1.00, 1.16], emphasis_zoom: 1.2}
+  audio: {music: {mood: inspiring, volume_db: -27}, sfx: {volume_db: -20}}
+  color: {look: clean_bright}
+  graphics: {keyword_popups: true, end_card: true}
+
+fast:               # drafts: quick review renders
+  export:
+    youtube: {width: 1280, height: 720, crf: 23, preset: veryfast}
+    vertical: {width: 720, height: 1280, crf: 23, preset: veryfast}
+    intermediate: {crf: 18, preset: ultrafast}
+  transcription: {models: {he: ivrit-ai/whisper-large-v3-turbo-ct2, en: small}}
+  shorts: {count: 3}

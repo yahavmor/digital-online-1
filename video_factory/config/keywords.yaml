@@ -1,0 +1,41 @@
+# Language packs used for filler detection, emphasis colouring, hook scoring and B-roll prompts.
+# Extend freely — matching is case-insensitive and ignores Hebrew prefixes (ו/ה/ב/ל/ש/מ/כ).
+
+he:
+  fillers_hard: [אממ, אמם, אהה, אה, אמ, הממ, אהם, אום, ממ, אההה, אממם]
+  fillers_soft: [כאילו, בעצם, נגיד, יעני, כזה, כזאת, סתם, טוב, אוקיי, נו]
+  emphasis: [כסף, הצלחה, סוד, טעות, אסור, חייב, תמיד, אף פעם, בחינם, מיליון, אלף, שקל,
+             לקוחות, מכירות, תוצאות, הכנסה, חופש, פחד, אמת, שקר, מלכודת, אשליה, הבעיה,
+             הפתרון, עכשיו, מהר, הכי, ענק, מטורף, שיטה, אסטרטגיה, צמיחה, עסק, חלום]
+  hook_phrases: [הסוד, אף אחד לא, רוב האנשים, הטעות, האמת, תדמיינו, מה אם, למה, איך,
+                 תפסיקו, אל ת, אסור לכם, הדבר הכי, שלושה, שלוש, 3, לא תאמינו, מה שלא מספרים,
+                 שינה לי את החיים, הנה, בוא נדבר, תקשיבו, שימו לב, השאלה]
+  cta_phrases: [תלחצו, הקישור, לינק, תירשמו, הירשמו, תעקבו, הצטרפו, שלחו לי, בתגובות, הודעה]
+
+en:
+  fillers_hard: [um, uh, umm, uhh, erm, er, ah, hmm, mm, uhm]
+  fillers_soft: [like, basically, actually, literally, "you know", "i mean", "kind of", "sort of", so, right, okay]
+  emphasis: [money, secret, mistake, never, always, free, million, thousand, clients, sales,
+             results, revenue, freedom, fear, truth, lie, trap, problem, solution, now,
+             fast, best, huge, insane, system, strategy, growth, business, dream]
+  hook_phrases: [secret, "nobody", "most people", mistake, "the truth", imagine, "what if",
+                 why, how, stop, "don't", "never", "the biggest", "three", "3", "you won't believe",
+                 "here's", "listen", "the problem"]
+  cta_phrases: [click, link, subscribe, follow, join, comment, "dm me", "sign up"]
+
+# B-roll prompt hints: keyword -> stock search queries
+broll_hints:
+  כסף: [money counting, cash, stock market chart]
+  money: [money counting, cash, stock market chart]
+  לקוחות: [happy customers, handshake]
+  clients: [happy customers, handshake]
+  הצלחה: [success celebration, mountain summit]
+  success: [success celebration, mountain summit]
+  זמן: [clock timelapse, hourglass]
+  time: [clock timelapse, hourglass]
+  מלכודת: [mouse trap, maze]
+  trap: [mouse trap, maze]
+  טלפון: [smartphone scrolling]
+  phone: [smartphone scrolling]
+  עבודה: [office work, laptop typing]
+  work: [office work, laptop typing]

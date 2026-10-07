@@ -1,0 +1,17 @@
+# Copy to config/local.yaml (git-ignored) and fill in your brand. Overrides default.yaml everywhere.
+brand:
+  name: "בן נחום"            # lower-third name
+  role: "יזם ומנטור עסקי"     # lower-third title
+  primary: "#FFD400"
+  secondary: "#00E5FF"
+  accent: "#FF3B5C"
+  font: Rubik
+
+graphics:
+  cta_text: {he: "לחצו על הלינק בביו", en: "LINK IN BIO"}
+
+transcription:
+  language: he              # skip auto-detection when all your footage is Hebrew
+
+# Use your GPU if you have one (10x faster transcription):
+# transcription: {device: cuda}
