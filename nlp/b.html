@@ -390,6 +390,52 @@ html.js .rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}html.js .rv{opacity:1;transform:none}}
 video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--font);font-weight:700;font-size:20px;background:rgba(0,0,0,.72);color:#fff}
 
+/* ---- v9 hero with portrait ---- */
+.hero9{position:relative;overflow:hidden;background:var(--bg0);isolation:isolate}
+.hero9 .portrait{position:relative;height:min(62vh,560px);min-height:360px;margin:0}
+.hero9 .portrait img{width:100%;height:100%;object-fit:cover;object-position:center 12%;display:block;filter:brightness(.8) contrast(1.08) saturate(.95)}
+.hero9 .portrait::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,9,12,.55) 0%,rgba(8,9,12,0) 20%,rgba(8,9,12,0) 50%,rgba(8,9,12,.85) 82%,var(--bg0) 100%)}
+.hero9 .brand{position:absolute;top:calc(18px + env(safe-area-inset-top,0px));inset-inline:20px;z-index:2;display:flex;justify-content:space-between;font-size:13px;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.5);margin:0}
+.hero9 .brand b{color:#fff}
+.hero9 .copy{position:relative;z-index:1;margin-top:-120px;padding:0 20px 52px;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center}
+.hero9 h1{font-size:clamp(40px,11vw,84px);font-weight:900;line-height:1.05;letter-spacing:-.02em;max-width:15ch}
+.hero9 h1.title{font-size:clamp(60px,18vw,120px);line-height:.95}
+.hero9 .sub{font-size:clamp(18px,4.7vw,22px);font-weight:500;line-height:1.55;color:var(--ink2);max-width:40ch}
+.hero9 .now{font-size:15px;line-height:1.7;color:var(--muted);max-width:46ch;border-top:1px solid var(--gold-a);padding-top:16px}
+.hero9 .now b{color:var(--gold2);font-weight:700}
+.hero9 .badge{font-size:12.5px;max-width:44ch}
+.hero9 .ghost{color:var(--ink2);font-size:15px;font-weight:500;text-decoration:underline;text-decoration-color:var(--gold-b);text-underline-offset:6px;padding:4px 8px}
+.hero9 .copy>*{animation:up .8s var(--ease) both}
+.hero9 .copy>*:nth-child(2){animation-delay:.08s}.hero9 .copy>*:nth-child(3){animation-delay:.16s}.hero9 .copy>*:nth-child(4){animation-delay:.24s}.hero9 .copy>*:nth-child(n+5){animation-delay:.32s}
+@media (min-width:960px){
+  .hero9{display:grid;grid-template-columns:1.05fr .95fr;min-height:min(90vh,820px)}
+  .hero9 .portrait{order:2;height:auto;min-height:100%}
+  .hero9 .portrait::after{background:linear-gradient(270deg,var(--bg0) 0%,rgba(8,9,12,.55) 16%,rgba(8,9,12,0) 42%),linear-gradient(0deg,var(--bg0) 0%,rgba(8,9,12,0) 25%)}
+  .hero9 .copy{margin:0;align-self:center;align-items:flex-start;text-align:right;padding:96px 56px 80px max(40px,calc(50vw - 560px))}
+  .hero9 .trustrow{justify-content:flex-start}.hero9 .cta{margin:0}
+  .hero9 .brand{inset-inline:auto 40px;inset-inline-start:max(40px,calc(50vw - 560px));justify-content:flex-start;gap:24px}
+}
+.power{text-align:center}.power .wrap{align-items:center}
+.power .line{font-size:clamp(28px,7.4vw,54px);font-weight:900;line-height:1.2;max-width:20ch;margin-inline:auto;text-wrap:balance}
+.power .line span{display:block;color:var(--muted);font-weight:500;font-size:.6em;margin-bottom:10px}
+.power .flow{max-width:640px;margin:10px auto 0}
+.outcomes{display:grid;gap:12px}
+.outcomes>div{background:var(--card);border:1px solid var(--gold-a);border-radius:var(--r);padding:22px 22px;display:flex;flex-direction:column;gap:6px}
+.outcomes h3{font-size:19px;font-weight:800}
+.outcomes p{color:var(--muted);font-size:16px;line-height:1.6}
+@media (min-width:760px){.outcomes{grid-template-columns:1fr 1fr}} @media (min-width:1100px){.outcomes{grid-template-columns:repeat(3,1fr)}}
+.closer{font-size:clamp(22px,5.6vw,32px);font-weight:900;line-height:1.35;max-width:26ch;text-wrap:balance}
+.closer span{display:block;color:var(--muted);font-weight:500}
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;counter-reset:rm}
+.roadmap li{list-style:none;counter-increment:rm;text-align:center;padding:18px 8px;border:1px solid var(--gold-a);border-radius:var(--r);background:var(--card);font-weight:800;font-size:18px}
+.roadmap li::before{content:"0" counter(rm);display:block;font-size:12px;letter-spacing:.12em;color:var(--gold);margin-bottom:6px}
+.roadmap{padding:0;margin:0}
+.module .cando{margin:0 22px 18px;padding:12px 14px;border-radius:12px;background:rgba(211,183,122,.07);border:1px solid var(--gold-a);font-size:15.5px;line-height:1.6;color:var(--ink2)}
+.module .cando b{display:block;font-size:12px;letter-spacing:.08em;color:var(--gold);margin-bottom:2px}
+.proofline{font-size:clamp(19px,4.8vw,24px);font-weight:700;line-height:1.5;max-width:36ch;margin:8px auto 0;text-align:center;color:var(--ink)}
+.car-btn.prev{right:auto;left:-6px} .car-btn.next{left:auto;right:-6px}
+@media (min-width:600px){.car-btn.prev{right:auto;left:-64px} .car-btn.next{left:auto;right:-64px}}
+
 .wl{position:fixed;inset:0;z-index:80;display:none;align-items:flex-end;justify-content:center;background:rgba(4,5,8,.72);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);padding:0}
 .wl.on{display:flex}
 .wl .sheet{width:100%;max-width:520px;background:#111319;border:1px solid var(--gold-b);border-radius:24px 24px 0 0;padding:26px 20px calc(22px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:14px;animation:up .45s var(--ease) both;max-height:92vh;overflow:auto}
@@ -410,16 +456,18 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--font);font-wei
 </head>
 <body>
 <div class="prog" id="prog" aria-hidden="true"><span id="progLbl"></span><i id="progFill"></i></div>
-<header class="hero8 photo" data-sec="1" data-name="פתיחה"><div class="bgimg" role="img" aria-label="בן נחום"></div><div class="wrap"><div class="brand"><b>בן נחום</b><span>NLP · רגש · תודעה</span></div>
-<div class="inner"><div class="copy">
-<span class="badge">השיטה · תוכנית NLP דיגיטלית</span>
+<header class="hero9" data-sec="1" data-name="פתיחה">
+<figure class="portrait"><img src="assets/ben.jpg" alt="בן נחום" width="739" height="1600" fetchpriority="high"></figure>
+<div class="brand"><b>בן נחום</b><span>NLP · רגש · תודעה</span></div>
+<div class="copy">
+<span class="badge">15 שנים של עבודה עם דפוסים, רגשות ושינוי, מרוכזות לתהליך פרקטי ופשוט ליישום</span>
 <h1>אתה יודע מה צריך לעשות. אז למה אתה עדיין חוזר ל<mark>אותו מקום</mark>?</h1>
 <p class="sub">הבעיה היא לא אתה. זה הסיפור שהמוח שלך מספר, ואת הסיפור הזה אפשר לשנות</p>
-<div class="pricechip"><span>היום</span><b>297 ₪</b><span>במקום <s class="was">2,140 ₪</s></span></div>
 <a class="cta" data-cta="hero_main" data-checkout href="#">אני רוצה לעלות שלב <span>←</span></a>
-<ul class="trustrow"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg>גישה מיידית</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>7 ימי אחריות</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</li></ul>
+<ul class="trustrow"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg>גישה מיידית</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>7 ימי אחריות</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>קורס + קהילה</li></ul>
+<p class="now"><b>לא צריך לחכות שבועות כדי להרגיש שינוי.</b> כל סרטון בנוי כך שתצא ממנו עם כלי, זווית או פעולה שאפשר ליישם כבר באותו יום.</p>
 <a class="ghost" data-cta="hero_shortcut" href="#offer">מה בדיוק מקבלים?</a>
-</div></div></div></header>
+</div></header>
 <div class="proofbar"><ul><li><b data-count="15" data-suf="+">15+</b><span>שנות ניסיון ב-NLP</span></li><li><b>מאות</b><span>אנשים בליווי אישי</span></li><li><b data-count="142">142</b><span>שיעורים קצרים</span></li></ul></div>
 <section class="beats" data-sec="2" data-name="זה אתה"><div class="wrap stack">
 <p class="k0">זה אתה?</p>
@@ -432,13 +480,15 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--font);font-wei
 <h2>הבעיה האמיתית</h2>
 <p class="bigline"><span>הבעיה היא לא ידע.</span>הבעיה היא <mark>הדפוס.</mark></p>
 <p class="lead">אבל לדעת זה לא להיות. והפער הזה, בין מה שאתה יודע לבין איך שאתה חושב, מרגיש ופועל ברגע האמת, הוא בדיוק המקום שעליו בניתי את השיטה הזאת.</p>
+<p class="bigline" style="margin-top:18px"><span>אתה לא צריך "להיות חזק יותר".</span>אתה צריך להבין מה מנהל אותך, ולבנות <mark>מערכת אחרת</mark> במקום.</p>
 </div></section>
 <section data-num="01" class="alt" data-sec="4" data-name="מה משתנה"><div class="wrap stack">
 <h2>מה <mark>משתנה</mark></h2>
 <div class="ba">
 <div class="before"><h3>לפני</h3><ul><li>אוטומט</li><li>דחיינות</li><li>חוסר עקביות</li><li>תגובה רגשית</li></ul></div>
-<div class="after"><h3>אחרי</h3><ul><li>מודעות</li><li>שליטה</li><li>פעולה</li><li>חזרתיות</li></ul></div>
+<div class="after"><h3>אחרי</h3><ul><li>יותר ערך עצמי</li><li>יותר תחושת מסוגלות</li><li>יותר ביטחון</li><li>פחות פעולה מתוך אוטומט</li><li>תקשורת בריאה יותר עם עצמך ועם הסביבה</li><li>יציבות רגשית גם כשדברים לא הולכים לפי התוכנית</li></ul></div>
 </div>
+<p class="key">העבודה האמיתית לא קורית בזמן שאתה צופה. היא קורית כשאתה קם בבוקר ומגיב אחרת, מקבל החלטה אחרת או מדבר לעצמך אחרת.</p>
 </div></section>
 <section class="ctab alt" data-buyzone><div class="wrap"><div class="box">
 <h2>להצטרפות לשיטה, לחצו על הכפתור:</h2>
@@ -490,9 +540,9 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--font);font-wei
 <section data-num="06" data-sec="9" data-name="מה אומרים"><div class="wrap stack">
 <h2>מה אומרים מי שכבר בפנים:</h2><p class="swipe">החליקו כדי לראות עוד ←</p><div class="car" data-carousel>
 <div class="car-track"><figure class="car-slide"><img src="assets/car-2.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure><figure class="car-slide"><img src="assets/car-3.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure><figure class="car-slide"><img src="assets/car-4.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure><figure class="car-slide"><img src="assets/car-5.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure><figure class="car-slide"><img src="assets/car-6.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure><figure class="car-slide"><img src="assets/car-7.jpg" alt="המלצה" loading="lazy" width="800" height="1000"></figure></div>
-<button class="car-btn prev" type="button" aria-label="הקודם">›</button><button class="car-btn next" type="button" aria-label="הבא">‹</button>
+<button class="car-btn prev" type="button" aria-label="הקודם">‹</button><button class="car-btn next" type="button" aria-label="הבא">›</button>
 <div class="car-dots"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-</div>
+</div><p class="proofline">אנשים שונים. אתגרים שונים. אותו עיקרון: ברגע שמשנים את הדפוס שמנהל אותך, מתחילות להשתנות גם הפעולות והתוצאות.</p>
 </div></section>
 <section class="ctab" data-buyzone><div class="wrap"><div class="box">
 <h2>להצטרפות לשיטה, לחצו על הכפתור:</h2>
@@ -509,16 +559,7 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--font);font-wei
 </ul>
 </div></section>
 <section data-num="08" class="orb" data-sec="11" data-name="עם מה תצא"><div class="wrap stack">
-<h2>עם מה <mark>תצא מהשיטה</mark></h2>
-<p class="lead">אנשים לא קונים קורס. הם קונים את מה שישתנה להם בחיים בזכותו:</p>
-<ul class="wins">
-<li>הערכה עצמית גבוהה יותר, שלא תלויה במה שאחרים חושבים</li>
-<li>ביטחון עצמי בכל סיטואציה חברתית: בשיחה, בפגישה, מול קהל</li>
-<li>תקשורת שמשפיעה: אנשים מקשיבים לך, מבינים אותך ופועלים</li>
-<li>פרשנות נכונה ומקדמת לכל מה שקורה לך, במקום סיפור שעוצר אותך</li>
-<li>דיאלוג פנימי חדש: המחשבות שאתה חושב בינך לבין עצמך עובדות בשבילך</li>
-<li>יותר ויותר פעולות אקטיביות בחיים, ואיתן מציאות חדשה שאתה יוצר</li>
-</ul>
+<h2>עם מה <mark>תצא</mark> מהשיטה</h2><p class="lead">בסוף התהליך אתה לא נשאר רק עם ידע. אתה יוצא עם מערכת.</p><div class="outcomes"><div><h3>מפת דרכים ברורה ומותאמת אישית</h3><p>חזון ברור שמתחבר למה שבאמת חשוב לך.</p></div><div><h3>תוכנית יעדים מסודרת</h3><p>מטרות גדולות מפורקות ליעדים קטנים, ברורים ומדידים לאורך הדרך.</p></div><div><h3>שאלון שמחדד איפה אתה נמצא ולאן אתה רוצה להגיע</h3><p>כדי שהתהליך לא יישאר כללי, אלא יתחבר לחיים שלך.</p></div><div><h3>עבודה על אמונות ודפוסים מגבילים</h3><p>זיהוי המחשבות שמנהלות אותך והחלפה שלהן בדפוסים שמקדמים אותך.</p></div><div><h3>חיזוק המערכת הרגשית שלך</h3><p>ערך עצמי, תחושת מסוגלות, ביטחון, שייכות ויכולת להישאר במקום רגשי חזק ויציב יותר.</p></div><div><h3>תקשורת פנימית וחיצונית טובה יותר</h3><p>שינוי הדיאלוג שלך עם עצמך, וכתוצאה מזה גם הדרך שבה אתה מתקשר עם האנשים סביבך.</p></div><div><h3>כלים שאפשר להכניס לחיים מיד</h3><p>לא רק להבין. להתחיל להשתמש.</p></div></div><p class="closer"><span>פחות "אני יודע מה אני צריך לעשות".</span>יותר "אני יודע בדיוק מה הצעד הבא שלי, ואני עושה אותו".</p>
 </div></section>
 <section class="ctab" data-buyzone><div class="wrap"><div class="box">
 <h2>להצטרפות לשיטה, לחצו על הכפתור:</h2>
@@ -561,25 +602,26 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--font);font-wei
 <p class="key" style="color:var(--band-gold)">הסרטונים הם רק הדרך להעביר לך את השיטה. השינוי שקורה איתה הוא המוצר.</p>
 </div></section>
 <section data-num="12" data-sec="15" data-name="מה יש בפנים"><div class="wrap stack">
-<h2>מה יש בפנים</h2><p class="lead">4 חלקים שבנויים מבפנים החוצה: מהחשיבה, דרך הרגש, ועד שיחות והשפעה על אנשים אחרים.</p><div class="mods"><article class="module"><header><span class="mtag">חלק 1</span><h3>שינוי תפיסה</h3><div class="chips"><span class="chip">102 שיעורים</span><span class="chip">כ-10 שעות</span><span class="chip">4 עד 9 דק' לשיעור</span></div><p>הבסיס. שיעורים קצרים שנכנסים גם ליום עמוס, כל אחד על מנגנון אחד.</p></header><details><summary>דוגמאות לשיעורים</summary><ul class="lessons"><li class="mtag">פחד ותקיעות</li><li>הפסיכולוגיה של הפחד</li><li>פרפקציוניזם: דרך טובה של המוח לגרום לנו להישאר במקום</li><li>הפסיכולוגיה של התקיעות</li><li>שלושה כלים לצאת מתקיעות</li>
+<h2>מה יש בפנים</h2><p class="lead">4 חלקים שבנויים מבפנים החוצה: מהחשיבה, דרך הרגש, ועד שיחות והשפעה על אנשים אחרים.</p><div class="mods"><article class="module"><header><span class="mtag">חלק 1</span><h3>שינוי תפיסה</h3><div class="chips"><span class="chip">102 שיעורים</span><span class="chip">כ-10 שעות</span><span class="chip">4 עד 9 דק' לשיעור</span></div><p>הבסיס. שיעורים קצרים שנכנסים גם ליום עמוס, כל אחד על מנגנון אחד.</p></header><p class="cando"><b>מה תוכל לעשות אחרי החלק הזה</b>לזהות בזמן אמת את המחשבה, הפחד או הסיפור שעוצרים אותך, ולבחור תגובה אחרת.</p><details><summary>דוגמאות לשיעורים</summary><ul class="lessons"><li class="mtag">פחד ותקיעות</li><li>הפסיכולוגיה של הפחד</li><li>פרפקציוניזם: דרך טובה של המוח לגרום לנו להישאר במקום</li><li>הפסיכולוגיה של התקיעות</li><li>שלושה כלים לצאת מתקיעות</li>
 <li class="mtag">הסיפור הפנימי</li><li>הסיפור שאנו מספרים לעצמנו</li><li>כוחה של פרשנות</li><li>הכוח החבוי של דיבור עצמי</li><li>הרגל 3 השורות: כתיבת סיפור פנימי</li>
 <li class="mtag">כסף ושפע</li><li>ממחסור לשפע: חוקים חדשים</li><li>פרדוקס הכסף</li><li>לשבור את משוואת הזמן וכסף</li>
 <li class="mtag">רגש ושליטה עצמית</li><li>המנוע הרגשי</li><li>מנגנון הכעס</li><li>חוק 90 השניות: שליטה ברושם</li><li>איך להפסיק לקחת דברים אישית</li>
 <li class="mtag" style="color:var(--muted)">ועוד 87 שיעורים</li></ul></details></article>
-<article class="module"><header><span class="mtag">חלק 2</span><h3>מבפנים לבחוץ: השפעה</h3><div class="chips"><span class="chip">25 שיעורים</span><span class="chip">כ-4 שעות</span></div><p>איך מעבירים את השינוי הפנימי לשיחה: ראפור, רגש, טון, התנגדויות.</p></header><details><summary>כל 25 השיעורים</summary><ul class="lessons"><li>הקדמה לקורס: רגע לפני שמתחילים</li><li>תודעת שפע</li><li>מודול אדם העל, חלק 1: נוכחות</li><li>מודול אדם העל, חלק 2: פרספקטיבה</li><li>מודול אדם העל, חלק 3: מודעות</li><li>מבפנים לבחוץ</li><li>ככה בונים חזון</li><li>ככה יוצרים עוגן רגשי</li><li>רגש = מחשבה במומנט גבוה</li><li>מוכרים רציונל מאחורי רגש</li><li>אנשים קונים רציונל: מחקר ומדע</li><li>ראפור</li><li>חוק ה-90 שניות</li><li>כאב</li><li>לסגור בשאלה רטורית</li><li>אומנות הפרומושן</li><li>טון דיבור</li><li>ככה לא נקבל "אני רוצה לחשוב על זה"</li><li>שימוש בשם פרטי</li><li>דמיון מודרך</li><li>הבעיה שלך היא לא הבעיה שלי</li><li>גישה של אדם מצליח</li><li>הדיאלוג הפנימי</li><li>דרך</li><li>מפרקים את מכונת המכירות</li></ul></details></article>
-<article class="module"><header><span class="mtag">חלק 3</span><h3>הדרכות לייב: תקשורת והשפעה</h3><div class="chips"><span class="chip">6 הדרכות</span><span class="chip">כ-50 דקות</span></div><p>מודל שיחה ב-4 שלבים, ואיך מנטרלים התנגדות לפני שהיא עולה.</p></header><details><summary>כל 6 ההדרכות</summary><ul class="lessons"><li>שולט או נשלט?</li><li>מודל 4 שלבים: הקדמה</li><li>שלב 1: מקרב</li><li>למה להיות נוכח עוזר לנו במכירות</li><li>מבטלים את ההתנגדות לפני שהיא צפה</li><li>האופן שבו אנחנו מדברים חשוב יותר ממה שאנחנו אומרים</li></ul></details></article>
-<article class="module"><header><span class="mtag">חלק 4</span><h3>הקלטות זום מלאות</h3><div class="chips"><span class="chip">9 הקלטות</span><span class="chip">כ-13 שעות</span></div><p>מפגשי עבודה מלאים, לא ערוכים: פתיחה ומנטליות, מטרות השיחה, דוגמאות אמיתיות ודיבור בתועלות.</p></header></article></div><div class="peek"><p class="kicker" style="margin:0">הצצה מבפנים: ככה נראית רשימת השיעורים בקורס</p>
+<article class="module"><header><span class="mtag">חלק 2</span><h3>מבפנים לבחוץ: השפעה</h3><div class="chips"><span class="chip">25 שיעורים</span><span class="chip">כ-4 שעות</span></div><p>איך מעבירים את השינוי הפנימי לשיחה: ראפור, רגש, טון, התנגדויות.</p></header><p class="cando"><b>מה תוכל לעשות אחרי החלק הזה</b>לנהל שיחה שמזיזה אנשים לפעולה: ראפור, רגש, טון דיבור ומענה להתנגדויות.</p><details><summary>כל 25 השיעורים</summary><ul class="lessons"><li>הקדמה לקורס: רגע לפני שמתחילים</li><li>תודעת שפע</li><li>מודול אדם העל, חלק 1: נוכחות</li><li>מודול אדם העל, חלק 2: פרספקטיבה</li><li>מודול אדם העל, חלק 3: מודעות</li><li>מבפנים לבחוץ</li><li>ככה בונים חזון</li><li>ככה יוצרים עוגן רגשי</li><li>רגש = מחשבה במומנט גבוה</li><li>מוכרים רציונל מאחורי רגש</li><li>אנשים קונים רציונל: מחקר ומדע</li><li>ראפור</li><li>חוק ה-90 שניות</li><li>כאב</li><li>לסגור בשאלה רטורית</li><li>אומנות הפרומושן</li><li>טון דיבור</li><li>ככה לא נקבל "אני רוצה לחשוב על זה"</li><li>שימוש בשם פרטי</li><li>דמיון מודרך</li><li>הבעיה שלך היא לא הבעיה שלי</li><li>גישה של אדם מצליח</li><li>הדיאלוג הפנימי</li><li>דרך</li><li>מפרקים את מכונת המכירות</li></ul></details></article>
+<article class="module"><header><span class="mtag">חלק 3</span><h3>הדרכות לייב: תקשורת והשפעה</h3><div class="chips"><span class="chip">6 הדרכות</span><span class="chip">כ-50 דקות</span></div><p>מודל שיחה ב-4 שלבים, ואיך מנטרלים התנגדות לפני שהיא עולה.</p></header><p class="cando"><b>מה תוכל לעשות אחרי החלק הזה</b>להשתמש במודל שיחה של 4 שלבים, ולנטרל התנגדות עוד לפני שהיא עולה.</p><details><summary>כל 6 ההדרכות</summary><ul class="lessons"><li>שולט או נשלט?</li><li>מודל 4 שלבים: הקדמה</li><li>שלב 1: מקרב</li><li>למה להיות נוכח עוזר לנו במכירות</li><li>מבטלים את ההתנגדות לפני שהיא צפה</li><li>האופן שבו אנחנו מדברים חשוב יותר ממה שאנחנו אומרים</li></ul></details></article>
+<article class="module"><header><span class="mtag">חלק 4</span><h3>הקלטות זום מלאות</h3><div class="chips"><span class="chip">9 הקלטות</span><span class="chip">כ-13 שעות</span></div><p>מפגשי עבודה מלאים, לא ערוכים: פתיחה ומנטליות, מטרות השיחה, דוגמאות אמיתיות ודיבור בתועלות.</p></header><p class="cando"><b>מה תוכל לעשות אחרי החלק הזה</b>לראות את הכלים עובדים בשיחות אמיתיות, ולקחת את המבנה לשיחות שלך.</p></article></div><div class="peek"><p class="kicker" style="margin:0">הצצה מבפנים: ככה נראית רשימת השיעורים בקורס</p>
 <div class="mock"><div class="mh"><b>שינוי תפיסה</b><span>0/102</span></div><ul><li><span class="lt">▶ המנוע הרגשי</span><span class="ld">05:29</span></li><li><span class="lt">🔒 הדחף הטבעי להתרחבות</span><span class="ld">05:30</span></li><li><span class="lt">🔒 כוחה של פרשנות</span><span class="ld">04:34</span></li><li><span class="lt">🔒 הפסיכולוגיה של הפחד</span><span class="ld">05:08</span></li><li><span class="lt">🔒 חוק ההתרחבות</span><span class="ld">05:31</span></li><li><span class="lt">🔒 פרפקציוניזם: דרך טובה של המוח לגרום לנו להישאר במקום</span><span class="ld">04:56</span></li><li><span class="lt">🔒 שינוי תודעתי: מאוטומט לפעולה</span><span class="ld">04:24</span></li></ul><div class="mf">ועוד 95 שיעורים בחלק הזה, ו-3 חלקים נוספים</div></div></div>
 </div></section>
 <section data-num="13" class="alt orb" data-sec="16" data-name="בונוסים"><div class="wrap stack">
 <h2>ובנוסף, <mark>5 בונוסים</mark> שמגיעים איתך</h2><div class="bonuses"><article class="bonus8"><div class="shot"><span class="no">בונוס 01</span><img src="assets/cover-4.jpg" alt="" loading="lazy"></div><div class="txt"><h3>מפת החסמים האישית</h3><p>שאלון קצר של 12 שאלות מכוונות, שמראה לך מה באמת עוצר אותך ובמה לשים את הפוקוס קודם.</p><p class="why">תדייק את הנתיב שלך: מאיפה להתחיל בתוכנית, ומה ישנה הכי הרבה בחיים שלך עכשיו.</p><p class="val"><span>שווי</span><b>214 ₪ · אצלך בחינם</b></p></div></article><article class="bonus8"><div class="shot"><span class="no">בונוס 02</span><img src="assets/cover-1.jpg" alt="" loading="lazy"></div><div class="txt"><h3>מפת שינוי הסיפור: 30 יום</h3><p>יומן של 3 שורות בערב: מה קרה, איזה סיפור סיפרתי לעצמי, ואיזה סיפור אני בוחר.</p><p class="why">ככה הכלים מהשיעורים הופכים להרגל יומי, ולא נשארים בגדר השראה.</p><p class="val"><span>שווי</span><b>197 ₪ · אצלך בחינם</b></p></div></article><article class="bonus8"><div class="shot"><span class="no">בונוס 03</span><img src="assets/cover-2.jpg" alt="" loading="lazy"></div><div class="txt"><h3>ערכת השיחה החשובה</h3><p>צ'קליסט של 10 דקות ודף עבודה לפני כל שיחה שחשובה לך: מכירה, בוס, זוגיות.</p><p class="why">תיכנס לשיחה מוכן, מחובר ובטוח, ותצא עם החלטה ולא עם "נדבר".</p><p class="val"><span>שווי</span><b>147 ₪ · אצלך בחינם</b></p></div></article><article class="bonus8"><div class="shot"><span class="no">בונוס 04</span><img src="assets/cover-3.jpg" alt="" loading="lazy"></div><div class="txt"><h3>מבחן המחסור והשפע</h3><p>מבחן עצמי של 5 דקות ו-5 תרגילים לשנות את נקודת המבט על כסף, זמן ואנשים.</p><p class="why">תגלה מאיזה מקום אתה מקבל החלטות, ותתחיל לשנות אותו.</p><p class="val"><span>שווי</span><b>97 ₪ · אצלך בחינם</b></p></div></article><article class="bonus8"><div class="shot"><span class="no">בונוס 05</span><div class="dc"><div>קהילה סגורה<small>Discord</small></div></div></div><div class="txt"><h3>הקהילה הסגורה בדיסקורד</h3><p>מקום לשאול, לשתף ולהתקדם יחד עם אנשים שעוברים את אותה דרך.</p><p class="why">שינוי מחזיק יותר כשאתה לא עושה אותו לבד.</p><p class="val"><span>שווי</span><b>195 ₪ · אצלך בחינם</b></p></div></article></div><p class="btot">שווי כל הבונוסים: <s>850 ₪</s> · <b>אצלך בחינם</b></p>
 </div></section>
 <section id="offer" data-sec="17" data-name="ההצעה" data-buyzone><div class="wrap stack">
+<p class="closer" style="text-align:center;margin:0 auto 8px"><span>בסוף לא נשארים עם עוד ידע.</span>יוצאים עם מערכת, ועם הצעד הבא ברור.</p>
 <h2>כל מה שאתה מקבל</h2>
 <p class="offer-lead">אנחנו רוצים שהתהליך הזה יהיה נגיש לכמה שיותר אנשים, ושכמה שיותר אנשים יתחילו לחשוב, להרגיש ולפעול אחרת.</p>
 <div class="pcard">
 <div class="head"><span class="tag">כל המערכת + כל הבונוסים</span></div>
-<div class="stack6"><div class="row"><span>השיטה המלאה: 4 חלקים, 142 שיעורים</span><b>1,290 ₪</b></div><div class="row"><span>בונוס: מפת החסמים האישית</span><b>214 ₪</b></div><div class="row"><span>בונוס: מפת שינוי הסיפור: 30 יום</span><b>197 ₪</b></div><div class="row"><span>בונוס: ערכת השיחה החשובה</span><b>147 ₪</b></div><div class="row"><span>בונוס: מבחן המחסור והשפע</span><b>97 ₪</b></div><div class="row"><span>בונוס: הקהילה הסגורה בדיסקורד</span><b>195 ₪</b></div><div class="tot"><span>שווי כולל</span><span>2,140 ₪</span></div></div>
+<div class="stack6"><div class="row"><span>השיטה המלאה: 4 חלקים, 142 שיעורים</span><b>1,290 ₪</b></div><div class="row"><span>בונוס: מפת החסמים האישית <small style="display:block;color:var(--dim);font-size:13px">יודעים בדיוק מאיפה להתחיל</small></span><b>214 ₪</b></div><div class="row"><span>בונוס: מפת שינוי הסיפור: 30 יום <small style="display:block;color:var(--dim);font-size:13px">הכלים הופכים להרגל יומי</small></span><b>197 ₪</b></div><div class="row"><span>בונוס: ערכת השיחה החשובה <small style="display:block;color:var(--dim);font-size:13px">נכנסים לכל שיחה חשובה מוכנים</small></span><b>147 ₪</b></div><div class="row"><span>בונוס: מבחן המחסור והשפע <small style="display:block;color:var(--dim);font-size:13px">מגלים מאיזה מקום אתה מחליט</small></span><b>97 ₪</b></div><div class="row"><span>בונוס: הקהילה הסגורה בדיסקורד <small style="display:block;color:var(--dim);font-size:13px">לא עושים את זה לבד</small></span><b>195 ₪</b></div><div class="tot"><span>שווי כולל</span><span>2,140 ₪</span></div></div>
 <div class="pay">
 <p class="now-l">היום, הכל ב-</p>
 <p class="now">297<span>₪</span></p>
