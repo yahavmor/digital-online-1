@@ -49,7 +49,7 @@ const SUPPORT_WA = "972526951092";
   if (SUPPORT_WA){ document.getElementById("help").hidden=false; document.getElementById("helpLink").href="https://wa.me/"+SUPPORT_WA; }
   try{ const lp=sessionStorage.getItem("cc_lp"); if(lp){ fetch("https://hook.eu1.make.com/9yp88pz9bfvxbr7w6xkb4ckun82ote6a",{method:"POST",body:new URLSearchParams({lookup_lp:lp})}).then(r=>r.json()).then(d=>{ if(d&&d.email){ const b=document.createElement("b"); b.textContent=d.email; const s=document.getElementById("sent"); s.textContent="שלחנו גם את כל פרטי הגישה ל- "; s.appendChild(b); } }).catch(()=>{}); } }catch(e){}
   /* Purchase נרשם בצד השרת אחרי אימות העסקה מול Cardcom. כאן רק צפייה בעמוד. */
-  try{ if(TRACK_ENDPOINT[0]!=="%"){ const f=new URLSearchParams({ev:"thanks_view", variant:qs.get("v")||"", sid:qs.get("sid")||"", qs:location.search.slice(1)});
+  try{ if(TRACK_ENDPOINT[0]!=="%"){ let lc={},ft={};try{lc=JSON.parse(localStorage.getItem("nlp_lc")||"{}");ft=JSON.parse(localStorage.getItem("nlp_ft")||"{}");}catch(e){} const cc=qs.get("src")==="cc"; let dup=false; try{dup=cc&&sessionStorage.getItem("px_ret")==="1"; if(cc)sessionStorage.setItem("px_ret","1");}catch(e){} const f=new URLSearchParams({ev:cc?(dup?"thanks_view":"purchase_return"):"thanks_view", variant:lc.v||qs.get("v")||"", sid:lc.sid||qs.get("sid")||("t-"+Date.now()), qs:lc.qs!=null?lc.qs:location.search.slice(1), cta:lc.cta||"", name:ft.qs!=null?("ft:"+ft.v+"|"+ft.qs):"", sec_on_page:lc.ts?Math.round((Date.now()-lc.ts)/1000):""});
     if(!(navigator.sendBeacon&&navigator.sendBeacon(TRACK_ENDPOINT,f))) fetch(TRACK_ENDPOINT,{method:"POST",body:f,mode:"no-cors"}); } }catch(e){}
 })();
 </script>
