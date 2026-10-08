@@ -685,11 +685,12 @@ const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6
     if(TRACK_ENDPOINT){ try{ const f=new URLSearchParams(); for(const k in p) f.append(k, p[k]); if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT, f))) fetch(TRACK_ENDPOINT,{method:"POST",body:f,mode:"no-cors",keepalive:true}); }catch(e){} }
   }
   window.__lpSend = send; send("view");
+  try{const ls=localStorage;if(!ls.getItem("nlp_ft"))ls.setItem("nlp_ft",JSON.stringify({v:V,qs:location.search.slice(1),ts:Date.now()}));}catch(e){}
   // checkout links (keeps Instagram UTMs + variant)
   const qs = new URLSearchParams(location.search); if(!qs.has("utm_content")) qs.set("utm_content","lp_"+V);
   document.querySelectorAll("[data-checkout]").forEach(a=>{
     a.href = CHECKOUT_URL + (CHECKOUT_URL.includes("?")?"&":"?") + qs.toString();
-    a.addEventListener("click",()=>{ const s=a.closest("[data-sec]"); send("cta_click",{at_section:s?+s.dataset.sec:0, cta:a.dataset.cta||"", checkout_started:1}); try{ if(window.fbq) fbq("track","InitiateCheckout",{value:297,currency:"ILS"}); }catch(e){} });
+    a.addEventListener("click",()=>{ try{localStorage.setItem("nlp_lc",JSON.stringify({v:V,sid:sid,qs:location.search.slice(1),cta:a.dataset.cta||"",ts:Date.now()}));}catch(e){} const s=a.closest("[data-sec]"); send("cta_click",{at_section:s?+s.dataset.sec:0, cta:a.dataset.cta||"", checkout_started:1}); try{ if(window.fbq) fbq("track","InitiateCheckout",{value:297,currency:"ILS"}); }catch(e){} });
   });
   document.querySelectorAll("a[data-cta]:not([data-checkout])").forEach(a=>a.addEventListener("click",()=>{ const s=a.closest("[data-sec]"); send("shortcut_click",{cta:a.dataset.cta, at_section:s?+s.dataset.sec:0}); }));
   // progress bar + section reach
