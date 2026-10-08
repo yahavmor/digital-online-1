@@ -167,7 +167,7 @@ const PRIVACY_URL = ""; /* קישור למדיניות הפרטיות */ /* לד
   }
   track(qs.get("status")==="failed" ? "checkout_failed" : "checkout_view");
   try{ if(window.fbq) fbq("track","InitiateCheckout",{value:297,currency:"ILS"}); }catch(e){}
-  function fail(){ $("loadTxt").textContent = "לא הצלחנו לטעון את דף התשלום."; $("retry").style.display = "inline-block"; document.querySelector(".spin").style.display="none"; track("checkout_load_error"); }
+  function fail(code){ $("loadTxt").textContent = "לא הצלחנו לטעון את דף התשלום. לא בוצע חיוב. נסה שוב, או כתוב לנו ב-WhatsApp ונעזור מיד."; $("retry").style.display = "inline-block"; document.querySelector(".spin").style.display="none"; $("cc").hidden = true; track("checkout_load_error", code ? {code:String(code)} : null); }
   function load(){
     $("retry").style.display = "none"; document.querySelector(".spin").style.display=""; $("loadTxt").textContent = "טוען תשלום מאובטח...";
     let prev=""; try{ if(qs.get("status")==="failed") prev=sessionStorage.getItem("cc_lp")||""; }catch(e){}
@@ -176,7 +176,7 @@ const PRIVACY_URL = ""; /* קישור למדיניות הפרטיות */ /* לד
     fetch(CHECKOUT_ENDPOINT, {method:"POST", body, signal: ctl?ctl.signal:undefined})
       .then(r => r.json()).then(d => {
         clearTimeout(t);
-        if(!d || !d.url) return fail();
+        if(!d || !d.url || !/^https:\/\/[^\/]*cardcom\.solutions\//i.test(d.url) || (d.code && String(d.code)!=="0")) return fail(d && d.code);
         try{ if(d.lp) sessionStorage.setItem("cc_lp", d.lp); }catch(e){}
         const f = $("cc"); f.src = d.url; f.hidden = false;
         f.addEventListener("load", ()=>{ $("loading").style.display="none"; }, {once:true});
