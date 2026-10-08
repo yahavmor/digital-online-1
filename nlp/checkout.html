@@ -221,7 +221,7 @@ const PRIVACY_URL = ""; /* קישור למדיניות הפרטיות */ /* לד
   $("det").addEventListener("submit", ev => {
     ev.preventDefault(); const d = check(); if(!d) return;
     det = d; try{ sessionStorage.setItem("cc_det", JSON.stringify(det)); }catch(e){}
-    track("checkout_details"); start();
+    track("checkout_details",{lead_name:det.name,lead_email:det.email,lead_phone:det.phone}); start();
   });
   $("editDet").addEventListener("click", () => { try{ $("det").scrollIntoView({behavior:"smooth"}); }catch(e){} $("fName").focus(); });
   if (qs.get("status") === "failed" && det.email) start();
