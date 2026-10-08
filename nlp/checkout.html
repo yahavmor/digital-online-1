@@ -39,7 +39,7 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 .err.on{display:block}
 .frame{position:relative;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:#fff;min-height:620px}
 .frame iframe{display:block;width:100%;height:960px;border:0}
-.loading{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:12px;color:var(--muted);font-size:15px;background:#fff}
+.loading{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:12px;color:var(--muted);font-size:15px;background:#fff;padding:0 20px;text-align:center}
 .spin{width:30px;height:30px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--gold);animation:s 0.9s linear infinite}
 @keyframes s{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.spin{animation:none}}
@@ -77,6 +77,17 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 .safe li{position:relative;padding-inline-start:30px;font-size:14px;color:var(--muted);line-height:1.5}
 .safe li::before{content:"🔒";position:absolute;inset-inline-start:0;top:1px;font-size:15px}
 .safe li b{display:block;color:var(--ink);font-size:14.5px}
+.fld{display:block;margin:0 0 12px}
+.fld b{display:block;font-size:15px;font-weight:700;margin:0 0 5px}
+.fld input{display:block;width:100%;font:inherit;font-size:17px;padding:12px 14px;border:1px solid #D9D4C9;border-radius:12px;background:#fff;color:var(--ink)}
+.fld input[dir=ltr]{text-align:right}
+.fld input:focus{outline:2px solid var(--gold2);outline-offset:1px;border-color:var(--gold2)}
+.fld input.bad{border-color:var(--err)}
+.fld span{display:block;font-size:13px;color:var(--muted);margin-top:4px}
+.ferr{min-height:0;margin:0 0 8px;color:var(--err);font-size:14.5px;font-weight:600}
+.go{display:flex;justify-content:center;align-items:center;width:100%;min-height:56px;border:0;border-radius:14px;background:linear-gradient(180deg,#D9BE85,#C9A96E);color:#14161B;font:inherit;font-weight:800;font-size:18px;cursor:pointer;box-shadow:0 8px 24px rgba(168,130,63,.28)}
+.go[disabled]{opacity:.6}
+.edit{display:block;margin:10px auto 0;font:inherit;font-size:14px;color:var(--ink2);background:none;border:0;text-decoration:underline;cursor:pointer}
 </style>
 <script>try{if(top!==self)top.location.replace(location.href)}catch(e){}</script>
 </head>
@@ -102,20 +113,25 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 </ul>
 </section>
 
-<section class="why" aria-label="למה אנחנו מבקשים את הפרטים">
-<h2>הפרטים שתתבקש למלא</h2>
-<div class="frow"><b>שם מלא</b><span>לצורך הפקת החשבונית על שמך</span></div>
-<div class="frow"><b>מייל</b><span>לקבלת החשבונית והגישה לקורס. לשם נשלח קישור הכניסה וכל הבונוסים</span></div>
-<div class="frow"><b>טלפון נייד</b><span>למקרה שנצטרך לעזור לך עם הגישה. לא נעביר אותו לאף אחד</span></div>
+<section class="why" aria-label="הפרטים שלך">
+<h2>הפרטים שלך</h2>
+<form id="det" novalidate>
+<label class="fld"><b>שם מלא</b><input id="fName" name="name" autocomplete="name" required maxlength="50"><span>החשבונית תופק על השם הזה</span></label>
+<label class="fld"><b>מייל</b><input id="fEmail" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" required><span>לשם נשלחים החשבונית וקישור הכניסה לקורס</span></label>
+<label class="fld"><b>טלפון נייד</b><input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required placeholder="05X-XXXXXXX"><span>רק למקרה שנצטרך לעזור לך עם הגישה. לא נעביר אותו לאף אחד</span></label>
+<p class="ferr" id="ferr" role="alert"></p>
+<button class="go" type="submit">המשך לתשלום מאובטח - 297 ₪</button>
+</form>
 </section>
 
-<section class="pay" aria-label="תשלום">
+<section class="pay" id="paySec" aria-label="תשלום" hidden>
 <div class="err" id="err" role="alert"><b>נראה שהתשלום לא עבר</b>הכול בסדר - לא בוצע חיוב. אפשר לנסות שוב עם אותו הכרטיס או עם כרטיס אחר.</div>
 <p class="paytitle">פרטי תשלום<span>🔒 התשלום מאובטח באמצעות Cardcom</span></p>
 <div class="frame">
 <div class="loading" id="loading"><div class="spin" aria-hidden="true"></div><span id="loadTxt">טוען תשלום מאובטח...</span><button class="retry" id="retry" type="button">נסו שוב</button></div>
 <iframe id="cc" title="תשלום מאובטח" allow="payment *" hidden></iframe>
 </div>
+<button class="edit" id="editDet" type="button">עריכת הפרטים שלי</button>
 <p class="secure">🔒 תשלום מאובטח · גישה מיידית לאחר אישור העסקה</p>
 <p class="terms" id="terms" hidden>בלחיצה על התשלום אני מאשר/ת את <a id="termsLink" href="#" target="_blank" rel="noopener">תנאי השימוש</a> ו<a id="privLink" href="#" target="_blank" rel="noopener">מדיניות הפרטיות</a></p>
 <p class="help" id="help" hidden><a id="helpLink" href="#" target="_blank" rel="noopener">צריך עזרה? אנחנו זמינים ב-WhatsApp</a></p>
@@ -169,9 +185,9 @@ const PRIVACY_URL = ""; /* קישור למדיניות הפרטיות */ /* לד
   try{ if(window.fbq) fbq("track","InitiateCheckout",{value:297,currency:"ILS"}); }catch(e){}
   function fail(code){ $("loadTxt").textContent = "לא הצלחנו לטעון את דף התשלום. לא בוצע חיוב. נסה שוב, או כתוב לנו ב-WhatsApp ונעזור מיד."; $("retry").style.display = "inline-block"; document.querySelector(".spin").style.display="none"; $("cc").hidden = true; track("checkout_load_error", code ? {code:String(code)} : null); }
   function load(){
-    $("retry").style.display = "none"; document.querySelector(".spin").style.display=""; $("loadTxt").textContent = "טוען תשלום מאובטח...";
+    $("loading").style.display = ""; $("cc").hidden = true; $("retry").style.display = "none"; document.querySelector(".spin").style.display=""; $("loadTxt").textContent = "טוען תשלום מאובטח...";
     let prev=""; try{ if(qs.get("status")==="failed") prev=sessionStorage.getItem("cc_lp")||""; }catch(e){}
-    const body = new URLSearchParams({variant, sid, utm_source:qs.get("utm_source")||"", utm_medium:qs.get("utm_medium")||"", utm_campaign:qs.get("utm_campaign")||"", utm_content:qs.get("utm_content")||""}); if(prev) body.set("prev_lp", prev);
+    const body = new URLSearchParams({variant, sid, name:det.name, email:det.email, phone:det.phone, utm_source:qs.get("utm_source")||"", utm_medium:qs.get("utm_medium")||"", utm_campaign:qs.get("utm_campaign")||"", utm_content:qs.get("utm_content")||""}); if(prev) body.set("prev_lp", prev);
     const ctl = ("AbortController" in self) ? new AbortController() : null; const t = setTimeout(()=>ctl&&ctl.abort(), 15000);
     fetch(CHECKOUT_ENDPOINT, {method:"POST", body, signal: ctl?ctl.signal:undefined})
       .then(r => r.json()).then(d => {
@@ -183,7 +199,32 @@ const PRIVACY_URL = ""; /* קישור למדיניות הפרטיות */ /* לד
       }).catch(()=>{ clearTimeout(t); fail(); });
   }
   $("retry").addEventListener("click", load);
-  load();
+  /* פרטי לקוח: נאספים כאן כדי שקארדקום יפיק חשבונית על שמו וישלח למייל */
+  let det = {name:"", email:"", phone:""};
+  try{ det = Object.assign(det, JSON.parse(sessionStorage.getItem("cc_det")||"{}")); }catch(e){}
+  $("fName").value = det.name; $("fEmail").value = det.email; $("fPhone").value = det.phone;
+  function check(){
+    const n = $("fName").value.replace(/["\\<>{}]/g,"").trim().replace(/\s+/g," "), e = $("fEmail").value.trim(), p = $("fPhone").value.replace(/[^\d+]/g,"");
+    const pn = p.replace(/^\+?972/,"0");
+    const bad = [];
+    $("fName").classList.toggle("bad", n.length < 2 || !/\s/.test(n)); if(n.length < 2 || !/\s/.test(n)) bad.push("שם מלא (שם פרטי ומשפחה)");
+    const eok = /^[^\s@"'\\<>{}]+@[^\s@"'\\<>{}]+\.[^\s@"'\\<>{}]{2,}$/.test(e); $("fEmail").classList.toggle("bad", !eok); if(!eok) bad.push("מייל תקין");
+    const pok = /^05\d{8}$/.test(pn); $("fPhone").classList.toggle("bad", !pok); if(!pok) bad.push("טלפון נייד תקין");
+    $("ferr").textContent = bad.length ? "חסר: " + bad.join(", ") : "";
+    return bad.length ? null : {name:n, email:e, phone:pn};
+  }
+  function start(){
+    $("paySec").hidden = false; $("det").querySelector(".go").textContent = "עדכון הפרטים";
+    try{ $("paySec").scrollIntoView({behavior:"smooth", block:"start"}); }catch(e){ $("paySec").scrollIntoView(); }
+    load();
+  }
+  $("det").addEventListener("submit", ev => {
+    ev.preventDefault(); const d = check(); if(!d) return;
+    det = d; try{ sessionStorage.setItem("cc_det", JSON.stringify(det)); }catch(e){}
+    track("checkout_details"); start();
+  });
+  $("editDet").addEventListener("click", () => { try{ $("det").scrollIntoView({behavior:"smooth"}); }catch(e){} $("fName").focus(); });
+  if (qs.get("status") === "failed" && det.email) start();
 })();
 </script>
 </body>
