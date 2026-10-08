@@ -199,6 +199,20 @@ def final_encode(cut: Path, master_audio: Path, ass: Path | None, tg: Target, du
     return dst
 
 
+def share_copy(src: Path, dst: Path, max_mb: float, duration: float, work: Path) -> Path:
+    """Size-capped H.264 copy for messaging / quick review (two-pass, hits the size target)."""
+    audio_k = 128
+    video_k = max(400, int(max_mb * 8 * 1024 * 0.94 / max(duration, 1)) - audio_k)
+    log_prefix = str(work / "share2pass")
+    common = ["-c:v", "libx264", "-preset", "slow", "-b:v", f"{video_k}k", "-maxrate", f"{int(video_k * 1.5)}k",
+              "-bufsize", f"{video_k * 2}k", "-pix_fmt", "yuv420p", "-passlogfile", log_prefix]
+    ffmpeg("-i", src, *common, "-pass", "1", "-an", "-f", "mp4", "/dev/null" if Path("/dev/null").exists() else "NUL")
+    ffmpeg("-i", src, *common, "-pass", "2", "-c:a", "aac", "-b:a", f"{audio_k}k", "-movflags", "+faststart", dst)
+    for p in work.glob("share2pass*"):
+        p.unlink(missing_ok=True)
+    return dst
+
+
 def thumbnails(video: Path, times: list[float], out_dir: Path, prefix: str) -> list[Path]:
     out_dir.mkdir(parents=True, exist_ok=True)
     res = []

@@ -272,6 +272,10 @@ def build_edit(ctx: Context, name: str, kind: str, segs: list[cleanup.Seg], titl
 
     progress = g["progress_bar"]["youtube" if kind == "youtube" else "vertical"]
     render.final_encode(cut, master, ass_path, tg, duration, inserts, cfg, dst, progress)
+    share = None
+    if cfg["export"].get("share_max_mb"):
+        share = render.share_copy(dst, dst.with_name(dst.stem + "_share.mp4"), cfg["export"]["share_max_mb"],
+                                  duration, ewk)
 
     # ---- sidecars
     cap_dir = ctx.out / "captions"
@@ -301,7 +305,7 @@ def build_edit(ctx: Context, name: str, kind: str, segs: list[cleanup.Seg], titl
             "duration": round(duration, 2), "shots": len(shots), "title": title,
             "broll_opportunities": len(broll_plan), "broll_inserted": len(inserts),
             "music": Path(music).name if music else None, "sfx": len(sfx_ev),
-            "thumbnails": [str(t) for t in thumbs]}
+            "thumbnails": [str(t) for t in thumbs], "share_copy": str(share) if share else None}
 
 
 def with_cold_open(ctx: Context, segs: list[cleanup.Seg]) -> tuple[list[cleanup.Seg], str | None]:
