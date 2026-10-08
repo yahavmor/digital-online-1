@@ -670,7 +670,7 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--font);font-wei
 <div class="sticky" id="sticky" aria-hidden="true"><a class="cta" data-cta="sticky" data-checkout href="#"><span class="st-txt">להתחיל עכשיו ב-297 ₪</span> <span>←</span></a></div>
 <script>
 /* ===== CONFIG ===== */
-const CHECKOUT_URL = "https://secure.cardcom.solutions/EA/EA5/KtCyMrVS6ECR1BlVM9nvww";
+const CHECKOUT_URL = "checkout.html";
 const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6jc";  /* כתובת ה-webhook של Make (נשלח כ-form-urlencoded). ריק = רק dataLayer / Meta Pixel */
 (function(){
   const V = document.documentElement.dataset.variant;
@@ -687,7 +687,7 @@ const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6
   window.__lpSend = send; send("view");
   try{const ls=localStorage;if(!ls.getItem("nlp_ft"))ls.setItem("nlp_ft",JSON.stringify({v:V,qs:location.search.slice(1),ts:Date.now()}));}catch(e){}
   // checkout links (keeps Instagram UTMs + variant)
-  const qs = new URLSearchParams(location.search); if(!qs.has("utm_content")) qs.set("utm_content","lp_"+V);
+  const qs = new URLSearchParams(location.search); if(!qs.has("utm_content")) qs.set("utm_content","lp_"+V); qs.set("v",V); qs.set("sid",sid);
   document.querySelectorAll("[data-checkout]").forEach(a=>{
     a.href = CHECKOUT_URL + (CHECKOUT_URL.includes("?")?"&":"?") + qs.toString();
     a.addEventListener("click",()=>{ try{localStorage.setItem("nlp_lc",JSON.stringify({v:V,sid:sid,qs:location.search.slice(1),cta:a.dataset.cta||"",ts:Date.now()}));}catch(e){} const s=a.closest("[data-sec]"); send("cta_click",{at_section:s?+s.dataset.sec:0, cta:a.dataset.cta||"", checkout_started:1}); try{ if(window.fbq) fbq("track","InitiateCheckout",{value:297,currency:"ILS"}); }catch(e){} });
