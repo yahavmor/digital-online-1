@@ -178,6 +178,9 @@ def split_long(segs: list[Seg], max_len: float) -> list[Seg]:
     """Split long takes into beats so motion can change inside a continuous shot."""
     out = []
     for sg in segs:
+        if "outro" in sg.tags:
+            out.append(sg)
+            continue
         n = max(1, math.ceil(sg.d / max_len - 1e-9))
         if n == 1:
             out.append(sg)

@@ -58,7 +58,7 @@ cleanup:
   remove_retakes: true         # restarted sentences: keep the LAST take
   retake_ngram: 3
   # Fallback when there is no transcript: pure audio-energy cutting
-  silence_db: -35
+  silence_db: auto        # auto = adaptive from the measured noise floor, or a fixed dBFS value
   silence_min: 0.35
 
 # ----------------------------------------------------------------------------
@@ -100,7 +100,7 @@ color:
   denoise_strength: 2.0
   auto_levels: true         # exposure / white-balance normalisation from analysis
   contrast: 1.06
-  saturation: 1.10
+  saturation: 1.0
   gamma: 1.0
   skin_protect: true        # gentle warm push in midtones, keeps faces natural
   look: cinematic_warm      # none | cinematic_warm | teal_orange | clean_bright | moody
@@ -147,6 +147,7 @@ graphics:
   progress_bar: {vertical: true, youtube: false}
   hook_title: true          # big kinetic title over the first seconds
   hook_title_seconds: 2.8
+  hook_text: null           # force the hook title text (otherwise: strongest hook line)
   lower_third: true         # name / role card (from sidecar or local.yaml brand)
   lower_third_at: 4.0
   keyword_popups: true      # animated keyword cards on top emphasis moments
@@ -173,6 +174,8 @@ structure:
   cold_open_shorts: true
   cold_open_search_window: 0.6   # search the first 60% of the video for the teaser line
   cold_open_max: 7.0             # seconds
+  keep_outro: true               # keep a branded end card / outro that follows the speech
+  outro_max: 5.0                 # ...trimmed to at most this many seconds (trailing black always removed)
 
 shorts:
   count: 6                 # target number of clips (3–10)

@@ -178,3 +178,22 @@ def test_srt_roundtrip(tmp_path):
     back = words_from_srt(p)
     assert [w["w"] for w in back] == ["שלום", "עולם"]
     assert abs(back[0]["s"] - 0.5) < 1e-6
+
+
+# ---------------------------------------------------------------- outro / colour
+def test_face_exit_detects_cut_to_end_card():
+    track = [(t / 2, 0.5, 0.4, 0.3, 1) for t in range(200)] + [(100 + t / 2, 0.5, 0.4, 0.3, 0) for t in range(10)]
+    assert abs(analyze.face_exit(track, 105.0) - 99.5) < 1e-6
+    assert analyze.face_exit([(t / 2, .5, .4, .3, 1) for t in range(200)], 100.0) is None   # never leaves
+
+
+def test_split_long_keeps_outro_whole():
+    segs = cleanup.split_long([cleanup.Seg(0, 9), cleanup.Seg(10, 18, ["outro"])], 4.0)
+    assert segs[-1].tags == ["outro"] and segs[-1].d == 8
+    assert all(s.d <= 4.0 + 1e-9 for s in segs[:-1])
+
+
+def test_levels_never_clip_bright_footage():
+    from factory import color
+    chain = color.correction({"y_avg": 120, "y_low": 30, "y_high": 220, "u_avg": 128, "v_avg": 128}, CFG)
+    assert not any(c.startswith("colorlevels") for c in chain)

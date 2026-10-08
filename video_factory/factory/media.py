@@ -120,8 +120,8 @@ def detect_silence(path: Path, noise_db: float, min_dur: float) -> list[tuple[fl
     return out
 
 
-def audio_envelope(path: Path, hop: float = 0.05) -> list[float]:
-    """RMS energy per `hop` seconds (0..1), used for hook/energy scoring."""
+def audio_envelope(path: Path, hop: float = 0.05, normalize: bool = True) -> list[float]:
+    """RMS energy per `hop` seconds — normalised 0..1 (hook/energy scoring) or absolute linear RMS."""
     import numpy as np
     sr = 8000
     proc = subprocess.run(["ffmpeg", "-hide_banner", "-nostdin", "-loglevel", "error", "-i", str(path),
@@ -135,6 +135,8 @@ def audio_envelope(path: Path, hop: float = 0.05) -> list[float]:
         return []
     frames = x[: len(x) // n * n].reshape(-1, n)
     rms = np.sqrt((frames ** 2).mean(axis=1))
+    if not normalize:
+        return [float(v) for v in rms]
     peak = float(np.percentile(rms, 99)) or 1.0
     return [float(v) for v in np.clip(rms / peak, 0, 1).round(4)]
 

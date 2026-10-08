@@ -11,14 +11,14 @@ youtube:
 tiktok:
   deliverables: {youtube: false, vertical: true, shorts: true}
   captions: {style: hormozi}
-  cleanup: {max_gap: 0.22, remove_soft_fillers: true}
+  cleanup: {max_gap: 0.22, remove_soft_fillers: true, silence_min: 0.22}
   motion: {shot_min: 1.6, shot_max: 3.2, emphasis_zoom: 1.38}
   shorts: {max_duration: 45, target_duration: 28}
 
 reels:
   deliverables: {youtube: false, vertical: true, shorts: true}
   captions: {style: hormozi, position_vertical: 0.64}   # clear of the Reels UI
-  cleanup: {max_gap: 0.25}
+  cleanup: {max_gap: 0.25, silence_min: 0.22}
   motion: {shot_min: 1.8, shot_max: 3.5}
   shorts: {max_duration: 58}
 

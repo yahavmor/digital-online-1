@@ -23,13 +23,14 @@ def correction(stats: dict, cfg: dict) -> list[str]:
     f: list[str] = []
     y = stats.get("y_avg")
     if c["auto_levels"] and y is not None:
+        # YLOW / YHIGH are per-frame 10th / 90th percentiles (not min / max): only correct clearly
+        # lifted blacks or dull highlights, and gently — never clip a bright window or dark shirt.
         lo, hi = stats.get("y_low") or 16, stats.get("y_high") or 235
-        # stretch a flat / washed-out range toward broadcast black/white
-        span = max(hi - lo, 40)
-        if span < 190:
-            lo_n, hi_n = lo / 255 * 0.8, min(1.0, hi / 255 * 1.02)
-            f.append(f"colorlevels=rimin={lo_n:.3f}:gimin={lo_n:.3f}:bimin={lo_n:.3f}:"
-                     f"rimax={hi_n:.3f}:gimax={hi_n:.3f}:bimax={hi_n:.3f}")
+        imin = (lo - 32) / 255 * 0.6 if lo > 45 else 0.0
+        imax = min(1.0, (hi + 45) / 255) if hi < 180 else 1.0
+        if imin > 0.005 or imax < 0.995:
+            f.append(f"colorlevels=rimin={imin:.3f}:gimin={imin:.3f}:bimin={imin:.3f}:"
+                     f"rimax={imax:.3f}:gimax={imax:.3f}:bimax={imax:.3f}")
         # exposure: aim mid-grey ~ 118 for faces on a talking head
         bright = 0.0
         if y < 95:
@@ -45,7 +46,8 @@ def correction(stats: dict, cfg: dict) -> list[str]:
             if abs(du) > 0.02 or abs(dv) > 0.02:
                 f.append(f"colorbalance=bm={-du*0.6:.3f}:rm={-dv*0.6:.3f}:bs={-du*0.4:.3f}:rs={-dv*0.4:.3f}")
     f.append(f"eq=contrast={c['contrast']:.3f}:saturation={c['saturation']:.3f}")
-    if c.get("skin_protect"):
+    if c.get("skin_protect") and c.get("look") not in ("cinematic_warm", "teal_orange") and not c.get("lut"):
+        # warm looks already carry midtone warmth — stacking both turns skin orange
         # gentle midtone warmth = healthier skin without pushing whole frame orange
         f.append("colorbalance=rm=0.02:gm=0.0:bm=-0.015")
     return f

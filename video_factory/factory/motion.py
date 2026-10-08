@@ -63,7 +63,7 @@ def plan_shots(keep: list[Seg], words: list[dict], emphasis: list[float], face: 
     for p in pieces:
         jump = prev_e is not None and abs(p.s - prev_e) > 1.5 / fps
         cx, cy, _ = face_at(face, p.s, p.e) if m.get("face_anchor", True) else (0.5, 0.42, 0.25)
-        if not m["enabled"]:
+        if not m["enabled"] or "outro" in p.tags:
             shots.append(Shot(p.s, p.e, 1.0, 1.0, cx, cy, jump=jump, tags=p.tags))
             prev_e = p.e
             continue

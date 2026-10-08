@@ -8,6 +8,7 @@ Flow for one deliverable:
 """
 from __future__ import annotations
 
+import hashlib
 import logging
 import math
 from concurrent.futures import ThreadPoolExecutor
@@ -127,7 +128,11 @@ def render_shot(src: Path, voice: Path, info: MediaInfo, sh: Shot, tg: Target, s
 def render_shots(src: Path, voice: Path, info: MediaInfo, shots: list[Shot], tg: Target,
                  src_chain: str, cfg: dict, work: Path) -> list[Path]:
     work.mkdir(parents=True, exist_ok=True)
-    jobs = [(i, sh, work / f"shot_{i:04d}.mkv") for i, sh in enumerate(shots)]
+    def key(sh: Shot) -> str:   # cache key = everything that affects the pixels/samples of a shot
+        raw = f"{sh.s:.4f}|{sh.e:.4f}|{sh.z0:.4f}|{sh.z1:.4f}|{sh.cx:.3f}|{sh.cy:.3f}|{sh.punch}|{sh.jump}|" \
+              f"{sh.emphasis}|{tg}|{src_chain}|{cfg['color']}|{cfg['export']['intermediate']}"
+        return hashlib.sha1(raw.encode()).hexdigest()[:12]
+    jobs = [(i, sh, work / f"shot_{i:04d}_{key(sh)}.mkv") for i, sh in enumerate(shots)]
     par = max(1, int(cfg["export"]["parallel_segments"]))
     done = 0
     results: dict[int, Path] = {}

@@ -12,7 +12,7 @@ from pathlib import Path
 from . import analyze, audio, broll as brollmod, captions as capmod, cleanup, color, hooks, motion, \
     project_export, render, sfx
 from .config import ROOT, load_config, resolve_path
-from .media import MediaInfo, audio_envelope, detect_silence, probe, require_binaries
+from .media import MediaInfo, audio_envelope, detect_silence, probe, require_binaries, run
 from .transcribe import extract_audio, is_hebrew, transcribe
 
 log = logging.getLogger("factory")
@@ -43,6 +43,7 @@ class Context:
     face: list
     src_chain: str
     lang: str
+    outro: cleanup.Seg | None = None
 
 
 # --------------------------------------------------------------------------- analysis stage
@@ -90,16 +91,12 @@ def prepare(raw: Path, cfg: dict) -> Context:
     else:
         removed, emphasis, scores = {}, [], []
         c = cfg["cleanup"]
-        keep = cleanup.keep_from_silence(detect_silence(voice, c["silence_db"], c["silence_min"]),
+        thr = c["silence_db"] if c["silence_db"] != "auto" else auto_silence_db(voice)
+        log.info("  silence threshold %.1f dB", thr)
+        keep = cleanup.keep_from_silence(detect_silence(voice, thr, c["silence_min"]),
                                          info.duration, cfg) if info.has_audio else [cleanup.Seg(0, info.duration)]
     if not keep:
         keep = [cleanup.Seg(0, info.duration)]
-    st = cleanup.stats(info.duration, keep, removed)
-    log.info("  %.1fs -> %.1fs (%.1f%% tighter, %d cuts)", st["source_duration"], st["edited_duration"],
-             st["tightened_pct"], st["cuts"])
-    _dump(work / "cleanup.json", {"stats": st, "removed": {str(k): v for k, v in removed.items()},
-                                  "keep": [[round(s.s, 3), round(s.e, 3)] for s in keep]})
-
     face_path = work / "face_track.json"
     if face_path.exists() and cfg["pipeline"]["resume"]:
         face = json.loads(face_path.read_text())
@@ -109,13 +106,69 @@ def prepare(raw: Path, cfg: dict) -> Context:
             if cfg["reframe"]["face_tracking"] else []
         _dump(face_path, face)
 
+    keep, outro = detect_outro(raw, info, keep, cfg, face)
+    st = cleanup.stats(info.duration, keep + ([outro] if outro else []), removed)
+    log.info("  %.1fs -> %.1fs (%.1f%% tighter, %d cuts)", st["source_duration"], st["edited_duration"],
+             st["tightened_pct"], st["cuts"])
+    _dump(work / "cleanup.json", {"stats": st, "removed": {str(k): v for k, v in removed.items()},
+                                  "keep": [[round(s.s, 3), round(s.e, 3)] for s in keep]})
+
     log.info("• Picture analysis / colour")
     pstats = analyze.picture_stats(raw, info)
     src_chain = color.source_chain(pstats, cfg, resolve_path(cfg, "luts"), pstats["low_res"])
     _dump(work / "picture.json", {"stats": pstats, "chain": src_chain})
 
     lang = (tr or {}).get("language") or "en"
-    return Context(raw, cfg, job, work, out, info, voice, tr, emphasis, scores, keep, face, src_chain, lang)
+    return Context(raw, cfg, job, work, out, info, voice, tr, emphasis, scores, keep, face, src_chain, lang, outro)
+
+
+def auto_silence_db(audio: Path) -> float:
+    """Adaptive threshold: 60% of the way (in dB) from the room-noise floor up to typical speech level.
+
+    Digital silence (black tails, gaps in the file) is ignored so it cannot drag the floor down.
+    """
+    import math
+    vals = sorted(v for v in audio_envelope(audio, normalize=False) if v > 1e-4)
+    if len(vals) < 20:
+        return -35.0
+    db = lambda v: 20 * math.log10(max(v, 1e-6))
+    floor, speech = db(vals[int(len(vals) * 0.08)]), db(vals[int(len(vals) * 0.70)])
+    return round(min(-18.0, max(-60.0, floor + 0.6 * (speech - floor))), 1)
+
+
+def detect_outro(raw: Path, info: MediaInfo, keep: list[cleanup.Seg], cfg: dict, face: list | None = None):
+    """Trim trailing black, and keep a branded end card / outro animation that follows the speech.
+
+    An outro is the non-speech tail after the last kept word, kept only when the picture actually
+    changes there (scene cut / transition) — a talking head going quiet is not an outro.
+    """
+    sc = cfg["structure"]
+    look_from = max(0.0, info.duration - 90)
+    proc = run(["ffmpeg", "-hide_banner", "-nostdin", "-ss", f"{look_from:.3f}", "-i", str(raw), "-vf",
+                "blackdetect=d=0.5:pix_th=0.08,select='gt(scene,0.25)',showinfo", "-an", "-f", "null", "-"],
+               check=False)
+    content_end = info.duration
+    for bs, be in re.findall(r"black_start:([\d.]+) black_end:([\d.]+)", proc.stderr):
+        if look_from + float(be) >= info.duration - 0.6:
+            content_end = min(content_end, look_from + float(bs))
+    if content_end < info.duration - 0.5:
+        log.info("  trailing black removed: %.1fs", info.duration - content_end)
+    exit_t = analyze.face_exit(face or [], content_end)
+    speech_end = content_end
+    if exit_t is not None and exit_t > info.duration * 0.5:
+        speech_end = exit_t + 0.15           # presenter left the frame: the rest is outro graphics
+        log.info("  presenter leaves frame at %.1fs", exit_t)
+    keep = [cleanup.Seg(s.s, min(s.e, speech_end), s.tags) for s in keep if s.s < speech_end - 0.2]
+    if not sc.get("keep_outro", True) or not keep:
+        return keep, None
+    tail_s = keep[-1].e
+    scenes = [look_from + float(t) for t in re.findall(r"pts_time:([\d.]+)", proc.stderr)]
+    has_change = any(tail_s - 0.5 <= t <= content_end for t in scenes) or content_end < info.duration - 0.5
+    if content_end - tail_s >= 1.0 and has_change:
+        start = max(tail_s, content_end - sc.get("outro_max", 5.0))
+        log.info("  outro kept: %.1fs (%.1f-%.1f)", content_end - start, start, content_end)
+        return keep, cleanup.Seg(start, content_end, ["outro"])
+    return keep, None
 
 
 # --------------------------------------------------------------------------- one edit -> one file
@@ -142,6 +195,8 @@ def map_words(ctx: Context, shots: list[motion.Shot]) -> list[tuple[int, float, 
 def build_edit(ctx: Context, name: str, kind: str, segs: list[cleanup.Seg], title: str | None,
                dst: Path, is_short: bool = False) -> dict:
     cfg = ctx.cfg
+    if ctx.outro is not None:
+        segs = list(segs) + [cleanup.Seg(ctx.outro.s, ctx.outro.e, ["outro"])]
     tg = render.choose_target(kind, ctx.info, cfg)
     words = ctx.tr["words"] if ctx.tr else []
     shots = motion.plan_shots(segs, words, ctx.emphasis, ctx.face, cfg, tg.fps)
@@ -168,6 +223,7 @@ def build_edit(ctx: Context, name: str, kind: str, segs: list[cleanup.Seg], titl
         ab = capmod.AssBuilder(cfg, tg.W, tg.H, "youtube" if kind == "youtube" else "vertical")
         if cap_words and cfg["captions"]["burn_in"]:
             ab.captions(cap_words, cfg["captions"]["position_youtube" if kind == "youtube" else "position_vertical"])
+        title = g.get("hook_text") or title
         if g["hook_title"] and title:
             ab.hook_title(title, 0.0, min(g["hook_title_seconds"], duration * 0.3))
         if g["lower_third"] and not is_short and cfg["brand"]["name"]:
@@ -186,7 +242,7 @@ def build_edit(ctx: Context, name: str, kind: str, segs: list[cleanup.Seg], titl
             for w in sorted(picks, key=lambda w: w.s):
                 ab.keyword_popup(w.text, w.s, side=side)
                 side = -side
-        if g["end_card"] and duration > 15:
+        if g["end_card"] and duration > 15 and not ctx.outro:
             cta = g["cta_text"].get(ctx.lang, g["cta_text"]["en"])
             ab.end_card(cta, duration - 2.2, duration)
         ass_path = ab.write(ewk / f"{name}.ass")

@@ -128,22 +128,34 @@ def face_track(src: Path, info: MediaInfo, sample_fps: float, smoothing: float) 
             break
         img = np.frombuffer(buf, np.uint8).reshape(h, w)
         faces = cascade.detectMultiScale(img, scaleFactor=1.15, minNeighbors=5, minSize=(w // 20, w // 20))
-        if len(faces):
+        found = 1 if len(faces) else 0
+        if found:
             x, y, fw, fh = max(faces, key=lambda f: f[2] * f[3])
             last = ((x + fw / 2) / w, (y + fh / 2) / h, fh / h)
-        track.append((i / sample_fps, *last))
+        track.append((i / sample_fps, *last, found))
         i += 1
     proc.wait()
     if not track:
         return []
     # exponential smoothing = steady virtual camera operator
     out, sx, sy, ss = [], track[0][1], track[0][2], track[0][3]
-    for t, x, y, s in track:
+    for t, x, y, s, found in track:
         sx = smoothing * sx + (1 - smoothing) * x
         sy = smoothing * sy + (1 - smoothing) * y
         ss = smoothing * ss + (1 - smoothing) * s
-        out.append((round(t, 3), round(sx, 4), round(sy, 4), round(ss, 4)))
+        out.append((round(t, 3), round(sx, 4), round(sy, 4), round(ss, 4), found))
     return out
+
+
+def face_exit(track: list, before: float) -> float | None:
+    """Time the presenter leaves the frame for good (face found most of the video, then never again)."""
+    pts = [p for p in track if len(p) > 4 and p[0] < before]
+    if len(pts) < 10 or sum(p[4] for p in pts) / len(pts) < 0.6:
+        return None
+    last_seen = max((p[0] for p in pts if p[4]), default=None)
+    if last_seen is None or before - last_seen < 0.8:
+        return None
+    return last_seen
 
 
 def face_at(track: list, t0: float, t1: float) -> tuple[float, float, float]:
