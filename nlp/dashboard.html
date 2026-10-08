@@ -243,11 +243,11 @@ function compute(){
  R.forEach(r=>{ if(!VARS.includes(r.variant)||!r.sid)return;
    const s=S[r.sid]||(S[r.sid]={v:r.variant,src:source(r.qs),day:dayKey(r.t),t:r.t,scroll:0,sec:0,secs:+r.sections||0,time:0,cta:false,video:false});
    s.scroll=Math.max(s.scroll,+r.max_scroll_pct||0); s.sec=Math.max(s.sec,+r.max_section||0); s.time=Math.max(s.time,+r.sec_on_page||0); if(+r.sections)s.secs=+r.sections;
-   if(r.ev==="cta_click")s.cta=true; if(r.ev==="video_play")s.video=true;
+   if(r.ev==="cta_click")s.cta=true; if(r.ev==="checkout_details")s.det=true; if(r.ev==="video_play")s.video=true;
    if(r.ev==="section"&&r.section&&r.name)secNames[r.variant][r.section]=r.name; });
  const sess=Object.values(S);
- const buys=R.filter(r=>r.ev==="purchase"&&r.cta==="cardcom_page_webhook").map(r=>{const m=(r.qs||"").match(/(\d+(?:\.\d+)?)\s*ILS/);const d=(r.qs||"").match(/deal\s+(\S+)/);return {t:r.t,day:dayKey(r.t),amt:m?+m[1]:297,deal:d?d[1]:"",name:(r.name||"").split(" ")[0]}});
- const rets=R.filter(r=>r.ev==="purchase_return").map(r=>({v:r.variant,src:source(r.qs),t:r.t}));
+ const buys=R.filter(r=>r.ev==="purchase"&&(r.cta==="cardcom_page_webhook"||r.cta==="cardcom_webhook")).map(r=>{const m=(r.qs||"").match(/(\d+(?:\.\d+)?)\s*ILS/);const d=(r.qs||"").match(/deal\s+(\S+)/);return {t:r.t,day:dayKey(r.t),amt:m?+m[1]:297,deal:d?d[1]:"",name:(r.name||"").split(" ")[0]}});
+ const seen=new Set(),rets=[];R.forEach(r=>{const lp=r.ev==="purchase"&&r.cta==="cardcom_webhook"&&VARS.includes(r.variant);if(!(r.ev==="purchase_return"||lp))return;const k=r.sid||("x"+rets.length);if(seen.has(k))return;seen.add(k);rets.push({v:r.variant,src:S[r.sid]?S[r.sid].src:(lp?"ישיר / לא ידוע":source(r.qs)),t:r.t})});
  return {sess,buys,rets,secNames};
 }
 
@@ -270,7 +270,7 @@ function setTiles(c){
 function bars(el,items,base){el.innerHTML=items.map(it=>{const p=pct(it.n,base);return '<div class="frow" data-tip="'+esc(it.l+": "+fmt(it.n)+" ("+pf(p)+")"+(it.step!=null?" · "+pf(it.step)+" מהשלב הקודם":"")+(it.tip?" · "+it.tip:""))+'"><span>'+esc(it.l)+'</span><div class="fbar"><b style="width:'+Math.max(p?1.5:0,Math.min(100,p))+'%"></b></div><span class="n num">'+fmt(it.n)+'<small>'+pf(p)+'</small></span></div>'}).join("")||'<div class="empty">אין נתונים בטווח הזה</div>';}
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
 function renderFunnel(c){const S=c.sess,v=S.length;
- const st=[{l:"נכנסו לדף",n:v},{l:"גללו חצי דף",n:S.filter(s=>s.scroll>=50).length},{l:"הגיעו לרבע האחרון",n:S.filter(s=>s.secs&&s.sec>=s.secs*0.75).length},{l:"לחצו לרכישה",n:S.filter(s=>s.cta).length},{l:"רכשו",n:c.buys.length,tip:"מקארדקום"}];
+ const st=[{l:"נכנסו לדף",n:v},{l:"גללו חצי דף",n:S.filter(s=>s.scroll>=50).length},{l:"הגיעו לרבע האחרון",n:S.filter(s=>s.secs&&s.sec>=s.secs*0.75).length},{l:"לחצו לרכישה",n:S.filter(s=>s.cta).length},{l:"השאירו פרטים",n:S.filter(s=>s.det).length,tip:"בדף התשלום"},{l:"רכשו",n:c.buys.length,tip:"מקארדקום"}];
  st.forEach((s,i)=>{if(i)s.step=pct(s.n,st[i-1].n)}); if(!v){$("funnel").innerHTML='<div class="empty">אין ביקורים בטווח הזה</div>';return} bars($("funnel"),st,v);}
 function renderVar(c){const rows=VARS.map(v=>{const S=c.sess.filter(s=>s.v===v),n=S.length,cta=S.filter(s=>s.cta).length,b=c.rets.filter(r=>r.v===v).length;
   return {v,n,time:med(S.map(s=>s.time)),half:pct(S.filter(s=>s.scroll>=50).length,n),ctaR:pct(cta,n),cta,b,conv:pct(b,n)}});
