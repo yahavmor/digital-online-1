@@ -92,6 +92,9 @@ form.spend{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end}
 form.spend label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink2)}
 form.spend input{font:500 15px var(--f-body);padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:150px}
 .empty{color:var(--muted);font-size:14px;padding:10px 0}
+.dots{display:inline-flex;gap:3px;vertical-align:middle}.dots i{width:9px;height:9px;border-radius:50%;background:var(--line);display:inline-block}.dots i.on{background:var(--accent)}.dots i.buy{background:var(--good)}
+.stg{font-weight:600}.live{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--good);margin-inline-start:6px;animation:pl 1.6s infinite}@keyframes pl{50%{opacity:.25}}
+.stuck{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}.stuck span{background:var(--accent-soft);border-radius:999px;padding:4px 10px;font-size:13px}.stuck b{font-variant-numeric:tabular-nums}
 .foot{font-size:13px;color:var(--muted);line-height:1.6}
 @media (max-width:820px){.verdict,.grid2{grid-template-columns:minmax(0,1fr)} .tiles{grid-template-columns:repeat(2,minmax(0,1fr))} .frow{grid-template-columns:110px minmax(0,1fr) 80px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -174,6 +177,13 @@ body{margin:0}
     <div class="fun" id="sections"></div>
   </section>
 
+  <section class="panel">
+    <div class="panel-h"><h2>איפה כל מבקר נתקע</h2><span class="note">כל ביקור בנפרד, החדשים למעלה. מתעדכן אוטומטית כל דקה <span id="liveN"></span></span></div>
+    <div class="stuck" id="stuckSum"></div>
+    <div class="tw"><table id="tJourney"></table></div>
+    <div class="note" style="margin-top:8px">שלבים: נכנס, גלל חצי, הגיע לסוף הדף, לחץ לרכישה, נכנס לדף התשלום, השאיר פרטים, רכש. בלי שמות - פרטי מי שהשאיר פרטים מגיעים בדוח היומי במייל.</div>
+  </section>
+
   <section class="grid2">
     <div class="panel">
       <div class="panel-h"><h2>הוצאת פרסום יומית</h2><span class="note" id="spendState"></span></div>
@@ -241,10 +251,11 @@ function compute(){
  const S={}; // sessions
  const secNames={a:{},b:{},c:{}};
  R.forEach(r=>{ if(!VARS.includes(r.variant)||!r.sid)return;
-   const s=S[r.sid]||(S[r.sid]={v:r.variant,src:source(r.qs),day:dayKey(r.t),t:r.t,scroll:0,sec:0,secs:+r.sections||0,time:0,cta:false,video:false});
+   const s=S[r.sid]||(S[r.sid]={v:r.variant,src:source(r.qs),day:dayKey(r.t),t:r.t,scroll:0,sec:0,secs:+r.sections||0,time:0,cta:false,video:false,last:r.t,chk:false,buy:false});
    s.scroll=Math.max(s.scroll,+r.max_scroll_pct||0); s.sec=Math.max(s.sec,+r.max_section||0); s.time=Math.max(s.time,+r.sec_on_page||0); if(+r.sections)s.secs=+r.sections;
-   if(r.ev==="cta_click")s.cta=true; if(r.ev==="checkout_details")s.det=true; if(r.ev==="video_play")s.video=true;
+   if(r.t>s.last)s.last=r.t; if(r.ev==="checkout_view")s.chk=true; if(r.ev==="purchase_return"||r.ev==="purchase"||r.ev==="thanks_view")s.buy=true; if(r.ev==="cta_click")s.cta=true; if(r.ev==="checkout_details")s.det=true; if(r.ev==="video_play")s.video=true;
    if(r.ev==="section"&&r.section&&r.name)secNames[r.variant][r.section]=r.name; });
+ R.forEach(r=>{if(r.sid&&S[r.sid]&&(r.ev==="purchase_return"||r.ev==="purchase"))S[r.sid].buy=true});
  const sess=Object.values(S);
  const buys=R.filter(r=>r.ev==="purchase"&&(r.cta==="cardcom_page_webhook"||r.cta==="cardcom_webhook")).map(r=>{const m=(r.qs||"").match(/(\d+(?:\.\d+)?)\s*ILS/);const d=(r.qs||"").match(/deal\s+(\S+)/);return {t:r.t,day:dayKey(r.t),amt:m?+m[1]:297,deal:d?d[1]:"",name:(r.name||"").split(" ")[0]}});
  const seen=new Set(),rets=[];R.forEach(r=>{const lp=r.ev==="purchase"&&r.cta==="cardcom_webhook"&&VARS.includes(r.variant);if(!(r.ev==="purchase_return"||lp))return;const k=r.sid||("x"+rets.length);if(seen.has(k))return;seen.add(k);rets.push({v:r.variant,src:S[r.sid]?S[r.sid].src:(lp?"ישיר / לא ידוע":source(r.qs)),t:r.t})});
@@ -294,11 +305,20 @@ function renderDaily(c){const days=rangeDays().slice(-30);const vis={},buy={};c.
   s+='<g data-tip="'+esc(d.slice(5).split("-").reverse().join(".")+": "+fmt(v)+" מבקרים"+(b?", "+b+" רכישות":""))+'"><rect x="'+x+'" y="'+pt+'" width="'+(bw-g)+'" height="'+ih+'" fill="transparent"/>'+(h?'<rect x="'+x+'" y="'+y+'" width="'+(bw-g)+'" height="'+h+'" rx="'+Math.min(4,(bw-g)/2)+'" fill="var(--seq)"/>':'')+(b?'<circle cx="'+(x+(bw-g)/2)+'" cy="'+(y-9)+'" r="5" fill="var(--good)" stroke="var(--surface)" stroke-width="2"/>':'')+'</g>';
   if(i%step===0)s+='<text x="'+(x+(bw-g)/2)+'" y="'+(H-8)+'" text-anchor="middle">'+d.slice(8)+"."+d.slice(5,7)+'</text>'});
  $("daily").innerHTML=s+'</svg>';}
+const SUM=["רק נכנסו","עצרו באמצע הדף","קראו עד הסוף ולא לחצו","לחצו ולא נכנסו לתשלום","בדף התשלום בלי פרטים","השאירו פרטים ולא שילמו","רכשו ✅"];
+const STG=["נכנס","גלל חצי","הגיע לסוף הדף","לחץ לרכישה","בדף התשלום","השאיר פרטים","רכש ✅"];
+function stage(s){return s.buy?6:s.det?5:s.chk?4:s.cta?3:s.scroll>=75?2:s.scroll>=50?1:0}
+function ago(t){const m=Math.round((Date.now()-t)/60000);return m<1?"עכשיו":m<60?"לפני "+m+" דק'":m<1440?"לפני "+Math.round(m/60)+" שע'":t.toLocaleDateString("he-IL",{day:"2-digit",month:"2-digit"})}
+function renderJourney(c){const L=[...c.sess].sort((a,b)=>b.last-a.last);const cnt=[0,0,0,0,0,0,0];L.forEach(s=>cnt[stage(s)]++);
+ const live=L.filter(s=>Date.now()-s.last<300000).length;$("liveN").innerHTML=live?'· '+live+' בפעילות עכשיו<span class="live"></span>':"";
+ $("stuckSum").innerHTML=L.length?STG.map((n,i)=>cnt[i]?'<span>'+esc(SUM[i])+': <b>'+cnt[i]+'</b></span>':"").join(""):"";
+ const T=L.slice(0,60);
+ $("tJourney").innerHTML=T.length?'<thead><tr><th>פעילות אחרונה</th><th>דף</th><th>מקור</th><th>שלב אחרון</th><th>התקדמות</th><th>זמן בדף</th></tr></thead><tbody>'+T.map(s=>{const g=stage(s);return '<tr><td>'+ago(s.last)+(Date.now()-s.last<300000?'<span class="live"></span>':'')+'</td><td>'+esc(s.v)+'</td><td>'+esc(s.src)+'</td><td class="stg">'+esc(STG[g])+'</td><td><span class="dots" data-tip="'+esc(STG[g])+'">'+STG.map((_,i)=>'<i class="'+(i<=g?(g===6?"buy":"on"):"")+'"></i>').join("")+'</span></td><td class="num">'+(s.time?Math.round(s.time/60*10)/10+" דק'":"-")+'</td></tr>'}).join("")+'</tbody>'+(L.length>60?'<tfoot><tr><td colspan="6" class="note">מוצגים 60 האחרונים מתוך '+L.length+'</td></tr></tfoot>':''):'<tbody><tr><td class="empty">אין ביקורים בטווח הזה</td></tr></tbody>';}
 function renderBuys(c){const b=[...c.buys].sort((x,y)=>y.t-x.t).slice(0,10);
  $("tBuys").innerHTML=b.length?'<thead><tr><th>מתי</th><th>סכום</th><th>עסקה</th></tr></thead><tbody>'+b.map(x=>'<tr><td>'+x.t.toLocaleString("he-IL",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})+'</td><td>'+ils(x.amt)+'</td><td class="mono">'+esc(x.deal)+'</td></tr>').join("")+'</tbody>':'<tbody><tr><td class="empty">עוד אין רכישות בטווח הזה</td></tr></tbody>';}
 function renderSpendList(){const ks=Object.keys(spend).sort().reverse().slice(0,14);
  $("tSpendList").innerHTML=ks.length?'<thead><tr><th>תאריך</th><th>הוצאה</th></tr></thead><tbody>'+ks.map(k=>'<tr><td>'+k.split("-").reverse().join(".")+'</td><td>'+ils(spend[k])+'</td></tr>').join("")+'</tbody>':'<tbody><tr><td class="empty">עוד לא הוזנה הוצאה. הזינו כל יום את "סכום שהוצא" מ-Ads Manager.</td></tr></tbody>';}
-function render(){renderSpendList(); if(!rows)return; const c=compute(); setTiles(c); renderFunnel(c); renderVar(c); renderSrc(c); renderSections(c); renderDaily(c); renderBuys(c);
+function render(){renderSpendList(); if(!rows)return; const c=compute(); setTiles(c); renderFunnel(c); renderVar(c); renderSrc(c); renderSections(c); renderDaily(c); renderBuys(c); renderJourney(c);
  if(storedAt)$("fresh").textContent="· עודכן "+new Date(storedAt).toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});}
 
 /* ---------- tooltip ---------- */
@@ -336,7 +356,7 @@ async function load(){if(busy)return;busy=true;$("refresh").disabled=true;
 $("refresh").onclick=load;
 $("spendForm").addEventListener("submit",async e=>{e.preventDefault();const d=$("spDate").value,a=parseFloat($("spAmt").value);if(!d||!(a>=0))return;
  $("spSave").disabled=true;try{const r=await fetch(API+"spend_set&date="+encodeURIComponent(d)+"&amount="+encodeURIComponent(a),{cache:"no-store"});if(!r.ok)throw new Error(r.status);spend[d]=a;$("spendState").textContent="נשמר: "+d.split("-").reverse().join(".")+" "+ils(a);$("spAmt").value="";render()}catch(err){$("spendState").textContent="השמירה נכשלה, נסו שוב"}finally{$("spSave").disabled=false}});
-setInterval(()=>{if(!document.hidden)load()},300000);
+setInterval(()=>{if(!document.hidden)load()},60000);setInterval(()=>{if(rows&&!document.hidden)render()},30000);document.addEventListener("visibilitychange",()=>{if(!document.hidden)load()});
 status("טוען נתונים...","");render(); load();
 })();
 </script>
