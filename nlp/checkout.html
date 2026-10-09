@@ -188,7 +188,7 @@ const PRIVACY_URL = ""; /* קישור למדיניות הפרטיות */ /* לד
   const ua=navigator.userAgent||"", os=/iPhone|iPad|iPod/.test(ua)?"ios":/Android/.test(ua)?"android":/Windows/.test(ua)?"win":/Mac OS X/.test(ua)?"mac":"other", app=/Instagram/.test(ua)?"ig":/FBAN|FBAV|FB_IAB/.test(ua)?"fb":"web";
   const dev=(/Mobi|Android|iPhone|iPod/.test(ua)||(innerWidth<760)?"m":"d")+"-"+os+"-"+app;
   /* Clarity: link each visit to its recording (first-party cookies _clck/_clsk) */
-  function clId(){ try{ const g=n=>{ const m=document.cookie.match(new RegExp("(?:^|; )"+n+"=([^;]*)")); return m?decodeURIComponent(m[1]).split("|")[0]:""; }; const u=g("_clck"), s=g("_clsk"); return u&&s?u+"."+s:""; }catch(e){ return ""; } }
+  function clId(){ try{ const g=n=>{ const m=document.cookie.match(new RegExp("(?:^|; )"+n+"=([^;]*)")); return m?decodeURIComponent(m[1]).split(/[|^]/)[0]:""; }; const u=g("_clck"), s=g("_clsk"); return u&&s?u+"."+s:""; }catch(e){ return ""; } }
   function track(ev, extra){
     try{ if(window.clarity){ clarity("event",ev); clarity("upgrade",ev); } }catch(e){}
     const cl=clId(); if(cl){ extra=Object.assign({},extra||{}); extra.x=(extra.x?extra.x+";":"")+"cl="+cl; }
