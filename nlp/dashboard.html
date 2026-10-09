@@ -274,7 +274,7 @@ const ANGLES={video_inner_dialogue:"דיאלוג פנימי",video_emotions:"נ�
 const ANGLE_KW=[["emotion","ניהול רגשות"],["regesh","ניהול רגשות"],["inner","דיאלוג פנימי"],["dialog","דיאלוג פנימי"],["fear","פחד והישרדות"],["belief","שינוי אמונות"],["worth","ערך עצמי"],["comfort","יציאה מאזור הנוחות"],["student","גישת התלמיד"],["respons","אחריות אישית"],["potential","מימוש עצמי"],["time","זמן שחולף"]];
 const CTA_LBL={hero_main:"ראש הדף",cta1:"אחרי חלק ראשון",cta2:"אחרי אמצע הדף",cta3:"אחרי ההמלצות",offer:"אזור המחיר",final:"סוף הדף",sticky:"כפתור צף"};
 const CLARITY="yuzolf9nxn", CLURL="https://clarity.microsoft.com/projects/view/"+CLARITY+"/";
-function recUrl(s){if(!s||!s.cl)return "";const [u,k]=s.cl.split(".");return u&&k?"https://clarity.microsoft.com/player/"+CLARITY+"/"+u+"/"+k:""}
+function recUrl(s){if(!s||!s.cl)return "";let [u,k]=s.cl.split(".");u=(u||"").split("^")[0];k=(k||"").split("^")[0];return u&&k?"https://clarity.microsoft.com/player/"+CLARITY+"/"+u+"/"+k:""}
 const STG=["נכנס","גלל חצי","ראה את ההצעה","לחץ לרכישה","פתח סליקה","השאיר פרטים","רכש"];
 const SUM=["רק נכנסו","עצרו באמצע","ראו הצעה ולא לחצו","לחצו ולא פתחו סליקה","פתחו סליקה בלי פרטים","השאירו פרטים ולא שילמו","רכשו"];
 const EXPERIMENTS=[
