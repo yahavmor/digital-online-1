@@ -174,7 +174,7 @@ const CHECKOUT_ENDPOINT = "https://hook.eu1.make.com/9yp88pz9bfvxbr7w6xkb4ckun82
 const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6jc";
 const SUPPORT_WA = "972526951092";
 const TERMS_URL = "";   /* קישור לתנאי השימוש. ריק = השורה מוסתרת */
-const PRIVACY_URL = ""; /* קישור למדיניות הפרטיות */ /* לדוגמה 9725XXXXXXXX. ריק = מוסתר */
+const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיות */ /* לדוגמה 9725XXXXXXXX. ריק = מוסתר */
 (function(){
   const qs = new URLSearchParams(location.search);
   const variant = qs.get("v") || (qs.get("utm_content")||"").replace("lp_","") || "x";
@@ -182,7 +182,7 @@ const PRIVACY_URL = ""; /* קישור למדיניות הפרטיות */ /* לד
   const $ = id => document.getElementById(id);
   if (variant !== "x") $("back").href = variant + ".html" + location.search;
   if (SUPPORT_WA){ $("help").hidden = false; $("helpLink").href = "https://wa.me/" + SUPPORT_WA; }
-  if (TERMS_URL && PRIVACY_URL){ $("terms").hidden=false; $("termsLink").href=TERMS_URL; $("privLink").href=PRIVACY_URL; }
+  if (PRIVACY_URL){ $("terms").hidden=false; if (TERMS_URL){ $("termsLink").href=TERMS_URL; $("privLink").href=PRIVACY_URL; } else { $("terms").innerHTML='הפרטים משמשים לביצוע הרכישה, לחשבונית ולגישה לקורס. <a href="'+PRIVACY_URL+'" target="_blank" rel="noopener">מדיניות הפרטיות</a>'; } }
   if (qs.get("status") === "failed") $("err").classList.add("on");
   const t0 = Date.now(); let vid=""; try{ vid=localStorage.getItem("nlp_vid")||""; }catch(e){} try{ if(window.clarity&&vid){ clarity("identify",vid); clarity("set","vid",vid); } }catch(e){}
   const ua=navigator.userAgent||"", os=/iPhone|iPad|iPod/.test(ua)?"ios":/Android/.test(ua)?"android":/Windows/.test(ua)?"win":/Mac OS X/.test(ua)?"mac":"other", app=/Instagram/.test(ua)?"ig":/FBAN|FBAV|FB_IAB/.test(ua)?"fb":"web";
