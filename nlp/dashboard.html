@@ -4,11 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<title>מדידת השיטה</title>
+<title>מרכז הבקרה - השיטה</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@500;700;800&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
-/* Layout: control strip on top, verdict row (CPA vs 250 ₪ target), funnel, then per-page / per-source tables, daily trend, section drop-off, ad spend log. */
 :root{
   --bg:#F4F5F2; --surface:#FCFCFB; --ink:#141613; --ink2:#53564F; --muted:#8A8C84; --line:#E1E3DC;
   --accent:#1F6F5C; --accent-soft:#E2EFEA;
@@ -27,339 +26,612 @@
   --s1:#3987e5; --s2:#d95926; --s3:#199e70; --seq:#3987e5; --seq-soft:#1c3a5e;
   --good:#3cc23c; --warn:#e3a21a; --crit:#e66767; --good-bg:#16301A; --warn-bg:#33290F; --crit-bg:#3A1A1A; color-scheme:dark}
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5;direction:rtl}
-.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px;display:flex;flex-direction:column;gap:18px}
-h1,h2{font-family:var(--f-display);margin:0;text-wrap:balance}
-h1{font-size:26px;font-weight:800;letter-spacing:-.01em}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5;direction:rtl}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:16px;padding-block:18px 48px;display:flex;flex-direction:column;gap:16px}
+h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance}
+h1{font-size:24px;font-weight:800;letter-spacing:-.01em}
 h2{font-size:18px;font-weight:700}
+h3{font-size:15px;font-weight:700}
 .sub{color:var(--ink2);font-size:14px}
 .num{font-variant-numeric:tabular-nums}
 .mono{font-family:var(--f-mono);font-size:12px}
 header{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end;justify-content:space-between}
 .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;background:var(--surface);padding:3px}
-.seg button{border:0;background:transparent;color:var(--ink2);font:600 14px var(--f-body);padding:5px 12px;border-radius:999px;cursor:pointer}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:3px}
+.seg button{border:0;background:transparent;color:var(--ink2);font:600 14px var(--f-body);padding:5px 11px;border-radius:999px;cursor:pointer}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
 .btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 14px var(--f-body);padding:6px 14px;border-radius:999px;cursor:pointer}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--surface)}
-button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 label.chk{display:inline-flex;gap:6px;align-items:center;font-size:14px;color:var(--ink2);cursor:pointer}
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;min-width:0}
-.panel-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+input[type=date],select,input[type=number],input[type=text]{font:500 14px var(--f-body);padding:6px 9px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+/* tabs */
+nav.tabs{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--line);scrollbar-width:none}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs button{flex:none;border:0;background:transparent;color:var(--ink2);font:600 15px var(--f-body);padding:10px 12px;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+nav.tabs b{font-family:var(--f-mono);font-size:11px;color:var(--muted);margin-inline-end:4px}
+.screen{display:none;flex-direction:column;gap:16px}.screen.on{display:flex}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0}
+.panel-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
 .note{font-size:13px;color:var(--muted)}
-.banner{border-radius:12px;padding:12px 16px;font-size:15px;border:1px solid var(--line);background:var(--surface)}
+.banner{border-radius:12px;padding:11px 15px;font-size:15px;border:1px solid var(--line);background:var(--surface)}
 .banner.crit{background:var(--crit-bg);border-color:transparent}
 .banner.warn{background:var(--warn-bg);border-color:transparent}
-
-/* verdict row */
-.verdict{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,2fr);gap:18px}
-.cpa{display:flex;flex-direction:column;gap:10px}
-.cpa .lbl{font-size:13px;letter-spacing:.04em;color:var(--ink2);font-weight:700}
-.cpa .big{font-family:var(--f-display);font-weight:800;font-size:48px;line-height:1}
-.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-size:13px;font-weight:700;width:max-content}
-.pill.good{background:var(--good-bg);color:var(--good)} .pill.warn{background:var(--warn-bg);color:var(--warn)} .pill.crit{background:var(--crit-bg);color:var(--crit)} .pill.neutral{background:var(--accent-soft);color:var(--accent)}
-.gauge{position:relative;height:10px;border-radius:999px;background:linear-gradient(to left,var(--good-bg) 0 37.5%,var(--warn-bg) 37.5% 62.5%,var(--crit-bg) 62.5% 100%)}
-.gauge i{position:absolute;top:-4px;width:4px;height:18px;border-radius:2px;background:var(--ink)}
-.gauge-l{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
-.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.tile{background:var(--surface);padding:14px 16px;display:flex;flex-direction:column;gap:2px;min-width:0}
-.tile .k{font-size:13px;color:var(--ink2)} .tile .v{font-family:var(--f-display);font-weight:700;font-size:26px} .tile .d{font-size:12px;color:var(--muted)}
-
-.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
-/* funnel */
-.fun{display:flex;flex-direction:column;gap:10px}
-.frow{display:grid;grid-template-columns:150px minmax(0,1fr) 92px;gap:10px;align-items:center;font-size:14px}
-.fbar{height:22px;background:var(--seq-soft);border-radius:4px;position:relative;overflow:hidden}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+/* KPI tiles */
+.tiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.tile{background:var(--surface);padding:12px 14px;display:flex;flex-direction:column;gap:1px;min-width:0}
+.tile .k{font-size:13px;color:var(--ink2)}
+.tile .v{font-family:var(--f-display);font-weight:700;font-size:24px;line-height:1.25}
+.tile .d{font-size:12px;color:var(--muted)}
+.tile .src{font-size:11px;color:var(--muted)}
+.delta{font-size:12px;font-weight:700}.delta.up{color:var(--good)}.delta.down{color:var(--crit)}.delta.flat{color:var(--muted)}
+.tile.hero{background:var(--accent-soft)}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 9px;font-size:12px;font-weight:700;width:max-content;white-space:nowrap}
+.pill.good{background:var(--good-bg);color:var(--good)} .pill.warn{background:var(--warn-bg);color:var(--warn)} .pill.crit{background:var(--crit-bg);color:var(--crit)} .pill.neutral{background:var(--accent-soft);color:var(--accent)} .pill.off{background:var(--bg);color:var(--muted);border:1px dashed var(--line)}
+/* cards (insights, alerts, recs) */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;background:var(--surface)}
+.card .t{font-weight:700}
+.card .why{font-size:14px;color:var(--ink2)}
+.card .meta{display:flex;gap:6px;flex-wrap:wrap}
+.card.crit{border-inline-start:4px solid var(--crit)} .card.warn{border-inline-start:4px solid var(--warn)} .card.good{border-inline-start:4px solid var(--good)} .card.info{border-inline-start:4px solid var(--seq)}
+/* bars */
+.fun{display:flex;flex-direction:column;gap:9px}
+.frow{display:grid;grid-template-columns:170px minmax(0,1fr) 110px;gap:10px;align-items:center;font-size:14px}
+.fbar{height:20px;background:var(--seq-soft);border-radius:4px;position:relative;overflow:hidden}
 .fbar b{position:absolute;inset-block:0;right:0;background:var(--seq);border-radius:4px}
+.fbar b.na{background:repeating-linear-gradient(135deg,var(--line) 0 6px,transparent 6px 12px)}
 .frow .n{text-align:left;font-weight:700}
 .frow .n small{display:block;font-weight:400;color:var(--muted);font-size:12px}
 /* tables */
 .tw{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
-th{font-weight:600;color:var(--ink2);text-align:right;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap;font-size:13px}
-td{padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-weight:600;color:var(--ink2);text-align:right;padding:7px 9px;border-bottom:1px solid var(--line);white-space:nowrap;font-size:13px;vertical-align:bottom}
+td{padding:8px 9px;border-bottom:1px solid var(--line);white-space:nowrap}
+td small{color:var(--muted);font-size:11px;display:block}
 tr:last-child td{border-bottom:0}
+tr.click{cursor:pointer}tr.click:hover td{background:var(--bg)}
+.na{color:var(--muted)}
+.best{font-weight:700;color:var(--accent)}
 .sw{display:inline-block;width:10px;height:10px;border-radius:3px;margin-inline-end:6px;vertical-align:-1px}
-.best{font-weight:700}
-.minibar{display:inline-block;height:8px;background:var(--seq);border-radius:2px;vertical-align:middle;margin-inline-start:6px}
-/* chart */
+.minibar{display:inline-block;height:7px;background:var(--seq);border-radius:2px;vertical-align:middle;margin-inline-start:6px}
+.heat{display:inline-block;min-width:44px;text-align:center;border-radius:6px;padding:2px 6px}
+.dots{display:inline-flex;gap:3px;vertical-align:middle}.dots i{width:9px;height:9px;border-radius:50%;background:var(--line);display:inline-block}.dots i.on{background:var(--accent)}.dots i.buy{background:var(--good)}
+.live{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--good);margin-inline-start:6px;animation:pl 1.6s infinite}@keyframes pl{50%{opacity:.25}}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chips span{background:var(--accent-soft);border-radius:999px;padding:3px 10px;font-size:13px}.chips b{font-variant-numeric:tabular-nums}
+.tl{display:flex;flex-direction:column;gap:4px;font-size:13px;padding:8px 0}
+.tl div{display:grid;grid-template-columns:70px 160px minmax(0,1fr);gap:8px}
+.tl span:first-child{color:var(--muted)}
 .chart{width:100%;height:auto;display:block}
 .chart text{fill:var(--muted);font:12px var(--f-body)}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--ink2)}
-#tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--surface);font-size:13px;padding:6px 10px;border-radius:8px;z-index:9;max-width:260px}
-/* spend form */
-form.spend{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end}
-form.spend label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink2)}
-form.spend input{font:500 15px var(--f-body);padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:150px}
-.empty{color:var(--muted);font-size:14px;padding:10px 0}
-.dots{display:inline-flex;gap:3px;vertical-align:middle}.dots i{width:9px;height:9px;border-radius:50%;background:var(--line);display:inline-block}.dots i.on{background:var(--accent)}.dots i.buy{background:var(--good)}
-.stg{font-weight:600}.live{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--good);margin-inline-start:6px;animation:pl 1.6s infinite}@keyframes pl{50%{opacity:.25}}
-.stuck{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}.stuck span{background:var(--accent-soft);border-radius:999px;padding:4px 10px;font-size:13px}.stuck b{font-variant-numeric:tabular-nums}
+#tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--surface);font-size:13px;padding:6px 10px;border-radius:8px;z-index:9;max-width:280px}
+form.inline{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end}
+form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink2)}
+.empty{color:var(--muted);font-size:14px;padding:8px 0}
 .foot{font-size:13px;color:var(--muted);line-height:1.6}
-@media (max-width:820px){.verdict,.grid2{grid-template-columns:minmax(0,1fr)} .tiles{grid-template-columns:repeat(2,minmax(0,1fr))} .frow{grid-template-columns:110px minmax(0,1fr) 80px}}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
-body{margin:0}
+.kv{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:4px 14px;font-size:14px}
+.kv dt{color:var(--ink2)} .kv dd{margin:0}
+@media (max-width:980px){.tiles{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){.grid2{grid-template-columns:minmax(0,1fr)} .tiles{grid-template-columns:repeat(2,minmax(0,1fr))} .frow{grid-template-columns:110px minmax(0,1fr) 84px} .tl div{grid-template-columns:56px 1fr} .tl div span:last-child{grid-column:1/-1;color:var(--muted)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
-
 <div class="wrap">
   <header>
     <div>
-      <h1>מדידת השיטה</h1>
-      <div class="sub">משפך הקורס "השיטה" (297 ₪): דפי מכירה a/b/c → קארדקום → רכישה. <span id="fresh" class="num"></span></div>
+      <h1>מרכז הבקרה - השיטה</h1>
+      <div class="sub">297 ₪ · דפים a/b/c → קארדקום → רכישה <span id="fresh" class="num"></span></div>
     </div>
     <div class="controls">
-      <div class="seg" role="group" aria-label="טווח זמן" id="range">
-        <button type="button" data-r="1" aria-pressed="false">היום</button>
-        <button type="button" data-r="7" aria-pressed="true">7 ימים</button>
-        <button type="button" data-r="30" aria-pressed="false">30 יום</button>
-        <button type="button" data-r="0" aria-pressed="false">הכל</button>
+      <div class="seg" role="group" aria-label="תקופה" id="range">
+        <button type="button" data-r="today">היום</button>
+        <button type="button" data-r="yday">אתמול</button>
+        <button type="button" data-r="3">3 ימים</button>
+        <button type="button" data-r="7">7 ימים</button>
+        <button type="button" data-r="14">14 ימים</button>
+        <button type="button" data-r="30">30 יום</button>
+        <button type="button" data-r="all">הכל</button>
+        <button type="button" data-r="custom">טווח</button>
       </div>
+      <span id="customBox" hidden><input type="date" id="cFrom" aria-label="מתאריך"> - <input type="date" id="cTo" aria-label="עד תאריך"></span>
+      <select id="fSrc" aria-label="סינון מקור"><option value="">כל המקורות</option></select>
+      <select id="fDev" aria-label="סינון מכשיר"><option value="">כל המכשירים</option><option value="m">מובייל</option><option value="d">מחשב</option></select>
       <label class="chk"><input type="checkbox" id="showTests"> כולל בדיקות</label>
       <button type="button" class="btn" id="refresh">רענון</button>
     </div>
   </header>
-
   <div id="status" class="banner" hidden></div>
+  <nav class="tabs" role="tablist" aria-label="מסכים">
+    <button role="tab" data-s="ov"><b>01</b>סקירה יומית</button>
+    <button role="tab" data-s="cr"><b>02</b>קריאייטיבים</button>
+    <button role="tab" data-s="lp"><b>03</b>השוואת דפים</button>
+    <button role="tab" data-s="co"><b>04</b>משפך סליקה</button>
+    <button role="tab" data-s="jr"><b>05</b>מסע הלקוח</button>
+    <button role="tab" data-s="ex"><b>06</b>מעבדת ניסויים</button>
+    <button role="tab" data-s="in"><b>07</b>תובנות והמלצות</button>
+    <button role="tab" data-s="dq"><b>08</b>בקרת מדידה</button>
+  </nav>
 
-  <section class="verdict">
-    <div class="panel cpa">
-      <div class="lbl">עלות לרכישה מול היעד</div>
-      <div class="big num" id="cpaV">-</div>
-      <div id="cpaPill"></div>
-      <div>
-        <div class="gauge" aria-hidden="true"><i id="gaugeMark" style="right:0"></i></div>
-        <div class="gauge-l num"><span>0 ₪</span><span>150 ₪ רצוי</span><span>250 ₪ תקרה</span><span>400 ₪</span></div>
+  <!-- 01 overview -->
+  <section class="screen" id="s-ov">
+    <div class="tiles" id="ovTiles"></div>
+    <div class="grid2">
+      <div class="panel"><div class="panel-h"><h2>משפך מלא</h2><span class="note">אנשים ייחודיים בכל שלב</span></div><div class="fun" id="ovFunnel"></div></div>
+      <div class="panel"><div class="panel-h"><h2>מה לעשות מחר בבוקר</h2><span class="note">3 ההמלצות החשובות</span></div><div class="cards" id="ovRecs" style="grid-template-columns:minmax(0,1fr)"></div></div>
+    </div>
+    <div class="grid2">
+      <div class="panel"><div class="panel-h"><h2>מובילים</h2><span class="note">רכישות מול כוונת רכישה</span></div><dl class="kv" id="ovLeaders"></dl></div>
+      <div class="panel"><div class="panel-h"><h2>התראות</h2></div><div class="cards" id="ovAlerts" style="grid-template-columns:minmax(0,1fr)"></div></div>
+    </div>
+    <div class="panel"><div class="panel-h"><h2>יום אחר יום</h2><div class="legend"><span><i class="sw" style="background:var(--s1)"></i>ביקורים</span><span><i class="sw" style="background:var(--s2)"></i>התחלות סליקה</span><span><i class="sw" style="background:var(--s3)"></i>רכישות</span></div></div><div id="ovDaily"></div></div>
+  </section>
+
+  <!-- 02 creatives -->
+  <section class="screen" id="s-cr">
+    <div class="banner" id="crMeta"></div>
+    <div class="panel"><div class="panel-h"><h2>ביצועי קריאייטיבים</h2><span class="note">לפי utm_content בקישור המודעה. לחיצה על שורה פותחת את המסע שלה</span></div><div class="tw"><table id="crTable"></table></div></div>
+    <div class="panel"><div class="panel-h"><h2>עלות לפעולה איכותית</h2><span class="note">דורש הזנת הוצאה לכל קריאייטיב (מסך 08) או חיבור Meta</span></div><div class="tw"><table id="crCost"></table></div></div>
+    <div class="grid2">
+      <div class="panel"><div class="panel-h"><h2>דירוג רכישות</h2><span class="note">Purchase Winner</span></div><div class="tw"><table id="crRankBuy"></table></div></div>
+      <div class="panel"><div class="panel-h"><h2>דירוג כוונת רכישה</h2><span class="note">Intent Quality Score - ניסיוני, 50 = ממוצע</span></div><div class="tw"><table id="crRankIntent"></table></div></div>
+    </div>
+    <div class="panel"><div class="panel-h"><h2>לפי זווית שיווקית</h2></div><div class="tw"><table id="crAngle"></table></div></div>
+    <div class="panel"><div class="panel-h"><h2>מטריצת קריאייטיב × דף</h2><span class="note">במצב ניטור: מתאם בלבד, לא סיבתיות</span></div><div class="tw"><table id="crMatrix"></table></div></div>
+    <div class="panel" id="crDetail" hidden></div>
+  </section>
+
+  <!-- 03 pages -->
+  <section class="screen" id="s-lp">
+    <div class="panel"><div class="panel-h"><h2>השוואה מרכזית</h2><span class="note" id="lpNote"></span></div><div class="tw"><table id="lpTable"></table></div></div>
+    <div class="panel">
+      <div class="panel-h"><h2>אזורים בדף: הגעה, זמן ומעבר</h2><div class="seg" role="group" aria-label="דף" id="lpVar"><button type="button" data-v="a">a</button><button type="button" data-v="b" aria-pressed="true">b</button><button type="button" data-v="c">c</button></div></div>
+      <div class="tw"><table id="lpSections"></table></div>
+      <div class="note" style="margin-top:6px">הגעה = גלל עד האזור. זמן = שניות פעילות כשהאזור על המסך (חציון, ממי שהגיע). מעבר = כמה מהמגיעים לאזור הגיעו גם לבא אחריו. מי שקפץ בקישור עוגן נספר כמגיע.</div>
+    </div>
+    <div class="grid2">
+      <div class="panel"><div class="panel-h"><h2>כפתורי רכישה</h2><span class="note">חשיפה = הכפתור הופיע במסך</span></div><div class="tw"><table id="lpCta"></table></div></div>
+      <div class="panel"><div class="panel-h"><h2>נקודות יציאה</h2><span class="note">האזור האחרון לפני עזיבה. זו נקודת יציאה, לא בהכרח הסיבה</span></div><div class="tw"><table id="lpExit"></table></div></div>
+    </div>
+    <div class="panel"><div class="panel-h"><h2>זמנים</h2><span class="note">חציון (אחוזון 25-75)</span></div><div class="tw"><table id="lpTimes"></table></div></div>
+  </section>
+
+  <!-- 04 checkout -->
+  <section class="screen" id="s-co">
+    <div class="grid2">
+      <div class="panel"><div class="panel-h"><h2>משפך סליקה</h2><span class="note">אחוז מתוך מי שלחץ לרכישה</span></div><div class="fun" id="coFunnel"></div></div>
+      <div class="panel"><div class="panel-h"><h2>חיכוך ותקלות</h2></div><div class="tw"><table id="coIssues"></table></div></div>
+    </div>
+    <div class="panel"><div class="panel-h"><h2>סליקה לפי מכשיר ודפדפן</h2></div><div class="tw"><table id="coDev"></table></div></div>
+    <div class="banner" id="coNA"></div>
+  </section>
+
+  <!-- 05 journeys -->
+  <section class="screen" id="s-jr">
+    <div class="panel">
+      <div class="panel-h"><h2>איפה כל מבקר נתקע</h2><span class="note">כל ביקור בנפרד, החדשים למעלה <span id="liveN"></span></span></div>
+      <div class="chips" id="jrSum" style="margin-bottom:10px"></div>
+      <div class="controls" style="margin-bottom:8px"><select id="jrStage" aria-label="סינון שלב"><option value="">כל השלבים</option></select></div>
+      <div class="tw"><table id="jrTable"></table></div>
+      <div class="note" style="margin-top:6px">בלי שמות ופרטי קשר. לחיצה על שורה פותחת את ציר האירועים של הביקור.</div>
+    </div>
+    <div class="grid2">
+      <div class="panel"><div class="panel-h"><h2>חדשים מול חוזרים</h2></div><div class="tw"><table id="jrNew"></table></div></div>
+      <div class="panel"><div class="panel-h"><h2>זמן וביקורים עד רכישה</h2></div><dl class="kv" id="jrBuy"></dl></div>
+    </div>
+  </section>
+
+  <!-- 06 experiments -->
+  <section class="screen" id="s-ex">
+    <div class="panel"><div class="panel-h"><h2>ניסוי פעיל</h2><span class="pill neutral" id="exState"></span></div><div id="exActive"></div></div>
+    <div class="panel"><div class="panel-h"><h2>היסטוריית ניסויים ושינויים</h2></div><div class="tw"><table id="exLog"></table></div></div>
+  </section>
+
+  <!-- 07 insights -->
+  <section class="screen" id="s-in">
+    <div class="panel"><div class="panel-h"><h2>המלצות לפי סדר עדיפות</h2><span class="note">מה זיהינו → על מה זה מבוסס → מה לעשות → ביטחון → איך נמדוד</span></div><div class="cards" id="inRecs"></div></div>
+    <div class="panel"><div class="panel-h"><h2>התראות</h2><span class="note">טכניות קודם, שיווקיות אחר כך</span></div><div class="cards" id="inAlerts"></div></div>
+    <div class="panel"><div class="panel-h"><h2>הדוח היומי</h2><span class="note">היום מול 7 ו-14 ימים</span></div><div id="inReport"></div></div>
+  </section>
+
+  <!-- 08 data quality / settings -->
+  <section class="screen" id="s-dq">
+    <div class="panel"><div class="panel-h"><h2>מקורות נתונים</h2></div><div class="tw"><table id="dqSources"></table></div></div>
+    <div class="grid2">
+      <div class="panel"><div class="panel-h"><h2>הוצאת פרסום</h2><span class="note" id="spendState"></span></div>
+        <form class="inline" id="spendForm">
+          <label for="spDate">תאריך<input type="date" id="spDate" required></label>
+          <label for="spCr">קריאייטיב (ריק = סה"כ יומי)<select id="spCr"><option value="">סה"כ יומי</option></select></label>
+          <label for="spAmt">סכום ₪<input type="number" id="spAmt" min="0" step="0.01" required style="width:110px"></label>
+          <button class="btn primary" type="submit" id="spSave">שמירה</button>
+        </form>
+        <div class="tw" style="margin-top:10px"><table id="spendList"></table></div>
       </div>
-      <div class="note">היעד: כל רכישה עולה פחות מ-250 ₪ בפרסום, כלומר הכנסות גבוהות מהוצאות הפרסום. רצוי 100-150 ₪.</div>
+      <div class="panel"><div class="panel-h"><h2>תקינות אירועים</h2><span class="note">24 שעות אחרונות</span></div><div class="tw"><table id="dqEvents"></table></div></div>
     </div>
-    <div class="tiles">
-      <div class="tile"><span class="k">מבקרים ייחודיים</span><span class="v num" id="tVis">-</span><span class="d" id="tVisD"></span></div>
-      <div class="tile"><span class="k">לחצו "לרכישה"</span><span class="v num" id="tCta">-</span><span class="d" id="tCtaD"></span></div>
-      <div class="tile"><span class="k">רכישות (קארדקום)</span><span class="v num" id="tBuy">-</span><span class="d" id="tBuyD"></span></div>
-      <div class="tile"><span class="k">הכנסות</span><span class="v num" id="tRev">-</span><span class="d">לפני מע"מ ועמלות</span></div>
-      <div class="tile"><span class="k">הוצאת פרסום</span><span class="v num" id="tSpend">-</span><span class="d" id="tSpendD">מוזן ידנית למטה</span></div>
-      <div class="tile"><span class="k">ROAS</span><span class="v num" id="tRoas">-</span><span class="d">הכנסות ÷ הוצאה. מעל 1 = מרוויחים על הפרסום</span></div>
+    <div class="grid2">
+      <div class="panel"><div class="panel-h"><h2>ביצועי דף</h2><span class="note">חציון לפי דף ומכשיר</span></div><div class="tw"><table id="dqPerf"></table></div></div>
+      <div class="panel"><div class="panel-h"><h2>בדיקות איכות</h2></div><div class="tw"><table id="dqChecks"></table></div></div>
     </div>
-  </section>
-
-  <section class="grid2">
-    <div class="panel">
-      <div class="panel-h"><h2>משפך ההמרה</h2><span class="note">אחוז מתוך כל המבקרים</span></div>
-      <div class="fun" id="funnel"></div>
+    <div class="panel"><div class="panel-h"><h2>פרמטרים לקישורי המודעות</h2></div>
+      <p class="sub" style="margin:0 0 8px">כדי לקשר כל רכישה למודעה, לקמפיין ולמיקום גם בלי חיבור API, מדביקים את זה בשדה "URL parameters" של כל מודעה ב-Ads Manager:</p>
+      <div class="mono" style="background:var(--bg);padding:10px;border-radius:8px;direction:ltr;text-align:left;word-break:break-all" id="urlParams">utm_source=meta&amp;utm_medium=paid_social&amp;utm_campaign={{campaign.name}}&amp;utm_content={{ad.name}}&amp;campaign_id={{campaign.id}}&amp;adset_id={{adset.id}}&amp;ad_id={{ad.id}}&amp;placement={{placement}}&amp;site_source={{site_source_name}}</div>
     </div>
-    <div class="panel">
-      <div class="panel-h"><h2>מבקרים ורכישות לפי יום</h2><div class="legend"><span><i class="sw" style="background:var(--seq)"></i>מבקרים</span><span><i class="sw" style="background:var(--good)"></i>יום עם רכישה</span></div></div>
-      <div id="daily"></div>
-    </div>
+    <p class="foot">איך נמדד: כל כניסה מקבלת מזהה ביקור, ומבקר חוזר מזוהה במזהה אנונימי בדפדפן. רכישה נספרת רק מעסקה מאושרת בקארדקום, פעם אחת לכל עסקה. נתון שלא הגיע מוצג כ"ממתין" או "לא מחובר", לא כאפס. בדיקות (test / claude בקישור) מוסתרות כברירת מחדל. אין בדשבורד שמות, טלפונים, מיילים או פרטי תשלום.</p>
   </section>
-
-  <section class="panel">
-    <div class="panel-h"><h2>השוואת דפי המכירה</h2><span class="note">עד 100 מבקרים לכל דף, ההבדלים עדיין לא מובהקים</span></div>
-    <div class="tw"><table id="tVar"></table></div>
-  </section>
-
-  <section class="panel">
-    <div class="panel-h"><h2>מקורות תנועה</h2><span class="note">לפי UTM בקישור. רכישה משויכת למקור רק כשהקונה חוזר לדף התודה מאותו דפדפן</span></div>
-    <div class="tw"><table id="tSrc"></table></div>
-  </section>
-
-  <section class="panel">
-    <div class="panel-h"><h2>עד איפה קוראים</h2>
-      <div class="seg" role="group" aria-label="דף" id="secVar">
-        <button type="button" data-v="a" aria-pressed="false">a</button>
-        <button type="button" data-v="b" aria-pressed="true">b</button>
-        <button type="button" data-v="c" aria-pressed="false">c</button>
-      </div>
-    </div>
-    <div class="note" style="margin-bottom:10px">אחוז המבקרים שהגיעו לכל אזור בדף. נפילה חדה מצביעה על אזור שכדאי לחזק.</div>
-    <div class="fun" id="sections"></div>
-  </section>
-
-  <section class="panel">
-    <div class="panel-h"><h2>איפה כל מבקר נתקע</h2><span class="note">כל ביקור בנפרד, החדשים למעלה. מתעדכן אוטומטית כל דקה <span id="liveN"></span></span></div>
-    <div class="stuck" id="stuckSum"></div>
-    <div class="tw"><table id="tJourney"></table></div>
-    <div class="note" style="margin-top:8px">שלבים: נכנס, גלל חצי, הגיע לסוף הדף, לחץ לרכישה, נכנס לדף התשלום, השאיר פרטים, רכש. בלי שמות - פרטי מי שהשאיר פרטים מגיעים בדוח היומי במייל.</div>
-  </section>
-
-  <section class="grid2">
-    <div class="panel">
-      <div class="panel-h"><h2>הוצאת פרסום יומית</h2><span class="note" id="spendState"></span></div>
-      <form class="spend" id="spendForm">
-        <label for="spDate">תאריך<input type="date" id="spDate" required></label>
-        <label for="spAmt">סכום ב-₪ (מ-Ads Manager)<input type="number" id="spAmt" min="0" step="0.01" required></label>
-        <button class="btn primary" type="submit" id="spSave">שמירה</button>
-      </form>
-      <div class="tw" style="margin-top:12px"><table id="tSpendList"></table></div>
-    </div>
-    <div class="panel">
-      <div class="panel-h"><h2>רכישות אחרונות</h2><span class="note">מקארדקום, אחרי אישור עסקה. בלי פרטי לקוח</span></div>
-      <div class="tw"><table id="tBuys"></table></div>
-    </div>
-  </section>
-
-  <p class="foot">איך נמדד: כל כניסה לדף מקבלת מזהה ביקור. גלילה, אזורים ולחיצות נשלחים ל-Make ונשמרים בגיליון. רכישה נספרת רק כשקארדקום מדווחת על עסקה מאושרת ב-297 ₪ ומעלה, ונספרת פעם אחת לכל עסקה. ב-Meta Ads Manager יופיע מספר קטן יותר או שווה, כי Meta סופרת רק רכישות שהגיעו מהמודעות. בדיקות (קישורים עם test או claude, ועסקאות TEST) מוסתרות כברירת מחדל.</p>
 </div>
 <div id="tip" hidden></div>
-
 <script>
-(function(){
-const SHEET_ID="1F66pK4B7LGgTddZC8LmWiTSp15ALOq_6Q6yCxt1w7UM";
-const SERVER="Google Drive", TOOL="download_file_content";
-const TARGET=250, GOOD=150;
-const VARS=["a","b","c"], VCOL={a:"var(--s1)",b:"var(--s2)",c:"var(--s3)"};
-const VNAME={a:"a - השיטה",b:"b - הכאב",c:"c - ההוכחה"};
-let rows=null, spend={}, range=7, showTests=false, secVar="b", storedAt=null, db=null;
-const $=id=>document.getElementById(id);
-const fmt=n=>Math.round(n).toLocaleString("he-IL");
-const ils=n=>fmt(n)+" ₪";
-const med=a=>{if(!a.length)return 0;const s=[...a].sort((x,y)=>x-y),m=s.length>>1;return s.length%2?s[m]:(s[m-1]+s[m])/2};
-const pct=(a,b)=>b?(a/b*100):0;
-const pf=x=>(x>=10||x===0?Math.round(x):x.toFixed(1))+"%";
-function st(){try{return localStorage}catch(e){return null}}
-try{const r=st()&&st().getItem("nlpdash_range"); if(r!=null){range=+r;}}catch(e){}
-
-/* ---------- CSV ---------- */
-function parseCSV(t){const out=[];let row=[],f="",q=false;for(let i=0;i<t.length;i++){const c=t[i];
- if(q){if(c==='"'){if(t[i+1]==='"'){f+='"';i++}else q=false}else f+=c}
- else if(c==='"')q=true; else if(c===','){row.push(f);f=""} else if(c==='\n'){row.push(f);out.push(row);row=[];f=""} else if(c!=='\r')f+=c;}
- if(f!==""||row.length){row.push(f);out.push(row)} return out;}
-function decode(p){let s=p&&typeof p==="object"?(p.content||""):String(p||"");
- if(/^[A-Za-z0-9+/=\s]+$/.test(s.slice(0,200))){try{const b=atob(s.replace(/\s/g,""));return new TextDecoder().decode(Uint8Array.from(b,c=>c.charCodeAt(0)))}catch(e){}}
- return s;}
-function toRows(text){const a=parseCSV(text);const h=a.shift()||[];return a.filter(r=>r.length>1).map(r=>{const o={};h.forEach((k,i)=>o[k]=r[i]||"");o.t=new Date((o.ts||"").replace(" ","T"));return o});}
-
-/* ---------- classification ---------- */
-function qsObj(q){try{return new URLSearchParams(q||"")}catch(e){return new URLSearchParams()}}
-function isTest(r){const q=(r.qs||"").toLowerCase();return /claude|test|nocache/.test(q)||r.variant==="test"||/בדיקה|בדיקת/.test(r.name||"")||/TEST/.test(r.qs||"");}
-function source(q){const p=qsObj(q);const s=(p.get("utm_source")||"").toLowerCase(),m=(p.get("utm_medium")||"").toLowerCase();
- if(m==="bio")return "ביו באינסטגרם";
- if(m==="paid_social"||m==="paid"||m==="cpc"||["meta","fb","facebook","fb_ads","meta_ads"].includes(s))return "מודעות Meta";
- if(["ig","instagram"].includes(s))return "אינסטגרם (אורגני)";
- if(s==="whatsapp"||s==="wa")return "וואטסאפ";
- if(s)return s;
- return "ישיר / לא ידוע";}
-function dayKey(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
-function inRange(d){if(!range)return true;const now=new Date();const start=new Date(now.getFullYear(),now.getMonth(),now.getDate()-(range-1));return d>=start;}
-function rangeDays(){if(range)return [...Array(range)].map((_,i)=>{const n=new Date();return dayKey(new Date(n.getFullYear(),n.getMonth(),n.getDate()-(range-1-i)))});
- const ks=new Set();(rows||[]).forEach(r=>{if(!isNaN(r.t))ks.add(dayKey(r.t))});Object.keys(spend).forEach(k=>ks.add(k));return [...ks].sort();}
-
-function compute(){
- const R=rows.filter(r=>!isNaN(r.t)&&inRange(r.t)&&(showTests||!isTest(r)));
- const S={}; // sessions
- const secNames={a:{},b:{},c:{}};
- R.forEach(r=>{ if(!VARS.includes(r.variant)||!r.sid)return;
-   const s=S[r.sid]||(S[r.sid]={v:r.variant,src:source(r.qs),day:dayKey(r.t),t:r.t,scroll:0,sec:0,secs:+r.sections||0,time:0,cta:false,video:false,last:r.t,chk:false,buy:false});
-   s.scroll=Math.max(s.scroll,+r.max_scroll_pct||0); s.sec=Math.max(s.sec,+r.max_section||0); s.time=Math.max(s.time,+r.sec_on_page||0); if(+r.sections)s.secs=+r.sections;
-   if(r.t>s.last)s.last=r.t; if(r.ev==="checkout_view")s.chk=true; if(r.ev==="purchase_return"||r.ev==="purchase"||r.ev==="thanks_view")s.buy=true; if(r.ev==="cta_click")s.cta=true; if(r.ev==="checkout_details")s.det=true; if(r.ev==="video_play")s.video=true;
-   if(r.ev==="section"&&r.section&&r.name)secNames[r.variant][r.section]=r.name; });
- R.forEach(r=>{if(r.sid&&S[r.sid]&&(r.ev==="purchase_return"||r.ev==="purchase"))S[r.sid].buy=true});
- const sess=Object.values(S);
- const buys=R.filter(r=>r.ev==="purchase"&&(r.cta==="cardcom_page_webhook"||r.cta==="cardcom_webhook")).map(r=>{const m=(r.qs||"").match(/(\d+(?:\.\d+)?)\s*ILS/);const d=(r.qs||"").match(/deal\s+(\S+)/);return {t:r.t,day:dayKey(r.t),amt:m?+m[1]:297,deal:d?d[1]:"",name:(r.name||"").split(" ")[0]}});
- const seen=new Set(),rets=[];R.forEach(r=>{const lp=r.ev==="purchase"&&r.cta==="cardcom_webhook"&&VARS.includes(r.variant);if(!(r.ev==="purchase_return"||lp))return;const k=r.sid||("x"+rets.length);if(seen.has(k))return;seen.add(k);rets.push({v:r.variant,src:S[r.sid]?S[r.sid].src:(lp?"ישיר / לא ידוע":source(r.qs)),t:r.t})});
- return {sess,buys,rets,secNames};
-}
-
-/* ---------- render ---------- */
-function setTiles(c){
- const vis=c.sess.length, cta=c.sess.filter(s=>s.cta).length, n=c.buys.length, rev=c.buys.reduce((a,b)=>a+b.amt,0);
- const sp=rangeDays().reduce((a,k)=>a+(spend[k]||0),0);
- $("tVis").textContent=fmt(vis); $("tVisD").textContent=vis?("זמן חציוני בדף "+fmt(med(c.sess.map(s=>s.time)))+" שנ׳"):"אין ביקורים בטווח";
- $("tCta").textContent=fmt(cta); $("tCtaD").textContent=pf(pct(cta,vis))+" מהמבקרים";
- $("tBuy").textContent=fmt(n); $("tBuyD").textContent=pf(pct(n,vis))+" המרה מהמבקרים";
- $("tRev").textContent=ils(rev);
- $("tSpend").textContent=sp?ils(sp):"-"; $("tSpendD").textContent=sp?"מוזן ידנית למטה":"עוד לא הוזנה הוצאה לטווח";
- $("tRoas").textContent=sp?(rev/sp).toFixed(2):"-";
- const pill=$("cpaPill"), mark=$("gaugeMark");
- if(!sp){$("cpaV").textContent="-";pill.innerHTML='<span class="pill neutral">ממתין להזנת הוצאת פרסום</span>';mark.style.right="0%";}
- else if(!n){$("cpaV").textContent="אין רכישות";const k=sp>=TARGET?"crit":"neutral";pill.innerHTML='<span class="pill '+k+'">'+(sp>=TARGET?"✕ הוצאו "+ils(sp)+" בלי רכישה, מעל התקרה":"הוצאו "+ils(sp)+" מתוך תקרה של 250 ₪")+'</span>';mark.style.right=Math.min(100,sp/400*100)+"%";}
- else{const cpa=sp/n;$("cpaV").textContent=ils(cpa);const k=cpa<=GOOD?"good":cpa<TARGET?"warn":"crit";
-   pill.innerHTML='<span class="pill '+k+'">'+(k==="good"?"✓ ברמה הרצויה":k==="warn"?"✓ מתחת לתקרה של 250 ₪":"✕ מעל התקרה של 250 ₪")+'</span>';mark.style.right=Math.min(100,cpa/400*100)+"%";}
-}
-function bars(el,items,base){el.innerHTML=items.map(it=>{const p=pct(it.n,base);return '<div class="frow" data-tip="'+esc(it.l+": "+fmt(it.n)+" ("+pf(p)+")"+(it.step!=null?" · "+pf(it.step)+" מהשלב הקודם":"")+(it.tip?" · "+it.tip:""))+'"><span>'+esc(it.l)+'</span><div class="fbar"><b style="width:'+Math.max(p?1.5:0,Math.min(100,p))+'%"></b></div><span class="n num">'+fmt(it.n)+'<small>'+pf(p)+'</small></span></div>'}).join("")||'<div class="empty">אין נתונים בטווח הזה</div>';}
-function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
-function renderFunnel(c){const S=c.sess,v=S.length;
- const st=[{l:"נכנסו לדף",n:v},{l:"גללו חצי דף",n:S.filter(s=>s.scroll>=50).length},{l:"הגיעו לרבע האחרון",n:S.filter(s=>s.secs&&s.sec>=s.secs*0.75).length},{l:"לחצו לרכישה",n:S.filter(s=>s.cta).length},{l:"השאירו פרטים",n:S.filter(s=>s.det).length,tip:"בדף התשלום"},{l:"רכשו",n:c.buys.length,tip:"מקארדקום"}];
- st.forEach((s,i)=>{if(i)s.step=pct(s.n,st[i-1].n)}); if(!v){$("funnel").innerHTML='<div class="empty">אין ביקורים בטווח הזה</div>';return} bars($("funnel"),st,v);}
-function renderVar(c){const rows=VARS.map(v=>{const S=c.sess.filter(s=>s.v===v),n=S.length,cta=S.filter(s=>s.cta).length,b=c.rets.filter(r=>r.v===v).length;
-  return {v,n,time:med(S.map(s=>s.time)),half:pct(S.filter(s=>s.scroll>=50).length,n),ctaR:pct(cta,n),cta,b,conv:pct(b,n)}});
- const best=k=>{const m=Math.max(...rows.filter(r=>r.n>=20).map(r=>r[k]));return isFinite(m)&&m>0?m:null};
- const bc=best("ctaR"),bv=best("conv");
- $("tVar").innerHTML='<thead><tr><th>דף</th><th>מבקרים</th><th>זמן חציוני</th><th>גללו חצי</th><th>לחצו לרכישה</th><th>רכישות משויכות</th><th>המרה</th></tr></thead><tbody>'+rows.map(r=>'<tr><td><i class="sw" style="background:'+VCOL[r.v]+'"></i>'+VNAME[r.v]+'</td><td>'+fmt(r.n)+'</td><td>'+fmt(r.time)+' שנ׳</td><td>'+pf(r.half)+'</td><td class="'+(bc!==null&&r.ctaR===bc?"best":"")+'">'+pf(r.ctaR)+' ('+fmt(r.cta)+')</td><td>'+fmt(r.b)+'</td><td class="'+(bv!==null&&r.conv===bv?"best":"")+'">'+pf(r.conv)+'</td></tr>').join("")+'</tbody>';
- const unat=c.buys.length-c.rets.length; if(unat>0)$("tVar").insertAdjacentHTML("beforeend",'<tfoot><tr><td colspan="7" class="note">'+fmt(unat)+' רכישות בטווח לא שויכו לדף (הקונה לא חזר לדף התודה מאותו דפדפן)</td></tr></tfoot>');}
-function renderSrc(c){const m={};c.sess.forEach(s=>{const o=m[s.src]||(m[s.src]={n:0,cta:0,b:0});o.n++;if(s.cta)o.cta++});c.rets.forEach(r=>{(m[r.src]||(m[r.src]={n:0,cta:0,b:0})).b++});
- const list=Object.entries(m).sort((a,b)=>b[1].n-a[1].n),mx=Math.max(1,...list.map(x=>x[1].n));
- $("tSrc").innerHTML=list.length?'<thead><tr><th>מקור</th><th>מבקרים</th><th>לחצו לרכישה</th><th>רכישות משויכות</th><th>המרה</th></tr></thead><tbody>'+list.map(([k,o])=>'<tr><td>'+esc(k)+'</td><td>'+fmt(o.n)+'<span class="minibar" style="width:'+Math.round(o.n/mx*80)+'px"></span></td><td>'+pf(pct(o.cta,o.n))+' ('+fmt(o.cta)+')</td><td>'+fmt(o.b)+'</td><td>'+pf(pct(o.b,o.n))+'</td></tr>').join("")+'</tbody>':'<tbody><tr><td class="empty">אין ביקורים בטווח הזה</td></tr></tbody>';}
-function renderSections(c){const S=c.sess.filter(s=>s.v===secVar),n=S.length,N=Math.max(0,...S.map(s=>s.secs));const nm=c.secNames[secVar]||{};
- if(!n||!N){$("sections").innerHTML='<div class="empty">אין ביקורים בדף '+secVar+' בטווח הזה</div>';return}
- const it=[];for(let i=1;i<=N;i++){it.push({l:i+". "+(nm[i]||"אזור "+i),n:S.filter(s=>s.sec>=i).length})} bars($("sections"),it,n);}
-function renderDaily(c){const days=rangeDays().slice(-30);const vis={},buy={};c.sess.forEach(s=>vis[s.day]=(vis[s.day]||0)+1);c.buys.forEach(b=>buy[b.day]=(buy[b.day]||0)+1);
- if(!days.length){$("daily").innerHTML='<div class="empty">אין נתונים</div>';return}
- const W=560,H=200,pl=34,pr=8,pt=12,pb=26,iw=W-pl-pr,ih=H-pt-pb,mx=Math.max(4,...days.map(d=>vis[d]||0));const nice=Math.ceil(mx/4)*4;
- const bw=iw/days.length,g=Math.min(2,bw*0.2);let s='<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="מבקרים לפי יום">';
- for(let i=0;i<=4;i++){const y=pt+ih-ih*i/4;s+='<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+y+'" y2="'+y+'" stroke="var(--line)" stroke-width="1"/><text x="'+(pl-6)+'" y="'+(y+4)+'" text-anchor="end">'+fmt(nice*i/4)+'</text>'}
- const step=Math.ceil(days.length/7);
- days.forEach((d,i)=>{const v=vis[d]||0,h=ih*v/nice,x=W-pr-(i+1)*bw+g/2,y=pt+ih-h;const b=buy[d]||0;
-  s+='<g data-tip="'+esc(d.slice(5).split("-").reverse().join(".")+": "+fmt(v)+" מבקרים"+(b?", "+b+" רכישות":""))+'"><rect x="'+x+'" y="'+pt+'" width="'+(bw-g)+'" height="'+ih+'" fill="transparent"/>'+(h?'<rect x="'+x+'" y="'+y+'" width="'+(bw-g)+'" height="'+h+'" rx="'+Math.min(4,(bw-g)/2)+'" fill="var(--seq)"/>':'')+(b?'<circle cx="'+(x+(bw-g)/2)+'" cy="'+(y-9)+'" r="5" fill="var(--good)" stroke="var(--surface)" stroke-width="2"/>':'')+'</g>';
-  if(i%step===0)s+='<text x="'+(x+(bw-g)/2)+'" y="'+(H-8)+'" text-anchor="middle">'+d.slice(8)+"."+d.slice(5,7)+'</text>'});
- $("daily").innerHTML=s+'</svg>';}
-const SUM=["רק נכנסו","עצרו באמצע הדף","קראו עד הסוף ולא לחצו","לחצו ולא נכנסו לתשלום","בדף התשלום בלי פרטים","השאירו פרטים ולא שילמו","רכשו ✅"];
-const STG=["נכנס","גלל חצי","הגיע לסוף הדף","לחץ לרכישה","בדף התשלום","השאיר פרטים","רכש ✅"];
-function stage(s){return s.buy?6:s.det?5:s.chk?4:s.cta?3:s.scroll>=75?2:s.scroll>=50?1:0}
-function ago(t){const m=Math.round((Date.now()-t)/60000);return m<1?"עכשיו":m<60?"לפני "+m+" דק'":m<1440?"לפני "+Math.round(m/60)+" שע'":t.toLocaleDateString("he-IL",{day:"2-digit",month:"2-digit"})}
-function renderJourney(c){const L=[...c.sess].sort((a,b)=>b.last-a.last);const cnt=[0,0,0,0,0,0,0];L.forEach(s=>cnt[stage(s)]++);
- const live=L.filter(s=>Date.now()-s.last<300000).length;$("liveN").innerHTML=live?'· '+live+' בפעילות עכשיו<span class="live"></span>':"";
- $("stuckSum").innerHTML=L.length?STG.map((n,i)=>cnt[i]?'<span>'+esc(SUM[i])+': <b>'+cnt[i]+'</b></span>':"").join(""):"";
- const T=L.slice(0,60);
- $("tJourney").innerHTML=T.length?'<thead><tr><th>פעילות אחרונה</th><th>דף</th><th>מקור</th><th>שלב אחרון</th><th>התקדמות</th><th>זמן בדף</th></tr></thead><tbody>'+T.map(s=>{const g=stage(s);return '<tr><td>'+ago(s.last)+(Date.now()-s.last<300000?'<span class="live"></span>':'')+'</td><td>'+esc(s.v)+'</td><td>'+esc(s.src)+'</td><td class="stg">'+esc(STG[g])+'</td><td><span class="dots" data-tip="'+esc(STG[g])+'">'+STG.map((_,i)=>'<i class="'+(i<=g?(g===6?"buy":"on"):"")+'"></i>').join("")+'</span></td><td class="num">'+(s.time?Math.round(s.time/60*10)/10+" דק'":"-")+'</td></tr>'}).join("")+'</tbody>'+(L.length>60?'<tfoot><tr><td colspan="6" class="note">מוצגים 60 האחרונים מתוך '+L.length+'</td></tr></tfoot>':''):'<tbody><tr><td class="empty">אין ביקורים בטווח הזה</td></tr></tbody>';}
-function renderBuys(c){const b=[...c.buys].sort((x,y)=>y.t-x.t).slice(0,10);
- $("tBuys").innerHTML=b.length?'<thead><tr><th>מתי</th><th>סכום</th><th>עסקה</th></tr></thead><tbody>'+b.map(x=>'<tr><td>'+x.t.toLocaleString("he-IL",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})+'</td><td>'+ils(x.amt)+'</td><td class="mono">'+esc(x.deal)+'</td></tr>').join("")+'</tbody>':'<tbody><tr><td class="empty">עוד אין רכישות בטווח הזה</td></tr></tbody>';}
-function renderSpendList(){const ks=Object.keys(spend).sort().reverse().slice(0,14);
- $("tSpendList").innerHTML=ks.length?'<thead><tr><th>תאריך</th><th>הוצאה</th></tr></thead><tbody>'+ks.map(k=>'<tr><td>'+k.split("-").reverse().join(".")+'</td><td>'+ils(spend[k])+'</td></tr>').join("")+'</tbody>':'<tbody><tr><td class="empty">עוד לא הוזנה הוצאה. הזינו כל יום את "סכום שהוצא" מ-Ads Manager.</td></tr></tbody>';}
-function render(){renderSpendList(); if(!rows)return; const c=compute(); setTiles(c); renderFunnel(c); renderVar(c); renderSrc(c); renderSections(c); renderDaily(c); renderBuys(c); renderJourney(c);
- if(storedAt)$("fresh").textContent="· עודכן "+new Date(storedAt).toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});}
-
-/* ---------- tooltip ---------- */
-const tip=$("tip");document.addEventListener("pointermove",e=>{const t=e.target.closest&&e.target.closest("[data-tip]");if(!t){tip.hidden=true;return}tip.textContent=t.getAttribute("data-tip");tip.hidden=false;const x=Math.min(innerWidth-tip.offsetWidth-8,e.clientX+12);tip.style.left=Math.max(8,x)+"px";tip.style.top=(e.clientY+14)+"px"});
-
-/* ---------- controls ---------- */
-document.querySelectorAll("#range button").forEach(b=>{b.setAttribute("aria-pressed",String(+b.dataset.r===range));b.onclick=()=>{range=+b.dataset.r;document.querySelectorAll("#range button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));try{st()&&st().setItem("nlpdash_range",String(range))}catch(e){}render()}});
-document.querySelectorAll("#secVar button").forEach(b=>b.onclick=()=>{secVar=b.dataset.v;document.querySelectorAll("#secVar button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));render()});
-$("showTests").onchange=e=>{showTests=e.target.checked;render()};
-$("spDate").value=dayKey(new Date());
-
-function status(msg,kind){const s=$("status");if(!msg){s.hidden=true;return}s.className="banner "+(kind||"");s.textContent=msg;s.hidden=false;}
-function onErr(e){const c=e&&e.code;
- if(c==="needs_reauth")status("החיבור ל-Google Drive פג. חברו אותו מחדש ב-claude.ai בהגדרות ← Connectors ורעננו.","crit");
- else if(c==="server_not_connected"||c==="selection_required")status("כדי לראות נתונים צריך לחבר את Google Drive ב-claude.ai (הגדרות ← Connectors), עם חשבון שיש לו גישה לגיליון המעקב.","warn");
- else if(c==="not_in_manifest"||c==="blocked_by_policy"||c==="approval_required")status("הדף צריך הרשאה לקרוא את גיליון המעקב מ-Google Drive. אשרו את הגישה בתפריט ההרשאות של הדף.","warn");
- else if(c==="tool_error")status("Google Drive לא הצליח לקרוא את גיליון המעקב. ייתכן שלחשבון המחובר אין גישה אליו: "+(e.message||""),"crit");
- else if(c==="server_unavailable")status("Google Drive לא זמין כרגע. הנתונים יתעדכנו בעוד דקה.","warn");
- else status("לא הצלחנו לטעון את הנתונים ("+(c||"שגיאה")+"). נסו לרענן.","warn");
- if(["needs_reauth","server_not_connected","not_in_manifest","blocked_by_policy"].includes(c)){rows=null;}}
-
+/* ================= data engine ================= */
 const API="https://hook.eu1.make.com/qui1tw1ai7w98rqwbql9ir89ccvv9y6h?key=XxlxpZJz3TY5IeJV&action=";
-const COLS=["ts","ev","variant","sid","sec_on_page","max_section","sections","max_scroll_pct","qs","at_section","section","name","video","cta","checkout_started","depth"];
-function tsvRows(text){return text.split("\n").filter(l=>l.trim()).map(l=>{const a=l.split("\t"),o={};COLS.forEach((k,i)=>o[k]=a[i]||"");o.t=new Date((o.ts||"").replace(" ","T"));return o})}
+const COLS=["ts","ev","variant","sid","sec_on_page","max_section","sections","max_scroll_pct","qs","at_section","section","name","video","cta","checkout_started","depth","vid","dev","nv","act","x"];
+const VARS=["a","b","c"], VLBL={a:"a - השיטה",b:"b - הכאב",c:"c - הוכחה"}, VCOL={a:"var(--s1)",b:"var(--s2)",c:"var(--s3)"};
+const PRICE=297, VAT=0.18, TARGET=250, GOOD=150;
+const ANGLES={video_inner_dialogue:"דיאלוג פנימי",video_emotions:"ניהול רגשות",banner_potential:"מימוש עצמי",banner_time:"זמן שחולף"};
+const ANGLE_KW=[["emotion","ניהול רגשות"],["regesh","ניהול רגשות"],["inner","דיאלוג פנימי"],["dialog","דיאלוג פנימי"],["fear","פחד והישרדות"],["belief","שינוי אמונות"],["worth","ערך עצמי"],["comfort","יציאה מאזור הנוחות"],["student","גישת התלמיד"],["respons","אחריות אישית"],["potential","מימוש עצמי"],["time","זמן שחולף"]];
+const CTA_LBL={hero_main:"ראש הדף",cta1:"אחרי חלק ראשון",cta2:"אחרי אמצע הדף",cta3:"אחרי ההמלצות",offer:"אזור המחיר",final:"סוף הדף",sticky:"כפתור צף"};
+const STG=["נכנס","גלל חצי","ראה את ההצעה","לחץ לרכישה","פתח סליקה","השאיר פרטים","רכש"];
+const SUM=["רק נכנסו","עצרו באמצע","ראו הצעה ולא לחצו","לחצו ולא פתחו סליקה","פתחו סליקה בלי פרטים","השאירו פרטים ולא שילמו","רכשו"];
+const EXPERIMENTS=[
+ {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"פעיל",decision:""},
+];
+const CHANGELOG=[
+ ["2026-10-07","שלושה דפים עם פתיחות שונות (v14-v15)"],["2026-10-08","הוסר אזור 'בחיים עצמם', מספור אזורים תוקן (v16)"],["2026-10-08","סליקה עברה ל-LowProfile בקארדקום"],["2026-10-09","מדידה מורחבת: זמן פעיל, חשיפת אזורים וכפתורים, מכשיר, ביצועים, שלבי סליקה"]];
+
+let rows=null, spend={}, cspend={}, storedAt=0, range="7", screen="ov", lpVar="b", showTests=false, fSrc="", fDev="", cFrom="", cTo="", jrStage="", openSid="", openCr="";
+const $=id=>document.getElementById(id);
+function st(){try{return localStorage}catch(e){return null}}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+const fmt=n=>n==null||isNaN(n)?"-":Math.round(n).toLocaleString("he-IL");
+const ils=n=>n==null||isNaN(n)?"-":Math.round(n).toLocaleString("he-IL")+" ₪";
+const pct=(a,b)=>b?a/b*100:null;
+const pf=p=>p==null||isNaN(p)?"-":(p<10&&p>0?p.toFixed(1):Math.round(p))+"%";
+const secs=s=>s==null||isNaN(s)?"-":s<60?Math.round(s)+" שנ'":(s/60).toFixed(1)+" דק'";
+function median(a){a=a.filter(x=>x!=null&&!isNaN(x)).sort((x,y)=>x-y);if(!a.length)return null;const m=a.length>>1;return a.length%2?a[m]:(a[m-1]+a[m])/2}
+function q(a,p){a=a.filter(x=>x!=null&&!isNaN(x)).sort((x,y)=>x-y);if(!a.length)return null;const i=(a.length-1)*p,l=Math.floor(i);return a[l]+(a[Math.min(l+1,a.length-1)]-a[l])*(i-l)}
+function wilson(k,n){if(!n)return [0,0];const z=1.96,p=k/n,d=1+z*z/n,c=p+z*z/(2*n),m=z*Math.sqrt(p*(1-p)/n+z*z/(4*n*n));return [(c-m)/d*100,(c+m)/d*100]}
+function conf(n,k){ if(n<30||k<3) return ["נתונים מעטים","off"]; if(n<150||k<10) return ["מגמה ראשונית","warn"]; return ["ראיות חזקות יותר","good"]; }
+function dayKey(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function qsObj(q){try{return new URLSearchParams(q||"")}catch(e){return new URLSearchParams()}}
+function isTest(r){const q=(r.qs||"").toLowerCase();return /claude|test|nocache/.test(q)||r.variant==="test"||/בדיקה|בדיקת/.test(r.name||"");}
+function source(p){const s=(p.get("utm_source")||"").toLowerCase(),m=(p.get("utm_medium")||"").toLowerCase();
+ if(/meta|facebook|fb|ig|instagram/.test(s)&&/paid|cpc|ads?$|social_paid|paid_social/.test(m))return "מודעות Meta";
+ if(/manychat/.test(p.get("utm_campaign")||"")||m==="dm")return "ManyChat";
+ if(/email|responder/.test(s+m))return "מייל";
+ if(/instagram|ig/.test(s))return "אינסטגרם אורגני";
+ if(/facebook|fb/.test(s))return "פייסבוק אורגני";
+ if(p.get("fbclid"))return "Meta (fbclid)";
+ if(s)return s; return "ישיר / לא ידוע";}
+function angleOf(cr){if(ANGLES[cr])return ANGLES[cr];const c=(cr||"").toLowerCase();for(const [k,v] of ANGLE_KW)if(c.includes(k))return v;return "ללא תווית";}
+function parseX(x){const o={};(x||"").split(";").forEach(kv=>{const i=kv.indexOf("=");if(i>0)o[kv.slice(0,i)]=kv.slice(i+1)});return o}
+function pairs(s){const o={};(s||"").split(",").forEach(p=>{const [k,v]=p.split(":");if(k)o[k]=+v||0});return o}
+
+/* period */
+function bounds(){const n=new Date(),sod=new Date(n.getFullYear(),n.getMonth(),n.getDate());let a,b=new Date(+sod+864e5);
+ if(range==="today")a=sod; else if(range==="yday"){a=new Date(+sod-864e5);b=sod} else if(range==="all")a=new Date(2000,0,1);
+ else if(range==="custom"){a=cFrom?new Date(cFrom+"T00:00"):new Date(2000,0,1);b=cTo?new Date(+new Date(cTo+"T00:00")+864e5):b}
+ else a=new Date(+sod-(+range-1)*864e5);
+ const len=b-a; return {a,b,pa:new Date(+a-len),pb:a,days:Math.max(1,Math.round(len/864e5))};}
+
+/* build model from rows within [a,b) */
+function build(a,b){
+ const R=rows.filter(r=>!isNaN(r.t)&&r.t>=a&&r.t<b&&(showTests||!isTest(r)));
+ const S={}, secNames={a:{1:"פתיחה"},b:{1:"פתיחה"},c:{1:"פתיחה"}}, secCount={a:0,b:0,c:0}, evCount={};
+ R.forEach(r=>{evCount[r.ev]=(evCount[r.ev]||0)+1;
+  if(!VARS.includes(r.variant)||!r.sid)return;
+  let s=S[r.sid];
+  if(!s){const p=qsObj(r.qs);s=S[r.sid]={sid:r.sid,v:r.variant,p,src:source(p),cr:(p.get("utm_content")||"").replace(/^lp_[abc]$/,"")||"(ללא קריאייטיב)",ad:p.get("ad_id")||"",cmp:p.get("utm_campaign")||"",place:p.get("placement")||p.get("site_source")||"",go:p.get("go")==="1",
+   t:r.t,last:r.t,day:dayKey(r.t),hour:r.t.getHours(),dev:"",vid:"",nv:0,time:0,act:0,scroll:0,sec:0,secs:+r.sections||0,secT:{},ctaSeen:{},fs:null,fc:null,lcp:0,cls:0,ttfb:0,load:0,
+   ctas:[],cta:false,video:0,faq:0,chk:false,cstart:false,det:false,val:0,pay:false,payMs:0,fail:false,back:false,lerr:false,jserr:0,buy:false,buyT:null,ev:[]};}
+  if(r.t<s.t)s.t=r.t; if(r.t>s.last)s.last=r.t;
+  if(r.dev&&!s.dev)s.dev=r.dev; if(r.vid&&!s.vid)s.vid=r.vid; if(+r.nv)s.nv=Math.max(s.nv,+r.nv);
+  s.time=Math.max(s.time,+r.sec_on_page||0); s.act=Math.max(s.act,+r.act||0); s.scroll=Math.max(s.scroll,+r.max_scroll_pct||0); s.sec=Math.max(s.sec,+r.max_section||0); if(+r.sections)s.secs=+r.sections;
+  if(r.x){const x=parseX(r.x); const st=pairs(x.st); for(const k in st)s.secT[k]=Math.max(s.secT[k]||0,st[k]); const cs=pairs(x.cs); for(const k in cs) if(s.ctaSeen[k]==null||cs[k]<s.ctaSeen[k]) s.ctaSeen[k]=cs[k];
+   if(x.fs&&+x.fs>0)s.fs=s.fs==null?+x.fs:Math.min(s.fs,+x.fs); if(x.fc&&s.fc==null)s.fc=+x.fc; if(+x.lcp)s.lcp=Math.max(s.lcp,+x.lcp); if(x.cls)s.cls=Math.max(s.cls,+x.cls||0); if(+x.ttfb)s.ttfb=+x.ttfb; if(+x.load)s.load=+x.load; if(x.pay_load_ms)s.payMs=+x.pay_load_ms;}
+  if(r.ev==="section"&&r.section&&r.name){secNames[r.variant][r.section]=r.name}
+  if(+r.sections)secCount[r.variant]=Math.max(secCount[r.variant],+r.sections);
+  switch(r.ev){
+   case "cta_click": s.cta=true; s.ctas.push({id:r.cta||"?",t:r.t,sec:+r.sec_on_page||0}); if(s.fc==null)s.fc=+r.sec_on_page||null; break;
+   case "video_play": s.video++; break; case "faq_open": s.faq++; break;
+   case "checkout_view": s.chk=true; break; case "checkout_contact_started": s.cstart=true; s.chk=true; break;
+   case "checkout_details": s.det=true; s.chk=true; s.cstart=true; break; case "checkout_validation_error": s.val++; s.chk=true; break;
+   case "checkout_payment_viewed": s.pay=true; break; case "checkout_failed": s.fail=true; s.chk=true; break;
+   case "checkout_back": s.back=true; break; case "checkout_load_error": s.lerr=true; break; case "js_error": s.jserr++; break;
+   case "purchase_return": case "thanks_view": s.buy=true; if(!s.buyT||r.t<s.buyT)s.buyT=r.t; break;
+  }
+  s.ev.push(r);
+ });
+ /* verified purchases (Cardcom), once per deal */
+ const seen=new Set(), buys=[];
+ R.forEach(r=>{ if(!(r.ev==="purchase"&&(r.cta==="cardcom_page_webhook"||r.cta==="cardcom_webhook")))return;
+  const m=(r.qs||"").match(/(\d+(?:\.\d+)?)\s*ILS/), d=(r.qs||"").match(/deal\s+(\S+)/); const deal=d?d[1]:"";
+  const key=deal||(r.sid?r.sid:"t"+Math.floor(r.t/6e4)); if(seen.has(key))return; seen.add(key);
+  const s=r.sid&&S[r.sid]; if(s){s.buy=true; if(!s.buyT)s.buyT=r.t; s.pay=true; s.det=true; s.chk=true;}
+  buys.push({t:r.t,day:dayKey(r.t),amt:m?+m[1]:PRICE,deal,sid:r.sid||"",s:s||null});});
+ let sess=Object.values(S);
+ sess.forEach(s=>{s.offer=seenOffer(s,secNames); s.testi=seenTesti(s,secNames); s.eng=s.act>=20||s.scroll>=50||s.cta; s.dv=(s.dev||"").split("-")[0]||"?"; s.os=(s.dev||"").split("-")[1]||"?"; s.app=(s.dev||"").split("-")[2]||"?"; s.stage=stage(s); s.lastSec=s.sec;
+  s.tbuy=s.buyT?(s.buyT-s.t)/1000:null;});
+ if(fSrc)sess=sess.filter(s=>s.src===fSrc);
+ if(fDev)sess=sess.filter(s=>s.dv===fDev);
+ const sids=new Set(sess.map(s=>s.sid));
+ const vbuys=(fSrc||fDev)?buys.filter(b=>b.sid&&sids.has(b.sid)):buys;
+ return {R,sess,buys:vbuys,allBuys:buys,secNames,secCount,evCount};
+}
+function secIdx(names,re){for(const k in names)if(re.test(names[k]))return +k;return 0}
+const OFFER_RE=/הצעה/, TESTI_RE=/מה אומרים|תוצאות אמיתיות/;
+function seenOffer(s,N){const k=secIdx(N[s.v],OFFER_RE)||(s.secs?s.secs-1:99);return s.sec>=k||s.ctaSeen.offer!=null}
+function seenTesti(s,N){const k=secIdx(N[s.v],TESTI_RE)||99;return s.sec>=k}
+function stage(s){return s.buy?6:s.det?5:s.chk?4:s.cta?3:s.offer?2:s.scroll>=50?1:0}
+
+/* spend for a period */
+function spendIn(a,b,cr){let t=0,known=false;const src=cr?cspend:spend;for(const k in src){const [d,c]=k.split("|");const dt=new Date(d+"T12:00");if(dt>=a&&dt<b&&(!cr||c===cr)){t+=src[k];known=true}}return known?t:null}
+function aggregate(M,a,b){
+ const S=M.sess,v=S.length,eng=S.filter(s=>s.eng).length,off=S.filter(s=>s.offer).length,cta=S.filter(s=>s.cta).length,chk=S.filter(s=>s.chk).length,det=S.filter(s=>s.det).length,pay=S.filter(s=>s.pay).length,buy=M.buys.length,rev=M.buys.reduce((x,y)=>x+y.amt,0),sp=(fSrc||fDev)?null:spendIn(a,b);
+ return {v,eng,off,cta,chk,det,pay,buy,rev,net:rev/(1+VAT),sp,cpa:sp!=null&&buy?sp/buy:null,roas:sp?rev/sp:null,conv:pct(buy,v),rpv:v?rev/v:null,profit:sp!=null?rev/(1+VAT)-sp:null};
+}
+</script>
+<script>
+/* ================= render: shared ================= */
+function delta(cur,prev,inv){if(cur==null||prev==null||!isFinite(cur)||!isFinite(prev))return "";if(prev===0&&cur===0)return '<span class="delta flat">ללא שינוי</span>';if(prev===0)return '<span class="delta flat">חדש</span>';
+ const d=(cur-prev)/Math.abs(prev)*100;const good=inv?d<0:d>0;return (Math.abs(d)<1?'<span class="delta flat">ללא שינוי מהתקופה הקודמת</span>':'<span class="delta '+(good?"up":"down")+'">'+(d>0?"▲ ":"▼ ")+Math.abs(d).toFixed(0)+'% מהתקופה הקודמת</span>')}
+function tile(k,v,d,src,hero){return '<div class="tile'+(hero?" hero":"")+'"><span class="k">'+k+'</span><span class="v num">'+v+'</span><span class="d">'+(d||"&nbsp;")+'</span>'+(src?'<span class="src">'+src+'</span>':"")+'</div>'}
+function bars(el,items,base){el.innerHTML=items.map(it=>{const p=it.na?null:pct(it.n,base);return '<div class="frow" data-tip="'+esc(it.l+": "+(it.na?"לא זמין":fmt(it.n)+" ("+pf(p)+")")+(it.step!=null?" · "+pf(it.step)+" מהשלב הקודם":"")+(it.tip?" · "+it.tip:""))+'"><span>'+esc(it.l)+'</span><div class="fbar"><b class="'+(it.na?"na":"")+'" style="width:'+(it.na?100:Math.max(p?1.5:0,Math.min(100,p||0)))+'%"></b></div><span class="n num">'+(it.na?'<span class="na">לא זמין</span>':fmt(it.n)+'<small>'+pf(p)+(it.step!=null?" · "+pf(it.step)+" מהקודם":"")+'</small>')+'</span></div>'}).join("")||'<div class="empty">אין נתונים בתקופה הזו</div>';}
+function steps(list){return list.map((it,i)=>Object.assign(it,{step:i&&list[i-1].n?pct(it.n,list[i-1].n):null}))}
+function table(el,head,body,empty){el.innerHTML=body.length?'<thead><tr>'+head.map(h=>'<th>'+h+'</th>').join("")+'</tr></thead><tbody>'+body.join("")+'</tbody>':'<tbody><tr><td class="empty">'+(empty||"אין נתונים בתקופה הזו")+'</td></tr></tbody>'}
+function card(c){return '<div class="card '+(c.level||"info")+'"><div class="t">'+esc(c.title)+'</div>'+(c.data?'<div class="why"><b>נתון:</b> '+c.data+'</div>':"")+(c.action?'<div class="why"><b>מה לעשות:</b> '+esc(c.action)+'</div>':"")+(c.measure?'<div class="note">איך נמדוד: '+esc(c.measure)+'</div>':"")+'<div class="meta">'+(c.conf?'<span class="pill '+c.conf[1]+'">'+c.conf[0]+'</span>':"")+(c.tag?'<span class="pill neutral">'+esc(c.tag)+'</span>':"")+'</div></div>'}
+function cell(k,n,extra){return '<td>'+(n?pf(pct(k,n)):'<span class="na">-</span>')+'<small>'+fmt(k)+'/'+fmt(n)+(extra||"")+'</small></td>'}
+
+/* ================= 01 overview ================= */
+function renderOverview(M,P,A,PA,B){
+ const cpaPill=A.cpa==null?"":A.cpa<=GOOD?'<span class="pill good">מתחת ל-150 ₪</span>':A.cpa<=TARGET?'<span class="pill warn">בין 150 ל-250 ₪</span>':'<span class="pill crit">מעל היעד 250 ₪</span>';
+ const lead=leadPage(M);
+ $("ovTiles").innerHTML=[
+  tile("הוצאת פרסום",A.sp==null?'<span class="na">ממתין</span>':ils(A.sp),delta(A.sp,PA.sp,true),A.sp==null?"לא הוזנה הוצאה לתקופה":"הזנה ידנית"),
+  tile("כניסות לדף",fmt(A.v),delta(A.v,PA.v),"ביקורים ייחודיים"),
+  tile("התחלות סליקה",fmt(A.chk),delta(A.chk,PA.chk),"פתחו את דף התשלום"),
+  tile("רכישות מאומתות",fmt(A.buy),delta(A.buy,PA.buy),"קארדקום",true),
+  tile("עלות לרכישה",A.cpa==null?'<span class="na">-</span>':ils(A.cpa),cpaPill||delta(A.cpa,PA.cpa,true),"יעד: מתחת ל-250 ₪",true),
+  tile("המרה בדף",pf(A.conv),delta(A.conv,PA.conv),"רכישות ÷ כניסות"),
+  tile("הכנסות ברוטו",ils(A.rev),delta(A.rev,PA.rev),"כולל מע\"מ"),
+  tile("הכנסה נטו ממע\"מ",ils(A.net),"מע\"מ 18%",""),
+  tile("ROAS",A.roas==null?'<span class="na">-</span>':A.roas.toFixed(2),A.profit!=null?"רווח תרומתי "+ils(A.profit):"","הכנסה ÷ הוצאה"),
+  tile("הדף המוביל בהתקדמות",lead?lead.v:'<span class="na">-</span>',lead?lead.why:"אין מספיק נתונים","",true)].join("");
+ bars($("ovFunnel"),steps([{l:"נכנסו לדף",n:A.v},{l:"ביקור מעורב",n:A.eng,tip:"20+ שניות פעילות, או חצי דף, או לחיצה"},{l:"נחשפו להצעה",n:A.off},{l:"לחצו לרכישה",n:A.cta},{l:"פתחו סליקה",n:A.chk},{l:"השאירו פרטים",n:A.det},{l:"דף התשלום נטען",n:A.pay},{l:"רכישה מאומתת",n:A.buy}]),A.v);
+ const recs=recommend(M,A,B).slice(0,3); $("ovRecs").innerHTML=recs.map(card).join("")||'<div class="empty">אין המלצות כרגע</div>';
+ const al=alerts(M,A,B); $("ovAlerts").innerHTML=al.length?al.slice(0,4).map(card).join(""):'<div class="card good"><div class="t">אין התראות</div><div class="why">המדידה תקינה ולא זוהו חריגות.</div></div>';
+ const cr=creativeStats(M,B), byBuy=[...cr].filter(c=>c.buy).sort((x,y)=>y.buy-x.buy||x.cpaV-y.cpaV), byInt=[...cr].filter(c=>c.v>=5).sort((x,y)=>y.score-x.score);
+ $("ovLeaders").innerHTML='<dt>קריאייטיב רכישות</dt><dd>'+(byBuy[0]?esc(byBuy[0].cr)+' · '+byBuy[0].buy+' רכישות <span class="pill '+conf(byBuy[0].v,byBuy[0].buy)[1]+'">'+conf(byBuy[0].v,byBuy[0].buy)[0]+'</span>':'<span class="na">אין עדיין רכישות מיוחסות</span>')+'</dd>'+
+  '<dt>מוביל בכוונת רכישה</dt><dd>'+(byInt[0]?esc(byInt[0].cr)+' · ציון '+Math.round(byInt[0].score)+' · '+pf(pct(byInt[0].chk,byInt[0].v))+' פתחו סליקה <span class="pill '+conf(byInt[0].v,byInt[0].chk)[1]+'">'+conf(byInt[0].v,byInt[0].chk)[0]+'</span>':'<span class="na">צריך לפחות 5 ביקורים לקריאייטיב</span>')+'</dd>'+
+  '<dt>דף מוביל</dt><dd>'+(lead?esc(VLBL[lead.v])+' · '+lead.why:'<span class="na">אין מספיק מידע</span>')+'</dd>'+
+  '<dt>צוואר בקבוק</dt><dd>'+esc(bottleneck(A).text)+'</dd>';
+ renderDaily(M,B);
+}
+function leadPage(M){const r=VARS.map(v=>{const S=M.sess.filter(s=>s.v===v);const n=S.length,c=S.filter(s=>s.chk).length,o=S.filter(s=>s.offer).length,b=S.filter(s=>s.buy).length;return {v,n,c,o,b,score:n?(b*5+c*2+o*.5)/n:0}}).filter(x=>x.n>=10).sort((x,y)=>y.score-x.score);
+ if(!r.length)return null;const t=r[0];return {v:t.v,why:pf(pct(t.c,t.n))+" פתחו סליקה, "+pf(pct(t.o,t.n))+" ראו הצעה ("+t.n+" ביקורים)"}}
+function bottleneck(A){const st=[["כניסה → הצעה",A.off,A.v,.35],["הצעה → לחיצה",A.cta,A.off,.15],["לחיצה → סליקה",A.chk,A.cta,.85],["סליקה → פרטים",A.det,A.chk,.6],["פרטים → רכישה",A.buy,A.det,.5]];
+ let worst=null;st.forEach(([l,k,n,bench])=>{if(n<5)return;const r=k/n,gap=r/bench;if(!worst||gap<worst.gap)worst={l,r,gap,k,n,bench}});
+ if(!worst)return {text:"עדיין אין מספיק תנועה כדי לזהות",key:null};return {text:worst.l+": "+pf(worst.r*100)+" ("+worst.k+"/"+worst.n+"), יעד גס "+pf(worst.bench*100),key:worst.l,w:worst}}
+function renderDaily(M,B){const days=[];for(let d=new Date(B.a);d<B.b&&days.length<62;d=new Date(+d+864e5))days.push(dayKey(d));
+ if(days.length<2){$("ovDaily").innerHTML='<div class="empty">בחרו תקופה של כמה ימים כדי לראות מגמה</div>';return}
+ const vis={},chk={},buy={};M.sess.forEach(s=>{vis[s.day]=(vis[s.day]||0)+1;if(s.chk)chk[s.day]=(chk[s.day]||0)+1});M.buys.forEach(b=>buy[b.day]=(buy[b.day]||0)+1);
+ const W=Math.max(320,$("ovDaily").clientWidth||760),H=200,pl=34,pb=24,mx=Math.max(4,...days.map(d=>vis[d]||0)),bw=(W-pl)/days.length;
+ const y=v=>H-pb-(v/mx)*(H-pb-8);
+ let g='<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="ביקורים, התחלות סליקה ורכישות לפי יום">';
+ [0,.5,1].forEach(f=>{const v=Math.round(mx*f);g+='<line x1="'+pl+'" x2="'+W+'" y1="'+y(v)+'" y2="'+y(v)+'" stroke="var(--line)"/><text x="'+(pl-6)+'" y="'+(y(v)+4)+'" text-anchor="end">'+v+'</text>'});
+ days.forEach((d,i)=>{const x=W-(i+1)*bw;const v=vis[d]||0,c=chk[d]||0,b=buy[d]||0;
+  g+='<g data-tip="'+d.split("-").reverse().join(".")+": "+v+" ביקורים · "+c+" סליקות · "+b+' רכישות"><rect x="'+(x+bw*.12)+'" y="'+y(v)+'" width="'+bw*.38+'" height="'+(H-pb-y(v))+'" fill="var(--s1)" rx="2"/><rect x="'+(x+bw*.52)+'" y="'+y(c)+'" width="'+bw*.18+'" height="'+(H-pb-y(c))+'" fill="var(--s2)" rx="2"/><rect x="'+(x+bw*.72)+'" y="'+y(b)+'" width="'+bw*.16+'" height="'+(H-pb-y(b))+'" fill="var(--s3)" rx="2"/><rect x="'+x+'" y="0" width="'+bw+'" height="'+H+'" fill="transparent"/></g>';
+  if(days.length<=16||i%Math.ceil(days.length/12)===0)g+='<text x="'+(x+bw/2)+'" y="'+(H-6)+'" text-anchor="middle">'+d.slice(8)+'.'+d.slice(5,7)+'</text>'});
+ $("ovDaily").innerHTML=g+'</svg>'}
+
+/* ================= 02 creatives ================= */
+function creativeStats(M,B){const m={};M.sess.forEach(s=>{const o=m[s.cr]||(m[s.cr]={cr:s.cr,angle:angleOf(s.cr),v:0,eng:0,off:0,cta:0,chk:0,det:0,pay:0,buy:0,ret:0,act:[],byV:{a:[0,0,0,0],b:[0,0,0,0],c:[0,0,0,0]}});
+  o.v++;if(s.eng)o.eng++;if(s.offer)o.off++;if(s.cta)o.cta++;if(s.chk)o.chk++;if(s.det)o.det++;if(s.pay)o.pay++;if(s.buy)o.buy++;if(s.nv>1)o.ret++;o.act.push(s.act);
+  const bv=o.byV[s.v];bv[0]++;if(s.offer)bv[1]++;if(s.chk)bv[2]++;if(s.buy)bv[3]++;});
+ const L=Object.values(m), T=L.reduce((t,o)=>{["v","eng","off","cta","chk","ret"].forEach(k=>t[k]+=o[k]);return t},{v:0,eng:0,off:0,cta:0,chk:0,ret:0});
+ const avg=k=>T.v?T[k]/T.v:0, K=20, adj=(x,n,k)=>(x+K*avg(k))/(n+K);
+ L.forEach(o=>{const w=[["chk",.4],["cta",.25],["off",.15],["eng",.1],["ret",.1]];let s=0,ws=0;w.forEach(([k,wt])=>{const a=avg(k);if(a>0){s+=wt*Math.min(3,adj(o[k],o.v,k)/a);ws+=wt}});o.score=ws?s/ws*50:50;
+  o.sp=spendIn(B.a,B.b,o.cr);o.cpaV=o.sp!=null&&o.buy?o.sp/o.buy:Infinity;o.medAct=median(o.act)});
+ return L.sort((x,y)=>y.v-x.v)}
+function renderCreatives(M,B){
+ $("crMeta").innerHTML='<b>Meta Ads: לא מחובר.</b> חשיפות, CTR, CPC, צפיות בווידאו ורכישות לפי Meta יופיעו כאן אחרי חיבור Marketing API מחשבון מודעות פעיל. עד אז הכל נמדד באתר לפי utm_content, וההוצאה לכל קריאייטיב מוזנת ידנית במסך 08.';
+ const L=creativeStats(M,B);
+ table($("crTable"),["קריאייטיב","זווית","ביקורים","מעורבים","ראו הצעה","לחצו CTA","פתחו סליקה","השאירו פרטים","רכישות","זמן פעיל חציוני","חוזרים"],L.map(o=>'<tr class="click" data-cr="'+esc(o.cr)+'"><td><b>'+esc(o.cr)+'</b></td><td>'+esc(o.angle)+'</td><td class="num">'+fmt(o.v)+'</td>'+cell(o.eng,o.v)+cell(o.off,o.v)+cell(o.cta,o.v)+cell(o.chk,o.v)+cell(o.det,o.v)+'<td class="num"><b>'+fmt(o.buy)+'</b></td><td>'+secs(o.medAct)+'</td>'+cell(o.ret,o.v)+'</tr>'));
+ table($("crCost"),["קריאייטיב","הוצאה","עלות לביקור","עלות לביקור מעורב","עלות לחשיפת הצעה","עלות ללוחץ CTA","עלות להתחלת סליקה","עלות לרכישה"],L.map(o=>{const c=k=>o.sp!=null&&k?ils(o.sp/k):'<span class="na">-</span>';return '<tr><td><b>'+esc(o.cr)+'</b></td><td>'+(o.sp==null?'<span class="na">לא הוזנה</span>':ils(o.sp))+'</td><td>'+c(o.v)+'</td><td>'+c(o.eng)+'</td><td>'+c(o.off)+'</td><td>'+c(o.cta)+'</td><td>'+c(o.chk)+'</td><td>'+c(o.buy)+'</td></tr>'}));
+ const bb=L.filter(o=>o.buy).sort((x,y)=>x.cpaV-y.cpaV||y.buy-x.buy);
+ table($("crRankBuy"),["#","קריאייטיב","רכישות","עלות לרכישה","ביטחון"],bb.map((o,i)=>'<tr><td>'+(i+1)+'</td><td>'+esc(o.cr)+'</td><td>'+o.buy+'</td><td>'+(isFinite(o.cpaV)?ils(o.cpaV):'<span class="na">אין הוצאה</span>')+'</td><td><span class="pill '+conf(o.v,o.buy)[1]+'">'+conf(o.v,o.buy)[0]+'</span></td></tr>'),"אין עדיין קריאייטיב עם רכישה. לא מכריזים על מנצח בלי רכישות.");
+ const ib=L.filter(o=>o.v>=3).sort((x,y)=>y.score-x.score);
+ table($("crRankIntent"),["#","קריאייטיב","ציון","פתחו סליקה","לחצו CTA","ביטחון"],ib.map((o,i)=>'<tr><td>'+(i+1)+'</td><td>'+esc(o.cr)+'</td><td><b>'+Math.round(o.score)+'</b><span class="minibar" style="width:'+Math.min(60,o.score*.6)+'px"></span></td><td>'+pf(pct(o.chk,o.v))+'</td><td>'+pf(pct(o.cta,o.v))+'</td><td><span class="pill '+conf(o.v,o.chk)[1]+'">'+conf(o.v,o.chk)[0]+'</span></td></tr>'),"צריך לפחות 3 ביקורים לקריאייטיב");
+ const an={};L.forEach(o=>{const a=an[o.angle]||(an[o.angle]={a:o.angle,n:0,v:0,chk:0,cta:0,buy:0});a.n++;a.v+=o.v;a.chk+=o.chk;a.cta+=o.cta;a.buy+=o.buy});
+ table($("crAngle"),["זווית","קריאייטיבים","ביקורים","לחצו CTA","פתחו סליקה","רכישות"],Object.values(an).sort((x,y)=>y.v-x.v).map(a=>'<tr><td><b>'+esc(a.a)+'</b></td><td>'+a.n+'</td><td>'+fmt(a.v)+'</td>'+cell(a.cta,a.v)+cell(a.chk,a.v)+'<td>'+a.buy+'</td></tr>'));
+ const rowsM=[];L.forEach(o=>VARS.forEach(v=>{const b=o.byV[v];if(b[0])rowsM.push('<tr><td>'+esc(o.cr)+'</td><td><i class="sw" style="background:'+VCOL[v]+'"></i>'+v+'</td><td>'+b[0]+'</td>'+cell(b[1],b[0])+cell(b[2],b[0])+'<td>'+b[3]+'</td><td>'+(o.sp!=null&&b[3]?ils(o.sp*b[0]/o.v/b[3]):'<span class="na">-</span>')+'</td></tr>')}));
+ table($("crMatrix"),["קריאייטיב","דף","ביקורים","ראו מחיר","התחילו סליקה","רכישות","עלות לרכישה (משוער)"],rowsM);
+ document.querySelectorAll("#crTable tr.click").forEach(tr=>tr.onclick=()=>{openCr=tr.dataset.cr;renderCrDetail(M)});
+ if(openCr)renderCrDetail(M);
+}
+function renderCrDetail(M){const S=M.sess.filter(s=>s.cr===openCr);const el=$("crDetail");if(!S.length){el.hidden=true;return}el.hidden=false;
+ const n=S.length,f=[["ביקורים",n],["ראו הצעה",S.filter(s=>s.offer).length],["לחצו CTA",S.filter(s=>s.cta).length],["פתחו סליקה",S.filter(s=>s.chk).length],["השאירו פרטים",S.filter(s=>s.det).length],["רכשו",S.filter(s=>s.buy).length]];
+ const pl={};S.forEach(s=>{const k=s.place||"לא ידוע";pl[k]=(pl[k]||0)+1});const dv={};S.forEach(s=>{dv[s.dv]=(dv[s.dv]||0)+1});
+ el.innerHTML='<div class="panel-h"><h2>המסע של '+esc(openCr)+'</h2><button class="btn" id="crClose">סגירה</button></div><div class="fun" id="crFun"></div><p class="note">מיקומים: '+Object.entries(pl).map(([k,v])=>esc(k)+" "+v).join(" · ")+' · מכשירים: '+Object.entries(dv).map(([k,v])=>(k==="m"?"מובייל":k==="d"?"מחשב":k)+" "+v).join(" · ")+'</p>';
+ bars($("crFun"),steps(f.map(([l,k])=>({l,n:k}))),n);$("crClose").onclick=()=>{openCr="";el.hidden=true}}
+</script>
+<script>
+/* ================= 03 pages ================= */
+function varStats(M,v){const S=M.sess.filter(s=>s.v===v),n=S.length;const N=M.secNames[v];
+ return {v,n,S,act:median(S.map(s=>s.act||null)),scroll:median(S.map(s=>s.scroll)),r50:S.filter(s=>s.scroll>=50).length,off:S.filter(s=>s.offer).length,testi:S.filter(s=>s.testi).length,cta:S.filter(s=>s.cta).length,chk:S.filter(s=>s.chk).length,det:S.filter(s=>s.det).length,buy:S.filter(s=>s.buy).length,
+  rev:M.buys.filter(b=>b.s&&b.s.v===v).reduce((x,y)=>x+y.amt,0),tbuy:median(S.map(s=>s.tbuy))}}
+function renderPages(M,P){
+ const go=M.sess.filter(s=>s.go).length;$("lpNote").textContent="ערך, ובשורה הקטנה: מספר המדידות ושינוי מהתקופה הקודמת. "+(go?go+" מהביקורים הגיעו בחלוקה אקראית (go.html)":"עדיין אין תנועה בחלוקה אקראית");
+ const X=VARS.map(v=>varStats(M,v)),Y=VARS.map(v=>varStats(P,v));
+ const rowsDef=[["כניסות ייחודיות",x=>x.n,x=>fmt(x.n),"n"],["זמן פעיל חציוני",x=>x.act,x=>secs(x.act),"t"],["גלילה חציונית",x=>x.scroll,x=>x.scroll==null?"-":Math.round(x.scroll)+"%","t"],["הגעה ל-50%",x=>pct(x.r50,x.n),x=>pf(pct(x.r50,x.n)),"r",x=>x.r50],["הגעה לאזור ההצעה",x=>pct(x.off,x.n),x=>pf(pct(x.off,x.n)),"r",x=>x.off],["הגעה להמלצות",x=>pct(x.testi,x.n),x=>pf(pct(x.testi,x.n)),"r",x=>x.testi],["לחיצה על CTA",x=>pct(x.cta,x.n),x=>pf(pct(x.cta,x.n)),"r",x=>x.cta],["התחלת סליקה",x=>pct(x.chk,x.n),x=>pf(pct(x.chk,x.n)),"r",x=>x.chk],["השלמת סליקה (מהמתחילים)",x=>pct(x.buy,x.chk),x=>pf(pct(x.buy,x.chk)),"r2",x=>x.buy],["שיעור רכישה",x=>pct(x.buy,x.n),x=>pf(pct(x.buy,x.n)),"r",x=>x.buy],["הכנסה למבקר",x=>x.n?x.rev/x.n:null,x=>x.n?(x.rev/x.n).toFixed(1)+" ₪":"-","t"],["זמן עד רכישה (חציון)",x=>x.tbuy,x=>secs(x.tbuy),"t"]];
+ const head=["מדד"].concat(VARS.map(v=>'<i class="sw" style="background:'+VCOL[v]+'"></i>'+VLBL[v]));
+ table($("lpTable"),head,rowsDef.map(([l,val,show,kind,cnt])=>{const vals=X.map(val);const best=Math.max(...vals.filter(x=>x!=null&&isFinite(x)));
+  return '<tr><td>'+l+'</td>'+X.map((x,i)=>{const pv=val(Y[i]);const bestC=kind!=="n"&&vals[i]===best&&X.filter(z=>z.n>=10).length>1&&x.n>=10;return '<td class="'+(bestC?"best":"")+'">'+show(x)+'<small>'+(kind==="r"||kind==="r2"?fmt(cnt(x))+"/"+fmt(kind==="r2"?x.chk:x.n):"n="+fmt(x.n))+(pv!=null&&vals[i]!=null&&isFinite(pv)?" · <span dir=ltr>"+(vals[i]-pv>=0?"+":"")+(kind==="r"||kind==="r2"?(vals[i]-pv).toFixed(1)+" נק'":kind==="t"?Math.round(vals[i]-pv):fmt(vals[i]-pv))+"</span>":"")+'</small></td>'}).join("")+'</tr>'}));
+ document.querySelectorAll("#lpVar button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.v===lpVar)));
+ const S=M.sess.filter(s=>s.v===lpVar),n=S.length,N=M.secNames[lpVar],K=Math.max(M.secCount[lpVar],...S.map(s=>s.secs||0),...Object.keys(N).map(Number));
+ const sec=[];for(let k=1;k<=K;k++){const reach=S.filter(s=>s.sec>=k||(s.secT[k]>0)).length,next=S.filter(s=>s.sec>=k+1||(s.secT[k+1]>0)).length,t=median(S.filter(s=>s.secT[k]>0).map(s=>s.secT[k])),exit=S.filter(s=>!s.buy&&!s.chk&&s.sec===k).length;
+  sec.push('<tr><td>'+k+'. '+esc(N[k]||"אזור "+k)+'</td><td>'+pf(pct(reach,n))+'<span class="minibar" style="width:'+Math.round((pct(reach,n)||0)*.6)+'px"></span><small>'+reach+'/'+n+'</small></td><td>'+(t==null?'<span class="na">-</span>':secs(t))+'</td><td>'+(k<K&&reach?pf(pct(next,reach)):'<span class="na">-</span>')+'</td><td>'+(exit||"")+'</td></tr>')}
+ table($("lpSections"),["אזור","הגיעו","זמן באזור","עברו לבא","יצאו כאן"],sec);
+ const C={};M.sess.forEach(s=>{Object.keys(s.ctaSeen).forEach(k=>{(C[k]||(C[k]={id:k,seen:0,cl:0,clicks:0,chk:0,buy:0,t:[]})).seen++});
+  const ids=new Set(s.ctas.map(c=>c.id));s.ctas.forEach(c=>{(C[c.id]||(C[c.id]={id:c.id,seen:0,cl:0,clicks:0,chk:0,buy:0,t:[]})).clicks++});
+  ids.forEach(id=>{const o=C[id];o.cl++;o.t.push(s.ctas.find(c=>c.id===id).sec)});
+  const last=s.ctas.length?s.ctas[s.ctas.length-1].id:null;if(last&&s.chk)C[last].chk++;if(last&&s.buy)C[last].buy++;});
+ table($("lpCta"),["כפתור","נחשפו","לחצו","לחיצה מתוך נחשפים","קליקים","הגיעו לסליקה","רכישות אחרי","זמן עד לחיצה"],Object.values(C).sort((a,b)=>b.cl-a.cl).map(o=>'<tr><td><b>'+esc(CTA_LBL[o.id]||o.id)+'</b><small>'+esc(o.id)+'</small></td><td>'+(o.seen||'<span class="na">-</span>')+'</td><td>'+o.cl+'</td><td>'+(o.seen?pf(pct(o.cl,o.seen)):'<span class="na">-</span>')+'</td><td>'+o.clicks+'</td><td>'+o.chk+'</td><td>'+o.buy+'</td><td>'+secs(median(o.t))+'</td></tr>'),"עוד אין לחיצות. חשיפת כפתורים נמדדת מהיום.");
+ const ex={};M.sess.filter(s=>!s.buy&&!s.chk).forEach(s=>{const k=s.v+"|"+s.sec;const o=ex[k]||(ex[k]={v:s.v,sec:s.sec,n:0,active:0,price:0,testi:0,cta:0,quick:0});o.n++;if(s.act>=10)o.active++;if(s.offer)o.price++;if(s.testi)o.testi++;if(s.cta)o.cta++;if(s.act<8&&s.scroll>=50)o.quick++});
+ table($("lpExit"),["דף","אזור אחרון","יצאו","היו פעילים","ראו מחיר","ראו המלצות","לחצו וחזרו","סרקו מהר"],Object.values(ex).sort((a,b)=>b.n-a.n).slice(0,12).map(o=>'<tr><td>'+o.v+'</td><td>'+o.sec+'. '+esc(M.secNames[o.v][o.sec]||"")+'</td><td><b>'+o.n+'</b></td><td>'+o.active+'</td><td>'+o.price+'</td><td>'+o.testi+'</td><td>'+o.cta+'</td><td>'+o.quick+'</td></tr>'));
+ const tm=(arr)=>{const m=median(arr);return m==null?'<span class="na">-</span>':secs(m)+'<small>'+secs(q(arr,.25))+' - '+secs(q(arr,.75))+'</small>'};
+ table($("lpTimes"),["דף","זמן כולל","זמן פעיל","עד גלילה ראשונה","עד לחיצת רכישה ראשונה"],VARS.map(v=>{const S=M.sess.filter(s=>s.v===v);return '<tr><td><i class="sw" style="background:'+VCOL[v]+'"></i>'+VLBL[v]+'</td><td>'+tm(S.map(s=>s.time))+'</td><td>'+tm(S.filter(s=>s.act).map(s=>s.act))+'</td><td>'+tm(S.filter(s=>s.fs!=null).map(s=>s.fs))+'</td><td>'+tm(S.filter(s=>s.fc!=null).map(s=>s.fc))+'</td></tr>'}));
+}
+
+/* ================= 04 checkout ================= */
+function renderCheckout(M){const S=M.sess,cta=S.filter(s=>s.cta).length,chk=S.filter(s=>s.chk).length,cs=S.filter(s=>s.cstart).length,det=S.filter(s=>s.det).length,pay=S.filter(s=>s.pay).length,buy=M.buys.length;
+ bars($("coFunnel"),steps([{l:"לחצו לרכישה",n:cta},{l:"דף הסליקה נפתח",n:chk},{l:"התחילו למלא פרטים",n:cs},{l:"פרטים הושלמו",n:det},{l:"טופס התשלום הוצג",n:pay},{l:"ניסיון תשלום",n:0,na:true},{l:"עסקה מאושרת",n:buy}]),Math.max(cta,chk));
+ const val={};S.forEach(s=>s.ev.filter(r=>r.ev==="checkout_validation_error").forEach(r=>(r.name||"?").split(",").forEach(f=>val[f]=(val[f]||0)+1)));
+ const FL={name:"שם",email:"מייל",phone:"טלפון"};
+ const tDet=median(S.filter(s=>s.det).map(s=>{const a=s.ev.find(r=>r.ev==="checkout_view"),b=s.ev.find(r=>r.ev==="checkout_details");return a&&b?(b.t-a.t)/1000:null}));
+ table($("coIssues"),["מה","כמה","הערה"],[
+  '<tr><td>שגיאות אימות בטופס</td><td>'+Object.values(val).reduce((a,b)=>a+b,0)+'</td><td>'+(Object.keys(val).map(k=>(FL[k]||k)+" "+val[k]).join(" · ")||"-")+'</td></tr>',
+  '<tr><td>תשלום נכשל (חזרו מקארדקום)</td><td>'+S.filter(s=>s.fail).length+'</td><td>לפי חזרה עם status=failed</td></tr>',
+  '<tr><td>דף התשלום לא נטען</td><td>'+S.filter(s=>s.lerr).length+'</td><td>שגיאה ביצירת דף LowProfile</td></tr>',
+  '<tr><td>חזרו מהסליקה לדף המכירה</td><td>'+S.filter(s=>s.back).length+'</td><td>לחיצה על "חזרה לדף"</td></tr>',
+  '<tr><td>ניסו יותר מפעם אחת</td><td>'+S.filter(s=>s.ev.filter(r=>r.ev==="checkout_view").length>1).length+'</td><td>פתחו את הסליקה שוב</td></tr>',
+  '<tr><td>זמן טעינת טופס התשלום</td><td>'+(median(S.filter(s=>s.payMs).map(s=>s.payMs))!=null?(median(S.filter(s=>s.payMs).map(s=>s.payMs))/1000).toFixed(1)+" שנ'":"-")+'</td><td>חציון</td></tr>',
+  '<tr><td>זמן מפתיחה עד פרטים</td><td>'+secs(tDet)+'</td><td>חציון</td></tr>',
+  '<tr><td>זמן מכניסה לדף עד רכישה</td><td>'+secs(median(S.map(s=>s.tbuy)))+'</td><td>חציון</td></tr>']);
+ const D={};S.filter(s=>s.cta||s.chk).forEach(s=>{const k=(s.dv==="m"?"מובייל":s.dv==="d"?"מחשב":"?")+" · "+({ios:"iOS",android:"Android",win:"Windows",mac:"Mac"}[s.os]||s.os)+" · "+({ig:"דפדפן אינסטגרם",fb:"דפדפן פייסבוק",web:"דפדפן רגיל"}[s.app]||s.app);const o=D[k]||(D[k]={k,cta:0,chk:0,det:0,pay:0,buy:0,fail:0});o.cta+=s.cta?1:0;o.chk+=s.chk?1:0;o.det+=s.det?1:0;o.pay+=s.pay?1:0;o.buy+=s.buy?1:0;o.fail+=s.fail?1:0});
+ table($("coDev"),["מכשיר","לחצו","פתחו סליקה","פרטים","טופס תשלום","רכשו","נכשלו"],Object.values(D).sort((a,b)=>b.cta-a.cta).map(o=>'<tr><td>'+esc(o.k)+'</td><td>'+o.cta+'</td>'+cell(o.chk,o.cta)+cell(o.det,o.chk)+cell(o.pay,o.det)+cell(o.buy,o.pay)+'<td>'+o.fail+'</td></tr>'),"המכשיר נמדד מהיום. ביקורים ישנים מופיעים כ-?");
+ $("coNA").innerHTML='<b>לא זמין מקארדקום:</b> ניסיון תשלום, שגיאות בתוך טופס האשראי, קוד סיבת כישלון והחזרים. טופס התשלום נמצא אצל קארדקום ולא שולח אירועים לדף. מסומן כלא זמין ולא כאפס. אין שמירה של מספרי כרטיס, CVV או תוכן שדות.';}
+
+/* ================= 05 journeys ================= */
+function renderJourneys(M){const L=[...M.sess].sort((a,b)=>b.last-a.last),cnt=[0,0,0,0,0,0,0];L.forEach(s=>cnt[s.stage]++);
+ const live=L.filter(s=>Date.now()-s.last<300000).length;$("liveN").innerHTML=live?'· '+live+' בפעילות עכשיו<span class="live"></span>':"";
+ $("jrSum").innerHTML=SUM.map((n,i)=>cnt[i]?'<span>'+esc(n)+': <b>'+cnt[i]+'</b></span>':"").join("");
+ const sel=$("jrStage");if(sel.options.length<2)STG.forEach((s,i)=>{const o=document.createElement("option");o.value=String(i);o.textContent="עצרו ב: "+s;sel.appendChild(o)});
+ const F=jrStage===""?L:L.filter(s=>s.stage===+jrStage),T=F.slice(0,80);
+ const ago=t=>{const m=Math.round((Date.now()-t)/6e4);return m<1?"עכשיו":m<60?"לפני "+m+" דק'":m<1440?"לפני "+Math.round(m/60)+" שע'":t.toLocaleDateString("he-IL",{day:"2-digit",month:"2-digit"})};
+ table($("jrTable"),["פעילות אחרונה","דף","מקור / קריאייטיב","מכשיר","ביקור","שלב אחרון","התקדמות","זמן פעיל","אזור אחרון"],T.map(s=>{const g=s.stage;return '<tr class="click" data-sid="'+esc(s.sid)+'"><td>'+ago(s.last)+(Date.now()-s.last<300000?'<span class="live"></span>':'')+'</td><td>'+s.v+'</td><td>'+esc(s.src)+'<small>'+esc(s.cr)+'</small></td><td>'+(s.dv==="m"?"מובייל":s.dv==="d"?"מחשב":"-")+'</td><td>'+(s.nv>1?"חוזר ("+s.nv+")":s.nv?"ראשון":"-")+'</td><td><b>'+STG[g]+'</b></td><td><span class="dots">'+STG.map((_,i)=>'<i class="'+(i<=g?(g===6?"buy":"on"):"")+'"></i>').join("")+'</span></td><td>'+secs(s.act||null)+'</td><td>'+s.sec+'. '+esc(M.secNames[s.v][s.sec]||"")+'</td></tr>'+(openSid===s.sid?'<tr><td colspan="9"><div class="tl">'+s.ev.slice().sort((a,b)=>a.t-b.t).map(r=>'<div><span>'+r.t.toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit",second:"2-digit"})+'</span><span>'+esc(evName(r))+'</span><span>'+esc(evDetail(r,M))+'</span></div>').join("")+'</div></td></tr>':"")}).concat(F.length>80?['<tr><td colspan="9" class="note">מוצגים 80 מתוך '+F.length+'</td></tr>']:[]));
+ document.querySelectorAll("#jrTable tr.click").forEach(tr=>tr.onclick=()=>{openSid=openSid===tr.dataset.sid?"":tr.dataset.sid;renderJourneys(M)});
+ const nw={new:{n:0,chk:0,buy:0},ret:{n:0,chk:0,buy:0}};M.sess.filter(s=>s.nv).forEach(s=>{const o=s.nv>1?nw.ret:nw.new;o.n++;if(s.chk)o.chk++;if(s.buy)o.buy++});
+ table($("jrNew"),["","ביקורים","פתחו סליקה","רכשו"],[["ביקור ראשון",nw.new],["ביקור חוזר",nw.ret]].map(([l,o])=>'<tr><td>'+l+'</td><td>'+o.n+'</td>'+cell(o.chk,o.n)+cell(o.buy,o.n)+'</tr>'),"נמדד מהיום");
+ const B=M.sess.filter(s=>s.buy);const byVid={};M.sess.forEach(s=>{if(s.vid)(byVid[s.vid]||(byVid[s.vid]=[])).push(s)});
+ const visitsToBuy=B.filter(s=>s.vid).map(s=>byVid[s.vid].filter(x=>x.t<=s.t).length);
+ $("jrBuy").innerHTML='<dt>רכשו בתקופה</dt><dd>'+B.length+'</dd><dt>זמן מכניסה לרכישה</dt><dd>'+secs(median(B.map(s=>s.tbuy)))+'</dd><dt>ביקורים עד רכישה</dt><dd>'+(visitsToBuy.length?median(visitsToBuy):"-")+'</dd><dt>רכשו בביקור חוזר</dt><dd>'+B.filter(s=>s.nv>1).length+'</dd>';}
+function evName(r){return ({view:"נכנס לדף",scroll:"גלל",section:"הגיע לאזור",cta_click:"לחץ לרכישה",shortcut_click:"לחץ על קיצור דרך",video_play:"ניגן וידאו",faq_open:"פתח שאלה",leave:"יצא / הסתיר את הדף",checkout_view:"פתח סליקה",checkout_contact_started:"התחיל למלא פרטים",checkout_details:"השלים פרטים",checkout_validation_error:"שגיאה בטופס",checkout_payment_viewed:"טופס תשלום נטען",checkout_failed:"תשלום נכשל",checkout_back:"חזר לדף המכירה",checkout_load_error:"דף התשלום לא נטען",purchase_return:"חזר לדף התודה",thanks_view:"דף תודה",js_error:"שגיאת JS"})[r.ev]||r.ev}
+function evDetail(r,M){if(r.ev==="section")return r.section+". "+(r.name||"");if(r.ev==="scroll")return r.depth+"%";if(r.ev==="cta_click")return (CTA_LBL[r.cta]||r.cta||"")+" · אחרי "+secs(+r.sec_on_page);if(r.ev==="leave")return "זמן "+secs(+r.sec_on_page)+", פעיל "+secs(+r.act||null);if(r.ev==="checkout_validation_error")return r.name||"";if(r.ev==="js_error")return r.name||"";return ""}
+
+/* ================= 06 experiments ================= */
+function renderExperiments(M){const S=M.sess.filter(s=>s.go),n=S.length;$("exState").textContent=n?"פעיל · "+n+" מבקרים בניסוי":"ממתין לתנועה מ-go.html";
+ const arms=VARS.map(v=>{const A=S.filter(s=>s.v===v);return {v,n:A.length,cta:A.filter(s=>s.cta).length,chk:A.filter(s=>s.chk).length,buy:A.filter(s=>s.buy).length}});
+ const need=Math.ceil(16*0.03*0.97/Math.pow(0.03*0.5,2));
+ const E=EXPERIMENTS[0];
+ $("exActive").innerHTML='<dl class="kv"><dt>ניסוי</dt><dd><b>'+esc(E.name)+'</b></dd><dt>השערה</dt><dd>'+esc(E.hyp)+'</dd><dt>מה משתנה</dt><dd>'+esc(E.change)+'</dd><dt>חלוקה</dt><dd>'+esc(E.arms)+'</dd><dt>מדד ראשי</dt><dd>'+esc(E.primary)+'</dd><dt>מדדי משנה</dt><dd>'+esc(E.secondary)+'</dd><dt>מדדי הגנה</dt><dd>'+esc(E.guard)+'</dd></dl>'+
+  '<div class="tw" style="margin-top:12px"><table><thead><tr><th>גרסה</th><th>מבקרים בניסוי</th><th>לחיצת CTA (טווח 95%)</th><th>פתיחת סליקה (טווח 95%)</th><th>רכישות למבקר (טווח 95%)</th></tr></thead><tbody>'+arms.map(a=>{const ci=(k)=>{const w=wilson(k,a.n);return pf(pct(k,a.n))+'<small>'+(a.n?w[0].toFixed(1)+"% - "+w[1].toFixed(1)+"%":"")+'</small>'};return '<tr><td><i class="sw" style="background:'+VCOL[a.v]+'"></i>'+VLBL[a.v]+'</td><td>'+a.n+'</td><td>'+ci(a.cta)+'</td><td>'+ci(a.chk)+'</td><td>'+ci(a.buy)+'</td></tr>'}).join("")+'</tbody></table></div>'+
+  '<p class="note">כלל עצירה: מכריזים על מנצח רק כשטווחי ה-95% של המדד הראשי לא חופפים, ויש לפחות כ-'+need.toLocaleString("he-IL")+' מבקרים לכל גרסה (להבחין בשיפור של 50% על המרה של 3%). בתקציב של 150 ₪ ביום זה ייקח זמן. עד אז מדווחים על אותות מוקדמים בלבד. רק תנועה שעברה ב-go.html נכנסת לניסוי.</p>';
+ table($("exLog"),["תאריך","מה","סטטוס"],EXPERIMENTS.map(e=>'<tr><td>'+e.start+'</td><td><b>ניסוי:</b> '+esc(e.name)+'</td><td>'+esc(e.status)+'</td></tr>').concat(CHANGELOG.slice().reverse().map(c=>'<tr><td>'+c[0]+'</td><td>'+esc(c[1])+'</td><td>הוטמע</td></tr>')));}
+</script>
+<script>
+/* ================= 07 insights: rules ================= */
+function recommend(M,A,B){const R=[],cr=creativeStats(M,B),bn=bottleneck(A);
+ const add=(p,o)=>R.push(Object.assign({p},o));
+ const lerr=M.sess.filter(s=>s.lerr).length; if(lerr) add(1,{level:"crit",title:"דף התשלום לא נטען ל-"+lerr+" גולשים",data:lerr+" שגיאות טעינה בסליקה",action:"לבדוק את תרחיש יצירת הדף בקארדקום ואת המסוף",conf:["תקלה","crit"],tag:"עוצר מכירות",measure:"אפס שגיאות טעינה ב-24 השעות הבאות"});
+ const fail=M.sess.filter(s=>s.fail).length; if(fail>=2&&fail/Math.max(1,A.det)>.2) add(1,{level:"crit",title:"הרבה תשלומים נכשלים",data:fail+" כישלונות מתוך "+A.det+" שהשאירו פרטים",action:"לבדוק מול קארדקום סוגי כרטיסים, 3DS ומגבלות מסוף",conf:conf(A.det,fail),tag:"סליקה",measure:"שיעור כישלון מתחת ל-10%"});
+ if(A.chk>=5&&A.det/A.chk<.5) add(2,{level:"warn",title:"נטישה גבוהה במילוי הפרטים",data:pf(pct(A.det,A.chk))+" מהפותחים השלימו פרטים ("+A.det+"/"+A.chk+")",action:"לבדוק שגיאות אימות, להוריד שדה אם אפשר, להוסיף אמון ליד הכפתור",conf:conf(A.chk,A.det),tag:"סליקה",measure:"השלמת פרטים מעל 60%"});
+ if(A.det>=4&&A.buy/A.det<.4) add(2,{level:"warn",title:"משאירים פרטים ולא משלמים",data:pf(pct(A.buy,A.det))+" מהשאירו פרטים שילמו ("+A.buy+"/"+A.det+")",action:"לבדוק את זמן טעינת טופס התשלום ואת חוויית האשראי במובייל, ולוודא שמיילי הנטישה יוצאים",conf:conf(A.det,A.buy),tag:"סליקה",measure:"תשלום מתוך פרטים מעל 50%"});
+ if(A.cta>=5&&A.chk/A.cta<.8) add(2,{level:"warn",title:"לוחצים לרכישה ולא מגיעים לסליקה",data:pf(pct(A.chk,A.cta))+" מהלוחצים פתחו את הסליקה",action:"לבדוק מהירות מעבר, דפדפן אינסטגרם וחסימות קישור",conf:conf(A.cta,A.chk),tag:"מעבר",measure:"מעל 85% מהלוחצים פותחים סליקה"});
+ if(A.off>=15&&A.cta/A.off<.08) add(4,{level:"info",title:"מגיעים להצעה ולא לוחצים",data:pf(pct(A.cta,A.off))+" מהנחשפים להצעה לחצו",action:"לבדוק בהירות ההצעה, הבטחה, ערבות 7 ימים והוכחות ליד המחיר",conf:conf(A.off,A.cta),tag:"הצעה",measure:"שיעור לחיצה מתוך הנחשפים להצעה"});
+ if(A.v>=20&&A.off/A.v<.25) add(3,{level:"info",title:"מעטים מגיעים לאזור ההצעה",data:pf(pct(A.off,A.v))+" מהמבקרים ראו את ההצעה",action:"לבדוק התאמה בין המודעה לפתיחת הדף, ולהעלות כפתור או קיצור דרך למחיר",conf:conf(A.v,A.off),tag:"התאמת מסר",measure:"הגעה להצעה מעל 35%"});
+ cr.forEach(o=>{ if(o.sp!=null&&o.sp>=TARGET*1.5&&!o.buy) add(5,{level:"warn",title:o.cr+" הוציא "+ils(o.sp)+" בלי רכישה",data:o.v+" ביקורים, "+o.chk+" התחילו סליקה",action:o.chk?"להשאיר עוד יום: יש התחלות סליקה":"לשקול עצירה או החלפת הוק",conf:conf(o.v,o.chk),tag:"קריאייטיב",measure:"רכישה או התחלות סליקה ב-48 שעות"});
+  if(o.buy>=2&&isFinite(o.cpaV)&&o.cpaV<GOOD) add(5,{level:"good",title:o.cr+" מביא רכישות בעלות נמוכה",data:o.buy+" רכישות, "+ils(o.cpaV)+" לרכישה",action:"לשקול הגדלת תקציב מבוקרת של 20%",conf:conf(o.v,o.buy),tag:"הזדמנות",measure:"עלות לרכישה נשארת מתחת ל-250 ₪"});
+  if(o.v>=5&&o.v<15) add(6,{level:"info",title:o.cr+" כמעט לא קיבל תנועה",data:o.v+" ביקורים בלבד",action:"לא לקבוע שנכשל. אם רוצים לבדוק אותו, להריץ ניסוי ייעודי",conf:["נתונים מעטים","off"],tag:"קריאייטיב"});});
+ const top=cr.filter(o=>o.v>=10).sort((a,b)=>b.score-a.score)[0]; if(top&&!top.buy) add(5,{level:"info",title:top.cr+" מוביל בכוונת רכישה",data:"ציון "+Math.round(top.score)+", "+pf(pct(top.chk,top.v))+" פתחו סליקה",action:"השערה להמשך בדיקה, לא הכרזה על מנצח",conf:conf(top.v,top.chk),tag:"אות מוקדם"});
+ const mob=M.sess.filter(s=>s.dv==="m"),dsk=M.sess.filter(s=>s.dv==="d"); if(mob.length>=20&&dsk.length>=10){const rm=pct(mob.filter(s=>s.chk).length,mob.length),rd=pct(dsk.filter(s=>s.chk).length,dsk.length);if(rd>rm*1.6) add(3,{level:"warn",title:"המובייל ממיר הרבה פחות מהמחשב",data:"פתיחת סליקה "+pf(rm)+" במובייל מול "+pf(rd)+" במחשב",action:"לבדוק את חוויית המובייל ודפדפן אינסטגרם, לא רק את הקופי",conf:conf(mob.length,mob.filter(s=>s.chk).length),tag:"מכשיר"})}
+ if(!R.length) add(9,{level:"info",title:A.v<30?"צריך עוד תנועה":"אין חריגה בולטת",data:A.v+" ביקורים בתקופה",action:A.v<30?"להמשיך להריץ. הדשבורד יציג המלצות כשיהיו מספיק נתונים":"להמשיך לעקוב",tag:"מצב"});
+ return R.sort((a,b)=>a.p-b.p)}
+function alerts(M,A,B){const L=[],now=Date.now();
+ const lastRow=rows.length?rows[rows.length-1].t:null; if(lastRow&&now-lastRow>6*36e5&&new Date().getHours()>=9) L.push({level:"warn",title:"לא נכנסו אירועים "+Math.round((now-lastRow)/36e5)+" שעות",data:"האירוע האחרון: "+lastRow.toLocaleString("he-IL"),action:"לבדוק שהדפים עולים ושהמעקב ב-Make פעיל",tag:"טכני"});
+ const orphan=M.buys.filter(b=>!b.s).length; if(orphan) L.push({level:"warn",title:orphan+" רכישות בלי ביקור מקושר",data:"עסקה בקארדקום בלי מזהה ביקור תואם",action:"בדרך כלל קונה שהגיע ישירות לסליקה או ממכשיר אחר. נספר כרכישה מאומתת ללא שיוך",tag:"ייחוס"});
+ const dupe=rows.filter(r=>r.ev==="purchase").length-M.allBuys.length; if(dupe>0&&range==="all") L.push({level:"info",title:dupe+" דיווחי רכישה כפולים סוננו",data:"אותה עסקה דווחה יותר מפעם אחת",action:"אין צורך בפעולה. כל עסקה נספרת פעם אחת",tag:"כפילות"});
+ const sp=spendIn(B.a,B.b); if(sp&&!A.v) L.push({level:"crit",title:"יש הוצאה ואין ביקורים",data:ils(sp)+" הוצאה, 0 ביקורים",action:"לבדוק קישורי מודעות ו-go.html",tag:"Tracking"});
+ const lcp=median(M.sess.filter(s=>s.lcp).map(s=>s.lcp)); if(lcp>4000) L.push({level:"warn",title:"הדף נטען לאט",data:"LCP חציוני "+(lcp/1000).toFixed(1)+" שנ'",action:"לכווץ תמונות ווידאו בפתיחה",tag:"ביצועים"});
+ const js=M.sess.filter(s=>s.jserr).length; if(js>=3) L.push({level:"warn",title:js+" ביקורים עם שגיאות JS",data:"ראו פירוט במסך 08",action:"לבדוק בדפדפן אינסטגרם",tag:"טכני"});
+ L.push({level:"info",title:"נתוני Meta לא מחוברים",data:"אין משיכת הוצאות וחשיפות אוטומטית",action:"המלצות על תקציב מבוססות על הוצאה שהוזנה ידנית בלבד",tag:"מקור נתונים"});
+ return L}
+function renderInsights(M,A,B){$("inRecs").innerHTML=recommend(M,A,B).map(card).join("");$("inAlerts").innerHTML=alerts(M,A,B).map(card).join("");
+ const now=new Date(),sod=new Date(now.getFullYear(),now.getMonth(),now.getDate()),eod=new Date(+sod+864e5);
+ const per=d=>{const a=new Date(+sod-(d-1)*864e5);const m=build(a,eod);return {m,a:aggregate(m,a,eod),b:{a,b:eod}}};
+ const T=per(1),W=per(7),F=per(14);const row=(l,f)=>'<tr><td>'+l+'</td><td><b>'+f(T)+'</b></td><td>'+f(W)+'</td><td>'+f(F)+'</td></tr>';
+ const crTop=x=>{const c=creativeStats(x.m,x.b).filter(o=>o.v>=3).sort((a,b)=>b.score-a.score)[0];return c?esc(c.cr)+" ("+Math.round(c.score)+")":"-"};
+ const crBuy=x=>{const c=creativeStats(x.m,x.b).filter(o=>o.buy).sort((a,b)=>b.buy-a.buy)[0];return c?esc(c.cr)+" ("+c.buy+")":"-"};
+ $("inReport").innerHTML='<div class="tw"><table><thead><tr><th></th><th>היום</th><th>7 ימים</th><th>14 ימים</th></tr></thead><tbody>'+
+  row("הוצאות",x=>x.a.sp==null?'<span class="na">ממתין</span>':ils(x.a.sp))+row("רכישות",x=>fmt(x.a.buy))+row("עלות לרכישה",x=>x.a.cpa==null?"-":ils(x.a.cpa))+row("רווח תרומתי",x=>x.a.profit==null?"-":ils(x.a.profit))+
+  row("ביקורים",x=>fmt(x.a.v))+row("התחלות סליקה",x=>fmt(x.a.chk))+row("קריאייטיב רכישות מוביל",crBuy)+row("מוביל בכוונת רכישה",crTop)+row("דף מוביל",x=>{const l=leadPage(x.m);return l?l.v:"אין מספיק מידע"})+row("צוואר בקבוק",x=>esc(bottleneck(x.a).text))+
+  '</tbody></table></div><p class="note">ההבדל בין "הכי טוב היום" ל"הכי טוב על פני 7-14 ימים" חשוב: קריאייטיב שלא מכר היום לא בהכרח חלש.</p>';}
+
+/* ================= 08 data quality ================= */
+function renderDQ(M){const now=Date.now(),last=ev=>{for(let i=rows.length-1;i>=0;i--)if(!ev||ev(rows[i]))return rows[i].t;return null};
+ const ago=t=>t?Math.round((now-t)/6e4)<90?"לפני "+Math.round((now-t)/6e4)+" דק'":t.toLocaleString("he-IL",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}):"-";
+ const ks=Object.keys(spend).sort();const lastSp=ks[ks.length-1];
+ table($("dqSources"),["מקור","סטטוס","עדכון אחרון","מה מגיע ממנו"],[
+  '<tr><td>דפי המכירה (Make → Sheets)</td><td><span class="pill good">מחובר</span></td><td>'+ago(last(r=>r.ev==="view"))+'</td><td>ביקורים, גלילה, אזורים, כפתורים, זמנים, מכשיר, ביצועים</td></tr>',
+  '<tr><td>דף הסליקה</td><td><span class="pill good">מחובר</span></td><td>'+ago(last(r=>/^checkout/.test(r.ev)))+'</td><td>פתיחה, מילוי, שגיאות טופס, טעינת תשלום, חזרה</td></tr>',
+  '<tr><td>קארדקום (Webhook)</td><td><span class="pill good">מחובר</span></td><td>'+ago(last(r=>r.ev==="purchase"))+'</td><td>עסקאות מאושרות, סכום, מזהה עסקה. החזרים: לא זמין</td></tr>',
+  '<tr><td>הוצאת פרסום</td><td><span class="pill '+(lastSp?"warn":"off")+'">ידני</span></td><td>'+(lastSp?lastSp.split("-").reverse().join("."):"-")+'</td><td>סכום יומי ולכל קריאייטיב</td></tr>',
+  '<tr><td>Meta Marketing API</td><td><span class="pill off">לא מחובר</span></td><td>-</td><td>הוצאה, חשיפות, CTR, צפיות וידאו, מיקומים. דורש טוקן מחשבון פעיל</td></tr>',
+  '<tr><td>Meta Pixel + CAPI</td><td><span class="pill warn">פיקסל פעיל, CAPI ממתין לטוקן</span></td><td>-</td><td>Purchase נשלח מדף התודה עם event_id למניעת כפילות</td></tr>',
+  '<tr><td>מפות חום (Clarity)</td><td><span class="pill off">לא מותקן</span></td><td>-</td><td>נדחה לשלב הבא</td></tr>']);
+ const day=rows.filter(r=>now-r.t<864e5),ec={};day.forEach(r=>ec[r.ev]=(ec[r.ev]||0)+1);
+ table($("dqEvents"),["אירוע","24 שעות"],Object.entries(ec).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<tr><td>'+esc(evName({ev:k}))+'<small>'+esc(k)+'</small></td><td>'+v+'</td></tr>'),"אין אירועים ב-24 השעות האחרונות");
+ const P=[];VARS.forEach(v=>["m","d"].forEach(d=>{const S=M.sess.filter(s=>s.v===v&&s.dv===d);if(!S.length)return;const l=median(S.filter(s=>s.lcp).map(s=>s.lcp)),ld=median(S.filter(s=>s.load).map(s=>s.load)),c=median(S.filter(s=>s.lcp).map(s=>s.cls));
+  P.push('<tr><td>'+v+' · '+(d==="m"?"מובייל":"מחשב")+'</td><td>'+S.length+'</td><td>'+(l==null?"-":'<span class="pill '+(l<2500?"good":l<4000?"warn":"crit")+'">'+(l/1000).toFixed(1)+" שנ'</span>")+'</td><td>'+(ld==null?"-":(ld/1000).toFixed(1)+" שנ'")+'</td><td>'+(c==null?"-":c.toFixed(2))+'</td><td>'+S.filter(s=>s.jserr).length+'</td></tr>')}));
+ table($("dqPerf"),["דף · מכשיר","ביקורים","LCP","טעינה","CLS","שגיאות JS"],P,"ביצועים נמדדים מהיום");
+ const S=M.sess,cov=S.filter(s=>s.dev).length;
+ table($("dqChecks"),["בדיקה","תוצאה"],[
+  '<tr><td>ביקורים עם מדידה מורחבת (v2)</td><td>'+pf(pct(cov,S.length))+'<small>'+cov+'/'+S.length+'</small></td></tr>',
+  '<tr><td>רכישות מאומתות בתקופה</td><td>'+M.buys.length+'</td></tr>',
+  '<tr><td>רכישות מקושרות לביקור</td><td>'+M.buys.filter(b=>b.s).length+'</td></tr>',
+  '<tr><td>רכישות מקושרות למודעה (ad_id)</td><td>'+M.buys.filter(b=>b.s&&b.s.ad).length+'</td></tr>',
+  '<tr><td>ביקורים עם utm_content</td><td>'+S.filter(s=>s.cr!=="(ללא קריאייטיב)").length+'</td></tr>',
+  '<tr><td>ביקורים עם fbclid</td><td>'+S.filter(s=>s.p.get("fbclid")).length+'</td></tr>',
+  '<tr><td>כפילויות רכישה שסוננו (כל הזמנים)</td><td>'+Math.max(0,rows.filter(r=>r.ev==="purchase").length-M.allBuys.length)+'</td></tr>']);
+ const ks2=Object.keys(spend).concat(Object.keys(cspend)).sort().reverse().slice(0,20);
+ table($("spendList"),["תאריך","קריאייטיב","הוצאה"],ks2.map(k=>{const [d,c]=k.split("|");return '<tr><td>'+d.split("-").reverse().join(".")+'</td><td>'+(c?esc(c):"סה\"כ יומי")+'</td><td>'+ils(c?cspend[k]:spend[k])+'</td></tr>'}),"עוד לא הוזנה הוצאה");
+ const crs=[...new Set(rows.map(r=>(qsObj(r.qs).get("utm_content")||"")).filter(c=>c&&!/^lp_/.test(c)))];const sel=$("spCr");const have=new Set([...sel.options].map(o=>o.value));crs.forEach(c=>{if(!have.has(c)){const o=document.createElement("option");o.value=c;o.textContent=c;sel.appendChild(o)}});}
+
+/* ================= render + controls ================= */
+function render(){if(!rows)return;const B=bounds(),M=build(B.a,B.b),P=build(B.pa,B.pb),A=aggregate(M,B.a,B.b),PA=aggregate(P,B.pa,B.pb);
+ const srcs=[...new Set(rows.filter(r=>VARS.includes(r.variant)&&(showTests||!isTest(r))).map(r=>source(qsObj(r.qs))))].sort();const fs=$("fSrc");if(fs.options.length-1!==srcs.length){const cur=fs.value;fs.innerHTML='<option value="">כל המקורות</option>'+srcs.map(s=>'<option'+(s===cur?" selected":"")+'>'+esc(s)+'</option>').join("")}
+ try{({ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>renderCheckout(M),jr:()=>renderJourneys(M),ex:()=>renderExperiments(M),in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M)})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
+ if(storedAt)$("fresh").textContent="· עודכן "+new Date(storedAt).toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});}
+function status(msg,kind){const s=$("status");if(!msg){s.hidden=true;return}s.className="banner "+(kind||"");s.textContent=msg;s.hidden=false;}
+function tsvRows(text){return text.split("\n").filter(l=>l.trim()).map(l=>{const a=l.split("\t"),o={};COLS.forEach((k,i)=>o[k]=a[i]||"");o.t=new Date((o.ts||"").replace(" ","T"));return o}).filter(r=>!isNaN(r.t)).sort((a,b)=>a.t-b.t)}
 let busy=false;
 async function load(){if(busy)return;busy=true;$("refresh").disabled=true;
  try{const [a,b]=await Promise.all([fetch(API+"rows",{cache:"no-store"}),fetch(API+"spend",{cache:"no-store"})]);
   if(!a.ok)throw new Error("rows "+a.status);const ta=await a.text();
   if(!ta.includes("\t")&&ta.trim()&&!/^\d{4}-/.test(ta.trim()))throw new Error(ta.slice(0,80));
   rows=tsvRows(ta);
-  if(b.ok){const tb=await b.text();spend={};tb.split("\n").slice(1).forEach(l=>{const [d,v]=l.split("\t");if(/^\d{4}-\d{2}-\d{2}$/.test(d)&&v!==""&&!isNaN(+v))spend[d]=+v})}
+  if(b.ok){const tb=await b.text();spend={};cspend={};tb.split("\n").slice(1).forEach(l=>{const [k,v]=l.split("\t");if(!/^\d{4}-\d{2}-\d{2}/.test(k||"")||v===""||isNaN(+v))return;if(k.includes("|"))cspend[k]=+v;else spend[k]=+v})}
   storedAt=Date.now();status(null);render();
  }catch(e){status("לא הצלחנו לטעון את הנתונים ("+e.message+"). בדקו חיבור לאינטרנט ונסו לרענן.","warn")}
  finally{busy=false;$("refresh").disabled=false}}
-$("refresh").onclick=load;
-$("spendForm").addEventListener("submit",async e=>{e.preventDefault();const d=$("spDate").value,a=parseFloat($("spAmt").value);if(!d||!(a>=0))return;
- $("spSave").disabled=true;try{const r=await fetch(API+"spend_set&date="+encodeURIComponent(d)+"&amount="+encodeURIComponent(a),{cache:"no-store"});if(!r.ok)throw new Error(r.status);spend[d]=a;$("spendState").textContent="נשמר: "+d.split("-").reverse().join(".")+" "+ils(a);$("spAmt").value="";render()}catch(err){$("spendState").textContent="השמירה נכשלה, נסו שוב"}finally{$("spSave").disabled=false}});
-setInterval(()=>{if(!document.hidden)load()},60000);setInterval(()=>{if(rows&&!document.hidden)render()},30000);document.addEventListener("visibilitychange",()=>{if(!document.hidden)load()});
-status("טוען נתונים...","");render(); load();
+function setScreen(s){screen=s;document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.s===s)));document.querySelectorAll(".screen").forEach(x=>x.classList.toggle("on",x.id==="s-"+s));try{st()&&st().setItem("nlpdash_screen",s);history.replaceState(null,"","#"+s)}catch(e){}render()}
+(function init(){
+ try{const r=st()&&st().getItem("nlpdash_range2");if(r)range=r;const sc=(location.hash||"").slice(1)||(st()&&st().getItem("nlpdash_screen"));if(sc&&$("s-"+sc))screen=sc}catch(e){}
+ document.querySelectorAll("#range button").forEach(b=>{b.setAttribute("aria-pressed",String(b.dataset.r===range));b.onclick=()=>{range=b.dataset.r;$("customBox").hidden=range!=="custom";document.querySelectorAll("#range button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));try{st()&&st().setItem("nlpdash_range2",range)}catch(e){}render()}});
+ $("customBox").hidden=range!=="custom";$("cFrom").onchange=e=>{cFrom=e.target.value;render()};$("cTo").onchange=e=>{cTo=e.target.value;render()};
+ document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>setScreen(b.dataset.s));
+ document.querySelectorAll("#lpVar button").forEach(b=>b.onclick=()=>{lpVar=b.dataset.v;render()});
+ $("fSrc").onchange=e=>{fSrc=e.target.value;render()};$("fDev").onchange=e=>{fDev=e.target.value;render()};$("jrStage").onchange=e=>{jrStage=e.target.value;render()};
+ $("showTests").onchange=e=>{showTests=e.target.checked;render()};$("refresh").onclick=load;
+ $("spDate").value=dayKey(new Date());
+ $("spendForm").addEventListener("submit",async e=>{e.preventDefault();const d=$("spDate").value,a=$("spAmt").value,c=($("spCr").value||"").replace(/[|\s]/g,"");if(!d||a==="")return;
+  $("spSave").disabled=true;try{const r=await fetch(API+"spend_set&date="+encodeURIComponent(d)+"&amount="+encodeURIComponent(a)+(c?"&creative="+encodeURIComponent(c):""),{cache:"no-store"});if(!r.ok)throw new Error(r.status);if(c)cspend[d+"|"+c]=+a;else spend[d]=+a;$("spendState").textContent="נשמר: "+d.split("-").reverse().join(".")+(c?" · "+c:"")+" "+ils(+a);$("spAmt").value="";render()}catch(err){$("spendState").textContent="השמירה נכשלה, נסו שוב"}finally{$("spSave").disabled=false}});
+ const tip=$("tip");document.addEventListener("pointermove",e=>{const t=e.target.closest&&e.target.closest("[data-tip]");if(!t){tip.hidden=true;return}tip.textContent=t.getAttribute("data-tip");tip.hidden=false;const x=Math.min(innerWidth-tip.offsetWidth-8,e.clientX+12);tip.style.left=Math.max(8,x)+"px";tip.style.top=(e.clientY+14)+"px"});
+ setScreen(screen);load();
+ setInterval(()=>{if(!document.hidden)load()},60000);setInterval(()=>{if(rows&&!document.hidden)render()},30000);document.addEventListener("visibilitychange",()=>{if(!document.hidden)load()});
 })();
 </script>
-
 </body>
 </html>
