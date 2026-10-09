@@ -3,6 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>
+/* Microsoft Clarity: heatmaps + session recordings. Form fields are masked. */
+(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yuzolf9nxn");
+(function(){try{var q=new URLSearchParams(location.search),v=document.documentElement.getAttribute("data-variant")||q.get("v")||"",cr=(q.get("utm_content")||"").replace(/^lp_[abc]$/,"");
+clarity("set","page","checkout");if(v)clarity("set","variant",v);if(cr)clarity("set","creative",cr);
+["utm_source","utm_campaign","placement"].forEach(function(k){var x=q.get(k);if(x)clarity("set",k.replace("utm_",""),x);});
+if(/test|claude/i.test(location.search))clarity("set","internal","1");}catch(e){}})();
+</script>
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#ffffff">
 <title>תשלום · השיטה · בן נחום</title>
@@ -115,7 +123,7 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 
 <section class="why" aria-label="הפרטים שלך">
 <h2>הפרטים שלך</h2>
-<form id="det" novalidate>
+<form id="det" novalidate data-clarity-mask="True">
 <label class="fld"><b>שם מלא</b><input id="fName" name="name" autocomplete="name" required maxlength="50"><span>החשבונית תופק על השם הזה</span></label>
 <label class="fld"><b>מייל</b><input id="fEmail" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" required><span>לשם נשלחים החשבונית וקישור הכניסה לקורס</span></label>
 <label class="fld"><b>טלפון נייד</b><input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required placeholder="05X-XXXXXXX"><span>רק למקרה שנצטרך לעזור לך עם הגישה. לא נעביר אותו לאף אחד</span></label>
@@ -176,10 +184,14 @@ const PRIVACY_URL = ""; /* קישור למדיניות הפרטיות */ /* לד
   if (SUPPORT_WA){ $("help").hidden = false; $("helpLink").href = "https://wa.me/" + SUPPORT_WA; }
   if (TERMS_URL && PRIVACY_URL){ $("terms").hidden=false; $("termsLink").href=TERMS_URL; $("privLink").href=PRIVACY_URL; }
   if (qs.get("status") === "failed") $("err").classList.add("on");
-  const t0 = Date.now(); let vid=""; try{ vid=localStorage.getItem("nlp_vid")||""; }catch(e){}
+  const t0 = Date.now(); let vid=""; try{ vid=localStorage.getItem("nlp_vid")||""; }catch(e){} try{ if(window.clarity&&vid){ clarity("identify",vid); clarity("set","vid",vid); } }catch(e){}
   const ua=navigator.userAgent||"", os=/iPhone|iPad|iPod/.test(ua)?"ios":/Android/.test(ua)?"android":/Windows/.test(ua)?"win":/Mac OS X/.test(ua)?"mac":"other", app=/Instagram/.test(ua)?"ig":/FBAN|FBAV|FB_IAB/.test(ua)?"fb":"web";
   const dev=(/Mobi|Android|iPhone|iPod/.test(ua)||(innerWidth<760)?"m":"d")+"-"+os+"-"+app;
+  /* Clarity: link each visit to its recording (first-party cookies _clck/_clsk) */
+  function clId(){ try{ const g=n=>{ const m=document.cookie.match(new RegExp("(?:^|; )"+n+"=([^;]*)")); return m?decodeURIComponent(m[1]).split("|")[0]:""; }; const u=g("_clck"), s=g("_clsk"); return u&&s?u+"."+s:""; }catch(e){ return ""; } }
   function track(ev, extra){
+    try{ if(window.clarity){ clarity("event",ev); clarity("upgrade",ev); } }catch(e){}
+    const cl=clId(); if(cl){ extra=Object.assign({},extra||{}); extra.x=(extra.x?extra.x+";":"")+"cl="+cl; }
     if(!TRACK_ENDPOINT || TRACK_ENDPOINT[0]==="%") return;
     try{ const f=new URLSearchParams(Object.assign({ev, variant, sid, qs:location.search.slice(1), vid, dev, sec_on_page:Math.round((Date.now()-t0)/1000)}, extra||{}));
       if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT,f))) fetch(TRACK_ENDPOINT,{method:"POST",body:f,mode:"no-cors",keepalive:true}); }catch(e){}
