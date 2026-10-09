@@ -176,9 +176,12 @@ const PRIVACY_URL = ""; /* קישור למדיניות הפרטיות */ /* לד
   if (SUPPORT_WA){ $("help").hidden = false; $("helpLink").href = "https://wa.me/" + SUPPORT_WA; }
   if (TERMS_URL && PRIVACY_URL){ $("terms").hidden=false; $("termsLink").href=TERMS_URL; $("privLink").href=PRIVACY_URL; }
   if (qs.get("status") === "failed") $("err").classList.add("on");
+  const t0 = Date.now(); let vid=""; try{ vid=localStorage.getItem("nlp_vid")||""; }catch(e){}
+  const ua=navigator.userAgent||"", os=/iPhone|iPad|iPod/.test(ua)?"ios":/Android/.test(ua)?"android":/Windows/.test(ua)?"win":/Mac OS X/.test(ua)?"mac":"other", app=/Instagram/.test(ua)?"ig":/FBAN|FBAV|FB_IAB/.test(ua)?"fb":"web";
+  const dev=(/Mobi|Android|iPhone|iPod/.test(ua)||(innerWidth<760)?"m":"d")+"-"+os+"-"+app;
   function track(ev, extra){
     if(!TRACK_ENDPOINT || TRACK_ENDPOINT[0]==="%") return;
-    try{ const f=new URLSearchParams(Object.assign({ev, variant, sid, qs:location.search.slice(1)}, extra||{}));
+    try{ const f=new URLSearchParams(Object.assign({ev, variant, sid, qs:location.search.slice(1), vid, dev, sec_on_page:Math.round((Date.now()-t0)/1000)}, extra||{}));
       if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT,f))) fetch(TRACK_ENDPOINT,{method:"POST",body:f,mode:"no-cors",keepalive:true}); }catch(e){}
   }
   track(qs.get("status")==="failed" ? "checkout_failed" : "checkout_view");
@@ -194,8 +197,8 @@ const PRIVACY_URL = ""; /* קישור למדיניות הפרטיות */ /* לד
         clearTimeout(t);
         if(!d || !d.url || !/^https:\/\/[^\/]*cardcom\.solutions\//i.test(d.url) || (d.code && String(d.code)!=="0")) return fail(d && d.code);
         try{ if(d.lp) sessionStorage.setItem("cc_lp", d.lp); }catch(e){}
-        const f = $("cc"); f.src = d.url; f.hidden = false;
-        f.addEventListener("load", ()=>{ $("loading").style.display="none"; }, {once:true});
+        const f = $("cc"); f.src = d.url; f.hidden = false; const tl=Date.now();
+        f.addEventListener("load", ()=>{ $("loading").style.display="none"; track("checkout_payment_viewed",{x:"pay_load_ms="+(Date.now()-tl)}); }, {once:true});
       }).catch(()=>{ clearTimeout(t); fail(); });
   }
   $("retry").addEventListener("click", load);
@@ -219,11 +222,13 @@ const PRIVACY_URL = ""; /* קישור למדיניות הפרטיות */ /* לד
     load();
   }
   $("det").addEventListener("submit", ev => {
-    ev.preventDefault(); const d = check(); if(!d) return;
+    ev.preventDefault(); const d = check(); if(!d){ const bad=["fName","fEmail","fPhone"].filter(i=>$(i).classList.contains("bad")).map(i=>i.slice(1).toLowerCase()).join(","); track("checkout_validation_error",{name:bad}); return; }
     det = d; try{ sessionStorage.setItem("cc_det", JSON.stringify(det)); }catch(e){}
     track("checkout_details",{lead_name:det.name,lead_email:det.email,lead_phone:det.phone}); start();
   });
   $("editDet").addEventListener("click", () => { try{ $("det").scrollIntoView({behavior:"smooth"}); }catch(e){} $("fName").focus(); });
+  let cs=false; ["fName","fEmail","fPhone"].forEach(i=>$(i).addEventListener("input",()=>{ if(cs) return; cs=true; track("checkout_contact_started"); }));
+  $("back").addEventListener("click",()=>track("checkout_back"));
   if (qs.get("status") === "failed" && det.email) start();
 })();
 </script>
