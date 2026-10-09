@@ -29,6 +29,16 @@ h1{font-size:clamp(28px,8vw,36px);font-weight:900;line-height:1.15;margin:0 0 8p
 </style>
 <script>try{if(top!==self)top.location.replace(location.href)}catch(e){}</script>
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","1278104408729813");fbq("track","PageView");fbq("trackCustom","ThanksView");try{var q=new URLSearchParams(location.search);if((q.get("src")==="cc"||q.get("sid"))&&!sessionStorage.getItem("px_purchase")){sessionStorage.setItem("px_purchase","1");fbq("track","Purchase",{value:297,currency:"ILS",content_name:"השיטה - הקורס המלא"},q.get("sid")?{eventID:"lp_"+q.get("sid")}:{});}}catch(e){}</script>
+<script>
+/* Microsoft Clarity: heatmaps + session recordings. Form fields are masked. */
+if(top===self){
+(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yuzolf9nxn");
+(function(){try{var q=new URLSearchParams(location.search),v=document.documentElement.getAttribute("data-variant")||q.get("v")||"",cr=(q.get("utm_content")||"").replace(/^lp_[abc]$/,"");
+clarity("set","page","thanks");if(v)clarity("set","variant",v);if(cr)clarity("set","creative",cr);
+["utm_source","utm_campaign","placement"].forEach(function(k){var x=q.get(k);if(x)clarity("set",k.replace("utm_",""),x);});
+if(/test|claude/i.test(location.search))clarity("set","internal","1");}catch(e){}})();
+}
+</script>
 </head>
 <body>
 <main class="wrap">
@@ -37,7 +47,7 @@ h1{font-size:clamp(28px,8vw,36px);font-weight:900;line-height:1.15;margin:0 0 8p
 <h1>זהו. אתה בפנים 🎉</h1>
 <p class="lead">התשלום עבר בהצלחה והגישה שלך לקורס כבר נפתחה.</p>
 <a class="cta" id="go" href="https://my.schooler.biz/s/53500/Bsecret/yqIgWck">כניסה לקורס עכשיו</a>
-<p class="sent2" id="sent">שלחנו גם את כל פרטי הגישה לאימייל שהזנת.</p>
+<p class="sent2" id="sent" data-clarity-mask="True">שלחנו גם את כל פרטי הגישה לאימייל שהזנת.</p>
 <p class="note">לא רואה את המייל? בדוק גם בקידומי מכירות / ספאם.</p>
 <p class="help" id="help" hidden><a id="helpLink" href="#" target="_blank" rel="noopener">צריך עזרה? אנחנו כאן ב-WhatsApp</a></p>
 </main>
@@ -49,7 +59,7 @@ const SUPPORT_WA = "972526951092";
   if (SUPPORT_WA){ document.getElementById("help").hidden=false; document.getElementById("helpLink").href="https://wa.me/"+SUPPORT_WA; }
   try{ const lp=sessionStorage.getItem("cc_lp"); if(lp){ fetch("https://hook.eu1.make.com/9yp88pz9bfvxbr7w6xkb4ckun82ote6a",{method:"POST",body:new URLSearchParams({lookup_lp:lp})}).then(r=>r.json()).then(d=>{ if(d&&d.email){ const b=document.createElement("b"); b.textContent=d.email; const s=document.getElementById("sent"); s.textContent="שלחנו גם את כל פרטי הגישה ל- "; s.appendChild(b); } }).catch(()=>{}); } }catch(e){}
   /* Purchase נרשם בצד השרת אחרי אימות העסקה מול Cardcom. כאן רק צפייה בעמוד. */
-  try{ if(TRACK_ENDPOINT[0]!=="%"){ let lc={},ft={};try{lc=JSON.parse(localStorage.getItem("nlp_lc")||"{}");ft=JSON.parse(localStorage.getItem("nlp_ft")||"{}");}catch(e){} const cc=qs.get("src")==="cc"||!!qs.get("sid"); let dup=false; try{dup=cc&&sessionStorage.getItem("px_ret")==="1"; if(cc)sessionStorage.setItem("px_ret","1");}catch(e){} const f=new URLSearchParams({ev:cc?(dup?"thanks_view":"purchase_return"):"thanks_view", variant:lc.v||qs.get("v")||"", sid:lc.sid||qs.get("sid")||("t-"+Date.now()), qs:lc.qs!=null?lc.qs:location.search.slice(1), cta:lc.cta||"", name:ft.qs!=null?("ft:"+ft.v+"|"+ft.qs):"", sec_on_page:lc.ts?Math.round((Date.now()-lc.ts)/1000):""});
+  try{ if(TRACK_ENDPOINT[0]!=="%"){ let lc={},ft={};try{lc=JSON.parse(localStorage.getItem("nlp_lc")||"{}");ft=JSON.parse(localStorage.getItem("nlp_ft")||"{}");}catch(e){} const cc=qs.get("src")==="cc"||!!qs.get("sid"); let dup=false; try{dup=cc&&sessionStorage.getItem("px_ret")==="1"; if(cc)sessionStorage.setItem("px_ret","1");}catch(e){} try{ if(window.clarity){ if(lc.v) clarity("set","variant",lc.v); let vd=""; try{vd=localStorage.getItem("nlp_vid")||"";}catch(e){} if(vd){ clarity("identify",vd); clarity("set","vid",vd); } if(cc){ clarity("event","purchase_return"); clarity("upgrade","purchase"); } else clarity("event","thanks_view"); } }catch(e){} const f=new URLSearchParams({ev:cc?(dup?"thanks_view":"purchase_return"):"thanks_view", variant:lc.v||qs.get("v")||"", sid:lc.sid||qs.get("sid")||("t-"+Date.now()), qs:lc.qs!=null?lc.qs:location.search.slice(1), cta:lc.cta||"", name:ft.qs!=null?("ft:"+ft.v+"|"+ft.qs):"", sec_on_page:lc.ts?Math.round((Date.now()-lc.ts)/1000):""});
     if(!(navigator.sendBeacon&&navigator.sendBeacon(TRACK_ENDPOINT,f))) fetch(TRACK_ENDPOINT,{method:"POST",body:f,mode:"no-cors"}); } }catch(e){}
 })();
 </script>
