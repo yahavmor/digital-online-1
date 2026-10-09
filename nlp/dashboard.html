@@ -186,7 +186,7 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
 
   <!-- 03 pages -->
   <section class="screen" id="s-lp">
-    <div class="panel"><div class="panel-h"><h2>השוואה מרכזית</h2><span class="note" id="lpNote"></span></div><div class="tw"><table id="lpTable"></table></div></div>
+    <div class="panel"><div class="panel-h"><h2>השוואה מרכזית</h2><span class="note" id="lpNote"></span><a class="btn" href="https://clarity.microsoft.com/projects/view/yuzolf9nxn/heatmaps" target="_blank" rel="noopener">מפות חום (Clarity)</a></div><div class="tw"><table id="lpTable"></table></div></div>
     <div class="panel">
       <div class="panel-h"><h2>אזורים בדף: הגעה, זמן ומעבר</h2><div class="seg" role="group" aria-label="דף" id="lpVar"><button type="button" data-v="a">a</button><button type="button" data-v="b" aria-pressed="true">b</button><button type="button" data-v="c">c</button></div></div>
       <div class="tw"><table id="lpSections"></table></div>
@@ -212,7 +212,7 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
   <!-- 05 journeys -->
   <section class="screen" id="s-jr">
     <div class="panel">
-      <div class="panel-h"><h2>איפה כל מבקר נתקע</h2><span class="note">כל ביקור בנפרד, החדשים למעלה <span id="liveN"></span></span></div>
+      <div class="panel-h"><h2>איפה כל מבקר נתקע</h2><span class="note">כל ביקור בנפרד, החדשים למעלה. לחיצה על שורה פותחת את המסלול וההקלטה <span id="liveN"></span></span><a class="btn" href="https://clarity.microsoft.com/projects/view/yuzolf9nxn/impressions" target="_blank" rel="noopener">כל ההקלטות (Clarity)</a></div>
       <div class="chips" id="jrSum" style="margin-bottom:10px"></div>
       <div class="controls" style="margin-bottom:8px"><select id="jrStage" aria-label="סינון שלב"><option value="">כל השלבים</option></select></div>
       <div class="tw"><table id="jrTable"></table></div>
@@ -273,13 +273,15 @@ const PRICE=297, VAT=0.18, TARGET=250, GOOD=150;
 const ANGLES={video_inner_dialogue:"דיאלוג פנימי",video_emotions:"ניהול רגשות",banner_potential:"מימוש עצמי",banner_time:"זמן שחולף"};
 const ANGLE_KW=[["emotion","ניהול רגשות"],["regesh","ניהול רגשות"],["inner","דיאלוג פנימי"],["dialog","דיאלוג פנימי"],["fear","פחד והישרדות"],["belief","שינוי אמונות"],["worth","ערך עצמי"],["comfort","יציאה מאזור הנוחות"],["student","גישת התלמיד"],["respons","אחריות אישית"],["potential","מימוש עצמי"],["time","זמן שחולף"]];
 const CTA_LBL={hero_main:"ראש הדף",cta1:"אחרי חלק ראשון",cta2:"אחרי אמצע הדף",cta3:"אחרי ההמלצות",offer:"אזור המחיר",final:"סוף הדף",sticky:"כפתור צף"};
+const CLARITY="yuzolf9nxn", CLURL="https://clarity.microsoft.com/projects/view/"+CLARITY+"/";
+function recUrl(s){if(!s||!s.cl)return "";const [u,k]=s.cl.split(".");return u&&k?"https://clarity.microsoft.com/player/"+CLARITY+"/"+u+"/"+k:""}
 const STG=["נכנס","גלל חצי","ראה את ההצעה","לחץ לרכישה","פתח סליקה","השאיר פרטים","רכש"];
 const SUM=["רק נכנסו","עצרו באמצע","ראו הצעה ולא לחצו","לחצו ולא פתחו סליקה","פתחו סליקה בלי פרטים","השאירו פרטים ולא שילמו","רכשו"];
 const EXPERIMENTS=[
  {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"פעיל",decision:""},
 ];
 const CHANGELOG=[
- ["2026-10-07","שלושה דפים עם פתיחות שונות (v14-v15)"],["2026-10-08","הוסר אזור 'בחיים עצמם', מספור אזורים תוקן (v16)"],["2026-10-08","סליקה עברה ל-LowProfile בקארדקום"],["2026-10-09","מדידה מורחבת: זמן פעיל, חשיפת אזורים וכפתורים, מכשיר, ביצועים, שלבי סליקה"]];
+ ["2026-10-07","שלושה דפים עם פתיחות שונות (v14-v15)"],["2026-10-08","הוסר אזור 'בחיים עצמם', מספור אזורים תוקן (v16)"],["2026-10-08","סליקה עברה ל-LowProfile בקארדקום"],["2026-10-09","מדידה מורחבת: זמן פעיל, חשיפת אזורים וכפתורים, מכשיר, ביצועים, שלבי סליקה"],["2026-10-09","Clarity: מפות חום והקלטות בדפים ובסליקה"]];
 
 let rows=null, spend={}, cspend={}, storedAt=0, range="7", screen="ov", lpVar="b", showTests=false, fSrc="", fDev="", cFrom="", cTo="", jrStage="", openSid="", openCr="";
 const $=id=>document.getElementById(id);
@@ -330,7 +332,7 @@ function build(a,b){
   if(r.dev&&!s.dev)s.dev=r.dev; if(r.vid&&!s.vid)s.vid=r.vid; if(+r.nv)s.nv=Math.max(s.nv,+r.nv);
   s.time=Math.max(s.time,+r.sec_on_page||0); s.act=Math.max(s.act,+r.act||0); s.scroll=Math.max(s.scroll,+r.max_scroll_pct||0); s.sec=Math.max(s.sec,+r.max_section||0); if(+r.sections)s.secs=+r.sections;
   if(r.x){const x=parseX(r.x); const st=pairs(x.st); for(const k in st)s.secT[k]=Math.max(s.secT[k]||0,st[k]); const cs=pairs(x.cs); for(const k in cs) if(s.ctaSeen[k]==null||cs[k]<s.ctaSeen[k]) s.ctaSeen[k]=cs[k];
-   if(x.fs&&+x.fs>0)s.fs=s.fs==null?+x.fs:Math.min(s.fs,+x.fs); if(x.fc&&s.fc==null)s.fc=+x.fc; if(+x.lcp)s.lcp=Math.max(s.lcp,+x.lcp); if(x.cls)s.cls=Math.max(s.cls,+x.cls||0); if(+x.ttfb)s.ttfb=+x.ttfb; if(+x.load)s.load=+x.load; if(x.pay_load_ms)s.payMs=+x.pay_load_ms;}
+   if(x.fs&&+x.fs>0)s.fs=s.fs==null?+x.fs:Math.min(s.fs,+x.fs); if(x.fc&&s.fc==null)s.fc=+x.fc; if(+x.lcp)s.lcp=Math.max(s.lcp,+x.lcp); if(x.cls)s.cls=Math.max(s.cls,+x.cls||0); if(+x.ttfb)s.ttfb=+x.ttfb; if(+x.load)s.load=+x.load; if(x.pay_load_ms)s.payMs=+x.pay_load_ms; if(x.cl&&!s.cl)s.cl=x.cl;}
   if(r.ev==="section"&&r.section&&r.name){secNames[r.variant][r.section]=r.name}
   if(+r.sections)secCount[r.variant]=Math.max(secCount[r.variant],+r.sections);
   switch(r.ev){
@@ -367,7 +369,7 @@ function seenTesti(s,N){const k=secIdx(N[s.v],TESTI_RE)||99;return s.sec>=k}
 function stage(s){return s.buy?6:s.det?5:s.chk?4:s.cta?3:s.offer?2:s.scroll>=50?1:0}
 
 /* spend for a period */
-function spendIn(a,b,cr){let t=0,known=false;const src=cr?cspend:spend;for(const k in src){const [d,c]=k.split("|");const dt=new Date(d+"T12:00");if(dt>=a&&dt<b&&(!cr||c===cr)){t+=src[k];known=true}}return known?t:null}
+function spendIn(a,b,cr){let t=0,known=false;const src=cr?cspend:spend;for(const k in src){const [d,c]=k.split("|");const dt=new Date(d+"T12:00");if(dt>=a&&dt<b&&(!cr||c===cr.replace(/[|\s]/g,""))){t+=src[k];known=true}}return known?t:null}
 function aggregate(M,a,b){
  const S=M.sess,v=S.length,eng=S.filter(s=>s.eng).length,off=S.filter(s=>s.offer).length,cta=S.filter(s=>s.cta).length,chk=S.filter(s=>s.chk).length,det=S.filter(s=>s.det).length,pay=S.filter(s=>s.pay).length,buy=M.buys.length,rev=M.buys.reduce((x,y)=>x+y.amt,0),sp=(fSrc||fDev)?null:spendIn(a,b);
  return {v,eng,off,cta,chk,det,pay,buy,rev,net:rev/(1+VAT),sp,cpa:sp!=null&&buy?sp/buy:null,roas:sp?rev/sp:null,conv:pct(buy,v),rpv:v?rev/v:null,profit:sp!=null?rev/(1+VAT)-sp:null};
@@ -511,7 +513,7 @@ function renderJourneys(M){const L=[...M.sess].sort((a,b)=>b.last-a.last),cnt=[0
  const sel=$("jrStage");if(sel.options.length<2)STG.forEach((s,i)=>{const o=document.createElement("option");o.value=String(i);o.textContent="עצרו ב: "+s;sel.appendChild(o)});
  const F=jrStage===""?L:L.filter(s=>s.stage===+jrStage),T=F.slice(0,80);
  const ago=t=>{const m=Math.round((Date.now()-t)/6e4);return m<1?"עכשיו":m<60?"לפני "+m+" דק'":m<1440?"לפני "+Math.round(m/60)+" שע'":t.toLocaleDateString("he-IL",{day:"2-digit",month:"2-digit"})};
- table($("jrTable"),["פעילות אחרונה","דף","מקור / קריאייטיב","מכשיר","ביקור","שלב אחרון","התקדמות","זמן פעיל","אזור אחרון"],T.map(s=>{const g=s.stage;return '<tr class="click" data-sid="'+esc(s.sid)+'"><td>'+ago(s.last)+(Date.now()-s.last<300000?'<span class="live"></span>':'')+'</td><td>'+s.v+'</td><td>'+esc(s.src)+'<small>'+esc(s.cr)+'</small></td><td>'+(s.dv==="m"?"מובייל":s.dv==="d"?"מחשב":"-")+'</td><td>'+(s.nv>1?"חוזר ("+s.nv+")":s.nv?"ראשון":"-")+'</td><td><b>'+STG[g]+'</b></td><td><span class="dots">'+STG.map((_,i)=>'<i class="'+(i<=g?(g===6?"buy":"on"):"")+'"></i>').join("")+'</span></td><td>'+secs(s.act||null)+'</td><td>'+s.sec+'. '+esc(M.secNames[s.v][s.sec]||"")+'</td></tr>'+(openSid===s.sid?'<tr><td colspan="9"><div class="tl">'+s.ev.slice().sort((a,b)=>a.t-b.t).map(r=>'<div><span>'+r.t.toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit",second:"2-digit"})+'</span><span>'+esc(evName(r))+'</span><span>'+esc(evDetail(r,M))+'</span></div>').join("")+'</div></td></tr>':"")}).concat(F.length>80?['<tr><td colspan="9" class="note">מוצגים 80 מתוך '+F.length+'</td></tr>']:[]));
+ table($("jrTable"),["פעילות אחרונה","דף","מקור / קריאייטיב","מכשיר","ביקור","שלב אחרון","התקדמות","זמן פעיל","אזור אחרון"],T.map(s=>{const g=s.stage;return '<tr class="click" data-sid="'+esc(s.sid)+'"><td>'+ago(s.last)+(Date.now()-s.last<300000?'<span class="live"></span>':'')+'</td><td>'+s.v+'</td><td>'+esc(s.src)+'<small>'+esc(s.cr)+'</small></td><td>'+(s.dv==="m"?"מובייל":s.dv==="d"?"מחשב":"-")+'</td><td>'+(s.nv>1?"חוזר ("+s.nv+")":s.nv?"ראשון":"-")+'</td><td><b>'+STG[g]+'</b>'+(s.cl?' <span style="color:var(--accent)" title="יש הקלטה ב-Clarity">▶</span>':'')+'</td><td><span class="dots">'+STG.map((_,i)=>'<i class="'+(i<=g?(g===6?"buy":"on"):"")+'"></i>').join("")+'</span></td><td>'+secs(s.act||null)+'</td><td>'+s.sec+'. '+esc(M.secNames[s.v][s.sec]||"")+'</td></tr>'+(openSid===s.sid?'<tr><td colspan="9">'+(recUrl(s)?'<a class="btn" style="display:inline-block;margin-bottom:8px" href="'+recUrl(s)+'" target="_blank" rel="noopener">▶ צפייה בהקלטה של הביקור (Clarity)</a>':'<div class="note" style="margin-bottom:6px">אין הקלטה מקושרת לביקור הזה (ביקור מלפני התקנת Clarity, או דפדפן שחוסם עוגיות)</div>')+'<div class="tl">'+s.ev.slice().sort((a,b)=>a.t-b.t).map(r=>'<div><span>'+r.t.toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit",second:"2-digit"})+'</span><span>'+esc(evName(r))+'</span><span>'+esc(evDetail(r,M))+'</span></div>').join("")+'</div></td></tr>':"")}).concat(F.length>80?['<tr><td colspan="9" class="note">מוצגים 80 מתוך '+F.length+'</td></tr>']:[]));
  document.querySelectorAll("#jrTable tr.click").forEach(tr=>tr.onclick=()=>{openSid=openSid===tr.dataset.sid?"":tr.dataset.sid;renderJourneys(M)});
  const nw={new:{n:0,chk:0,buy:0},ret:{n:0,chk:0,buy:0}};M.sess.filter(s=>s.nv).forEach(s=>{const o=s.nv>1?nw.ret:nw.new;o.n++;if(s.chk)o.chk++;if(s.buy)o.buy++});
  table($("jrNew"),["","ביקורים","פתחו סליקה","רכשו"],[["ביקור ראשון",nw.new],["ביקור חוזר",nw.ret]].map(([l,o])=>'<tr><td>'+l+'</td><td>'+o.n+'</td>'+cell(o.chk,o.n)+cell(o.buy,o.n)+'</tr>'),"נמדד מהיום");
@@ -580,7 +582,7 @@ function renderDQ(M){const now=Date.now(),last=ev=>{for(let i=rows.length-1;i>=0
   '<tr><td>הוצאת פרסום</td><td><span class="pill '+(lastSp?"warn":"off")+'">ידני</span></td><td>'+(lastSp?lastSp.split("-").reverse().join("."):"-")+'</td><td>סכום יומי ולכל קריאייטיב</td></tr>',
   '<tr><td>Meta Marketing API</td><td><span class="pill off">לא מחובר</span></td><td>-</td><td>הוצאה, חשיפות, CTR, צפיות וידאו, מיקומים. דורש טוקן מחשבון פעיל</td></tr>',
   '<tr><td>Meta Pixel + CAPI</td><td><span class="pill warn">פיקסל פעיל, CAPI ממתין לטוקן</span></td><td>-</td><td>Purchase נשלח מדף התודה עם event_id למניעת כפילות</td></tr>',
-  '<tr><td>מפות חום (Clarity)</td><td><span class="pill off">לא מותקן</span></td><td>-</td><td>נדחה לשלב הבא</td></tr>']);
+  '<tr><td>מפות חום והקלטות (Clarity)</td><td><span class="pill good">מחובר</span></td><td>'+ago(last(r=>/(^|;)cl=/.test(r.x||"")))+'</td><td>מפות חום והקלטות לכל דף, עם תגיות דף וקריאייטיב. שדות הטופס מוסתרים בהקלטה. <a href="'+CLURL+'dashboard" target="_blank" rel="noopener">פתיחה</a></td></tr>']);
  const day=rows.filter(r=>now-r.t<864e5),ec={};day.forEach(r=>ec[r.ev]=(ec[r.ev]||0)+1);
  table($("dqEvents"),["אירוע","24 שעות"],Object.entries(ec).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<tr><td>'+esc(evName({ev:k}))+'<small>'+esc(k)+'</small></td><td>'+v+'</td></tr>'),"אין אירועים ב-24 השעות האחרונות");
  const P=[];VARS.forEach(v=>["m","d"].forEach(d=>{const S=M.sess.filter(s=>s.v===v&&s.dv===d);if(!S.length)return;const l=median(S.filter(s=>s.lcp).map(s=>s.lcp)),ld=median(S.filter(s=>s.load).map(s=>s.load)),c=median(S.filter(s=>s.lcp).map(s=>s.cls));
