@@ -707,7 +707,7 @@ const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6
   function xstr(){ const n=nav(); const s=Object.keys(secT).sort((a,b)=>a-b).map(k=>k+":"+secT[k]).join(","); const c=Object.keys(ctaSeen).map(k=>k+":"+Math.round(ctaSeen[k]/1000)).join(",");
     return "fs="+(firstScroll/1000).toFixed(1)+";lcp="+perf.lcp+";cls="+perf.cls.toFixed(3)+";ttfb="+(n.ttfb||0)+";load="+(n.load||0)+";st="+s+";cs="+c; }
   /* Clarity: link each visit to its recording (first-party cookies _clck/_clsk) */
-  function clId(){ try{ const g=n=>{ const m=document.cookie.match(new RegExp("(?:^|; )"+n+"=([^;]*)")); return m?decodeURIComponent(m[1]).split("|")[0]:""; }; const u=g("_clck"), s=g("_clsk"); return u&&s?u+"."+s:""; }catch(e){ return ""; } }
+  function clId(){ try{ const g=n=>{ const m=document.cookie.match(new RegExp("(?:^|; )"+n+"=([^;]*)")); return m?decodeURIComponent(m[1]).split(/[|^]/)[0]:""; }; const u=g("_clck"), s=g("_clsk"); return u&&s?u+"."+s:""; }catch(e){ return ""; } }
   const CLE={cta_click:1,shortcut_click:1,video_play:1,faq_open:1,js_error:1};
   function send(ev, extra){
     const p = Object.assign({ev, variant:V, sid, sec_on_page:Math.round((Date.now()-t0)/1000), max_section:maxSec, sections:N, max_scroll_pct:maxPct, qs:location.search.slice(1), vid, dev, nv, act:active}, extra||{});
