@@ -5,6 +5,14 @@
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#08090C">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>
+/* Microsoft Clarity: heatmaps + session recordings. Form fields are masked. */
+(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yuzolf9nxn");
+(function(){try{var q=new URLSearchParams(location.search),v=document.documentElement.getAttribute("data-variant")||q.get("v")||"",cr=(q.get("utm_content")||"").replace(/^lp_[abc]$/,"");
+clarity("set","page","lp");if(v)clarity("set","variant",v);if(cr)clarity("set","creative",cr);
+["utm_source","utm_campaign","placement"].forEach(function(k){var x=q.get(k);if(x)clarity("set",k.replace("utm_",""),x);});
+if(/test|claude/i.test(location.search))clarity("set","internal","1");}catch(e){}})();
+</script>
 <title>השיטה · בן נחום</title>
 <meta name="description" content="תוכנית NLP דיגיטלית של בן נחום: 142 שיעורים, כ-28 שעות תוכן. 297 ₪.">
 <meta property="og:title" content="השיטה · בן נחום">
@@ -672,6 +680,7 @@ const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6
   /* visitor id + visit number (anonymous, first-party) */
   let vid = "", nv = 1;
   try{ const ls=localStorage; vid=ls.getItem("nlp_vid")||""; if(!vid){ vid=uid(); ls.setItem("nlp_vid",vid); } nv=(+ls.getItem("nlp_nv")||0)+1; ls.setItem("nlp_nv",String(nv)); }catch(e){}
+  try{ if(window.clarity&&vid){ clarity("identify",vid); clarity("set","vid",vid); clarity("set","visit",String(nv)); } }catch(e){}
   /* device: m/d + os + in-app browser */
   const ua = navigator.userAgent||"";
   const os = /iPhone|iPad|iPod/.test(ua)?"ios":/Android/.test(ua)?"android":/Windows/.test(ua)?"win":/Mac OS X/.test(ua)?"mac":"other";
@@ -697,8 +706,13 @@ const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6
   function nav(){ try{ const n=performance.getEntriesByType("navigation")[0]; return n?{ttfb:Math.round(n.responseStart),load:Math.round(n.loadEventEnd||n.domContentLoadedEventEnd)}:{}; }catch(e){ return {}; } }
   function xstr(){ const n=nav(); const s=Object.keys(secT).sort((a,b)=>a-b).map(k=>k+":"+secT[k]).join(","); const c=Object.keys(ctaSeen).map(k=>k+":"+Math.round(ctaSeen[k]/1000)).join(",");
     return "fs="+(firstScroll/1000).toFixed(1)+";lcp="+perf.lcp+";cls="+perf.cls.toFixed(3)+";ttfb="+(n.ttfb||0)+";load="+(n.load||0)+";st="+s+";cs="+c; }
+  /* Clarity: link each visit to its recording (first-party cookies _clck/_clsk) */
+  function clId(){ try{ const g=n=>{ const m=document.cookie.match(new RegExp("(?:^|; )"+n+"=([^;]*)")); return m?decodeURIComponent(m[1]).split("|")[0]:""; }; const u=g("_clck"), s=g("_clsk"); return u&&s?u+"."+s:""; }catch(e){ return ""; } }
+  const CLE={cta_click:1,shortcut_click:1,video_play:1,faq_open:1,js_error:1};
   function send(ev, extra){
     const p = Object.assign({ev, variant:V, sid, sec_on_page:Math.round((Date.now()-t0)/1000), max_section:maxSec, sections:N, max_scroll_pct:maxPct, qs:location.search.slice(1), vid, dev, nv, act:active}, extra||{});
+    const cl=clId(); if(cl) p.x=(p.x?p.x+";":"")+"cl="+cl;
+    try{ if(window.clarity&&CLE[ev]){ clarity("event",ev); if(ev==="cta_click") clarity("upgrade",ev); } }catch(e){}
     (window.dataLayer = window.dataLayer || []).push(Object.assign({event:"lp_"+ev}, p));
     try{ if(window.fbq) fbq("trackCustom","LP_"+ev,{variant:V}); }catch(e){}
     if(TRACK_ENDPOINT){ try{ const f=new URLSearchParams(); for(const k in p) f.append(k, p[k]); if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT, f))) fetch(TRACK_ENDPOINT,{method:"POST",body:f,mode:"no-cors",keepalive:true}); }catch(e){} }
