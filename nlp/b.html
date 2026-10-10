@@ -688,6 +688,8 @@ const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6
   let vid = "", nv = 1;
   try{ const ls=localStorage; vid=ls.getItem("nlp_vid")||""; if(!vid){ vid=uid(); ls.setItem("nlp_vid",vid); } nv=(+ls.getItem("nlp_nv")||0)+1; ls.setItem("nlp_nv",String(nv)); }catch(e){}
   try{ if(window.clarity&&vid){ clarity("identify",vid); clarity("set","vid",vid); clarity("set","visit",String(nv)); } }catch(e){}
+  /* internal browser (Yahav/Ben): set by ?test/claude/internal or by opening the dashboard. Sent as int=1 and excluded from reports */
+  let INT=false; try{ const ls=localStorage; if(/test|claude|internal/i.test(location.search)) ls.setItem("nlp_int","1"); INT=ls.getItem("nlp_int")==="1"; if(INT&&window.clarity) clarity("set","internal","1"); }catch(e){}
   /* device: m/d + os + in-app browser */
   const ua = navigator.userAgent||"";
   const os = /iPhone|iPad|iPod/.test(ua)?"ios":/Android/.test(ua)?"android":/Windows/.test(ua)?"win":/Mac OS X/.test(ua)?"mac":"other";
@@ -718,7 +720,7 @@ const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6
   const CLE={cta_click:1,shortcut_click:1,video_play:1,faq_open:1,js_error:1};
   function send(ev, extra){
     const p = Object.assign({ev, variant:V, sid, sec_on_page:Math.round((Date.now()-t0)/1000), max_section:maxSec, sections:N, max_scroll_pct:maxPct, qs:location.search.slice(1), vid, dev, nv, act:active}, extra||{});
-    const cl=clId(); if(cl) p.x=(p.x?p.x+";":"")+"cl="+cl;
+    const cl=clId(); if(cl) p.x=(p.x?p.x+";":"")+"cl="+cl; if(INT) p.x=(p.x?p.x+";":"")+"int=1";
     try{ if(window.clarity&&CLE[ev]){ clarity("event",ev); if(ev==="cta_click") clarity("upgrade",ev); } }catch(e){}
     (window.dataLayer = window.dataLayer || []).push(Object.assign({event:"lp_"+ev}, p));
     try{ if(window.fbq) fbq("trackCustom","LP_"+ev,{variant:V}); }catch(e){}
