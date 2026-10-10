@@ -260,12 +260,13 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
       <p class="sub" style="margin:0 0 8px">כדי לקשר כל רכישה למודעה, לקמפיין ולמיקום גם בלי חיבור API, מדביקים את זה בשדה "URL parameters" של כל מודעה ב-Ads Manager:</p>
       <div class="mono" style="background:var(--bg);padding:10px;border-radius:8px;direction:ltr;text-align:left;word-break:break-all" id="urlParams">utm_source=meta&amp;utm_medium=paid_social&amp;utm_campaign={{campaign.name}}&amp;utm_content={{ad.name}}&amp;campaign_id={{campaign.id}}&amp;adset_id={{adset.id}}&amp;ad_id={{ad.id}}&amp;placement={{placement}}&amp;site_source={{site_source_name}}</div>
     </div>
-    <p class="foot">איך נמדד: כל כניסה מקבלת מזהה ביקור, ומבקר חוזר מזוהה במזהה אנונימי בדפדפן. רכישה נספרת רק מעסקה מאושרת בקארדקום, פעם אחת לכל עסקה. נתון שלא הגיע מוצג כ"ממתין" או "לא מחובר", לא כאפס. בדיקות (test / claude בקישור) מוסתרות כברירת מחדל. אין בדשבורד שמות, טלפונים, מיילים או פרטי תשלום.</p>
+    <p class="foot">איך נמדד: כל כניסה מקבלת מזהה ביקור, ומבקר חוזר מזוהה במזהה אנונימי בדפדפן. רכישה נספרת רק מעסקה מאושרת בקארדקום, פעם אחת לכל עסקה. נתון שלא הגיע מוצג כ"ממתין" או "לא מחובר", לא כאפס. בדיקות (test / claude בקישור, או ביקור מדפדפן שפתח את הדשבורד) מוסתרות כברירת מחדל. אין בדשבורד שמות, טלפונים, מיילים או פרטי תשלום.</p>
   </section>
 </div>
 <div id="tip" hidden></div>
 <script>
 /* ================= data engine ================= */
+try{localStorage.setItem("nlp_int","1")}catch(e){} /* this browser is internal: its visits to the pages are sent as int=1 and hidden */
 const API="https://hook.eu1.make.com/qui1tw1ai7w98rqwbql9ir89ccvv9y6h?key=XxlxpZJz3TY5IeJV&action=";
 const COLS=["ts","ev","variant","sid","sec_on_page","max_section","sections","max_scroll_pct","qs","at_section","section","name","video","cta","checkout_started","depth","vid","dev","nv","act","x"];
 const VARS=["a","b","c"], VLBL={a:"a - השיטה",b:"b - הכאב",c:"c - הוכחה"}, VCOL={a:"var(--s1)",b:"var(--s2)",c:"var(--s3)"};
@@ -281,7 +282,7 @@ const EXPERIMENTS=[
  {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"פעיל",decision:""},
 ];
 const CHANGELOG=[
- ["2026-10-07","שלושה דפים עם פתיחות שונות (v14-v15)"],["2026-10-08","הוסר אזור 'בחיים עצמם', מספור אזורים תוקן (v16)"],["2026-10-08","סליקה עברה ל-LowProfile בקארדקום"],["2026-10-09","מדידה מורחבת: זמן פעיל, חשיפת אזורים וכפתורים, מכשיר, ביצועים, שלבי סליקה"],["2026-10-09","Clarity: מפות חום והקלטות בדפים ובסליקה"]];
+ ["2026-10-07","שלושה דפים עם פתיחות שונות (v14-v15)"],["2026-10-08","הוסר אזור 'בחיים עצמם', מספור אזורים תוקן (v16)"],["2026-10-08","סליקה עברה ל-LowProfile בקארדקום"],["2026-10-09","מדידה מורחבת: זמן פעיל, חשיפת אזורים וכפתורים, מכשיר, ביצועים, שלבי סליקה"],["2026-10-09","Clarity: מפות חום והקלטות בדפים ובסליקה"],["2026-10-10","ביקורים מדפדפנים פנימיים מסומנים ומוסתרים, והתראה כשאין ביקורים 6 שעות"]];
 
 let rows=null, spend={}, cspend={}, storedAt=0, range="7", screen="ov", lpVar="b", showTests=false, fSrc="", fDev="", cFrom="", cTo="", jrStage="", openSid="", openCr="";
 const $=id=>document.getElementById(id);
@@ -298,7 +299,7 @@ function wilson(k,n){if(!n)return [0,0];const z=1.96,p=k/n,d=1+z*z/n,c=p+z*z/(2*
 function conf(n,k){ if(n<30||k<3) return ["נתונים מעטים","off"]; if(n<150||k<10) return ["מגמה ראשונית","warn"]; return ["ראיות חזקות יותר","good"]; }
 function dayKey(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
 function qsObj(q){try{return new URLSearchParams(q||"")}catch(e){return new URLSearchParams()}}
-function isTest(r){const q=(r.qs||"").toLowerCase();return /claude|test|nocache/.test(q)||r.variant==="test"||/בדיקה|בדיקת/.test(r.name||"");}
+function isTest(r){const q=(r.qs||"").toLowerCase();return /claude|test|nocache/.test(q)||/(^|;)int=1(;|$)/.test(r.x||"")||r.variant==="test"||/בדיקה|בדיקת/.test(r.name||"");}
 function source(p){const s=(p.get("utm_source")||"").toLowerCase(),m=(p.get("utm_medium")||"").toLowerCase();
  if(/meta|facebook|fb|ig|instagram/.test(s)&&/paid|cpc|ads?$|social_paid|paid_social/.test(m))return "מודעות Meta";
  if(/manychat/.test(p.get("utm_campaign")||"")||m==="dm")return "ManyChat";
@@ -555,6 +556,7 @@ function alerts(M,A,B){const L=[],now=Date.now();
  const lastRow=rows.length?rows[rows.length-1].t:null; if(lastRow&&now-lastRow>6*36e5&&new Date().getHours()>=9) L.push({level:"warn",title:"לא נכנסו אירועים "+Math.round((now-lastRow)/36e5)+" שעות",data:"האירוע האחרון: "+lastRow.toLocaleString("he-IL"),action:"לבדוק שהדפים עולים ושהמעקב ב-Make פעיל",tag:"טכני"});
  const orphan=M.buys.filter(b=>!b.s).length; if(orphan) L.push({level:"warn",title:orphan+" רכישות בלי ביקור מקושר",data:"עסקה בקארדקום בלי מזהה ביקור תואם",action:"בדרך כלל קונה שהגיע ישירות לסליקה או ממכשיר אחר. נספר כרכישה מאומתת ללא שיוך",tag:"ייחוס"});
  const dupe=rows.filter(r=>r.ev==="purchase").length-M.allBuys.length; if(dupe>0&&range==="all") L.push({level:"info",title:dupe+" דיווחי רכישה כפולים סוננו",data:"אותה עסקה דווחה יותר מפעם אחת",action:"אין צורך בפעולה. כל עסקה נספרת פעם אחת",tag:"כפילות"});
+ const tv=new Set(rows.filter(isTest).map(r=>r.vid).filter(Boolean)); const lastV=rows.filter(r=>r.ev==="view"&&!isTest(r)&&!tv.has(r.vid)).reduce((m,r)=>r.t>m?r.t:m,0); if(lastV){const hh=(Date.now()-lastV)/36e5; if(hh>=6) L.push({level:"crit",title:"אין ביקורים כבר "+Math.round(hh)+" שעות",data:"הביקור האמיתי האחרון: "+lastV.toLocaleString("he-IL",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}),action:"לבדוק שהקמפיין רץ, שיש תקציב ושהקישור במודעות תקין",tag:"תנועה"});}
  const sp=spendIn(B.a,B.b); if(sp&&!A.v) L.push({level:"crit",title:"יש הוצאה ואין ביקורים",data:ils(sp)+" הוצאה, 0 ביקורים",action:"לבדוק קישורי מודעות ו-go.html",tag:"Tracking"});
  const lcp=median(M.sess.filter(s=>s.lcp).map(s=>s.lcp)); if(lcp>4000) L.push({level:"warn",title:"הדף נטען לאט",data:"LCP חציוני "+(lcp/1000).toFixed(1)+" שנ'",action:"לכווץ תמונות ווידאו בפתיחה",tag:"ביצועים"});
  const js=M.sess.filter(s=>s.jserr).length; if(js>=3) L.push({level:"warn",title:js+" ביקורים עם שגיאות JS",data:"ראו פירוט במסך 08",action:"לבדוק בדפדפן אינסטגרם",tag:"טכני"});
