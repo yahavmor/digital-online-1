@@ -184,14 +184,14 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
   if (SUPPORT_WA){ $("help").hidden = false; $("helpLink").href = "https://wa.me/" + SUPPORT_WA; }
   if (PRIVACY_URL){ $("terms").hidden=false; if (TERMS_URL){ $("termsLink").href=TERMS_URL; $("privLink").href=PRIVACY_URL; } else { $("terms").innerHTML='הפרטים משמשים לביצוע הרכישה, לחשבונית ולגישה לקורס. <a href="'+PRIVACY_URL+'" target="_blank" rel="noopener">מדיניות הפרטיות</a>'; } }
   if (qs.get("status") === "failed") $("err").classList.add("on");
-  const t0 = Date.now(); let vid=""; try{ vid=localStorage.getItem("nlp_vid")||""; }catch(e){} try{ if(window.clarity&&vid){ clarity("identify",vid); clarity("set","vid",vid); } }catch(e){}
+  const t0 = Date.now(); let vid=""; try{ vid=localStorage.getItem("nlp_vid")||""; }catch(e){} let INT=false; try{ const ls=localStorage; if(/test|claude|internal/i.test(location.search)) ls.setItem("nlp_int","1"); INT=ls.getItem("nlp_int")==="1"; if(INT&&window.clarity) clarity("set","internal","1"); }catch(e){} try{ if(window.clarity&&vid){ clarity("identify",vid); clarity("set","vid",vid); } }catch(e){}
   const ua=navigator.userAgent||"", os=/iPhone|iPad|iPod/.test(ua)?"ios":/Android/.test(ua)?"android":/Windows/.test(ua)?"win":/Mac OS X/.test(ua)?"mac":"other", app=/Instagram/.test(ua)?"ig":/FBAN|FBAV|FB_IAB/.test(ua)?"fb":"web";
   const dev=(/Mobi|Android|iPhone|iPod/.test(ua)||(innerWidth<760)?"m":"d")+"-"+os+"-"+app;
   /* Clarity: link each visit to its recording (first-party cookies _clck/_clsk) */
   function clId(){ try{ const g=n=>{ const m=document.cookie.match(new RegExp("(?:^|; )"+n+"=([^;]*)")); return m?decodeURIComponent(m[1]).split(/[|^]/)[0]:""; }; const u=g("_clck"), s=g("_clsk"); return u&&s?u+"."+s:""; }catch(e){ return ""; } }
   function track(ev, extra){
     try{ if(window.clarity){ clarity("event",ev); clarity("upgrade",ev); } }catch(e){}
-    const cl=clId(); if(cl){ extra=Object.assign({},extra||{}); extra.x=(extra.x?extra.x+";":"")+"cl="+cl; }
+    const cl=clId(); if(cl){ extra=Object.assign({},extra||{}); extra.x=(extra.x?extra.x+";":"")+"cl="+cl; } if(INT){ extra=Object.assign({},extra||{}); extra.x=(extra.x?extra.x+";":"")+"int=1"; }
     if(!TRACK_ENDPOINT || TRACK_ENDPOINT[0]==="%") return;
     try{ const f=new URLSearchParams(Object.assign({ev, variant, sid, qs:location.search.slice(1), vid, dev, sec_on_page:Math.round((Date.now()-t0)/1000)}, extra||{}));
       if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT,f))) fetch(TRACK_ENDPOINT,{method:"POST",body:f,mode:"no-cors",keepalive:true}); }catch(e){}
