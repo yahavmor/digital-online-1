@@ -197,3 +197,13 @@ def test_levels_never_clip_bright_footage():
     from factory import color
     chain = color.correction({"y_avg": 120, "y_low": 30, "y_high": 220, "u_avg": 128, "v_avg": 128}, CFG)
     assert not any(c.startswith("colorlevels") for c in chain)
+
+
+def test_transcript_corrections():
+    from factory.transcribe import apply_corrections
+    ws = [{"w": "על", "s": 0, "e": .2}, {"w": "המצוות", "s": .3, "e": .7}, {"w": "הגשמית.", "s": .8, "e": 1.2},
+          {"w": "ביום", "s": 1.3, "e": 1.5}, {"w": "-יום,", "s": 1.5, "e": 1.8}]
+    out, n = apply_corrections(ws, [["המצוות הגשמית", "המציאות הגשמית"], ["ביום -יום", "ביום-יום"]])
+    assert n == 2
+    assert [w["w"] for w in out] == ["על", "המציאות", "הגשמית.", "ביום-יום,"]
+    assert out[1]["s"] == .3 and abs(out[2]["e"] - 1.2) < 1e-6

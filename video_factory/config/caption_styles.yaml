@@ -70,3 +70,20 @@ karaoke:                    # full line visible, sweeping highlight
   pop_ms: 100
   entry: slide
   uppercase: true
+
+elegant:                    # calm, premium, trust-building (Q&A / education / sales)
+  font: brand.font
+  size_vertical: 0.046
+  size_youtube: 0.048
+  words_per_line: 3
+  bold: false               # font file already ExtraBold
+  base_color: brand.text
+  active_color: brand.primary
+  emphasis_color: brand.text
+  outline: 4
+  shadow: 2
+  box: false
+  pop_scale: 104
+  pop_ms: 120
+  entry: fade
+  uppercase: false

@@ -111,6 +111,23 @@ def cmd_preview(a):
     print(preview(a.style, a.lang, a.kind, out, a.preset, Path(a.background) if a.background else None))
 
 
+def cmd_cover(a):
+    """Re-make only the cover (analysis is cached), optionally at a chosen time."""
+    from .config import load_config as _lc
+    from .pipeline import make_cover, prepare
+    raw = Path(a.file).absolute()
+    side = raw.with_suffix(".yaml")
+    sets = list(a.set or [])
+    cfg = _lc(a.preset, side if side.exists() else None, sets)
+    ctx = prepare(raw, cfg)
+    name = cfg.get("output_name") or ctx.job
+    if a.sheet:
+        from .pipeline import cover_sheet
+        print(cover_sheet(ctx, ctx.out / f"{name}_cover_candidates.jpg"))
+        return
+    print(make_cover(ctx, ctx.out / f"{name}_cover.jpg", t=a.time))
+
+
 def cmd_presets(a):
     import yaml
     presets = yaml.safe_load((CONFIG_DIR / "presets.yaml").read_text(encoding="utf-8"))
@@ -171,6 +188,13 @@ def main(argv=None) -> int:
     sp.add_argument("--out")
     sp.add_argument("--preset")
     sp.set_defaults(fn=cmd_preview)
+
+    sp = sub.add_parser("cover", help="(re)make the cover image for a video, optionally at --time seconds")
+    sp.add_argument("file")
+    sp.add_argument("--time", type=float)
+    sp.add_argument("--sheet", action="store_true", help="contact sheet of the best candidates instead")
+    common(sp)
+    sp.set_defaults(fn=cmd_cover)
 
     sub.add_parser("presets", help="list presets / caption styles / looks").set_defaults(fn=cmd_presets)
 

@@ -57,3 +57,22 @@ fast:               # drafts: quick review renders
     intermediate: {crf: 18, preset: ultrafast}
   transcription: {models: {he: ivrit-ai/whisper-large-v3-turbo-ct2, en: small}}
   shorts: {count: 3}
+
+qa_trust:           # Q&A answers that build trust and lead to a course: calm, clean, readable
+  deliverables: {youtube: false, vertical: true, shorts: false, cover: true, thumbnails: false}
+  brand: {primary: "#E8BC62", font: Heebo ExtraBold}
+  captions: {style: elegant, position_vertical: 0.735, max_chars: 24}
+  cleanup: {max_gap: 0.45, remove_soft_fillers: false}
+  motion: {shot_min: 3.5, shot_max: 6.0, zoom_levels: [1.00, 1.05, 1.00, 1.08], emphasis_zoom: 1.08, slow_push: 0.02}
+  audio: {sfx: {enabled: false}, music: {enabled: false}}
+  graphics:
+    hook_title: false
+    lower_third: false
+    keyword_popups: false
+    end_card: false
+    progress_bar: {vertical: false}
+    question_tag: {enabled: true}
+  structure: {cold_open_vertical: false}
+  reframe: {headroom: auto}
+  color: {look: clean_bright, saturation: 1.0}
+  export: {vertical: {preset: medium}, share_max_mb: 28}

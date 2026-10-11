@@ -12,7 +12,7 @@ from pathlib import Path
 from . import analyze, audio, broll as brollmod, captions as capmod, cleanup, color, hooks, motion, \
     project_export, render, sfx
 from .config import ROOT, load_config, resolve_path
-from .media import MediaInfo, audio_envelope, detect_silence, probe, require_binaries, run
+from .media import MediaInfo, audio_envelope, detect_silence, escape_filter_path, probe, require_binaries, run
 from .transcribe import extract_audio, is_hebrew, transcribe
 
 log = logging.getLogger("factory")
@@ -210,6 +210,14 @@ def build_edit(ctx: Context, name: str, kind: str, segs: list[cleanup.Seg], titl
     log.info("• %s: %d shots, %.1fs, %s/%s %dx%d", name, len(shots), duration, kind, tg.mode, tg.W, tg.H)
 
     ewk = ctx.work / name
+    qt = cfg["graphics"].get("question_tag") or {}
+    tag_box = None
+    if qt.get("enabled") and qt.get("text") and tg.kind == "vertical":
+        probe_ab = capmod.AssBuilder(cfg, tg.W, tg.H, "vertical")
+        tag_box = probe_ab.question_tag(qt["text"], qt.get("keyword"), 0, 1)
+    cfg["_headroom_px"] = headroom_px(ctx, tg, tag_box)
+    if cfg["_headroom_px"]:
+        log.info("  headroom: picture shifted down %dpx so the tag clears the head", cfg["_headroom_px"])
     parts = render.render_shots(ctx.raw, ctx.voice, ctx.info, shots, tg, ctx.src_chain, cfg, ewk / "shots")
     cut = render.concat(parts, ewk / "cut.mkv")
 
@@ -219,13 +227,15 @@ def build_edit(ctx: Context, name: str, kind: str, segs: list[cleanup.Seg], titl
                  for i, a, b in placed]
     ass_path = None
     g = cfg["graphics"]
-    if cfg["captions"]["burn_in"] or g["hook_title"]:
+    if cfg["captions"]["burn_in"] or g["hook_title"] or tag_box:
         ab = capmod.AssBuilder(cfg, tg.W, tg.H, "youtube" if kind == "youtube" else "vertical")
         if cap_words and cfg["captions"]["burn_in"]:
             ab.captions(cap_words, cfg["captions"]["position_youtube" if kind == "youtube" else "position_vertical"])
         title = g.get("hook_text") or title
         if g["hook_title"] and title:
             ab.hook_title(title, 0.0, min(g["hook_title_seconds"], duration * 0.3))
+        if tag_box:
+            ab.question_tag(qt["text"], qt.get("keyword"), 0.0, duration)
         if g["lower_third"] and not is_short and cfg["brand"]["name"]:
             ab.lower_third(cfg["brand"]["name"], cfg["brand"]["role"], min(g["lower_third_at"], duration * 0.2))
         if g["keyword_popups"] and cap_words:
@@ -308,6 +318,125 @@ def build_edit(ctx: Context, name: str, kind: str, segs: list[cleanup.Seg], titl
             "thumbnails": [str(t) for t in thumbs], "share_copy": str(share) if share else None}
 
 
+def head_top_frac(face: list) -> float | None:
+    """Highest the top of the head gets (10th percentile), as a fraction of frame height."""
+    tops = sorted(p[2] - 0.85 * p[3] for p in face if len(p) > 4 and p[4])
+    return tops[int(len(tops) * 0.1)] if len(tops) >= 5 else None
+
+
+def headroom_px(ctx: Context, tg, tag_box) -> int:
+    hr = ctx.cfg["reframe"].get("headroom", 0)
+    if hr in (0, None, False) or tg.mode != "crop":
+        return 0
+    if hr != "auto":
+        return int(hr)
+    if not tag_box:
+        return 0
+    top = head_top_frac(ctx.face)
+    if top is None:
+        return 0
+    need = tag_box[1] + ctx.cfg["reframe"].get("headroom_margin", 40) - top * tg.H
+    return int(min(max(0, need), tg.H * 0.3) // 2 * 2)
+
+
+def cover_candidates(ctx: Context, n: int = 40) -> list[dict]:
+    """Score frames for a cover: both eyes open (no blink), sharp (no motion blur), frontal face,
+    face high enough in frame to sit above a centred tag."""
+    import subprocess
+    import numpy as np
+    try:
+        import cv2
+    except ImportError:
+        return []
+    pts = [p for p in ctx.face if len(p) > 4 and p[4] and 1.0 < p[0] < ctx.info.duration * 0.85]
+    if not pts:
+        return []
+    step = max(1, len(pts) // n)
+    face_c = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+    eye_c = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_eye_tree_eyeglasses.xml")
+    w = 540
+    h = int(round(ctx.info.height * w / ctx.info.width / 2) * 2)
+    out = []
+    for p in pts[::step]:
+        t = p[0]
+        raw = subprocess.run(["ffmpeg", "-hide_banner", "-nostdin", "-loglevel", "error", "-ss", f"{t:.3f}",
+                              "-i", str(ctx.raw), "-frames:v", "1", "-vf", f"scale={w}:{h},format=gray",
+                              "-f", "rawvideo", "-"], capture_output=True).stdout
+        if len(raw) < w * h:
+            continue
+        img = np.frombuffer(raw[:w * h], np.uint8).reshape(h, w)
+        faces = face_c.detectMultiScale(img, 1.1, 5, minSize=(w // 6, w // 6))
+        if not len(faces):
+            continue
+        x, y, fw, fh = max(faces, key=lambda f: f[2] * f[3])
+        roi = img[y:y + int(fh * 0.6), x:x + fw]
+        eyes = eye_c.detectMultiScale(roi, 1.1, 6, minSize=(fw // 9, fw // 9))
+        sharp = float(cv2.Laplacian(img[y:y + fh, x:x + fw], cv2.CV_64F).var())
+        cx, cy, size = (x + fw / 2) / w, (y + fh / 2) / h, fh / h
+        score = (2.0 if len(eyes) >= 2 else -3.0) + min(sharp / 150, 2.0) - 3 * abs(cx - 0.5) - 2 * max(0, cy - 0.30)
+        out.append({"t": round(t, 2), "score": round(score, 3), "eyes": int(len(eyes)), "sharp": round(sharp),
+                    "cy": round(cy, 3), "size": round(size, 3)})
+    return sorted(out, key=lambda c: -c["score"])
+
+
+def make_cover(ctx: Context, dst: Path, t: float | None = None, preview_scale: float = 1.0) -> Path | None:
+    """Cover: question tag centred vertically, face above it. Frame = cover_time or best candidate."""
+    cfg = ctx.cfg
+    qt = cfg["graphics"].get("question_tag") or {}
+    if not qt.get("text"):
+        return None
+    tg = render.choose_target("vertical", ctx.info, cfg)
+    face_info = None
+    if t is None and qt.get("cover_time") is not None:
+        t = float(qt["cover_time"])
+    if t is None:
+        cands = cover_candidates(ctx)
+        if cands:
+            face_info = cands[0]
+            t = face_info["t"]
+            log.info("  cover frame %.2fs (eyes=%d sharp=%d)", t, face_info["eyes"], face_info["sharp"])
+        else:
+            t = ctx.info.duration * 0.25
+    ab = capmod.AssBuilder(cfg, tg.W, tg.H, "vertical")
+    top, bottom = ab.question_tag(qt["text"], qt.get("keyword"), 0, 5, y_center=int(tg.H * 0.5), animate=False)
+    # face must sit above the tag: lift (and minimally enlarge) the picture if the beard would touch it
+    if face_info is None:
+        near = sorted((p for p in ctx.face if len(p) > 4 and p[4] and abs(p[0] - t) < 1.5), key=lambda p: abs(p[0] - t))
+        face_info = {"cy": near[0][2], "size": near[0][3]} if near else None
+    shift = 0
+    if face_info:
+        beard_bottom = (face_info["cy"] + 0.95 * face_info["size"]) * tg.H
+        head_top = (face_info["cy"] - 0.85 * face_info["size"]) * tg.H
+        # the lift enlarges the frame by (H+shift)/H, so the head top lands at head_top*(1+shift/H)-shift
+        max_shift = (head_top - 24) / max(1 - head_top / tg.H, 0.5)
+        shift = int(max(0, min(beard_bottom + 30 - top, max_shift)) // 2 * 2)
+    ass = ab.write(ctx.work / f"cover_{int(t * 100)}.ass")
+    fonts = escape_filter_path(resolve_path(cfg, "fonts"))
+    vf = (f"{ctx.src_chain},scale=-2:{tg.H + shift}:flags=lanczos,crop={tg.W}:{tg.H}:(iw-{tg.W})/2:{shift},"
+          f"{color.finish_chain(cfg, 1.0)},subtitles=filename='{escape_filter_path(ass)}':fontsdir='{fonts}'")
+    if preview_scale != 1.0:
+        vf += f",scale=iw*{preview_scale}:-2,drawtext=text='{t:.2f}s':fontcolor=yellow:fontsize=28:x=8:y=8:box=1:boxcolor=black"
+    run(["ffmpeg", "-hide_banner", "-nostdin", "-y", "-loglevel", "error", "-ss", f"{t:.3f}", "-i", str(ctx.raw),
+         "-frames:v", "1", "-vf", vf, "-q:v", "2", str(dst)])
+    return dst
+
+
+def cover_sheet(ctx: Context, dst: Path, k: int = 6) -> Path:
+    """Contact sheet of the k best cover candidates (in final layout) for a human pick."""
+    cands = cover_candidates(ctx)[:k]
+    tiles = []
+    for c in cands:
+        p = ctx.work / f"cand_{int(c['t'] * 100)}.jpg"
+        make_cover(ctx, p, t=c["t"], preview_scale=0.3)
+        tiles.append(p)
+    args = []
+    for p in tiles:
+        args += ["-i", str(p)]
+    run(["ffmpeg", "-hide_banner", "-nostdin", "-y", "-loglevel", "error", *args, "-filter_complex",
+         f"hstack=inputs={len(tiles)}", "-frames:v", "1", "-update", "1", str(dst)])
+    return dst
+
+
 def with_cold_open(ctx: Context, segs: list[cleanup.Seg]) -> tuple[list[cleanup.Seg], str | None]:
     sc = ctx.cfg["structure"]
     if not ctx.scores:
@@ -327,7 +456,7 @@ def with_cold_open(ctx: Context, segs: list[cleanup.Seg]) -> tuple[list[cleanup.
 
 # --------------------------------------------------------------------------- whole job
 def process(raw: Path, preset: str | None = None, overrides: list[str] | None = None) -> dict:
-    raw = Path(raw).resolve()
+    raw = Path(raw).absolute()     # not resolve(): a symlinked input keeps its own name + sidecars
     side = raw.with_suffix(".yaml")
     cfg = load_config(preset, side if side.exists() else None, overrides)
     t0 = time.time()
@@ -341,7 +470,12 @@ def process(raw: Path, preset: str | None = None, overrides: list[str] | None = 
     if d["vertical"]:
         segs, title = (with_cold_open(ctx, list(ctx.keep)) if cfg["structure"]["cold_open_vertical"]
                        else (list(ctx.keep), ctx.scores[0]["text"] if ctx.scores else None))
-        results.append(build_edit(ctx, "vertical", "vertical", segs, title, ctx.out / f"{ctx.job}_vertical.mp4"))
+        vname = cfg.get("output_name") or (f"{ctx.job}" if d.get("cover") else f"{ctx.job}_vertical")
+        results.append(build_edit(ctx, "vertical", "vertical", segs, title, ctx.out / f"{vname}.mp4"))
+        if d.get("cover"):
+            cov = make_cover(ctx, ctx.out / f"{vname}_cover.jpg")
+            if cov:
+                results[-1]["cover"] = str(cov)
     shorts_meta = []
     if d["shorts"] and ctx.scores:
         plans = hooks.plan_shorts(ctx.scores, ctx.keep, cfg)

@@ -99,6 +99,8 @@ class AssBuilder:
             f"-1,0,0,0,100,100,0,0,3,{max(10, int(self.size*0.28))},0,8,{int(self.W*0.08)},{int(self.W*0.08)},40,-1",
             f"Style: Pop,{f},{int(self.size*1.0)},{self.c_text},{self.c_text},{self.c_accent},{self.c_accent},"
             f"-1,0,0,0,100,100,0,0,3,{max(8, int(self.size*0.22))},0,5,40,40,40,-1",
+            f"Style: Tag,{self.cfg['graphics'].get('question_tag', {}).get('font', 'Heebo ExtraBold')},40,"
+            f"&H00FFFFFF&,&H00FFFFFF&,&H00000000&,&H00000000&,0,0,0,0,100,100,0,0,1,0,0,5,0,0,0,-1",
             f"Style: Card,{f},{lt},{self.c_text},{self.c_text},&H00000000&,&H00000000&,-1,0,0,0,100,100,0,0,1,0,0,5,20,20,20,-1",
             f"Style: Shape,{f},20,{self.c_primary},{self.c_primary},&H00000000&,&H00000000&,0,0,0,0,100,100,0,0,1,0,0,7,0,0,0,-1",
             "", "[Events]",
@@ -200,6 +202,37 @@ class AssBuilder:
             top = y + int(self.size * 0.95)
             self.add(42, s + 0.08, e, "Shape", f"{{\\an8\\move({x},{top + a},{x},{top},0,180)\\1c{self.c_primary}"
                                               f"\\bord3\\3c&H00000000&\\fad(80,160)\\p1}}{arrow}{{\\p0}}")
+
+    def question_tag(self, text: str, keyword: str | None, s: float, e: float, *,
+                     y_top: int | None = None, y_center: int | None = None, animate: bool = True) -> tuple[int, int]:
+        """Compact rounded question label. Returns (top, bottom) pixel rows of the box."""
+        from . import tag as tagmod
+        from .config import resolve_path
+        qt = self.cfg["graphics"].get("question_tag", {})
+        font_file = resolve_path(self.cfg, "fonts") / qt.get("font_file", "Heebo-800.ttf")
+        lay = tagmod.layout(text, font_file, self.W, qt.get("font_frac", 0.03), qt.get("max_width_frac", 0.84))
+        x0 = (self.W - lay.box_w) // 2
+        if y_center is not None:
+            y0 = int(y_center - lay.box_h / 2)
+        else:
+            y0 = int(y_top if y_top is not None else self.H * qt.get("y_top_frac", 0.105))
+        r = int(lay.font_px * qt.get("radius", 0.38))
+        gold = ass_color(qt.get("outline_color", "#E8BC62"))
+        kw_col = ass_color(qt.get("keyword_color", "#E8BC62"))
+        fill_alpha = int(255 * (1 - qt.get("fill_opacity", 0.92)))
+        bord = qt.get("outline_px", 3)
+        dy = 14 if animate else 0
+        fad = "\\fad(280,0)" if animate else ""
+        mv = (lambda x, y: f"\\move({x},{y + dy},{x},{y},0,320)") if animate else (lambda x, y: f"\\pos({x},{y})")
+        self.add(60, s, e, "Shape", f"{{\\an7{mv(x0, y0)}\\1c&H00000000&\\1a&H{fill_alpha:02X}&\\bord{bord}\\3c{gold}"
+                                    f"\\3a&H00&\\shad0\\blur0.6{fad}\\p1}}{tagmod.rounded_rect(lay.box_w, lay.box_h, r)}{{\\p0}}")
+        cx = self.W // 2
+        for i, words in enumerate(lay.lines):
+            cy = y0 + lay.pad_y + int(lay.line_h * (i + 0.5))
+            parts = [(f"{{\\c{kw_col}}}{esc(w)}{{\\c&H00FFFFFF&}}" if tagmod.keyword_hit(w, keyword) else esc(w))
+                     for w in words]
+            self.add(61, s, e, "Tag", f"{{\\an5{mv(cx, cy)}\\fs{lay.ass_fs}\\bord0\\shad0{fad}}}" + " ".join(parts))
+        return y0, y0 + lay.box_h
 
     def end_card(self, text: str, s: float, e: float):
         x, y = self.W // 2, int(self.H * 0.5)

@@ -57,6 +57,39 @@ def _norm_words(words: list[dict]) -> list[dict]:
     return out
 
 
+def apply_corrections(words: list[dict], pairs: list) -> tuple[list[dict], int]:
+    """Replace mis-transcribed phrases: [[old phrase, new phrase], ...] (punctuation-insensitive).
+
+    The new words share the old span's time range proportionally to their length; trailing
+    punctuation of the old phrase is kept. Returns (words, number_of_replacements).
+    """
+    import re as _re
+    strip = lambda t: _re.sub(r"[^\w\u0590-\u05FF%$₪'-]+", "", t).lower()
+    n_done = 0
+    for old, new in pairs or []:
+        o = [strip(t) for t in str(old).split()]
+        new_toks = str(new).split()
+        i = 0
+        while i <= len(words) - len(o):
+            if [strip(w["w"]) for w in words[i:i + len(o)]] == o:
+                span = words[i:i + len(o)]
+                s0, e0 = span[0]["s"], span[-1]["e"]
+                tail = _re.search(r"[.,!?…:;]+$", span[-1]["w"])
+                total = sum(len(t) for t in new_toks) or 1
+                rep, t = [], s0
+                for k, tok in enumerate(new_toks):
+                    d = (e0 - s0) * len(tok) / total
+                    w = tok + (tail.group(0) if tail and k == len(new_toks) - 1 and not tok[-1] in ".,!?…:;" else "")
+                    rep.append({"w": w, "s": round(t, 3), "e": round(t + d, 3), "p": 1.0})
+                    t += d
+                words[i:i + len(o)] = rep
+                i += len(rep)
+                n_done += 1
+            else:
+                i += 1
+    return words, n_done
+
+
 def finalize(words: list[dict], language: str) -> dict:
     words = _norm_words(words)
     if language in (None, "", "auto"):
@@ -134,16 +167,26 @@ def _load_model(name: str, tcfg: dict, models_dir: Path):
     return WhisperModel(src, device=dev, compute_type=ct, download_root=str(models_dir))
 
 
+def _load_pcm(path: Path):
+    """16 kHz mono PCM WAV -> float32 array (avoids faster-whisper's PyAV decoder, which breaks
+    across PyAV versions)."""
+    import wave
+    import numpy as np
+    with wave.open(str(path)) as w:
+        return np.frombuffer(w.readframes(w.getnframes()), np.int16).astype(np.float32) / 32768.0
+
+
 def transcribe_whisper(audio: Path, tcfg: dict, models_dir: Path) -> dict:
     lang = tcfg["language"]
+    audio = _load_pcm(audio)
     if lang == "auto":
         det = _load_model(tcfg["models"]["detect"], tcfg, models_dir)
-        _, info = det.transcribe(str(audio), beam_size=1, language=None, without_timestamps=True)
+        _, info = det.transcribe(audio, beam_size=1, language=None, without_timestamps=True)
         lang = info.language if info.language in ("he", "en") else ("he" if info.language == "iw" else "en")
         log.info("Detected language: %s (p=%.2f)", lang, info.language_probability)
         del det
     model = _load_model(tcfg["models"].get(lang, tcfg["models"]["en"]), tcfg, models_dir)
-    segments, _ = model.transcribe(str(audio), language=lang, beam_size=tcfg["beam_size"],
+    segments, _ = model.transcribe(audio, language=lang, beam_size=tcfg["beam_size"],
                                    word_timestamps=True, vad_filter=tcfg["vad_filter"],
                                    condition_on_previous_text=False)
     words = []
@@ -154,6 +197,16 @@ def transcribe_whisper(audio: Path, tcfg: dict, models_dir: Path) -> dict:
 
 
 def transcribe(raw: Path, audio: Path, cfg: dict, models_dir: Path) -> dict | None:
+    tr = _transcribe(raw, audio, cfg, models_dir)
+    fixes = cfg["transcription"].get("corrections")
+    if tr and fixes:
+        words, n = apply_corrections(tr["words"], fixes)
+        log.info("  applied %d transcript corrections", n)
+        tr = finalize(words, tr["language"])
+    return tr
+
+
+def _transcribe(raw: Path, audio: Path, cfg: dict, models_dir: Path) -> dict | None:
     tcfg = cfg["transcription"]
     if tcfg.get("use_sidecars", True):
         side = load_sidecar(raw)

@@ -27,6 +27,9 @@ deliverables:
   captions: true         # .srt / .vtt / .ass sidecars
   project_files: true    # FCPXML + EDL + timeline.json for Premiere / Resolve / FCP
   thumbnails: true       # candidate thumbnail frames
+  cover: false           # 9:16 cover image (question tag centred, face above it)
+
+output_name: null        # override the vertical deliverable's file name (no extension)
 
 # ----------------------------------------------------------------------------
 transcription:
@@ -128,6 +131,9 @@ reframe:
   # auto: crop when the 9:16 crop keeps >= this many source pixels in width,
   # otherwise blurred-background "fill" so low-res footage still looks premium.
   min_crop_width: 540
+  headroom: 0               # px to slide the picture down (freed band = soft mirrored extension),
+                            # or auto = just enough for the question tag to clear the top of the head
+  headroom_margin: 40
 
 # ----------------------------------------------------------------------------
 captions:
@@ -154,6 +160,20 @@ graphics:
   arrows: true              # animated arrow pointing at popups
   end_card: true            # CTA at the end
   cta_text: {he: "עקבו לעוד", en: "FOLLOW FOR MORE"}
+  question_tag:             # Q&A label that stays on screen for the whole video
+    enabled: false
+    text: null
+    keyword: null           # one word drawn in keyword_color (Hebrew prefixes tolerated)
+    font: Heebo ExtraBold
+    font_file: Heebo-800.ttf
+    font_frac: 0.025        # text size (em) as a fraction of a 1920px-high frame
+    max_width_frac: 0.88
+    y_top_frac: 0.105       # below the Reels/Stories top UI
+    radius: 0.38            # corner radius relative to font size
+    outline_px: 3
+    outline_color: "#E8BC62"
+    keyword_color: "#E8BC62"
+    fill_opacity: 0.92
 
 brand:
   name: ""                  # lower-third name

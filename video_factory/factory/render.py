@@ -85,7 +85,15 @@ def video_graph(info: MediaInfo, sh: Shot, tg: Target, src_chain: str, cfg: dict
     blur = ",gblur=sigma=10:steps=2:enable='lt(t,0.07)'" if sh.punch and sh.jump else ""
     head = f"[0:v]setpts=PTS-STARTPTS,fps={tg.fps},{src_chain},format=yuv420p"
     if tg.mode == "crop":
-        return f"{head},{window_chain(info, sh, tg.W, tg.H)}{blur},{finish},setsar=1[v]"
+        hr = int(cfg.get("_headroom_px") or 0)
+        if not hr:
+            return f"{head},{window_chain(info, sh, tg.W, tg.H)}{blur},{finish},setsar=1[v]"
+        # headroom: slide the picture down by hr px; the freed band is a smooth gradient built from
+        # the top edge's colours (reads as more wall/ceiling, no copied objects, no letterbox bar)
+        return (f"{head},{window_chain(info, sh, tg.W, tg.H)}{blur},{finish},setsar=1,split=2[m][t];"
+                f"[t]crop={tg.W}:{max(8, hr // 6)}:0:0,scale=6:2:flags=area,scale={tg.W}:{hr}:flags=bicubic,"
+                f"gblur=sigma=40,format=yuv420p[band];"
+                f"[m]crop={tg.W}:{tg.H - hr}:0:0[main];[band][main]vstack,setsar=1[v]")
     # fill: blurred, darkened cover background + framed foreground
     if tg.kind == "vertical":
         fg_w, fg_h = tg.W, int(round(tg.W / 0.8 / 2) * 2)          # 4:5 foreground
@@ -130,7 +138,7 @@ def render_shots(src: Path, voice: Path, info: MediaInfo, shots: list[Shot], tg:
     work.mkdir(parents=True, exist_ok=True)
     def key(sh: Shot) -> str:   # cache key = everything that affects the pixels/samples of a shot
         raw = f"{sh.s:.4f}|{sh.e:.4f}|{sh.z0:.4f}|{sh.z1:.4f}|{sh.cx:.3f}|{sh.cy:.3f}|{sh.punch}|{sh.jump}|" \
-              f"{sh.emphasis}|{tg}|{src_chain}|{cfg['color']}|{cfg['export']['intermediate']}"
+              f"{sh.emphasis}|{tg}|{src_chain}|{cfg['color']}|{cfg['export']['intermediate']}|{cfg.get('_headroom_px')}"
         return hashlib.sha1(raw.encode()).hexdigest()[:12]
     jobs = [(i, sh, work / f"shot_{i:04d}_{key(sh)}.mkv") for i, sh in enumerate(shots)]
     par = max(1, int(cfg["export"]["parallel_segments"]))
