@@ -410,6 +410,13 @@ def make_cover(ctx: Context, dst: Path, t: float | None = None, preview_scale: f
         # the lift enlarges the frame by (H+shift)/H, so the head top lands at head_top*(1+shift/H)-shift
         max_shift = (head_top - 24) / max(1 - head_top / tg.H, 0.5)
         shift = int(max(0, min(beard_bottom + 30 - top, max_shift)) // 2 * 2)
+        # still touching (face very close to camera)? nudge the tag down a little, max 7% below centre
+        beard_after = beard_bottom * (tg.H + shift) / tg.H - shift
+        if beard_after + 30 > top:
+            box_h = bottom - top
+            y_c = min(int(beard_after + 30 + box_h / 2), int(tg.H * 0.57))
+            ab = capmod.AssBuilder(cfg, tg.W, tg.H, "vertical")
+            top, bottom = ab.question_tag(qt["text"], qt.get("keyword"), 0, 5, y_center=y_c, animate=False)
     ass = ab.write(ctx.work / f"cover_{int(t * 100)}.ass")
     fonts = escape_filter_path(resolve_path(cfg, "fonts"))
     vf = (f"{ctx.src_chain},scale=-2:{tg.H + shift}:flags=lanczos,crop={tg.W}:{tg.H}:(iw-{tg.W})/2:{shift},"
