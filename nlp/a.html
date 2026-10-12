@@ -14,9 +14,9 @@ clarity("set","page","lp");if(v)clarity("set","variant",v);if(cr)clarity("set","
 if(/test|claude/i.test(location.search))clarity("set","internal","1");}catch(e){}})();
 </script>
 <title>לנצח את האוטומט · בן נחום</title>
-<meta name="description" content="תוכנית NLP דיגיטלית של בן נחום: 142 שיעורים, כ-28 שעות תוכן. 297 ₪.">
+<meta name="description" content="תוכנית NLP דיגיטלית של בן נחום: קורס ליבה של 90 שיעורים קצרים, 2 קורסים מוקלטים ו-3 ערכות עבודה. 297 ₪.">
 <meta property="og:title" content="לנצח את האוטומט · בן נחום">
-<meta property="og:description" content="תוכנית NLP דיגיטלית: 142 שיעורים קצרים + 5 בונוסים. 297 ₪.">
+<meta property="og:description" content="תוכנית NLP דיגיטלית: 90 שיעורים קצרים + 5 בונוסים. 297 ₪.">
 <meta property="og:image" content="https://funnel.digitalonline.co.il/nlp/assets/ben.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap">
@@ -520,6 +520,59 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--font);font-wei
 .cta-micro{font-size:14px;color:var(--muted);text-align:center;margin:0}
 .hero9 .cta-micro{text-align:inherit}
 .pcard .cta{white-space:normal;font-size:17px;line-height:1.3;text-wrap:balance}
+
+/* social proof v1: faces + stories */
+.avs{display:inline-flex;align-items:center;gap:12px;padding:6px 14px 6px 8px;border:1px solid var(--gold-a);border-radius:999px;background:rgba(255,255,255,.03);color:var(--ink2);font:inherit;cursor:pointer;text-align:start;transition:border-color .2s}
+.avs:hover,.avs:focus-visible{border-color:var(--gold-b)}
+.avs-f{display:flex;flex:0 0 auto}
+.avs-f i,.sp-st i::before,.sp-av{background:#1b1c22 url(assets/sp-faces.jpg) no-repeat;background-size:800% 100%;background-position:calc(var(--i,0)*100%/7) 0}
+.avs-f i{width:32px;height:32px;border-radius:50%;border:2px solid var(--bg0);margin-inline-start:-10px}
+.avs-f i:first-child{margin-inline-start:0}
+.avs-t{display:flex;flex-direction:column;line-height:1.3}
+.avs-t b{font-size:14px;font-weight:700;color:var(--ink)}
+.avs-t small{font-size:12.5px;font-weight:500;color:var(--gold2)}
+.avs-wrap{display:flex;justify-content:center;margin:0 0 14px}
+.sp-stories{background:var(--bg0);border-bottom:1px solid var(--gold-a);padding:18px 0 14px}
+.sp-in{max-width:var(--max);margin:0 auto;padding:0 16px}
+.sp-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:0 0 12px}
+.sp-head b{font-size:15px;font-weight:800;color:var(--ink)}
+.sp-head span{font-size:13px;color:var(--muted)}
+.sp-row{display:flex;gap:14px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 6px;scroll-snap-type:x proximity}
+.sp-row::-webkit-scrollbar{display:none}
+.sp-st{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:0;padding:0;color:var(--muted);font:inherit;font-size:12px;cursor:pointer;scroll-snap-align:start;font-variant-numeric:tabular-nums}
+.sp-st i{position:relative;display:block;width:68px;height:68px;border-radius:50%;background:conic-gradient(from 210deg,#F3EDE2,#D3B77A,#8A6A2F,#D3B77A,#F3EDE2)}
+.sp-st i::before{content:"";position:absolute;inset:3px;border-radius:50%;border:2px solid var(--bg0)}
+.sp-st.seen i{background:var(--gold-b)}
+.sp-st:focus-visible i{outline:2px solid var(--gold2);outline-offset:2px}
+@media (min-width:900px){.sp-row{justify-content:center}.sp-head{justify-content:center;gap:16px}}
+.sp-modal{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:12px;background:rgba(4,5,7,.94)}
+.sp-modal[hidden]{display:none}
+.sp-box{position:relative;width:min(420px,100%);height:min(92vh,760px);border-radius:18px;overflow:hidden;background:#000;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.sp-v{display:block;width:100%;height:100%;object-fit:cover;background:#000}
+.sp-box::before{content:"";position:absolute;inset:0 0 auto;height:120px;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.65),rgba(0,0,0,0))}
+.sp-bars{position:absolute;top:10px;inset-inline:10px;z-index:3;display:flex;gap:4px}
+.sp-bars i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.3);overflow:hidden}
+.sp-bars b{display:block;width:0;height:100%;background:#fff}
+.sp-top{position:absolute;top:22px;inset-inline:10px;z-index:3;display:flex;align-items:center;gap:10px;color:#fff;font-size:14px;font-weight:700;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.sp-av{width:34px;height:34px;border-radius:50%;border:1.5px solid #fff;flex:0 0 auto}
+.sp-cnt{font-weight:500;opacity:.85;font-variant-numeric:tabular-nums}
+.sp-x{margin-inline-start:auto;width:40px;height:40px;border:0;border-radius:50%;background:rgba(0,0,0,.4);color:#fff;font-size:26px;line-height:1;cursor:pointer}
+.sp-nav{position:absolute;top:70px;bottom:70px;z-index:2;width:34%;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sp-prev{right:0}
+.sp-next{left:0}
+.sp-pause{position:absolute;top:70px;bottom:70px;left:34%;right:34%;z-index:2;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sp-btns{position:absolute;bottom:14px;inset-inline:12px;z-index:3;display:flex;justify-content:space-between;pointer-events:none}
+.sp-btns button{pointer-events:auto;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.45);color:#fff;font:inherit;font-size:14px;font-weight:700;border-radius:999px;padding:8px 16px;cursor:pointer}
+.sp-play{position:absolute;inset:0;z-index:4;display:none;place-items:center;border:0;background:rgba(0,0,0,.35);cursor:pointer}
+.sp-play i{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;background:rgba(243,237,226,.94)}
+.sp-play i::before{content:"";margin-left:6px;border-style:solid;border-width:13px 0 13px 21px;border-color:transparent transparent transparent #121318}
+.sp-modal.paused .sp-play{display:grid}
+.sp-end{position:absolute;inset:0;z-index:5;display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:28px 22px;text-align:center;background:rgba(8,9,12,.92)}
+.sp-end.on{display:flex}
+.sp-end h3{font-size:24px;font-weight:900;line-height:1.25;color:var(--ink)}
+.sp-end p{font-size:16px;line-height:1.6;color:var(--ink2);margin:0}
+.sp-end .cta{width:100%}
+.sp-again{border:0;background:none;color:var(--ink2);font:inherit;font-size:15px;text-decoration:underline;text-underline-offset:5px;cursor:pointer;padding:6px}
 </style>
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","1278104408729813");fbq("track","PageView");fbq("track","ViewContent",{content_name:"השיטה - הקורס המלא",value:297,currency:"ILS"});</script>
 </head>
@@ -530,7 +583,7 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--font);font-wei
 <div class="brand"><b>בן נחום</b><span>NLP · רגש · תודעה</span></div>
 <div class="copy">
 <span class="badge">לנצח את האוטומט | השיטה של בן נחום</span>
-<p class="eyebrow">תהליך דיגיטלי מעשי · 142 שיעורים קצרים</p>
+<p class="eyebrow">תהליך דיגיטלי מעשי · 90 שיעורים קצרים</p>
 <h1 class="promise">לצאת מתקיעות ולהתחיל לפעול, <mark>גם כשאין מוטיבציה</mark></h1>
 <ul class="ident">
 <li>לזהות את המחשבה שעוצרת אותך, ברגע שהיא מופיעה.</li>
@@ -541,9 +594,11 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--font);font-wei
 <p class="sub">שיעורים קצרים שאפשר ליישם באותו יום, עם חוברות תרגול וגישה מיידית.</p>
 <a class="cta" data-cta="hero_main" data-checkout href="#">כן, אני רוצה להתחיל עכשיו ב-297 ₪ <span>←</span></a>
 <p class="cta-micro">🔒 תשלום מאובטח · גישה מיידית לקורס ולבונוסים</p>
+<button class="avs" type="button" data-st="0" aria-label="צפייה בסרטוני ההמלצות של התלמידים"><span class="avs-f" aria-hidden="true"><i style="--i:0"></i><i style="--i:2"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:4"></i></span><span class="avs-t"><b>מאות כבר עברו תהליך עם בן</b><small>▶ 8 תלמידים מספרים</small></span></button>
 <a class="ghost" data-cta="hero_shortcut" href="#offer">מה בדיוק מקבלים?</a>
 </div></header>
-<div class="proofbar"><ul><li><b data-count="15" data-suf="+">15+</b><span>שנות ניסיון ב-NLP</span></li><li><b>מאות</b><span>אנשים בליווי אישי</span></li><li><b data-count="142">142</b><span>שיעורים קצרים · ספריית כלים</span></li></ul></div>
+<div class="proofbar"><ul><li><b data-count="15" data-suf="+">15+</b><span>שנות ניסיון ב-NLP</span></li><li><b>מאות</b><span>אנשים בליווי אישי</span></li><li><b data-count="90">90</b><span>שיעורים קצרים בקורס הליבה</span></li></ul></div>
+<div class="sp-stories"><div class="sp-in"><div class="sp-head"><b>תלמידים מספרים</b><span>8 סרטונים קצרים · לחצו על עיגול</span></div><div class="sp-row"><button class="sp-st" type="button" data-st="0" aria-label="המלצה 1 מתוך 8"><i style="--i:0"></i><span>0:35</span></button><button class="sp-st" type="button" data-st="1" aria-label="המלצה 2 מתוך 8"><i style="--i:1"></i><span>0:16</span></button><button class="sp-st" type="button" data-st="2" aria-label="המלצה 3 מתוך 8"><i style="--i:2"></i><span>0:11</span></button><button class="sp-st" type="button" data-st="3" aria-label="המלצה 4 מתוך 8"><i style="--i:3"></i><span>0:11</span></button><button class="sp-st" type="button" data-st="4" aria-label="המלצה 5 מתוך 8"><i style="--i:4"></i><span>0:09</span></button><button class="sp-st" type="button" data-st="5" aria-label="המלצה 6 מתוך 8"><i style="--i:5"></i><span>0:05</span></button><button class="sp-st" type="button" data-st="6" aria-label="המלצה 7 מתוך 8"><i style="--i:6"></i><span>0:08</span></button><button class="sp-st" type="button" data-st="7" aria-label="המלצה 8 מתוך 8"><i style="--i:7"></i><span>0:16</span></button></div></div></div>
 <section data-num="01" class="alt" data-sec="2" data-name="לדעת או להטמיע"><div class="wrap stack">
 <h2>למה מידע לבד <mark>לא משנה</mark></h2>
 <div class="split">
@@ -610,15 +665,15 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--font);font-wei
 </div>
 </div></section>
 <section data-num="10" data-sec="10" data-name="מה יש בפנים"><div class="wrap stack">
-<h2>מה יש בפנים</h2><p class="toolbox"><b>142 שיעורים קצרים, ולא צריך לראות את כולם ברצף.</b> זו ספריית כלים: כל שיעור 4 עד 9 דקות, ונכנסים לפי הנושא שעליו עובדים עכשיו.</p><p class="lead">לא יודעים מאיפה להתחיל? מתחילים בחלק 1, ומשם השיטה מובילה אתכם צעד-צעד.</p><div class="mods"><article class="module"><header><span class="mtag">חלק 1</span><h3>שינוי תפיסה</h3><div class="chips"><span class="chip">100+ שיעורים קצרים</span><span class="chip">כ-10 שעות</span><span class="chip">4 עד 9 דק' לשיעור</span></div><p>ספריית השיעורים המרכזית של השיטה: שיעורים קצרים שנכנסים גם ליום עמוס, כל אחד על מנגנון אחד.</p></header><p class="cando"><b>מה תוכל לעשות אחרי החלק הזה</b>לזהות בזמן אמת את המחשבה, הפחד או הסיפור שעוצרים אותך, ולבחור תגובה אחרת.</p><details><summary>דוגמאות לשיעורים</summary><ul class="lessons"><li class="mtag">פחד ותקיעות</li><li>הפסיכולוגיה של הפחד</li><li>פרפקציוניזם: דרך טובה של המוח לגרום לנו להישאר במקום</li><li>הפסיכולוגיה של התקיעות</li><li>שלושה כלים לצאת מתקיעות</li>
+<h2>מה יש בפנים</h2><p class="toolbox"><b>קורס הליבה: 90 שיעורים, ולא צריך לראות את כולם ברצף.</b> זו ספריית כלים: רוב השיעורים 2 עד 8 דקות, ונכנסים לפי הנושא שעליו עובדים עכשיו.</p><p class="lead">לא יודעים מאיפה להתחיל? מתחילים בחלק 1, ומשם השיטה מובילה אתכם צעד-צעד.</p><div class="mods"><article class="module"><header><span class="mtag">חלק 1</span><h3>פתיחה: מתחילים כאן</h3><div class="chips"><span class="chip">4 שיעורים</span><span class="chip">כשעה</span></div><p>איך השיטה עובדת, ובניית העוגן הראשון שלך. מכאן כל השאר מתחבר.</p></header><p class="cando"><b>מה תוכל לעשות אחרי החלק הזה</b>להבין איך תגובה אוטומטית נוצרת, ולבנות את העוגן הראשון שלך.</p><details><summary>כל 4 השיעורים</summary><ul class="lessons"><li>לנצח את האוטומט: הקדמה</li><li>איך השיטה עובדת: מבוא</li><li>העוגן הראשון שלך</li><li>העוגן הראשון שלך: סיכום</li></ul></details></article>
+<article class="module"><header><span class="mtag">חלק 2</span><h3>שינוי תפיסה</h3><div class="chips"><span class="chip">76 שיעורים קצרים</span><span class="chip">כ-7 שעות</span><span class="chip">2 עד 8 דק' לשיעור</span></div><p>ספריית השיעורים המרכזית של השיטה: שיעורים קצרים שנכנסים גם ליום עמוס, כל אחד על מנגנון אחד.</p></header><p class="cando"><b>מה תוכל לעשות אחרי החלק הזה</b>לזהות בזמן אמת את המחשבה, הפחד או הסיפור שעוצרים אותך, ולבחור תגובה אחרת.</p><details><summary>דוגמאות לשיעורים</summary><ul class="lessons"><li class="mtag">פחד ותקיעות</li><li>הפסיכולוגיה של הפחד</li><li>פרפקציוניזם: דרך טובה של המוח לגרום לנו להישאר במקום</li><li>הפסיכולוגיה של התקיעות</li><li>שלוש האשליות שמשאירות אותנו במקום</li>
 <li class="mtag">הסיפור הפנימי</li><li>הסיפור שאנו מספרים לעצמנו</li><li>כוחה של פרשנות</li><li>הכוח החבוי של דיבור עצמי</li><li>הרגל 3 השורות: כתיבת סיפור פנימי</li>
 <li class="mtag">כסף ושפע</li><li>ממחסור לשפע: חוקים חדשים</li><li>פרדוקס הכסף</li><li>לשבור את משוואת הזמן וכסף</li>
-<li class="mtag">רגש ושליטה עצמית</li><li>המנוע הרגשי</li><li>מנגנון הכעס</li><li>חוק 90 השניות: שליטה ברושם</li><li>איך להפסיק לקחת דברים אישית</li>
-<li class="mtag" style="color:var(--muted)">ועוד 87 שיעורים</li></ul></details></article>
-<article class="module"><header><span class="mtag">חלק 2</span><h3>מבפנים לבחוץ: השפעה</h3><div class="chips"><span class="chip">25 שיעורים</span><span class="chip">כ-4 שעות</span></div><p>איך מעבירים את השינוי הפנימי לשיחה: ראפור, רגש, טון, התנגדויות.</p></header><p class="cando"><b>מה תוכל לעשות אחרי החלק הזה</b>לנהל שיחה שמזיזה אנשים לפעולה: ראפור, רגש, טון דיבור ומענה להתנגדויות.</p><details><summary>כל 25 השיעורים</summary><ul class="lessons"><li>הקדמה לקורס: רגע לפני שמתחילים</li><li>תודעת שפע</li><li>מודול אדם העל, חלק 1: נוכחות</li><li>מודול אדם העל, חלק 2: פרספקטיבה</li><li>מודול אדם העל, חלק 3: מודעות</li><li>מבפנים לבחוץ</li><li>ככה בונים חזון</li><li>ככה יוצרים עוגן רגשי</li><li>רגש = מחשבה במומנט גבוה</li><li>מוכרים רציונל מאחורי רגש</li><li>אנשים קונים רציונל: מחקר ומדע</li><li>ראפור</li><li>חוק ה-90 שניות</li><li>כאב</li><li>לסגור בשאלה רטורית</li><li>אומנות הפרומושן</li><li>טון דיבור</li><li>ככה לא נקבל "אני רוצה לחשוב על זה"</li><li>שימוש בשם פרטי</li><li>דמיון מודרך</li><li>הבעיה שלך היא לא הבעיה שלי</li><li>גישה של אדם מצליח</li><li>הדיאלוג הפנימי</li><li>דרך</li><li>מפרקים את מכונת המכירות</li></ul></details></article>
-<article class="module"><header><span class="mtag">חלק 3</span><h3>הדרכות לייב: תקשורת והשפעה</h3><div class="chips"><span class="chip">6 הדרכות</span><span class="chip">כ-50 דקות</span></div><p>מודל שיחה ב-4 שלבים, ואיך מנטרלים התנגדות לפני שהיא עולה.</p></header><p class="cando"><b>מה תוכל לעשות אחרי החלק הזה</b>להשתמש במודל שיחה של 4 שלבים, ולנטרל התנגדות עוד לפני שהיא עולה.</p><details><summary>כל 6 ההדרכות</summary><ul class="lessons"><li>שולט או נשלט?</li><li>מודל 4 שלבים: הקדמה</li><li>שלב 1: מקרב</li><li>למה להיות נוכח עוזר לנו במכירות</li><li>מבטלים את ההתנגדות לפני שהיא צפה</li><li>האופן שבו אנחנו מדברים חשוב יותר ממה שאנחנו אומרים</li></ul></details></article>
-<article class="module"><header><span class="mtag">חלק 4</span><h3>הקלטות זום מלאות</h3><div class="chips"><span class="chip">9 הקלטות</span><span class="chip">כ-13 שעות</span></div><p>מפגשי עבודה מלאים, לא ערוכים: פתיחה ומנטליות, מטרות השיחה, דוגמאות אמיתיות ודיבור בתועלות.</p></header><p class="cando"><b>מה תוכל לעשות אחרי החלק הזה</b>לראות את הכלים עובדים בשיחות אמיתיות, ולקחת את המבנה לשיחות שלך.</p></article></div><div class="peek"><p class="kicker" style="margin:0">הצצה מבפנים: ככה נראית רשימת השיעורים בקורס</p>
-<div class="mock"><div class="mh"><b>שינוי תפיסה</b><span>0/102</span></div><ul><li><span class="lt">▶ המנוע הרגשי</span><span class="ld">05:29</span></li><li><span class="lt">🔒 הדחף הטבעי להתרחבות</span><span class="ld">05:30</span></li><li><span class="lt">🔒 כוחה של פרשנות</span><span class="ld">04:34</span></li><li><span class="lt">🔒 הפסיכולוגיה של הפחד</span><span class="ld">05:08</span></li><li><span class="lt">🔒 חוק ההתרחבות</span><span class="ld">05:31</span></li><li><span class="lt">🔒 פרפקציוניזם: דרך טובה של המוח לגרום לנו להישאר במקום</span><span class="ld">04:56</span></li><li><span class="lt">🔒 שינוי תודעתי: מאוטומט לפעולה</span><span class="ld">04:24</span></li></ul><div class="mf">ועוד 95 שיעורים בחלק הזה, ו-3 חלקים נוספים</div></div></div><div class="notcourse">
+<li class="mtag">רגש ושליטה עצמית</li><li>המנוע הרגשי</li><li>מנגנון הכעס</li><li>רגש מול היגיון</li><li>איך להפסיק לקחת דברים אישית</li>
+<li class="mtag" style="color:var(--muted)">ועוד 61 שיעורים</li></ul></details></article>
+<article class="module"><header><span class="mtag">חלק 3</span><h3>מבפנים לבחוץ</h3><div class="chips"><span class="chip">10 שיעורים</span><span class="chip">כ-2 שעות</span></div><p>לוקחים את השינוי הפנימי אל החיים עצמם: עוגן רגשי, דמיון מודרך, נוכחות ודיאלוג פנימי.</p></header><p class="cando"><b>מה תוכל לעשות אחרי החלק הזה</b>להחזיק את דרך החשיבה החדשה גם ברגעים של לחץ, עם עוגנים וכלים שמחזירים אותך לשליטה.</p><details><summary>כל 10 השיעורים</summary><ul class="lessons"><li>תודעת שפע</li><li>מודול אדם העל, חלק 1: נוכחות</li><li>מודול אדם העל, חלק 2: פרספקטיבה</li><li>מודול אדם העל, חלק 3: מודעות</li><li>ככה יוצרים עוגן רגשי</li><li>רגש = מחשבה במומנט גבוה</li><li>דמיון מודרך</li><li>גישה של אדם מצליח</li><li>הדיאלוג הפנימי</li><li>דרך</li></ul></details></article>
+<article class="module"><header><span class="mtag">ובנוסף, במתנה</span><h3>2 קורסים מוקלטים ו-3 ערכות עבודה</h3><div class="chips"><span class="chip">כוחה של השפעה: 39 שיעורים</span><span class="chip">ממחשבה לביצוע: 16 שיעורים</span><span class="chip">3 ערכות להדפסה</span></div><p>קורס השפעה ותקשורת עם הדרכות לייב ו-13 שעות של הקלטות זום, קורס קצר לתכנון וביצוע, ו-3 ערכות שמכניסות את השיטה ליום-יום.</p></header><p class="cando"><b>הפירוט המלא</b>כל 5 הבונוסים מפורטים בהמשך העמוד.</p></article></div><div class="peek"><p class="kicker" style="margin:0">הצצה מבפנים: ככה נראית רשימת השיעורים בקורס</p>
+<div class="mock"><div class="mh"><b>שינוי תפיסה</b><span>0/76</span></div><ul><li><span class="lt">▶ המנוע הרגשי</span><span class="ld">05:29</span></li><li><span class="lt">🔒 הדחף הטבעי להתרחבות</span><span class="ld">05:30</span></li><li><span class="lt">🔒 כוחה של פרשנות</span><span class="ld">04:34</span></li><li><span class="lt">🔒 הפסיכולוגיה של הפחד</span><span class="ld">05:08</span></li><li><span class="lt">🔒 חוק ההתרחבות</span><span class="ld">05:31</span></li><li><span class="lt">🔒 פרפקציוניזם: דרך טובה של המוח לגרום לנו להישאר במקום</span><span class="ld">04:56</span></li><li><span class="lt">🔒 שינוי תודעתי: מאוטומט לפעולה</span><span class="ld">04:24</span></li></ul><div class="mf">ועוד 69 שיעורים בחלק הזה, ו-2 חלקים נוספים</div></div></div><div class="notcourse">
 <h3>לא עוד קורס <mark>שרואים ושוכחים</mark></h3>
 <p>המטרה כאן היא לא שתסיים עוד סדרת סרטונים ותגיד שהיה מעניין. המטרה היא שתתחיל לזהות בזמן אמת מה מנהל אותך, לעצור דפוסים אוטומטיים, ולבנות תגובות והרגלים חדשים דרך תרגול ויישום.</p>
 <ol class="loop4" aria-label="מעגל העבודה"><li>צופים</li><li>מתרגלים</li><li>מזהים בחיים</li><li>מיישמים שוב</li></ol>
@@ -697,17 +752,18 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--font);font-wei
 <h2>כל מה שאתה מקבל</h2>
 <div class="pcard">
 <div class="head"><span class="tag">כל המערכת + כל הבונוסים</span></div>
-<div class="stack6"><div class="row"><span>לנצח את האוטומט: קורס הליבה<small style="display:block;color:var(--dim);font-size:13px">דפוסי חשיבה, אמונות, עוגנים ויציאה מהאוטומט</small></span><b>1,290 ₪</b></div><div class="row"><span>בונוס #1: ממחשבה לביצוע<small style="display:block;color:var(--dim);font-size:13px">קורס מוקלט לפרודוקטיביות, מיקוד וניהול זמן</small></span><b>397 ₪</b></div><div class="row"><span>בונוס #2: כוחה של השפעה<small style="display:block;color:var(--dim);font-size:13px">קורס מוקלט להשפעה, תקשורת ומכירות</small></span><b>497 ₪</b></div><div class="row"><span>בונוס #3: אתגר 30 הימים<small style="display:block;color:var(--dim);font-size:13px">מחברת עבודה לעוגנים ואמונות חדשות</small></span><b>79 ₪</b></div><div class="row"><span>בונוס #4: היום המנצח שלי<small style="display:block;color:var(--dim);font-size:13px">ערכת תבניות לתכנון יום ומיקוד</small></span><b>59 ₪</b></div><div class="row"><span>בונוס #5: לדבר בביטחון ולהשפיע באמת<small style="display:block;color:var(--dim);font-size:13px">מדריך מעשי לתקשורת ושכנוע</small></span><b>89 ₪</b></div><div class="tot"><span>מחיר רגיל כולל</span><span>2,411 ₪</span></div></div></div>
+<div class="stack6"><div class="row"><span>לנצח את האוטומט: קורס הליבה<small style="display:block;color:var(--dim);font-size:13px">דפוסי חשיבה, אמונות, עוגנים ויציאה מהאוטומט</small></span><b>1,290 ₪</b></div><div class="row"><span>בונוס #1: ממחשבה לביצוע<small style="display:block;color:var(--dim);font-size:13px">קורס מוקלט לפרודוקטיביות, מיקוד וניהול זמן</small></span><b>397 ₪</b></div><div class="row"><span>בונוס #2: כוחה של השפעה<small style="display:block;color:var(--dim);font-size:13px">קורס מוקלט להשפעה, תקשורת ומכירות</small></span><b>497 ₪</b></div><div class="row"><span>בונוס #3: אתגר 30 הימים<small style="display:block;color:var(--dim);font-size:13px">מחברת עבודה לעוגנים ואמונות חדשות</small></span><b>79 ₪</b></div><div class="row"><span>בונוס #4: היום המנצח שלי<small style="display:block;color:var(--dim);font-size:13px">ערכת תבניות לתכנון יום ומיקוד</small></span><b>59 ₪</b></div><div class="row"><span>בונוס #5: לדבר בביטחון ולהשפיע באמת<small style="display:block;color:var(--dim);font-size:13px">מדריך מעשי לתקשורת ושכנוע</small></span><b>89 ₪</b></div><div class="tot"><span>מחיר רגיל כולל</span><span>2,411 ₪</span></div></div>
 <div class="pay">
 <p class="anchor">297 ₪ עבור קורס הליבה + 2 קורסים מוקלטים + 3 ערכות עבודה</p>
 <p class="now">297<span>₪</span></p>
 <p class="cheap">פחות ממחיר של כמה יציאות בערב, אבל על משהו שאתה יכול לחזור אליו שוב ושוב וליישם בחיים.</p>
+<div class="avs-wrap"><button class="avs" type="button" data-st="0" aria-label="צפייה בסרטוני ההמלצות של התלמידים"><span class="avs-f" aria-hidden="true"><i style="--i:2"></i><i style="--i:5"></i><i style="--i:6"></i></span><span class="avs-t"><b>מאות כבר עברו את התהליך</b><small>▶ צפו במה שהם מספרים</small></span></button></div>
 <a class="cta" data-cta="offer" data-checkout href="#">כן, אני רוצה להתחיל עכשיו ב-297 ₪ <span>←</span></a>
 <ul class="secure"><li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg>גישה מיידית לאחר השלמת הרכישה</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>תהליך רכישה פשוט ומהיר</li></ul>
 <p class="guar1">יש לך 7 ימים להיכנס, להתרשם ולהחליט. אם זה לא מתאים לך, שולחים לנו מייל ומקבלים החזר מלא.</p>
 </div></div>
 </div></section>
-<section class="faq alt" data-sec="15" data-name="שאלות"><div class="wrap stack"><h2>שאלות נפוצות</h2><details><summary>כבר קראתי ספרים או עשיתי קורסים. זה עדיין רלוונטי בשבילי?</summary><div class="a"><p>כן. המטרה היא לא רק לתת עוד ידע, אלא לעזור לך לקחת את הדברים שאתה אולי כבר יודע, ולהתחיל לזהות וליישם אותם בתוך החיים עצמם.</p></div></details><details><summary>צריך ניסיון קודם?</summary><div class="a"><p>לא. התהליך בנוי בצורה פשוטה ומדורגת, ואפשר להתחיל מהבסיס.</p></div></details><details><summary>כמה זמן צריך להשקיע?</summary><div class="a"><p>לא צריך להפוך את החיים. עדיף מעט יישום עקבי מאשר שעות של צפייה בלי תרגול.</p></div></details><details><summary>מקבלים גישה מיד?</summary><div class="a"><p>כן. לאחר השלמת התשלום תקבל גישה לתוכן בצורה אוטומטית.</p></div></details><details><summary>זה מתאים למי שמרגיש תקוע אבל לא יודע בדיוק מה הבעיה?</summary><div class="a"><p>כן. חלק גדול מהתהליך הוא קודם כל לזהות מה חוזר על עצמו ומה מנהל אותך, לפני שמנסים לשנות אותו.</p></div></details><details class="more"><summary>שאלות נוספות</summary><div class="a"><details><summary>איפה צופים בתכנים? אפשר מהטלפון?</summary><div class="a"><p>כן. הכל באתר הקורס (Schooler), מהטלפון או מהמחשב, דרך הקישור האישי שמגיע במייל.</p></div></details><details><summary>לכמה זמן יש לי גישה?</summary><div class="a"><p>ללא הגבלת זמן, בקצב שלך.</p></div></details><details><summary>צריך לראות את כל 142 השיעורים?</summary><div class="a"><p>לא. זו ספריית כלים. מתחילים בחלק 1, ומשם נכנסים לפי הנושא שאתה עובד עליו עכשיו.</p></div></details><details><summary>יש מנוי או חיוב נוסף?</summary><div class="a"><p>לא. 297 ₪, בלי מנוי ובלי חיובים נוספים.</p></div></details><details><summary>מה בדיוק כוללת האחריות?</summary><div class="a"><p>יש לך 7 ימים. אם עברת על התוכן, נתת לו הזדמנות אמיתית והרגשת שהוא לא בשבילך, שולחים לנו מייל ומקבלים החזר מלא.</p></div></details><details><summary>לא קיבלתי את המייל או לא מצליח להתחבר. מה עושים?</summary><div class="a"><p>בודקים בספאם או בקידומי מכירות. במייל יש קישור כניסה ישיר בלי סיסמה. אם עדיין לא עובד, פנו אלינו ונסדר את זה מהר.</p></div></details></div></details></div></section>
+<section class="faq alt" data-sec="15" data-name="שאלות"><div class="wrap stack"><h2>שאלות נפוצות</h2><details><summary>כבר קראתי ספרים או עשיתי קורסים. זה עדיין רלוונטי בשבילי?</summary><div class="a"><p>כן. המטרה היא לא רק לתת עוד ידע, אלא לעזור לך לקחת את הדברים שאתה אולי כבר יודע, ולהתחיל לזהות וליישם אותם בתוך החיים עצמם.</p></div></details><details><summary>צריך ניסיון קודם?</summary><div class="a"><p>לא. התהליך בנוי בצורה פשוטה ומדורגת, ואפשר להתחיל מהבסיס.</p></div></details><details><summary>כמה זמן צריך להשקיע?</summary><div class="a"><p>לא צריך להפוך את החיים. עדיף מעט יישום עקבי מאשר שעות של צפייה בלי תרגול.</p></div></details><details><summary>מקבלים גישה מיד?</summary><div class="a"><p>כן. לאחר השלמת התשלום תקבל גישה לתוכן בצורה אוטומטית.</p></div></details><details><summary>זה מתאים למי שמרגיש תקוע אבל לא יודע בדיוק מה הבעיה?</summary><div class="a"><p>כן. חלק גדול מהתהליך הוא קודם כל לזהות מה חוזר על עצמו ומה מנהל אותך, לפני שמנסים לשנות אותו.</p></div></details><details class="more"><summary>שאלות נוספות</summary><div class="a"><details><summary>איפה צופים בתכנים? אפשר מהטלפון?</summary><div class="a"><p>כן. הכל באתר הקורס (Schooler), מהטלפון או מהמחשב, דרך הקישור האישי שמגיע במייל.</p></div></details><details><summary>לכמה זמן יש לי גישה?</summary><div class="a"><p>ללא הגבלת זמן, בקצב שלך.</p></div></details><details><summary>צריך לראות את כל 90 השיעורים?</summary><div class="a"><p>לא. זו ספריית כלים. מתחילים בחלק 1, ומשם נכנסים לפי הנושא שאתה עובד עליו עכשיו.</p></div></details><details><summary>יש מנוי או חיוב נוסף?</summary><div class="a"><p>לא. 297 ₪, בלי מנוי ובלי חיובים נוספים.</p></div></details><details><summary>מה בדיוק כוללת האחריות?</summary><div class="a"><p>יש לך 7 ימים. אם עברת על התוכן, נתת לו הזדמנות אמיתית והרגשת שהוא לא בשבילך, שולחים לנו מייל ומקבלים החזר מלא.</p></div></details><details><summary>לא קיבלתי את המייל או לא מצליח להתחבר. מה עושים?</summary><div class="a"><p>בודקים בספאם או בקידומי מכירות. במייל יש קישור כניסה ישיר בלי סיסמה. אם עדיין לא עובד, פנו אלינו ונסדר את זה מהר.</p></div></details></div></details></div></section>
 <section class="guar" data-buyzone><svg class="shield" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l8 3.3v6.4c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V5.8z"/><path d="M8.5 12.2l2.4 2.4 4.6-4.8"/></svg><div class="wrap stack">
 <div class="seal" aria-hidden="true"><div><b>7</b><small>ימי אחריות</small></div></div>
 <p class="kicker">אחריות מלאה</p>
@@ -727,6 +783,15 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--font);font-wei
 
 <footer><div class="wrap">© בן נחום · תוכנית NLP דיגיטלית<br>התוכנית היא תוכן לימודי ואינה מחליפה ייעוץ או טיפול מקצועי.<br><a href="privacy.html" style="color:inherit;text-decoration:underline">מדיניות פרטיות</a></div></footer>
 <div class="sticky" id="sticky" aria-hidden="true"><a class="cta" data-cta="sticky" data-checkout href="#"><span class="st-txt">להתחיל עכשיו ב-297 ₪</span> <span>←</span></a></div>
+<div class="sp-modal" id="spModal" hidden role="dialog" aria-modal="true" aria-label="תלמידים מספרים"><div class="sp-box">
+<video class="sp-v" playsinline preload="none" src="assets/t3.mp4"></video>
+<div class="sp-bars" aria-hidden="true"></div>
+<div class="sp-top"><i class="sp-av" aria-hidden="true"></i><span>תלמידים מספרים <span class="sp-cnt"></span></span><button class="sp-x" type="button" aria-label="סגירה">×</button></div>
+<button class="sp-nav sp-prev" type="button" aria-label="הקודם"></button><button class="sp-pause" type="button" aria-label="עצירה או המשך"></button><button class="sp-nav sp-next" type="button" aria-label="הבא"></button>
+<div class="sp-btns"><button class="sp-b-prev" type="button">› הקודם</button><button class="sp-b-next" type="button">הבא ‹</button></div>
+<button class="sp-play" type="button" aria-label="הפעלה"><i></i></button>
+<div class="sp-end"><h3>רוצה לעבור את התהליך בעצמך?</h3><p>קורס הליבה, 2 קורסים מוקלטים ו-3 ערכות עבודה. 297 ₪, עם 7 ימי אחריות מלאה.</p><a class="cta" data-cta="stories" data-checkout href="#">כן, אני רוצה להתחיל ב-297 ₪ <span>←</span></a><button class="sp-again" type="button">לצפות שוב</button></div>
+</div></div>
 <script>
 /* ===== CONFIG ===== */
 const CHECKOUT_URL = "checkout.html";
@@ -843,5 +908,37 @@ var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isInt
 document.querySelectorAll('[data-count]').forEach(function(e){io2.observe(e)}); if(flow)io2.observe(flow);
 })();</script><script>(function(){var st=document.getElementById('sticky'),o=document.getElementById('offer');if(!st||!o)return;var t=st.querySelector('.st-txt');
 function u(){var past=o.getBoundingClientRect().top<innerHeight*0.6;t.textContent=past?'להתחיל עכשיו ב-297 ₪':'להתחיל עכשיו ב-297 ₪'}addEventListener('scroll',u,{passive:true});u();
-document.querySelectorAll('.faq details').forEach(function(d){d.addEventListener('toggle',function(){if(d.open&&window.__lpSend)__lpSend('faq_open',{name:(d.querySelector('summary').textContent||'').slice(0,40)})})});})();</script></body>
+document.querySelectorAll('.faq details').forEach(function(d){d.addEventListener('toggle',function(){if(d.open&&window.__lpSend)__lpSend('faq_open',{name:(d.querySelector('summary').textContent||'').slice(0,40)})})});})();</script><script>
+/* social proof v1: stories player over assets/t3.mp4 */
+(function(){var M=document.getElementById('spModal');if(!M)return;
+var V=M.querySelector('.sp-v'),bars=M.querySelector('.sp-bars'),cnt=M.querySelector('.sp-cnt'),av=M.querySelector('.sp-av'),end=M.querySelector('.sp-end');
+var S=[[[0,26.3],[105.1,113.6]],[[28.75,44.25]],[[44.3,55.25]],[[55.3,66.25]],[[66.3,75.3]],[[75.4,80.75]],[[80.85,88.85]],[[88.9,105]]];
+var N=S.length,cur=0,part=0,raf=0,isOpen=false,opener=null;
+bars.innerHTML=S.map(function(){return '<i><b></b></i>'}).join('');var B=[].slice.call(bars.querySelectorAll('b'));
+function dur(i){return S[i].reduce(function(a,p){return a+p[1]-p[0]},0)}
+function play(){var p=V.play();M.classList.remove('paused');if(p&&p.catch)p.catch(function(){M.classList.add('paused')})}
+function tick(){if(!isOpen)return;var t=V.currentTime,seg=S[cur],done=0;for(var k=0;k<part;k++)done+=seg[k][1]-seg[k][0];done+=Math.max(0,Math.min(t,seg[part][1])-seg[part][0]);
+B.forEach(function(b,k){b.style.width=(k<cur?100:k>cur?0:Math.min(100,done/dur(cur)*100))+'%'});
+if(t>=seg[part][1]-0.06&&t<=seg[part][1]+2){if(part<seg.length-1){part++;V.currentTime=seg[part][0]}else{go(cur+1);return}}
+raf=requestAnimationFrame(tick)}
+function show(i){cur=i;part=0;end.classList.remove('on');av.style.setProperty('--i',i);cnt.textContent=(i+1)+'/'+N;
+try{V.currentTime=S[i][0][0]}catch(e){}play();var b=document.querySelector('.sp-st[data-st="'+i+'"]');if(b)b.classList.add('seen');
+cancelAnimationFrame(raf);raf=requestAnimationFrame(tick)}
+function go(i){if(i<0)i=0;if(i>=N){V.pause();cancelAnimationFrame(raf);B.forEach(function(b){b.style.width='100%'});end.classList.add('on');return}show(i)}
+function openAt(i,el){opener=el||null;isOpen=true;M.hidden=false;document.documentElement.style.overflow='hidden';if(V.preload!=='auto')V.preload='auto';show(i);
+try{M.querySelector('.sp-x').focus({preventScroll:true})}catch(e){}try{if(window.clarity)clarity('event','stories_open')}catch(e){}}
+function close(){isOpen=false;V.pause();cancelAnimationFrame(raf);M.hidden=true;document.documentElement.style.overflow='';if(opener)try{opener.focus({preventScroll:true})}catch(e){}}
+[].forEach.call(document.querySelectorAll('[data-st]'),function(b){b.addEventListener('click',function(){openAt(+b.getAttribute('data-st')||0,b)})});
+M.querySelector('.sp-x').addEventListener('click',close);
+M.addEventListener('click',function(e){if(e.target===M)close()});
+document.addEventListener('keydown',function(e){if(!isOpen)return;if(e.key==='Escape')close();else if(e.key==='ArrowLeft')go(cur+1);else if(e.key==='ArrowRight')go(cur-1)});
+[].forEach.call(M.querySelectorAll('.sp-next,.sp-b-next'),function(b){b.addEventListener('click',function(){go(cur+1)})});
+[].forEach.call(M.querySelectorAll('.sp-prev,.sp-b-prev'),function(b){b.addEventListener('click',function(){go(cur-1)})});
+M.querySelector('.sp-pause').addEventListener('click',function(){if(V.paused)play();else{V.pause();M.classList.add('paused')}});
+M.querySelector('.sp-play').addEventListener('click',play);
+M.querySelector('.sp-again').addEventListener('click',function(){go(0)});
+V.addEventListener('loadedmetadata',function(){if(isOpen){var s=S[cur][part][0];if(Math.abs(V.currentTime-s)>0.5)V.currentTime=s}});
+})();
+</script>
+</body>
 </html>
