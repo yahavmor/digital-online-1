@@ -26,6 +26,10 @@ h1{font-size:clamp(28px,8vw,36px);font-weight:900;line-height:1.15;margin:0 0 8p
 .note{font-size:14px;color:var(--muted);margin:16px 0 0}
 .help{font-size:14px;margin:10px 0 0}
 .help a{color:var(--ink2)}
+[hidden]{display:none!important}
+.wait{display:flex;justify-content:center;align-items:center;gap:10px;min-height:56px;border-radius:14px;background:#F6F3EC;color:var(--ink2);font-weight:700;font-size:16px;padding:0 14px}
+.wait i{flex:none;width:18px;height:18px;border-radius:50%;border:3px solid #E2D6BC;border-top-color:var(--gold);animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
 </style>
 <script>try{if(top!==self)top.location.replace(location.href)}catch(e){}</script>
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","1278104408729813");fbq("track","PageView");fbq("trackCustom","ThanksView");try{var q=new URLSearchParams(location.search);if((q.get("src")==="cc"||q.get("sid"))&&!sessionStorage.getItem("px_purchase")){sessionStorage.setItem("px_purchase","1");fbq("track","Purchase",{value:297,currency:"ILS",content_name:"השיטה - הקורס המלא"},q.get("sid")?{eventID:"lp_"+q.get("sid")}:{});}}catch(e){}</script>
@@ -46,7 +50,8 @@ if(/test|claude/i.test(location.search))clarity("set","internal","1");}catch(e){
 <div class="ok" aria-hidden="true">✓</div>
 <h1>זהו. אתה בפנים 🎉</h1>
 <p class="lead">התשלום עבר בהצלחה והגישה שלך לקורס כבר נפתחה.</p>
-<a class="cta" id="go" href="https://my.schooler.biz/s/121842/Bsecret-3">כניסה לקורס עכשיו</a>
+<div class="wait" id="wait" role="status"><i aria-hidden="true"></i>רגע, פותחים לך את הגישה...</div>
+<a class="cta" id="go" href="#" hidden>כניסה לקורס עכשיו</a>
 <p class="sent2" id="sent" data-clarity-mask="True">שלחנו גם את כל פרטי הגישה לאימייל שהזנת.</p>
 <p class="sent2">3 ערכות העבודה מחכות בשיעור הפתיחה של הקורס, בלשונית "קבצים מצורפים".</p>
 <p class="note">לא רואה את המייל? בדוק גם בקידומי מכירות / ספאם.</p>
@@ -58,7 +63,31 @@ const SUPPORT_WA = "972526951092";
 (function(){
   const qs = new URLSearchParams(location.search);
   if (SUPPORT_WA){ document.getElementById("help").hidden=false; document.getElementById("helpLink").href="https://wa.me/"+SUPPORT_WA; }
-  try{ const lp=sessionStorage.getItem("cc_lp"); if(lp){ fetch("https://hook.eu1.make.com/9yp88pz9bfvxbr7w6xkb4ckun82ote6a",{method:"POST",body:new URLSearchParams({lookup_lp:lp})}).then(r=>r.json()).then(d=>{ if(d&&d.email){ const b=document.createElement("b"); b.textContent=d.email; const s=document.getElementById("sent"); s.textContent="שלחנו גם את כל פרטי הגישה ל- "; s.appendChild(b); } }).catch(()=>{}); } }catch(e){}
+  /* קישור הכניסה לקורס לא נמצא בקוד הדף: הוא מגיע מהשרת רק אחרי אימות התשלום מול Cardcom */
+  (function(){
+    const VERIFY = "https://hook.eu1.make.com/s9ay2kp6sldk9527d77seuuq83xxto60";
+    const el = id => document.getElementById(id);
+    let lp = "";
+    try{ lp = sessionStorage.getItem("cc_lp") || ""; }catch(e){}
+    if(!lp){ for(const k of ["lowprofileid","LowProfileId","lowprofilecode","LowProfileCode"]){ const x = qs.get(k); if(x){ lp = x; break; } } }
+    let framed = false; try{ framed = top !== self; }catch(e){ framed = true; }
+    function fallback(){ el("wait").hidden = true; el("sent").textContent = "קישור הכניסה לקורס נשלח לאימייל שהזנת ואמור להגיע תוך כמה דקות."; }
+    function done(d){
+      if(!(d && d.ok === true && typeof d.link === "string" && /^https:\/\/[^\/]*schooler\.biz\//i.test(d.link))) return false;
+      const a = el("go"); a.href = d.link; a.hidden = false; el("wait").hidden = true;
+      if(d.email){ const b = document.createElement("b"); b.textContent = d.email; const s = el("sent"); s.textContent = "שלחנו גם את כל פרטי הגישה ל- "; s.appendChild(b); }
+      return true;
+    }
+    function ask(n){
+      const ctl = ("AbortController" in self) ? new AbortController() : null; const t = setTimeout(() => ctl && ctl.abort(), 20000);
+      const again = () => { if(n < 2) setTimeout(() => ask(n + 1), 2500); else fallback(); };
+      fetch(VERIFY, {method:"POST", body:new URLSearchParams({lookup_lp: lp}), signal: ctl ? ctl.signal : undefined})
+        .then(r => r.json()).then(d => { clearTimeout(t); if(!done(d)) again(); })
+        .catch(() => { clearTimeout(t); again(); });
+    }
+    if(!lp) return fallback();
+    setTimeout(() => ask(0), framed ? 1500 : 0);
+  })();
   /* Purchase נרשם בצד השרת אחרי אימות העסקה מול Cardcom. כאן רק צפייה בעמוד. */
   try{ if(TRACK_ENDPOINT[0]!=="%"){ let lc={},ft={};try{lc=JSON.parse(localStorage.getItem("nlp_lc")||"{}");ft=JSON.parse(localStorage.getItem("nlp_ft")||"{}");}catch(e){} const cc=qs.get("src")==="cc"||!!qs.get("sid"); let dup=false; try{dup=cc&&sessionStorage.getItem("px_ret")==="1"; if(cc)sessionStorage.setItem("px_ret","1");}catch(e){} try{ if(window.clarity){ if(lc.v) clarity("set","variant",lc.v); let vd=""; try{vd=localStorage.getItem("nlp_vid")||"";}catch(e){} if(vd){ clarity("identify",vd); clarity("set","vid",vd); } if(cc){ clarity("event","purchase_return"); clarity("upgrade","purchase"); } else clarity("event","thanks_view"); } }catch(e){} const f=new URLSearchParams({ev:cc?(dup?"thanks_view":"purchase_return"):"thanks_view", variant:lc.v||qs.get("v")||"", sid:lc.sid||qs.get("sid")||("t-"+Date.now()), qs:lc.qs!=null?lc.qs:location.search.slice(1), cta:lc.cta||"", name:ft.qs!=null?("ft:"+ft.v+"|"+ft.qs):"", sec_on_page:lc.ts?Math.round((Date.now()-lc.ts)/1000):""});
     try{ if(localStorage.getItem("nlp_int")==="1") f.set("x","int=1"); }catch(e){}
