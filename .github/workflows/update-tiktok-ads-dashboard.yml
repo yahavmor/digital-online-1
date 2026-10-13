@@ -27,16 +27,33 @@ jobs:
         working-directory: tiktok_ads_automation
         env:
           TIKTOK_ADS_ACCESS_TOKEN: ${{ secrets.TIKTOK_ADS_ACCESS_TOKEN }}
-        run: python dashboard.py
+        run: |
+          # Retry transient API errors before failing the run.
+          for i in 1 2 3; do
+            python dashboard.py && exit 0
+            echo "Dashboard generation failed (attempt $i), retrying in 30s..."
+            sleep 30
+          done
+          exit 1
 
       - name: Commit and push if changed
         run: |
           git config user.name "tiktok-dashboard-bot"
           git config user.email "actions@users.noreply.github.com"
           git add tiktok_ads_automation/performance_dashboard.html
-          if ! git diff --cached --quiet; then
-            git commit -m "Auto-update TikTok Ads performance dashboard"
-            git push
-          else
+          if git diff --cached --quiet; then
             echo "No changes to the dashboard, skipping commit."
+            exit 0
           fi
+          git commit -m "Auto-update TikTok Ads performance dashboard"
+          # Several dashboard workflows push to main on the same schedule.
+          # Rebase on the latest main and retry instead of failing on a race.
+          for i in 1 2 3 4 5; do
+            if git pull --rebase origin main && git push; then
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            echo "Push failed (attempt $i), retrying..."
+            sleep $((i * 7))
+          done
+          exit 1
