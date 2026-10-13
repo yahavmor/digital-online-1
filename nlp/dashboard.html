@@ -11,19 +11,19 @@
 :root{
   --bg:#F4F5F2; --surface:#FCFCFB; --ink:#141613; --ink2:#53564F; --muted:#8A8C84; --line:#E1E3DC;
   --accent:#1F6F5C; --accent-soft:#E2EFEA;
-  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --seq:#2a78d6; --seq-soft:#cde2fb;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#7c5ce0; --s5:#c2408f; --s6:#a8840c; --seq:#2a78d6; --seq-soft:#cde2fb;
   --good:#0ca30c; --warn:#c98500; --crit:#d03b3b; --good-bg:#E4F4E4; --warn-bg:#FBF0D6; --crit-bg:#F9E2E2;
   --f-display:"Heebo",Arial,sans-serif; --f-body:"Assistant",Arial,sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#0F110F; --surface:#1A1C19; --ink:#F2F3EF; --ink2:#C3C5BC; --muted:#898B83; --line:#2C2F2A;
   --accent:#5CC4A6; --accent-soft:#1D2E28;
-  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --seq:#3987e5; --seq-soft:#1c3a5e;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#9277ee; --s5:#d65ba6; --s6:#c9a227; --seq:#3987e5; --seq-soft:#1c3a5e;
   --good:#3cc23c; --warn:#e3a21a; --crit:#e66767; --good-bg:#16301A; --warn-bg:#33290F; --crit-bg:#3A1A1A; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0F110F; --surface:#1A1C19; --ink:#F2F3EF; --ink2:#C3C5BC; --muted:#898B83; --line:#2C2F2A;
   --accent:#5CC4A6; --accent-soft:#1D2E28;
-  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --seq:#3987e5; --seq-soft:#1c3a5e;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#9277ee; --s5:#d65ba6; --s6:#c9a227; --seq:#3987e5; --seq-soft:#1c3a5e;
   --good:#3cc23c; --warn:#e3a21a; --crit:#e66767; --good-bg:#16301A; --warn-bg:#33290F; --crit-bg:#3A1A1A; color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5;direction:rtl}
@@ -124,7 +124,7 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
   <header>
     <div>
       <h1>מרכז הבקרה - השיטה</h1>
-      <div class="sub">297 ₪ · דפים a/b/c → קארדקום → רכישה <span id="fresh" class="num"></span></div>
+      <div class="sub">297 ₪ · דפים a2/b2/c2 → קארדקום → רכישה <span id="fresh" class="num"></span></div>
     </div>
     <div class="controls">
       <div class="seg" role="group" aria-label="תקופה" id="range">
@@ -188,7 +188,7 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
   <section class="screen" id="s-lp">
     <div class="panel"><div class="panel-h"><h2>השוואה מרכזית</h2><span class="note" id="lpNote"></span><a class="btn" href="https://clarity.microsoft.com/projects/view/yuzolf9nxn/heatmaps" target="_blank" rel="noopener">מפות חום (Clarity)</a></div><div class="tw"><table id="lpTable"></table></div></div>
     <div class="panel">
-      <div class="panel-h"><h2>אזורים בדף: הגעה, זמן ומעבר</h2><div class="seg" role="group" aria-label="דף" id="lpVar"><button type="button" data-v="a">a</button><button type="button" data-v="b" aria-pressed="true">b</button><button type="button" data-v="c">c</button></div></div>
+      <div class="panel-h"><h2>אזורים בדף: הגעה, זמן ומעבר</h2><div class="seg" role="group" aria-label="דף" id="lpVar"><button type="button" data-v="a2">a2</button><button type="button" data-v="b2">b2</button><button type="button" data-v="c2">c2</button><button type="button" data-v="a">a</button><button type="button" data-v="b" aria-pressed="true">b</button><button type="button" data-v="c">c</button></div></div>
       <div class="tw"><table id="lpSections"></table></div>
       <div class="note" style="margin-top:6px">הגעה = גלל עד האזור. זמן = שניות פעילות כשהאזור על המסך (חציון, ממי שהגיע). מעבר = כמה מהמגיעים לאזור הגיעו גם לבא אחריו. מי שקפץ בקישור עוגן נספר כמגיע.</div>
     </div>
@@ -269,7 +269,7 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
 try{localStorage.setItem("nlp_int","1")}catch(e){} /* this browser is internal: its visits to the pages are sent as int=1 and hidden */
 const API="https://hook.eu1.make.com/qui1tw1ai7w98rqwbql9ir89ccvv9y6h?key=XxlxpZJz3TY5IeJV&action=";
 const COLS=["ts","ev","variant","sid","sec_on_page","max_section","sections","max_scroll_pct","qs","at_section","section","name","video","cta","checkout_started","depth","vid","dev","nv","act","x"];
-const VARS=["a","b","c"], VLBL={a:"a - השיטה",b:"b - הכאב",c:"c - הוכחה"}, VCOL={a:"var(--s1)",b:"var(--s2)",c:"var(--s3)"};
+const ALLV=["a2","b2","c2","a","b","c"], VLBL={a:"a - השיטה",b:"b - הכאב",c:"c - הוכחה",a2:"a2 (חדש)",b2:"b2 (חדש)",c2:"c2 (חדש)"}, VCOL={a:"var(--s1)",b:"var(--s2)",c:"var(--s3)",a2:"var(--s4)",b2:"var(--s5)",c2:"var(--s6)"}; let VARS=ALLV.slice(0,3);
 const PRICE=297, VAT=0.18, TARGET=250, GOOD=150;
 const ANGLES={video_inner_dialogue:"דיאלוג פנימי",video_emotions:"ניהול רגשות",banner_potential:"מימוש עצמי",banner_time:"זמן שחולף"};
 const ANGLE_KW=[["emotion","ניהול רגשות"],["regesh","ניהול רגשות"],["inner","דיאלוג פנימי"],["dialog","דיאלוג פנימי"],["fear","פחד והישרדות"],["belief","שינוי אמונות"],["worth","ערך עצמי"],["comfort","יציאה מאזור הנוחות"],["student","גישת התלמיד"],["respons","אחריות אישית"],["potential","מימוש עצמי"],["time","זמן שחולף"]];
@@ -284,7 +284,7 @@ const EXPERIMENTS=[
 const CHANGELOG=[
  ["2026-10-07","שלושה דפים עם פתיחות שונות (v14-v15)"],["2026-10-08","הוסר אזור 'בחיים עצמם', מספור אזורים תוקן (v16)"],["2026-10-08","סליקה עברה ל-LowProfile בקארדקום"],["2026-10-09","מדידה מורחבת: זמן פעיל, חשיפת אזורים וכפתורים, מכשיר, ביצועים, שלבי סליקה"],["2026-10-09","Clarity: מפות חום והקלטות בדפים ובסליקה"],["2026-10-10","ביקורים מדפדפנים פנימיים מסומנים ומוסתרים, והתראה כשאין ביקורים 6 שעות"]];
 
-let rows=null, spend={}, cspend={}, storedAt=0, range="7", screen="ov", lpVar="b", showTests=false, fSrc="", fDev="", cFrom="", cTo="", jrStage="", openSid="", openCr="";
+let rows=null, spend={}, cspend={}, storedAt=0, range="7", screen="ov", lpVar="a2", showTests=false, fSrc="", fDev="", cFrom="", cTo="", jrStage="", openSid="", openCr="";
 const $=id=>document.getElementById(id);
 function st(){try{return localStorage}catch(e){return null}}
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
@@ -322,9 +322,9 @@ function bounds(){const n=new Date(),sod=new Date(n.getFullYear(),n.getMonth(),n
 /* build model from rows within [a,b) */
 function build(a,b){
  const R=rows.filter(r=>!isNaN(r.t)&&r.t>=a&&r.t<b&&(showTests||!isTest(r)));
- const S={}, secNames={a:{1:"פתיחה"},b:{1:"פתיחה"},c:{1:"פתיחה"}}, secCount={a:0,b:0,c:0}, evCount={};
+ const S={}, secNames=Object.fromEntries(ALLV.map(v=>[v,{1:"פתיחה"}])), secCount=Object.fromEntries(ALLV.map(v=>[v,0])), evCount={};
  R.forEach(r=>{evCount[r.ev]=(evCount[r.ev]||0)+1;
-  if(!VARS.includes(r.variant)||!r.sid)return;
+  if(!ALLV.includes(r.variant)||!r.sid)return;
   let s=S[r.sid];
   if(!s){const p=qsObj(r.qs);s=S[r.sid]={sid:r.sid,v:r.variant,p,src:source(p),cr:(p.get("utm_content")||"").replace(/^lp_[abc]$/,"")||"(ללא קריאייטיב)",ad:p.get("ad_id")||"",cmp:p.get("utm_campaign")||"",place:p.get("placement")||p.get("site_source")||"",go:p.get("go")==="1",
    t:r.t,last:r.t,day:dayKey(r.t),hour:r.t.getHours(),dev:"",vid:"",nv:0,time:0,act:0,scroll:0,sec:0,secs:+r.sections||0,secT:{},ctaSeen:{},fs:null,fc:null,lcp:0,cls:0,ttfb:0,load:0,
@@ -430,7 +430,7 @@ function renderDaily(M,B){const days=[];for(let d=new Date(B.a);d<B.b&&days.leng
  $("ovDaily").innerHTML=g+'</svg>'}
 
 /* ================= 02 creatives ================= */
-function creativeStats(M,B){const m={};M.sess.forEach(s=>{const o=m[s.cr]||(m[s.cr]={cr:s.cr,angle:angleOf(s.cr),v:0,eng:0,off:0,cta:0,chk:0,det:0,pay:0,buy:0,ret:0,act:[],byV:{a:[0,0,0,0],b:[0,0,0,0],c:[0,0,0,0]}});
+function creativeStats(M,B){const m={};M.sess.forEach(s=>{const o=m[s.cr]||(m[s.cr]={cr:s.cr,angle:angleOf(s.cr),v:0,eng:0,off:0,cta:0,chk:0,det:0,pay:0,buy:0,ret:0,act:[],byV:Object.fromEntries(ALLV.map(v=>[v,[0,0,0,0]]))});
   o.v++;if(s.eng)o.eng++;if(s.offer)o.off++;if(s.cta)o.cta++;if(s.chk)o.chk++;if(s.det)o.det++;if(s.pay)o.pay++;if(s.buy)o.buy++;if(s.nv>1)o.ret++;o.act.push(s.act);
   const bv=o.byV[s.v];bv[0]++;if(s.offer)bv[1]++;if(s.chk)bv[2]++;if(s.buy)bv[3]++;});
  const L=Object.values(m), T=L.reduce((t,o)=>{["v","eng","off","cta","chk","ret"].forEach(k=>t[k]+=o[k]);return t},{v:0,eng:0,off:0,cta:0,chk:0,ret:0});
@@ -604,7 +604,8 @@ function renderDQ(M){const now=Date.now(),last=ev=>{for(let i=rows.length-1;i>=0
  const crs=[...new Set(rows.map(r=>(qsObj(r.qs).get("utm_content")||"")).filter(c=>c&&!/^lp_/.test(c)))];const sel=$("spCr");const have=new Set([...sel.options].map(o=>o.value));crs.forEach(c=>{if(!have.has(c)){const o=document.createElement("option");o.value=c;o.textContent=c;sel.appendChild(o)}});}
 
 /* ================= render + controls ================= */
-function render(){if(!rows)return;const B=bounds(),M=build(B.a,B.b),P=build(B.pa,B.pb),A=aggregate(M,B.a,B.b),PA=aggregate(P,B.pa,B.pb);
+function activeVars(B){const s=new Set();rows.forEach(r=>{if(r.t>=B.pa&&r.t<B.b&&(showTests||!isTest(r)))s.add(r.variant)});const v=ALLV.filter(x=>s.has(x));return v.length?v:ALLV.slice(0,3)}
+function render(){if(!rows)return;const B=bounds();VARS=activeVars(B);if(!VARS.includes(lpVar))lpVar=VARS[0];document.querySelectorAll("#lpVar button").forEach(b=>{b.hidden=!VARS.includes(b.dataset.v)});const M=build(B.a,B.b),P=build(B.pa,B.pb),A=aggregate(M,B.a,B.b),PA=aggregate(P,B.pa,B.pb);
  const srcs=[...new Set(rows.filter(r=>VARS.includes(r.variant)&&(showTests||!isTest(r))).map(r=>source(qsObj(r.qs))))].sort();const fs=$("fSrc");if(fs.options.length-1!==srcs.length){const cur=fs.value;fs.innerHTML='<option value="">כל המקורות</option>'+srcs.map(s=>'<option'+(s===cur?" selected":"")+'>'+esc(s)+'</option>').join("")}
  try{({ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>renderCheckout(M),jr:()=>renderJourneys(M),ex:()=>renderExperiments(M),in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M)})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
  if(storedAt)$("fresh").textContent="· עודכן "+new Date(storedAt).toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});}
