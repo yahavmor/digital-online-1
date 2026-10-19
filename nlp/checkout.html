@@ -98,6 +98,11 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 .edit{display:block;margin:10px auto 0;font:inherit;font-size:14px;color:var(--ink2);background:none;border:0;text-decoration:underline;cursor:pointer}
 </style>
 <script>try{if(top!==self)top.location.replace(location.href)}catch(e){}</script>
+<style>/* 1,290 מחוק ליד 297 (19.10) */
+s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;white-space:nowrap}
+.pgrp{white-space:nowrap}
+.price s.was{font-size:22px;font-weight:700}
+</style>
 </head>
 <body>
 <main class="wrap">
@@ -110,7 +115,7 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 
 <section class="order" aria-label="ההזמנה שלך">
 <p class="item">הקורס המלא + כל הבונוסים</p>
-<p class="price"><b>297</b><span>₪</span></p>
+<p class="price"><s class="was">1,290</s><b>297</b><span>₪</span></p>
 <p class="once">תשלום חד-פעמי</p>
 <p class="nosub">ללא מנוי · ללא חיובים נוספים</p>
 <ul class="incl">
@@ -128,7 +133,7 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 <label class="fld"><b>מייל</b><input id="fEmail" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" required><span>לשם נשלחים החשבונית וקישור הכניסה לקורס</span></label>
 <label class="fld"><b>טלפון נייד</b><input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required placeholder="05X-XXXXXXX"><span>רק למקרה שנצטרך לעזור לך עם הגישה. לא נעביר אותו לאף אחד</span></label>
 <p class="ferr" id="ferr" role="alert"></p>
-<button class="go" type="submit">המשך לתשלום מאובטח - 297 ₪</button>
+<button class="go" type="submit"><span>המשך לתשלום מאובטח - <span class="pgrp"><s class="was">1,290</s> 297 ₪</span></span></button>
 </form>
 </section>
 
@@ -148,7 +153,7 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 <h2>פרטי העסקה</h2>
 <dl>
 <div><dt>מוצר</dt><dd>לנצח את האוטומט - הקורס המלא + כל הבונוסים</dd></div>
-<div><dt>סכום לתשלום</dt><dd>297 ₪, כולל הכל</dd></div>
+<div><dt>סכום לתשלום</dt><dd><span class="pgrp"><s class="was">1,290</s> 297 ₪</span>, כולל הכל</dd></div>
 <div><dt>אופן התשלום</dt><dd>תשלום חד-פעמי בכרטיס אשראי. ללא מנוי, ללא חיוב חוזר וללא עלויות נסתרות</dd></div>
 <div><dt>חשבונית</dt><dd>נשלחת אוטומטית למייל שהזנת מיד לאחר אישור העסקה</dd></div>
 <div><dt>גישה לקורס</dt><dd>נפתחת מיד לאחר אישור התשלום, ללא הגבלת זמן</dd></div>
