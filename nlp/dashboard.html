@@ -159,6 +159,7 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
   <!-- 01 overview -->
   <section class="screen" id="s-ov">
     <div class="tiles" id="ovTiles"></div>
+    <div class="panel"><div class="panel-h"><h2>איזה סרטון עובד</h2><span class="note">רק כניסות ממודעות Meta (עם utm_id), בלי בדיקות. קמפיין לפי utm_campaign</span></div><div class="tw"><table id="ovVideos"></table></div></div>
     <div class="grid2">
       <div class="panel"><div class="panel-h"><h2>משפך מלא</h2><span class="note">אנשים ייחודיים בכל שלב</span></div><div class="fun" id="ovFunnel"></div></div>
       <div class="panel"><div class="panel-h"><h2>מה לעשות מחר בבוקר</h2><span class="note">3 ההמלצות החשובות</span></div><div class="cards" id="ovRecs" style="grid-template-columns:minmax(0,1fr)"></div></div>
@@ -299,7 +300,9 @@ function wilson(k,n){if(!n)return [0,0];const z=1.96,p=k/n,d=1+z*z/n,c=p+z*z/(2*
 function conf(n,k){ if(n<30||k<3) return ["נתונים מעטים","off"]; if(n<150||k<10) return ["מגמה ראשונית","warn"]; return ["ראיות חזקות יותר","good"]; }
 function dayKey(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
 function qsObj(q){try{return new URLSearchParams(q||"")}catch(e){return new URLSearchParams()}}
-function isTest(r){const q=(r.qs||"").toLowerCase();return /claude|test|nocache/.test(q)||/(^|;)int=1(;|$)/.test(r.x||"")||r.variant==="test"||/בדיקה|בדיקת/.test(r.name||"");}
+/* חלונות זמן של בדיקות (שעון ישראל): כל הכניסות בהם נספרות כבדיקה. 21.10 09:53-10:05 = בדיקת המודעות החמות של Meta והבדיקות שלנו */
+const TEST_WINDOWS=[["2026-10-21T09:53:00","2026-10-21T10:05:59"]].map(w=>w.map(x=>new Date(x)));
+function isTest(r){const q=(r.qs||"").toLowerCase();return /claude|test|nocache/.test(q)||/(^|;)int=1(;|$)/.test(r.x||"")||r.variant==="test"||/בדיקה|בדיקת/.test(r.name||"")||TEST_WINDOWS.some(([a,b])=>r.t>=a&&r.t<=b);}
 function source(p){const s=(p.get("utm_source")||"").toLowerCase(),m=(p.get("utm_medium")||"").toLowerCase();
  if(/meta|facebook|fb|ig|instagram/.test(s)&&/paid|cpc|ads?$|social_paid|paid_social/.test(m))return "מודעות Meta";
  if(/manychat/.test(p.get("utm_campaign")||"")||m==="dm")return "ManyChat";
@@ -388,7 +391,18 @@ function card(c){return '<div class="card '+(c.level||"info")+'"><div class="t">
 function cell(k,n,extra){return '<td>'+(n?pf(pct(k,n)):'<span class="na">-</span>')+'<small>'+fmt(k)+'/'+fmt(n)+(extra||"")+'</small></td>'}
 
 /* ================= 01 overview ================= */
+const VIDEO_NAMES={p24:"ידע לא משנה, הטמעה כן",p25:"למה המוח מחפש חסרונות",p28:"3 שנים מעכשיו",h30a4:"במחיר של ארוחה במסעדה",h30b3:"297 ₪ חד-פעמי, החזר מלא תוך 7 ימים",w31a4:"כבר מכיר אותי? זה הצעד הבא",w31a5:"לא עוד ידע, זו דרך חיים"};
+const CAMP_NAMES={lenatzeach_hot:"חם מאוד",lenatzeach_warm:"חם",lenatzeach_cold:"קר"},CAMP_ORDER=["lenatzeach_hot","lenatzeach_warm","lenatzeach_cold"];
+function videoStats(M){const m={};M.sess.forEach(s=>{if(!s.p.get("utm_id")||s.ev.some(r=>isTest(r)))return;const cr=(s.p.get("utm_content")||"").trim().toLowerCase()||"(ללא utm_content)",cmp=(s.p.get("utm_campaign")||"").trim().toLowerCase();
+ const o=m[cr]||(m[cr]={cr,v:0,cta:0,chk:0,buy:0,t:[],cmps:{}});o.v++;o.t.push(s.time);o.cmps[cmp]=(o.cmps[cmp]||0)+1;if(s.cta)o.cta++;if(s.chk)o.chk++;if(s.buy)o.buy++;});
+ const L=Object.values(m);L.forEach(o=>{o.cmp=Object.keys(o.cmps).sort((a,b)=>o.cmps[b]-o.cmps[a])[0]||"";o.ci=CAMP_ORDER.indexOf(o.cmp);if(o.ci<0)o.ci=9});
+ return L.sort((x,y)=>x.ci-y.ci||y.v-x.v||x.cr.localeCompare(y.cr))}
+function renderVideos(M){const L=videoStats(M),T={v:0,cta:0,chk:0,buy:0,t:[]};L.forEach(o=>{T.v+=o.v;T.cta+=o.cta;T.chk+=o.chk;T.buy+=o.buy;T.t=T.t.concat(o.t)});
+ const row=(lbl,cmp,o)=>'<tr><td>'+lbl+'</td><td>'+cmp+'</td><td class="num">'+fmt(o.v)+'</td><td>'+secs(median(o.t))+'</td>'+cell(o.cta,o.v)+cell(o.chk,o.v)+cell(o.buy,o.v)+'</tr>';
+ const body=L.map(o=>row(VIDEO_NAMES[o.cr]?'<b>'+esc(VIDEO_NAMES[o.cr])+'</b> <small>'+esc(o.cr)+'</small>':esc(o.cr),esc(CAMP_NAMES[o.cmp]||o.cmp||"-"),o));if(L.length>1)body.push(row('<b>סה"כ</b>',"",T));
+ table($("ovVideos"),["סרטון","קמפיין","כניסות","זמן חציוני בדף","לחיצה לקופה","קופה","רכישה"],body,"אין עדיין כניסות ממודעות Meta (עם utm_id) בתקופה הזו")}
 function renderOverview(M,P,A,PA,B){
+ renderVideos(M);
  const cpaPill=A.cpa==null?"":A.cpa<=GOOD?'<span class="pill good">מתחת ל-150 ₪</span>':A.cpa<=TARGET?'<span class="pill warn">בין 150 ל-250 ₪</span>':'<span class="pill crit">מעל היעד 250 ₪</span>';
  const lead=leadPage(M);
  $("ovTiles").innerHTML=[
