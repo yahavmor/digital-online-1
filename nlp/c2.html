@@ -620,6 +620,10 @@ s.was{font-size:.8em;white-space:nowrap}
 .cta:hover .ct-t{transform:none}
 .pcard .stack6 .tot span:last-child{text-decoration:none}
 </style>
+<style>/* 21.10: שורת פתיחה לפי המודעה + כפתור גלוי בלי לגלול בטלפון */
+.hero9 .hook{font-size:19px;font-weight:700;line-height:1.4;color:#fff;max-width:32ch;margin:0;text-wrap:balance}
+@media (max-width:959px){.hero9 .portrait{height:34vh;min-height:220px}.hero9 .copy{margin-top:-96px}}
+</style>
 </head>
 <body>
 <div class="prog" id="prog" aria-hidden="true"><span id="progLbl"></span><i id="progFill"></i></div>
@@ -630,6 +634,8 @@ s.was{font-size:.8em;white-space:nowrap}
 <span class="badge">לנצח את האוטומט | השיטה של בן נחום</span>
 <p class="eyebrow">למי שיודע שהוא מסוגל ליותר</p>
 <h1 class="promise">יודע מה נכון לעשות, <mark>ועדיין מגיב בדיוק כמו אתמול?</mark></h1>
+<a class="cta" data-cta="hero_main" data-checkout href="#"><span class="ct-t">כן, אני רוצה להתחיל עכשיו <span class="pgrp">ב-<s class="was">1,290</s> 297 ₪</span></span> <span>←</span></a>
+<p class="cta-micro">🔒 תשלום מאובטח · גישה מיידית לקורס ולבונוסים</p>
 <ul class="ident">
 <li>לזהות את המחשבה האוטומטית ברגע שהיא מופיעה.</li>
 <li>לתרגל תגובה חדשה בתוך היום שלך, בלי לפנות לזה שעות.</li>
@@ -637,11 +643,10 @@ s.was{font-size:.8em;white-space:nowrap}
 <li class="k">מחשבה. רגש. פעולה. בכל שיעור כלי אחד ליישם עוד היום.</li>
 </ul>
 <p class="sub">שיעורים קצרים, עוגנים יומיומיים וערכות תרגול. גישה מיידית, מהטלפון או מהמחשב.</p>
-<a class="cta" data-cta="hero_main" data-checkout href="#"><span class="ct-t">כן, אני רוצה להתחיל עכשיו <span class="pgrp">ב-<s class="was">1,290</s> 297 ₪</span></span> <span>←</span></a>
-<p class="cta-micro">🔒 תשלום מאובטח · גישה מיידית לקורס ולבונוסים</p>
 <button class="avs" type="button" data-st="0" aria-label="צפייה בסרטוני ההמלצות של התלמידים"><span class="avs-f" aria-hidden="true"><i style="--i:0"></i><i style="--i:2"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:4"></i></span><span class="avs-t"><b>מאות כבר עברו תהליך עם בן</b><small>▶ 8 תלמידים מספרים</small></span></button>
 <a class="ghost" data-cta="hero_shortcut" href="#offer">מה בדיוק מקבלים?</a>
 </div></header>
+<script>/* 21.10: השורה הראשונה ממשיכה את המסר של המודעה (לפי utm_content). בלי התאמה נשארת השורה הרגילה */(function(){try{var c=(new URLSearchParams(location.search).get("utm_content")||"").toLowerCase(),H={p25:"המוח שלך מחפש חסרונות? זה לא אתה, זה האוטומט. ואוטומט אפשר לאמן מחדש.",p28:"איפה תהיה בעוד 3 שנים? המוח ההישרדותי תמיד ימצא סיבה להישאר במקום.",p24:"קראת, הבנת, ועדיין אותם דפוסים? הבעיה היא לא חוסר ידע. הבעיה היא הטמעה.",h30:"297 ₪ חד-פעמי · 90 שיעורים + 5 בונוסים · החזר מלא תוך 7 ימים",w31:"מכירים את התוכן של בן? זה הצעד הבא."},k=Object.keys(H).filter(function(x){return c.indexOf(x)===0})[0],e=document.querySelector(".hero9 .eyebrow");if(!k||!e)return;e.className="hook";e.textContent=H[k];}catch(_){}})();</script>
 <div class="proofbar"><ul><li><b data-count="15" data-suf="+">15+</b><span>שנות ניסיון ב-NLP</span></li><li><b>מאות</b><span>אנשים בליווי אישי</span></li><li><b data-count="90">90</b><span>שיעורים קצרים בקורס הליבה</span></li></ul></div>
 <div class="sp-stories"><div class="sp-in"><div class="sp-head"><b>תלמידים מספרים</b><span>8 סרטונים קצרים · לחצו על עיגול</span></div><div class="sp-row"><button class="sp-st" type="button" data-st="0" aria-label="המלצה 1 מתוך 8"><i style="--i:0"></i><span>0:35</span></button><button class="sp-st" type="button" data-st="1" aria-label="המלצה 2 מתוך 8"><i style="--i:1"></i><span>0:16</span></button><button class="sp-st" type="button" data-st="2" aria-label="המלצה 3 מתוך 8"><i style="--i:2"></i><span>0:11</span></button><button class="sp-st" type="button" data-st="3" aria-label="המלצה 4 מתוך 8"><i style="--i:3"></i><span>0:11</span></button><button class="sp-st" type="button" data-st="4" aria-label="המלצה 5 מתוך 8"><i style="--i:4"></i><span>0:09</span></button><button class="sp-st" type="button" data-st="5" aria-label="המלצה 6 מתוך 8"><i style="--i:5"></i><span>0:05</span></button><button class="sp-st" type="button" data-st="6" aria-label="המלצה 7 מתוך 8"><i style="--i:6"></i><span>0:08</span></button><button class="sp-st" type="button" data-st="7" aria-label="המלצה 8 מתוך 8"><i style="--i:7"></i><span>0:16</span></button></div></div></div>
 <section data-num="01" class="alt" data-sec="2" data-name="מה אומרים"><div class="wrap stack">
@@ -917,9 +922,9 @@ const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6
     fill.style.width = (n/N*100)+"%";
     sticky();
   }
-  // sticky CTA: after hero, hidden while offer/final visible
+  // sticky CTA: whenever the hero CTA is out of view, hidden while offer/final visible
   const st=document.getElementById("sticky"); const zones=[...document.querySelectorAll("[data-buyzone]")];
-  function sticky(){ const past=document.documentElement.scrollTop>(document.documentElement.scrollHeight-innerHeight)*0.25; const inZone=zones.some(z=>{const r=z.getBoundingClientRect();return r.top<innerHeight*0.8&&r.bottom>innerHeight*0.2}); const on=past&&!inZone; st.classList.toggle("on",on); st.setAttribute("aria-hidden",String(!on)); }
+  function sticky(){ const hc=document.querySelector('.hero9 [data-cta="hero_main"]'),hr=hc?hc.getBoundingClientRect():null; const past=hr?(hr.bottom<0||hr.top>innerHeight):document.documentElement.scrollTop>(document.documentElement.scrollHeight-innerHeight)*0.25; const inZone=zones.some(z=>{const r=z.getBoundingClientRect();return r.top<innerHeight*0.8&&r.bottom>innerHeight*0.2}); const on=past&&!inZone; st.classList.toggle("on",on); st.setAttribute("aria-hidden",String(!on)); }
   addEventListener("scroll",onScroll,{passive:true}); onScroll();
   // video plays
   document.querySelectorAll("video").forEach((v,i)=>v.addEventListener("play",()=>send("video_play",{video:i+1}),{once:true}));
