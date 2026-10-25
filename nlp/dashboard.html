@@ -302,7 +302,9 @@ function dayKey(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,
 function qsObj(q){try{return new URLSearchParams(q||"")}catch(e){return new URLSearchParams()}}
 /* חלונות זמן של בדיקות (שעון ישראל): כל הכניסות בהם נספרות כבדיקה. 21.10 09:53-10:05 = בדיקת המודעות החמות של Meta והבדיקות שלנו */
 const TEST_WINDOWS=[["2026-10-21T09:53:00","2026-10-21T10:05:59"]].map(w=>w.map(x=>new Date(x)));
-function isTest(r){const q=(r.qs||"").toLowerCase();return /claude|test|nocache/.test(q)||/(^|;)int=1(;|$)/.test(r.x||"")||r.variant==="test"||/בדיקה|בדיקת/.test(r.name||"")||TEST_WINDOWS.some(([a,b])=>r.t>=a&&r.t<=b);}
+/* עסקאות בדיקה ששולמו בכרטיס אמיתי (לא לקוחות). 267429750 = רכישת הבדיקה של בן, 23.10 */
+const TEST_DEALS=["267429750"], TEST_SIDS=["6ac363a1-80a1-4715-9964-0a72520b66fb"];
+function isTest(r){const q=(r.qs||"").toLowerCase();return /claude|test|nocache/.test(q)||/(^|;)int=1(;|$)/.test(r.x||"")||r.variant==="test"||/בדיקה|בדיקת/.test(r.name||"")||TEST_WINDOWS.some(([a,b])=>r.t>=a&&r.t<=b)||TEST_SIDS.includes(r.sid)||TEST_DEALS.some(d=>new RegExp("deal\\s+"+d+"\\b").test(q));}
 function source(p){const s=(p.get("utm_source")||"").toLowerCase(),m=(p.get("utm_medium")||"").toLowerCase();
  if(/meta|facebook|fb|ig|instagram/.test(s)&&/paid|cpc|ads?$|social_paid|paid_social/.test(m))return "מודעות Meta";
  if(/manychat/.test(p.get("utm_campaign")||"")||m==="dm")return "ManyChat";
