@@ -32,7 +32,7 @@ h1{font-size:clamp(28px,8vw,36px);font-weight:900;line-height:1.15;margin:0 0 8p
 @keyframes sp{to{transform:rotate(360deg)}}
 </style>
 <script>try{if(top!==self)top.location.replace(location.href)}catch(e){}</script>
-<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","1278104408729813");fbq("init","1651086743466533");fbq("track","PageView");fbq("trackCustom","ThanksView");try{var q=new URLSearchParams(location.search);if((q.get("src")==="cc"||q.get("sid"))&&!sessionStorage.getItem("px_purchase")){sessionStorage.setItem("px_purchase","1");fbq("track","Purchase",{value:297,currency:"ILS",content_name:"השיטה - הקורס המלא"},q.get("sid")?{eventID:"lp_"+q.get("sid")}:{});}}catch(e){}</script>
+<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","1278104408729813");fbq("init","1651086743466533");fbq("track","PageView");fbq("trackCustom","ThanksView");</script>
 <script>
 /* Microsoft Clarity: heatmaps + session recordings. Form fields are masked. */
 if(top===self){
@@ -70,10 +70,23 @@ const SUPPORT_WA = "972526951092";
     let lp = "";
     try{ lp = sessionStorage.getItem("cc_lp") || ""; }catch(e){}
     if(!lp){ for(const k of ["lowprofileid","LowProfileId","lowprofilecode","LowProfileCode"]){ const x = qs.get(k); if(x){ lp = x; break; } } }
-    let framed = false; try{ framed = top !== self; }catch(e){ framed = true; }
+    let framed = false; try{ framed = window.self !== window.top; }catch(e){ framed = true; }
     function fallback(){ el("wait").hidden = true; el("sent").textContent = "קישור הכניסה לקורס נשלח לאימייל שהזנת ואמור להגיע תוך כמה דקות."; }
+    /* Purchase רק אחרי אימות מול Cardcom, פעם אחת לעסקה. eventID = מספר העסקה, זהה ל-event_id ב-CAPI (Make 7827404) */
+    function purchase(d){
+      if(framed) return; /* בתוך ה-iframe של Cardcom: לא שולחים ולא מסמנים */
+      const deal = d && /^\d+$/.test(String(d.deal || "")) ? String(d.deal) : "";
+      const id = deal || (lp ? "lp_" + lp : "");
+      if(!id || !window.fbq) return;
+      const key = "px_purchase_" + id;
+      try{ if(localStorage.getItem(key)) return; }catch(e){}
+      try{ fbq("track", "Purchase", {value:297, currency:"ILS", content_name:"השיטה - הקורס המלא"}, {eventID: id}); }catch(e){ return; }
+      /* מסמנים "נשלח" רק אחרי שליחה בפועל בחלון הראשי */
+      try{ localStorage.setItem(key, "1"); }catch(e){}
+    }
     function done(d){
       if(!(d && d.ok === true && typeof d.link === "string" && /^https:\/\/[^\/]*schooler\.biz\//i.test(d.link))) return false;
+      purchase(d);
       const a = el("go"); a.href = d.link; a.hidden = false; el("wait").hidden = true;
       if(d.email){ const b = document.createElement("b"); b.textContent = d.email; const s = el("sent"); s.textContent = "שלחנו גם את כל פרטי הגישה ל- "; s.appendChild(b); }
       return true;
@@ -88,7 +101,7 @@ const SUPPORT_WA = "972526951092";
     if(!lp) return fallback();
     setTimeout(() => ask(0), framed ? 1500 : 0);
   })();
-  /* Purchase נרשם בצד השרת אחרי אימות העסקה מול Cardcom. כאן רק צפייה בעמוד. */
+  /* מעקב פנימי לדשבורד. אירוע Purchase ל-Meta נשלח למעלה, אחרי אימות התשלום. */
   try{ if(TRACK_ENDPOINT[0]!=="%"){ let lc={},ft={};try{lc=JSON.parse(localStorage.getItem("nlp_lc")||"{}");ft=JSON.parse(localStorage.getItem("nlp_ft")||"{}");}catch(e){} const cc=qs.get("src")==="cc"||!!qs.get("sid"); let dup=false; try{dup=cc&&sessionStorage.getItem("px_ret")==="1"; if(cc)sessionStorage.setItem("px_ret","1");}catch(e){} try{ if(window.clarity){ if(lc.v) clarity("set","variant",lc.v); let vd=""; try{vd=localStorage.getItem("nlp_vid")||"";}catch(e){} if(vd){ clarity("identify",vd); clarity("set","vid",vd); } if(cc){ clarity("event","purchase_return"); clarity("upgrade","purchase"); } else clarity("event","thanks_view"); } }catch(e){} const f=new URLSearchParams({ev:cc?(dup?"thanks_view":"purchase_return"):"thanks_view", variant:lc.v||qs.get("v")||"", sid:lc.sid||qs.get("sid")||("t-"+Date.now()), qs:lc.qs!=null?lc.qs:location.search.slice(1), cta:lc.cta||"", name:ft.qs!=null?("ft:"+ft.v+"|"+ft.qs):"", sec_on_page:lc.ts?Math.round((Date.now()-lc.ts)/1000):""});
     try{ if(localStorage.getItem("nlp_int")==="1") f.set("x","int=1"); }catch(e){}
     if(!(navigator.sendBeacon&&navigator.sendBeacon(TRACK_ENDPOINT,f))) fetch(TRACK_ENDPOINT,{method:"POST",body:f,mode:"no-cors"}); } }catch(e){}
