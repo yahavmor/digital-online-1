@@ -431,7 +431,7 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--font);font-wei
 .outcomes>div{background:var(--card);border:1px solid var(--gold-a);border-radius:var(--r);padding:22px 22px;display:flex;flex-direction:column;gap:6px}
 .outcomes h3{font-size:19px;font-weight:800}
 .outcomes p{color:var(--muted);font-size:16px;line-height:1.6}
-@media (min-width:760px){.outcomes{grid-template-columns:1fr 1fr}} @media (min-width:1100px){.outcomes{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:760px){.outcomes{grid-template-columns:1fr 1fr}} @media (min-width:1100px){.outcomes{grid-template-columns:repeat(3,1fr)}.outcomes.four{grid-template-columns:1fr 1fr}}
 .closer{font-size:clamp(22px,5.6vw,32px);font-weight:900;line-height:1.35;max-width:26ch;text-wrap:balance}
 .closer span{display:block;color:var(--muted);font-weight:500}
 .roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;counter-reset:rm}
@@ -624,21 +624,22 @@ s.was{font-size:.8em;white-space:nowrap}
 <section data-num="02" data-sec="3" data-name="מה אומרים"><div class="wrap stack">
 <h2>מה אומרים מי שכבר בפנים</h2><p class="swipe">החליקו כדי לראות עוד ←</p><div class="car" data-carousel><div class="car-track"><figure class="car-slide"><figcaption class="car-q"><q>פעם ראשונה שמישהו גם באמת מבין, וגם באמת איכפת לו</q><span>דן · מוטיבציה, סדר ומפת דרכים</span></figcaption><img src="assets/wa-dan.jpg" alt="ההודעה המקורית בוואטסאפ" loading="lazy" width="672" height="1400"></figure><figure class="car-slide"><figcaption class="car-q"><q>הפרספקטיבה שלי השתנתה מקצה לקצה</q><span>מור · יוצאת מהתהליך אדם חדש</span></figcaption><img src="assets/wa-mor.jpg" alt="ההודעה המקורית בוואטסאפ" loading="lazy" width="610" height="870"></figure><figure class="car-slide"><figcaption class="car-q"><q>אני מרגישה יותר ביטחון להציג את עצמי</q><span>מור, מחזור 3 · השפעה, ביטחון וקבלת החלטות</span></figcaption><img src="assets/wa-mor3.jpg" alt="ההודעה המקורית בוואטסאפ" loading="lazy" width="473" height="1024"></figure><figure class="car-slide"><figcaption class="car-q"><q>אני מיישם את השיטות ומרגיש איך זה משפיע</q><span>אברהם · כלים שעובדים כבר באותו שבוע</span></figcaption><img src="assets/wa-avraham.jpg" alt="ההודעה המקורית בוואטסאפ" loading="lazy" width="473" height="1024"></figure><figure class="car-slide"><figcaption class="car-q"><q>קיבלתי כלים השפעתיים ותקשורתיים חזקים</q><span>ירין · והדבר הכי חזק: טוהר המילה</span></figcaption><img src="assets/wa-yarin.jpg" alt="ההודעה המקורית בוואטסאפ" loading="lazy" width="580" height="625"></figure><figure class="car-slide"><figcaption class="car-q"><q>מאוד מעריך את כל העזרה והתמיכה</q><span>מהצ'אטים שלנו</span></figcaption><img src="assets/wa-thanks.jpg" alt="ההודעה המקורית בוואטסאפ" loading="lazy" width="700" height="589"></figure></div><button class="car-btn prev" type="button" aria-label="הקודם">›</button><button class="car-btn next" type="button" aria-label="הבא">‹</button><div class="car-dots"><i></i><i></i><i></i><i></i><i></i><i></i></div></div><p class="proofline">אנשים שונים. אתגרים שונים. אותו עיקרון: ברגע שמשנים את הדפוס שמנהל אותך, מתחילות להשתנות גם הפעולות והתוצאות.</p>
 </div></section>
-<section data-num="03" class="alt" data-sec="4" data-name="איך נראית המציאות"><div class="wrap stack">
-<h2>איך נראית המציאות כשהשיטה עובדת</h2>
+<section data-num="03" class="alt" data-sec="4" data-name="תדמיין את עצמך"><div class="wrap stack">
+<h2>תדמיין את עצמך מגיב אחרת כבר מחר</h2>
+<p class="lead">לא כשהכול מסתדר לך. דווקא ברגעים שהיו מפעילים אותך אוטומטית.</p>
 <div class="reality">
-<div class="r"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></div><div><h3>יותר בהירות</h3><p>כשיום אחד אתה חד ומלא אנרגיה, וביום אחר לא מצליח להזיז את עצמך, לדעת מה עושים גם ביום השני.</p></div></div>
-<div class="r"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div><div><h3>יותר ביטחון</h3><p>כשמישהו אומר לך לא, או כשאתה רואה אחרים מתקדמים ומתחיל לפקפק בעצמך, לא לתת לזה לקבוע איך ייראה היום שלך.</p></div></div>
-<div class="r"><div class="ic"><svg viewBox="0 0 24 24"><path d="M9.5 3A3.5 3.5 0 0 0 6 6.5 3.5 3.5 0 0 0 4 12a3.5 3.5 0 0 0 2 5.5A3.5 3.5 0 0 0 12 19V5a3 3 0 0 0-2.5-2z"/><path d="M14.5 3A3.5 3.5 0 0 1 18 6.5a3.5 3.5 0 0 1 2 5.5 3.5 3.5 0 0 1-2 5.5A3.5 3.5 0 0 1 12 19"/></svg></div><div><h3>יותר שליטה</h3><p>כשאתה מקבל הודעה שלא ציפית לה, לזהות את הרגש לפני שהוא מנהל אותך, ולבחור תגובה אחרת.</p></div></div>
+<div class="r"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></div><div><h3>פחות מלחמה עם עצמך</h3><p>אתה קם בבוקר, יודע מה חשוב לך היום ומתחיל בצעד קטן&nbsp;- במקום להיכנס שוב למאבק עם המחשבות שדוחות אותך למחר.</p></div></div>
+<div class="r"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div><div><h3>יותר ביטחון שמגיע מבפנים</h3><p>משהו לא מצליח, מישהו אומר לך לא&nbsp;- ואתה מצליח לתפוס את המחשבה שמורידה אותך, ולבחור דיאלוג פנימי שמחזק אותך.</p></div></div>
+<div class="r"><div class="ic"><svg viewBox="0 0 24 24"><path d="M9.5 3A3.5 3.5 0 0 0 6 6.5 3.5 3.5 0 0 0 4 12a3.5 3.5 0 0 0 2 5.5A3.5 3.5 0 0 0 12 19V5a3 3 0 0 0-2.5-2z"/><path d="M14.5 3A3.5 3.5 0 0 1 18 6.5a3.5 3.5 0 0 1 2 5.5 3.5 3.5 0 0 1-2 5.5A3.5 3.5 0 0 1 12 19"/></svg></div><div><h3>יותר בחירה, פחות אוטומט</h3><p>מגיע רגע שמפעיל אצלך פחד, כעס או ספק. הפעם אתה מזהה מה קורה בתוכך לפני שאתה פועל&nbsp;- ויש לך אפשרות להגיב אחרת.</p></div></div>
 </div>
 </div></section>
-<section data-num="04" class="orb" data-sec="5" data-name="המנגנון"><div class="wrap stack">
-<h2>המנגנון שעליו בנויה השיטה</h2>
-<p class="lead">שינוי אמיתי קורה מבפנים החוצה. זה הסדר שבו התוכנית בנויה.</p>
+<section data-num="04" class="orb" data-sec="5" data-name="ככה הופכים ידע"><div class="wrap stack">
+<h2>ככה הופכים ידע לשינוי שמרגישים בחיים</h2>
+<p class="lead">אתה לא צריך עוד מישהו שיסביר לך מה נכון לעשות. אתה צריך דרך לתרגל את זה עד שזה מתחיל להשפיע על איך שאתה חושב, מרגיש ופועל.</p>
 <div class="layers">
-<div class="layer stack" data-n="1"><span class="k">מפתח 1</span><h3>התפיסה הנכונה</h3><p>לזהות את הפחד, הפרפקציוניזם והסיפור הפנימי שעוצרים אותך, ולהחליף אותם בדרך חשיבה חדשה.</p></div>
-<div class="layer stack" data-n="2"><span class="k">מפתח 2</span><h3>ההשפעה הנכונה</h3><p>להעביר את השינוי הפנימי החוצה: ראפור, רגש, טון דיבור, ושיחות שמזיזות אנשים לפעולה.</p></div>
-<div class="layer stack" data-n="3"><span class="k">מפתח 3</span><h3>היישום הנכון</h3><p>לראות את זה קורה בשיחות אמיתיות: הדרכות לייב, מודל 4 שלבים, ו-13 שעות של הקלטות זום.</p></div>
+<div class="layer stack" data-n="1"><span class="k">מפתח 1</span><h3>משנים את הדיאלוג הפנימי</h3><p>לומדים לזהות את המחשבות שמחלישות אותך ולהתחיל לבנות במקומן דרך חשיבה שמקדמת אותך.</p></div>
+<div class="layer stack" data-n="2"><span class="k">מפתח 2</span><h3>מחברים בין רגש למחשבה</h3><p>כי להבין משהו בשכל לא תמיד מספיק. משלבים תרגול מחשבתי עם רגש, דמיון וחזרתיות כדי לחזק את הדפוס החדש.</p></div>
+<div class="layer stack" data-n="3"><span class="k">מפתח 3</span><h3>הופכים את החיים לסביבת אימון</h3><p>דרך רגעים שכבר קיימים ביום שלך&nbsp;- קפה, צליל, מבט לשמיים או סיטואציה שמפעילה אותך&nbsp;- מתרגלים שוב ושוב, בלי לחכות לזמן מיוחד ללמוד.</p></div>
 </div>
 </div></section>
 <section class="ctab" data-buyzone><div class="wrap"><div class="box">
@@ -651,12 +652,13 @@ s.was{font-size:.8em;white-space:nowrap}
 <li>למי שמסתכל במראה ולא מרוצה מהמקום שבו הוא נמצא, ומרגיש שכבר תקופה ארוכה רק הזמן עובר</li>
 <li>למי שמבטיח לעצמו שהפעם הוא מתמיד, ונשבר אחרי כמה ימים</li>
 <li>למי שיודע שהוא צריך לעשות שיחה מסוימת או לקבל החלטה, אבל דוחה אותה שוב ושוב</li>
-<li>לכל מי שמדבר עם אנשים, בעבודה, בעסק או בבית, ורוצה להשפיע טוב יותר</li>
+<li>למי שרוצה לשנות דפוסי חשיבה, לשפר את הדיאלוג הפנימי ולתרגל התנהגויות חדשות</li>
 </ul>
 <p class="notfit">השיטה פחות מתאימה למי שמחפש פתרון קסם בלי לתרגל או לעשות שינוי בפועל.</p>
 </div></section>
-<section data-num="06" class="orb" data-sec="7" data-name="עם מה תצא"><div class="wrap stack">
-<h2>עם מה <mark>תצא</mark> מהשיטה</h2><div class="outcomes"><div><h3>ביטחון שלא נעלם</h3><p>לבנות ביטחון עצמי שלא נעלם ברגע שמישהו אומר לך לא, מבקר אותך או לא מסכים איתך.</p></div><div><h3>לצאת מהתקיעות</h3><p>לצאת מהמקום שבו אתה יודע מה צריך לעשות, אבל דוחה שוב ושוב את אותה שיחה, החלטה, אימון או צעד שחשוב לך.</p></div><div><h3>מערכת מחשבה שמשרתת אותך</h3><p>לזהות את המשפטים שרצים לך בראש, כמו "אני לא מספיק טוב", "אני תמיד מתחיל ולא מסיים" או "זה פשוט מי שאני", ולבנות במקומם מערכת מחשבה שמשרתת אותך.</p></div><div><h3>מפת דרכים ברורה</h3><p>לדעת מה הצעד הבא שלך, במקום להגיד שוב ש"מיום ראשון מתחילים".</p></div><div><h3>תקשורת שמשפיעה</h3><p>להעביר את מה שאתה באמת חושב, בעבודה, בעסק או בבית, בלי להתכווץ ובלי להתפרץ.</p></div></div>
+<section data-num="06" class="orb" data-sec="7" data-name="מה יכול להשתנות"><div class="wrap stack">
+<h2>מה יכול להתחיל להשתנות אצלך?</h2>
+<p class="lead">לא בהבטחות גדולות. ברגעים הקטנים שבהם אתה שם לב שאתה כבר לא חייב לפעול כמו אתמול.</p><div class="outcomes four"><div><h3>להפסיק לדחות את עצמך</h3><p>במקום לסיים עוד יום בהרגשה ששוב לא עשית את מה שהבטחת לעצמך&nbsp;- ללמוד להתחיל בצעד אחד גם כשאין חשק.</p></div><div><h3>להפסיק לתת לכל מחשבה לנהל אותך</h3><p>לזהות בזמן אמת את ה"אני לא מסוגל" או "מה יחשבו עליי" ולתרגל מחשבה שעוזרת לך להתקדם.</p></div><div><h3>להרגיש יותר יציב גם כשהרגש עולה</h3><p>לזהות מתי פחד, תסכול או חוסר ביטחון מתחילים להפעיל אותך, ולתרגל בחירה אחרת לפני שהם מכתיבים את התגובה שלך.</p></div><div><h3>להפוך ידע לפעולות יומיומיות</h3><p>לקבל כלים קצרים שאפשר לתרגל במהלך היום, כך שהשינוי לא יישאר רק במחברת או בסרטון.</p></div></div>
 </div></section>
 <section class="ctab alt" data-buyzone><div class="wrap"><div class="box">
 <a class="cta" data-cta="cta2" data-checkout href="#"><span class="ct-t">כן, אני רוצה להתחיל עכשיו <span class="pgrp">ב-<s class="was">1,290</s> 297 ₪</span></span> <span>←</span></a>

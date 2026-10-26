@@ -9,9 +9,11 @@
 <style>html,body{margin:0;background:#0d0d0f;color:#d6b26a;font-family:Arial,sans-serif;height:100%;display:grid;place-items:center}</style>
 <script>
 (function(){
-  var v=null; try{ v=localStorage.getItem("nlp_go_v"); }catch(e){}
-  if(v!=="a"&&v!=="b"&&v!=="c"){ var r=new Uint8Array(1); try{ crypto.getRandomValues(r); v="abc"[r[0]%3]; }catch(e){ v="abc"[Math.floor(Math.random()*3)]; } try{ localStorage.setItem("nlp_go_v",v); }catch(e){} }
-  var q=new URLSearchParams(location.search); if(!q.has("go")) q.set("go","1");
-  location.replace(v+"2.html?"+q.toString()); /* v2 (מבנה חדש). הדפים המקוריים a/b/c נשארים באתר */
+  /* ניסוי A/B/C לפי ההנחיות של בן (26.10): a.html / b.html / c.html, שליש לכל דף, שיוך קבוע לכל דפדפן.
+     מפתח חדש = שיוך חדש לניסוי הזה. דגימה בדחייה (בייט < 255) כדי שכל דף יקבל בדיוק שליש. */
+  var EXP="abc_2610", K="nlp_go_"+EXP, v=null; try{ v=localStorage.getItem(K); }catch(e){}
+  if(v!=="a"&&v!=="b"&&v!=="c"){ try{ var r=new Uint8Array(1); do{ crypto.getRandomValues(r); }while(r[0]>=255); v="abc"[r[0]%3]; }catch(e){ v="abc"[Math.floor(Math.random()*3)]; } try{ localStorage.setItem(K,v); }catch(e){} }
+  var q=new URLSearchParams(location.search); if(!q.has("go")) q.set("go","1"); q.set("exp",EXP);
+  location.replace(v+".html?"+q.toString()); /* a2/b2/c2 נשארים באתר, מחוץ לניסוי */
 })();
 </script></head><body>טוען...</body></html>
