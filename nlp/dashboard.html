@@ -299,16 +299,19 @@ const STG=["נכנס","גלל חצי","ראה את ההצעה","לחץ לרכי�
 const SUM=["רק נכנסו","עצרו באמצע","ראו הצעה ולא לחצו","לחצו ולא פתחו סליקה","פתחו סליקה בלי פרטים","השאירו פרטים ולא שילמו","רכשו"];
 /* ניסוי דפי המכירה לפי ההנחיות של בן (26.10). שינוי סטטוס של דף (הוצאה מהניסוי) נרשם כאן וגם ב-DECISIONS */
 const EXP={id:"abc_2610",name:"a/b/c לפי בן",start:new Date("2026-10-26T09:02:52"),arms:["a","b","c"],split:{a:33.3,b:33.3,c:33.4},target:"30.10.2026",minN:300,minBuy:20};
+/* שינויים זהים בשלושת הדפים בזמן הניסוי: מפרידים לפני/אחרי בלשונית האופטימיזציה */
+const EXP_PHASE={at:new Date("2026-10-26T19:32:49"),label:"עדויות וואטסאפ חדשות בשלושת הדפים"}; let opPhase="all";
 const ARM_STATE={}; /* למשל c:{status:"stopped",at:"2026-10-28 10:00",why:"..."} */
 const CO_ARMS=[{id:"A",name:"סליקה A - הקיימת",live:true},{id:"B",name:"סליקה B - משופרת",live:false,why:"הצעה מוכנה במסמך, ממתינה לאישור. לא רצה"}];
 const DECISIONS=[
- {at:"2026-10-26 09:02",detected:"הדפים שרצו מ-20.10 (a2/b2/c2) אינם שלושת הדפים שבן הגדיר לניסוי, והחלוקה הקודמת נטתה מעט (33.6/33.2/33.2)",problem:"אי אפשר לבחור בין a/b/c בלי ניסוי נקי עליהם",change:"go.html מחלק את כל תנועת המודעות ל-a/b/c בשליש מדויק, עם שיוך קבוע לדפדפן ו-exp=abc_2610 על כל ביקור. c.html קיבל את הקופי של בן בשלושה אזורים (הגרסה הקודמת נשמרה ב-nlp/archive)",hyp:"מסר שמתיישר עם המודעות (הטמעה, רגש ומחשבה, כלים יומיומיים) יעלה את המעבר לסליקה ואת הרכישות",traffic:"live",result:"בבדיקה",kept:"פעיל",next:"כשדף יעמוד בכלל ההסרה: להוציא אותו ולחלק 50/50 בין השניים. ניסוי סליקה B אחרי אישור"}];
+ {at:"2026-10-26 09:02",detected:"הדפים שרצו מ-20.10 (a2/b2/c2) אינם שלושת הדפים שבן הגדיר לניסוי, והחלוקה הקודמת נטתה מעט (33.6/33.2/33.2)",problem:"אי אפשר לבחור בין a/b/c בלי ניסוי נקי עליהם",change:"go.html מחלק את כל תנועת המודעות ל-a/b/c בשליש מדויק, עם שיוך קבוע לדפדפן ו-exp=abc_2610 על כל ביקור. c.html קיבל את הקופי של בן בשלושה אזורים (הגרסה הקודמת נשמרה ב-nlp/archive)",hyp:"מסר שמתיישר עם המודעות (הטמעה, רגש ומחשבה, כלים יומיומיים) יעלה את המעבר לסליקה ואת הרכישות",traffic:"live",result:"בבדיקה",kept:"פעיל",next:"כשדף יעמוד בכלל ההסרה: להוציא אותו ולחלק 50/50 בין השניים. ניסוי סליקה B אחרי אישור"},
+ {at:"2026-10-26 19:32",detected:"בן ביקש לחזק את ההוכחות החברתיות: 4 הודעות וואטסאפ חדשות של לקוחות, מטושטשות",problem:"ההוכחות בדפים לא הבליטו שינוי מעשי ויישום ביום-יום",change:"4 צילומי וואטסאפ חדשים (0181, 0185, 0186, 0187) נוספו בתחילת קרוסלת ההמלצות הקיימת בשלושת הדפים, באותו סדר, עם הכותרת של בן והגדלה בלחיצה. ההמלצות והסרטון הקיימים נשארו. a2/b2/c2 מפנים עכשיו ל-go.html",hyp:"הוכחות שמדגישות יישום ושינוי מורגש יעלו את ההגעה לסליקה בכל הדפים. השינוי זהה בשלושתם, כך שההשוואה בין הדפים נשמרת",traffic:"live",result:"בבדיקה - להשוות לפני/אחרי בבורר למעלה",kept:"פעיל",next:"משפט הפתיחה של C לפי בחירת בן (גרסה מתועדת)"}];
 const EXPERIMENTS=[
  {id:"abc_2610",name:"a/b/c לפי בן (26.10)",hyp:"איזה משלושת הדפים מייצר הכי הרבה רכישות למבקר",change:"שלושה דפים שלמים; c עם הקופי החדש של בן",arms:"a, b, c בשליש מדויק, שיוך קבוע (go.html, exp=abc_2610)",start:"2026-10-26",end:"",split:"33.3/33.3/33.4",primary:"רכישות מאומתות למבקר",secondary:"הגעה לסליקה, השלמת תשלום, גלילה, זמן פעיל",guard:"חלוקה תקינה (SRM), שגיאות טעינה, סליקות שנכשלו",status:"פעיל",decision:""},
  {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"2026-10-26",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"הסתיים, הוחלף ב-abc_2610",decision:""},
 ];
 const CHANGELOG=[
- ["2026-10-07","שלושה דפים עם פתיחות שונות (v14-v15)"],["2026-10-08","הוסר אזור 'בחיים עצמם', מספור אזורים תוקן (v16)"],["2026-10-08","סליקה עברה ל-LowProfile בקארדקום"],["2026-10-09","מדידה מורחבת: זמן פעיל, חשיפת אזורים וכפתורים, מכשיר, ביצועים, שלבי סליקה"],["2026-10-09","Clarity: מפות חום והקלטות בדפים ובסליקה"],["2026-10-10","ביקורים מדפדפנים פנימיים מסומנים ומוסתרים, והתראה כשאין ביקורים 6 שעות"],["2026-10-26","ניסוי abc_2610: go.html → a/b/c בשליש מדויק (09:02)"],["2026-10-26","c.html: קופי חדש של בן בשלושה אזורים, הגרסה הקודמת ב-nlp/archive"]];
+ ["2026-10-07","שלושה דפים עם פתיחות שונות (v14-v15)"],["2026-10-08","הוסר אזור 'בחיים עצמם', מספור אזורים תוקן (v16)"],["2026-10-08","סליקה עברה ל-LowProfile בקארדקום"],["2026-10-09","מדידה מורחבת: זמן פעיל, חשיפת אזורים וכפתורים, מכשיר, ביצועים, שלבי סליקה"],["2026-10-09","Clarity: מפות חום והקלטות בדפים ובסליקה"],["2026-10-10","ביקורים מדפדפנים פנימיים מסומנים ומוסתרים, והתראה כשאין ביקורים 6 שעות"],["2026-10-26","ניסוי abc_2610: go.html → a/b/c בשליש מדויק (09:02)"],["2026-10-26","c.html: קופי חדש של בן בשלושה אזורים, הגרסה הקודמת ב-nlp/archive"],["2026-10-26","2026-10-26 19:32: 4 עדויות וואטסאפ חדשות בשלושת הדפים; a2/b2/c2 מפנים ל-go.html"]];
 
 let rows=null, spend={}, cspend={}, storedAt=0, range="7", screen="op", lpVar="a2", showTests=false, fSrc="", fDev="", cFrom="", cTo="", jrStage="", openSid="", openCr="";
 const $=id=>document.getElementById(id);
@@ -595,8 +598,8 @@ function erfc(z){const t=1/(1+.5*z),r=t*Math.exp(-z*z-1.26551223+t*(1.00002368+t
 const pp=x=>x==null?"-":(x*100<1&&x>0?"<1":Math.round(x*100))+"%";
 
 function optModel(){
- const now=new Date(),M=build(EXP.start,new Date(+now+864e5));
- const inExp=s=>EXP.arms.includes(s.v)&&s.p.get("exp")===EXP.id&&s.t>=EXP.start;
+ const now=new Date(),A0=opPhase==="post"?EXP_PHASE.at:EXP.start,A1=opPhase==="pre"?EXP_PHASE.at:new Date(+now+864e5),M=build(A0,A1);
+ const inExp=s=>EXP.arms.includes(s.v)&&s.p.get("exp")===EXP.id&&s.t>=A0&&s.t<A1;
  const S=M.sess.filter(inExp), sids=new Set(S.map(s=>s.sid));
  const buys=M.buys.filter(b=>b.s&&sids.has(b.sid)), orphan=M.buys.filter(b=>!(b.s&&sids.has(b.sid))).length, buySid=new Set(buys.map(b=>b.sid));
  const active=EXP.arms.filter(v=>!(ARM_STATE[v]&&ARM_STATE[v].status==="stopped"));
@@ -625,18 +628,19 @@ function optModel(){
  live.forEach(a=>{a.cut=live.length>1&&minN>=EXP.minN&&a.pChk.worst>=.95&&a.pBuy.worst>=.8&&a.pBuy.best<.05});
  const level=win?["גבוה","good"]:minN>=EXP.minN&&leadP>=.8?["בינוני","warn"]:["נמוך","off"];
  live.forEach(a=>{a.status=win===a?"מנצח":!win&&lead===a&&minN>=50&&leadP>=.5?"מוביל":"בבדיקה"});arms.filter(a=>a.stopped).forEach(a=>a.status="הופסק");
- const hrs=Math.max(.1,(now-EXP.start)/36e5),sr=srm(live.map(a=>a.entries),live.map(a=>EXP.split[a.v]/live.reduce((t,x)=>t+EXP.split[x.v],0)));
+ const hrs=Math.max(.1,(Math.min(+now,+A1)-A0)/36e5),sr=srm(live.map(a=>a.entries),live.map(a=>EXP.split[a.v]/live.reduce((t,x)=>t+EXP.split[x.v],0)));
  const sp=spendIn(new Date(EXP.start.getFullYear(),EXP.start.getMonth(),EXP.start.getDate()),new Date(+now+864e5)),totN=live.reduce((t,a)=>t+a.n,0);
  arms.forEach(a=>{a.spEst=sp!=null&&totN?sp*a.n/totN:null;a.cpa=a.spEst!=null&&a.buy?a.spEst/a.buy:null;a.roas=a.spEst?a.rev/a.spEst:null});
- return {M,S,arms,live,buys,orphan,minN,totBuy,lead,leadP,leadOn,win,level,hrs,sr,sp,totN}}
+ return {M,S,arms,live,buys,orphan,minN,totBuy,lead,leadP,leadOn,win,level,hrs,sr,sp,totN,A0,A1}}
 
 function renderOpt(){const O=optModel(),{arms,live}=O,X=arms;
  const fmtH=h=>h<48?Math.round(h)+" שעות":(h/24).toFixed(1)+" ימים";
  const rate=O.minN/O.hrs,eta=rate>0?(EXP.minN-O.minN)/rate:null;
  $("opMeta").className="banner"+(O.sr&&O.sr.p<.001?" crit":"");
- $("opMeta").innerHTML='<b>ניסוי '+esc(EXP.id)+'</b> · רץ '+fmtH(O.hrs)+' (מ-26.10 09:02) · '+fmt(O.totN)+' מבקרים ייחודיים · '+fmt(O.totBuy)+' רכישות מאומתות בניסוי'+(O.orphan?' · '+O.orphan+' רכישות בתקופה בלי שיוך לניסוי':'')+(O.totN?
+ const hm=d=>d.toLocaleString("he-IL",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});
+ $("opMeta").innerHTML='<div class="seg" role="group" aria-label="תקופה בניסוי" id="opPh" style="margin-bottom:8px">'+[["all","כל הניסוי"],["pre","לפני: "+EXP_PHASE.label],["post","אחרי (מ-"+hm(EXP_PHASE.at)+")"]].map(([k,l])=>'<button type="button" data-ph="'+k+'" aria-pressed="'+(opPhase===k)+'">'+esc(l)+'</button>').join("")+'</div><b>ניסוי '+esc(EXP.id)+'</b> · '+fmtH(O.hrs)+' ('+hm(O.A0)+(opPhase==="pre"?' עד '+hm(O.A1):' ואילך')+') · '+fmt(O.totN)+' מבקרים ייחודיים · '+fmt(O.totBuy)+' רכישות מאומתות בניסוי'+(O.orphan?' · '+O.orphan+' רכישות בתקופה בלי שיוך לניסוי':'')+(O.totN?
   ' · חלוקה בפועל: '+live.map(a=>a.v+" "+pf(pct(a.entries,live.reduce((t,x)=>t+x.entries,0))||0)).join(" / ")+(O.sr?(O.sr.p<.001?' <b>· החלוקה חורגת מהמתוכנן (SRM), לבדוק את go.html</b>':' · תקינה'):''):'')+
-  '<br><span class="note">התקופה כאן קבועה: מתחילת הניסוי הנקי, בלי קשר לבורר התקופה למעלה. סינון מקור ומכשיר כן חל.</span>';
+  '<br><span class="note">התקופה כאן: מתחילת הניסוי הנקי (או לפני/אחרי השינוי), בלי קשר לבורר התקופה למעלה. סינון מקור ומכשיר כן חל.</span>';
  const pill=st=>'<span class="pill '+({"מנצח":"good","מוביל":"neutral","הופסק":"off","בבדיקה":"warn"}[st])+'">'+st+'</span>';
  const prog=(x,t)=>'<span class="minibar" style="width:'+Math.round(Math.min(1,x/t)*48)+'px"></span>';
  const best=(k,inv)=>{const v=live.filter(a=>a.n>=10).map(a=>a[k]).filter(x=>x!=null&&isFinite(x));return v.length>1?(inv?Math.min(...v):Math.max(...v)):null};
@@ -673,6 +677,7 @@ function renderOpt(){const O=optModel(),{arms,live}=O,X=arms;
  live.forEach(a=>{if(a.chk>=8&&a.buy/a.chk<.15)C.push({level:"warn",title:"דף "+a.v+": מגיעים לסליקה ולא משלמים",data:a.buy+"/"+a.chk+" השלימו",action:"לבדוק את הסליקה (מקרה ד אצל בן), לא לשנות את דף המכירה",conf:conf(a.chk,a.buy),tag:"סליקה"});
   if(a.cta>=8&&a.chk/a.cta<.75)C.push({level:"warn",title:"דף "+a.v+": לוחצים ולא מגיעים לסליקה",data:a.chk+"/"+a.cta+" מהלוחצים הגיעו",action:"לבדוק מהירות מעבר ודפדפן אינסטגרם (מקרה ג)",conf:conf(a.cta,a.chk),tag:"מעבר"})});
  $("opSeen").innerHTML=C.map(card).join("");
+ document.querySelectorAll("#opPh button").forEach(b=>b.onclick=()=>{opPhase=b.dataset.ph;renderOpt()});
  table($("opExit"),["דף","אזור","הגיעו","לא המשיכו","יצאו כאן"],X.flatMap(a=>a.drops.slice(0,3).map((d,i)=>'<tr><td>'+(i?"":'<i class="sw" style="background:'+VCOL[a.v]+'"></i>'+a.v)+'</td><td>'+esc(d.k+". "+d.name)+'</td><td>'+d.reach+'</td><td>'+pf(d.drop*100)+'<small>'+(d.reach-d.next)+'</small></td><td>'+d.exit+'</td></tr>')),"צריך לפחות 10 מבקרים באזור כדי להציג");
  table($("opDev"),["דף","מכשיר","מבקרים","הגעה לסליקה","רכישות"],X.flatMap(a=>[["m","מובייל"],["d","מחשב"]].map(([k,l],i)=>{const L=a.L.filter(x=>x.dv===k);return '<tr><td>'+(i?"":a.v)+'</td><td>'+l+'</td><td>'+L.length+'</td>'+cell(L.filter(x=>x.chk).length,L.length)+'<td>'+L.filter(x=>x.buy).length+'</td></tr>'})),"עוד אין ביקורים");
  /* סליקה: כרגע רק A רצה. כל מי שהגיע לסליקה מהניסוי נספר ב-A */
