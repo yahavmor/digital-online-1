@@ -124,7 +124,7 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
   <header>
     <div>
       <h1>מרכז הבקרה - השיטה</h1>
-      <div class="sub">297 ₪ · דפים a2/b2/c2 → קארדקום → רכישה <span id="fresh" class="num"></span></div>
+      <div class="sub">297 ₪ · ניסוי a/b/c (abc_2610) → קארדקום → רכישה <span id="fresh" class="num"></span></div>
     </div>
     <div class="controls">
       <div class="seg" role="group" aria-label="תקופה" id="range">
@@ -146,6 +146,7 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
   </header>
   <div id="status" class="banner" hidden></div>
   <nav class="tabs" role="tablist" aria-label="מסכים">
+    <button role="tab" data-s="op"><b>00</b>אופטימיזציית דפי מכירה וסליקה</button>
     <button role="tab" data-s="ov"><b>01</b>סקירה יומית</button>
     <button role="tab" data-s="cr"><b>02</b>קריאייטיבים</button>
     <button role="tab" data-s="lp"><b>03</b>השוואת דפים</button>
@@ -155,6 +156,23 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
     <button role="tab" data-s="in"><b>07</b>תובנות והמלצות</button>
     <button role="tab" data-s="dq"><b>08</b>בקרת מדידה</button>
   </nav>
+
+  <!-- 00 optimization: Ben's doc section 10 -->
+  <section class="screen" id="s-op">
+    <div class="banner" id="opMeta"></div>
+    <div class="panel"><div class="panel-h"><h2>שלושת הדפים זה לצד זה</h2><span class="note">רק ביקורים שנכנסו לניסוי דרך go.html (exp=abc_2610), מ-26.10 09:02. רכישה = עסקה מאושרת בקארדקום, פעם אחת לעסקה</span></div><div class="tw"><table id="opTable"></table></div><p class="note" id="opRule"></p></div>
+    <div class="grid2">
+      <div class="panel"><div class="panel-h"><h2>משפך לפי דף</h2><span class="note">אחוז מתוך המבקרים הייחודיים בכל דף</span></div><div class="tw"><table id="opFunnel"></table></div></div>
+      <div class="panel"><div class="panel-h"><h2>מה המערכת מזהה עכשיו</h2><span class="note">מחושב מהנתונים בכל טעינה</span></div><div class="cards" id="opSeen" style="grid-template-columns:minmax(0,1fr)"></div></div>
+    </div>
+    <div class="grid2">
+      <div class="panel"><div class="panel-h"><h2>אזורי נטישה</h2><span class="note">הירידה הגדולה בין אזור לאזור הבא. נקודת יציאה, לא בהכרח הסיבה</span></div><div class="tw"><table id="opExit"></table></div></div>
+      <div class="panel"><div class="panel-h"><h2>מובייל מול מחשב</h2><span class="note">לבדוק שההבדל בין הדפים לא נובע מתמהיל מכשירים</span></div><div class="tw"><table id="opDev"></table></div></div>
+    </div>
+    <div class="panel"><div class="panel-h"><h2>השוואת גרסאות סליקה</h2><span class="note">משקלים לפי בן: תשלום מוצלח 70, התחלת פרטים 10, התקדמות 10, נטישה 5, זמן 5</span></div><div class="tw"><table id="opCo"></table></div><p class="note" id="opCoNote"></p></div>
+    <div class="panel"><div class="panel-h"><h2>החלטות אוטונומיות</h2><span class="note">כל שינוי: מה זוהה, מה שונה, השערה, תנועה, תוצאה, נשמר או בוטל, ומה הבא</span></div><div class="cards" id="opDec" style="grid-template-columns:minmax(0,1fr)"></div></div>
+    <div class="panel"><div class="panel-h"><h2>לקראת 30.10</h2><span class="note">מה בן ביקש לראות עד סוף השבוע</span></div><dl class="kv" id="opWeek"></dl></div>
+  </section>
 
   <!-- 01 overview -->
   <section class="screen" id="s-ov">
@@ -279,13 +297,20 @@ const CLARITY="yuzolf9nxn", CLURL="https://clarity.microsoft.com/projects/view/"
 function recUrl(s){if(!s||!s.cl)return "";let [u,k]=s.cl.split(".");u=(u||"").split("^")[0];k=(k||"").split("^")[0];return u&&k?"https://clarity.microsoft.com/player/"+CLARITY+"/"+u+"/"+k:""}
 const STG=["נכנס","גלל חצי","ראה את ההצעה","לחץ לרכישה","פתח סליקה","השאיר פרטים","רכש"];
 const SUM=["רק נכנסו","עצרו באמצע","ראו הצעה ולא לחצו","לחצו ולא פתחו סליקה","פתחו סליקה בלי פרטים","השאירו פרטים ולא שילמו","רכשו"];
+/* ניסוי דפי המכירה לפי ההנחיות של בן (26.10). שינוי סטטוס של דף (הוצאה מהניסוי) נרשם כאן וגם ב-DECISIONS */
+const EXP={id:"abc_2610",name:"a/b/c לפי בן",start:new Date("2026-10-26T09:02:52"),arms:["a","b","c"],split:{a:33.3,b:33.3,c:33.4},target:"30.10.2026",minN:300,minBuy:20};
+const ARM_STATE={}; /* למשל c:{status:"stopped",at:"2026-10-28 10:00",why:"..."} */
+const CO_ARMS=[{id:"A",name:"סליקה A - הקיימת",live:true},{id:"B",name:"סליקה B - משופרת",live:false,why:"הצעה מוכנה במסמך, ממתינה לאישור. לא רצה"}];
+const DECISIONS=[
+ {at:"2026-10-26 09:02",detected:"הדפים שרצו מ-20.10 (a2/b2/c2) אינם שלושת הדפים שבן הגדיר לניסוי, והחלוקה הקודמת נטתה מעט (33.6/33.2/33.2)",problem:"אי אפשר לבחור בין a/b/c בלי ניסוי נקי עליהם",change:"go.html מחלק את כל תנועת המודעות ל-a/b/c בשליש מדויק, עם שיוך קבוע לדפדפן ו-exp=abc_2610 על כל ביקור. c.html קיבל את הקופי של בן בשלושה אזורים (הגרסה הקודמת נשמרה ב-nlp/archive)",hyp:"מסר שמתיישר עם המודעות (הטמעה, רגש ומחשבה, כלים יומיומיים) יעלה את המעבר לסליקה ואת הרכישות",traffic:"live",result:"בבדיקה",kept:"פעיל",next:"כשדף יעמוד בכלל ההסרה: להוציא אותו ולחלק 50/50 בין השניים. ניסוי סליקה B אחרי אישור"}];
 const EXPERIMENTS=[
- {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"פעיל",decision:""},
+ {id:"abc_2610",name:"a/b/c לפי בן (26.10)",hyp:"איזה משלושת הדפים מייצר הכי הרבה רכישות למבקר",change:"שלושה דפים שלמים; c עם הקופי החדש של בן",arms:"a, b, c בשליש מדויק, שיוך קבוע (go.html, exp=abc_2610)",start:"2026-10-26",end:"",split:"33.3/33.3/33.4",primary:"רכישות מאומתות למבקר",secondary:"הגעה לסליקה, השלמת תשלום, גלילה, זמן פעיל",guard:"חלוקה תקינה (SRM), שגיאות טעינה, סליקות שנכשלו",status:"פעיל",decision:""},
+ {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"2026-10-26",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"הסתיים, הוחלף ב-abc_2610",decision:""},
 ];
 const CHANGELOG=[
- ["2026-10-07","שלושה דפים עם פתיחות שונות (v14-v15)"],["2026-10-08","הוסר אזור 'בחיים עצמם', מספור אזורים תוקן (v16)"],["2026-10-08","סליקה עברה ל-LowProfile בקארדקום"],["2026-10-09","מדידה מורחבת: זמן פעיל, חשיפת אזורים וכפתורים, מכשיר, ביצועים, שלבי סליקה"],["2026-10-09","Clarity: מפות חום והקלטות בדפים ובסליקה"],["2026-10-10","ביקורים מדפדפנים פנימיים מסומנים ומוסתרים, והתראה כשאין ביקורים 6 שעות"]];
+ ["2026-10-07","שלושה דפים עם פתיחות שונות (v14-v15)"],["2026-10-08","הוסר אזור 'בחיים עצמם', מספור אזורים תוקן (v16)"],["2026-10-08","סליקה עברה ל-LowProfile בקארדקום"],["2026-10-09","מדידה מורחבת: זמן פעיל, חשיפת אזורים וכפתורים, מכשיר, ביצועים, שלבי סליקה"],["2026-10-09","Clarity: מפות חום והקלטות בדפים ובסליקה"],["2026-10-10","ביקורים מדפדפנים פנימיים מסומנים ומוסתרים, והתראה כשאין ביקורים 6 שעות"],["2026-10-26","ניסוי abc_2610: go.html → a/b/c בשליש מדויק (09:02)"],["2026-10-26","c.html: קופי חדש של בן בשלושה אזורים, הגרסה הקודמת ב-nlp/archive"]];
 
-let rows=null, spend={}, cspend={}, storedAt=0, range="7", screen="ov", lpVar="a2", showTests=false, fSrc="", fDev="", cFrom="", cTo="", jrStage="", openSid="", openCr="";
+let rows=null, spend={}, cspend={}, storedAt=0, range="7", screen="op", lpVar="a2", showTests=false, fSrc="", fDev="", cFrom="", cTo="", jrStage="", openSid="", openCr="";
 const $=id=>document.getElementById(id);
 function st(){try{return localStorage}catch(e){return null}}
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
@@ -553,6 +578,114 @@ function renderExperiments(M){const S=M.sess.filter(s=>s.go),n=S.length;$("exSta
  table($("exLog"),["תאריך","מה","סטטוס"],EXPERIMENTS.map(e=>'<tr><td>'+e.start+'</td><td><b>ניסוי:</b> '+esc(e.name)+'</td><td>'+esc(e.status)+'</td></tr>').concat(CHANGELOG.slice().reverse().map(c=>'<tr><td>'+c[0]+'</td><td>'+esc(c[1])+'</td><td>הוטמע</td></tr>')));}
 </script>
 <script>
+/* ================= 00 optimization (Ben's doc, section 10) ================= */
+/* סטטיסטיקה: התפלגות Beta(1+k, 1+n-k) לכל דף, והסתברות שהדף הכי טוב / הכי חלש (Monte Carlo עם seed קבוע, כדי שהמספרים לא יקפצו בין רענונים).
+   ההשוואה בין שלושת הדפים יחד מטפלת בהשוואות מרובות; הספים (95%) שמרניים כי מסתכלים על הנתונים כל יום. */
+function rng(seed){return function(){seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return ((t^t>>>14)>>>0)/4294967296}}
+function gammaR(a,R){if(a<1)return gammaR(a+1,R)*Math.pow(R(),1/a);const d=a-1/3,c=1/Math.sqrt(9*d);for(;;){let x,v;do{const u1=R()||1e-12,u2=R();x=Math.sqrt(-2*Math.log(u1))*Math.cos(2*Math.PI*u2);v=1+c*x}while(v<=0);v=v*v*v;const u=R();if(u<1-.0331*x*x*x*x||Math.log(u)<.5*x*x+d*(1-v+Math.log(v)))return d*v}}
+const PB_CACHE={};
+function pBest(arms){const key=arms.map(a=>a.k+"/"+a.n).join(",");if(PB_CACHE[key])return PB_CACHE[key];
+ const R=rng(2610),N=20000,best=arms.map(()=>0),worst=arms.map(()=>0);
+ for(let i=0;i<N;i++){let bi=0,wi=0,bv=-1,wv=2;arms.forEach((a,j)=>{const x=gammaR(1+a.k,R),y=gammaR(1+Math.max(0,a.n-a.k),R),p=x/(x+y);if(p>bv){bv=p;bi=j}if(p<wv){wv=p;wi=j}});best[bi]++;worst[wi]++}
+ return PB_CACHE[key]=arms.map((_,j)=>({best:best[j]/N,worst:worst[j]/N}))}
+/* בדיקת חלוקה (SRM): חי בריבוע מול החלוקה המתוכננת */
+function srm(obs,exp){const n=obs.reduce((a,b)=>a+b,0);if(n<30)return null;let x=0;obs.forEach((o,i)=>{const e=n*exp[i];x+=(o-e)*(o-e)/e});const df=obs.length-1;
+ const p=df===1?erfc(Math.sqrt(x/2)):df===2?Math.exp(-x/2):null;return {x,p}}
+function erfc(z){const t=1/(1+.5*z),r=t*Math.exp(-z*z-1.26551223+t*(1.00002368+t*(.37409196+t*(.09678418+t*(-.18628806+t*(.27886807+t*(-1.13520398+t*(1.48851587+t*(-.82215223+t*.17087277)))))))));return z>=0?r:2-r}
+const pp=x=>x==null?"-":(x*100<1&&x>0?"<1":Math.round(x*100))+"%";
+
+function optModel(){
+ const now=new Date(),M=build(EXP.start,new Date(+now+864e5));
+ const inExp=s=>EXP.arms.includes(s.v)&&s.p.get("exp")===EXP.id&&s.t>=EXP.start;
+ const S=M.sess.filter(inExp), sids=new Set(S.map(s=>s.sid));
+ const buys=M.buys.filter(b=>b.s&&sids.has(b.sid)), orphan=M.buys.filter(b=>!(b.s&&sids.has(b.sid))).length, buySid=new Set(buys.map(b=>b.sid));
+ const active=EXP.arms.filter(v=>!(ARM_STATE[v]&&ARM_STATE[v].status==="stopped"));
+ const arms=EXP.arms.map(v=>{const A=S.filter(s=>s.v===v),V={};
+  /* מבקר ייחודי = מזהה דפדפן (vid), ואם חסר - הביקור עצמו */
+  A.forEach(s=>{const k=s.vid||s.sid,o=V[k]||(V[k]={chk:false,cstart:false,pay:false,cta:false,buy:false,offer:false,scroll:0,act:0,dv:s.dv,meta:s.src==="מודעות Meta",app:s.app});
+   o.chk=o.chk||s.chk;o.cstart=o.cstart||s.cstart;o.pay=o.pay||s.pay;o.cta=o.cta||s.cta;o.offer=o.offer||s.offer;o.scroll=Math.max(o.scroll,s.scroll);o.act=Math.max(o.act,s.act||0);if(buySid.has(s.sid))o.buy=true});
+  const L=Object.values(V),n=L.length,B=buys.filter(b=>b.s.v===v),cnt=f=>L.filter(f).length;
+  const o={v,A,L,n,entries:A.length,chk:cnt(x=>x.chk),cstart:cnt(x=>x.cstart),pay:cnt(x=>x.pay),cta:cnt(x=>x.cta),offer:cnt(x=>x.offer),r50:cnt(x=>x.scroll>=50),
+   sc:[25,50,75,100].map(d=>cnt(x=>x.scroll>=d)),act:median(L.map(x=>x.act||null)),buy:B.length,buyers:cnt(x=>x.buy),rev:B.reduce((a,b)=>a+b.amt,0),
+   mob:cnt(x=>x.dv==="m"),meta:cnt(x=>x.meta),ig:cnt(x=>x.app==="ig"),clicks:A.reduce((a,s)=>a+s.ctas.length,0),stopped:!active.includes(v)};
+  o.buyR=n?o.buy/n:0;o.chkR=n?o.chk/n:0;o.compl=o.chk?Math.min(1,o.buy/o.chk):0;o.scr=n?o.sc.reduce((a,b)=>a+b,0)/4/n:0;o.keep=n?o.offer/n:0;o.ctaR=n?o.cta/n:0;
+  /* אזורי נטישה: הירידה הגדולה בין אזור לבא (רק אזורים שהגיעו אליהם לפחות 10) */
+  const N=M.secNames[v],K=Math.max(M.secCount[v],...A.map(s=>s.secs||0),0),drops=[];
+  for(let k=1;k<K;k++){const reach=A.filter(s=>s.sec>=k||s.secT[k]>0).length,next=A.filter(s=>s.sec>=k+1||s.secT[k+1]>0).length;if(reach>=10)drops.push({k,name:N[k]||"אזור "+k,reach,next,drop:1-next/reach,exit:A.filter(s=>!s.chk&&s.sec===k).length})}
+  o.drops=drops.sort((a,b)=>b.drop-a.drop);return o});
+ const live=arms.filter(a=>!a.stopped),W=[["buyR",40],["chkR",25],["compl",15],["scr",8],["act",5],["keep",5],["ctaR",2]];
+ live.forEach(a=>{a.score=W.reduce((t,[k,w])=>{const mx=Math.max(...live.map(x=>x[k]||0));return t+(mx>0?w*(a[k]||0)/mx:0)},0)});
+ const pb=pBest(live.map(a=>({k:a.buy,n:a.n}))),pc=pBest(live.map(a=>({k:a.chk,n:a.n})));live.forEach((a,i)=>{a.pBuy=pb[i];a.pChk=pc[i]});
+ const minN=live.length?Math.min(...live.map(a=>a.n)):0,totBuy=live.reduce((t,a)=>t+a.buy,0);
+ const byBuy=[...live].sort((a,b)=>b.pBuy.best-a.pBuy.best),byChk=[...live].sort((a,b)=>b.pChk.best-a.pChk.best);
+ const lead=totBuy>=3?byBuy[0]:byChk[0],leadP=lead?(totBuy>=3?lead.pBuy.best:lead.pChk.best):0,leadOn=totBuy>=3?"רכישות":"הגעה לסליקה (אינדיקציה מוקדמת)";
+ /* מנצח: כל דף פעיל ≥300 מבקרים, ≥95% שהוא הטוב ברכישות, ולפחות 20 רכישות שלו (או 99% אם אין עדיין 20) */
+ const win=live.length>1&&minN>=EXP.minN&&byBuy[0]&&(byBuy[0].pBuy.best>=.95&&byBuy[0].buy>=EXP.minBuy||byBuy[0].pBuy.best>=.99)?byBuy[0]:null;
+ /* הוצאה מהניסוי (החלטה זמנית לפי בן): ≥300 מבקרים בכל דף, ≥95% שהוא החלש בהגעה לסליקה, ≥80% שהוא החלש גם ברכישות, ופחות מ-5% שהוא הטוב ברכישות */
+ live.forEach(a=>{a.cut=live.length>1&&minN>=EXP.minN&&a.pChk.worst>=.95&&a.pBuy.worst>=.8&&a.pBuy.best<.05});
+ const level=win?["גבוה","good"]:minN>=EXP.minN&&leadP>=.8?["בינוני","warn"]:["נמוך","off"];
+ live.forEach(a=>{a.status=win===a?"מנצח":!win&&lead===a&&minN>=50&&leadP>=.5?"מוביל":"בבדיקה"});arms.filter(a=>a.stopped).forEach(a=>a.status="הופסק");
+ const hrs=Math.max(.1,(now-EXP.start)/36e5),sr=srm(live.map(a=>a.entries),live.map(a=>EXP.split[a.v]/live.reduce((t,x)=>t+EXP.split[x.v],0)));
+ const sp=spendIn(new Date(EXP.start.getFullYear(),EXP.start.getMonth(),EXP.start.getDate()),new Date(+now+864e5)),totN=live.reduce((t,a)=>t+a.n,0);
+ arms.forEach(a=>{a.spEst=sp!=null&&totN?sp*a.n/totN:null;a.cpa=a.spEst!=null&&a.buy?a.spEst/a.buy:null;a.roas=a.spEst?a.rev/a.spEst:null});
+ return {M,S,arms,live,buys,orphan,minN,totBuy,lead,leadP,leadOn,win,level,hrs,sr,sp,totN}}
+
+function renderOpt(){const O=optModel(),{arms,live}=O,X=arms;
+ const fmtH=h=>h<48?Math.round(h)+" שעות":(h/24).toFixed(1)+" ימים";
+ const rate=O.minN/O.hrs,eta=rate>0?(EXP.minN-O.minN)/rate:null;
+ $("opMeta").className="banner"+(O.sr&&O.sr.p<.001?" crit":"");
+ $("opMeta").innerHTML='<b>ניסוי '+esc(EXP.id)+'</b> · רץ '+fmtH(O.hrs)+' (מ-26.10 09:02) · '+fmt(O.totN)+' מבקרים ייחודיים · '+fmt(O.totBuy)+' רכישות מאומתות בניסוי'+(O.orphan?' · '+O.orphan+' רכישות בתקופה בלי שיוך לניסוי':'')+(O.totN?
+  ' · חלוקה בפועל: '+live.map(a=>a.v+" "+pf(pct(a.entries,live.reduce((t,x)=>t+x.entries,0))||0)).join(" / ")+(O.sr?(O.sr.p<.001?' <b>· החלוקה חורגת מהמתוכנן (SRM), לבדוק את go.html</b>':' · תקינה'):''):'')+
+  '<br><span class="note">התקופה כאן קבועה: מתחילת הניסוי הנקי, בלי קשר לבורר התקופה למעלה. סינון מקור ומכשיר כן חל.</span>';
+ const pill=st=>'<span class="pill '+({"מנצח":"good","מוביל":"neutral","הופסק":"off","בבדיקה":"warn"}[st])+'">'+st+'</span>';
+ const prog=(x,t)=>'<span class="minibar" style="width:'+Math.round(Math.min(1,x/t)*48)+'px"></span>';
+ const best=(k,inv)=>{const v=live.filter(a=>a.n>=10).map(a=>a[k]).filter(x=>x!=null&&isFinite(x));return v.length>1?(inv?Math.min(...v):Math.max(...v)):null};
+ const td=(a,k,html,inv)=>{const b=best(k,inv);return '<td class="'+(b!=null&&a[k]===b&&a.n>=10&&!a.stopped?"best":"")+'">'+html+'</td>'};
+ const R=[
+  ["סטטוס",a=>'<td>'+pill(a.status)+(a.cut?' <span class="pill crit">עומד בכלל ההסרה</span>':'')+(a.stopped&&ARM_STATE[a.v].why?'<small>'+esc(ARM_STATE[a.v].why)+'</small>':'')+'</td>'],
+  ["ציון משוקלל (מתוך 100)",a=>a.stopped?'<td class="na">-</td>':td(a,"score",'<b>'+Math.round(a.score||0)+'</b><small>יחסי לדף הטוב בכל מדד</small>')],
+  ["רמת ביטחון בהחלטה",a=>a.stopped?'<td class="na">-</td>':O.totN<30?'<td class="na">נתונים מעטים</td>':'<td>'+pp(a.pBuy.best)+' שהוא הטוב ברכישות<small>'+pp(a.pChk.best)+' שהוא הטוב בהגעה לסליקה</small></td>'],
+  ["מבקרים ייחודיים",a=>'<td>'+fmt(a.n)+prog(a.n,EXP.minN)+'<small>'+fmt(a.n)+'/'+EXP.minN+' לסף · '+fmt(a.entries)+' כניסות</small></td>'],
+  ["שיעור הגעה לסליקה",a=>td(a,"chkR",pf(pct(a.chk,a.n))+'<small>'+a.chk+'/'+a.n+' הגיעו בפועל לדף הסליקה</small>')],
+  ["התחילו תשלום",a=>'<td>'+pf(pct(a.cstart,a.n))+'<small>'+a.cstart+' מילאו פרטים · '+a.pay+' ראו טופס אשראי</small></td>'],
+  ["רכישות",a=>td(a,"buy",'<b>'+a.buy+'</b>'+prog(a.buy,EXP.minBuy)+'<small>'+a.buy+'/'+EXP.minBuy+' לסף</small>')],
+  ["שיעור המרה לרכישה",a=>{const w=wilson(a.buy,a.n);return td(a,"buyR",pf(pct(a.buy,a.n))+'<small>'+(a.n?w[0].toFixed(1)+"% - "+w[1].toFixed(1)+"% (95%)":"")+'</small>')}],
+  ["השלמה מתוך המגיעים לסליקה",a=>td(a,"compl",pf(pct(a.buy,a.chk))+'<small>'+a.buy+'/'+a.chk+'</small>')],
+  ["עלות לרכישה",a=>'<td>'+(a.cpa!=null?ils(a.cpa)+'<small>הערכה: הוצאה × חלק התנועה</small>':'<span class="na">'+(O.sp==null?"אין הוצאה מוזנת":"אין רכישות")+'</span>')+'</td>'],
+  ["הכנסות",a=>'<td>'+ils(a.rev)+'<small>'+(a.roas!=null?"ROAS "+a.roas.toFixed(2)+" (הערכה)":"ROAS: חסרה הוצאה")+'</small></td>'],
+  ["זמן שהייה פעילה (חציון)",a=>td(a,"act",secs(a.act))],
+  ["עומק גלילה 25/50/75/100",a=>'<td>'+a.sc.map(k=>pf(pct(k,a.n))).join(" / ")+'</td>'],
+  ["אזור הנטישה המרכזי",a=>'<td>'+(a.drops[0]?esc(a.drops[0].k+". "+a.drops[0].name)+'<small>'+pf(a.drops[0].drop*100)+' לא המשיכו ('+(a.drops[0].reach-a.drops[0].next)+'/'+a.drops[0].reach+')</small>':'<span class="na">צריך לפחות 10 מבקרים באזור</span>')+'</td>'],
+  ["לחיצות על כפתורי רכישה",a=>td(a,"ctaR",pf(pct(a.cta,a.n))+'<small>'+a.clicks+' קליקים</small>')],
+  ["איכות תנועה",a=>'<td>'+pf(pct(a.mob,a.n))+' מובייל<small>'+pf(pct(a.meta,a.n))+' ממודעות Meta · '+pf(pct(a.ig,a.n))+' בדפדפן אינסטגרם</small></td>']];
+ table($("opTable"),["מדד"].concat(X.map(a=>'<i class="sw" style="background:'+VCOL[a.v]+'"></i>'+VLBL[a.v])),R.map(([l,f])=>'<tr><td>'+l+'</td>'+X.map(f).join("")+'</tr>'));
+ $("opRule").innerHTML='<b>רמת ביטחון כרגע: <span class="pill '+O.level[1]+'">'+O.level[0]+'</span></b> · מוביל לפי '+esc(O.leadOn)+': '+(O.lead?O.lead.v+" ("+pp(O.leadP)+")":"-")+
+  '. כללים: מנצח רק כשבכל דף ≥'+EXP.minN+' מבקרים, יש ≥95% שהוא הטוב ברכישות ולו ≥'+EXP.minBuy+' רכישות (או ≥99%). הוצאת דף חלש (החלטה זמנית): ≥'+EXP.minN+' מבקרים בכל דף, ≥95% שהוא החלש בהגעה לסליקה, ≥80% שהוא החלש גם ברכישות. הציון המשוקלל (רכישות 40, הגעה לסליקה 25, השלמה 15, גלילה 8, זמן פעיל 5, הגעה להצעה 5, לחיצות 2) הוא כלי אבחון ולא מכריע לבדו.';
+ const ST=[["נכנסו לדף",a=>a.n],["התקדמו בתוכן (50%)",a=>a.r50],["לחצו לרכישה",a=>a.cta],["הגיעו לסליקה",a=>a.chk],["התחילו תשלום",a=>a.cstart],["רכישה מוצלחת",a=>a.buyers]];
+ table($("opFunnel"),["שלב"].concat(X.map(a=>a.v)),ST.map(([l,f],i)=>'<tr><td>'+l+'</td>'+X.map(a=>{const p=pct(f(a),a.n);return '<td>'+pf(p)+'<span class="minibar" style="width:'+Math.round((p||0)*.5)+'px;background:'+VCOL[a.v]+'"></span><small>'+fmt(f(a))+(i?' · '+pf(pct(f(a),ST[i-1][1](a)))+' מהקודם':'')+'</small></td>'}).join("")+'</tr>'),"עוד אין ביקורים בניסוי");
+ /* מה זוהה */
+ const C=[];
+ if(O.sr&&O.sr.p<.001)C.push({level:"crit",title:"החלוקה בפועל לא תואמת לשליש",data:"חי בריבוע "+O.sr.x.toFixed(1)+", p<0.001",action:"לבדוק את go.html ואם יש מודעות שמפנות ישירות לדף אחד",tag:"תקינות ניסוי"});
+ C.push({level:O.minN>=EXP.minN?"good":"info",title:O.minN>=EXP.minN?"כל הדפים עברו את סף 300 המבקרים":"עוד אין מספיק מבקרים להכרעה",data:"בדף הקטן "+fmt(O.minN)+"/"+EXP.minN+(O.hrs>=6?" · קצב "+(rate*24).toFixed(0)+" ליום לדף"+(eta!=null&&eta>0?" · צפי לסף בעוד כ-"+fmtH(eta):""):" · קצב וצפי יוצגו אחרי 6 שעות ריצה"),action:O.minN>=EXP.minN?"להמשיך לפי כללי ההחלטה":"להמשיך להריץ, לא להסיק מסקנות",conf:conf(O.minN,O.totBuy),tag:"גודל מדגם"});
+ if(O.lead&&O.totN>=30)C.push({level:"info",title:"מוביל זמני: "+O.lead.v,data:pp(O.leadP)+" שהוא הטוב ב"+O.leadOn,action:O.win?"להעביר 100% לדף המנצח ולשמור את האחרים":"אות מוקדם בלבד, לא הכרזה",conf:conf(O.minN,O.totBuy),tag:"הובלה"});
+ live.filter(a=>a.cut).forEach(a=>C.push({level:"warn",title:"דף "+a.v+" עומד בכלל ההסרה",data:pp(a.pChk.worst)+" שהוא החלש בהגעה לסליקה, "+pp(a.pBuy.worst)+" ברכישות",action:"להוציא אותו מ-go.html ולחלק 50/50, לתעד כאן ובמסמך",tag:"החלטה זמנית"}));
+ live.forEach(a=>{const d=a.drops[0];if(d&&d.reach>=30&&d.drop>=.35)C.push({level:"info",title:"דף "+a.v+": ירידה חדה אחרי “"+d.name+"”",data:pf(d.drop*100)+" לא המשיכו לאזור הבא ("+(d.reach-d.next)+"/"+d.reach+")",action:"לעקוב אם הדפוס חוזר כמה ימים. השערה לבדיקה בגרסת ניסוי, לא מסקנה",conf:conf(d.reach,d.reach-d.next),tag:"נטישה"})});
+ live.forEach(a=>{if(a.chk>=8&&a.buy/a.chk<.15)C.push({level:"warn",title:"דף "+a.v+": מגיעים לסליקה ולא משלמים",data:a.buy+"/"+a.chk+" השלימו",action:"לבדוק את הסליקה (מקרה ד אצל בן), לא לשנות את דף המכירה",conf:conf(a.chk,a.buy),tag:"סליקה"});
+  if(a.cta>=8&&a.chk/a.cta<.75)C.push({level:"warn",title:"דף "+a.v+": לוחצים ולא מגיעים לסליקה",data:a.chk+"/"+a.cta+" מהלוחצים הגיעו",action:"לבדוק מהירות מעבר ודפדפן אינסטגרם (מקרה ג)",conf:conf(a.cta,a.chk),tag:"מעבר"})});
+ $("opSeen").innerHTML=C.map(card).join("");
+ table($("opExit"),["דף","אזור","הגיעו","לא המשיכו","יצאו כאן"],X.flatMap(a=>a.drops.slice(0,3).map((d,i)=>'<tr><td>'+(i?"":'<i class="sw" style="background:'+VCOL[a.v]+'"></i>'+a.v)+'</td><td>'+esc(d.k+". "+d.name)+'</td><td>'+d.reach+'</td><td>'+pf(d.drop*100)+'<small>'+(d.reach-d.next)+'</small></td><td>'+d.exit+'</td></tr>')),"צריך לפחות 10 מבקרים באזור כדי להציג");
+ table($("opDev"),["דף","מכשיר","מבקרים","הגעה לסליקה","רכישות"],X.flatMap(a=>[["m","מובייל"],["d","מחשב"]].map(([k,l],i)=>{const L=a.L.filter(x=>x.dv===k);return '<tr><td>'+(i?"":a.v)+'</td><td>'+l+'</td><td>'+L.length+'</td>'+cell(L.filter(x=>x.chk).length,L.length)+'<td>'+L.filter(x=>x.buy).length+'</td></tr>'})),"עוד אין ביקורים");
+ /* סליקה: כרגע רק A רצה. כל מי שהגיע לסליקה מהניסוי נספר ב-A */
+ const CS=O.S.filter(s=>s.chk),cv=CS.length,cst=CS.filter(s=>s.cstart).length,cdt=CS.filter(s=>s.det).length,cpy=CS.filter(s=>s.pay).length,cfail=CS.filter(s=>s.fail).length,cbuy=O.buys.length,crev=O.buys.reduce((t,b)=>t+b.amt,0);
+ const tPay=median(O.buys.map(b=>{const s=b.s,a=s&&s.ev.find(r=>r.ev==="checkout_view");return a?(b.t-a.t)/1000:null}));
+ const coRows=[["הגיעו לסליקה",fmt(cv)],["התחילו להזין פרטים",pf(pct(cst,cv))+'<small>'+cst+'/'+cv+'</small>'],["השלימו פרטים",pf(pct(cdt,cv))+'<small>'+cdt+'/'+cv+'</small>'],["טופס אשראי הוצג",pf(pct(cpy,cv))+'<small>'+cpy+'/'+cv+'</small>'],["ניסיונות תשלום",'<span class="na">לא זמין מקארדקום</span>'],["תשלומים מוצלחים",'<b>'+cbuy+'</b>'],["תשלומים שנכשלו",String(cfail)],["נטשו בלי לשלם",fmt(Math.max(0,cv-cbuy))],["שיעור השלמת תשלום",pf(pct(cbuy,cv))],["זמן להשלמת תשלום (חציון)",secs(tPay)],["הכנסה למבקר בסליקה",cv?(crev/cv).toFixed(1)+" ₪":"-"],["ציון משוקלל","<span class='na'>דורש שתי גרסאות</span>"]];
+ table($("opCo"),["מדד"].concat(CO_ARMS.map(c=>esc(c.name)+(c.live?'':' <span class="pill off">לא פעיל</span>'))),coRows.map(([l,v])=>'<tr><td>'+l+'</td><td>'+v+'</td><td class="na">-</td></tr>'));
+ $("opCoNote").textContent="סליקה B: "+CO_ARMS[1].why+". ניסוי 50/50 יעלה רק אחרי אישור, ורק כשאפשר להפריד את השפעת הסליקה מהשפעת דף המכירה (בן, סעיף 13).";
+ $("opDec").innerHTML=DECISIONS.slice().reverse().map(d=>'<div class="card info"><div class="t">'+esc(d.at)+' · '+esc(d.change.split(".")[0])+'</div><dl class="kv"><dt>מה זוהה</dt><dd>'+esc(d.detected)+'</dd><dt>הבעיה</dt><dd>'+esc(d.problem)+'</dd><dt>השינוי</dt><dd>'+esc(d.change)+'</dd><dt>השערה</dt><dd>'+esc(d.hyp)+'</dd><dt>תנועה בניסוי</dt><dd>'+(d.traffic==="live"?fmt(O.totN)+" מבקרים ייחודיים עד עכשיו":esc(d.traffic))+'</dd><dt>תוצאה</dt><dd>'+esc(d.result)+(d.traffic==="live"?" · רמת ביטחון "+O.level[0]:"")+'</dd><dt>נשמר או בוטל</dt><dd>'+esc(d.kept)+'</dd><dt>הניסוי הבא</dt><dd>'+esc(d.next)+'</dd></dl></div>').join("");
+ const stopped=arms.filter(a=>a.stopped);
+ $("opWeek").innerHTML='<dt>דף מוביל</dt><dd>'+(O.win?'<b>'+O.win.v+'</b> (מנצח)':O.lead&&O.totN>=30?O.lead.v+' - מוביל זמני, '+pp(O.leadP)+' לפי '+esc(O.leadOn):'אין מספיק נתונים')+'</dd><dt>דפים שהוסרו</dt><dd>'+(stopped.length?stopped.map(a=>a.v+": "+esc(ARM_STATE[a.v].why||"")).join(" · "):"אין")+'</dd><dt>רכישות מכל דף</dt><dd>'+X.map(a=>a.v+" "+a.buy).join(" · ")+'</dd><dt>רמת ביטחון</dt><dd>'+O.level[0]+'</dd><dt>דפוסי נטישה</dt><dd>'+(X.filter(a=>a.drops[0]).map(a=>a.v+": "+esc(a.drops[0].name)+" ("+pf(a.drops[0].drop*100)+")").join(" · ")||"עוד אין מספיק נתונים")+'</dd><dt>שינויים שנבדקו</dt><dd>'+DECISIONS.length+' (ראו החלטות אוטונומיות)</dd><dt>שינויים שהוכחו</dt><dd>'+(DECISIONS.filter(d=>d.kept==="נשמר").length||"עדיין אין")+'</dd><dt>הניסוי הבא</dt><dd>'+esc(DECISIONS[DECISIONS.length-1].next)+'</dd>';}
+</script>
+<script>
 /* ================= 07 insights: rules ================= */
 function recommend(M,A,B){const R=[],cr=creativeStats(M,B),bn=bottleneck(A);
  const add=(p,o)=>R.push(Object.assign({p},o));
@@ -625,7 +758,7 @@ function renderDQ(M){const now=Date.now(),last=ev=>{for(let i=rows.length-1;i>=0
 function activeVars(B){const s=new Set();rows.forEach(r=>{if(r.t>=B.pa&&r.t<B.b&&(showTests||!isTest(r)))s.add(r.variant)});const v=ALLV.filter(x=>s.has(x));return v.length?v:ALLV.slice(0,3)}
 function render(){if(!rows)return;const B=bounds();VARS=activeVars(B);if(!VARS.includes(lpVar))lpVar=VARS[0];document.querySelectorAll("#lpVar button").forEach(b=>{b.hidden=!VARS.includes(b.dataset.v)});const M=build(B.a,B.b),P=build(B.pa,B.pb),A=aggregate(M,B.a,B.b),PA=aggregate(P,B.pa,B.pb);
  const srcs=[...new Set(rows.filter(r=>VARS.includes(r.variant)&&(showTests||!isTest(r))).map(r=>source(qsObj(r.qs))))].sort();const fs=$("fSrc");if(fs.options.length-1!==srcs.length){const cur=fs.value;fs.innerHTML='<option value="">כל המקורות</option>'+srcs.map(s=>'<option'+(s===cur?" selected":"")+'>'+esc(s)+'</option>').join("")}
- try{({ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>renderCheckout(M),jr:()=>renderJourneys(M),ex:()=>renderExperiments(M),in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M)})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
+ try{({op:()=>renderOpt(),ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>renderCheckout(M),jr:()=>renderJourneys(M),ex:()=>renderExperiments(M),in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M)})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
  if(storedAt)$("fresh").textContent="· עודכן "+new Date(storedAt).toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});}
 function status(msg,kind){const s=$("status");if(!msg){s.hidden=true;return}s.className="banner "+(kind||"");s.textContent=msg;s.hidden=false;}
 function tsvRows(text){return text.split("\n").filter(l=>l.trim()).map(l=>{const a=l.split("\t"),o={};COLS.forEach((k,i)=>o[k]=a[i]||"");o.t=new Date((o.ts||"").replace(" ","T"));return o}).filter(r=>!isNaN(r.t)).sort((a,b)=>a.t-b.t)}
