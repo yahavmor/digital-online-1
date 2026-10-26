@@ -298,7 +298,7 @@ function recUrl(s){if(!s||!s.cl)return "";let [u,k]=s.cl.split(".");u=(u||"").sp
 const STG=["נכנס","גלל חצי","ראה את ההצעה","לחץ לרכישה","פתח סליקה","השאיר פרטים","רכש"];
 const SUM=["רק נכנסו","עצרו באמצע","ראו הצעה ולא לחצו","לחצו ולא פתחו סליקה","פתחו סליקה בלי פרטים","השאירו פרטים ולא שילמו","רכשו"];
 /* ניסוי דפי המכירה לפי ההנחיות של בן (26.10). שינוי סטטוס של דף (הוצאה מהניסוי) נרשם כאן וגם ב-DECISIONS */
-const EXP={id:"abc_2610",name:"a/b/c לפי בן",start:new Date("2026-10-26T09:02:52"),arms:["a","b","c"],split:{a:33.3,b:33.3,c:33.4},target:"30.10.2026",minN:300,minBuy:20};
+const EXP={id:"abc_2610",name:"a/b/c לפי בן",start:new Date("2026-10-26T09:02:52"),arms:["a","b","c"],split:{a:33.3,b:33.3,c:33.4},target:"30.10.2026",minN:300,minBuy:20,cut:{total:100,perPage:25,events:5,p:.9,ratio:.5,buyFrom:3}};
 /* שינויים זהים בשלושת הדפים בזמן הניסוי: מפרידים לפני/אחרי בלשונית האופטימיזציה */
 const EXP_PHASE={at:new Date("2026-10-26T19:32:49"),label:"עדויות וואטסאפ חדשות בשלושת הדפים"}; let opPhase="all";
 const ARM_STATE={}; /* למשל c:{status:"stopped",at:"2026-10-28 10:00",why:"..."} */
@@ -311,7 +311,7 @@ const EXPERIMENTS=[
  {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"2026-10-26",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"הסתיים, הוחלף ב-abc_2610",decision:""},
 ];
 const CHANGELOG=[
- ["2026-10-07","שלושה דפים עם פתיחות שונות (v14-v15)"],["2026-10-08","הוסר אזור 'בחיים עצמם', מספור אזורים תוקן (v16)"],["2026-10-08","סליקה עברה ל-LowProfile בקארדקום"],["2026-10-09","מדידה מורחבת: זמן פעיל, חשיפת אזורים וכפתורים, מכשיר, ביצועים, שלבי סליקה"],["2026-10-09","Clarity: מפות חום והקלטות בדפים ובסליקה"],["2026-10-10","ביקורים מדפדפנים פנימיים מסומנים ומוסתרים, והתראה כשאין ביקורים 6 שעות"],["2026-10-26","ניסוי abc_2610: go.html → a/b/c בשליש מדויק (09:02)"],["2026-10-26","c.html: קופי חדש של בן בשלושה אזורים, הגרסה הקודמת ב-nlp/archive"],["2026-10-26","2026-10-26 19:32: 4 עדויות וואטסאפ חדשות בשלושת הדפים; a2/b2/c2 מפנים ל-go.html"]];
+ ["2026-10-07","שלושה דפים עם פתיחות שונות (v14-v15)"],["2026-10-08","הוסר אזור 'בחיים עצמם', מספור אזורים תוקן (v16)"],["2026-10-08","סליקה עברה ל-LowProfile בקארדקום"],["2026-10-09","מדידה מורחבת: זמן פעיל, חשיפת אזורים וכפתורים, מכשיר, ביצועים, שלבי סליקה"],["2026-10-09","Clarity: מפות חום והקלטות בדפים ובסליקה"],["2026-10-10","ביקורים מדפדפנים פנימיים מסומנים ומוסתרים, והתראה כשאין ביקורים 6 שעות"],["2026-10-26","ניסוי abc_2610: go.html → a/b/c בשליש מדויק (09:02)"],["2026-10-26","c.html: קופי חדש של בן בשלושה אזורים, הגרסה הקודמת ב-nlp/archive"],["2026-10-26","2026-10-26 19:32: 4 עדויות וואטסאפ חדשות בשלושת הדפים; a2/b2/c2 מפנים ל-go.html"],["2026-10-26","20:56: 4 העדויות החדשות עם השמות ותמונות הפרופיל (באישור בן) במקום המטושטשות; כלל הוצאת דף חלש עודכן לפי בן (100 מבקרים, 90%, חצי מהטוב, 5 הגעות לסליקה, 25 לדף; באישור יהב)"]];
 
 let rows=null, spend={}, cspend={}, storedAt=0, range="7", screen="op", lpVar="a2", showTests=false, fSrc="", fDev="", cFrom="", cTo="", jrStage="", openSid="", openCr="";
 const $=id=>document.getElementById(id);
@@ -625,13 +625,16 @@ function optModel(){
  /* מנצח: כל דף פעיל ≥300 מבקרים, ≥95% שהוא הטוב ברכישות, ולפחות 20 רכישות שלו (או 99% אם אין עדיין 20) */
  const win=live.length>1&&minN>=EXP.minN&&byBuy[0]&&(byBuy[0].pBuy.best>=.95&&byBuy[0].buy>=EXP.minBuy||byBuy[0].pBuy.best>=.99)?byBuy[0]:null;
  /* הוצאה מהניסוי (החלטה זמנית לפי בן): ≥300 מבקרים בכל דף, ≥95% שהוא החלש בהגעה לסליקה, ≥80% שהוא החלש גם ברכישות, ופחות מ-5% שהוא הטוב ברכישות */
- live.forEach(a=>{a.cut=live.length>1&&minN>=EXP.minN&&a.pChk.worst>=.95&&a.pBuy.worst>=.8&&a.pBuy.best<.05});
+ /* כלל הוצאת דף חלש (בן 26.10, ב18): נקודת בדיקה אחרי 100 מבקרים אמיתיים בסך הכול. דף חלש רק אם כל ארבעת התנאים: ≥90% שהוא הגרוע בהגעה לסליקה
+    (מ-3 רכישות ומעלה: ברכישות למבקר), שיעור של לכל היותר חצי מהטוב, ≥5 הגעות לסליקה בסך הכול, ≥25 מבקרים בכל דף. המלצה בלבד - הוצאה רק באישור יהב */
+ const CU=EXP.cut,cutOnBuy=totBuy>=CU.buyFrom,cutKey=cutOnBuy?"buyR":"chkR",totChk=live.reduce((t,a)=>t+a.chk,0),totLive=live.reduce((t,a)=>t+a.n,0),bestRate=Math.max(0,...live.map(a=>a[cutKey]));
+ live.forEach(a=>{const pw=cutOnBuy?a.pBuy.worst:a.pChk.worst;a.cutP=pw;a.cut=live.length>1&&totLive>=CU.total&&minN>=CU.perPage&&totChk>=CU.events&&pw>=CU.p&&bestRate>0&&a[cutKey]<=bestRate*CU.ratio});
  const level=win?["גבוה","good"]:minN>=EXP.minN&&leadP>=.8?["בינוני","warn"]:["נמוך","off"];
  live.forEach(a=>{a.status=win===a?"מנצח":!win&&lead===a&&minN>=50&&leadP>=.5?"מוביל":"בבדיקה"});arms.filter(a=>a.stopped).forEach(a=>a.status="הופסק");
  const hrs=Math.max(.1,(Math.min(+now,+A1)-A0)/36e5),sr=srm(live.map(a=>a.entries),live.map(a=>EXP.split[a.v]/live.reduce((t,x)=>t+EXP.split[x.v],0)));
  const sp=spendIn(new Date(EXP.start.getFullYear(),EXP.start.getMonth(),EXP.start.getDate()),new Date(+now+864e5)),totN=live.reduce((t,a)=>t+a.n,0);
  arms.forEach(a=>{a.spEst=sp!=null&&totN?sp*a.n/totN:null;a.cpa=a.spEst!=null&&a.buy?a.spEst/a.buy:null;a.roas=a.spEst?a.rev/a.spEst:null});
- return {M,S,arms,live,buys,orphan,minN,totBuy,lead,leadP,leadOn,win,level,hrs,sr,sp,totN,A0,A1}}
+ return {M,S,arms,live,buys,orphan,minN,totBuy,lead,leadP,leadOn,win,level,hrs,sr,sp,totN,A0,A1,cutOnBuy,totChk,totLive}}
 
 function renderOpt(){const O=optModel(),{arms,live}=O,X=arms;
  const fmtH=h=>h<48?Math.round(h)+" שעות":(h/24).toFixed(1)+" ימים";
@@ -646,7 +649,7 @@ function renderOpt(){const O=optModel(),{arms,live}=O,X=arms;
  const best=(k,inv)=>{const v=live.filter(a=>a.n>=10).map(a=>a[k]).filter(x=>x!=null&&isFinite(x));return v.length>1?(inv?Math.min(...v):Math.max(...v)):null};
  const td=(a,k,html,inv)=>{const b=best(k,inv);return '<td class="'+(b!=null&&a[k]===b&&a.n>=10&&!a.stopped?"best":"")+'">'+html+'</td>'};
  const R=[
-  ["סטטוס",a=>'<td>'+pill(a.status)+(a.cut?' <span class="pill crit">עומד בכלל ההסרה</span>':'')+(a.stopped&&ARM_STATE[a.v].why?'<small>'+esc(ARM_STATE[a.v].why)+'</small>':'')+'</td>'],
+  ["סטטוס",a=>'<td>'+pill(a.status)+(a.cut?' <span class="pill crit">מומלץ להוציא (באישור יהב)</span>':'')+(a.stopped&&ARM_STATE[a.v].why?'<small>'+esc(ARM_STATE[a.v].why)+'</small>':'')+'</td>'],
   ["ציון משוקלל (מתוך 100)",a=>a.stopped?'<td class="na">-</td>':td(a,"score",'<b>'+Math.round(a.score||0)+'</b><small>יחסי לדף הטוב בכל מדד</small>')],
   ["רמת ביטחון בהחלטה",a=>a.stopped?'<td class="na">-</td>':O.totN<30?'<td class="na">נתונים מעטים</td>':'<td>'+pp(a.pBuy.best)+' שהוא הטוב ברכישות<small>'+pp(a.pChk.best)+' שהוא הטוב בהגעה לסליקה</small></td>'],
   ["מבקרים ייחודיים",a=>'<td>'+fmt(a.n)+prog(a.n,EXP.minN)+'<small>'+fmt(a.n)+'/'+EXP.minN+' לסף · '+fmt(a.entries)+' כניסות</small></td>'],
@@ -664,7 +667,7 @@ function renderOpt(){const O=optModel(),{arms,live}=O,X=arms;
   ["איכות תנועה",a=>'<td>'+pf(pct(a.mob,a.n))+' מובייל<small>'+pf(pct(a.meta,a.n))+' ממודעות Meta · '+pf(pct(a.ig,a.n))+' בדפדפן אינסטגרם</small></td>']];
  table($("opTable"),["מדד"].concat(X.map(a=>'<i class="sw" style="background:'+VCOL[a.v]+'"></i>'+VLBL[a.v])),R.map(([l,f])=>'<tr><td>'+l+'</td>'+X.map(f).join("")+'</tr>'));
  $("opRule").innerHTML='<b>רמת ביטחון כרגע: <span class="pill '+O.level[1]+'">'+O.level[0]+'</span></b> · מוביל לפי '+esc(O.leadOn)+': '+(O.lead?O.lead.v+" ("+pp(O.leadP)+")":"-")+
-  '. כללים: מנצח רק כשבכל דף ≥'+EXP.minN+' מבקרים, יש ≥95% שהוא הטוב ברכישות ולו ≥'+EXP.minBuy+' רכישות (או ≥99%). הוצאת דף חלש (החלטה זמנית): ≥'+EXP.minN+' מבקרים בכל דף, ≥95% שהוא החלש בהגעה לסליקה, ≥80% שהוא החלש גם ברכישות. הציון המשוקלל (רכישות 40, הגעה לסליקה 25, השלמה 15, גלילה 8, זמן פעיל 5, הגעה להצעה 5, לחיצות 2) הוא כלי אבחון ולא מכריע לבדו.';
+  '. כללים: מנצח רק כשבכל דף ≥'+EXP.minN+' מבקרים, יש ≥95% שהוא הטוב ברכישות ולו ≥'+EXP.minBuy+' רכישות (או ≥99%). הוצאת דף חלש (בן 26.10): נקודת בדיקה אחרי '+EXP.cut.total+' מבקרים אמיתיים בסך הכול (עכשיו '+fmt(O.totLive)+'); דף חלש רק אם ≥90% שהוא הגרוע ב'+(O.cutOnBuy?'רכישות למבקר':'הגעה לסליקה')+', השיעור שלו לכל היותר חצי מהטוב, ≥'+EXP.cut.events+' הגעות לסליקה בסך הכול (עכשיו '+O.totChk+') ו-≥'+EXP.cut.perPage+' מבקרים בכל דף. המלצה בלבד, הוצאה באישור יהב. הציון המשוקלל (רכישות 40, הגעה לסליקה 25, השלמה 15, גלילה 8, זמן פעיל 5, הגעה להצעה 5, לחיצות 2) הוא כלי אבחון ולא מכריע לבדו.';
  const ST=[["נכנסו לדף",a=>a.n],["התקדמו בתוכן (50%)",a=>a.r50],["לחצו לרכישה",a=>a.cta],["הגיעו לסליקה",a=>a.chk],["התחילו תשלום",a=>a.cstart],["רכישה מוצלחת",a=>a.buyers]];
  table($("opFunnel"),["שלב"].concat(X.map(a=>a.v)),ST.map(([l,f],i)=>'<tr><td>'+l+'</td>'+X.map(a=>{const p=pct(f(a),a.n);return '<td>'+pf(p)+'<span class="minibar" style="width:'+Math.round((p||0)*.5)+'px;background:'+VCOL[a.v]+'"></span><small>'+fmt(f(a))+(i?' · '+pf(pct(f(a),ST[i-1][1](a)))+' מהקודם':'')+'</small></td>'}).join("")+'</tr>'),"עוד אין ביקורים בניסוי");
  /* מה זוהה */
@@ -672,7 +675,8 @@ function renderOpt(){const O=optModel(),{arms,live}=O,X=arms;
  if(O.sr&&O.sr.p<.001)C.push({level:"crit",title:"החלוקה בפועל לא תואמת לשליש",data:"חי בריבוע "+O.sr.x.toFixed(1)+", p<0.001",action:"לבדוק את go.html ואם יש מודעות שמפנות ישירות לדף אחד",tag:"תקינות ניסוי"});
  C.push({level:O.minN>=EXP.minN?"good":"info",title:O.minN>=EXP.minN?"כל הדפים עברו את סף 300 המבקרים":"עוד אין מספיק מבקרים להכרעה",data:"בדף הקטן "+fmt(O.minN)+"/"+EXP.minN+(O.hrs>=6?" · קצב "+(rate*24).toFixed(0)+" ליום לדף"+(eta!=null&&eta>0?" · צפי לסף בעוד כ-"+fmtH(eta):""):" · קצב וצפי יוצגו אחרי 6 שעות ריצה"),action:O.minN>=EXP.minN?"להמשיך לפי כללי ההחלטה":"להמשיך להריץ, לא להסיק מסקנות",conf:conf(O.minN,O.totBuy),tag:"גודל מדגם"});
  if(O.lead&&O.totN>=30)C.push({level:"info",title:"מוביל זמני: "+O.lead.v,data:pp(O.leadP)+" שהוא הטוב ב"+O.leadOn,action:O.win?"להעביר 100% לדף המנצח ולשמור את האחרים":"אות מוקדם בלבד, לא הכרזה",conf:conf(O.minN,O.totBuy),tag:"הובלה"});
- live.filter(a=>a.cut).forEach(a=>C.push({level:"warn",title:"דף "+a.v+" עומד בכלל ההסרה",data:pp(a.pChk.worst)+" שהוא החלש בהגעה לסליקה, "+pp(a.pBuy.worst)+" ברכישות",action:"להוציא אותו מ-go.html ולחלק 50/50, לתעד כאן ובמסמך",tag:"החלטה זמנית"}));
+ live.filter(a=>a.cut).forEach(a=>C.push({level:"warn",title:"דף "+a.v+" עומד בכלל ההסרה - מומלץ להוציא",data:pp(a.cutP)+" שהוא הגרוע ב"+(O.cutOnBuy?"רכישות למבקר":"הגעה לסליקה")+", "+pf((O.cutOnBuy?a.buyR:a.chkR)*100)+" מול הטוב",action:"לשלוח ליהב לאישור. אחרי אישור: go.html 50/50 בין השניים, ותיעוד כאן ובמסמך",tag:"המלצה"}));
+ if(O.totLive<EXP.cut.total)C.push({level:"info",title:"נקודת הבדיקה הראשונה: "+fmt(O.totLive)+"/"+EXP.cut.total+" מבקרים אמיתיים",data:"הגעות לסליקה עד עכשיו: "+O.totChk+" (צריך לפחות "+EXP.cut.events+")",action:"להמשיך. אחרי 100 בודקים את כלל ההסרה",tag:"נקודת בדיקה"});
  live.forEach(a=>{const d=a.drops[0];if(d&&d.reach>=30&&d.drop>=.35)C.push({level:"info",title:"דף "+a.v+": ירידה חדה אחרי “"+d.name+"”",data:pf(d.drop*100)+" לא המשיכו לאזור הבא ("+(d.reach-d.next)+"/"+d.reach+")",action:"לעקוב אם הדפוס חוזר כמה ימים. השערה לבדיקה בגרסת ניסוי, לא מסקנה",conf:conf(d.reach,d.reach-d.next),tag:"נטישה"})});
  live.forEach(a=>{if(a.chk>=8&&a.buy/a.chk<.15)C.push({level:"warn",title:"דף "+a.v+": מגיעים לסליקה ולא משלמים",data:a.buy+"/"+a.chk+" השלימו",action:"לבדוק את הסליקה (מקרה ד אצל בן), לא לשנות את דף המכירה",conf:conf(a.chk,a.buy),tag:"סליקה"});
   if(a.cta>=8&&a.chk/a.cta<.75)C.push({level:"warn",title:"דף "+a.v+": לוחצים ולא מגיעים לסליקה",data:a.chk+"/"+a.cta+" מהלוחצים הגיעו",action:"לבדוק מהירות מעבר ודפדפן אינסטגרם (מקרה ג)",conf:conf(a.cta,a.chk),tag:"מעבר"})});
