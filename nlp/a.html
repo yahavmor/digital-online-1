@@ -595,7 +595,9 @@ video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--font);font-wei
 .stack6 .s6-sub b{font-weight:700;color:var(--gold2)}
 .stack6 .tot{border-top:1px solid var(--gold-a)}
 </style>
-<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","1278104408729813");fbq("init","1651086743466533");fbq("track","PageView");fbq("track","ViewContent",{content_name:"השיטה - הקורס המלא",value:297,currency:"ILS"});</script>
+<script>/* ב23: בלי פיקסל לסריקות Meta (חתימת app_id 256281040558 ב-fbclid, כמו ב-7798267), לקישורי בדיקה ולדפדפן הפנימי */(function(){try{var s=location.search,off=/yNTYyODEwNDA1N|MjU2MjgxMDQwNT|I1NjI4MTA0MDU1|claude|test|nocache|internal/i.test(s);try{off=off||localStorage.getItem("nlp_int")==="1"}catch(e){}window.__noPix=off;if(off)return}catch(e){}
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","1278104408729813");fbq("init","1651086743466533");fbq("track","PageView");fbq("track","ViewContent",{content_name:"השיטה - הקורס המלא",value:297,currency:"ILS"});
+})();</script>
 <style>/* 1,290 מחוק ליד 297 (19.10) */
 s.was{font-size:.8em;white-space:nowrap}
 .pgrp{white-space:nowrap}
@@ -884,7 +886,7 @@ const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6
   const qs = new URLSearchParams(location.search); if(!qs.has("utm_content")) qs.set("utm_content","lp_"+V); qs.set("v",V); qs.set("sid",sid);
   cta.forEach(a=>{
     a.href = CHECKOUT_URL + (CHECKOUT_URL.includes("?")?"&":"?") + qs.toString();
-    a.addEventListener("click",()=>{ try{localStorage.setItem("nlp_lc",JSON.stringify({v:V,sid:sid,qs:location.search.slice(1),cta:a.dataset.cta||"",ts:Date.now()}));}catch(e){} const s=a.closest("[data-sec]"); send("cta_click",{at_section:s?+s.dataset.sec:0, cta:a.dataset.cta||"", checkout_started:1, x:xstr()+";fc="+Math.round((Date.now()-t0)/1000)}); try{ if(window.fbq) fbq("track","InitiateCheckout",{value:297,currency:"ILS"}); }catch(e){} });
+    a.addEventListener("click",()=>{ try{localStorage.setItem("nlp_lc",JSON.stringify({v:V,sid:sid,qs:location.search.slice(1),cta:a.dataset.cta||"",ts:Date.now()}));}catch(e){} const s=a.closest("[data-sec]"); send("cta_click",{at_section:s?+s.dataset.sec:0, cta:a.dataset.cta||"", checkout_started:1, x:xstr()+";fc="+Math.round((Date.now()-t0)/1000)}); try{ if(window.fbq&&!window.__ic){ let d=false; try{ d=sessionStorage.getItem("nlp_ic")==="1"; sessionStorage.setItem("nlp_ic","1"); }catch(e){} window.__ic=1; if(!d) fbq("track","InitiateCheckout",{value:297,currency:"ILS"}); } }catch(e){} /* ב23: פעם אחת בביקור */ });
   });
   document.querySelectorAll("a[data-cta]:not([data-checkout])").forEach(a=>a.addEventListener("click",()=>{ const s=a.closest("[data-sec]"); send("shortcut_click",{cta:a.dataset.cta, at_section:s?+s.dataset.sec:0}); }));
   // progress bar + section reach
