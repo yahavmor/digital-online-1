@@ -47,8 +47,6 @@ td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
 td.nw{white-space:nowrap}.sub2{margin-top:4px}
 .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
 .pill.good{background:var(--good-bg);color:var(--good)}.pill.warn{background:var(--warn-bg);color:var(--warn)}.pill.crit{background:var(--crit-bg);color:var(--crit)}.pill.off{background:var(--bg);color:var(--ink2)}
-.link{display:flex;gap:8px;align-items:stretch;margin-top:8px}
-.link code{flex:1;min-width:0;background:var(--bg);border-radius:8px;padding:8px;direction:ltr;text-align:left;font-size:12px;word-break:break-all}
 .btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:14px;border-radius:9px;padding:6px 12px;cursor:pointer;white-space:nowrap}
 .btn:focus-visible,.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .banner{background:var(--warn-bg);color:var(--ink);border-radius:12px;padding:14px;margin-top:16px}
@@ -73,19 +71,13 @@ td.nw{white-space:nowrap}.sub2{margin-top:4px}
       <div class="panel-h"><h2>הלידים שלך</h2><span class="note">מי שהשאיר פרטים בדף התשלום. מוצג רק שם פרטי, אות ראשונה של שם המשפחה ו-3 ספרות אחרונות של הטלפון</span></div>
       <div class="tw"><table id="leads"></table></div>
     </div>
-    <div class="panel">
-      <div class="panel-h"><h2>הקישורים שלך</h2><span class="note">כל כניסה דרכם נרשמת עליך ל-30 יום, עד שהגולש נכנס דרך ערוץ אחר של בן</span></div>
-      <div><b>לפוסטים, סטוריז וביו</b><div class="link"><code id="lPost"></code><button class="btn" data-copy="lPost">העתקה</button></div></div>
-      <div style="margin-top:12px"><b>למודעות Meta</b> <span class="note">כתובת אתר:</span><div class="link"><code id="lUrl"></code><button class="btn" data-copy="lUrl">העתקה</button></div>
-        <span class="note">ובשדה "פרמטרים של כתובת URL":</span><div class="link"><code id="lParams"></code><button class="btn" data-copy="lParams">העתקה</button></div></div>
-    </div>
     <p class="note">העמלה משולמת 7 ימים אחרי הרכישה, ורק אם לא הייתה בקשת החזר. הנתונים מתעדכנים בכל כניסה לדף.</p>
   </div>
 </main>
 <script>
 /* ב28: אזור אישי למשווק. הגישה בקישור אישי עם טוקן (#t=...). Make מחזיר רק את הנתונים של בעל הטוקן; בלי טוקן תקין לא חוזר כלום */
 try{localStorage.setItem("nlp_int","1")}catch(e){} /* הביקורים של המשווק עצמו בדפי המכירה לא נספרים */
-const PARTNER_API="__PARTNER_API__", SITE="https://funnel.digitalonline.co.il/nlp/", PAY_DAYS=7;
+const PARTNER_API="__PARTNER_API__", PAY_DAYS=7;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
 const fmt=n=>Math.round(n||0).toLocaleString("he-IL"), ils=n=>fmt(n)+" ₪";
@@ -133,12 +125,9 @@ async function load(){
   try{const r=await fetch(PARTNER_API+"?t="+encodeURIComponent(t),{cache:"no-store"});const tx=await r.text();
     if(!r.ok||!/^me\t/.test(tx)){try{localStorage.removeItem("nlp_partner_t")}catch(e){}return msg("הקישור לא תקין או שבוטל. בקשו מיהב קישור חדש.")}
     D=parse(tx);$("title").textContent="אזור המשווקים - "+D.me.name;
-    const c=encodeURIComponent(D.me.code);$("lPost").textContent=SITE+"go.html?aff="+c+"&utm_source=instagram&utm_medium=affiliate";$("lUrl").textContent=SITE+"go.html";
-    $("lParams").textContent="aff="+c+"&utm_source={{site_source_name}}&utm_medium=affiliate&utm_campaign={{campaign.name}}&utm_content={{ad.name}}";
     $("fresh").textContent="עודכן "+new Date().toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});$("msg").hidden=true;$("app").hidden=false;render();
   }catch(e){msg("לא הצלחנו לטעון את הנתונים. בדקו חיבור לאינטרנט ונסו לרענן.")}}
 document.querySelectorAll("#range button").forEach(b=>b.onclick=()=>{range=b.dataset.r;document.querySelectorAll("#range button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));if(D)render()});
-document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{try{await navigator.clipboard.writeText($(b.dataset.copy).textContent);b.textContent="הועתק";setTimeout(()=>b.textContent="העתקה",1500)}catch(e){}});
 addEventListener("hashchange",load);
 load();
 </script>
