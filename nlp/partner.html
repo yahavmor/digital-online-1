@@ -77,7 +77,7 @@ td.nw{white-space:nowrap}.sub2{margin-top:4px}
 <script>
 /* ב28: אזור אישי למשווק. הגישה בקישור אישי עם טוקן (#t=...). Make מחזיר רק את הנתונים של בעל הטוקן; בלי טוקן תקין לא חוזר כלום */
 try{localStorage.setItem("nlp_int","1")}catch(e){} /* הביקורים של המשווק עצמו בדפי המכירה לא נספרים */
-const PARTNER_API="__PARTNER_API__", PAY_DAYS=7;
+const PARTNER_API="https://hook.eu1.make.com/fyvfta25i5igncdufnq5wwkh17a2ubk5", PAY_DAYS=7;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
 const fmt=n=>Math.round(n||0).toLocaleString("he-IL"), ils=n=>fmt(n)+" ₪";
