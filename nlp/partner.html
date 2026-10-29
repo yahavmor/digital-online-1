@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>אזור המשווקים - השיטה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@500;700;800&family=Assistant:wght@400;600;700&display=swap">
+<style>
+:root{
+  --bg:#F4F5F2; --surface:#FCFCFB; --ink:#141613; --ink2:#53564F; --muted:#8A8C84; --line:#E1E3DC;
+  --accent:#1F6F5C; --accent-soft:#E2EFEA;
+  --good:#0ca30c; --warn:#c98500; --crit:#d03b3b; --good-bg:#E4F4E4; --warn-bg:#FBF0D6; --crit-bg:#F9E2E2;
+  --f-display:"Heebo",Arial,sans-serif; --f-body:"Assistant",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F110F; --surface:#1A1C19; --ink:#F2F3EF; --ink2:#C3C5BC; --muted:#898B83; --line:#2C2F2A;
+  --accent:#5CC4A6; --accent-soft:#1D2E28; --good-bg:#16301A; --warn-bg:#33290F; --crit-bg:#3A1A1A;
+}}
+:root[data-theme="dark"]{
+  --bg:#0F110F; --surface:#1A1C19; --ink:#F2F3EF; --ink2:#C3C5BC; --muted:#898B83; --line:#2C2F2A;
+  --accent:#5CC4A6; --accent-soft:#1D2E28; --good-bg:#16301A; --warn-bg:#33290F; --crit-bg:#3A1A1A;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5;direction:rtl}
+main{max-width:900px;margin:0 auto;padding:20px 16px 48px}
+h1,h2{font-family:var(--f-display);margin:0;text-wrap:balance}
+h1{font-size:24px} h2{font-size:18px}
+.sub{color:var(--ink2);font-size:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:16px}
+.panel-h{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;justify-content:space-between;margin-bottom:10px}
+.note{color:var(--muted);font-size:13px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:3px}
+.seg button{border:0;background:none;color:var(--ink2);font:inherit;font-size:14px;padding:6px 12px;border-radius:9px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
+.tile .k{color:var(--ink2);font-size:13px}.tile .v{font-family:var(--f-display);font-size:24px;font-weight:800;font-variant-numeric:tabular-nums}
+.tile.money .v{color:var(--accent)}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{color:var(--muted);font-weight:600;text-align:right;padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+td.nw{white-space:nowrap}.sub2{margin-top:4px}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.pill.good{background:var(--good-bg);color:var(--good)}.pill.warn{background:var(--warn-bg);color:var(--warn)}.pill.crit{background:var(--crit-bg);color:var(--crit)}.pill.off{background:var(--bg);color:var(--ink2)}
+.link{display:flex;gap:8px;align-items:stretch;margin-top:8px}
+.link code{flex:1;min-width:0;background:var(--bg);border-radius:8px;padding:8px;direction:ltr;text-align:left;font-size:12px;word-break:break-all}
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:14px;border-radius:9px;padding:6px 12px;cursor:pointer;white-space:nowrap}
+.btn:focus-visible,.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.banner{background:var(--warn-bg);color:var(--ink);border-radius:12px;padding:14px;margin-top:16px}
+.empty{color:var(--muted);text-align:center;padding:18px}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1 id="title">אזור המשווקים</h1>
+    <div class="sub">השיטה - לנצח את האוטומט · 297 ₪ · <span id="fresh"></span></div>
+  </header>
+  <div id="msg" class="banner" hidden></div>
+  <div id="app" hidden>
+    <div class="panel">
+      <div class="panel-h"><h2>הסיכום שלך</h2>
+        <div class="seg" id="range" role="group" aria-label="תקופה"><button type="button" data-r="7">7 ימים</button><button type="button" data-r="30" aria-pressed="true">30 יום</button><button type="button" data-r="all">הכל</button></div></div>
+      <div class="tiles" id="tiles"></div>
+      <p class="note" id="feeNote"></p>
+    </div>
+    <div class="panel">
+      <div class="panel-h"><h2>הלידים שלך</h2><span class="note">מי שהשאיר פרטים בדף התשלום. מוצג רק שם פרטי, אות ראשונה של שם המשפחה ו-3 ספרות אחרונות של הטלפון</span></div>
+      <div class="tw"><table id="leads"></table></div>
+    </div>
+    <div class="panel">
+      <div class="panel-h"><h2>הקישורים שלך</h2><span class="note">כל כניסה דרכם נרשמת עליך ל-30 יום, עד שהגולש נכנס דרך ערוץ אחר של בן</span></div>
+      <div><b>לפוסטים, סטוריז וביו</b><div class="link"><code id="lPost"></code><button class="btn" data-copy="lPost">העתקה</button></div></div>
+      <div style="margin-top:12px"><b>למודעות Meta</b> <span class="note">כתובת אתר:</span><div class="link"><code id="lUrl"></code><button class="btn" data-copy="lUrl">העתקה</button></div>
+        <span class="note">ובשדה "פרמטרים של כתובת URL":</span><div class="link"><code id="lParams"></code><button class="btn" data-copy="lParams">העתקה</button></div></div>
+    </div>
+    <p class="note">העמלה משולמת 7 ימים אחרי הרכישה, ורק אם לא הייתה בקשת החזר. הנתונים מתעדכנים בכל כניסה לדף.</p>
+  </div>
+</main>
+<script>
+/* ב28: אזור אישי למשווק. הגישה בקישור אישי עם טוקן (#t=...). Make מחזיר רק את הנתונים של בעל הטוקן; בלי טוקן תקין לא חוזר כלום */
+try{localStorage.setItem("nlp_int","1")}catch(e){} /* הביקורים של המשווק עצמו בדפי המכירה לא נספרים */
+const PARTNER_API="__PARTNER_API__", SITE="https://funnel.digitalonline.co.il/nlp/", PAY_DAYS=7;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
+const fmt=n=>Math.round(n||0).toLocaleString("he-IL"), ils=n=>fmt(n)+" ₪";
+const day=d=>d.toLocaleDateString("he-IL",{day:"2-digit",month:"2-digit"});
+const toDate=s=>new Date(String(s||"").replace(" ","T"));
+function token(){const m=(location.hash||"").match(/[#&]t=([A-Za-z0-9_-]{20,80})/);if(m){try{localStorage.setItem("nlp_partner_t",m[1])}catch(e){}return m[1]}try{return localStorage.getItem("nlp_partner_t")||""}catch(e){return ""}}
+function msg(t){$("msg").textContent=t;$("msg").hidden=false;$("app").hidden=true}
+let D=null, range="30";
+function parse(text){
+  const out={me:null,rows:[],leads:[],refunds:new Set(),paid:new Map()};let sec="";
+  text.split("\n").forEach(l=>{if(!l.trim())return;const a=l.split("\t");
+    if(a[0]==="me"){out.me={code:a[1],name:a[2]||a[1],fee:+a[3]||0,pct:+a[4]||0};return}
+    if(["rows","leads","refunds","paid"].includes(a[0])&&a.length===1){sec=a[0];return}
+    if(sec==="rows"&&a[0]&&a[1]&&a[4]!=="1")out.rows.push({t:toDate(a[0]),ev:a[1],sid:a[2]||"",q:a[3]||""});
+    if(sec==="leads"&&a[0])out.leads.push({sid:a[0],t:toDate(a[1]),nm:a[2]||"",ph:a[3]||""});
+    if(sec==="refunds"&&a[0])out.refunds.add(a[0].trim());
+    if(sec==="paid"&&a[0])out.paid.set(a[0].trim(),a[1]?toDate(a[1]):null);
+  });
+  return out}
+function fee(amt){const m=D.me;return m.fee>0?m.fee:Math.round(amt*m.pct)/100}
+function render(){
+  const now=Date.now(),from=range==="all"?0:now-(+range)*864e5,inR=t=>+t>=from;
+  const R=D.rows.filter(r=>!isNaN(r.t)),seen=new Set(),buys=[];
+  R.forEach(r=>{if(r.ev!=="purchase")return;const m=r.q.match(/deal\s+(\d+)/),a=r.q.match(/(\d+(?:\.\d+)?)\s*ILS/),deal=m?m[1]:"";const k=deal||r.sid;if(seen.has(k))return;seen.add(k);
+    const st=D.refunds.has(deal)?"refund":D.paid.has(deal)?"paid":(now-r.t<PAY_DAYS*864e5?"pending":"due");buys.push({t:r.t,sid:r.sid,deal,amt:a?+a[1]:297,st,fee:fee(a?+a[1]:297)})});
+  const RR=R.filter(r=>inR(r.t)),sids=ev=>new Set(RR.filter(r=>r.ev===ev).map(r=>r.sid)).size;
+  const leadSids=new Set(D.leads.filter(l=>inR(l.t)).map(l=>l.sid));RR.filter(r=>r.ev==="checkout_details").forEach(r=>leadSids.add(r.sid));
+  const B=buys.filter(b=>inR(b.t)),sum=st=>buys.filter(b=>b.st===st).reduce((x,b)=>x+b.fee,0);
+  $("tiles").innerHTML=[["ביקורים",fmt(sids("view"))],["לחיצות קנייה",fmt(sids("cta_click"))],["לידים",fmt(leadSids.size)],["רכישות",fmt(B.filter(b=>b.st!=="refund").length)],
+    ["עמלה ממתינה",ils(sum("pending")),1],["עמלה לתשלום",ils(sum("due")),1],["עמלה ששולמה",ils(sum("paid")),1]]
+    .map(([k,v,m])=>'<div class="tile'+(m?" money":"")+'"><div class="k">'+k+'</div><div class="v">'+v+'</div></div>').join("");
+  $("feeNote").textContent="עמלה: "+(D.me.fee>0?ils(D.me.fee)+" לכל רכישה":D.me.pct+"% מכל רכישה")+". הביקורים, הלחיצות, הלידים והרכישות לפי התקופה שנבחרה; העמלות מכל הזמן.";
+  const byS=new Map(buys.map(b=>[b.sid,b])),rowsL=D.leads.filter(l=>inR(l.t)).map(l=>({t:l.t,nm:l.nm,ph:l.ph,b:byS.get(l.sid)||null}));
+  const leadS=new Set(D.leads.map(l=>l.sid));B.filter(b=>!leadS.has(b.sid)).forEach(b=>rowsL.push({t:b.t,nm:"",ph:"",b}));
+  rowsL.sort((x,y)=>y.t-x.t);
+  const st={pending:["ממתין","warn"],due:["לתשלום","good"],paid:["שולם","off"],refund:["החזר","crit"]};
+  $("leads").innerHTML=rowsL.length?'<thead><tr><th>תאריך</th><th>שם</th><th>טלפון</th><th>סטטוס ועמלה</th></tr></thead><tbody>'+rowsL.map(x=>{const b=x.b;
+    let s,c;if(!b){s='<span class="pill off">השאיר פרטים ולא שילם</span>';c='<span class="note">-</span>'}
+    else{s=b.st==="refund"?'<span class="pill crit">החזר</span>':'<span class="pill good">רכש</span>';const p=st[b.st];c='<span class="pill '+p[1]+'">'+p[0]+(b.st==="pending"?" עד "+day(new Date(+b.t+PAY_DAYS*864e5)):"")+'</span> '+(b.st==="refund"?"":ils(b.fee))}
+    return '<tr><td class="num">'+day(x.t)+'</td><td class="nw">'+(esc(x.nm)||'<span class="note">-</span>')+'</td><td class="num" dir="ltr">'+(x.ph?"***-"+esc(x.ph):'<span class="note">-</span>')+'</td><td>'+s+(b&&b.st!=="refund"?'<div class="sub2">'+c+'</div>':'')+'</td></tr>'}).join("")+'</tbody>'
+    :'<tbody><tr><td class="empty">עדיין אין לידים בתקופה הזו</td></tr></tbody>';
+}
+async function load(){
+  const t=token();if(!t)return msg("הקישור לא שלם. פתחו את הקישור האישי שקיבלתם מיהב.");
+  try{const r=await fetch(PARTNER_API+"?t="+encodeURIComponent(t),{cache:"no-store"});const tx=await r.text();
+    if(!r.ok||!/^me\t/.test(tx)){try{localStorage.removeItem("nlp_partner_t")}catch(e){}return msg("הקישור לא תקין או שבוטל. בקשו מיהב קישור חדש.")}
+    D=parse(tx);$("title").textContent="אזור המשווקים - "+D.me.name;
+    const c=encodeURIComponent(D.me.code);$("lPost").textContent=SITE+"go.html?aff="+c+"&utm_source=instagram&utm_medium=affiliate";$("lUrl").textContent=SITE+"go.html";
+    $("lParams").textContent="aff="+c+"&utm_source={{site_source_name}}&utm_medium=affiliate&utm_campaign={{campaign.name}}&utm_content={{ad.name}}";
+    $("fresh").textContent="עודכן "+new Date().toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});$("msg").hidden=true;$("app").hidden=false;render();
+  }catch(e){msg("לא הצלחנו לטעון את הנתונים. בדקו חיבור לאינטרנט ונסו לרענן.")}}
+document.querySelectorAll("#range button").forEach(b=>b.onclick=()=>{range=b.dataset.r;document.querySelectorAll("#range button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));if(D)render()});
+document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{try{await navigator.clipboard.writeText($(b.dataset.copy).textContent);b.textContent="הועתק";setTimeout(()=>b.textContent="העתקה",1500)}catch(e){}});
+addEventListener("hashchange",load);
+load();
+</script>
+</body>
+</html>
