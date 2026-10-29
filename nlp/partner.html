@@ -5,25 +5,30 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
 <title>אזור המשווקים - השיטה</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@500;700;800&family=Assistant:wght@400;600;700&display=swap">
 <style>
 :root{
-  --bg:#F4F5F2; --surface:#FCFCFB; --ink:#141613; --ink2:#53564F; --muted:#8A8C84; --line:#E1E3DC;
-  --accent:#1F6F5C; --accent-soft:#E2EFEA;
-  --good:#0ca30c; --warn:#c98500; --crit:#d03b3b; --good-bg:#E4F4E4; --warn-bg:#FBF0D6; --crit-bg:#F9E2E2;
+  color-scheme:light dark;
+  --bg:#F4F5F2; --surface:#FCFCFB; --ink:#141613; --ink2:#53564F; --muted:#6B6D66; --line:#E1E3DC;
+  --accent:#1F6F5C; --accent-soft:#E2EFEA; --on-accent:#fff;
+  --good:#1D7A1D; --warn:#8A5A00; --crit:#B02A2A; --good-bg:#E4F4E4; --warn-bg:#FBF0D6; --crit-bg:#F9E2E2;
   --f-display:"Heebo",Arial,sans-serif; --f-body:"Assistant",Arial,sans-serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#0F110F; --surface:#1A1C19; --ink:#F2F3EF; --ink2:#C3C5BC; --muted:#898B83; --line:#2C2F2A;
-  --accent:#5CC4A6; --accent-soft:#1D2E28; --good-bg:#16301A; --warn-bg:#33290F; --crit-bg:#3A1A1A;
+  --accent:#5CC4A6; --accent-soft:#1D2E28; --on-accent:#0F110F;
+  --good:#5FD35F; --warn:#E8A93A; --crit:#F28B8B; --good-bg:#16301A; --warn-bg:#33290F; --crit-bg:#3A1A1A;
 }}
 :root[data-theme="dark"]{
   --bg:#0F110F; --surface:#1A1C19; --ink:#F2F3EF; --ink2:#C3C5BC; --muted:#898B83; --line:#2C2F2A;
-  --accent:#5CC4A6; --accent-soft:#1D2E28; --good-bg:#16301A; --warn-bg:#33290F; --crit-bg:#3A1A1A;
+  --accent:#5CC4A6; --accent-soft:#1D2E28; --on-accent:#0F110F;
+  --good:#5FD35F; --warn:#E8A93A; --crit:#F28B8B; --good-bg:#16301A; --warn-bg:#33290F; --crit-bg:#3A1A1A;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5;direction:rtl}
 main{max-width:900px;margin:0 auto;padding:20px 16px 48px}
 h1,h2{font-family:var(--f-display);margin:0;text-wrap:balance}
@@ -34,7 +39,7 @@ h1{font-size:24px} h2{font-size:18px}
 .note{color:var(--muted);font-size:13px}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:3px}
 .seg button{border:0;background:none;color:var(--ink2);font:inherit;font-size:14px;padding:6px 12px;border-radius:9px;cursor:pointer}
-.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
 .tile{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
 .tile .k{color:var(--ink2);font-size:13px}.tile .v{font-family:var(--f-display);font-size:24px;font-weight:800;font-variant-numeric:tabular-nums}
@@ -50,6 +55,11 @@ td.nw{white-space:nowrap}.sub2{margin-top:4px}
 .btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:14px;border-radius:9px;padding:6px 12px;cursor:pointer;white-space:nowrap}
 .btn:focus-visible,.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .banner{background:var(--warn-bg);color:var(--ink);border-radius:12px;padding:14px;margin-top:16px}
+.banner.info{background:var(--surface);border:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.banner .btn{margin-top:10px;display:block}
+.spin{width:18px;height:18px;flex:none;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin .9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation-duration:2.5s}}
 .empty{color:var(--muted);text-align:center;padding:18px}
 </style>
 </head>
@@ -57,9 +67,9 @@ td.nw{white-space:nowrap}.sub2{margin-top:4px}
 <main>
   <header>
     <h1 id="title">אזור המשווקים</h1>
-    <div class="sub">השיטה - לנצח את האוטומט · 297 ₪ · <span id="fresh"></span></div>
+    <div class="sub">השיטה - לנצח את האוטומט · 297 ₪<span id="fresh"></span></div>
   </header>
-  <div id="msg" class="banner" hidden></div>
+  <div id="msg" class="banner info" role="status" aria-live="polite"><span class="spin" aria-hidden="true"></span><span>טוען את הנתונים שלך...</span></div>
   <div id="app" hidden>
     <div class="panel">
       <div class="panel-h"><h2>הסיכום שלך</h2>
@@ -84,7 +94,9 @@ const fmt=n=>Math.round(n||0).toLocaleString("he-IL"), ils=n=>fmt(n)+" ₪";
 const day=d=>d.toLocaleDateString("he-IL",{day:"2-digit",month:"2-digit"});
 const toDate=s=>new Date(String(s||"").replace(" ","T"));
 function token(){const m=(location.hash||"").match(/[#&]t=([A-Za-z0-9_-]{20,80})/);if(m){try{localStorage.setItem("nlp_partner_t",m[1])}catch(e){}return m[1]}try{return localStorage.getItem("nlp_partner_t")||""}catch(e){return ""}}
-function msg(t){$("msg").textContent=t;$("msg").hidden=false;$("app").hidden=true}
+function msg(t,retry){const m=$("msg");m.className="banner";m.textContent=t;if(retry){const b=document.createElement("button");b.type="button";b.className="btn";b.textContent="רענון";b.onclick=()=>location.reload();m.appendChild(b)}m.hidden=false;$("app").hidden=true}
+function loading(){const m=$("msg");m.className="banner info";m.innerHTML='<span class="spin" aria-hidden="true"></span><span>טוען את הנתונים שלך...</span>';m.hidden=false;$("app").hidden=true}
+const TIMEOUT_MS=25000;
 let D=null, range="30";
 function parse(text){
   const out={me:null,rows:[],leads:[],refunds:new Set(),paid:new Map()};let sec="";
@@ -122,11 +134,12 @@ function render(){
 }
 async function load(){
   const t=token();if(!t)return msg("הקישור לא שלם. פתחו את הקישור האישי שקיבלתם מיהב.");
-  try{const r=await fetch(PARTNER_API+"?t="+encodeURIComponent(t),{cache:"no-store"});const tx=await r.text();
+  loading();const ac=new AbortController(),to=setTimeout(()=>ac.abort(),TIMEOUT_MS);
+  try{const r=await fetch(PARTNER_API+"?t="+encodeURIComponent(t),{cache:"no-store",signal:ac.signal});const tx=await r.text();clearTimeout(to);
     if(!r.ok||!/^me\t/.test(tx)){try{localStorage.removeItem("nlp_partner_t")}catch(e){}return msg("הקישור לא תקין או שבוטל. בקשו מיהב קישור חדש.")}
     D=parse(tx);$("title").textContent="אזור המשווקים - "+D.me.name;
-    $("fresh").textContent="עודכן "+new Date().toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});$("msg").hidden=true;$("app").hidden=false;render();
-  }catch(e){msg("לא הצלחנו לטעון את הנתונים. בדקו חיבור לאינטרנט ונסו לרענן.")}}
+    $("fresh").textContent=" · עודכן "+new Date().toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});$("msg").hidden=true;$("app").hidden=false;render();
+  }catch(e){clearTimeout(to);msg(e&&e.name==="AbortError"?"הטעינה לוקחת יותר מהרגיל. נסו לרענן את הדף.":"לא הצלחנו לטעון את הנתונים. בדקו חיבור לאינטרנט ונסו לרענן.",1)}}
 document.querySelectorAll("#range button").forEach(b=>b.onclick=()=>{range=b.dataset.r;document.querySelectorAll("#range button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));if(D)render()});
 addEventListener("hashchange",load);
 load();
