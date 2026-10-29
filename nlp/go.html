@@ -1,5 +1,11 @@
 <!doctype html>
-<html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="he" dir="rtl"><head><meta charset="utf-8"><script>/* ב25: שיוך רכישות למשווקים - הקליק האחרון ב-30 יום. aff בכתובת = משווק; ערוץ של בן (מודעות עם utm_id או paid, מייל, ביו, ManyChat) = בן; ביקור ישיר או לא מזוהה לא משנה. נשמר ב-localStorage ובעוגייה. NLP_OWNER() מחזיר את קוד המשווק, או "" = בן */
+var NLP_OWNER=(function(){var K="nlp_aff",D=2592e6,now=Date.now(),cur=null;
+ function rd(){var a=null,b=null;try{a=JSON.parse(localStorage.getItem(K)||"null")}catch(e){}try{var m=document.cookie.match(/(?:^|; )nlp_aff=([^;]*)/);if(m){var v=decodeURIComponent(m[1]).split(".");b={c:v[0]||"",t:+v[1]||0}}}catch(e){}return a&&b?(a.t>=b.t?a:b):(a||b)}
+ function wr(c){cur={c:c,t:now};try{localStorage.setItem(K,JSON.stringify(cur))}catch(e){}try{document.cookie=K+"="+encodeURIComponent(c+"."+now)+"; max-age=2592000; path=/; SameSite=Lax"}catch(e){}}
+ try{var q=new URLSearchParams(location.search),a=(q.get("aff")||"").toLowerCase().replace(/[^a-z0-9_-]/g,"").slice(0,32),s=(q.get("utm_source")||"").toLowerCase(),m=(q.get("utm_medium")||"").toLowerCase();
+  if(a)wr(a);else if(m!=="affiliate"&&(q.get("utm_id")||/^(paid|paid_social|cpc|responder|email|bio|dm|manychat)$/.test(m)||/^(email|responder|manychat)$/.test(s)))wr("");else cur=rd()}catch(e){}
+ return function(){return cur&&cur.c&&now-cur.t<=D?cur.c:""}})();</script><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><title>לנצח את האוטומט · בן נחום</title>
 <meta name="description" content="לנצח את האוטומט - שיטה מעשית של בן נחום: 90 שיעורים קצרים + 5 בונוסים בשווי 1,121 ₪. 297 ₪.">
 <meta property="og:title" content="לנצח את האוטומט · בן נחום">

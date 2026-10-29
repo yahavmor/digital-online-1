@@ -139,6 +139,7 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
       </div>
       <span id="customBox" hidden><input type="date" id="cFrom" aria-label="מתאריך"> - <input type="date" id="cTo" aria-label="עד תאריך"></span>
       <select id="fSrc" aria-label="סינון מקור"><option value="">כל המקורות</option></select>
+      <select id="fOwn" aria-label="סינון לפי בעלים"><option value="">בן + משווקים</option><option value="ben">רק בן</option><option value="aff">רק משווקים</option></select>
       <select id="fDev" aria-label="סינון מכשיר"><option value="">כל המכשירים</option><option value="m">מובייל</option><option value="d">מחשב</option></select>
       <label class="chk"><input type="checkbox" id="showTests"> כולל בדיקות</label>
       <button type="button" class="btn" id="refresh">רענון</button>
@@ -155,6 +156,7 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
     <button role="tab" data-s="ex"><b>06</b>מעבדת ניסויים</button>
     <button role="tab" data-s="in"><b>07</b>תובנות והמלצות</button>
     <button role="tab" data-s="dq"><b>08</b>בקרת מדידה</button>
+    <button role="tab" data-s="af"><b>09</b>משווקים</button>
   </nav>
 
   <!-- 00 optimization: Ben's doc section 10 -->
@@ -281,6 +283,14 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
     </div>
     <p class="foot">איך נמדד: כל כניסה מקבלת מזהה ביקור, ומבקר חוזר מזוהה במזהה אנונימי בדפדפן. רכישה נספרת רק מעסקה מאושרת בקארדקום, פעם אחת לכל עסקה. נתון שלא הגיע מוצג כ"ממתין" או "לא מחובר", לא כאפס. בדיקות (test / claude בקישור, או ביקור מדפדפן שפתח את הדשבורד) מוסתרות כברירת מחדל. אין בדשבורד שמות, טלפונים, מיילים או פרטי תשלום.</p>
   </section>
+
+  <!-- 09 affiliates (ב25) -->
+  <section class="screen" id="s-af">
+    <div class="panel"><div class="panel-h"><h2>משווקים - 30 הימים האחרונים</h2><span class="note">שיוך לפי הקליק האחרון ב-30 יום לפני הקנייה. רכישה שייכת למי שהיה הבעלים ברגע התשלום. בלי בדיקות (אלא אם מסומן "כולל בדיקות")</span></div><div class="tw"><table id="afTable"></table></div><p class="note" id="afNote"></p></div>
+    <div class="panel"><div class="panel-h"><h2>קישור למשווק</h2><span class="note">להחליף CODE בקוד של המשווק. בלי utm_id, כדי שלא ייספר כמודעות של בן</span></div>
+      <div class="mono" style="background:var(--bg);padding:10px;border-radius:8px;direction:ltr;text-align:left;word-break:break-all">https://funnel.digitalonline.co.il/nlp/go.html?aff=CODE&amp;utm_source={{site_source_name}}&amp;utm_medium=affiliate&amp;utm_campaign={{campaign.name}}&amp;utm_content={{ad.name}}</div>
+      <p class="note">רשימת המשווקים (קוד, שם תצוגה, אחוז עמלה, פעיל) נשמרת ב-Make, ב-Data store "NLP - משווקים (ב25)", ולא בקובץ באתר. ביקור דרך מודעה של בן, מייל, ביו או ManyChat מחזיר את הבעלים לבן; ביקור ישיר לא משנה; אחרי 30 יום מהקליק של המשווק הבעלים חוזר לבן.</p></div>
+  </section>
 </div>
 <div id="tip" hidden></div>
 <script>
@@ -314,9 +324,9 @@ const EXPERIMENTS=[
  {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"2026-10-26",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"הסתיים, הוחלף ב-abc_2610",decision:""},
 ];
 const CHANGELOG=[
- ["2026-10-07","שלושה דפים עם פתיחות שונות (v14-v15)"],["2026-10-08","הוסר אזור 'בחיים עצמם', מספור אזורים תוקן (v16)"],["2026-10-08","סליקה עברה ל-LowProfile בקארדקום"],["2026-10-09","מדידה מורחבת: זמן פעיל, חשיפת אזורים וכפתורים, מכשיר, ביצועים, שלבי סליקה"],["2026-10-09","Clarity: מפות חום והקלטות בדפים ובסליקה"],["2026-10-10","ביקורים מדפדפנים פנימיים מסומנים ומוסתרים, והתראה כשאין ביקורים 6 שעות"],["2026-10-26","ניסוי abc_2610: go.html → a/b/c בשליש מדויק (09:02)"],["2026-10-26","c.html: קופי חדש של בן בשלושה אזורים, הגרסה הקודמת ב-nlp/archive"],["2026-10-26","2026-10-26 19:32: 4 עדויות וואטסאפ חדשות בשלושת הדפים; a2/b2/c2 מפנים ל-go.html"],["2026-10-26","20:56: 4 העדויות החדשות עם השמות ותמונות הפרופיל (באישור בן) במקום המטושטשות; כלל הוצאת דף חלש עודכן לפי בן (100 מבקרים, 90%, חצי מהטוב, 5 הגעות לסליקה, 25 לדף; באישור יהב)"],["2026-10-27","11:29: דף A קיבל את מסך הפתיחה של C (ב19). שאר A בלי שינוי, נמדד כ-a. החלטה לפי % שעוברים את המסך הראשון אחרי 50 ביקורים"],["2026-10-28","14:31: הפיקסל של Meta לא נטען בסריקות Meta, בקישורי בדיקה ובדפדפן הפנימי (a/b/c ודף התודה), ו-InitiateCheckout נשלח פעם אחת בביקור (ב23). המדידה שלנו בדשבורד בלי שינוי; ב-Meta מספר התחלות התשלום צפוי לרדת לכמות האמיתית"]];
+ ["2026-10-07","שלושה דפים עם פתיחות שונות (v14-v15)"],["2026-10-08","הוסר אזור 'בחיים עצמם', מספור אזורים תוקן (v16)"],["2026-10-08","סליקה עברה ל-LowProfile בקארדקום"],["2026-10-09","מדידה מורחבת: זמן פעיל, חשיפת אזורים וכפתורים, מכשיר, ביצועים, שלבי סליקה"],["2026-10-09","Clarity: מפות חום והקלטות בדפים ובסליקה"],["2026-10-10","ביקורים מדפדפנים פנימיים מסומנים ומוסתרים, והתראה כשאין ביקורים 6 שעות"],["2026-10-26","ניסוי abc_2610: go.html → a/b/c בשליש מדויק (09:02)"],["2026-10-26","c.html: קופי חדש של בן בשלושה אזורים, הגרסה הקודמת ב-nlp/archive"],["2026-10-26","2026-10-26 19:32: 4 עדויות וואטסאפ חדשות בשלושת הדפים; a2/b2/c2 מפנים ל-go.html"],["2026-10-26","20:56: 4 העדויות החדשות עם השמות ותמונות הפרופיל (באישור בן) במקום המטושטשות; כלל הוצאת דף חלש עודכן לפי בן (100 מבקרים, 90%, חצי מהטוב, 5 הגעות לסליקה, 25 לדף; באישור יהב)"],["2026-10-27","11:29: דף A קיבל את מסך הפתיחה של C (ב19). שאר A בלי שינוי, נמדד כ-a. החלטה לפי % שעוברים את המסך הראשון אחרי 50 ביקורים"],["2026-10-28","14:31: הפיקסל של Meta לא נטען בסריקות Meta, בקישורי בדיקה ובדפדפן הפנימי (a/b/c ודף התודה), ו-InitiateCheckout נשלח פעם אחת בביקור (ב23). המדידה שלנו בדשבורד בלי שינוי; ב-Meta מספר התחלות התשלום צפוי לרדת לכמות האמיתית"],["2026-10-29","11:38: תשתית משווקים (ב25): aff בקישור נשמר 30 יום (הקליק האחרון; ערוץ של בן מחזיר לבן), נשלח עם כל אירוע ועם ReturnValue לקארדקום; לשונית 09 משווקים, מקור \"משווקים\" וסינון בן/משווקים"]];
 
-let rows=null, spend={}, cspend={}, storedAt=0, range="7", screen="op", lpVar="a2", showTests=false, fSrc="", fDev="", cFrom="", cTo="", jrStage="", openSid="", openCr="";
+let rows=null, spend={}, cspend={}, storedAt=0, range="7", screen="op", lpVar="a2", showTests=false, fSrc="", fOwn="", AFF={}, fDev="", cFrom="", cTo="", jrStage="", openSid="", openCr="";
 const $=id=>document.getElementById(id);
 function st(){try{return localStorage}catch(e){return null}}
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
@@ -337,6 +347,7 @@ const TEST_WINDOWS=[["2026-10-21T09:53:00","2026-10-21T10:05:59"]].map(w=>w.map(
 const TEST_DEALS=["267429750"], TEST_SIDS=["6ac363a1-80a1-4715-9964-0a72520b66fb"];
 function isTest(r){const q=(r.qs||"").toLowerCase();return /claude|test|nocache/.test(q)||/(^|;)int=1(;|$)/.test(r.x||"")||r.variant==="test"||/בדיקה|בדיקת/.test(r.name||"")||TEST_WINDOWS.some(([a,b])=>r.t>=a&&r.t<=b)||TEST_SIDS.includes(r.sid)||TEST_DEALS.some(d=>new RegExp("deal\\s+"+d+"\\b").test(q));}
 function source(p){const s=(p.get("utm_source")||"").toLowerCase(),m=(p.get("utm_medium")||"").toLowerCase();
+ if(p.get("aff")||m==="affiliate")return "משווקים"; /* ב25: לפני מודעות Meta, כדי ש"מודעות Meta" יישאר רק המודעות של בן */
  if(/meta|facebook|fb|ig|instagram/.test(s)&&/paid|cpc|ads?$|social_paid|paid_social/.test(m))return "מודעות Meta";
  if(/manychat/.test(p.get("utm_campaign")||"")||m==="dm")return "ManyChat";
  if(/email|responder/.test(s+m))return "מייל";
@@ -369,7 +380,7 @@ function build(a,b){
   if(r.dev&&!s.dev)s.dev=r.dev; if(r.vid&&!s.vid)s.vid=r.vid; if(+r.nv)s.nv=Math.max(s.nv,+r.nv);
   s.time=Math.max(s.time,+r.sec_on_page||0); s.act=Math.max(s.act,+r.act||0); s.scroll=Math.max(s.scroll,+r.max_scroll_pct||0); s.sec=Math.max(s.sec,+r.max_section||0); if(+r.sections)s.secs=+r.sections;
   if(r.x){const x=parseX(r.x); const st=pairs(x.st); for(const k in st)s.secT[k]=Math.max(s.secT[k]||0,st[k]); const cs=pairs(x.cs); for(const k in cs) if(s.ctaSeen[k]==null||cs[k]<s.ctaSeen[k]) s.ctaSeen[k]=cs[k];
-   if(x.fs&&+x.fs>0)s.fs=s.fs==null?+x.fs:Math.min(s.fs,+x.fs); if(x.fc&&s.fc==null)s.fc=+x.fc; if(+x.lcp)s.lcp=Math.max(s.lcp,+x.lcp); if(x.cls)s.cls=Math.max(s.cls,+x.cls||0); if(+x.ttfb)s.ttfb=+x.ttfb; if(+x.load)s.load=+x.load; if(x.pay_load_ms)s.payMs=+x.pay_load_ms; if(x.cl&&!s.cl)s.cl=x.cl;}
+   if(x.fs&&+x.fs>0)s.fs=s.fs==null?+x.fs:Math.min(s.fs,+x.fs); if(x.fc&&s.fc==null)s.fc=+x.fc; if(+x.lcp)s.lcp=Math.max(s.lcp,+x.lcp); if(x.cls)s.cls=Math.max(s.cls,+x.cls||0); if(+x.ttfb)s.ttfb=+x.ttfb; if(+x.load)s.load=+x.load; if(x.pay_load_ms)s.payMs=+x.pay_load_ms; if(x.cl&&!s.cl)s.cl=x.cl; if(x.aff&&!s.aff)s.aff=x.aff;}
   if(r.ev==="section"&&r.section&&r.name){secNames[r.variant][r.section]=r.name}
   if(+r.sections)secCount[r.variant]=Math.max(secCount[r.variant],+r.sections);
   switch(r.ev){
@@ -389,14 +400,15 @@ function build(a,b){
   const m=(r.qs||"").match(/(\d+(?:\.\d+)?)\s*ILS/), d=(r.qs||"").match(/deal\s+(\S+)/); const deal=d?d[1]:"";
   const key=deal||(r.sid?r.sid:"t"+Math.floor(r.t/6e4)); if(seen.has(key))return; seen.add(key);
   const s=r.sid&&S[r.sid]; if(s){s.buy=true; if(!s.buyT)s.buyT=r.t; s.pay=true; s.det=true; s.chk=true;}
-  buys.push({t:r.t,day:dayKey(r.t),amt:m?+m[1]:PRICE,deal,sid:r.sid||"",s:s||null});});
+  buys.push({t:r.t,day:dayKey(r.t),amt:m?+m[1]:PRICE,deal,sid:r.sid||"",s:s||null,aff:parseX(r.x).aff||""});});
  let sess=Object.values(S);
  sess.forEach(s=>{s.offer=seenOffer(s,secNames); s.testi=seenTesti(s,secNames); s.eng=s.act>=20||s.scroll>=50||s.cta; s.dv=(s.dev||"").split("-")[0]||"?"; s.os=(s.dev||"").split("-")[1]||"?"; s.app=(s.dev||"").split("-")[2]||"?"; s.stage=stage(s); s.lastSec=s.sec;
   s.tbuy=s.buyT?(s.buyT-s.t)/1000:null;});
  if(fSrc)sess=sess.filter(s=>s.src===fSrc);
  if(fDev)sess=sess.filter(s=>s.dv===fDev);
+ if(fOwn)sess=sess.filter(s=>fOwn==="aff"?!!s.aff:!s.aff); /* ב25 */
  const sids=new Set(sess.map(s=>s.sid));
- const vbuys=(fSrc||fDev)?buys.filter(b=>b.sid&&sids.has(b.sid)):buys;
+ const vbuys=(fSrc||fDev||fOwn)?buys.filter(b=>b.sid&&sids.has(b.sid)):buys;
  return {R,sess,buys:vbuys,allBuys:buys,secNames,secCount,evCount};
 }
 function secIdx(names,re){for(const k in names)if(re.test(names[k]))return +k;return 0}
@@ -745,6 +757,13 @@ function renderInsights(M,A,B){$("inRecs").innerHTML=recommend(M,A,B).map(card).
   '</tbody></table></div><p class="note">ההבדל בין "הכי טוב היום" ל"הכי טוב על פני 7-14 ימים" חשוב: קריאייטיב שלא מכר היום לא בהכרח חלש.</p>';}
 
 /* ================= 08 data quality ================= */
+/* ב25: משווקים - 30 יום, לפי הבעלים בשדה x (aff=CODE). רכישה נספרת לפי הבעלים שבשורת הרכישה (מ-ReturnValue בקארדקום). בלי הסינונים של הסרגל */
+function renderAffiliates(){const now=new Date(),keep=[fSrc,fDev,fOwn];fSrc="";fDev="";fOwn="";let M;try{M=build(new Date(+now-30*864e5),new Date(+now+864e5))}finally{[fSrc,fDev,fOwn]=keep}
+ const own=s=>s.aff||"",codes=[...new Set(Object.keys(AFF).concat(M.sess.map(own).filter(Boolean),M.allBuys.map(b=>b.aff).filter(Boolean)))].sort();
+ const rowFor=code=>{const S=M.sess.filter(s=>own(s)===code),V=new Set(S.map(s=>s.vid||s.sid)),B=M.allBuys.filter(b=>(b.aff||"")===code),rev=B.reduce((x,y)=>x+y.amt,0),inf=AFF[code],pct=code&&inf?inf.pct:null;
+  return '<tr><td>'+(code?'<b>'+esc(inf?inf.name:code)+'</b> <small>'+esc(code)+(inf?(inf.active?"":" · לא פעיל"):" · לא ברשימה")+'</small>':'<b>בן נחום</b> <small>מודעות, מייל, ביו, ManyChat וישיר</small>')+'</td><td class="num">'+fmt(S.length)+'</td><td class="num">'+fmt(V.size)+'</td>'+cell(S.filter(s=>s.cta).length,S.length)+cell(S.filter(s=>s.chk).length,S.length)+'<td class="num">'+fmt(B.length)+'</td><td>'+ils(rev)+'</td><td>'+(pct==null?'<span class="na">-</span>':pct+'%')+'</td><td>'+(pct==null?'<span class="na">-</span>':ils(rev*pct/100))+'</td></tr>'};
+ table($("afTable"),["בעלים","ביקורים","מבקרים","לחצו לקנייה","הגיעו לסליקה","רכישות","הכנסה","אחוז עמלה","עמלה"],codes.map(rowFor).concat(rowFor("")));
+ $("afNote").textContent=Object.keys(AFF).length?"ברשימה "+Object.keys(AFF).length+" משווקים. הכנסה לפי הסכום בשורת הרכישה (כולל מע\"מ); עמלה = הכנסה × האחוז ברשימה.":"רשימת המשווקים לא נטענה או ריקה - מוצגים רק קודים שהגיעו בפועל.";}
 function renderDQ(M){const now=Date.now(),last=ev=>{for(let i=rows.length-1;i>=0;i--)if(!ev||ev(rows[i]))return rows[i].t;return null};
  const ago=t=>t?Math.round((now-t)/6e4)<90?"לפני "+Math.round((now-t)/6e4)+" דק'":t.toLocaleString("he-IL",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}):"-";
  const ks=Object.keys(spend).sort();const lastSp=ks[ks.length-1];
@@ -778,17 +797,18 @@ function renderDQ(M){const now=Date.now(),last=ev=>{for(let i=rows.length-1;i>=0
 function activeVars(B){const s=new Set();rows.forEach(r=>{if(r.t>=B.pa&&r.t<B.b&&(showTests||!isTest(r)))s.add(r.variant)});const v=ALLV.filter(x=>s.has(x));return v.length?v:ALLV.slice(0,3)}
 function render(){if(!rows)return;const B=bounds();VARS=activeVars(B);if(!VARS.includes(lpVar))lpVar=VARS[0];document.querySelectorAll("#lpVar button").forEach(b=>{b.hidden=!VARS.includes(b.dataset.v)});const M=build(B.a,B.b),P=build(B.pa,B.pb),A=aggregate(M,B.a,B.b),PA=aggregate(P,B.pa,B.pb);
  const srcs=[...new Set(rows.filter(r=>VARS.includes(r.variant)&&(showTests||!isTest(r))).map(r=>source(qsObj(r.qs))))].sort();const fs=$("fSrc");if(fs.options.length-1!==srcs.length){const cur=fs.value;fs.innerHTML='<option value="">כל המקורות</option>'+srcs.map(s=>'<option'+(s===cur?" selected":"")+'>'+esc(s)+'</option>').join("")}
- try{({op:()=>renderOpt(),ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>renderCheckout(M),jr:()=>renderJourneys(M),ex:()=>renderExperiments(M),in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M)})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
+ try{({op:()=>renderOpt(),ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>renderCheckout(M),jr:()=>renderJourneys(M),ex:()=>renderExperiments(M),in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M),af:()=>renderAffiliates()})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
  if(storedAt)$("fresh").textContent="· עודכן "+new Date(storedAt).toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});}
 function status(msg,kind){const s=$("status");if(!msg){s.hidden=true;return}s.className="banner "+(kind||"");s.textContent=msg;s.hidden=false;}
 function tsvRows(text){return text.split("\n").filter(l=>l.trim()).map(l=>{const a=l.split("\t"),o={};COLS.forEach((k,i)=>o[k]=a[i]||"");o.t=new Date((o.ts||"").replace(" ","T"));return o}).filter(r=>!isNaN(r.t)).sort((a,b)=>a.t-b.t)}
 let busy=false;
 async function load(){if(busy)return;busy=true;$("refresh").disabled=true;
- try{const [a,b]=await Promise.all([fetch(API+"rows",{cache:"no-store"}),fetch(API+"spend",{cache:"no-store"})]);
+ try{const [a,b,c]=await Promise.all([fetch(API+"rows",{cache:"no-store"}),fetch(API+"spend",{cache:"no-store"}),fetch(API+"affiliates",{cache:"no-store"}).catch(()=>null)]);
   if(!a.ok)throw new Error("rows "+a.status);const ta=await a.text();
   if(!ta.includes("\t")&&ta.trim()&&!/^\d{4}-/.test(ta.trim()))throw new Error(ta.slice(0,80));
   rows=tsvRows(ta);
   if(b.ok){const tb=await b.text();spend={};cspend={};tb.split("\n").slice(1).forEach(l=>{const [k,v]=l.split("\t");if(!/^\d{4}-\d{2}-\d{2}/.test(k||"")||v===""||isNaN(+v))return;if(k.includes("|"))cspend[k]=+v;else spend[k]=+v})}
+  if(c&&c.ok){const tc=await c.text();if(/^affiliates/.test(tc)){AFF={};tc.split("\n").slice(1).forEach(l=>{const [k,n,p,ac]=l.split("\t");const code=(k||"").trim().toLowerCase();if(code)AFF[code]={name:(n||"").trim()||code,pct:+p||0,active:(ac||"").trim()!=="false"}})}}
   storedAt=Date.now();status(null);render();
  }catch(e){status("לא הצלחנו לטעון את הנתונים ("+e.message+"). בדקו חיבור לאינטרנט ונסו לרענן.","warn")}
  finally{busy=false;$("refresh").disabled=false}}
@@ -799,7 +819,7 @@ function setScreen(s){screen=s;document.querySelectorAll("nav.tabs button").forE
  $("customBox").hidden=range!=="custom";$("cFrom").onchange=e=>{cFrom=e.target.value;render()};$("cTo").onchange=e=>{cTo=e.target.value;render()};
  document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>setScreen(b.dataset.s));
  document.querySelectorAll("#lpVar button").forEach(b=>b.onclick=()=>{lpVar=b.dataset.v;render()});
- $("fSrc").onchange=e=>{fSrc=e.target.value;render()};$("fDev").onchange=e=>{fDev=e.target.value;render()};$("jrStage").onchange=e=>{jrStage=e.target.value;render()};
+ $("fSrc").onchange=e=>{fSrc=e.target.value;render()};$("fOwn").onchange=e=>{fOwn=e.target.value;render()};$("fDev").onchange=e=>{fDev=e.target.value;render()};$("jrStage").onchange=e=>{jrStage=e.target.value;render()};
  $("showTests").onchange=e=>{showTests=e.target.checked;render()};$("refresh").onclick=load;
  $("spDate").value=dayKey(new Date());
  $("spendForm").addEventListener("submit",async e=>{e.preventDefault();const d=$("spDate").value,a=$("spAmt").value,c=($("spCr").value||"").replace(/[|\s]/g,"");if(!d||a==="")return;
