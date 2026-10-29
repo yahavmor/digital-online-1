@@ -146,6 +146,7 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
     </div>
   </header>
   <div id="status" class="banner" hidden></div>
+  <form id="login" class="banner" hidden><b>כניסה לדשבורד</b> <input type="password" id="pw" autocomplete="current-password" placeholder="סיסמה" aria-label="סיסמה" required> <button class="btn primary" type="submit">כניסה</button> <span id="pwErr"></span><div class="note">הסיסמה נשמרת רק בדפדפן הזה.</div></form>
   <nav class="tabs" role="tablist" aria-label="מסכים">
     <button role="tab" data-s="op"><b>00</b>אופטימיזציית דפי מכירה וסליקה</button>
     <button role="tab" data-s="ov"><b>01</b>סקירה יומית</button>
@@ -287,6 +288,7 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
   <!-- 09 affiliates (ב25) -->
   <section class="screen" id="s-af">
     <div class="panel"><div class="panel-h"><h2>משווקים - 30 הימים האחרונים</h2><span class="note">שיוך לפי הקליק האחרון ב-30 יום לפני הקנייה. רכישה שייכת למי שהיה הבעלים ברגע התשלום. בלי בדיקות (אלא אם מסומן "כולל בדיקות")</span></div><div class="tw"><table id="afTable"></table></div><p class="note" id="afNote"></p></div>
+    <div class="panel"><div class="panel-h"><h2>רכישות דרך משווקים</h2><span class="note">כל הזמן. עמלה משולמת רק 7 ימים אחרי הרכישה ואם לא היה החזר. החזר מסמנים כאן ידנית</span></div><div class="tw"><table id="afBuys"></table></div></div>
     <div class="panel"><div class="panel-h"><h2>קישור למשווק</h2><span class="note">להחליף CODE בקוד של המשווק. בלי utm_id, כדי שלא ייספר כמודעות של בן</span></div>
       <div class="mono" style="background:var(--bg);padding:10px;border-radius:8px;direction:ltr;text-align:left;word-break:break-all">https://funnel.digitalonline.co.il/nlp/go.html?aff=CODE&amp;utm_source={{site_source_name}}&amp;utm_medium=affiliate&amp;utm_campaign={{campaign.name}}&amp;utm_content={{ad.name}}</div>
       <p class="note">רשימת המשווקים (קוד, שם תצוגה, אחוז עמלה, פעיל) נשמרת ב-Make, ב-Data store "NLP - משווקים (ב25)", ולא בקובץ באתר. ביקור דרך מודעה של בן, מייל, ביו או ManyChat מחזיר את הבעלים לבן; ביקור ישיר לא משנה; אחרי 30 יום מהקליק של המשווק הבעלים חוזר לבן.</p></div>
@@ -296,7 +298,11 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
 <script>
 /* ================= data engine ================= */
 try{localStorage.setItem("nlp_int","1")}catch(e){} /* this browser is internal: its visits to the pages are sent as int=1 and hidden */
-const API="https://hook.eu1.make.com/qui1tw1ai7w98rqwbql9ir89ccvv9y6h?key=XxlxpZJz3TY5IeJV&action=";
+/* ב26: הדשבורד הוא דף ציבורי, אז המפתח ל-API לא כתוב בקוד. הסיסמה נשאלת פעם אחת ונשמרת בדפדפן הזה, ו-Make בודק אותה בכל בקשה */
+const API_BASE="https://hook.eu1.make.com/qui1tw1ai7w98rqwbql9ir89ccvv9y6h";
+let API="";
+function setKey(k){API=k?API_BASE+"?key="+encodeURIComponent(k)+"&action=":""}
+setKey((()=>{try{return localStorage.getItem("nlpdash_key")||""}catch(e){return ""}})());
 const COLS=["ts","ev","variant","sid","sec_on_page","max_section","sections","max_scroll_pct","qs","at_section","section","name","video","cta","checkout_started","depth","vid","dev","nv","act","x"];
 const ALLV=["a2","b2","c2","a","b","c"], VLBL={a:"a - השיטה",b:"b - הכאב",c:"c - הוכחה",a2:"a2 (חדש)",b2:"b2 (חדש)",c2:"c2 (חדש)"}, VCOL={a:"var(--s1)",b:"var(--s2)",c:"var(--s3)",a2:"var(--s4)",b2:"var(--s5)",c2:"var(--s6)"}; let VARS=ALLV.slice(0,3);
 const PRICE=297, VAT=0.18, TARGET=250, GOOD=150;
@@ -326,7 +332,7 @@ const EXPERIMENTS=[
 const CHANGELOG=[
  ["2026-10-07","שלושה דפים עם פתיחות שונות (v14-v15)"],["2026-10-08","הוסר אזור 'בחיים עצמם', מספור אזורים תוקן (v16)"],["2026-10-08","סליקה עברה ל-LowProfile בקארדקום"],["2026-10-09","מדידה מורחבת: זמן פעיל, חשיפת אזורים וכפתורים, מכשיר, ביצועים, שלבי סליקה"],["2026-10-09","Clarity: מפות חום והקלטות בדפים ובסליקה"],["2026-10-10","ביקורים מדפדפנים פנימיים מסומנים ומוסתרים, והתראה כשאין ביקורים 6 שעות"],["2026-10-26","ניסוי abc_2610: go.html → a/b/c בשליש מדויק (09:02)"],["2026-10-26","c.html: קופי חדש של בן בשלושה אזורים, הגרסה הקודמת ב-nlp/archive"],["2026-10-26","2026-10-26 19:32: 4 עדויות וואטסאפ חדשות בשלושת הדפים; a2/b2/c2 מפנים ל-go.html"],["2026-10-26","20:56: 4 העדויות החדשות עם השמות ותמונות הפרופיל (באישור בן) במקום המטושטשות; כלל הוצאת דף חלש עודכן לפי בן (100 מבקרים, 90%, חצי מהטוב, 5 הגעות לסליקה, 25 לדף; באישור יהב)"],["2026-10-27","11:29: דף A קיבל את מסך הפתיחה של C (ב19). שאר A בלי שינוי, נמדד כ-a. החלטה לפי % שעוברים את המסך הראשון אחרי 50 ביקורים"],["2026-10-28","14:31: הפיקסל של Meta לא נטען בסריקות Meta, בקישורי בדיקה ובדפדפן הפנימי (a/b/c ודף התודה), ו-InitiateCheckout נשלח פעם אחת בביקור (ב23). המדידה שלנו בדשבורד בלי שינוי; ב-Meta מספר התחלות התשלום צפוי לרדת לכמות האמיתית"],["2026-10-29","11:38: תשתית משווקים (ב25): aff בקישור נשמר 30 יום (הקליק האחרון; ערוץ של בן מחזיר לבן), נשלח עם כל אירוע ועם ReturnValue לקארדקום; לשונית 09 משווקים, מקור \"משווקים\" וסינון בן/משווקים"]];
 
-let rows=null, spend={}, cspend={}, storedAt=0, range="7", screen="op", lpVar="a2", showTests=false, fSrc="", fOwn="", AFF={}, fDev="", cFrom="", cTo="", jrStage="", openSid="", openCr="";
+let rows=null, spend={}, cspend={}, storedAt=0, range="7", screen="op", lpVar="a2", showTests=false, fSrc="", fOwn="", AFF={}, REF=new Set(), fDev="", cFrom="", cTo="", jrStage="", openSid="", openCr="";
 const $=id=>document.getElementById(id);
 function st(){try{return localStorage}catch(e){return null}}
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
@@ -757,13 +763,25 @@ function renderInsights(M,A,B){$("inRecs").innerHTML=recommend(M,A,B).map(card).
   '</tbody></table></div><p class="note">ההבדל בין "הכי טוב היום" ל"הכי טוב על פני 7-14 ימים" חשוב: קריאייטיב שלא מכר היום לא בהכרח חלש.</p>';}
 
 /* ================= 08 data quality ================= */
-/* ב25: משווקים - 30 יום, לפי הבעלים בשדה x (aff=CODE). רכישה נספרת לפי הבעלים שבשורת הרכישה (מ-ReturnValue בקארדקום). בלי הסינונים של הסרגל */
-function renderAffiliates(){const now=new Date(),keep=[fSrc,fDev,fOwn];fSrc="";fDev="";fOwn="";let M;try{M=build(new Date(+now-30*864e5),new Date(+now+864e5))}finally{[fSrc,fDev,fOwn]=keep}
- const own=s=>s.aff||"",codes=[...new Set(Object.keys(AFF).concat(M.sess.map(own).filter(Boolean),M.allBuys.map(b=>b.aff).filter(Boolean)))].sort();
- const rowFor=code=>{const S=M.sess.filter(s=>own(s)===code),V=new Set(S.map(s=>s.vid||s.sid)),B=M.allBuys.filter(b=>(b.aff||"")===code),rev=B.reduce((x,y)=>x+y.amt,0),inf=AFF[code],pct=code&&inf?inf.pct:null;
-  return '<tr><td>'+(code?'<b>'+esc(inf?inf.name:code)+'</b> <small>'+esc(code)+(inf?(inf.active?"":" · לא פעיל"):" · לא ברשימה")+'</small>':'<b>בן נחום</b> <small>מודעות, מייל, ביו, ManyChat וישיר</small>')+'</td><td class="num">'+fmt(S.length)+'</td><td class="num">'+fmt(V.size)+'</td>'+cell(S.filter(s=>s.cta).length,S.length)+cell(S.filter(s=>s.chk).length,S.length)+'<td class="num">'+fmt(B.length)+'</td><td>'+ils(rev)+'</td><td>'+(pct==null?'<span class="na">-</span>':pct+'%')+'</td><td>'+(pct==null?'<span class="na">-</span>':ils(rev*pct/100))+'</td></tr>'};
- table($("afTable"),["בעלים","ביקורים","מבקרים","לחצו לקנייה","הגיעו לסליקה","רכישות","הכנסה","אחוז עמלה","עמלה"],codes.map(rowFor).concat(rowFor("")));
- $("afNote").textContent=Object.keys(AFF).length?"ברשימה "+Object.keys(AFF).length+" משווקים. הכנסה לפי הסכום בשורת הרכישה (כולל מע\"מ); עמלה = הכנסה × האחוז ברשימה.":"רשימת המשווקים לא נטענה או ריקה - מוצגים רק קודים שהגיעו בפועל.";}
+/* ב25+ב27: משווקים. תנועה ב-30 יום לפי הבעלים בשדה x (aff=CODE); רכישה לפי הבעלים בשורת הרכישה (מ-ReturnValue בקארדקום).
+   עמלה: סכום קבוע לרכישה (fee) אם הוגדר ברשימה, אחרת אחוז. משולמת רק 7 ימים אחרי הרכישה ואם לא סומן החזר */
+const PAY_DAYS=7;
+function affFee(b){const inf=AFF[b.aff];if(!b.aff||!inf)return null;return inf.fee>0?inf.fee:Math.round(b.amt*inf.pct)/100}
+function affState(b){return REF.has(b.deal)?"refund":(Date.now()-b.t<PAY_DAYS*864e5?"pending":"due")}
+function renderAffiliates(){const now=new Date(),keep=[fSrc,fDev,fOwn];fSrc="";fDev="";fOwn="";let M,ALL;try{M=build(new Date(+now-30*864e5),new Date(+now+864e5));ALL=build(new Date(0),new Date(+now+864e5))}finally{[fSrc,fDev,fOwn]=keep}
+ const own=s=>s.aff||"",codes=[...new Set(Object.keys(AFF).concat(M.sess.map(own).filter(Boolean),ALL.allBuys.map(b=>b.aff).filter(Boolean)))].sort();
+ const na='<span class="na">-</span>',sum=(B,st)=>B.filter(b=>affState(b)===st).reduce((x,b)=>x+(affFee(b)||0),0);
+ const rowFor=code=>{const S=M.sess.filter(s=>own(s)===code),V=new Set(S.map(s=>s.vid||s.sid)),B=M.allBuys.filter(b=>(b.aff||"")===code),BA=ALL.allBuys.filter(b=>(b.aff||"")===code),rev=B.reduce((x,y)=>x+y.amt,0),inf=AFF[code];
+  const per=code&&inf?(inf.fee>0?ils(inf.fee):inf.pct+'%'):null;
+  return '<tr><td>'+(code?'<b>'+esc(inf?inf.name:code)+'</b> <small>'+esc(code)+(inf?(inf.active?"":" · לא פעיל"):" · לא ברשימה")+'</small>':'<b>בן נחום</b> <small>מודעות, מייל, ביו, ManyChat וישיר</small>')+'</td><td class="num">'+fmt(S.length)+'</td><td class="num">'+fmt(V.size)+'</td>'+cell(S.filter(s=>s.cta).length,S.length)+cell(S.filter(s=>s.chk).length,S.length)+'<td class="num">'+fmt(B.length)+'</td><td>'+ils(rev)+'</td><td>'+(per||na)+'</td>'+
+   (code?'<td>'+ils(sum(BA,"pending"))+'</td><td><b>'+ils(sum(BA,"due"))+'</b></td><td class="num">'+fmt(BA.filter(b=>affState(b)==="refund").length)+'</td>':'<td>'+na+'</td><td>'+na+'</td><td>'+na+'</td>')+'</tr>'};
+ table($("afTable"),["בעלים","ביקורים (30 יום)","מבקרים","לחצו לקנייה","הגיעו לסליקה","רכישות (30 יום)","הכנסה (30 יום)","עמלה לרכישה","עמלה ממתינה","עמלה לתשלום","הוחזרו"],codes.map(rowFor).concat(rowFor("")));
+ const AB=ALL.allBuys.filter(b=>b.aff).sort((x,y)=>y.t-x.t),lab={pending:"ממתין",due:"לתשלום",refund:"הוחזר"};
+ table($("afBuys"),["תאריך","עסקה","משווק","סכום","עמלה","מצב",""],AB.map(b=>{const st=affState(b),inf=AFF[b.aff],left=Math.ceil((PAY_DAYS*864e5-(Date.now()-b.t))/864e5);
+  return '<tr><td>'+b.t.toLocaleDateString("he-IL")+' '+b.t.toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"})+'</td><td class="num">'+esc(b.deal||"-")+'</td><td>'+esc(inf?inf.name:b.aff)+' <small>'+esc(b.aff)+'</small></td><td>'+ils(b.amt)+'</td><td>'+(affFee(b)==null?na:ils(affFee(b)))+'</td><td><span class="pill '+(st==="due"?"good":st==="refund"?"crit":"warn")+'">'+lab[st]+(st==="pending"?" · עוד "+left+" ימים":"")+'</span></td><td>'+(b.deal?'<button class="btn" data-ref="'+esc(b.deal)+'" data-on="'+(st==="refund"?0:1)+'">'+(st==="refund"?"ביטול החזר":"סימון החזר")+'</button>':"")+'</td></tr>'}),"אין עדיין רכישות דרך משווקים");
+ document.querySelectorAll("#afBuys button[data-ref]").forEach(bt=>bt.onclick=async()=>{const deal=bt.dataset.ref,on=bt.dataset.on==="1";if(!confirm(on?"לסמן את עסקה "+deal+" כהחזר? העמלה עליה לא תשולם.":"לבטל את סימון ההחזר בעסקה "+deal+"?"))return;bt.disabled=true;
+  try{const r=await fetch(API+"refund_set&deal="+encodeURIComponent(deal)+"&on="+(on?1:0),{cache:"no-store"});const t=(await r.text()).trim();if(!r.ok||t!=="ok")throw new Error(t.slice(0,40)||r.status);if(on)REF.add(deal);else REF.delete(deal);renderAffiliates()}catch(e){bt.disabled=false;status("שמירת ההחזר נכשלה ("+e.message+")","warn")}});
+ $("afNote").textContent=(Object.keys(AFF).length?"ברשימה "+Object.keys(AFF).length+" משווקים. ":"רשימת המשווקים לא נטענה או ריקה - מוצגים רק קודים שהגיעו בפועל. ")+"עמלה: סכום קבוע לרכישה אם הוגדר ברשימה, אחרת אחוז מהסכום בשורת הרכישה. ממתינה = פחות מ-"+PAY_DAYS+" ימים מהרכישה; לתשלום = עברו "+PAY_DAYS+" ימים ולא סומן החזר. עמלה ממתינה, לתשלום והחזרים - מכל הזמן.";}
 function renderDQ(M){const now=Date.now(),last=ev=>{for(let i=rows.length-1;i>=0;i--)if(!ev||ev(rows[i]))return rows[i].t;return null};
  const ago=t=>t?Math.round((now-t)/6e4)<90?"לפני "+Math.round((now-t)/6e4)+" דק'":t.toLocaleString("he-IL",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}):"-";
  const ks=Object.keys(spend).sort();const lastSp=ks[ks.length-1];
@@ -802,13 +820,17 @@ function render(){if(!rows)return;const B=bounds();VARS=activeVars(B);if(!VARS.i
 function status(msg,kind){const s=$("status");if(!msg){s.hidden=true;return}s.className="banner "+(kind||"");s.textContent=msg;s.hidden=false;}
 function tsvRows(text){return text.split("\n").filter(l=>l.trim()).map(l=>{const a=l.split("\t"),o={};COLS.forEach((k,i)=>o[k]=a[i]||"");o.t=new Date((o.ts||"").replace(" ","T"));return o}).filter(r=>!isNaN(r.t)).sort((a,b)=>a.t-b.t)}
 let busy=false;
-async function load(){if(busy)return;busy=true;$("refresh").disabled=true;
- try{const [a,b,c]=await Promise.all([fetch(API+"rows",{cache:"no-store"}),fetch(API+"spend",{cache:"no-store"}),fetch(API+"affiliates",{cache:"no-store"}).catch(()=>null)]);
+function askKey(msg){$("login").hidden=false;$("pwErr").textContent=msg||"";status(null);try{$("pw").focus()}catch(e){}}
+async function load(){if(busy)return;if(!API){askKey();return}busy=true;$("refresh").disabled=true;
+ try{const [a,b,c,d]=await Promise.all([fetch(API+"rows",{cache:"no-store"}),fetch(API+"spend",{cache:"no-store"}),fetch(API+"affiliates",{cache:"no-store"}).catch(()=>null),fetch(API+"refunds",{cache:"no-store"}).catch(()=>null)]);
   if(!a.ok)throw new Error("rows "+a.status);const ta=await a.text();
+  if(ta.trim()==="Accepted"){try{localStorage.removeItem("nlpdash_key")}catch(e){}setKey("");askKey(rows?"צריך להתחבר מחדש":"הסיסמה לא נכונה");return} /* Make עונה Accepted כשהמפתח לא תואם */
+  $("login").hidden=true;
   if(!ta.includes("\t")&&ta.trim()&&!/^\d{4}-/.test(ta.trim()))throw new Error(ta.slice(0,80));
   rows=tsvRows(ta);
   if(b.ok){const tb=await b.text();spend={};cspend={};tb.split("\n").slice(1).forEach(l=>{const [k,v]=l.split("\t");if(!/^\d{4}-\d{2}-\d{2}/.test(k||"")||v===""||isNaN(+v))return;if(k.includes("|"))cspend[k]=+v;else spend[k]=+v})}
-  if(c&&c.ok){const tc=await c.text();if(/^affiliates/.test(tc)){AFF={};tc.split("\n").slice(1).forEach(l=>{const [k,n,p,ac]=l.split("\t");const code=(k||"").trim().toLowerCase();if(code)AFF[code]={name:(n||"").trim()||code,pct:+p||0,active:(ac||"").trim()!=="false"}})}}
+  if(c&&c.ok){const tc=await c.text();if(/^affiliates/.test(tc)){AFF={};tc.split("\n").slice(1).forEach(l=>{const [k,n,p,ac,fe]=l.split("\t");const code=(k||"").trim().toLowerCase();if(code)AFF[code]={name:(n||"").trim()||code,pct:+p||0,active:(ac||"").trim()!=="false",fee:+fe||0}})}}
+  if(d&&d.ok){const td=await d.text();if(/^refunds/.test(td))REF=new Set(td.split("\n").slice(1).map(l=>(l.split("\t")[0]||"").trim()).filter(Boolean))}
   storedAt=Date.now();status(null);render();
  }catch(e){status("לא הצלחנו לטעון את הנתונים ("+e.message+"). בדקו חיבור לאינטרנט ונסו לרענן.","warn")}
  finally{busy=false;$("refresh").disabled=false}}
@@ -819,6 +841,7 @@ function setScreen(s){screen=s;document.querySelectorAll("nav.tabs button").forE
  $("customBox").hidden=range!=="custom";$("cFrom").onchange=e=>{cFrom=e.target.value;render()};$("cTo").onchange=e=>{cTo=e.target.value;render()};
  document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>setScreen(b.dataset.s));
  document.querySelectorAll("#lpVar button").forEach(b=>b.onclick=()=>{lpVar=b.dataset.v;render()});
+ $("login").onsubmit=e=>{e.preventDefault();const k=$("pw").value.trim();if(!k)return;try{localStorage.setItem("nlpdash_key",k)}catch(x){}setKey(k);$("pw").value="";$("pwErr").textContent="";load()};
  $("fSrc").onchange=e=>{fSrc=e.target.value;render()};$("fOwn").onchange=e=>{fOwn=e.target.value;render()};$("fDev").onchange=e=>{fDev=e.target.value;render()};$("jrStage").onchange=e=>{jrStage=e.target.value;render()};
  $("showTests").onchange=e=>{showTests=e.target.checked;render()};$("refresh").onclick=load;
  $("spDate").value=dayKey(new Date());
