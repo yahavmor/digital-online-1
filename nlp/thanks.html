@@ -38,7 +38,7 @@ h1{font-size:clamp(28px,8vw,36px);font-weight:900;line-height:1.15;margin:0 0 8p
 @keyframes sp{to{transform:rotate(360deg)}}
 </style>
 <script>try{if(top!==self)top.location.replace(location.href)}catch(e){}</script>
-<script>/* ב23: בלי פיקסל לסריקות Meta (חתימת app_id 256281040558 ב-fbclid, כמו ב-7798267), לקישורי בדיקה ולדפדפן הפנימי */(function(){try{var s=location.search,off=/yNTYyODEwNDA1N|MjU2MjgxMDQwNT|I1NjI4MTA0MDU1|claude|test|nocache|internal/i.test(s);try{off=off||localStorage.getItem("nlp_int")==="1"}catch(e){}window.__noPix=off;if(off)return}catch(e){}
+<script>/* ב23: בלי פיקסל לסריקות Meta (חתימת app_id 256281040558 ב-fbclid, כמו ב-7798267), לקישורי בדיקה ולדפדפן הפנימי */(function(){try{var s=location.search.replace(/[?&](terminalnumber|lowprofile[a-z]*|respon[a-z]*code|operation|status|traceid|internaldealnumber|dealresponse|tranzactionid)=[^&]*/gi,""),off=/yNTYyODEwNDA1N|MjU2MjgxMDQwNT|I1NjI4MTA0MDU1|claude|test|nocache|internal/i.test(s);try{off=off||localStorage.getItem("nlp_int")==="1"}catch(e){}window.__noPix=off;if(off)return}catch(e){}
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","1278104408729813");fbq("init","1651086743466533");fbq("track","PageView");fbq("trackCustom","ThanksView");
 })();</script>
 <script>
@@ -88,7 +88,7 @@ const SUPPORT_WA = "972526951092";
       if(!id || !window.fbq) return;
       const key = "px_purchase_" + id;
       try{ if(localStorage.getItem(key)) return; }catch(e){}
-      try{ fbq("track", "Purchase", {value:297, currency:"ILS", content_name:"השיטה - הקורס המלא"}, {eventID: id}); }catch(e){ return; }
+      try{ fbq("track", "Purchase", {value:297, currency:"ILS", content_name:"השיטה - הקורס המלא"}, {eventID: id}); window.__pur = 1; }catch(e){ return; }
       /* מסמנים "נשלח" רק אחרי שליחה בפועל בחלון הראשי */
       try{ localStorage.setItem(key, "1"); }catch(e){}
     }
@@ -113,6 +113,14 @@ const SUPPORT_WA = "972526951092";
   try{ if(TRACK_ENDPOINT[0]!=="%"){ let lc={},ft={};try{lc=JSON.parse(localStorage.getItem("nlp_lc")||"{}");ft=JSON.parse(localStorage.getItem("nlp_ft")||"{}");}catch(e){} const cc=qs.get("src")==="cc"||!!qs.get("sid"); let dup=false; try{dup=cc&&sessionStorage.getItem("px_ret")==="1"; if(cc)sessionStorage.setItem("px_ret","1");}catch(e){} try{ if(window.clarity){ if(lc.v) clarity("set","variant",lc.v); let vd=""; try{vd=localStorage.getItem("nlp_vid")||"";}catch(e){} if(vd){ clarity("identify",vd); clarity("set","vid",vd); } if(cc){ clarity("event","purchase_return"); clarity("upgrade","purchase"); } else clarity("event","thanks_view"); } }catch(e){} const f=new URLSearchParams({ev:cc?(dup?"thanks_view":"purchase_return"):"thanks_view", variant:lc.v||qs.get("v")||"", sid:lc.sid||qs.get("sid")||("t-"+Date.now()), qs:lc.qs!=null?lc.qs:location.search.slice(1), cta:lc.cta||"", name:ft.qs!=null?("ft:"+ft.v+"|"+ft.qs):"", sec_on_page:lc.ts?Math.round((Date.now()-lc.ts)/1000):""});
     try{ if(localStorage.getItem("nlp_int")==="1") f.set("x","int=1"); }catch(e){} try{ const ow=window.NLP_OWNER?NLP_OWNER():""; if(ow) f.set("x",(f.get("x")?f.get("x")+";":"")+"aff="+ow); }catch(e){}
     if(!(navigator.sendBeacon&&navigator.sendBeacon(TRACK_ENDPOINT,f))) fetch(TRACK_ENDPOINT,{method:"POST",body:f,mode:"no-cors"}); } }catch(e){}
+  /* ב34: אבחון פיקסל בדף התודה (חלון ראשי בלבד) - האם הספרייה של Meta נטענה, האם נשלח Purchase, ושמות הפרמטרים בכתובת (בלי ערכים) */
+  setTimeout(function(){ try{ if(window.self !== window.top || TRACK_ENDPOINT[0]==="%") return;
+    const st = window.__noPix ? "off" : (!window.fbq ? "nofbq" : (window.fbq.callMethod ? "loaded" : "blocked"));
+    const keys = []; qs.forEach(function(v,k){ keys.push(k); });
+    const g = new URLSearchParams({ev:"px_status", variant:qs.get("v")||"", sid:qs.get("sid")||"", x:"px="+st+";pur="+(window.__pur?1:0), name:keys.join(",").slice(0,200)});
+    try{ if(localStorage.getItem("nlp_int")==="1") g.set("x", g.get("x")+";int=1"); }catch(e){}
+    if(!(navigator.sendBeacon&&navigator.sendBeacon(TRACK_ENDPOINT,g))) fetch(TRACK_ENDPOINT,{method:"POST",body:g,mode:"no-cors"});
+  }catch(e){} }, 12000);
 })();
 </script>
 </body>
