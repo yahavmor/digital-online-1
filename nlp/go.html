@@ -15,9 +15,10 @@ var NLP_OWNER=(function(){var K="nlp_aff",D=2592e6,now=Date.now(),cur=null;
 <style>html,body{margin:0;background:#0d0d0f;color:#d6b26a;font-family:Arial,sans-serif;height:100%;display:grid;place-items:center}</style>
 <script>
 (function(){
-  /* ב36 (בן 2.11 17:27): "נשארים רק עם דף A" - כל התנועה ל-a, כולל קישורי המשווקים. b ו-c נשארים באתר מחוץ לחלוקה.
-     מפתח הניסוי abc_2610 נשאר בכתובת עד שיעלה ניסוי a/a1 עם מפתח חדש (ב36 סעיף 4). */
-  var EXP="abc_2610", K="nlp_go_"+EXP, v="a"; try{ localStorage.setItem(K,v); }catch(e){}
+  /* ב36 (אישור בן 2.11): ניסוי aa1_0211 - a מול a1 (A מקוצר), חצי-חצי, שיוך קבוע לכל דפדפן, לכל התנועה כולל קישורי המשווקים (aff).
+     מפתח חדש = הגרלה חדשה לכולם. 256 ערכים מתחלקים בדיוק לשניים. b ו-c נשארים באתר מחוץ לחלוקה. */
+  var EXP="aa1_0211", K="nlp_go_"+EXP, v=null; try{ v=localStorage.getItem(K); }catch(e){}
+  if(v!=="a"&&v!=="a1"){ try{ var r=new Uint8Array(1); crypto.getRandomValues(r); v=(r[0]%2)?"a1":"a"; }catch(e){ v=Math.random()<.5?"a1":"a"; } try{ localStorage.setItem(K,v); }catch(e){} }
   var q=new URLSearchParams(location.search); if(!q.has("go")) q.set("go","1"); q.set("exp",EXP);
   location.replace(v+".html?"+q.toString()); /* a2/b2/c2 נשארים באתר, מחוץ לניסוי */
 })();
