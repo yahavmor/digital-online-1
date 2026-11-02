@@ -187,8 +187,18 @@ const SUPPORT_WA = "972526951092";
 const TERMS_URL = "";   /* קישור לתנאי השימוש. ריק = השורה מוסתרת */
 const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיות */ /* לדוגמה 9725XXXXXXXX. ריק = מוסתר */
 (function(){
+  /* ב32: כשקארדקום מחזירה כשל, דף זה נטען קודם בתוך מסגרת התשלום ומיד עובר לחלון הראשי (הסקריפט בראש הדף).
+     העותק שבתוך המסגרת לא רושם אירועים ולא יוצר דף תשלום - רק העותק בחלון הראשי. */
+  let framed = false; try{ framed = window.self !== window.top; }catch(e){ framed = true; }
+  if (framed) return;
+  let leaving = false; addEventListener("pagehide", ()=>{ leaving = true; });
   const qs = new URLSearchParams(location.search);
-  const variant = qs.get("v") || (qs.get("utm_content")||"").replace("lp_","") || "x";
+  /* ב31(5): כתובת החזרה מקארדקום (כשל/ביטול) מגיעה בלי utm - שומרים את המקור מהכניסה הראשונה בלשונית ומשתמשים בו כגיבוי */
+  const UTM = ["utm_source","utm_medium","utm_campaign","utm_content"]; let utm = {};
+  try{ utm = JSON.parse(sessionStorage.getItem("cc_utm")||"{}")||{}; }catch(e){}
+  if (UTM.some(k=>qs.get(k))){ utm = {}; UTM.forEach(k=>{ utm[k] = qs.get(k)||""; }); try{ sessionStorage.setItem("cc_utm", JSON.stringify(utm)); }catch(e){} }
+  const U = k => qs.get(k) || utm[k] || "";
+  const variant = qs.get("v") || U("utm_content").replace("lp_","") || "x";
   const sid = qs.get("sid") || ((self.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now()+"-"+Math.random().toString(36).slice(2));
   const $ = id => document.getElementById(id);
   if (variant !== "x") $("back").href = variant + ".html" + location.search;
@@ -209,11 +219,11 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
   }
   track(qs.get("status")==="failed" ? "checkout_failed" : "checkout_view");
   try{ if(window.fbq) fbq("track","InitiateCheckout",{value:297,currency:"ILS"}); }catch(e){}
-  function fail(code){ $("loadTxt").textContent = "לא הצלחנו לטעון את דף התשלום. לא בוצע חיוב. נסה שוב, או כתוב לנו ב-WhatsApp ונעזור מיד."; $("retry").style.display = "inline-block"; document.querySelector(".spin").style.display="none"; $("cc").hidden = true; track("checkout_load_error", code ? {code:String(code)} : null); }
+  function fail(code){ if(leaving) return; $("loadTxt").textContent = "לא הצלחנו לטעון את דף התשלום. לא בוצע חיוב. נסה שוב, או כתוב לנו ב-WhatsApp ונעזור מיד."; $("retry").style.display = "inline-block"; document.querySelector(".spin").style.display="none"; $("cc").hidden = true; track("checkout_load_error", code ? {code:String(code)} : null); }
   function load(){
     $("loading").style.display = ""; $("cc").hidden = true; $("retry").style.display = "none"; document.querySelector(".spin").style.display=""; $("loadTxt").textContent = "טוען תשלום מאובטח...";
     let prev=""; try{ if(qs.get("status")==="failed") prev=sessionStorage.getItem("cc_lp")||""; }catch(e){}
-    const body = new URLSearchParams({variant, sid, name:det.name, email:det.email, phone:det.phone, utm_source:qs.get("utm_source")||"", utm_medium:qs.get("utm_medium")||"", utm_campaign:qs.get("utm_campaign")||"", utm_content:qs.get("utm_content")||""}); if(prev) body.set("prev_lp", prev); { const ow=window.NLP_OWNER?NLP_OWNER():""; if(ow) body.set("aff", ow); }
+    const body = new URLSearchParams({variant, sid, name:det.name, email:det.email, phone:det.phone, utm_source:U("utm_source"), utm_medium:U("utm_medium"), utm_campaign:U("utm_campaign"), utm_content:U("utm_content")}); if(prev) body.set("prev_lp", prev); { const ow=window.NLP_OWNER?NLP_OWNER():""; if(ow) body.set("aff", ow); }
     /* נתוני התאמה ל-Meta CAPI: נשמרים ב-Make לפי מזהה דף התשלום ונשלחים עם ה-Purchase מהשרת. כל שדה רק כשיש לו ערך */
     try{ const ck=n=>{ const m=document.cookie.match(new RegExp("(?:^|; )"+n+"=([^;]*)")); return m?decodeURIComponent(m[1]):""; };
       const fbp=ck("_fbp"), fbclid=qs.get("fbclid"); let fbc=ck("_fbc"); if(!fbc&&fbclid) fbc="fb.1."+Date.now()+"."+fbclid;
