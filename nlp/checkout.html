@@ -117,6 +117,18 @@ html[data-co="b"] #det .go,html[data-co="b"] #editDet{display:none}
 .cohint{display:none;margin:2px 0 0;font-size:14px;color:var(--muted);text-align:center}
 html[data-co="b"] .cohint{display:block}
 html[data-co="b"] #paySec[hidden]{display:none}
+/* ב37 תיקון (בן 3.11): בגרסה ב' מסגרת התשלום מוצגת מההתחלה מתחת לשדות, וטופס קארדקום מחליף אותה באותו מקום */
+html[data-co="b"] .cohint{font-size:16px;font-weight:600;color:var(--ink2);margin-top:6px}
+.cohold{display:none}
+html[data-co="b"] .frame.wait{min-height:0}
+html[data-co="b"] .frame.wait .loading,html[data-co="b"] .frame.wait iframe{display:none}
+html[data-co="b"] .frame.wait .cohold{display:block;padding:18px 16px 20px}
+.cohold .cf{margin:0 0 12px}
+.cohold .cf b{display:block;font-size:14px;font-weight:600;color:var(--muted);margin-bottom:5px}
+.cohold .cf i{display:block;height:46px;border:1px solid var(--line);border-radius:10px;background:#F4F2EE}
+.cohold .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cohold .go{margin-top:4px}
+.cohold .note{margin:12px 0 0;text-align:center;font-size:15px;font-weight:600;color:var(--ink2)}
 </style>
 <style>/* 1,290 מחוק ליד 297 (19.10) */
 s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;white-space:nowrap}
@@ -162,6 +174,7 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 <div class="err" id="err" role="alert"><b>נראה שהתשלום לא עבר</b>הכול בסדר - לא בוצע חיוב. אפשר לנסות שוב עם אותו הכרטיס או עם כרטיס אחר.</div>
 <p class="paytitle">פרטי תשלום<span>🔒 התשלום מאובטח באמצעות Cardcom</span></p>
 <div class="frame">
+<div class="cohold" id="coHold"><div class="cf"><b>מספר כרטיס</b><i></i></div><div class="row2"><div class="cf"><b>תוקף</b><i></i></div><div class="cf"><b>3 ספרות</b><i></i></div></div><button class="go" type="button" id="coPay">לתשלום מאובטח - 297 ₪</button><p class="note">נפתח ברגע שממלאים את שלושת הפרטים</p></div>
 <div class="loading" id="loading"><div class="spin" aria-hidden="true"></div><span id="loadTxt">טוען תשלום מאובטח...</span><button class="retry" id="retry" type="button">נסו שוב</button></div>
 <iframe id="cc" title="תשלום מאובטח" allow="payment *" allowpaymentrequest="true" hidden></iframe>
 </div>
@@ -243,6 +256,7 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
   track(qs.get("status")==="failed" ? "checkout_failed" : "checkout_view");
   function fail(code){ if(leaving) return; $("loadTxt").textContent = "לא הצלחנו לטעון את דף התשלום. לא בוצע חיוב. נסה שוב, או כתוב לנו ב-WhatsApp ונעזור מיד."; $("retry").style.display = "inline-block"; document.querySelector(".spin").style.display="none"; $("cc").hidden = true; track("checkout_load_error", code ? {code:String(code)} : null); }
   function load(){
+    { const fr=$("cc").parentNode; if(fr) fr.classList.remove("wait"); }
     $("loading").style.display = ""; $("cc").hidden = true; $("retry").style.display = "none"; document.querySelector(".spin").style.display=""; $("loadTxt").textContent = "טוען תשלום מאובטח...";
     let prev=""; try{ if(qs.get("status")==="failed") prev=sessionStorage.getItem("cc_lp")||""; }catch(e){}
     const body = new URLSearchParams({variant, sid, name:det.name, email:det.email, phone:det.phone, utm_source:U("utm_source"), utm_medium:U("utm_medium"), utm_campaign:U("utm_campaign"), utm_content:U("utm_content")}); if(prev) body.set("prev_lp", prev); body.set("co", CV); { const ow=window.NLP_OWNER?NLP_OWNER():""; if(ow) body.set("aff", ow); }
@@ -297,6 +311,13 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
     /* גרסה ב': כששלושת השדות תקינים (שנייה אחרי ההקלדה האחרונה) טופס התשלום נטען מתחתם. שינוי בפרטים אחרי הטעינה = דף תשלום חדש עם הפרטים המעודכנים.
        הודעות שגיאה רק ביציאה משדה, ורק כשכל השלושה מולאו */
     let tmr=null, verr=false;
+    $("paySec").hidden = false; $("cc").parentNode.classList.add("wait");
+    /* לחיצה על הכפתור במסגרת לפני שהפרטים מלאים: מסמנת מה חסר ומחזירה לשדה הראשון (לא שלב ביניים) */
+    $("coPay").addEventListener("click", () => {
+      const d = check(true);
+      if(!d){ track("checkout_validation_error",{name:badList(),x:"via=paybtn"}); const f=["fName","fEmail","fPhone"].find(i=>$(i).classList.contains("bad")); if(f){ try{ $(f).scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} $(f).focus(); } return; }
+      clearTimeout(tmr); if(keyOf(d)!==loadedKey) accept(d);
+    });
     const tryLoad = () => { const d = check(false); if(!d || keyOf(d)===loadedKey) return; check(true); accept(d); };
     ["fName","fEmail","fPhone"].forEach(i=>{
       $(i).addEventListener("input",()=>{ clearTimeout(tmr); tmr=setTimeout(tryLoad, 1000); if($(i).classList.contains("bad")) check(true); });
