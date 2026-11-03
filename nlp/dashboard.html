@@ -147,6 +147,7 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
   </header>
   <div id="status" class="banner" hidden></div>
   <nav class="tabs" role="tablist" aria-label="מסכים">
+    <button role="tab" data-s="hub"><b>★</b>דשבורד מאוחד</button>
     <button role="tab" data-s="op"><b>00</b>אופטימיזציית דפי מכירה וסליקה</button>
     <button role="tab" data-s="ov"><b>01</b>סקירה יומית</button>
     <button role="tab" data-s="cr"><b>02</b>קריאייטיבים</button>
@@ -158,6 +159,17 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
     <button role="tab" data-s="dq"><b>08</b>בקרת מדידה</button>
     <button role="tab" data-s="af"><b>09</b>משווקים</button>
   </nav>
+
+  <!-- ★ hub (ב40): אינסטגרם, ממומן לפי מודעה, דפים ומשווקים במקום אחד. ליד כל נתון המקור ושעת העדכון; בלי מקור = "אין נתון" ולא 0 -->
+  <section class="screen" id="s-hub">
+    <div class="banner" id="hubSrc"></div>
+    <div class="panel"><div class="panel-h"><h2>אינסטגרם</h2><span class="note" id="hubIgSrc"></span></div><div class="tw"><table id="hubIg"></table></div></div>
+    <div class="panel"><div class="panel-h"><h2>ממומן לפי מודעה</h2><span class="note" id="hubAdsSrc"></span></div><div class="tw"><table id="hubAds"></table></div><p class="note" id="hubAdsNote"></p></div>
+    <div class="panel"><div class="panel-h"><h2>דפים</h2><span class="note" id="hubLpSrc"></span></div><div class="tw"><table id="hubLp"></table></div><p class="note">עליון = הכפתור בראש הדף, תחתון = הכפתור בסוף הדף, צף = הכפתור שצץ בתחתית המסך בזמן גלילה, אמצע = כל שאר כפתורי הקנייה בדף. "עברו מסך ראשון" = אנשים (לא ביקורים) שהגיעו לאזור 2, בלי ביקורים בלי שום פעילות (למשל טעינה כפולה בדפדפן של אינסטגרם).</p></div>
+    <div class="panel"><div class="panel-h"><h2>משווקים</h2><span class="note" id="hubAfSrc"></span></div><div class="tw"><table id="hubAf"></table></div>
+      <div style="margin-top:10px"><label class="note">קוד סרטון לקישורים: <input id="hubVid" dir="ltr" placeholder="למשל p25" style="width:140px"></label></div>
+      <div class="tw"><table id="hubAfLinks"></table></div><p class="note">קישור אישי לכל משווק, עם קוד הסרטון (utm_content) כדי לדעת איזה סרטון הביא כל כניסה. בלי utm_id, כדי שלא ייספר כמודעה של בן. רכישה מקישור כזה נרשמת למשווק (הקליק האחרון ב-30 יום).</p></div>
+  </section>
 
   <!-- 00 optimization: Ben's doc section 10 -->
   <section class="screen" id="s-op">
@@ -787,6 +799,51 @@ function renderAffiliates(){const now=new Date(),keep=[fSrc,fDev,fOwn];fSrc="";f
  table($("afBuys"),["תאריך","עסקה","משווק","סכום","עמלה","מצב"],AB.map(b=>{const st=affState(b),inf=AFF[b.aff],left=Math.ceil((PAY_DAYS*864e5-(Date.now()-b.t))/864e5);
   return '<tr><td>'+b.t.toLocaleDateString("he-IL")+' '+b.t.toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"})+'</td><td class="num">'+esc(b.deal||"-")+'</td><td>'+esc(inf?inf.name:b.aff)+' <small>'+esc(b.aff)+'</small></td><td>'+ils(b.amt)+'</td><td>'+(affFee(b)==null?na:ils(affFee(b)))+'</td><td><span class="pill '+(st==="due"?"good":st==="refund"?"crit":st==="paid"?"off":"warn")+'">'+lab[st]+(st==="pending"?" · עוד "+left+" ימים":"")+'</span></td></tr>'}),"אין עדיין רכישות דרך משווקים");
  $("afNote").textContent=(Object.keys(AFF).length?"ברשימה "+Object.keys(AFF).length+" משווקים. ":"רשימת המשווקים לא נטענה או ריקה - מוצגים רק קודים שהגיעו בפועל. ")+"עמלה: סכום קבוע לרכישה אם הוגדר ברשימה, אחרת אחוז מהסכום בשורת הרכישה. ממתינה = פחות מ-"+PAY_DAYS+" ימים מהרכישה; לתשלום = עברו "+PAY_DAYS+" ימים ולא סומן החזר ולא סומן ששולם. עמלה ממתינה, לתשלום, שולם והחזרים - מכל הזמן. קישור אישי למשווק (או קישור חדש שמבטל את הקודם), סימון החזר וסימון שולם: לבקש מקלוד בצ'אט הראשי.";}
+/* ================= ★ hub (ב40) ================= */
+/* החיבור הקיים ל-Meta ב-Make (אינסטגרם ומודעות) לא מאושר מ-3.11 - אין משיכה. כשיחודש: לעדכן כאן ולהזין את הנתונים מהמאגר */
+const META_LIVE=false, META_WHY="אין חיבור פעיל ל-Meta: החיבור הקיים ב-Make לא מאושר (נבדק 3.11)";
+function noData(why){return '<span class="na" data-tip="'+esc(why||"אין מקור לנתון הזה")+'">אין נתון</span>'}
+function hm2(d){return d?d.toLocaleDateString("he-IL",{day:"2-digit",month:"2-digit"})+" "+d.toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"}):"-"}
+function srcLine(src,at){return 'מקור: '+src+(at?' · עודכן '+at:'')}
+function renderHub(M,B){
+ const lastRow=rows.length?rows[rows.length-1].t:null, spendDays=Object.keys(spend).sort(), lastSpend=spendDays.length?spendDays[spendDays.length-1].split("-").reverse().join("."):null, loaded=storedAt?hm2(new Date(storedAt)):null;
+ const EV='גיליון האירועים (Events)', ttl=lastRow?hm2(lastRow):null;
+ $("hubSrc").innerHTML='<b>מקורות:</b> אירועים מהאתר - שורה אחרונה '+(ttl||"-")+' · הוצאה יומית (Make) - יום אחרון '+(lastSpend||"-")+' · רשימת משווקים (Make) - נטענה '+(loaded||"-")+' · אינסטגרם ומודעות Meta - '+(META_LIVE?"מחובר":"<b>אין חיבור</b> (החיבור הקיים ב-Make לא מאושר)")+'. התקופה לפי הבורר למעלה.';
+ /* Instagram */
+ const bio=M.sess.filter(s=>(s.cr||"").toLowerCase()==="link_in_bio");
+ $("hubIgSrc").textContent=srcLine("אינסטגרם דרך Make (לא מחובר) + "+EV,ttl);
+ const igRow=(l,v,src)=>'<tr><td>'+l+'</td><td>'+v+'</td><td class="note">'+src+'</td></tr>';
+ table($("hubIg"),["נתון","ערך","מקור"],[
+  igRow("סרטונים שפורסמו + תאריך",noData(META_WHY),"Instagram"),igRow("צפיות",noData(META_WHY),"Instagram"),igRow("Reach",noData(META_WHY),"Instagram"),igRow("זמן צפייה ממוצע",noData(META_WHY),"Instagram"),
+  igRow("ביקורי פרופיל",noData(META_WHY),"Instagram"),igRow("עוקבים חדשים",noData(META_WHY),"Instagram"),
+  igRow("כניסות מהביו (link_in_bio)",bio.length?fmt(new Set(bio.map(s=>s.vid||s.sid)).size)+' <small>אנשים · '+fmt(bio.length)+' ביקורים</small>':'0 <small>(מקור מחובר, לא היו כניסות בתקופה)</small>',EV),
+  igRow("מהביו: הגיעו לסליקה / רכשו",fmt(bio.filter(s=>s.chk).length)+' / '+fmt(bio.filter(s=>s.buy).length),EV)]);
+ /* Paid per ad */
+ const isPaid=s=>s&&s.src==="מודעות Meta"&&!s.aff, paid=M.sess.filter(isPaid), m={};
+ paid.forEach(s=>{const k=(s.ad||"")+"|"+(s.cr||"");const o=m[k]||(m[k]={ad:s.ad,cr:s.cr,cmp:s.cmp,v:0,ppl:new Set(),chk:0,buy:0,rev:0});o.v++;o.ppl.add(s.vid||s.sid);if(s.chk)o.chk++;});
+ M.buys.forEach(b=>{const s=b.s;if(!isPaid(s)||b.aff)return;const o=m[(s.ad||"")+"|"+(s.cr||"")];if(o){o.buy++;o.rev+=b.amt}});
+ const L=Object.values(m).sort((x,y)=>y.v-x.v), why2="הוצאה לפי מודעה, חשיפות, CTR ו-CPC מגיעים רק מ-Meta - "+META_WHY.replace("אין חיבור פעיל ל-Meta: ","");
+ $("hubAdsSrc").textContent=srcLine(EV+" (כניסות, סליקה, רכישות) · Meta (שאר העמודות, לא מחובר)",ttl);
+ table($("hubAds"),["סרטון","מודעה (ad_id)","קמפיין / קהל","קופי","תקציב","הוצאה","CTR","CPC","כניסות לדף","התחילו סליקה","רכישות","CPA","ROAS"],L.map(o=>{const sp=spendIn(B.a,B.b,o.cr);
+  return '<tr><td>'+crLabel(o.cr,true)+'</td><td class="num">'+(o.ad?'<small>'+esc(o.ad)+'</small>':noData("לא הגיע ad_id בקישור של המודעה"))+'</td><td>'+esc(CAMP_NAMES[o.cmp]||o.cmp||"-")+'</td><td>'+noData(META_WHY)+'</td><td>'+noData(META_WHY)+'</td><td>'+(sp!=null?ils(sp)+'<small>הוזן ידנית לסרטון</small>':noData(why2))+'</td><td>'+noData(why2)+'</td><td>'+noData(why2)+'</td><td class="num">'+fmt(o.ppl.size)+'<small>'+fmt(o.v)+' ביקורים</small></td>'+cell(o.chk,o.v)+'<td class="num">'+fmt(o.buy)+'</td><td>'+(sp!=null&&o.buy?ils(sp/o.buy):noData("דורש הוצאה לפי מודעה"))+'</td><td>'+(sp?(o.rev/sp).toFixed(2):noData("דורש הוצאה לפי מודעה"))+'</td></tr>'}),"אין כניסות ממודעות בתקופה הזו");
+ const A=aggregate(M,B.a,B.b),pbuy=M.buys.filter(b=>isPaid(b.s)&&!b.aff),prev=pbuy.reduce((x,b)=>x+b.amt,0);
+ $("hubAdsNote").innerHTML='סה"כ ממומן בתקופה: '+fmt(paid.length)+' ביקורים, '+fmt(pbuy.length)+' רכישות. הוצאה כוללת: '+(A.sp!=null?ils(A.sp)+' (הזנה יומית ב-Make, יום אחרון '+(lastSpend||"-")+') · CPA כולל '+(pbuy.length?ils(A.sp/pbuy.length):noData("אין רכישות ממומנות בתקופה"))+' · ROAS כולל '+(A.sp?(prev/A.sp).toFixed(2):noData("אין הוצאה")):noData("לא הוזנה הוצאה לתקופה"))+'. ההוצאה הכוללת לא מפורקת למודעות, ולכן CPA ו-ROAS לפי מודעה מוצגים רק אם הוזנה הוצאה לסרטון.';
+ /* Pages */
+ const vs=VARS.filter(v=>M.sess.some(s=>s.v===v));
+ $("hubLpSrc").textContent=srcLine(EV+" + אישור רכישה מקארדקום",ttl);
+ const TOP=["hero_main"],BOT=["final"],FLT=["sticky"];
+ table($("hubLp"),["דף","אנשים","ביקורים","עברו מסך ראשון","לחיצה: עליון","לחיצה: אמצע","לחיצה: תחתון","לחיצה: צף","הגיעו לסליקה","רכישות"],vs.map(v=>{const S=M.sess.filter(s=>s.v===v),P=new Set(S.map(s=>s.vid||s.sid)),act=S.filter(s=>s.act>0),passed=new Set(act.filter(s=>s.sec>=2).map(s=>s.vid||s.sid)),actP=new Set(act.map(s=>s.vid||s.sid));
+  const clk=ids=>new Set(S.filter(s=>s.ctas.some(c=>ids.includes(c.id))).map(s=>s.vid||s.sid)).size, mid=new Set(S.filter(s=>s.ctas.some(c=>![...TOP,...BOT,...FLT].includes(c.id))).map(s=>s.vid||s.sid)).size;
+  const buy=M.buys.filter(b=>b.s&&b.s.v===v).length;
+  return '<tr><td><i class="sw" style="background:'+VCOL[v]+'"></i>'+esc(VLBL[v]||v)+'</td><td class="num">'+fmt(P.size)+'</td><td class="num">'+fmt(S.length)+'</td>'+cell(passed.size,actP.size)+'<td class="num">'+fmt(clk(TOP))+'</td><td class="num">'+fmt(mid)+'</td><td class="num">'+fmt(clk(BOT))+'</td><td class="num">'+fmt(clk(FLT))+'</td><td class="num">'+fmt(new Set(S.filter(s=>s.chk).map(s=>s.vid||s.sid)).size)+'</td><td class="num">'+fmt(buy)+'</td></tr>'}),"אין ביקורים בתקופה הזו");
+ /* Affiliates */
+ const codes=[...new Set(Object.keys(AFF).filter(c=>AFF[c].active).concat(M.sess.map(s=>s.aff).filter(Boolean),M.allBuys.map(b=>b.aff).filter(Boolean)))].sort();
+ $("hubAfSrc").textContent=srcLine(EV+" + אישור רכישה מקארדקום + רשימת המשווקים ב-Make",ttl);
+ table($("hubAf"),["משווק","קליקים (ביקורים)","אנשים","לידים (השאירו פרטים)","רכישות","הכנסות","עמלה (לפי ההסכם)"],codes.map(code=>{const S=M.sess.filter(s=>s.aff===code),B2=M.allBuys.filter(b=>b.aff===code),inf=AFF[code],rev=B2.reduce((x,b)=>x+b.amt,0),fees=B2.map(b=>affFee(b)).filter(x=>x!=null);
+  return '<tr><td><b>'+esc(inf?inf.name:code)+'</b> <small>'+esc(code)+'</small></td><td class="num">'+fmt(S.length)+'</td><td class="num">'+fmt(new Set(S.map(s=>s.vid||s.sid)).size)+'</td><td class="num">'+fmt(new Set(S.filter(s=>s.det).map(s=>s.vid||s.sid)).size)+'</td><td class="num">'+fmt(B2.length)+'</td><td>'+ils(rev)+'</td><td>'+(fees.length?ils(fees.reduce((x,y)=>x+y,0)):(inf?(inf.fee?ils(0)+'<small>'+ils(inf.fee)+' לרכישה</small>':'<small>'+inf.pct+'% לרכישה</small>'):noData("המשווק לא ברשימה")))+'</td></tr>'}),"אין משווקים ברשימה");
+ const vid=(($("hubVid")||{}).value||"").trim().replace(/[^A-Za-z0-9_-]/g,"").slice(0,40);
+ table($("hubAfLinks"),["משווק","קישור"],codes.filter(c=>AFF[c]).map(code=>'<tr><td>'+esc(AFF[code].name)+'</td><td class="mono" style="direction:ltr;text-align:left;word-break:break-all">https://funnel.digitalonline.co.il/nlp/go.html?aff='+esc(code)+'&amp;utm_source=instagram&amp;utm_medium=affiliate&amp;utm_content='+(vid?esc(vid):'<b>קוד_סרטון</b>')+'</td></tr>'),"רשימת המשווקים לא נטענה");
+}
 function renderDQ(M){const now=Date.now(),last=ev=>{for(let i=rows.length-1;i>=0;i--)if(!ev||ev(rows[i]))return rows[i].t;return null};
  const ago=t=>t?Math.round((now-t)/6e4)<90?"לפני "+Math.round((now-t)/6e4)+" דק'":t.toLocaleString("he-IL",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}):"-";
  const ks=Object.keys(spend).sort();const lastSp=ks[ks.length-1];
@@ -820,7 +877,7 @@ function renderDQ(M){const now=Date.now(),last=ev=>{for(let i=rows.length-1;i>=0
 function activeVars(B){const s=new Set();rows.forEach(r=>{if(r.t>=B.pa&&r.t<B.b&&(showTests||!isTest(r)))s.add(r.variant)});const v=ALLV.filter(x=>s.has(x));return v.length?v:ALLV.slice(0,3)}
 function render(){if(!rows)return;const B=bounds();VARS=activeVars(B);if(!VARS.includes(lpVar))lpVar=VARS[0];document.querySelectorAll("#lpVar button").forEach(b=>{b.hidden=!VARS.includes(b.dataset.v)});const M=build(B.a,B.b),P=build(B.pa,B.pb),A=aggregate(M,B.a,B.b),PA=aggregate(P,B.pa,B.pb);
  const srcs=[...new Set(rows.filter(r=>VARS.includes(r.variant)&&(showTests||!isTest(r))).map(r=>source(qsObj(r.qs))))].sort();const fs=$("fSrc");if(fs.options.length-1!==srcs.length){const cur=fs.value;fs.innerHTML='<option value="">כל המקורות</option>'+srcs.map(s=>'<option'+(s===cur?" selected":"")+'>'+esc(s)+'</option>').join("")}
- try{({op:()=>renderOpt(),ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>renderCheckout(M),jr:()=>renderJourneys(M),ex:()=>renderExperiments(M),in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M),af:()=>renderAffiliates()})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
+ try{({hub:()=>renderHub(M,B),op:()=>renderOpt(),ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>renderCheckout(M),jr:()=>renderJourneys(M),ex:()=>renderExperiments(M),in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M),af:()=>renderAffiliates()})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
  if(storedAt)$("fresh").textContent="· עודכן "+new Date(storedAt).toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});}
 function status(msg,kind){const s=$("status");if(!msg){s.hidden=true;return}s.className="banner "+(kind||"");s.textContent=msg;s.hidden=false;}
 function tsvRows(text){return text.split("\n").filter(l=>l.trim()).map(l=>{const a=l.split("\t"),o={};COLS.forEach((k,i)=>o[k]=a[i]||"");o.t=new Date((o.ts||"").replace(" ","T"));return o}).filter(r=>!isNaN(r.t)).sort((a,b)=>a.t-b.t)}
@@ -846,7 +903,7 @@ function setScreen(s){screen=s;document.querySelectorAll("nav.tabs button").forE
  document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>setScreen(b.dataset.s));
  document.querySelectorAll("#lpVar button").forEach(b=>b.onclick=()=>{lpVar=b.dataset.v;render()});
  $("fSrc").onchange=e=>{fSrc=e.target.value;render()};$("fOwn").onchange=e=>{fOwn=e.target.value;render()};$("fDev").onchange=e=>{fDev=e.target.value;render()};$("jrStage").onchange=e=>{jrStage=e.target.value;render()};
- $("showTests").onchange=e=>{showTests=e.target.checked;render()};$("refresh").onclick=load;
+ $("showTests").onchange=e=>{showTests=e.target.checked;render()};$("refresh").onclick=load; $("hubVid").addEventListener("input",()=>{if(screen==="hub")render()});
  $("spDate").value=dayKey(new Date());
  $("spendForm").addEventListener("submit",async e=>{e.preventDefault();const d=$("spDate").value,a=$("spAmt").value,c=($("spCr").value||"").replace(/[|\s]/g,"");if(!d||a==="")return;
   $("spSave").disabled=true;try{const r=await fetch(API+"spend_set&date="+encodeURIComponent(d)+"&amount="+encodeURIComponent(a)+(c?"&creative="+encodeURIComponent(c):""),{cache:"no-store"});if(!r.ok)throw new Error(r.status);if(c)cspend[d+"|"+c]=+a;else spend[d]=+a;$("spendState").textContent="נשמר: "+d.split("-").reverse().join(".")+(c?" · "+c:"")+" "+ils(+a);$("spAmt").value="";render()}catch(err){$("spendState").textContent="השמירה נכשלה, נסו שוב"}finally{$("spSave").disabled=false}});
