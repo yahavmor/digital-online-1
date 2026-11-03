@@ -104,6 +104,20 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 .edit{display:block;margin:10px auto 0;font:inherit;font-size:14px;color:var(--ink2);background:none;border:0;text-decoration:underline;cursor:pointer}
 </style>
 <script>try{if(top!==self)top.location.replace(location.href)}catch(e){}</script>
+<script>/* ב39: פיקסל בדף התשלום (שני הפיקסלים), עם הגנת ב23 כמו בדף התודה: לא בסריקות Meta, לא בקישורי בדיקה ולא בדפדפן הפנימי.
+   לא בעותק שקארדקום טוענת בתוך המסגרת. InitiateCheckout לא נשלח כאן (כבר נשלח בלחיצה בדף המכירה).
+   התאמה מתקדמת: מייל וטלפון שהוזנו (Meta מגבבת אותם בדפדפן לפני השליחה, לפי מדיניות הפרטיות) */
+(function(){try{if(top!==self)return;var s=location.search.replace(/[?&](terminalnumber|lowprofile[a-z]*|respon[a-z]*code|operation|status|traceid|internaldealnumber|dealresponse|tranzactionid)=[^&]*/gi,""),off=/yNTYyODEwNDA1N|MjU2MjgxMDQwNT|I1NjI4MTA0MDU1|claude|test|nocache|internal/i.test(s);try{off=off||localStorage.getItem("nlp_int")==="1"}catch(e){}window.__noPix=off;if(off)return}catch(e){return}
+window.NLP_PIX_UD=function(d){var u={};try{if(d&&d.email)u.em=String(d.email).trim().toLowerCase();if(d&&d.phone){var p=String(d.phone).replace(/\D/g,"").replace(/^0/,"972");if(p)u.ph=p;}}catch(e){}return u};
+var ud={};try{ud=NLP_PIX_UD(JSON.parse(sessionStorage.getItem("cc_det")||"{}"))}catch(e){}
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","1278104408729813",ud);fbq("init","1651086743466533",ud);fbq("track","PageView");
+})();</script>
+<style>/* ב37 גרסה ב': בלי כפתור ביניים - טופס התשלום נטען מתחת לפרטים כששלושת השדות תקינים */
+html[data-co="b"] #det .go,html[data-co="b"] #editDet{display:none}
+.cohint{display:none;margin:2px 0 0;font-size:14px;color:var(--muted);text-align:center}
+html[data-co="b"] .cohint{display:block}
+html[data-co="b"] #paySec[hidden]{display:none}
+</style>
 <style>/* 1,290 מחוק ליד 297 (19.10) */
 s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;white-space:nowrap}
 .pgrp{white-space:nowrap}
@@ -139,6 +153,7 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 <label class="fld"><b>מייל</b><input id="fEmail" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" required><span>לשם נשלחים החשבונית וקישור הכניסה לקורס</span></label>
 <label class="fld"><b>טלפון נייד</b><input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required placeholder="05X-XXXXXXX"><span>רק למקרה שנצטרך לעזור לך עם הגישה. לא נעביר אותו לאף אחד</span></label>
 <p class="ferr" id="ferr" role="alert"></p>
+<p class="cohint" id="coHint">ממלאים את שלושת הפרטים, וטופס התשלום המאובטח נפתח כאן מתחת</p>
 <button class="go" type="submit"><span>המשך לתשלום מאובטח - <span class="pgrp"><s class="was">1,290</s> 297 ₪</span></span></button>
 </form>
 </section>
@@ -198,6 +213,13 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
   try{ utm = JSON.parse(sessionStorage.getItem("cc_utm")||"{}")||{}; }catch(e){}
   if (UTM.some(k=>qs.get(k))){ utm = {}; UTM.forEach(k=>{ utm[k] = qs.get(k)||""; }); try{ sessionStorage.setItem("cc_utm", JSON.stringify(utm)); }catch(e){} }
   const U = k => qs.get(k) || utm[k] || "";
+  /* ב37: ניסוי סליקה co_0311 - a: היום (כפתור "המשך לתשלום"), b: מסך אחד (טופס קארדקום נטען מיד כששלושת השדות תקינים).
+     שיוך קבוע לכל דפדפן, חצי-חצי, במפתח נפרד מניסוי דפי המכירה. ?co=a או ?co=b לתצוגה מקדימה */
+  const COK = "nlp_co_0311"; let CV = (qs.get("co")||"").toLowerCase();
+  if (CV!=="a" && CV!=="b"){ try{ CV = localStorage.getItem(COK)||""; }catch(e){} }
+  if (CV!=="a" && CV!=="b"){ try{ const r=new Uint8Array(1); crypto.getRandomValues(r); CV=(r[0]%2)?"b":"a"; }catch(e){ CV=Math.random()<.5?"b":"a"; } }
+  try{ localStorage.setItem(COK, CV); }catch(e){}
+  document.documentElement.dataset.co = CV; try{ if(window.clarity) clarity("set","co",CV); }catch(e){}
   const variant = qs.get("v") || U("utm_content").replace("lp_","") || "x";
   const sid = qs.get("sid") || ((self.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now()+"-"+Math.random().toString(36).slice(2));
   const $ = id => document.getElementById(id);
@@ -212,18 +234,18 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
   function clId(){ try{ const g=n=>{ const m=document.cookie.match(new RegExp("(?:^|; )"+n+"=([^;]*)")); return m?decodeURIComponent(m[1]).split(/[|^]/)[0]:""; }; const u=g("_clck"), s=g("_clsk"); return u&&s?u+"."+s:""; }catch(e){ return ""; } }
   function track(ev, extra){
     try{ if(window.clarity){ clarity("event",ev); clarity("upgrade",ev); } }catch(e){}
+    extra=Object.assign({},extra||{}); extra.x=(extra.x?extra.x+";":"")+"co="+CV;
     const cl=clId(); if(cl){ extra=Object.assign({},extra||{}); extra.x=(extra.x?extra.x+";":"")+"cl="+cl; } if(INT){ extra=Object.assign({},extra||{}); extra.x=(extra.x?extra.x+";":"")+"int=1"; } { const ow=window.NLP_OWNER?NLP_OWNER():""; if(ow){ extra=Object.assign({},extra||{}); extra.x=(extra.x?extra.x+";":"")+"aff="+ow; } }
     if(!TRACK_ENDPOINT || TRACK_ENDPOINT[0]==="%") return;
     try{ const f=new URLSearchParams(Object.assign({ev, variant, sid, qs:location.search.slice(1), vid, dev, sec_on_page:Math.round((Date.now()-t0)/1000)}, extra||{}));
       if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT,f))) fetch(TRACK_ENDPOINT,{method:"POST",body:f,mode:"no-cors",keepalive:true}); }catch(e){}
   }
   track(qs.get("status")==="failed" ? "checkout_failed" : "checkout_view");
-  try{ if(window.fbq) fbq("track","InitiateCheckout",{value:297,currency:"ILS"}); }catch(e){}
   function fail(code){ if(leaving) return; $("loadTxt").textContent = "לא הצלחנו לטעון את דף התשלום. לא בוצע חיוב. נסה שוב, או כתוב לנו ב-WhatsApp ונעזור מיד."; $("retry").style.display = "inline-block"; document.querySelector(".spin").style.display="none"; $("cc").hidden = true; track("checkout_load_error", code ? {code:String(code)} : null); }
   function load(){
     $("loading").style.display = ""; $("cc").hidden = true; $("retry").style.display = "none"; document.querySelector(".spin").style.display=""; $("loadTxt").textContent = "טוען תשלום מאובטח...";
     let prev=""; try{ if(qs.get("status")==="failed") prev=sessionStorage.getItem("cc_lp")||""; }catch(e){}
-    const body = new URLSearchParams({variant, sid, name:det.name, email:det.email, phone:det.phone, utm_source:U("utm_source"), utm_medium:U("utm_medium"), utm_campaign:U("utm_campaign"), utm_content:U("utm_content")}); if(prev) body.set("prev_lp", prev); { const ow=window.NLP_OWNER?NLP_OWNER():""; if(ow) body.set("aff", ow); }
+    const body = new URLSearchParams({variant, sid, name:det.name, email:det.email, phone:det.phone, utm_source:U("utm_source"), utm_medium:U("utm_medium"), utm_campaign:U("utm_campaign"), utm_content:U("utm_content")}); if(prev) body.set("prev_lp", prev); body.set("co", CV); { const ow=window.NLP_OWNER?NLP_OWNER():""; if(ow) body.set("aff", ow); }
     /* נתוני התאמה ל-Meta CAPI: נשמרים ב-Make לפי מזהה דף התשלום ונשלחים עם ה-Purchase מהשרת. כל שדה רק כשיש לו ערך */
     try{ const ck=n=>{ const m=document.cookie.match(new RegExp("(?:^|; )"+n+"=([^;]*)")); return m?decodeURIComponent(m[1]):""; };
       const fbp=ck("_fbp"), fbclid=qs.get("fbclid"); let fbc=ck("_fbc"); if(!fbc&&fbclid) fbc="fb.1."+Date.now()+"."+fbclid;
@@ -235,7 +257,8 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
         if(!d || !d.url || !/^https:\/\/[^\/]*cardcom\.solutions\//i.test(d.url) || (d.code && String(d.code)!=="0")) return fail(d && d.code);
         try{ if(d.lp) sessionStorage.setItem("cc_lp", d.lp); }catch(e){}
         const f = $("cc"); f.src = d.url; f.hidden = false; const tl=Date.now();
-        f.addEventListener("load", ()=>{ $("loading").style.display="none"; track("checkout_payment_viewed",{x:"pay_load_ms="+(Date.now()-tl)}); }, {once:true});
+        f.addEventListener("load", ()=>{ $("loading").style.display="none"; track("checkout_payment_viewed",{x:"pay_load_ms="+(Date.now()-tl)});
+          if(!window.__nlpApi){ window.__nlpApi=1; try{ if(window.fbq) fbq("track","AddPaymentInfo",{value:297,currency:"ILS"}); }catch(e){} } }, {once:true});
       }).catch(()=>{ clearTimeout(t); fail(); });
   }
   $("retry").addEventListener("click", load);
@@ -243,14 +266,14 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
   let det = {name:"", email:"", phone:""};
   try{ det = Object.assign(det, JSON.parse(sessionStorage.getItem("cc_det")||"{}")); }catch(e){}
   $("fName").value = det.name; $("fEmail").value = det.email; $("fPhone").value = det.phone;
-  function check(){
+  function check(show){ if(show===undefined) show=true;
     const n = $("fName").value.replace(/["\\<>{}]/g,"").trim().replace(/\s+/g," "), e = $("fEmail").value.trim(), p = $("fPhone").value.replace(/[^\d+]/g,"");
     const pn = p.replace(/^\+?972/,"0");
     const bad = [];
-    $("fName").classList.toggle("bad", n.length < 2 || !/\s/.test(n)); if(n.length < 2 || !/\s/.test(n)) bad.push("שם מלא (שם פרטי ומשפחה)");
-    const eok = /^[^\s@"'\\<>{}]+@[^\s@"'\\<>{}]+\.[^\s@"'\\<>{}]{2,}$/.test(e); $("fEmail").classList.toggle("bad", !eok); if(!eok) bad.push("מייל תקין");
-    const pok = /^05\d{8}$/.test(pn); $("fPhone").classList.toggle("bad", !pok); if(!pok) bad.push("טלפון נייד תקין");
-    $("ferr").textContent = bad.length ? "חסר: " + bad.join(", ") : "";
+    if(show) $("fName").classList.toggle("bad", n.length < 2 || !/\s/.test(n)); if(n.length < 2 || !/\s/.test(n)) bad.push("שם מלא (שם פרטי ומשפחה)");
+    const eok = /^[^\s@"'\\<>{}]+@[^\s@"'\\<>{}]+\.[^\s@"'\\<>{}]{2,}$/.test(e); if(show) $("fEmail").classList.toggle("bad", !eok); if(!eok) bad.push("מייל תקין");
+    const pok = /^05\d{8}$/.test(pn); if(show) $("fPhone").classList.toggle("bad", !pok); if(!pok) bad.push("טלפון נייד תקין");
+    if(show) $("ferr").textContent = bad.length ? "חסר: " + bad.join(", ") : "";
     return bad.length ? null : {name:n, email:e, phone:pn};
   }
   function start(){
@@ -258,15 +281,33 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
     try{ $("paySec").scrollIntoView({behavior:"smooth", block:"start"}); }catch(e){ $("paySec").scrollIntoView(); }
     load();
   }
-  $("det").addEventListener("submit", ev => {
-    ev.preventDefault(); const d = check(); if(!d){ const bad=["fName","fEmail","fPhone"].filter(i=>$(i).classList.contains("bad")).map(i=>i.slice(1).toLowerCase()).join(","); track("checkout_validation_error",{name:bad}); return; }
-    det = d; try{ sessionStorage.setItem("cc_det", JSON.stringify(det)); }catch(e){}
+  const keyOf = d => d.name+"|"+d.email+"|"+d.phone; let loadedKey = "";
+  function accept(d){
+    det = d; loadedKey = keyOf(d); try{ sessionStorage.setItem("cc_det", JSON.stringify(det)); }catch(e){}
+    { const h=$("coHint"); if(h) h.style.display="none"; }
+    try{ if(window.fbq && window.NLP_PIX_UD){ const ud=NLP_PIX_UD(det); fbq("init","1278104408729813",ud); fbq("init","1651086743466533",ud); } }catch(e){}
     track("checkout_details",{lead_name:det.name,lead_email:det.email,lead_phone:det.phone}); start();
+  }
+  function badList(){ return ["fName","fEmail","fPhone"].filter(i=>$(i).classList.contains("bad")).map(i=>i.slice(1).toLowerCase()).join(","); }
+  $("det").addEventListener("submit", ev => {
+    ev.preventDefault(); const d = check(); if(!d){ track("checkout_validation_error",{name:badList()}); return; }
+    if (CV==="b" && keyOf(d)===loadedKey) return; accept(d);
   });
+  if (CV==="b"){
+    /* גרסה ב': כששלושת השדות תקינים (שנייה אחרי ההקלדה האחרונה) טופס התשלום נטען מתחתם. שינוי בפרטים אחרי הטעינה = דף תשלום חדש עם הפרטים המעודכנים.
+       הודעות שגיאה רק ביציאה משדה, ורק כשכל השלושה מולאו */
+    let tmr=null, verr=false;
+    const tryLoad = () => { const d = check(false); if(!d || keyOf(d)===loadedKey) return; check(true); accept(d); };
+    ["fName","fEmail","fPhone"].forEach(i=>{
+      $(i).addEventListener("input",()=>{ clearTimeout(tmr); tmr=setTimeout(tryLoad, 1000); if($(i).classList.contains("bad")) check(true); });
+      $(i).addEventListener("blur",()=>{ if(!["fName","fEmail","fPhone"].every(k=>$(k).value.trim())) return; const d=check(true); if(!d && !verr){ verr=true; track("checkout_validation_error",{name:badList()}); } if(d){ clearTimeout(tmr); tryLoad(); } });
+    });
+  }
   $("editDet").addEventListener("click", () => { try{ $("det").scrollIntoView({behavior:"smooth"}); }catch(e){} $("fName").focus(); });
   let cs=false; ["fName","fEmail","fPhone"].forEach(i=>$(i).addEventListener("input",()=>{ if(cs) return; cs=true; track("checkout_contact_started"); }));
   $("back").addEventListener("click",()=>track("checkout_back"));
-  if (qs.get("status") === "failed" && det.email) start();
+  if (qs.get("status") === "failed" && det.email){ loadedKey = keyOf(det); start(); }
+  else if (CV==="b" && check(false)) setTimeout(()=>{ const d=check(false); if(d && keyOf(d)!==loadedKey) accept(d); }, 300);
 })();
 </script>
 </body>
