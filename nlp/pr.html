@@ -285,6 +285,8 @@ footer p+p{margin-top:8px}
 .lb[hidden]{display:none}
 .lb img{max-height:100%;width:auto;max-width:100%;border-radius:12px;background:#fff}
 .lb-x{position:absolute;top:10px;inset-inline-end:12px;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;font-size:26px;line-height:1;cursor:pointer}
+html.review [data-new]{outline:2px dashed var(--gold);outline-offset:10px;border-radius:12px;position:relative}
+html.review [data-new]::before{content:attr(data-new);display:block;width:max-content;margin:24px auto -18px;padding:3px 12px;border-radius:999px;background:var(--gold);color:var(--navy);font-size:13px;font-weight:800}
 @media print{html.rvjs .rv:not(.in){opacity:1;transform:none}.sticky{display:none}}
 </style>
 </head>
@@ -356,6 +358,15 @@ footer p+p{margin-top:8px}
   <li class="rv"><span class="n">3</span><div><h3>עצירה מודעת</h3><p>בזמן הצחצוח אתה נזכר במסר או במחשבה שאתה רוצה לחזק. למשל: <q>היום, כשמשהו יתסכל אותי, אעצור לפני שאגיב.</q></p></div></li>
   <li class="rv"><span class="n">4</span><div><h3>חזרתיות</h3><p>כשהפעולה חוזרת, נוצרת הזדמנות נוספת לתרגול.</p></div></li>
  </ol>
+ <div class="ex2" data-new="ב45 - טקסט חדש, ממתין לאישור בן">
+ <h3 class="center rv" style="margin-top:36px;color:var(--gold);font-size:18px">דוגמה נוספת: הודעה מלחיצה</h3>
+ <ol class="steps">
+  <li class="rv"><span class="n">1</span><div><h3>הפעולה הקיימת</h3><p>אתה פותח הודעות בטלפון הרבה פעמים ביום.</p></div></li>
+  <li class="rv"><span class="n">2</span><div><h3>יצירת תזכורת</h3><p>אתה קושר לרגע שבו אתה פותח הודעה תרגול קצר שבחרת מראש.</p></div></li>
+  <li class="rv"><span class="n">3</span><div><h3>עצירה מודעת</h3><p>כשמגיעה הודעה שמלחיצה אותך, אתה עוצר לנשימה אחת לפני שאתה עונה. למשל: <q>קודם אני קורא עד הסוף, ורק אז בוחר מה לענות.</q></p></div></li>
+  <li class="rv"><span class="n">4</span><div><h3>חזרתיות</h3><p>כל הודעה כזאת היא עוד הזדמנות לתרגל את אותה עצירה.</p></div></li>
+ </ol>
+ </div>
  <p class="bridge rv" style="color:#fff">במקום לחפש זמן מחוץ לחיים שלך כדי להשתנות - <mark>אתה מתחיל להשתמש בחיים עצמם כדי לתרגל את השינוי.</mark></p>
  <div class="method-cta rv" data-buyzone>
   <p>רוצה ללמוד איך להפוך את החיים עצמם לסביבת האימון שלך?</p>
@@ -402,7 +413,7 @@ footer p+p{margin-top:8px}
  <div class="narrow center"><h2 class="rv">כל מה שצריך כדי להתחיל להפוך ידע לתרגול - <mark>במקום אחד.</mark></h2></div>
  <div class="get">
   <article class="card rv"><h3>90 שיעורים קצרים</h3><p>ללמוד כלים ותובנות בצעדים ברורים, בלי להרגיש שאתה צריך לפנות שעות שלמות ללמידה.</p><span class="fact">3 חלקים · רוב השיעורים 2 עד 8 דקות</span></article>
-  <article class="card rv"><h3>30 ימי הטמעה</h3><p>לקבל מסגרת שתעודד אותך לתרגל שוב ושוב, כדי לא להישאר רק עם הבנה רגעית.</p><span class="fact">מחברת "אתגר 30 הימים" (בונוס 3)</span></article>
+  <article class="card rv"><h3>30 ימי הטמעה (בונוס 3)</h3><p>לקבל מסגרת שתעודד אותך לתרגל שוב ושוב, כדי לא להישאר רק עם הבנה רגעית.</p><span class="fact">מחברת העבודה "אתגר 30 הימים"</span></article>
   <article class="card rv"><h3>תרגולים שמשתלבים בשגרה</h3><p>להפוך רגעים שכבר קיימים ביום להזדמנויות לתרגול מודע.</p></article>
   <article class="card rv"><h3>כלים לעבודה עם מחשבות, רגשות והרגלים</h3><p>להבין טוב יותר מה מפעיל אותך ולהתנסות בדרכי תגובה ופעולה חדשות.</p></article>
   <article class="card rv"><h3>גישה לתוכנית הדיגיטלית</h3><p>לחזור לשיעורים ולתכנים מתי שתרצה, בלי להיות תלוי במועד של הרצאה חיה.</p><span class="fact">גישה ללא הגבלת זמן · מהטלפון או מהמחשב</span></article>
@@ -475,7 +486,7 @@ footer p+p{margin-top:8px}
  <div class="ocard rv">
   <ul class="ticks" style="margin-top:0">
    <li><b>90 שיעורים קצרים</b> - כדי שתוכל ללמוד בצעדים ברורים גם כשהיום עמוס.</li>
-   <li><b>30 ימי הטמעה</b> - כדי להתחיל להפוך הבנה לפעולות חוזרות.</li>
+   <li><b>30 ימי הטמעה (בונוס 3)</b> - כדי להתחיל להפוך הבנה לפעולות חוזרות.</li>
    <li><b>תרגולים בתוך החיים</b> - כדי לעבוד על השינוי במצבים שאתה ממילא פוגש.</li>
    <li><b>5 בונוסים</b> - שנועדו להרחיב את הכלים שתקבל.</li>
   </ul>
@@ -513,7 +524,7 @@ footer p+p{margin-top:8px}
 
 <script>
 /* ב45: ?sticky=0 / ?pulse=0 - for the later experiments (sticky with/without, pulse vs static). Default: both on. */
-(function(){var q=new URLSearchParams(location.search);if(q.get("sticky")==="0"){var s=document.getElementById("sticky");if(s)s.remove();}else document.body.classList.add("has-sticky");window.__noPulse=q.get("pulse")==="0";})();
+(function(){var q=new URLSearchParams(location.search);if(q.get("sticky")==="0"){var s=document.getElementById("sticky");if(s)s.remove();}else document.body.classList.add("has-sticky");window.__noPulse=q.get("pulse")==="0";if(/review|test|claude/i.test(location.search))document.documentElement.classList.add("review");})();
 </script>
 <script>
 /* ===== CONFIG ===== */
