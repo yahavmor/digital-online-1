@@ -813,11 +813,11 @@ function renderAffiliates(){const now=new Date(),keep=[fSrc,fDev,fOwn];fSrc="";f
   return '<tr><td>'+b.t.toLocaleDateString("he-IL")+' '+b.t.toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"})+'</td><td class="num">'+esc(b.deal||"-")+'</td><td>'+esc(inf?inf.name:b.aff)+' <small>'+esc(b.aff)+'</small></td><td>'+ils(b.amt)+'</td><td>'+(affFee(b)==null?na:ils(affFee(b)))+'</td><td><span class="pill '+(st==="due"?"good":st==="refund"?"crit":st==="paid"?"off":"warn")+'">'+lab[st]+(st==="pending"?" · עוד "+left+" ימים":"")+'</span></td></tr>'}),"אין עדיין רכישות דרך משווקים");
  $("afNote").textContent=(Object.keys(AFF).length?"ברשימה "+Object.keys(AFF).length+" משווקים. ":"רשימת המשווקים לא נטענה או ריקה - מוצגים רק קודים שהגיעו בפועל. ")+"עמלה: סכום קבוע לרכישה אם הוגדר ברשימה, אחרת אחוז מהסכום בשורת הרכישה. ממתינה = פחות מ-"+PAY_DAYS+" ימים מהרכישה; לתשלום = עברו "+PAY_DAYS+" ימים ולא סומן החזר ולא סומן ששולם. עמלה ממתינה, לתשלום, שולם והחזרים - מכל הזמן. קישור אישי למשווק (או קישור חדש שמבטל את הקודם), סימון החזר וסימון שולם: לבקש מקלוד בצ'אט הראשי.";}
 /* ================= 🧪 lab (ב43) ================= */
-/* שמות, סוג ונוסח קופי לכל utm_content - ימולא מטבלת המעבדה (ע7). עד אז: השם מ-VIDEO_NAMES, הסוג לפי הקוד, והנוסח לפי סיומת _c1/_c2 */
+/* שמות, סוג ונוסח קופי לכל utm_content - ימולא מטבלת המעבדה (ע7). עד אז: השם מ-VIDEO_NAMES, הסוג לפי הקוד, והנוסח לפי סיומת: _a / _c (קופי A / C, כמו בקמפיין של בן) או _1 / _2 */
 const LAB={/* "cold05_c1":{name:"האוטומט השקט",type:"סרטון",copy:"נוסח 1 - כאב",group:"COLD_05"} */};
 const LAB_MIN={spend:250,ppl:100};
-function labInfo(cr){const k=String(cr||"").trim().toLowerCase(),L=LAB[k]||{},m=k.match(/^(.*?)[_-](?:c|copy|v)([12])$/),base=m?m[1]:k;
- const name=L.name||crName(k)||crName(base)||"",type=L.type||(/banner|באנר/.test(k)?"באנר":/car|carousel|קרוסלה/.test(k)?"קרוסלה":"סרטון"),copy=L.copy||(m?"נוסח "+m[2]:"נוסח מקור");
+function labInfo(cr){const k=String(cr||"").trim().toLowerCase(),L=LAB[k]||{},m=k.match(/^(.*?)[_-](?:copy|v)?([abc12])$/),base=m?m[1]:k;
+ const name=L.name||crName(k)||crName(base)||"",type=L.type||(/banner|באנר/.test(k)?"באנר":/car|carousel|קרוסלה/.test(k)?"קרוסלה":"סרטון"),copy=L.copy||(m?(/[abc]/.test(m[2])?"קופי "+m[2].toUpperCase():"נוסח "+m[2]):"נוסח מקור");
  return {key:k,base:L.group||base,name,type,copy,named:!!(L.name||crName(k)||crName(base))}}
 function renderLab(M,B){
  const own=s=>s.aff?"aff:"+s.aff:(s.src==="מודעות Meta"?"ours":null), ownLbl=o=>o==="ours"?"הקמפיין שלנו":"משווק: "+esc((AFF[o.slice(4)]||{}).name||o.slice(4)), who=s=>s.vid||s.sid;
