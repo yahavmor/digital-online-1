@@ -228,10 +228,10 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
   const U = k => qs.get(k) || utm[k] || "";
   /* ב37: ניסוי סליקה co_0311 - a: היום (כפתור "המשך לתשלום"), b: מסך אחד (טופס קארדקום נטען מיד כששלושת השדות תקינים).
      שיוך קבוע לכל דפדפן, חצי-חצי, במפתח נפרד מניסוי דפי המכירה. ?co=a או ?co=b לתצוגה מקדימה */
-  const COK = "nlp_co_0311"; let CV = (qs.get("co")||"").toLowerCase();
-  if (CV!=="a" && CV!=="b"){ try{ CV = localStorage.getItem(COK)||""; }catch(e){} }
-  if (CV!=="a" && CV!=="b"){ try{ const r=new Uint8Array(1); crypto.getRandomValues(r); CV=(r[0]%2)?"b":"a"; }catch(e){ CV=Math.random()<.5?"b":"a"; } }
-  try{ localStorage.setItem(COK, CV); }catch(e){}
+  /* ב46 (תרשים "מבנה הקמפיין והבדיקות", 4.11): במקום החלוקה האקראית - הסליקה נקבעת לפי דף המכירה: דף B (a5) תמיד לסליקה B, כל דף אחר (a ודפים מחוץ לניסוי) לסליקה A.
+     ניסוי pc_0411 (דף+סליקה). co_0311 נסגר. ?co=a או ?co=b נשאר לתצוגה מקדימה בלבד */
+  const PAGE_B = ["a5"]; let CV = (qs.get("co")||"").toLowerCase();
+  if (CV!=="a" && CV!=="b") CV = PAGE_B.includes((qs.get("v")||"").toLowerCase()) ? "b" : "a";
   document.documentElement.dataset.co = CV; try{ if(window.clarity) clarity("set","co",CV); }catch(e){}
   const variant = qs.get("v") || U("utm_content").replace("lp_","") || "x";
   const sid = qs.get("sid") || ((self.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now()+"-"+Math.random().toString(36).slice(2));
