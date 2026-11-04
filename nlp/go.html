@@ -19,7 +19,12 @@ var NLP_OWNER=(function(){var K="nlp_aff",D=2592e6,now=Date.now(),cur=null;
      מחליף את a34_0411. מפתח חדש = הגרלה חדשה לכולם. 256 ערכים מתחלקים בדיוק לשניים. a1, a3, a4, b ו-c נשארים באתר מחוץ לחלוקה. */
   var EXP="aa5_0411", K="nlp_go_"+EXP, v=null; try{ v=localStorage.getItem(K); }catch(e){}
   if(v!=="a"&&v!=="a5"){ try{ var r=new Uint8Array(1); crypto.getRandomValues(r); v=(r[0]%2)?"a5":"a"; }catch(e){ v=Math.random()<.5?"a5":"a"; } try{ localStorage.setItem(K,v); }catch(e){} }
-  var q=new URLSearchParams(location.search); if(!q.has("go")) q.set("go","1"); q.set("exp",EXP);
+  var q=new URLSearchParams(location.search); if(!q.has("go")) q.set("go","1");
+  /* ב44 (בקשת בן 4.11): אינסטגרם אורגני (ביו ו-ManyChat: utm_source=instagram/ig עם utm_medium=bio/dm, בלי aff ובלי utm_id) תמיד ל-a, מחוץ לניסוי.
+     השיבוץ השמור בדפדפן לא משתנה, ומבקר שיחזור ממודעה ימשיך לגרסה שלו. */
+  var s0=(q.get("utm_source")||"").toLowerCase(), m0=(q.get("utm_medium")||"").toLowerCase();
+  if((s0==="instagram"||s0==="ig")&&(m0==="bio"||m0==="dm")&&!q.get("aff")&&!q.get("utm_id")){ q.delete("exp"); q.set("route","ig_org"); location.replace("a.html?"+q.toString()); return; }
+  q.set("exp",EXP);
   location.replace(v+".html?"+q.toString()); /* a2/b2/c2 נשארים באתר, מחוץ לניסוי */
 })();
 </script></head><body>טוען...</body></html>
