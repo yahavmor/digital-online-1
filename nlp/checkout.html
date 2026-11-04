@@ -68,6 +68,7 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 .order .price{margin:8px 0 0}
 .nosub{font-size:14px;color:var(--ok);font-weight:600;margin:6px 0 0}
 .paytitle{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px 12px;font-size:17px;font-weight:800;margin:0 0 10px}
+.walnote{margin:0 0 10px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:#F4F6F8;color:var(--ink2);font-size:15px;font-weight:600;line-height:1.5}
 .paytitle span{font-size:13.5px;font-weight:500;color:var(--muted)}
 .terms{text-align:center;font-size:13px;color:var(--muted);margin:8px 0 0}
 .terms a{color:var(--ink2)}
@@ -173,6 +174,7 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 <section class="pay" id="paySec" aria-label="תשלום" hidden>
 <div class="err" id="err" role="alert"><b>נראה שהתשלום לא עבר</b>הכול בסדר - לא בוצע חיוב. <b class="wal">התשלום בארנק (Apple Pay / Google Pay) לא עבר? הקלידו את פרטי הכרטיס בטופס למטה.</b>אפשר לנסות שוב עם אותו הכרטיס או עם כרטיס אחר.</div>
 <p class="paytitle">פרטי תשלום<span>🔒 התשלום מאובטח באמצעות Cardcom</span></p>
+<p class="walnote" id="walNote">כרגע Apple Pay ו-Google Pay לא זמינים. אפשר לשלם בכרטיס אשראי כרגיל.</p><!-- ב41: הודעה זמנית בגרסאות A ו-B. להסיר כשכאל מסיימים את המעבר למסוף אינטרנטי -->
 <div class="frame">
 <div class="cohold" id="coHold"><div class="cf"><b>מספר כרטיס</b><i></i></div><div class="row2"><div class="cf"><b>תוקף</b><i></i></div><div class="cf"><b>3 ספרות</b><i></i></div></div><button class="go" type="button" id="coPay">לתשלום מאובטח - 297 ₪</button><p class="note">נפתח ברגע שממלאים את שלושת הפרטים</p></div>
 <div class="loading" id="loading"><div class="spin" aria-hidden="true"></div><span id="loadTxt">טוען תשלום מאובטח...</span><button class="retry" id="retry" type="button">נסו שוב</button></div>
