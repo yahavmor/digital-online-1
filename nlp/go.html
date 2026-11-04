@@ -15,10 +15,10 @@ var NLP_OWNER=(function(){var K="nlp_aff",D=2592e6,now=Date.now(),cur=null;
 <style>html,body{margin:0;background:#0d0d0f;color:#d6b26a;font-family:Arial,sans-serif;height:100%;display:grid;place-items:center}</style>
 <script>
 (function(){
-  /* ב42 (אישור יהב ובן 04.11): ניסוי a34_0411 - a3 (פתיחת P25) מול a4 (פתיחת "לפני 3 שנים"), חצי-חצי, שיוך קבוע לכל דפדפן, לכל התנועה כולל קישורי המשווקים (aff).
-     מחליף את aa1_0211. מפתח חדש = הגרלה חדשה לכולם. 256 ערכים מתחלקים בדיוק לשניים. a, a1, b ו-c נשארים באתר מחוץ לחלוקה. */
-  var EXP="a34_0411", K="nlp_go_"+EXP, v=null; try{ v=localStorage.getItem(K); }catch(e){}
-  if(v!=="a3"&&v!=="a4"){ try{ var r=new Uint8Array(1); crypto.getRandomValues(r); v=(r[0]%2)?"a4":"a3"; }catch(e){ v=Math.random()<.5?"a4":"a3"; } try{ localStorage.setItem(K,v); }catch(e){} }
+  /* ב42 לפי בן (עדכון 09:52, אישור יהב 04.11): ניסוי aa5_0411 - a המקורי מול a5 (A חדש: פתיחת P25, ההצעה מוקדם יותר, קופי רגשי), חצי-חצי, שיוך קבוע לכל דפדפן, לכל התנועה כולל קישורי המשווקים (aff).
+     מחליף את a34_0411. מפתח חדש = הגרלה חדשה לכולם. 256 ערכים מתחלקים בדיוק לשניים. a1, a3, a4, b ו-c נשארים באתר מחוץ לחלוקה. */
+  var EXP="aa5_0411", K="nlp_go_"+EXP, v=null; try{ v=localStorage.getItem(K); }catch(e){}
+  if(v!=="a"&&v!=="a5"){ try{ var r=new Uint8Array(1); crypto.getRandomValues(r); v=(r[0]%2)?"a5":"a"; }catch(e){ v=Math.random()<.5?"a5":"a"; } try{ localStorage.setItem(K,v); }catch(e){} }
   var q=new URLSearchParams(location.search); if(!q.has("go")) q.set("go","1"); q.set("exp",EXP);
   location.replace(v+".html?"+q.toString()); /* a2/b2/c2 נשארים באתר, מחוץ לניסוי */
 })();
