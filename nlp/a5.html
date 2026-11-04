@@ -616,17 +616,13 @@ s.was{font-size:.8em;white-space:nowrap}
 .cta:hover .ct-t{transform:none}
 .pcard .stack6 .tot span:last-child{text-decoration:none}
 </style>
-<style>/* ב42: A חדש (a5) - פתיחת P25, ההצעה מוקדם יותר, אנימציה בכפתור כל 3 שניות */
+<style>/* ב42: A חדש (a5) - פתיחת P25, ההצעה מוקדם יותר. ב45: פעימה אחת בכפתור */
 .cta-bonus{font-size:14px;font-weight:700;color:var(--gold2);margin:-4px 0 2px}
 .cta-bonus .nb{white-space:nowrap}
-@keyframes b42pulse{0%,82%,100%{transform:none}86%{transform:scale(1.035)}90%{transform:none}94%{transform:scale(1.02)}}
-.hero9 .copy>.cta{animation:up .8s var(--ease) .32s both,b42pulse 3s ease-in-out 2.5s infinite}
-.sticky.on .cta,[data-buyzone] .cta{animation:b42pulse 3s ease-in-out 2s infinite}
-.cta:hover{animation-play-state:paused}
-.cta{overflow:hidden;isolation:isolate}
-.cta::after{content:"";position:absolute;inset:-2px;z-index:-1;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.6) 50%,transparent 65%);transform:translateX(-130%);animation:b42shine 3s ease-in-out 1.5s infinite}
-@keyframes b42shine{0%,55%{transform:translateX(-130%)}85%,100%{transform:translateX(130%)}}
-@media (prefers-reduced-motion:reduce){.hero9 .copy>.cta{animation:up .8s var(--ease) .32s both}.sticky.on .cta,[data-buyzone] .cta{animation:none}.cta::after{display:none}}
+/* ב45 (מאשר ב45, 04.11): במקום אנימציה כל 3 שניות - פעימה אחת בכל כפתור, 3 שניות אחרי שהוא מופיע במלואו. לא בלולאה, בלי ברק, לא ב-Reduced Motion */
+@keyframes b45pulse{0%{transform:none}45%{transform:scale(1.035)}100%{transform:none}}
+.cta.pulse1{animation:b45pulse .9s ease-out 1}
+@media (prefers-reduced-motion:reduce){.cta.pulse1{animation:none}}
 @media (max-width:899px){html .sticky{padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(8,9,12,.97);border-top:1px solid rgba(211,183,122,.55);box-shadow:0 -10px 30px rgba(0,0,0,.45)}
  html .sticky .cta{min-height:56px;font-size:18px;border-radius:14px;box-shadow:0 0 0 2px rgba(234,219,181,.5),0 10px 28px -8px rgba(211,183,122,.8)}}
 </style></head>
@@ -1003,5 +999,11 @@ M.querySelector('.sp-again').addEventListener('click',function(){go(0)});
 V.addEventListener('loadedmetadata',function(){if(isOpen){var s=S[cur][part][0];if(Math.abs(V.currentTime-s)>0.5)V.currentTime=s}});
 })();
 </script>
+<script>/* ב45: פעימה אחת לכל כפתור, 3 שניות אחרי שהוא מופיע במלואו (גם הכפתור הדביק). הקלאס נשאר אחרי הפעימה כדי שאנימציית הכניסה לא תתחיל מחדש */
+(function(){if(!("IntersectionObserver" in window)||matchMedia("(prefers-reduced-motion: reduce)").matches)return;var T=new Map();
+var io=new IntersectionObserver(function(es){es.forEach(function(x){var b=x.target;if(b.dataset.pd)return;
+ if(x.intersectionRatio>=.99){if(!T.has(b))T.set(b,setTimeout(function(){b.dataset.pd="1";b.classList.add("pulse1");io.unobserve(b);},3000));}
+ else if(T.has(b)){clearTimeout(T.get(b));T.delete(b);}});},{threshold:[0,.99,1]});
+document.querySelectorAll("a.cta").forEach(function(b){io.observe(b);});})();</script>
 </body>
 </html>
