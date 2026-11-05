@@ -99,6 +99,9 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 .fld input:focus{outline:2px solid var(--gold2);outline-offset:1px;border-color:var(--gold2)}
 .fld input.bad{border-color:var(--err)}
 .fld span{display:block;font-size:13px;color:var(--muted);margin-top:4px}
+.cons{display:flex;gap:10px;align-items:flex-start;margin:2px 0 12px;font-size:14px;line-height:1.5;color:var(--muted);cursor:pointer}
+.cons input{flex:none;width:20px;height:20px;margin:1px 0 0;accent-color:var(--gold2,#B8892F)}
+.cons a{color:inherit}
 /* ב56: הצעה לתיקון טעות במייל, בלי חסימה */
 .esug{margin:-6px 0 12px;padding:9px 12px;border-radius:10px;background:#FFF8E6;border:1px solid #F0DDA8;font-size:15px;color:var(--ink)}
 .esug button{font:inherit;font-weight:800;color:var(--ink);background:none;border:0;padding:0;text-decoration:underline;cursor:pointer;direction:ltr;unicode-bidi:isolate}
@@ -181,6 +184,7 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 <label class="fld"><b>מייל</b><input id="fEmail" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" required><span>לשם נשלחים החשבונית וקישור הכניסה לקורס</span></label>
 <p class="esug" id="eSug" role="status" hidden>התכוונת ל-<button type="button" id="eSugB"></button>? <button type="button" class="no" id="eSugX">לא, המייל נכון</button></p>
 <label class="fld"><b>טלפון נייד</b><input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required placeholder="05X-XXXXXXX"><span>רק למקרה שנצטרך לעזור לך עם הגישה. לא נעביר אותו לאף אחד</span></label>
+<label class="cons"><input type="checkbox" id="fConsent" name="consent" value="1"><span>אשמח לקבל מבן נחום עדכונים והצעות במייל ובוואטסאפ. אפשר להסיר בכל רגע. <a href="privacy.html" target="_blank" rel="noopener">מדיניות הפרטיות</a></span></label><!-- ב51: תיבת הסכמה לא מסומנת. רק מי שסימן נכנס להודעות האוטומטיות -->
 <label class="tchk" id="tWrap"><input type="checkbox" id="fTerms" name="terms" autocomplete="off"><span>מדיניות ביטול לעסקה זו הינה לפי חוק שירותי תשלום בישראל. מאשר אני כי הנני מכיר את <a href="terms.html" id="tLink" target="_blank" rel="noopener">תנאי ופרטי העסקה</a>.</span></label><!-- ב52: חובה של קארדקום. לא מסומן מראש ולא נשמר. טופס התשלום נטען רק אחרי סימון -->
 <p class="terr" id="terr" role="alert"></p>
 <p class="ferr" id="ferr" role="alert"></p>
@@ -327,11 +331,12 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
     load();
   }
   const keyOf = d => d.name+"|"+d.email+"|"+d.phone; let loadedKey = "";
+  { const c=$("fConsent"); if(c){ try{ c.checked = sessionStorage.getItem("cc_cons")==="1"; }catch(e){} c.addEventListener("change",()=>{ const v=c.checked?"1":"0"; try{ sessionStorage.setItem("cc_cons",v); }catch(e){} if(loadedKey&&det.email) track("checkout_consent",{lead_email:det.email,lead_consent:v,x:"cons="+v}); }); } } /* ב51 */
   function accept(d){
     det = d; loadedKey = keyOf(d); try{ sessionStorage.setItem("cc_det", JSON.stringify(det)); }catch(e){}
     { const h=$("coHint"); if(h) h.style.display="none"; }
     try{ if(window.fbq && window.NLP_PIX_UD){ const ud=NLP_PIX_UD(det); fbq("init","1278104408729813",ud); fbq("init","1651086743466533",ud); } }catch(e){}
-    track("checkout_details",{lead_name:det.name,lead_email:det.email,lead_phone:det.phone}); start();
+    const cn=$("fConsent")&&$("fConsent").checked?"1":"0"; track("checkout_details",{lead_name:det.name,lead_email:det.email,lead_phone:det.phone,lead_consent:cn,x:"cons="+cn}); start();
   }
   function badList(){ return ["fName","fEmail","fPhone"].filter(i=>$(i).classList.contains("bad")).map(i=>i.slice(1).toLowerCase()).join(","); }
   $("det").addEventListener("submit", ev => {
