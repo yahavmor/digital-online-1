@@ -102,6 +102,17 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 .ferr{min-height:0;margin:0 0 8px;color:var(--err);font-size:14.5px;font-weight:600}
 .go{display:flex;justify-content:center;align-items:center;width:100%;min-height:56px;border:0;border-radius:14px;background:linear-gradient(180deg,#D9BE85,#C9A96E);color:#14161B;font:inherit;font-weight:800;font-size:18px;cursor:pointer;box-shadow:0 8px 24px rgba(168,130,63,.28)}
 .go[disabled]{opacity:.6}
+.tchk{display:flex;gap:12px;align-items:flex-start;margin:4px 0 10px;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--soft);font-size:14.5px;line-height:1.55;color:var(--ink2);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.tchk input{flex:none;width:22px;height:22px;margin:1px 0 0;accent-color:var(--ok);cursor:pointer}
+.tchk a{color:var(--ink);font-weight:700}
+.tchk.need{border-color:var(--err);background:#FEF3F2}
+.terr{margin:0 0 8px;color:var(--err);font-size:14.5px;font-weight:700}
+.terr:empty{display:none}
+.go.locked{opacity:.5;filter:grayscale(.3)}
+.tlock{padding:22px 16px;text-align:center;font-weight:700;color:var(--ink2)}
+html[data-co="b"] .tlock{display:none}
+.legal{text-align:center;font-size:13px;color:var(--muted);margin:10px 0 0}
+.legal a{color:inherit}
 .edit{display:block;margin:10px auto 0;font:inherit;font-size:14px;color:var(--ink2);background:none;border:0;text-decoration:underline;cursor:pointer}
 </style>
 <script>try{if(top!==self)top.location.replace(location.href)}catch(e){}</script>
@@ -165,6 +176,8 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 <label class="fld"><b>שם מלא</b><input id="fName" name="name" autocomplete="name" required maxlength="50"><span>החשבונית תופק על השם הזה</span></label>
 <label class="fld"><b>מייל</b><input id="fEmail" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" required><span>לשם נשלחים החשבונית וקישור הכניסה לקורס</span></label>
 <label class="fld"><b>טלפון נייד</b><input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required placeholder="05X-XXXXXXX"><span>רק למקרה שנצטרך לעזור לך עם הגישה. לא נעביר אותו לאף אחד</span></label>
+<label class="tchk" id="tWrap"><input type="checkbox" id="fTerms" name="terms" autocomplete="off"><span>מדיניות ביטול לעסקה זו הינה לפי חוק שירותי תשלום בישראל. מאשר אני כי הנני מכיר את <a href="#deal" id="tLink">תנאי ופרטי העסקה</a>.</span></label><!-- ב52: חובה של קארדקום. לא מסומן מראש ולא נשמר. טופס התשלום נטען רק אחרי סימון -->
+<p class="terr" id="terr" role="alert"></p>
 <p class="ferr" id="ferr" role="alert"></p>
 <p class="cohint" id="coHint">ממלאים את שלושת הפרטים, וטופס התשלום המאובטח נפתח כאן מתחת</p>
 <button class="go" type="submit"><span>המשך לתשלום מאובטח - <span class="pgrp">297 ₪</span></span></button>
@@ -177,6 +190,7 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 <p class="walnote" id="walNote">כרגע Apple Pay ו-Google Pay לא זמינים. אפשר לשלם בכרטיס אשראי כרגיל.</p><!-- ב41: הודעה זמנית בגרסאות A ו-B. להסיר כשכאל מסיימים את המעבר למסוף אינטרנטי -->
 <div class="frame">
 <div class="cohold" id="coHold"><div class="cf"><b>מספר כרטיס</b><i></i></div><div class="row2"><div class="cf"><b>תוקף</b><i></i></div><div class="cf"><b>3 ספרות</b><i></i></div></div><button class="go" type="button" id="coPay">לתשלום מאובטח - 297 ₪</button><p class="note">נפתח ברגע שממלאים את שלושת הפרטים</p></div>
+<div class="tlock" id="tLock" hidden>יש לסמן את האישור כדי להמשיך לתשלום</div>
 <div class="loading" id="loading"><div class="spin" aria-hidden="true"></div><span id="loadTxt">טוען תשלום מאובטח...</span><button class="retry" id="retry" type="button">נסו שוב</button></div>
 <iframe id="cc" title="תשלום מאובטח" allow="payment *" allowpaymentrequest="true" hidden></iframe>
 </div>
@@ -185,7 +199,7 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 <p class="terms" id="terms" hidden>בלחיצה על התשלום אני מאשר/ת את <a id="termsLink" href="#" target="_blank" rel="noopener">תנאי השימוש</a> ו<a id="privLink" href="#" target="_blank" rel="noopener">מדיניות הפרטיות</a></p>
 <p class="help" id="help" hidden><a id="helpLink" href="#" target="_blank" rel="noopener">צריך עזרה? אנחנו זמינים ב-WhatsApp</a></p>
 </section>
-<section class="deal" aria-label="פרטי העסקה">
+<section class="deal" id="deal" aria-label="פרטי העסקה" tabindex="-1">
 <h2>פרטי העסקה</h2>
 <dl>
 <div><dt>מוצר</dt><dd>לנצח את האוטומט - הקורס המלא + כל הבונוסים</dd></div>
@@ -208,6 +222,7 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 </ul>
 </section>
 <a class="back" href="./" id="back">חזרה לדף</a>
+<p class="legal"><a href="#deal">פרטי העסקה</a> · <a href="privacy.html" target="_blank" rel="noopener">מדיניות פרטיות</a></p><!-- ב52: "תקנון" ופרטי העסק יתווספו כאן אחרי ש-terms.html יאושר -->
 </main>
 <script>
 /* ===== CONFIG ===== */
@@ -257,7 +272,13 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
   }
   track(qs.get("status")==="failed" ? "checkout_failed" : "checkout_view");
   function fail(code){ if(leaving) return; $("loadTxt").textContent = "לא הצלחנו לטעון את דף התשלום. לא בוצע חיוב. נסה שוב, או כתוב לנו ב-WhatsApp ונעזור מיד."; $("retry").style.display = "inline-block"; document.querySelector(".spin").style.display="none"; $("cc").hidden = true; track("checkout_load_error", code ? {code:String(code)} : null); }
+  /* ב52: Cardcom's required box. The payment form (and the wallet buttons inside it) never loads while it is unticked */
+  const TB=$("fTerms"); TB.checked=false;
+  function lockBtn(){ const b=$("det").querySelector(".go"); b.classList.toggle("locked",!TB.checked); b.setAttribute("aria-disabled",String(!TB.checked)); }
+  function needTerms(via){ $("terr").textContent="יש לסמן את האישור כדי להמשיך לתשלום"; $("tWrap").classList.add("need"); try{ $("tWrap").scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} TB.focus(); track("checkout_terms_missing", via?{x:"via="+via}:null); }
+  function lockPay(){ const f=$("cc"); if(f.getAttribute("src")&&f.getAttribute("src")!=="about:blank") f.src="about:blank"; f.hidden=true; $("loading").style.display="none"; $("tLock").hidden=false; if(CV==="b") f.parentNode.classList.add("wait"); }
   function load(){
+    if(!TB.checked){ lockPay(); return; } $("tLock").hidden=true;
     { const fr=$("cc").parentNode; if(fr) fr.classList.remove("wait"); }
     $("loading").style.display = ""; $("cc").hidden = true; $("retry").style.display = "none"; document.querySelector(".spin").style.display=""; $("loadTxt").textContent = "טוען תשלום מאובטח...";
     let prev=""; try{ if(qs.get("status")==="failed") prev=sessionStorage.getItem("cc_lp")||""; }catch(e){}
@@ -307,6 +328,7 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
   function badList(){ return ["fName","fEmail","fPhone"].filter(i=>$(i).classList.contains("bad")).map(i=>i.slice(1).toLowerCase()).join(","); }
   $("det").addEventListener("submit", ev => {
     ev.preventDefault(); const d = check(); if(!d){ track("checkout_validation_error",{name:badList()}); return; }
+    if(!TB.checked){ needTerms("continue"); return; }
     if (CV==="b" && keyOf(d)===loadedKey) return; accept(d);
   });
   if (CV==="b"){
@@ -318,9 +340,10 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
     $("coPay").addEventListener("click", () => {
       const d = check(true);
       if(!d){ track("checkout_validation_error",{name:badList(),x:"via=paybtn"}); const f=["fName","fEmail","fPhone"].find(i=>$(i).classList.contains("bad")); if(f){ try{ $(f).scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} $(f).focus(); } return; }
+      if(!TB.checked){ needTerms("paybtn"); return; }
       clearTimeout(tmr); if(keyOf(d)!==loadedKey) accept(d);
     });
-    const tryLoad = () => { const d = check(false); if(!d || keyOf(d)===loadedKey) return; check(true); accept(d); };
+    const tryLoad = () => { const d = check(false); if(!d || keyOf(d)===loadedKey || !TB.checked) return; check(true); accept(d); };
     ["fName","fEmail","fPhone"].forEach(i=>{
       $(i).addEventListener("input",()=>{ clearTimeout(tmr); tmr=setTimeout(tryLoad, 1000); if($(i).classList.contains("bad")) check(true); });
       $(i).addEventListener("blur",()=>{ if(!["fName","fEmail","fPhone"].every(k=>$(k).value.trim())) return; const d=check(true); if(!d && !verr){ verr=true; track("checkout_validation_error",{name:badList()}); } if(d){ clearTimeout(tmr); tryLoad(); } });
@@ -329,8 +352,21 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
   $("editDet").addEventListener("click", () => { try{ $("det").scrollIntoView({behavior:"smooth"}); }catch(e){} $("fName").focus(); });
   let cs=false; ["fName","fEmail","fPhone"].forEach(i=>$(i).addEventListener("input",()=>{ if(cs) return; cs=true; track("checkout_contact_started"); }));
   $("back").addEventListener("click",()=>track("checkout_back"));
-  if (qs.get("status") === "failed" && det.email){ loadedKey = keyOf(det); start(); }
-  else if (CV==="b" && check(false)) setTimeout(()=>{ const d=check(false); if(d && keyOf(d)!==loadedKey) accept(d); }, 300);
+  /* ב52: back from a failed payment the box starts unticked again; the payment form reloads once it is ticked */
+  if (qs.get("status") === "failed" && det.email){ $("paySec").hidden = false; lockPay(); }
+  else if (CV==="b" && check(false)) setTimeout(()=>{ const d=check(false); if(d && keyOf(d)!==loadedKey && TB.checked) accept(d); }, 300); /* ב52: never loads unticked */
+  lockBtn();
+  TB.addEventListener("change", () => {
+    lockBtn();
+    if (TB.checked){ $("terr").textContent=""; $("tWrap").classList.remove("need"); track("checkout_terms_checked");
+      const d = check(false); if(!d) return;
+      if (CV==="b"){ if(keyOf(d)!==loadedKey){ check(true); accept(d); } }
+      else if (!$("paySec").hidden){ accept(d); }
+    } else { track("checkout_terms_unchecked"); lockPay(); loadedKey = ""; }
+  });
+  /* back/forward cache restores form state: start unticked and locked again */
+  addEventListener("pageshow", e => { if(e.persisted){ TB.checked=false; lockBtn(); if(!$("paySec").hidden) lockPay(); loadedKey=""; } });
+  $("tLink").addEventListener("click", e => { e.preventDefault(); const dl=$("deal"); try{ dl.scrollIntoView({behavior:"smooth",block:"start"}); }catch(x){ dl.scrollIntoView(); } dl.focus({preventScroll:true}); track("checkout_terms_open"); });
 })();
 </script>
 </body>
