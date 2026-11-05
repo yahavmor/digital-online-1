@@ -83,6 +83,10 @@ td small{display:block;color:var(--sub);font-size:12px}
 <p class="h2sub">כמה אנשים עברו כל שלב, מהכניסה לדף ועד רכישה.</p>
 <div class="funnel" id="funnel"></div>
 
+<h2>דף תשלום 1 מול דף תשלום 2 <span id="coEarly"></span></h2>
+<p class="h2sub">הגרלה חצי-חצי לכל מי שמגיע לדף התשלום (מ-ב54). 1 = פרטים, כפתור ואז אשראי. 2 = הכל במסך אחד.</p>
+<div class="tw"><table id="coT"></table></div>
+
 <h2>שילובים</h2>
 <p class="h2sub">כל צירוף של סרטון, נוסח, דף מכירה ודף תשלום. קודם לפי רכישות, אחר כך לפי הגעה לתשלום. "אנשים" = מי שנכנס מהסרטון והנוסח לדף המכירה; דף התשלום נקבע רק כשמגיעים אליו.</p>
 <div class="tw"><table id="combos"></table></div>
@@ -155,6 +159,13 @@ function render(){if(!rows)return;
  const st=[["נכנסו לדף",T.ppl.size],["הגיעו לדף התשלום",T.chk.size],["הגיעו לשלב האשראי",T.pay.size],["רכשו",T.buy]];
  const mx=Math.max(1,T.ppl.size);
  $("funnel").innerHTML=st.map((x,i)=>'<div class="fs"><span class="l">'+x[0]+'</span><span class="b"><i style="width:'+Math.max(.5,x[1]/mx*100).toFixed(1)+'%"></i></span><span class="c"><b>'+fmt(x[1])+'</b><small>'+(i?pf(pct(x[1],st[i-1][1]))+" מהשלב הקודם":"אנשים")+'</small></span></div>').join("");
+ /* ב54: checkout draw co_0511, per person */
+ const inDraw=paid.filter(s=>s.ev.some(r=>parseX(r.x).cx==="co_0511")&&(s.co==="a"||s.co==="b"));
+ const K=[["הגיעו לדף התשלום",s=>s.chk||s.buy],["השאירו פרטים",s=>s.det||s.pay||s.buy],["הגיעו לשלב האשראי",s=>s.pay||s.buy],["רכשו",s=>s.buy]];
+ const P={a:K.map(()=>new Set()),b:K.map(()=>new Set())};inDraw.forEach(s=>K.forEach(([,f],i)=>{if(f(s))P[s.co][i].add(who(s))}));
+ const early=P.a[0].size<100||P.b[0].size<100||P.a[3].size+P.b[3].size<10;
+ $("coEarly").innerHTML=inDraw.length&&early?'<span class="tag early" style="vertical-align:middle;margin:0 6px">ראשוני</span>':"";
+ $("coT").innerHTML=inDraw.length?'<thead><tr><th></th><th>דף תשלום 1 · שני שלבים</th><th>דף תשלום 2 · מסך אחד</th></tr></thead><tbody>'+K.map(([l],i)=>'<tr><td>'+l+'</td>'+["a","b"].map(c=>'<td class="num">'+fmt(P[c][i].size)+(i?'<small>'+pf(pct(P[c][i].size,P[c][i-1].size))+' מהשלב הקודם</small>':'')+'</td>').join("")+'</tr>').join("")+'<tr><td><b>מהגעה לרכישה</b></td>'+["a","b"].map(c=>'<td class="num"><b>'+pf(pct(P[c][3].size,P[c][0].size))+'</b></td>').join("")+'</tr></tbody>':'<tbody><tr><td class="empty">עוד אין כניסות להגרלה החדשה</td></tr></tbody>';
  /* combinations: people per video + copy + sales page; checkout and purchases split by the checkout they reached */
  const V=grp(paid,s=>vidKey(s)+"|"+copyName(s)+"|"+s.v), out=[];
  V.forEach(g=>{const mine=paid.filter(s=>vidKey(s)+"|"+copyName(s)+"|"+s.v===g.k), co=grp(mine.filter(s=>s.chk&&s.co),s=>s.co);
