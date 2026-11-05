@@ -184,18 +184,20 @@ h2.in mark,html:not(.rvjs) h2 mark{background-size:100% 2px}
 
 /* testimonials carousel */
 .car{position:relative;margin-top:30px}
-.car-track{display:flex;align-items:flex-start;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 20px 6px;margin:0 -20px;scroll-padding-inline:20px;overscroll-behavior-x:contain}
+.car-track{display:flex;align-items:flex-start;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:14px 20px 30px;margin:-14px -20px -24px;scroll-padding-inline:20px;overscroll-behavior-x:contain}
 .car-track::-webkit-scrollbar{display:none}
-.slide{flex:0 0 90%;max-width:440px;scroll-snap-align:center;margin:0;background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:6px;box-shadow:var(--sh);display:flex;flex-direction:column;transition:transform .45s var(--ease),opacity .45s var(--ease),box-shadow .45s var(--ease)}
+.slide{flex:0 0 92%;max-width:440px;scroll-snap-align:center;margin:0;background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:6px;box-shadow:0 1px 2px rgba(16,24,39,.05),0 8px 18px rgba(16,24,39,.07);display:flex;flex-direction:column;transition:transform .45s var(--ease),opacity .45s var(--ease),box-shadow .45s var(--ease)}
 .car.js .slide:not(.act){transform:scale(.94);opacity:.6}
-.car.js .slide.act{box-shadow:var(--sh-up)}
-@media (min-width:760px){.car-track{padding-block:10px 18px}.slide{flex:0 0 340px;max-width:none;scroll-snap-align:start}.car.js .slide:not(.act){transform:none;opacity:1}}
+.car.js .slide.act{box-shadow:0 2px 4px rgba(16,24,39,.06),0 12px 26px rgba(16,24,39,.13)}
+@media (min-width:760px){.slide{flex:0 0 340px;max-width:none;scroll-snap-align:start}.car.js .slide:not(.act){transform:none;opacity:1}}
 @media (prefers-reduced-motion:reduce){.slide{transition:none}.car.js .slide:not(.act){transform:none}}
 .slide figcaption{padding:10px 10px 10px}
 .slide q{display:block;font-weight:700;font-size:17px;line-height:1.4;quotes:"\201D" "\201C"}
 .slide figcaption span{display:block;margin-top:4px;font-size:14px;color:var(--gold-t);font-weight:600}
 .zoom{display:block;width:100%;padding:0;border:0;background:#111;border-radius:17px;overflow:hidden;cursor:zoom-in;position:relative;box-shadow:0 1px 0 rgba(255,255,255,.08) inset}
 .zoom img{width:100%;height:auto}
+.zoom.crop{aspect-ratio:calc(var(--w) / var(--h));background:#0b141a}
+.zoom.crop img{position:absolute;top:0;left:0;width:calc(720 / var(--w) * 100%);max-width:none;height:auto;transform:translate(calc(var(--x) / -720 * 100%),calc(var(--y) / var(--ih) * -100%))}
 .car-nav{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:16px}
 .car-nav[hidden]{display:none}
 .car-nav button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:20px;line-height:1;cursor:pointer;box-shadow:var(--sh)}
@@ -396,9 +398,9 @@ html.review [data-new]::before{content:attr(data-new);position:absolute;top:-14p
  <div class="narrow center"><h2 class="rv">אל תסתפק במה שאני מספר. <mark>תקרא מה אנשים אמיתיים בחרו לשתף.</mark></h2></div>
  <div class="car rv" data-car>
   <div class="car-track" tabindex="0" aria-label="עדויות מוואטסאפ, אפשר להחליק">
-   <figure class="slide" data-new="חדש"><figcaption><q>חשבתי שזה יהיה עוד מלא ידע ואני אשכרה משתמש בזה ביום יום</q><span>עומר · משתמש בזה ביום יום</span></figcaption><button class="zoom" type="button" aria-label="קריאת ההודעה של עומר"><img src="assets/pr/wa-o183.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" decoding="async" width="720" height="896"></button></figure>
-   <figure class="slide" data-new="חדש"><figcaption><q>אני כבר שבוע עושה את התרגול והטמעה של העוגן עם הקפה וממש מרגישה שינוי</q><span>בת אל · העוגן עם הקפה</span></figcaption><button class="zoom" type="button" aria-label="קריאת ההודעה של בת אל"><img src="assets/pr/wa-o188.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" decoding="async" width="720" height="852"></button></figure>
-   <figure class="slide"><figcaption><q>זה ממש פשוט וממש מורגש השינוי</q><span>צילה · אחרי שבועיים של תרגול</span></figcaption><button class="zoom" type="button" aria-label="קריאת ההודעה של צילה"><img src="assets/pr/wa-o181.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" decoding="async" width="720" height="874"></button></figure>
+   <figure class="slide" data-new="חדש"><figcaption><q>חשבתי שזה יהיה עוד מלא ידע ואני אשכרה משתמש בזה ביום יום</q><span>עומר · משתמש בזה ביום יום</span></figcaption><button class="zoom crop" type="button" style="--x:150;--y:178;--w:562;--h:314;--ih:896" aria-label="קריאת ההודעה של עומר"><img src="assets/pr/wa-o183.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" decoding="async" width="720" height="896"></button></figure>
+   <figure class="slide" data-new="חדש"><figcaption><q>אני כבר שבוע עושה את התרגול והטמעה של העוגן עם הקפה וממש מרגישה שינוי</q><span>בת אל · העוגן עם הקפה</span></figcaption><button class="zoom crop" type="button" style="--x:140;--y:100;--w:574;--h:198;--ih:852" aria-label="קריאת ההודעה של בת אל"><img src="assets/pr/wa-o188.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" decoding="async" width="720" height="852"></button></figure>
+   <figure class="slide"><figcaption><q>זה ממש פשוט וממש מורגש השינוי</q><span>צילה · אחרי שבועיים של תרגול</span></figcaption><button class="zoom crop" type="button" style="--x:140;--y:166;--w:574;--h:300;--ih:874" aria-label="קריאת ההודעה של צילה"><img src="assets/pr/wa-o181.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" decoding="async" width="720" height="874"></button></figure>
   </div>
   <div class="car-nav" hidden><button type="button" class="prev" aria-label="העדות הקודמת">→</button><div class="dots" aria-hidden="true"></div><button type="button" class="next" aria-label="העדות הבאה">←</button></div>
  </div>
@@ -436,10 +438,10 @@ html.review [data-new]::before{content:attr(data-new);position:absolute;top:-14p
   <figure class="vid rv" id="vid"><video playsinline preload="none" poster="assets/pr/t3.webp" width="480" height="848" src="assets/t3.mp4"></video><button class="play" type="button" aria-label="הפעלת סרטון העדויות, 2 דקות"><i></i><span>מה באמת השתנה אצלם? · 2:01</span></button></figure>
   <div class="car rv" data-car>
    <div class="car-track" tabindex="0" aria-label="עוד עדויות מוואטסאפ, אפשר להחליק">
-    <figure class="slide" data-new="חדש"><figcaption><q>אני כבר שבוע מתרגל את הדברים שלך קולט שאני מגיב אחרת לגמרי</q><span>משתתף · אחרי שבוע של תרגול</span></figcaption><button class="zoom" type="button" aria-label="קריאת ההודעה המלאה"><img src="assets/pr/wa-o184.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" decoding="async" width="720" height="248"></button></figure>
-    <figure class="slide"><figcaption><q>אני ממש מרגיש שאני יותר שם לב למחשבות שלי ויותר שולט בהם</q><span>גלעד · יותר שליטה במחשבות</span></figcaption><button class="zoom" type="button" aria-label="קריאת ההודעה של גלעד"><img src="assets/pr/wa-o185.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" decoding="async" width="720" height="777"></button></figure>
-    <figure class="slide"><figcaption><q>בול מה שהייתי צריך כלים פרקטיים</q><span>דורון · כלים שאפשר ליישם</span></figcaption><button class="zoom" type="button" aria-label="קריאת ההודעה של דורון"><img src="assets/pr/wa-o186.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" decoding="async" width="720" height="892"></button></figure>
-    <figure class="slide"><figcaption><q>נראה לי שאני הולך לעוף על התוכן שלך</q><span>גל · אחרי החלק הראשון</span></figcaption><button class="zoom" type="button" aria-label="קריאת ההודעה של גל"><img src="assets/pr/wa-o187.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" decoding="async" width="720" height="814"></button></figure>
+    <figure class="slide" data-new="חדש"><figcaption><q>אני כבר שבוע מתרגל את הדברים שלך קולט שאני מגיב אחרת לגמרי</q><span>משתתף · אחרי שבוע של תרגול</span></figcaption><button class="zoom crop" type="button" style="--x:146;--y:6;--w:568;--h:238;--ih:248" aria-label="קריאת ההודעה המלאה"><img src="assets/pr/wa-o184.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" decoding="async" width="720" height="248"></button></figure>
+    <figure class="slide"><figcaption><q>אני ממש מרגיש שאני יותר שם לב למחשבות שלי ויותר שולט בהם</q><span>גלעד · יותר שליטה במחשבות</span></figcaption><button class="zoom crop" type="button" style="--x:176;--y:462;--w:538;--h:200;--ih:777" aria-label="קריאת ההודעה של גלעד"><img src="assets/pr/wa-o185.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" decoding="async" width="720" height="777"></button></figure>
+    <figure class="slide"><figcaption><q>בול מה שהייתי צריך כלים פרקטיים</q><span>דורון · כלים שאפשר ליישם</span></figcaption><button class="zoom crop" type="button" style="--x:136;--y:478;--w:578;--h:266;--ih:892" aria-label="קריאת ההודעה של דורון"><img src="assets/pr/wa-o186.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" decoding="async" width="720" height="892"></button></figure>
+    <figure class="slide"><figcaption><q>נראה לי שאני הולך לעוף על התוכן שלך</q><span>גל · אחרי החלק הראשון</span></figcaption><button class="zoom crop" type="button" style="--x:146;--y:618;--w:568;--h:190;--ih:814" aria-label="קריאת ההודעה של גל"><img src="assets/pr/wa-o187.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" decoding="async" width="720" height="814"></button></figure>
    </div>
    <div class="car-nav" hidden><button type="button" class="prev" aria-label="העדות הקודמת">→</button><div class="dots" aria-hidden="true"></div><button type="button" class="next" aria-label="העדות הבאה">←</button></div>
   </div>
