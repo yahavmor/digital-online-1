@@ -33,6 +33,18 @@ h1{font-size:clamp(28px,8vw,36px);font-weight:900;line-height:1.15;margin:0 0 8p
 .help{font-size:14px;margin:10px 0 0}
 .help a{color:var(--ink2)}
 [hidden]{display:none!important}
+/* ב56: איפה פרטי הגישה */
+.acc{margin:22px 0 0;padding:16px 16px 14px;border:1px solid var(--line);border-radius:16px;background:#FBF9F4;text-align:right}
+.acc h2{font-size:17px;font-weight:800;margin:0 0 10px}
+.acc .to{font-size:15.5px;color:var(--ink2);margin:0 0 12px}
+.acc .to b{display:inline-block;direction:ltr;unicode-bidi:isolate;color:var(--ink);word-break:break-all}
+.acc dl{margin:0 0 12px;display:grid;grid-template-columns:auto 1fr;gap:6px 10px;font-size:15px}
+.acc dt{color:var(--muted)}
+.acc dd{margin:0;font-weight:700;color:var(--ink)}
+.acc ol{margin:0;padding:0 18px 0 0;font-size:14.5px;color:var(--ink2)}
+.acc ol li+li{margin-top:4px}
+.wa{display:flex;justify-content:center;align-items:center;gap:8px;min-height:50px;margin:14px 0 0;border-radius:12px;border:1.5px solid #25D366;color:#14161B;font-weight:700;font-size:16px;text-decoration:none;background:#fff}
+.wa svg{flex:none;width:20px;height:20px;fill:#25D366}
 .wait{display:flex;justify-content:center;align-items:center;gap:10px;min-height:56px;border-radius:14px;background:#F6F3EC;color:var(--ink2);font-weight:700;font-size:16px;padding:0 14px}
 .wait i{flex:none;width:18px;height:18px;border-radius:50%;border:3px solid #E2D6BC;border-top-color:var(--gold);animation:sp .8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
@@ -60,17 +72,30 @@ if(/test|claude/i.test(location.search))clarity("set","internal","1");}catch(e){
 <p class="lead">התשלום עבר בהצלחה והגישה שלך לקורס כבר נפתחה.</p>
 <div class="wait" id="wait" role="status"><i aria-hidden="true"></i>רגע, פותחים לך את הגישה...</div>
 <a class="cta" id="go" href="#" hidden>כניסה לקורס עכשיו</a>
-<p class="sent2" id="sent" data-clarity-mask="True">שלחנו גם את כל פרטי הגישה לאימייל שהזנת.</p>
+<p class="sent2" id="sent" data-clarity-mask="True" hidden>שלחנו גם את כל פרטי הגישה לאימייל שהזנת.</p>
 <p class="sent2">3 ערכות העבודה מחכות בשיעור הפתיחה של הקורס, בלשונית "קבצים מצורפים".</p>
-<p class="note">לא רואה את המייל? בדוק גם בקידומי מכירות / ספאם.</p>
-<p class="help" id="help" hidden><a id="helpLink" href="#" target="_blank" rel="noopener">צריך עזרה? אנחנו כאן ב-WhatsApp</a></p>
+<section class="acc" id="acc" aria-labelledby="accH"><!-- ב56: אחרי רוכשת שלא מצאה את פרטי הגישה -->
+ <h2 id="accH">איפה פרטי הגישה?</h2>
+ <p class="to" id="accTo" data-clarity-mask="True">שלחנו אותם לאימייל שהזנת בתשלום.</p>
+ <dl><dt>שולח:</dt><dd>בן נחום</dd><dt>נושא:</dt><dd>פרטי התחברות לקורס: לנצח את האוטומט</dd></dl>
+ <ol>
+  <li>המייל אמור להגיע תוך כמה דקות.</li>
+  <li>לא מוצא? חפש בתיבה "לנצח את האוטומט", ובדוק גם בקידומי מכירות ובספאם.</li>
+  <li>המייל שמופיע כאן לא נכון, או שעדיין אין מייל? כתוב לנו ונעביר לך את הגישה.</li>
+ </ol>
+ <a class="wa" id="helpLink" href="#" target="_blank" rel="noopener" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.3-.8-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.3 0 .5l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.6-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>עזרה בגישה לקורס בוואטסאפ</a>
+</section>
 </main>
 <script>
 const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6jc";
 const SUPPORT_WA = "972526951092";
 (function(){
   const qs = new URLSearchParams(location.search);
-  if (SUPPORT_WA){ document.getElementById("help").hidden=false; document.getElementById("helpLink").href="https://wa.me/"+SUPPORT_WA; }
+  if (SUPPORT_WA){ const h=document.getElementById("helpLink"); h.hidden=false; h.href="https://wa.me/"+SUPPORT_WA+"?text="+encodeURIComponent("היי, רכשתי את לנצח את האוטומט ולא מצאתי את פרטי הגישה לקורס"); h.addEventListener("click",()=>{ try{ if(TRACK_ENDPOINT[0]==="%") return; let lc={}; try{lc=JSON.parse(localStorage.getItem("nlp_lc")||"{}");}catch(e){} const g=new URLSearchParams({ev:"access_help", variant:lc.v||qs.get("v")||"", sid:lc.sid||qs.get("sid")||""}); try{ if(localStorage.getItem("nlp_int")==="1") g.set("x","int=1"); }catch(e){} if(!(navigator.sendBeacon&&navigator.sendBeacon(TRACK_ENDPOINT,g))) fetch(TRACK_ENDPOINT,{method:"POST",body:g,mode:"no-cors"}); }catch(e){} }); }
+  /* ב56: לאיזה מייל נשלחה הגישה - מהאימות מול השרת, ואם הוא לא חזר, ממה שהוזן בדף התשלום באותו דפדפן. מוצג רק כאן, לא נשלח לשום מקום */
+  function showTo(m){ m=String(m||"").trim(); if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m)) return; const p=document.getElementById("accTo"),b=document.createElement("b"); b.textContent=m; p.textContent="שלחנו אותם ל: "; p.appendChild(b); }
+  window.__showTo=showTo;
+  try{ showTo((JSON.parse(sessionStorage.getItem("cc_det")||"{}")||{}).email); }catch(e){}
   /* קישור הכניסה לקורס לא נמצא בקוד הדף: הוא מגיע מהשרת רק אחרי אימות התשלום מול Cardcom */
   (function(){
     const VERIFY = "https://hook.eu1.make.com/s9ay2kp6sldk9527d77seuuq83xxto60";
@@ -79,7 +104,7 @@ const SUPPORT_WA = "972526951092";
     try{ lp = sessionStorage.getItem("cc_lp") || ""; }catch(e){}
     if(!lp){ for(const k of ["lowprofileid","LowProfileId","lowprofilecode","LowProfileCode"]){ const x = qs.get(k); if(x){ lp = x; break; } } }
     let framed = false; try{ framed = window.self !== window.top; }catch(e){ framed = true; }
-    function fallback(){ el("wait").hidden = true; el("sent").textContent = "קישור הכניסה לקורס נשלח לאימייל שהזנת ואמור להגיע תוך כמה דקות."; }
+    function fallback(){ el("wait").hidden = true; el("sent").hidden = false; el("sent").textContent = "קישור הכניסה לקורס נשלח לאימייל שהזנת ואמור להגיע תוך כמה דקות."; }
     /* Purchase רק אחרי אימות מול Cardcom, פעם אחת לעסקה. eventID = מספר העסקה, זהה ל-event_id ב-CAPI (Make 7827404) */
     function purchase(d){
       if(framed) return; /* בתוך ה-iframe של Cardcom: לא שולחים ולא מסמנים */
@@ -96,7 +121,7 @@ const SUPPORT_WA = "972526951092";
       if(!(d && d.ok === true && typeof d.link === "string" && /^https:\/\/[^\/]*schooler\.biz\//i.test(d.link))) return false;
       purchase(d);
       const a = el("go"); a.href = d.link; a.hidden = false; el("wait").hidden = true;
-      if(d.email){ const b = document.createElement("b"); b.textContent = d.email; const s = el("sent"); s.textContent = "שלחנו גם את כל פרטי הגישה ל- "; s.appendChild(b); }
+      if(d.email && window.__showTo) __showTo(d.email); /* ב56: המייל מוצג בתיבה "איפה פרטי הגישה?" */
       return true;
     }
     function ask(n){

@@ -99,6 +99,10 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 .fld input:focus{outline:2px solid var(--gold2);outline-offset:1px;border-color:var(--gold2)}
 .fld input.bad{border-color:var(--err)}
 .fld span{display:block;font-size:13px;color:var(--muted);margin-top:4px}
+/* ב56: הצעה לתיקון טעות במייל, בלי חסימה */
+.esug{margin:-6px 0 12px;padding:9px 12px;border-radius:10px;background:#FFF8E6;border:1px solid #F0DDA8;font-size:15px;color:var(--ink)}
+.esug button{font:inherit;font-weight:800;color:var(--ink);background:none;border:0;padding:0;text-decoration:underline;cursor:pointer;direction:ltr;unicode-bidi:isolate}
+.esug .no{font-weight:500;font-size:13.5px;color:var(--muted);text-decoration:none;margin-inline-start:8px}
 .ferr{min-height:0;margin:0 0 8px;color:var(--err);font-size:14.5px;font-weight:600}
 .go{display:flex;justify-content:center;align-items:center;width:100%;min-height:56px;border:0;border-radius:14px;background:linear-gradient(180deg,#D9BE85,#C9A96E);color:#14161B;font:inherit;font-weight:800;font-size:18px;cursor:pointer;box-shadow:0 8px 24px rgba(168,130,63,.28)}
 .go[disabled]{opacity:.6}
@@ -175,6 +179,7 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 <form id="det" novalidate data-clarity-mask="True">
 <label class="fld"><b>שם מלא</b><input id="fName" name="name" autocomplete="name" required maxlength="50"><span>החשבונית תופק על השם הזה</span></label>
 <label class="fld"><b>מייל</b><input id="fEmail" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" required><span>לשם נשלחים החשבונית וקישור הכניסה לקורס</span></label>
+<p class="esug" id="eSug" role="status" hidden>התכוונת ל-<button type="button" id="eSugB"></button>? <button type="button" class="no" id="eSugX">לא, המייל נכון</button></p>
 <label class="fld"><b>טלפון נייד</b><input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required placeholder="05X-XXXXXXX"><span>רק למקרה שנצטרך לעזור לך עם הגישה. לא נעביר אותו לאף אחד</span></label>
 <label class="tchk" id="tWrap"><input type="checkbox" id="fTerms" name="terms" autocomplete="off"><span>מדיניות ביטול לעסקה זו הינה לפי חוק שירותי תשלום בישראל. מאשר אני כי הנני מכיר את <a href="#deal" id="tLink">תנאי ופרטי העסקה</a>.</span></label><!-- ב52: חובה של קארדקום. לא מסומן מראש ולא נשמר. טופס התשלום נטען רק אחרי סימון -->
 <p class="terr" id="terr" role="alert"></p>
@@ -350,6 +355,23 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
     });
   }
   $("editDet").addEventListener("click", () => { try{ $("det").scrollIntoView({behavior:"smooth"}); }catch(e){} $("fName").focus(); });
+  /* ב56: טעויות נפוצות במייל (gmial, hotmial, .con, .cmo...) - מציעים תיקון, לא חוסמים. אותו דבר בגרסה A ו-B */
+  const EDOM=["gmail.com","hotmail.com","yahoo.com","outlook.com","icloud.com","walla.co.il","walla.com","live.com","msn.com","hotmail.co.il","outlook.co.il","yahoo.co.il","bezeqint.net","012.net.il","netvision.net.il","me.com","aol.com","mail.com"];
+  function lev(a,b){ if(Math.abs(a.length-b.length)>2) return 9; const d=[]; for(let i=0;i<=a.length;i++){ d[i]=[i]; for(let j=1;j<=b.length;j++) d[i][j]= i? Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1), (i>1&&j>1&&a[i-1]===b[j-2]&&a[i-2]===b[j-1])?d[i-2][j-2]+1:9) : j; } return d[a.length][b.length]; }
+  function emailFix(e){ const m=/^([^@\s]+)@([^@\s]+)$/.exec(String(e||"").trim()); if(!m) return ""; let dom=m[2].toLowerCase().replace(/\.+$/,"");
+    if(EDOM.includes(dom)) return "";
+    let fx=dom.replace(/\.(con|cmo|cpm|vom|xom|comm|coom|om|c0m|cm)$/,".com").replace(/\.co\.(li|ll|il\.|i)$|\.coil$|\.co\.l$/,".co.il").replace(/\.co$/,(dom.startsWith("gmail")||dom.startsWith("hotmail")||dom.startsWith("yahoo")||dom.startsWith("outlook")||dom.startsWith("icloud"))?".com":".co");
+    let best="",bd=3; EDOM.forEach(k=>{ const v=lev(fx,k); if(v<bd){ bd=v; best=k; } });
+    if(best && bd<=2 && best!==dom && (bd<=1 || fx.split(".")[0].length>=5)) fx=best;
+    return fx!==dom ? m[1]+"@"+fx : ""; }
+  { let sugShown="", keep="";
+    const sug=()=>{ const v=$("fEmail").value.trim(), fx=emailFix(v), box=$("eSug"); if(!fx || v===keep){ box.hidden=true; return; }
+      $("eSugB").textContent=fx; box.hidden=false; if(sugShown!==fx){ sugShown=fx; const a=v.split("@")[1]||"", b=fx.split("@")[1]||""; track("checkout_email_suggest",{name:(a+">"+b).slice(0,60)}); } };
+    $("fEmail").addEventListener("blur", sug);
+    $("fEmail").addEventListener("input", ()=>{ if(!$("eSug").hidden) sug(); });
+    $("eSugB").addEventListener("click", ()=>{ const fx=$("eSugB").textContent, f=$("fEmail"); f.value=fx; $("eSug").hidden=true; track("checkout_email_fixed",{name:(fx.split("@")[1]||"").slice(0,40)}); f.dispatchEvent(new Event("input",{bubbles:true})); if(CV==="b") f.dispatchEvent(new Event("blur")); });
+    $("eSugX").addEventListener("click", ()=>{ keep=$("fEmail").value.trim(); $("eSug").hidden=true; track("checkout_email_keep"); });
+    window.__emailFix=emailFix; }
   let cs=false; ["fName","fEmail","fPhone"].forEach(i=>$(i).addEventListener("input",()=>{ if(cs) return; cs=true; track("checkout_contact_started"); }));
   $("back").addEventListener("click",()=>track("checkout_back"));
   /* ב52: back from a failed payment the box starts unticked again; the payment form reloads once it is ticked */
