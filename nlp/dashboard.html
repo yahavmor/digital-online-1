@@ -255,6 +255,7 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
       <div class="panel"><div class="panel-h"><h2>חיכוך ותקלות</h2></div><div class="tw"><table id="coIssues"></table></div></div>
     </div>
     <div class="panel"><div class="panel-h"><h2>סליקה לפי מכשיר ודפדפן</h2></div><div class="tw"><table id="coDev"></table></div></div>
+    <div class="panel"><div class="panel-h"><h2>החזרת נוטשים (ב51)</h2><span class="note">נוטש = השאיר פרטים ולא רכש. חזרה = כניסה מקישור עם utm_medium=recovery</span></div><div class="grid2"><div class="tw"><table id="coRec"></table></div><div class="tw"><table id="coRecCh"></table></div></div></div>
     <div class="banner" id="coNA"></div>
   </section>
 
@@ -614,6 +615,23 @@ function renderCheckout(M){const S=M.sess,cta=S.filter(s=>s.cta).length,chk=S.fi
  table($("coDev"),["מכשיר","לחצו","פתחו סליקה","פרטים","טופס תשלום","רכשו","נכשלו"],Object.values(D).sort((a,b)=>b.cta-a.cta).map(o=>'<tr><td>'+esc(o.k)+'</td><td>'+o.cta+'</td>'+cell(o.chk,o.cta)+cell(o.det,o.chk)+cell(o.pay,o.det)+cell(o.buy,o.pay)+'<td>'+o.fail+'</td></tr>'),"המכשיר נמדד מהיום. ביקורים ישנים מופיעים כ-?");
  $("coNA").innerHTML='<b>לא זמין מקארדקום:</b> ניסיון תשלום, שגיאות בתוך טופס האשראי, קוד סיבת כישלון והחזרים. טופס התשלום נמצא אצל קארדקום ולא שולח אירועים לדף. מסומן כלא זמין ולא כאפס. אין שמירה של מספרי כרטיס, CVV או תוכן שדות.';}
 
+/* ב51: abandoned checkouts + recovery by channel (wa_manual, wa_auto, email1, email1f, email2, email3) */
+function renderRecovery(M){const S=M.sess,det=S.filter(s=>s.det),ab=det.filter(s=>!s.buy),fl=ab.filter(s=>s.fail);
+ const cons=det.filter(s=>s.ev.some(r=>(r.ev==="checkout_details"||r.ev==="checkout_consent")&&parseX(r.x).cons==="1")).length,consKnown=det.filter(s=>s.ev.some(r=>r.ev==="checkout_details"&&parseX(r.x).cons!=null)).length;
+ const days={};ab.forEach(s=>{days[s.day]=(days[s.day]||0)+1});
+ table($("coRec"),["מה","כמה","הערה"],[
+  '<tr><td>נוטשים</td><td><b>'+ab.length+'</b></td><td>'+(Object.keys(days).sort().slice(-7).map(d=>d.slice(5)+": "+days[d]).join(" · ")||"-")+'</td></tr>',
+  '<tr><td>מתוכם ניסו לשלם ונכשלו</td><td>'+fl.length+'</td><td>חזרו מקארדקום עם status=failed</td></tr>',
+  '<tr><td>סימנו הסכמה להודעות</td><td>'+(consKnown?cons+" מתוך "+consKnown:"-")+'</td><td>'+(consKnown?pf(pct(cons,consKnown)):"נמדד מהפריסה של ב51")+'</td></tr>',
+  '<tr><td>השלימו פרטים ורכשו</td><td>'+det.filter(s=>s.buy).length+' מתוך '+det.length+'</td><td>'+(det.length?pf(pct(det.filter(s=>s.buy).length,det.length)):"-")+' · לבדוק שהתיבה לא מורידה את השיעור</td></tr>']);
+ const CH={wa_manual:"וואטסאפ אישי (יהב)",wa_auto:"וואטסאפ אוטומטי",email1:"מייל 1",email1f:"מייל 1 (נכשל בתשלום)",email2:"מייל 2",email3:"מייל 3"},C={};
+ const bySid={};M.buys.forEach(b=>{if(b.sid)bySid[b.sid]=(bySid[b.sid]||0)+b.amt});
+ S.filter(s=>(s.p.get("utm_medium")||"")==="recovery").forEach(s=>{const k=s.p.get("utm_content")||"?",o=C[k]||(C[k]={k,n:0,det:0,buy:0,rev:0});o.n++;if(s.det)o.det++;if(s.buy){o.buy++;o.rev+=bySid[s.sid]||0}});
+ const wa={};S.forEach(s=>s.ev.filter(r=>r.ev==="wa_choice").forEach(r=>{const k=r.name||"?";wa[k]=(wa[k]||0)+1}));
+ const rowsCh=Object.values(C).sort((a,b)=>b.n-a.n).map(o=>'<tr><td>'+esc(CH[o.k]||o.k)+'</td><td>'+o.n+'</td><td>'+o.det+'</td><td><b>'+o.buy+'</b></td><td>'+(o.rev?o.rev.toLocaleString("he-IL")+" ₪":"-")+'</td></tr>');
+ if(Object.keys(wa).length)rowsCh.push('<tr><td colspan="5"><small>בחירות בוואטסאפ: '+Object.entries(wa).map(([k,v])=>esc(k)+" "+v).join(" · ")+'</small></td></tr>');
+ table($("coRecCh"),["ערוץ","חזרו","השלימו פרטים","רכשו","הכנסה"],rowsCh,"עוד אין כניסות מקישורי החזרה.");}
+
 /* ================= 05 journeys ================= */
 function renderJourneys(M){const L=[...M.sess].sort((a,b)=>b.last-a.last),cnt=[0,0,0,0,0,0,0];L.forEach(s=>cnt[s.stage]++);
  const live=L.filter(s=>Date.now()-s.last<300000).length;$("liveN").innerHTML=live?'· '+live+' בפעילות עכשיו<span class="live"></span>':"";
@@ -955,7 +973,7 @@ function renderDQ(M){const now=Date.now(),last=ev=>{for(let i=rows.length-1;i>=0
 function activeVars(B){const s=new Set();rows.forEach(r=>{if(r.t>=B.pa&&r.t<B.b&&(showTests||!isTest(r)))s.add(r.variant)});const v=ALLV.filter(x=>s.has(x));return v.length?v:ALLV.slice(0,3)}
 function render(){if(!rows)return;const B=bounds();VARS=activeVars(B);if(!VARS.includes(lpVar))lpVar=VARS[0];document.querySelectorAll("#lpVar button").forEach(b=>{b.hidden=!VARS.includes(b.dataset.v)});const M=build(B.a,B.b),P=build(B.pa,B.pb),A=aggregate(M,B.a,B.b),PA=aggregate(P,B.pa,B.pb);
  const srcs=[...new Set(rows.filter(r=>VARS.includes(r.variant)&&(showTests||!isTest(r))).map(r=>source(qsObj(r.qs))))].sort();const fs=$("fSrc");if(fs.options.length-1!==srcs.length){const cur=fs.value;fs.innerHTML='<option value="">כל המקורות</option>'+srcs.map(s=>'<option'+(s===cur?" selected":"")+'>'+esc(s)+'</option>').join("")}
- try{({lab:()=>renderLab(M,B),hub:()=>renderHub(M,B),op:()=>renderOpt(),ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>renderCheckout(M),jr:()=>renderJourneys(M),ex:()=>renderExperiments(M),in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M),af:()=>renderAffiliates()})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
+ try{({lab:()=>renderLab(M,B),hub:()=>renderHub(M,B),op:()=>renderOpt(),ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>{renderCheckout(M);renderRecovery(M)},jr:()=>renderJourneys(M),ex:()=>renderExperiments(M),in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M),af:()=>renderAffiliates()})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
  if(storedAt)$("fresh").textContent="· עודכן "+new Date(storedAt).toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});}
 function status(msg,kind){const s=$("status");if(!msg){s.hidden=true;return}s.className="banner "+(kind||"");s.textContent=msg;s.hidden=false;}
 function tsvRows(text){return text.split("\n").filter(l=>l.trim()).map(l=>{const a=l.split("\t"),o={};COLS.forEach((k,i)=>o[k]=a[i]||"");o.t=new Date((o.ts||"").replace(" ","T"));return o}).filter(r=>!isNaN(r.t)).sort((a,b)=>a.t-b.t)}
