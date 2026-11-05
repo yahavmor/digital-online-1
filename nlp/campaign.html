@@ -259,6 +259,8 @@ function perBounds(){const now=new Date(),sod=new Date(now.getFullYear(),now.get
 function daysOf(a,b){const D=[];let d=new Date(a.getFullYear(),a.getMonth(),a.getDate());const e=new Date(+b-1);while(d<=e){D.push(dayKey(d));d=new Date(d.getFullYear(),d.getMonth(),d.getDate()+1)}return D}
 const who=s=>s.vid||s.sid, code=s=>String(s.cr||"").trim().toLowerCase().replace(/[|\s]/g,"");
 const vidName=s=>{const i=labInfo(code(s));return i.name||"מודעה לא מזוהה"};
+/* ב53: השם המלא = השם מטבלת המעבדה + כותרת הפתיחה של הסרטון */
+const vidOpen=s=>{const i=labInfo(code(s));return i.open&&i.open!==i.name?i.open:""};
 const vidKey=s=>{const i=labInfo(code(s));return i.group||i.base||"?"};
 const copyName=s=>{const c=labInfo(code(s)).copy||"";return c.replace(/^קופי /,"נוסח ")||"נוסח לא ידוע"};
 const pageName=k=>PAGE[k]||("דף "+k);
@@ -293,15 +295,15 @@ function render(){if(!rows)return;
   const byBuy=tb>0;G.sort((x,y)=>byBuy?(rate(y)-rate(x)||chkRate(y)-chkRate(x)||y.ppl.size-x.ppl.size):(chkRate(y)-chkRate(x)||y.ppl.size-x.ppl.size));
   const L=G[0],solid=G.length>1&&byBuy&&tb>=5&&L.buy>=3&&L.ppl.size>=LAB_MIN.ppl;
   return {L,n:G.length,byBuy,tag:G.length<2?["אין עם מה להשוות","none"]:solid?["מוביל","lead"]:["מוקדם להכריע","early"],G}};
- const card=(q,P,nameF,unit)=>{unit=unit||"אנשים";if(!P)return '<div class="w"><div class="q">'+q+'</div><div class="n">אין עדיין תנועה</div></div>';
+ const card=(q,P,nameF,unit,subF)=>{unit=unit||"אנשים";if(!P)return '<div class="w"><div class="q">'+q+'</div><div class="n">אין עדיין תנועה</div></div>';
   const L=P.L,m=P.byBuy?L.buy+" רכישות מתוך "+fmt(L.ppl.size)+" "+unit+" ("+pf(pct(L.buy,L.ppl.size))+")":fmt(L.chk.size)+" מתוך "+fmt(L.ppl.size)+" הגיעו לתשלום ("+pf(pct(L.chk.size,L.ppl.size))+") · עוד אין רכישות";
   const o=P.G[1]?"הבא: "+esc(nameF(P.G[1]))+" · "+(P.byBuy?P.G[1].buy+" רכישות מתוך "+fmt(P.G[1].ppl.size):pf(pct(P.G[1].chk.size,P.G[1].ppl.size))+" הגיעו לתשלום"):"";
-  return '<div class="w"><div class="q">'+q+'</div><div class="n">'+esc(nameF(L))+'</div><div class="m">'+m+'</div>'+(o?'<div class="o">'+o+'</div>':'')+'<span class="tag '+P.tag[1]+'">'+P.tag[0]+'</span></div>'};
+  return '<div class="w"><div class="q">'+q+'</div><div class="n">'+esc(nameF(L))+'</div>'+(subF&&subF(L)?'<div class="o" style="margin:0 0 6px">״'+esc(subF(L))+'״</div>':'')+'<div class="m">'+m+'</div>'+(o?'<div class="o">'+o+'</div>':'')+'<span class="tag '+P.tag[1]+'">'+P.tag[0]+'</span></div>'};
  const pV=pick(grp(paid,vidKey)), lead=pV&&pV.L.any?vidKey(pV.L.any):null;
  const pC=lead?pick(grp(paid.filter(s=>vidKey(s)===lead),copyName)):null;
  $("works").innerHTML=[
   card("דף המכירה",pick(grp(paid,s=>s.v)),g=>pageName(g.k)),
-  card("הסרטון",pV,g=>vidName(g.any)),
+  card("הסרטון",pV,g=>vidName(g.any),null,g=>vidOpen(g.any)),
   card("הנוסח בסרטון המוביל",pC,g=>g.k),
   card("דף התשלום",pick(grp(paid.filter(s=>s.chk&&s.co),s=>s.co)),g=>coName(g.k),"שהגיעו אליו")].join("");
  /* funnel (people) */
@@ -321,7 +323,7 @@ function render(){if(!rows)return;
   if(!co.length)out.push({g,c:null,buy:0,chk:0,rev:0}); else co.forEach(c=>out.push({g,c,buy:c.buy,chk:c.chk.size,rev:c.rev}));});
  out.sort((x,y)=>y.buy-x.buy||y.chk-x.chk||y.g.ppl.size-x.g.ppl.size);
  const rowsH=out.slice(0,25).map(o=>{const s=o.g.any;
-  return '<tr><td><b>'+esc(vidName(s))+'</b></td><td>'+esc(copyName(s))+'</td><td>'+esc(pageName(s.v))+'</td><td>'+(o.c?esc(coName(o.c.k)):'<small>אף אחד עוד לא הגיע</small>')+'</td><td class="num">'+fmt(o.g.ppl.size)+'</td><td class="num">'+fmt(o.chk)+'<small>'+pf(pct(o.chk,o.g.ppl.size))+'</small></td><td class="num"><b>'+fmt(o.buy)+'</b></td><td class="num">'+(o.rev?ils(o.rev):"-")+'</td><td><span class="tag '+(o.buy?"money":"traffic")+'" style="margin:0">'+(o.buy?"מביא כסף":"רק תנועה")+'</span></td></tr>'});
+  return '<tr><td><b>'+esc(vidName(s))+'</b>'+(vidOpen(s)?'<small>״'+esc(vidOpen(s))+'״</small>':'')+'</td><td>'+esc(copyName(s))+'</td><td>'+esc(pageName(s.v))+'</td><td>'+(o.c?esc(coName(o.c.k)):'<small>אף אחד עוד לא הגיע</small>')+'</td><td class="num">'+fmt(o.g.ppl.size)+'</td><td class="num">'+fmt(o.chk)+'<small>'+pf(pct(o.chk,o.g.ppl.size))+'</small></td><td class="num"><b>'+fmt(o.buy)+'</b></td><td class="num">'+(o.rev?ils(o.rev):"-")+'</td><td><span class="tag '+(o.buy?"money":"traffic")+'" style="margin:0">'+(o.buy?"מביא כסף":"רק תנועה")+'</span></td></tr>'});
  $("combos").innerHTML=rowsH.length?'<thead><tr><th>סרטון</th><th>נוסח</th><th>דף מכירה</th><th>דף תשלום</th><th>אנשים</th><th>הגיעו לתשלום</th><th>רכישות</th><th>הכנסות</th><th></th></tr></thead><tbody>'+rowsH.join("")+'</tbody>':'<tbody><tr><td class="empty">אין תנועה ממומנת בתקופה הזו</td></tr></tbody>';
  $("foot").textContent="אנשים = מכשירים שונים, לא ביקורים. רכישות = עסקאות מאומתות בקארדקום. הוצאה = ההזנה היומית לפי מודעה (עד שבן יחבר את הדף ל-Meta, ואז היא תיכנס לבד). יום בלי הזנה מסומן \"לא הוזן\" ולא נספר כ-0. \"מוביל\" = לפחות 5 רכישות בהשוואה, 3 למוביל ו-"+LAB_MIN.ppl+" אנשים.";
  if(storedAt)$("fresh").textContent="לנצח את האוטומט · עודכן "+new Date(storedAt).toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});}
