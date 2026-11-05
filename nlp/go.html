@@ -29,6 +29,7 @@ var NLP_OWNER=(function(){var K="nlp_aff",D=2592e6,now=Date.now(),cur=null;
   var s0=(q.get("utm_source")||"").toLowerCase(), m0=(q.get("utm_medium")||"").toLowerCase();
   if((s0==="instagram"||s0==="ig")&&(m0==="bio"||m0==="dm")&&!q.get("aff")&&!q.get("utm_id")){ q.delete("exp"); q.set("route","ig_org"); location.replace("a.html?"+q.toString()); return; }
   q.set("exp",EXP);
-  location.replace(v+".html?"+q.toString()); /* a2/b2/c2 נשארים באתר, מחוץ לניסוי */
+  /* ב49 (בן אישר, "מאשר ב49" מיהב 05.11 13:56): הזרוע pr מקבלת מעכשיו את pr2 (הפרימיום המשודרג). השיבוץ השמור לא משתנה. pr_v1.html = הגרסה הקודמת לחזרה */
+  location.replace((v==="pr"?"pr2":v)+".html?"+q.toString()); /* a2/b2/c2 נשארים באתר, מחוץ לניסוי */
 })();
 </script></head><body>טוען...</body></html>
