@@ -1,0 +1,38 @@
+{
+ "id": 30,
+ "module": "datastore:AddRecord",
+ "version": 1,
+ "parameters": {
+  "datastore": 246928
+ },
+ "filter": {
+  "name": "לא בדיקה, יש מייל",
+  "conditions": [
+   [
+    {
+     "a": "{{1.event_name}}",
+     "b": "test_event",
+     "o": "text:notequal"
+    },
+    {
+     "a": "{{1.data.student_email}}",
+     "o": "exist"
+    }
+   ]
+  ]
+ },
+ "mapper": {
+  "key": "{{lower(trim(1.data.student_email))}}",
+  "data": {
+   "email": "{{lower(trim(1.data.student_email))}}",
+   "at": "{{now}}",
+   "keys": "{{join(keys(1.data); \",\")}} | {{join(keys(1); \",\")}}"
+  },
+  "overwrite": true
+ },
+ "metadata": {
+  "designer": {
+   "name": "ב57: הצטרפות לבקרת הגישה (+ שמות השדות בלבד, בלי ערכים)"
+  }
+ }
+}

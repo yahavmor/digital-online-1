@@ -1,0 +1,264 @@
+{
+ "name": "NLP - בקרת גישה אחרי רכישה (ב57) - כבוי עד מאשר",
+ "metadata": {
+  "instant": false,
+  "version": 1
+ },
+ "flow": [
+  {
+   "id": 1,
+   "module": "datastore:SearchRecord",
+   "version": 1,
+   "parameters": {
+    "datastore": 210157,
+    "limit": 100
+   },
+   "mapper": {
+    "filter": [
+     [
+      {
+       "a": "at",
+       "b": "{{addHours(now; -48)}}",
+       "o": "date:greater"
+      }
+     ]
+    ]
+   },
+   "metadata": {
+    "designer": {
+     "name": "רכישות מאומתות מ-48 השעות האחרונות"
+    }
+   }
+  },
+  {
+   "id": 2,
+   "module": "datastore:SearchRecord",
+   "version": 1,
+   "parameters": {
+    "datastore": 246929,
+    "limit": 1,
+    "continueWhenNoRes": true
+   },
+   "filter": {
+    "name": "אחרי תחילת הבקרה ולפחות 15 דקות אחרי הרכישה",
+    "conditions": [
+     [
+      {
+       "a": "{{1.data.at}}",
+       "b": "{{addMinutes(now; -15)}}",
+       "o": "date:less"
+      },
+      {
+       "a": "{{1.data.at}}",
+       "b": "{{parseDate(\"2026-11-05T12:00:00.000Z\")}}",
+       "o": "date:greater"
+      },
+      {
+       "a": "{{1.data.deal}}",
+       "o": "exist"
+      }
+     ]
+    ]
+   },
+   "mapper": {
+    "filter": [
+     [
+      {
+       "a": "deal",
+       "b": "{{1.data.deal}}",
+       "o": "text:equal"
+      }
+     ]
+    ]
+   },
+   "metadata": {
+    "designer": {
+     "name": "כבר נבדקה?"
+    }
+   }
+  },
+  {
+   "id": 3,
+   "module": "datastore:SearchRecord",
+   "version": 1,
+   "parameters": {
+    "datastore": 246928,
+    "limit": 1,
+    "continueWhenNoRes": true
+   },
+   "filter": {
+    "name": "עוד לא נבדקה",
+    "conditions": [
+     [
+      {
+       "a": "{{2.key}}",
+       "o": "notexist"
+      }
+     ]
+    ]
+   },
+   "mapper": {
+    "filter": [
+     [
+      {
+       "a": "email",
+       "b": "{{lower(trim(1.data.email))}}",
+       "o": "text:equal:ci"
+      }
+     ]
+    ]
+   },
+   "metadata": {
+    "designer": {
+     "name": "הגיעה הצטרפות מסקולר לאותו מייל?"
+    }
+   }
+  },
+  {
+   "id": 4,
+   "module": "builtin:BasicRouter",
+   "version": 1,
+   "mapper": null,
+   "routes": [
+    {
+     "flow": [
+      {
+       "id": 5,
+       "module": "google-email:sendAnEmail",
+       "version": 4,
+       "parameters": {
+        "__IMTCONN__": 11713706
+       },
+       "mapper": {
+        "to": [
+         "yahavmor77@gmail.com"
+        ],
+        "subject": "⚠️ רכישה בלי הצטרפות לסקולר - עסקה {{1.data.deal}}",
+        "bodyType": "rawHtml",
+        "content": "<div dir='rtl' style='font-family:Arial,sans-serif;font-size:15px;line-height:1.8'><b>רכישה מאומתת בלי הצטרפות מסקולר תוך 15 דקות.</b><br>מספר עסקה: <b>{{1.data.deal}}</b><br>מה לבדוק: בסקולר אם התלמיד נוצר, ובקארדקום את המייל שהוזן (אולי יש בו טעות). אם צריך - לשלוח לו את הגישה ידנית.<br><br>זמן הבדיקה: {{formatDate(now; \"DD.MM.YYYY HH:mm\"; \"Asia/Jerusalem\")}}<br><span style='color:#888;font-size:12px'>בקרת גישה אוטומטית (ב57). במייל רק מספר העסקה - הפרטים בקארדקום.</span></div>"
+       },
+       "filter": {
+        "name": "אין הצטרפות",
+        "conditions": [
+         [
+          {
+           "a": "{{3.key}}",
+           "o": "notexist"
+          }
+         ]
+        ]
+       }
+      },
+      {
+       "id": 6,
+       "module": "datastore:AddRecord",
+       "version": 1,
+       "parameters": {
+        "datastore": 246929
+       },
+       "mapper": {
+        "key": "{{1.data.deal}}",
+        "data": {
+         "deal": "{{1.data.deal}}",
+         "at": "{{now}}",
+         "status": "no_join"
+        },
+        "overwrite": true
+       }
+      }
+     ]
+    },
+    {
+     "flow": [
+      {
+       "id": 7,
+       "module": "google-email:sendAnEmail",
+       "version": 4,
+       "parameters": {
+        "__IMTCONN__": 11713706
+       },
+       "mapper": {
+        "to": [
+         "yahavmor77@gmail.com"
+        ],
+        "subject": "⚠️ מייל חשוד ברכישה - עסקה {{1.data.deal}}",
+        "bodyType": "rawHtml",
+        "content": "<div dir='rtl' style='font-family:Arial,sans-serif;font-size:15px;line-height:1.8'><b>ההצטרפות לסקולר הגיעה, אבל המייל ברכישה נראה עם טעות בסיומת</b> (כמו gmial או .con).<br>מספר עסקה: <b>{{1.data.deal}}</b><br>ייתכן שמייל הגישה לא יגיע. לבדוק בקארדקום ולתקן בסקולר וברב מסר.<br><br>זמן הבדיקה: {{formatDate(now; \"DD.MM.YYYY HH:mm\"; \"Asia/Jerusalem\")}}<br><span style='color:#888;font-size:12px'>בקרת גישה אוטומטית (ב57). במייל רק מספר העסקה - הפרטים בקארדקום.</span></div>"
+       },
+       "filter": {
+        "name": "יש הצטרפות, מייל חשוד",
+        "conditions": [
+         [
+          {
+           "a": "{{3.key}}",
+           "o": "exist"
+          },
+          {
+           "a": "{{lower(trim(1.data.email))}}",
+           "b": "@(gmial|gmal|gamil|gnail|gmai|gmaill|hotmial|hotmal|hotmai|outlok|yaho|iclod)\\.|\\.(con|cmo|cpm|vom|xom|comm|coom|om|c0m|cm)$|\\.co\\.(li|ll|l)$|\\.coil$|@(gmail|hotmail|yahoo|outlook|icloud)\\.co$",
+           "o": "text:pattern"
+          }
+         ]
+        ]
+       }
+      },
+      {
+       "id": 8,
+       "module": "datastore:AddRecord",
+       "version": 1,
+       "parameters": {
+        "datastore": 246929
+       },
+       "mapper": {
+        "key": "{{1.data.deal}}",
+        "data": {
+         "deal": "{{1.data.deal}}",
+         "at": "{{now}}",
+         "status": "suspect_email"
+        },
+        "overwrite": true
+       }
+      }
+     ]
+    },
+    {
+     "flow": [
+      {
+       "id": 9,
+       "module": "datastore:AddRecord",
+       "version": 1,
+       "parameters": {
+        "datastore": 246929
+       },
+       "mapper": {
+        "key": "{{1.data.deal}}",
+        "data": {
+         "deal": "{{1.data.deal}}",
+         "at": "{{now}}",
+         "status": "ok"
+        },
+        "overwrite": true
+       },
+       "filter": {
+        "name": "יש הצטרפות ומייל תקין",
+        "conditions": [
+         [
+          {
+           "a": "{{3.key}}",
+           "o": "exist"
+          },
+          {
+           "a": "{{lower(trim(1.data.email))}}",
+           "b": "@(gmial|gmal|gamil|gnail|gmai|gmaill|hotmial|hotmal|hotmai|outlok|yaho|iclod)\\.|\\.(con|cmo|cpm|vom|xom|comm|coom|om|c0m|cm)$|\\.co\\.(li|ll|l)$|\\.coil$|@(gmail|hotmail|yahoo|outlook|icloud)\\.co$",
+           "o": "text:notpattern"
+          }
+         ]
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
