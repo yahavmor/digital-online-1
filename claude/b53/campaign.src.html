@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>הקמפיין · לנצח את האוטומט</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap">
+<style>
+/* ב53: דף אחד וברור לקמפיין ולכסף (לבקשת בן). הנתונים והכללים מ-dashboard.html (נבנה ב-claude/b53/build_campaign.py) */
+:root{--bg:#F6F5F1;--card:#fff;--ink:#15181E;--sub:#5A606B;--line:#E6E3DB;--gold:#A8823F;--good:#1F7A4D;--good-bg:#EAF5EE;--warn:#9A6A00;--warn-bg:#FFF6DD;--off:#6B707B;--off-bg:#F0F0EE;--bar:#2E6F5E}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 Heebo,system-ui,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:20px 16px 56px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:16px}
+h1{font-size:26px;font-weight:800;margin:0}
+.sub{color:var(--sub);font-size:14.5px;margin:2px 0 0}
+.seg{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:12px;padding:3px;gap:2px}
+.seg button{font:inherit;font-size:14.5px;font-weight:700;border:0;background:none;color:var(--sub);padding:8px 12px;border-radius:9px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--ink);color:#fff}
+.tiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 14px 12px}
+.tile .k{display:block;font-size:14px;color:var(--sub);font-weight:600}
+.tile .v{display:block;font-size:28px;font-weight:800;line-height:1.15;margin:4px 0 2px;font-variant-numeric:tabular-nums}
+.tile .d{display:block;font-size:13px;color:var(--sub)}
+.tile.hero{border-color:#D9C9A4;background:linear-gradient(180deg,#FFFDF7,#fff)}
+.na{display:inline-block;font-size:13px;font-weight:700;color:var(--warn);background:var(--warn-bg);border-radius:999px;padding:1px 9px}
+.tile .v .na{font-size:15px;vertical-align:middle}
+h2{font-size:20px;font-weight:800;margin:30px 0 4px}
+.h2sub{color:var(--sub);font-size:14px;margin:0 0 12px}
+.works{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.w{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+.w .q{font-size:13.5px;color:var(--sub);font-weight:700}
+.w .n{font-size:18px;font-weight:800;margin:6px 0 4px;line-height:1.3}
+.w .m{font-size:14px;color:var(--ink)}
+.w .o{font-size:13px;color:var(--sub);margin-top:6px}
+.tag{display:inline-block;font-size:12.5px;font-weight:800;border-radius:999px;padding:2px 10px;margin-top:8px}
+.tag.lead,.tag.money{color:var(--good);background:var(--good-bg)}
+.tag.early{color:var(--warn);background:var(--warn-bg)}
+.tag.traffic,.tag.none{color:var(--off);background:var(--off-bg)}
+.funnel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.fs{display:grid;grid-template-columns:150px 1fr 110px;align-items:center;gap:12px;padding:7px 0}
+.fs+.fs{border-top:1px dashed var(--line)}
+.fs .l{font-weight:700;font-size:15px}
+.fs .b{height:26px;background:#EFEDE7;border-radius:8px;overflow:hidden}
+.fs .b i{display:block;height:100%;background:var(--bar);border-radius:8px;min-width:2px}
+.fs .c{text-align:left;font-variant-numeric:tabular-nums}
+.fs .c b{font-size:18px}
+.fs .c small{display:block;color:var(--sub);font-size:12.5px}
+.tw{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:16px}
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+th,td{padding:9px 12px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:13px;color:var(--sub);font-weight:700;background:#FBFAF7}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums}
+td small{display:block;color:var(--sub);font-size:12px}
+.empty{padding:18px;color:var(--sub);text-align:center}
+.note{color:var(--sub);font-size:13.5px;margin:10px 0 0}
+.banner{background:var(--warn-bg);color:var(--warn);border-radius:12px;padding:10px 14px;margin:0 0 14px;font-weight:600}
+[hidden]{display:none!important}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13px;color:var(--sub);margin-top:10px}
+@media (max-width:900px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.tiles .tile:first-child{grid-column:1/-1}.works{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.works{grid-template-columns:1fr}.fs{grid-template-columns:96px 1fr 84px;gap:8px}.tile .v{font-size:24px}h1{font-size:22px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header>
+ <div><h1>הקמפיין והכסף</h1><p class="sub" id="fresh">טוען נתונים...</p></div>
+ <div class="seg" role="group" aria-label="תקופה" id="per"><button type="button" data-p="today">היום</button><button type="button" data-p="7">7 ימים</button><button type="button" data-p="lab" aria-pressed="true">מאז תחילת הקמפיין (4.11)</button></div>
+</header>
+<div class="banner" id="status" hidden></div>
+
+<section aria-label="השורה התחתונה"><div class="tiles" id="tiles"></div><p class="note" id="tilesNote"></p></section>
+
+<h2>מה עובד</h2>
+<p class="h2sub">מה ממיר הכי טוב לרכישה בכל שלב. "מוביל" רק כשיש מספיק נתונים, אחרת "מוקדם להכריע".</p>
+<div class="works" id="works"></div>
+
+<h2>המשפך</h2>
+<p class="h2sub">כמה אנשים עברו כל שלב, מהכניסה לדף ועד רכישה.</p>
+<div class="funnel" id="funnel"></div>
+
+<h2>שילובים</h2>
+<p class="h2sub">כל צירוף של סרטון, נוסח, דף מכירה ודף תשלום. קודם לפי רכישות, אחר כך לפי הגעה לתשלום. "אנשים" = מי שנכנס מהסרטון והנוסח לדף המכירה; דף התשלום נקבע רק כשמגיעים אליו.</p>
+<div class="tw"><table id="combos"></table></div>
+<div class="legend"><span><span class="tag money" style="margin:0">מביא כסף</span> יש רכישות</span><span><span class="tag traffic" style="margin:0">רק תנועה</span> אנשים נכנסו, עוד אין רכישה</span></div>
+
+<p class="note" id="foot"></p>
+</main>
+<script>
+const API="https://hook.eu1.make.com/qui1tw1ai7w98rqwbql9ir89ccvv9y6h?action=";
+/*{{CORE}}*/
+/*{{NAMES}}*/
+/*{{LAB}}*/
+/* ================= ב53: campaign page ================= */
+const LAB_START=new Date("2026-11-04T22:24:00");
+let per="lab";
+try{const p=localStorage.getItem("nlpcamp_per");if(p)per=p}catch(e){}
+const PAGE={a:"דף המכירה הראשי",a5:"דף המכירה החדש",pr:"דף הפרימיום",pr2:"דף הפרימיום החדש",a1:"דף מקוצר",a3:"דף A3",a4:"דף A4"};
+const COP={a:"דף תשלום 1 · שני שלבים",b:"דף תשלום 2 · מסך אחד"};
+const NA='<span class="na">לא הוזן</span>';
+function perBounds(){const now=new Date(),sod=new Date(now.getFullYear(),now.getMonth(),now.getDate());return {a:per==="today"?sod:per==="7"?new Date(+sod-6*864e5):LAB_START,b:new Date(+now+6e4)}}
+function daysOf(a,b){const D=[];let d=new Date(a.getFullYear(),a.getMonth(),a.getDate());const e=new Date(+b-1);while(d<=e){D.push(dayKey(d));d=new Date(d.getFullYear(),d.getMonth(),d.getDate()+1)}return D}
+const who=s=>s.vid||s.sid, code=s=>String(s.cr||"").trim().toLowerCase().replace(/[|\s]/g,"");
+const vidName=s=>{const i=labInfo(code(s));return i.name||"מודעה לא מזוהה"};
+const vidKey=s=>{const i=labInfo(code(s));return i.group||i.base||"?"};
+const copyName=s=>{const c=labInfo(code(s)).copy||"";return c.replace(/^קופי /,"נוסח ")||"נוסח לא ידוע"};
+const pageName=k=>PAGE[k]||("דף "+k);
+const coName=k=>COP[k]||"דף תשלום לא ידוע";
+const shortDate=d=>d.slice(8)+"."+d.slice(5,7);
+function render(){if(!rows)return;
+ const B=perBounds(),M=build(B.a,B.b),days=daysOf(B.a,B.b);
+ const isPaid=s=>s&&s.src==="מודעות Meta"&&!s.aff, paid=M.sess.filter(isPaid);
+ const BS=new Map();M.buys.forEach(b=>{if(isPaid(b.s)&&!b.aff){const o=BS.get(b.s)||{n:0,r:0};o.n++;o.r+=b.amt;BS.set(b.s,o)}});
+ /* spend: per-ad entries of the day, otherwise the day's total; a day with neither = not entered (never 0) */
+ const crDay={};Object.keys(cspend).forEach(k=>{const [d,c]=k.split("|");(crDay[d]||(crDay[d]={}))[String(c).toLowerCase()]=cspend[k]});
+ let spT=0;const miss=[];days.forEach(d=>{if(crDay[d])spT+=Object.values(crDay[d]).reduce((x,y)=>x+y,0);else if(spend[d]!=null)spT+=spend[d];else miss.push(d)});
+ const spKnown=days.length>miss.length, spPart=spKnown&&miss.length>0;
+ const F=k=>({k,ppl:new Set(),chk:new Set(),pay:new Set(),buy:0,rev:0,codes:new Set(),any:null});
+ const add=(f,s)=>{const w=who(s);f.ppl.add(w);if(s.chk)f.chk.add(w);if(s.pay)f.pay.add(w);const o=BS.get(s);if(o){f.buy+=o.n;f.rev+=o.r}f.codes.add(code(s));if(!f.any)f.any=s};
+ const T=F("all");paid.forEach(s=>add(T,s));
+ const spOf=codes=>{let t=0,has=false;codes.forEach(c=>days.forEach(d=>{const v=crDay[d]&&crDay[d][c];if(v!=null){t+=v;has=true}}));return has?t:null};
+ /* top line */
+ const tile=(k,v,d,hero)=>'<div class="tile'+(hero?' hero':'')+'"><span class="k">'+k+'</span><span class="v">'+v+'</span><span class="d">'+(d||"")+'</span></div>';
+ const roas=spKnown&&spT?T.rev/spT:null;
+ $("tiles").innerHTML=[
+  tile("כמה הוצאנו",spKnown?ils(spT):NA,spPart?"חסרים ימים: "+miss.map(shortDate).join(", "):spKnown?"הוצאה על המודעות":"ההוצאה עוד לא הוזנה",true),
+  tile("כמה נכנס",ils(T.rev),"מרכישות, כולל מע\"מ"),
+  tile("כמה חזר על כל שקל",roas!=null?roas.toFixed(2)+" ₪":NA,roas!=null?(roas>=1?"כל שקל בפרסום החזיר "+roas.toFixed(2)+" ₪":"עוד לא מחזירים את ההוצאה")+(spPart?" · הוצאה חלקית":""):"ROAS"),
+  tile("רכישות",fmt(T.buy),"מאומתות בקארדקום"),
+  tile("עלות לרכישה",spKnown&&T.buy?ils(spT/T.buy):spKnown?'<span class="na">אין רכישות</span>':NA,spKnown&&T.buy?"הוצאה חלקי רכישות"+(spPart?" · הוצאה חלקית":""):"")].join("");
+ $("tilesNote").textContent="רק תנועה ממומנת אמיתית ממודעות Meta: בלי משווקים, בלי בדיקות ובלי סריקות. "+B.a.toLocaleString("he-IL",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})+" עד עכשיו.";
+ /* groups */
+ const grp=(list,keyF)=>{const A={};list.forEach(s=>{const k=keyF(s);(A[k]||(A[k]=F(k))).k=k;add(A[k],s)});return Object.values(A)};
+ const rate=g=>g.ppl.size?g.buy/g.ppl.size:0, chkRate=g=>g.ppl.size?g.chk.size/g.ppl.size:0;
+ const pick=G=>{G=G.filter(g=>g.ppl.size>0);if(!G.length)return null;const tb=G.reduce((x,g)=>x+g.buy,0);
+  const byBuy=tb>0;G.sort((x,y)=>byBuy?(rate(y)-rate(x)||chkRate(y)-chkRate(x)||y.ppl.size-x.ppl.size):(chkRate(y)-chkRate(x)||y.ppl.size-x.ppl.size));
+  const L=G[0],solid=G.length>1&&byBuy&&tb>=5&&L.buy>=3&&L.ppl.size>=LAB_MIN.ppl;
+  return {L,n:G.length,byBuy,tag:G.length<2?["אין עם מה להשוות","none"]:solid?["מוביל","lead"]:["מוקדם להכריע","early"],G}};
+ const card=(q,P,nameF,unit)=>{unit=unit||"אנשים";if(!P)return '<div class="w"><div class="q">'+q+'</div><div class="n">אין עדיין תנועה</div></div>';
+  const L=P.L,m=P.byBuy?L.buy+" רכישות מתוך "+fmt(L.ppl.size)+" "+unit+" ("+pf(pct(L.buy,L.ppl.size))+")":fmt(L.chk.size)+" מתוך "+fmt(L.ppl.size)+" הגיעו לתשלום ("+pf(pct(L.chk.size,L.ppl.size))+") · עוד אין רכישות";
+  const o=P.G[1]?"הבא: "+esc(nameF(P.G[1]))+" · "+(P.byBuy?P.G[1].buy+" רכישות מתוך "+fmt(P.G[1].ppl.size):pf(pct(P.G[1].chk.size,P.G[1].ppl.size))+" הגיעו לתשלום"):"";
+  return '<div class="w"><div class="q">'+q+'</div><div class="n">'+esc(nameF(L))+'</div><div class="m">'+m+'</div>'+(o?'<div class="o">'+o+'</div>':'')+'<span class="tag '+P.tag[1]+'">'+P.tag[0]+'</span></div>'};
+ const pV=pick(grp(paid,vidKey)), lead=pV&&pV.L.any?vidKey(pV.L.any):null;
+ const pC=lead?pick(grp(paid.filter(s=>vidKey(s)===lead),copyName)):null;
+ $("works").innerHTML=[
+  card("דף המכירה",pick(grp(paid,s=>s.v)),g=>pageName(g.k)),
+  card("הסרטון",pV,g=>vidName(g.any)),
+  card("הנוסח בסרטון המוביל",pC,g=>g.k),
+  card("דף התשלום",pick(grp(paid.filter(s=>s.chk&&s.co),s=>s.co)),g=>coName(g.k),"שהגיעו אליו")].join("");
+ /* funnel (people) */
+ const st=[["נכנסו לדף",T.ppl.size],["הגיעו לדף התשלום",T.chk.size],["הגיעו לשלב האשראי",T.pay.size],["רכשו",T.buy]];
+ const mx=Math.max(1,T.ppl.size);
+ $("funnel").innerHTML=st.map((x,i)=>'<div class="fs"><span class="l">'+x[0]+'</span><span class="b"><i style="width:'+Math.max(.5,x[1]/mx*100).toFixed(1)+'%"></i></span><span class="c"><b>'+fmt(x[1])+'</b><small>'+(i?pf(pct(x[1],st[i-1][1]))+" מהשלב הקודם":"אנשים")+'</small></span></div>').join("");
+ /* combinations: people per video + copy + sales page; checkout and purchases split by the checkout they reached */
+ const V=grp(paid,s=>vidKey(s)+"|"+copyName(s)+"|"+s.v), out=[];
+ V.forEach(g=>{const mine=paid.filter(s=>vidKey(s)+"|"+copyName(s)+"|"+s.v===g.k), co=grp(mine.filter(s=>s.chk&&s.co),s=>s.co);
+  if(!co.length)out.push({g,c:null,buy:0,chk:0,rev:0}); else co.forEach(c=>out.push({g,c,buy:c.buy,chk:c.chk.size,rev:c.rev}));});
+ out.sort((x,y)=>y.buy-x.buy||y.chk-x.chk||y.g.ppl.size-x.g.ppl.size);
+ const rowsH=out.slice(0,25).map(o=>{const s=o.g.any;
+  return '<tr><td><b>'+esc(vidName(s))+'</b></td><td>'+esc(copyName(s))+'</td><td>'+esc(pageName(s.v))+'</td><td>'+(o.c?esc(coName(o.c.k)):'<small>אף אחד עוד לא הגיע</small>')+'</td><td class="num">'+fmt(o.g.ppl.size)+'</td><td class="num">'+fmt(o.chk)+'<small>'+pf(pct(o.chk,o.g.ppl.size))+'</small></td><td class="num"><b>'+fmt(o.buy)+'</b></td><td class="num">'+(o.rev?ils(o.rev):"-")+'</td><td><span class="tag '+(o.buy?"money":"traffic")+'" style="margin:0">'+(o.buy?"מביא כסף":"רק תנועה")+'</span></td></tr>'});
+ $("combos").innerHTML=rowsH.length?'<thead><tr><th>סרטון</th><th>נוסח</th><th>דף מכירה</th><th>דף תשלום</th><th>אנשים</th><th>הגיעו לתשלום</th><th>רכישות</th><th>הכנסות</th><th></th></tr></thead><tbody>'+rowsH.join("")+'</tbody>':'<tbody><tr><td class="empty">אין תנועה ממומנת בתקופה הזו</td></tr></tbody>';
+ $("foot").textContent="אנשים = מכשירים שונים, לא ביקורים. רכישות = עסקאות מאומתות בקארדקום. הוצאה = ההזנה היומית לפי מודעה (עד שבן יחבר את הדף ל-Meta, ואז היא תיכנס לבד). יום בלי הזנה מסומן \"לא הוזן\" ולא נספר כ-0. \"מוביל\" = לפחות 5 רכישות בהשוואה, 3 למוביל ו-"+LAB_MIN.ppl+" אנשים.";
+ if(storedAt)$("fresh").textContent="לנצח את האוטומט · עודכן "+new Date(storedAt).toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});}
+function status(msg){const s=$("status");if(!msg){s.hidden=true;return}s.textContent=msg;s.hidden=false}
+let busy=false;
+async function load(){if(busy)return;busy=true;
+ try{const [a,b]=await Promise.all([fetch(API+"rows",{cache:"no-store"}),fetch(API+"spend",{cache:"no-store"})]);
+  if(!a.ok)throw new Error("rows "+a.status);const ta=await a.text();
+  if(!ta.includes("\t")&&ta.trim()&&!/^\d{4}-/.test(ta.trim()))throw new Error(ta.slice(0,60));
+  rows=tsvRows(ta);
+  if(b.ok){const tb=await b.text();spend={};cspend={};tb.split("\n").slice(1).forEach(l=>{const [k,v]=l.split("\t");if(!/^\d{4}-\d{2}-\d{2}/.test(k||"")||v===""||isNaN(+v))return;if(k.includes("|"))cspend[k]=+v;else spend[k]=+v})}
+  storedAt=Date.now();status(null);render();
+ }catch(e){status("לא הצלחנו לטעון את הנתונים ("+e.message+"). נסו לרענן.")}finally{busy=false}}
+function tsvRows(text){return text.split("\n").filter(l=>l.trim()).map(l=>{const a=l.split("\t"),o={};COLS.forEach((k,i)=>o[k]=a[i]||"");o.t=new Date((o.ts||"").replace(" ","T"));return o}).filter(r=>!isNaN(r.t)).sort((a,b)=>a.t-b.t)}
+document.querySelectorAll("#per button").forEach(b=>{b.setAttribute("aria-pressed",String(b.dataset.p===per));b.onclick=()=>{per=b.dataset.p;document.querySelectorAll("#per button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));try{localStorage.setItem("nlpcamp_per",per)}catch(e){}render()}});
+load();setInterval(()=>{if(!document.hidden)load()},60000);document.addEventListener("visibilitychange",()=>{if(!document.hidden)load()});
+</script>
+</body>
+</html>

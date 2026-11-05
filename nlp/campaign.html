@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>הקמפיין · לנצח את האוטומט</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap">
+<style>
+/* ב53: דף אחד וברור לקמפיין ולכסף (לבקשת בן). הנתונים והכללים מ-dashboard.html (נבנה ב-claude/b53/build_campaign.py) */
+:root{--bg:#F6F5F1;--card:#fff;--ink:#15181E;--sub:#5A606B;--line:#E6E3DB;--gold:#A8823F;--good:#1F7A4D;--good-bg:#EAF5EE;--warn:#9A6A00;--warn-bg:#FFF6DD;--off:#6B707B;--off-bg:#F0F0EE;--bar:#2E6F5E}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 Heebo,system-ui,Arial,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:20px 16px 56px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:16px}
+h1{font-size:26px;font-weight:800;margin:0}
+.sub{color:var(--sub);font-size:14.5px;margin:2px 0 0}
+.seg{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:12px;padding:3px;gap:2px}
+.seg button{font:inherit;font-size:14.5px;font-weight:700;border:0;background:none;color:var(--sub);padding:8px 12px;border-radius:9px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--ink);color:#fff}
+.tiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 14px 12px}
+.tile .k{display:block;font-size:14px;color:var(--sub);font-weight:600}
+.tile .v{display:block;font-size:28px;font-weight:800;line-height:1.15;margin:4px 0 2px;font-variant-numeric:tabular-nums}
+.tile .d{display:block;font-size:13px;color:var(--sub)}
+.tile.hero{border-color:#D9C9A4;background:linear-gradient(180deg,#FFFDF7,#fff)}
+.na{display:inline-block;font-size:13px;font-weight:700;color:var(--warn);background:var(--warn-bg);border-radius:999px;padding:1px 9px}
+.tile .v .na{font-size:15px;vertical-align:middle}
+h2{font-size:20px;font-weight:800;margin:30px 0 4px}
+.h2sub{color:var(--sub);font-size:14px;margin:0 0 12px}
+.works{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.w{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+.w .q{font-size:13.5px;color:var(--sub);font-weight:700}
+.w .n{font-size:18px;font-weight:800;margin:6px 0 4px;line-height:1.3}
+.w .m{font-size:14px;color:var(--ink)}
+.w .o{font-size:13px;color:var(--sub);margin-top:6px}
+.tag{display:inline-block;font-size:12.5px;font-weight:800;border-radius:999px;padding:2px 10px;margin-top:8px}
+.tag.lead,.tag.money{color:var(--good);background:var(--good-bg)}
+.tag.early{color:var(--warn);background:var(--warn-bg)}
+.tag.traffic,.tag.none{color:var(--off);background:var(--off-bg)}
+.funnel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.fs{display:grid;grid-template-columns:150px 1fr 110px;align-items:center;gap:12px;padding:7px 0}
+.fs+.fs{border-top:1px dashed var(--line)}
+.fs .l{font-weight:700;font-size:15px}
+.fs .b{height:26px;background:#EFEDE7;border-radius:8px;overflow:hidden}
+.fs .b i{display:block;height:100%;background:var(--bar);border-radius:8px;min-width:2px}
+.fs .c{text-align:left;font-variant-numeric:tabular-nums}
+.fs .c b{font-size:18px}
+.fs .c small{display:block;color:var(--sub);font-size:12.5px}
+.tw{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:16px}
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+th,td{padding:9px 12px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:13px;color:var(--sub);font-weight:700;background:#FBFAF7}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums}
+td small{display:block;color:var(--sub);font-size:12px}
+.empty{padding:18px;color:var(--sub);text-align:center}
+.note{color:var(--sub);font-size:13.5px;margin:10px 0 0}
+.banner{background:var(--warn-bg);color:var(--warn);border-radius:12px;padding:10px 14px;margin:0 0 14px;font-weight:600}
+[hidden]{display:none!important}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13px;color:var(--sub);margin-top:10px}
+@media (max-width:900px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.tiles .tile:first-child{grid-column:1/-1}.works{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.works{grid-template-columns:1fr}.fs{grid-template-columns:96px 1fr 84px;gap:8px}.tile .v{font-size:24px}h1{font-size:22px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header>
+ <div><h1>הקמפיין והכסף</h1><p class="sub" id="fresh">טוען נתונים...</p></div>
+ <div class="seg" role="group" aria-label="תקופה" id="per"><button type="button" data-p="today">היום</button><button type="button" data-p="7">7 ימים</button><button type="button" data-p="lab" aria-pressed="true">מאז תחילת הקמפיין (4.11)</button></div>
+</header>
+<div class="banner" id="status" hidden></div>
+
+<section aria-label="השורה התחתונה"><div class="tiles" id="tiles"></div><p class="note" id="tilesNote"></p></section>
+
+<h2>מה עובד</h2>
+<p class="h2sub">מה ממיר הכי טוב לרכישה בכל שלב. "מוביל" רק כשיש מספיק נתונים, אחרת "מוקדם להכריע".</p>
+<div class="works" id="works"></div>
+
+<h2>המשפך</h2>
+<p class="h2sub">כמה אנשים עברו כל שלב, מהכניסה לדף ועד רכישה.</p>
+<div class="funnel" id="funnel"></div>
+
+<h2>שילובים</h2>
+<p class="h2sub">כל צירוף של סרטון, נוסח, דף מכירה ודף תשלום. קודם לפי רכישות, אחר כך לפי הגעה לתשלום. "אנשים" = מי שנכנס מהסרטון והנוסח לדף המכירה; דף התשלום נקבע רק כשמגיעים אליו.</p>
+<div class="tw"><table id="combos"></table></div>
+<div class="legend"><span><span class="tag money" style="margin:0">מביא כסף</span> יש רכישות</span><span><span class="tag traffic" style="margin:0">רק תנועה</span> אנשים נכנסו, עוד אין רכישה</span></div>
+
+<p class="note" id="foot"></p>
+</main>
+<script>
+const API="https://hook.eu1.make.com/qui1tw1ai7w98rqwbql9ir89ccvv9y6h?action=";
+const COLS=["ts","ev","variant","sid","sec_on_page","max_section","sections","max_scroll_pct","qs","at_section","section","name","video","cta","checkout_started","depth","vid","dev","nv","act","x"];
+const ALLV=["a2","b2","c2","a","b","c","a1","a3","a4","a5","pr"], VLBL={pr:"pr - פרימיום (ב45)",a5:"a5 - A חדש (ב42)",a3:"a3 - פתיחת P25 (ב42)",a4:"a4 - פתיחת 3 שנים (ב42)",a1:"a1 - A מקוצר (ב36)",a:"a - השיטה",b:"b - הכאב",c:"c - הוכחה",a2:"a2 (חדש)",b2:"b2 (חדש)",c2:"c2 (חדש)"}, VCOL={a:"var(--s1)",b:"var(--s2)",c:"var(--s3)",a2:"var(--s4)",b2:"var(--s5)",c2:"var(--s6)",a1:"var(--s7)",a3:"var(--s5)",a4:"var(--s6)",a5:"var(--s2)",pr:"var(--s7)"}; let VARS=ALLV.slice(0,3);
+const PRICE=297, VAT=0.18, TARGET=250, GOOD=150;
+const ANGLES={video_inner_dialogue:"דיאלוג פנימי",video_emotions:"ניהול רגשות",banner_potential:"מימוש עצמי",banner_time:"זמן שחולף"};
+const ANGLE_KW=[["emotion","ניהול רגשות"],["regesh","ניהול רגשות"],["inner","דיאלוג פנימי"],["dialog","דיאלוג פנימי"],["fear","פחד והישרדות"],["belief","שינוי אמונות"],["worth","ערך עצמי"],["comfort","יציאה מאזור הנוחות"],["student","גישת התלמיד"],["respons","אחריות אישית"],["potential","מימוש עצמי"],["time","זמן שחולף"]];
+const CTA_LBL={hero_main:"ראש הדף",cta1:"אחרי חלק ראשון",cta2:"אחרי אמצע הדף",cta3:"אחרי ההמלצות",offer:"אזור המחיר",final:"סוף הדף",sticky:"כפתור צף"};
+const CLARITY="yuzolf9nxn", CLURL="https://clarity.microsoft.com/projects/view/"+CLARITY+"/";
+function recUrl(s){if(!s||!s.cl)return "";let [u,k]=s.cl.split(".");u=(u||"").split("^")[0];k=(k||"").split("^")[0];return u&&k?"https://clarity.microsoft.com/player/"+CLARITY+"/"+u+"/"+k:""}
+const STG=["נכנס","גלל חצי","ראה את ההצעה","לחץ לרכישה","פתח סליקה","השאיר פרטים","רכש"];
+const SUM=["רק נכנסו","עצרו באמצע","ראו הצעה ולא לחצו","לחצו ולא פתחו סליקה","פתחו סליקה בלי פרטים","השאירו פרטים ולא שילמו","רכשו"];
+/* ניסוי דפי המכירה לפי ההנחיות של בן (26.10). שינוי סטטוס של דף (הוצאה מהניסוי) נרשם כאן וגם ב-DECISIONS */
+const EXP={id:"aap_0511",name:"a מול a5 מול pr (פרימיום)",start:new Date("2026-11-05T06:55:00"),arms:["a","a5","pr"],split:{a:1,a5:1,pr:1},target:"",minN:300,minBuy:20,cut:{total:100,perPage:25,events:5,p:.9,ratio:.5,buyFrom:3}};
+/* שינויים זהים בשלושת הדפים בזמן הניסוי: מפרידים לפני/אחרי בלשונית האופטימיזציה */
+const EXP_PHASE={at:new Date("2026-10-26T19:32:49"),label:"עדויות וואטסאפ חדשות בשלושת הדפים"}; let opPhase="all";
+/* 27.10 (ב19): A קיבל את מסך הפתיחה של C. ההחלטה עליו - לפי % שעוברים את המסך הראשון, אחרי 50 ביקורים */
+const EXP_PHASE2={at:new Date("2026-10-27T11:29:33"),label:"A עם פתיחת C"};
+const ARM_STATE={}; /* למשל c:{status:"stopped",at:"2026-10-28 10:00",why:"..."} */
+/* ב37 תיקון (בן 3.11): מסגרת תשלום גלויה בגרסה ב'. null = לא היו כניסות לב' לפני התיקון; אחרת שעת הפריסה */
+const CO_B_FIX=null;
+const CO_ARMS=[{id:"a",name:"סליקה A - כפתור \"המשך לתשלום\" (היום)",live:true},{id:"b",name:"סליקה B - מסך אחד (ב37)",live:true}]; /* ב37: co_0311 חצי-חצי אקראי עד 04.11 13:58; מ-ב46 (pc_0411): a5 תמיד B, a וכל דף אחר A */
+const DECISIONS=[
+ {at:"2026-10-26 09:02",detected:"הדפים שרצו מ-20.10 (a2/b2/c2) אינם שלושת הדפים שבן הגדיר לניסוי, והחלוקה הקודמת נטתה מעט (33.6/33.2/33.2)",problem:"אי אפשר לבחור בין a/b/c בלי ניסוי נקי עליהם",change:"go.html מחלק את כל תנועת המודעות ל-a/b/c בשליש מדויק, עם שיוך קבוע לדפדפן ו-exp=abc_2610 על כל ביקור. c.html קיבל את הקופי של בן בשלושה אזורים (הגרסה הקודמת נשמרה ב-nlp/archive)",hyp:"מסר שמתיישר עם המודעות (הטמעה, רגש ומחשבה, כלים יומיומיים) יעלה את המעבר לסליקה ואת הרכישות",traffic:"live",result:"בבדיקה",kept:"פעיל",next:"כשדף יעמוד בכלל ההסרה: להוציא אותו ולחלק 50/50 בין השניים. ניסוי סליקה B אחרי אישור"},
+ {at:"2026-10-26 19:32",detected:"בן ביקש לחזק את ההוכחות החברתיות: 4 הודעות וואטסאפ חדשות של לקוחות, מטושטשות",problem:"ההוכחות בדפים לא הבליטו שינוי מעשי ויישום ביום-יום",change:"4 צילומי וואטסאפ חדשים (0181, 0185, 0186, 0187) נוספו בתחילת קרוסלת ההמלצות הקיימת בשלושת הדפים, באותו סדר, עם הכותרת של בן והגדלה בלחיצה. ההמלצות והסרטון הקיימים נשארו. a2/b2/c2 מפנים עכשיו ל-go.html",hyp:"הוכחות שמדגישות יישום ושינוי מורגש יעלו את ההגעה לסליקה בכל הדפים. השינוי זהה בשלושתם, כך שההשוואה בין הדפים נשמרת",traffic:"live",result:"בבדיקה - להשוות לפני/אחרי בבורר למעלה",kept:"פעיל",next:"משפט הפתיחה של C לפי בחירת בן (גרסה מתועדת)"},
+ {at:"2026-10-27 11:29",detected:"במשפך מ-20.10: 78% לא עוברים את המסך הראשון. בניסוי: C - 8 מ-16 עוברים את המסך הראשון, B - 3 מ-19, A - 0 מ-17",problem:"המסך הראשון של A לא מחזיק אנשים",change:"ב-a.html הוחלף רק בלוק הפתיחה (תמונה, משפט פתיחה, כותרת, שורות, כפתור, תשלום מאובטח, 8 התלמידים, מה בדיוק מקבלים) בבלוק של c.html כמו שהוא. שאר A בלי שינוי, הדף נשאר a",hyp:"פתיחת C תעלה את % שעוברים את המסך הראשון ב-A",traffic:"live",result:"בבדיקה - החלטה אחרי 50 ביקורים ב-A מתחילת השינוי (בורר התקופה למעלה, שורת \"עברו את המסך הראשון\")",kept:"פעיל",next:"אם A עם פתיחת C עובר את המסך הראשון באותו קצב כמו C: להשאיר; אם לא: לחזור לפתיחה הקודמת (בארכיון)"}];
+const EXPERIMENTS=[
+ {id:"aap_0511",name:"a מול a5 מול pr - דף הפרימיום נכנס לניסוי (ב47, 05.11)",hyp:"דף הפרימיום של בן (pr: מבנה של 14 סקשנים, תועלת לצד כל מאפיין, מנגנון צחצוח השיניים, פעימה אחת בכפתור) מביא יותר רכישות מאומתות למבקר מ-a ומ-a5",change:"pr.html נכנס לחלוקה. a ו-a5 בלי שינוי",arms:"a, a5, pr שליש לכל אחד למבקרים חדשים, שיוך קבוע (go.html, exp=aap_0511). מי ששובץ קודם ל-a או ל-a5 נשאר בדף שלו עם exp=aa5_0411",start:"2026-11-05",end:"",split:"33/33/33",primary:"רכישות מאומתות למבקר והגעה לסליקה",secondary:"מעבר מהמסך הראשון, לחיצות לפי מיקום הכפתור, נטישה",guard:"חלוקה תקינה (SRM), שגיאות טעינה, סליקות שנכשלו. סליקה: pr ו-a לסליקה A, a5 לסליקה B (ב46)",status:"פעיל",decision:""},
+ {id:"aa5_0411",name:"a מול a5 - A חדש מול A המקורי (ב42, 04.11)",hyp:"A חדש - פתיחת P25, ההצעה וכפתור הרכישה מוקדם יותר, קופי רגשי - מביא יותר הגעות לסליקה ורכישות למבקר מ-a",change:"פתיחה, כותרת ומסך ראשון של P25; \"רגע לפני\" וההצעה מיד אחרי העדויות; כותרות אזורים רגשיות; אנימציה בכפתור כל 3 שניות; שורת בונוסים, סרטוני תלמידים מתחת למסך הראשון, פס רכישה בולט, בלי מחיר מחוק",arms:"a, a5 חצי-חצי, שיוך קבוע (go.html, exp=aa5_0411)",start:"2026-11-04",end:"",split:"50/50",primary:"הגעה לסליקה ורכישות מאומתות למבקר (בערך 600-700 מבקרים לגרסה)",secondary:"מעבר מהמסך הראשון, הגעה להצעה, לחיצות על הכפתור הראשי ועל הפס הקבוע",guard:"חלוקה תקינה (SRM), שגיאות טעינה, סליקות שנכשלו",status:"הוחלף ב-aap_0511 למבקרים חדשים (05.11 06:55); מבקרים ששובצו קודם ממשיכים לקבל exp=aa5_0411",decision:"בן אישר את דף הפרימיום ורצה להכניס אליו תנועה"},
+ {id:"a34_0411",name:"a3 מול a4 - שתי פתיחות לדף הגדול (ב42, 04.11)",hyp:"איזו פתיחה (המסר של P25 או \"איפה היית לפני 3 שנים\") מביאה יותר הגעות לסליקה ורכישות למבקר",change:"פתיחה, כותרת ומסך ראשון שונים; בשתיהן שורת בונוסים מתחת לכפתור, סרטוני תלמידים מתחת למסך הראשון, אפקט בכפתור, פס רכישה בולט בנייד, בלי מחיר מחוק",arms:"a3, a4 חצי-חצי, שיוך קבוע (go.html, exp=a34_0411)",start:"2026-11-04",end:"",split:"50/50",primary:"הגעה לסליקה ורכישות מאומתות למבקר (בערך 600-700 מבקרים לגרסה)",secondary:"מעבר מהמסך הראשון, לחיצות על הכפתור הראשי ועל הפס הקבוע",guard:"חלוקה תקינה (SRM), שגיאות טעינה, סליקות שנכשלו",status:"הוחלף ב-aa5_0411 (04.11 12:15)",decision:"בן ביקש A חדש אחד מול a המקורי במקום שתי גרסאות חדשות"},
+ {id:"aa1_0211",name:"a מול a1 - A מקוצר (ב36, 2.11)",hyp:"מסך ראשון שבו הכפתור והמחיר נראים, עדויות מוקדם, ההצעה לפני הבונוסים וטקסט ארוך שנפתח בלחיצה יעלו רכישות למבקר",change:"סדר, קיצור ומסך ראשון בלבד, בלי שינוי בקופי (a.html לא השתנה)",arms:"a, a1 חצי-חצי, שיוך קבוע (go.html, exp=aa1_0211)",start:"2026-11-02",end:"",split:"50/50",primary:"רכישות מאומתות למבקר",secondary:"מעבר מהמסך הראשון, הגעה לסליקה, הגעה להצעה",guard:"חלוקה תקינה (SRM), שגיאות טעינה, סליקות שנכשלו",status:"הוחלף ב-a34_0411 (04.11 09:43)",decision:"הופסק לפני נקודת הבדיקה; הוחלף בניסוי הפתיחות של ב42"},
+ {id:"abc_2610",name:"a/b/c לפי בן (26.10)",hyp:"איזה משלושת הדפים מייצר הכי הרבה רכישות למבקר",change:"שלושה דפים שלמים; c עם הקופי החדש של בן",arms:"a, b, c בשליש מדויק, שיוך קבוע (go.html, exp=abc_2610)",start:"2026-10-26",end:"",split:"33.3/33.3/33.4",primary:"רכישות מאומתות למבקר",secondary:"הגעה לסליקה, השלמת תשלום, גלילה, זמן פעיל",guard:"חלוקה תקינה (SRM), שגיאות טעינה, סליקות שנכשלו",status:"הסתיים 2.11 (בן: נשארים עם A), הוחלף ב-aa1_0211",decision:"b יצא ב-2.11 16:55 (ב35), c ב-18:04 (ב36). 2 רכישות בניסוי: a 1, c 1"},
+ {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"2026-10-26",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"הסתיים, הוחלף ב-abc_2610",decision:""},
+];
+const CHANGELOG=[
+ ["2026-10-07","שלושה דפים עם פתיחות שונות (v14-v15)"],["2026-10-08","הוסר אזור 'בחיים עצמם', מספור אזורים תוקן (v16)"],["2026-10-08","סליקה עברה ל-LowProfile בקארדקום"],["2026-10-09","מדידה מורחבת: זמן פעיל, חשיפת אזורים וכפתורים, מכשיר, ביצועים, שלבי סליקה"],["2026-10-09","Clarity: מפות חום והקלטות בדפים ובסליקה"],["2026-10-10","ביקורים מדפדפנים פנימיים מסומנים ומוסתרים, והתראה כשאין ביקורים 6 שעות"],["2026-10-26","ניסוי abc_2610: go.html → a/b/c בשליש מדויק (09:02)"],["2026-10-26","c.html: קופי חדש של בן בשלושה אזורים, הגרסה הקודמת ב-nlp/archive"],["2026-10-26","2026-10-26 19:32: 4 עדויות וואטסאפ חדשות בשלושת הדפים; a2/b2/c2 מפנים ל-go.html"],["2026-10-26","20:56: 4 העדויות החדשות עם השמות ותמונות הפרופיל (באישור בן) במקום המטושטשות; כלל הוצאת דף חלש עודכן לפי בן (100 מבקרים, 90%, חצי מהטוב, 5 הגעות לסליקה, 25 לדף; באישור יהב)"],["2026-10-27","11:29: דף A קיבל את מסך הפתיחה של C (ב19). שאר A בלי שינוי, נמדד כ-a. החלטה לפי % שעוברים את המסך הראשון אחרי 50 ביקורים"],["2026-10-28","14:31: הפיקסל של Meta לא נטען בסריקות Meta, בקישורי בדיקה ובדפדפן הפנימי (a/b/c ודף התודה), ו-InitiateCheckout נשלח פעם אחת בביקור (ב23). המדידה שלנו בדשבורד בלי שינוי; ב-Meta מספר התחלות התשלום צפוי לרדת לכמות האמיתית"],["2026-10-29","11:38: תשתית משווקים (ב25): aff בקישור נשמר 30 יום (הקליק האחרון; ערוץ של בן מחזיר לבן), נשלח עם כל אירוע ועם ReturnValue לקארדקום; לשונית 09 משווקים, מקור \"משווקים\" וסינון בן/משווקים"],
+["2026-11-05","13:38 - ב56: דף התודה מראה לאיזה מייל נשלחה הגישה ומה לחפש (שולח בן נחום, הנושא), וכפתור וואטסאפ לעזרה בגישה. בשני דפי התשלום (A ו-B יחד) הצעה לתיקון טעות במייל (gmial, .con...), בלי חסימה"],
+["2026-11-05","13:22 - מעבדה לפי מודעה: השמות לכל 48 המודעות מטבלת המעבדה (גם B, קרוסלות ובאנרים). עד עכשיו מודעות B הופיעו כ\"לא בטבלת המעבדה\". רק בדשבורד, בלי שינוי בנתונים"],
+["2026-11-05","12:07 - ב50: נטישה בתשלום - מי שניסה לשלם ונכשל מקבל מעקב אחרי 15 דקות (שאר הנוטשים אחרי שעה), עם תג pay_failed או pay_not_tried ברב מסר ונוסח וואטסאפ לפי המקרה. הקישור בהודעה מסומן utm_medium=recovery, ובסליקה נוסף פאנל \"החזרת נוטשים\""],
+["2026-11-05","10:55 - ב52: בדף התשלום (A ו-B) תיבת חובה של קארדקום, \"מדיניות ביטול לעסקה זו הינה לפי חוק שירותי תשלום בישראל...\". טופס התשלום, כולל הארנקים, נטען רק אחרי סימון. להשוות כמה מגיעים לטופס האשראי לפני ואחרי"],
+["2026-11-05","09:21 - ב47: \"זמן כולל\" לא מחושב יותר משורות js_error. שגיאת הדפדפן של פייסבוק ואינסטגרם באנדרואיד (Java object is gone) נרשמת אחרי שהגולש יצא וניפחה את הזמן. רק בדשבורד, בלי שינוי בדפים ובניסוי"],
+["2026-11-05","06:55 - ב47: go.html מחלק מבקרים חדשים לשלושה: a, a5 ו-pr, שליש לכל אחד (ניסוי aap_0511). מי ששובץ קודם ל-a או ל-a5 נשאר בדף שלו (aa5_0411). אינסטגרם אורגני ממשיך ל-a (ב44). pr לסליקה A"],["2026-11-04","16:28 - ב41: הודעה קבועה בסליקה (A ו-B) מעל טופס התשלום: Apple Pay ו-Google Pay לא זמינים כרגע, משלמים בכרטיס. להסיר כשכאל מסיימים"],["2026-11-04","16:12 - ב45: דף הפרימיום pr.html עלה לאוויר בלי תנועה (לא ב-go.html, ניסוי בסבב הבא); ב-a5 במקום אנימציה כל 3 שניות - פעימה אחת בכל כפתור"],["2026-11-04","13:58 - ב46: הסליקה לפי הדף - a5 תמיד לסליקה B, a וכל דף אחר לסליקה A (ניסוי pc_0411 דף+סליקה, במקום החלוקה האקראית co_0311)"],["2026-11-04","13:58 - ב44: אינסטגרם אורגני (ביו, ManyChat) תמיד ל-a מחוץ לניסוי; ב-a וב-a5 ~~1,290~~ 297 ו\"מחיר השקה לזמן מוגבל\""],["2026-11-04","ניסוי aa5_0411: go.html → a/a5 חצי-חצי, במקום a34_0411 (ב42, לפי בן, באישור יהב)"],["2026-11-04","ניסוי a34_0411: go.html → a3/a4 חצי-חצי, במקום aa1_0211 (ב42, באישור יהב ובן)"],["2026-11-02","ניסוי aa1_0211: go.html → a/a1 חצי-חצי (ב36, באישור בן)"],["2026-11-02","go.html: b יצא 16:55 (ב35), כל התנועה ל-a 18:04 (ב36); a1.html עלה כתצוגה מקדימה 22:02"]
+];
+
+let rows=null, spend={}, cspend={}, storedAt=0, range="7", screen="op", lpVar="a2", showTests=false, fSrc="", fOwn="", AFF={}, REF=new Set(), PAID=new Set(), fDev="", cFrom="", cTo="", jrStage="", openSid="", openCr="";
+const $=id=>document.getElementById(id);
+function st(){try{return localStorage}catch(e){return null}}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+const fmt=n=>n==null||isNaN(n)?"-":Math.round(n).toLocaleString("he-IL");
+const ils=n=>n==null||isNaN(n)?"-":Math.round(n).toLocaleString("he-IL")+" ₪";
+const pct=(a,b)=>b?a/b*100:null;
+const pf=p=>p==null||isNaN(p)?"-":(p<10&&p>0?p.toFixed(1):Math.round(p))+"%";
+const secs=s=>s==null||isNaN(s)?"-":s<60?Math.round(s)+" שנ'":(s/60).toFixed(1)+" דק'";
+function median(a){a=a.filter(x=>x!=null&&!isNaN(x)).sort((x,y)=>x-y);if(!a.length)return null;const m=a.length>>1;return a.length%2?a[m]:(a[m-1]+a[m])/2}
+function q(a,p){a=a.filter(x=>x!=null&&!isNaN(x)).sort((x,y)=>x-y);if(!a.length)return null;const i=(a.length-1)*p,l=Math.floor(i);return a[l]+(a[Math.min(l+1,a.length-1)]-a[l])*(i-l)}
+function wilson(k,n){if(!n)return [0,0];const z=1.96,p=k/n,d=1+z*z/n,c=p+z*z/(2*n),m=z*Math.sqrt(p*(1-p)/n+z*z/(4*n*n));return [(c-m)/d*100,(c+m)/d*100]}
+function conf(n,k){ if(n<30||k<3) return ["נתונים מעטים","off"]; if(n<150||k<10) return ["מגמה ראשונית","warn"]; return ["ראיות חזקות יותר","good"]; }
+function dayKey(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function qsObj(q){try{return new URLSearchParams(q||"")}catch(e){return new URLSearchParams()}}
+/* חלונות זמן של בדיקות (שעון ישראל): כל הכניסות בהם נספרות כבדיקה. 21.10 09:53-10:05 = בדיקת המודעות החמות של Meta והבדיקות שלנו */
+const TEST_WINDOWS=[["2026-10-21T09:53:00","2026-10-21T10:05:59"]].map(w=>w.map(x=>new Date(x)));
+/* עסקאות בדיקה ששולמו בכרטיס אמיתי (לא לקוחות). 267429750 = רכישת הבדיקה של בן, 23.10 */
+const TEST_DEALS=["267429750"], TEST_SIDS=["6ac363a1-80a1-4715-9964-0a72520b66fb"];
+function isTest(r){const q=(r.qs||"").toLowerCase();return /claude|test|nocache/.test(q)||/(^|;)int=1(;|$)/.test(r.x||"")||r.variant==="test"||/בדיקה|בדיקת/.test(r.name||"")||TEST_WINDOWS.some(([a,b])=>r.t>=a&&r.t<=b)||TEST_SIDS.includes(r.sid)||TEST_DEALS.some(d=>new RegExp("deal\\s+"+d+"\\b").test(q));}
+function source(p){const s=(p.get("utm_source")||"").toLowerCase(),m=(p.get("utm_medium")||"").toLowerCase();
+ if(p.get("aff")||m==="affiliate")return "משווקים"; /* ב25: לפני מודעות Meta, כדי ש"מודעות Meta" יישאר רק המודעות של בן */
+ if(/meta|facebook|fb|ig|instagram/.test(s)&&/paid|cpc|ads?$|social_paid|paid_social/.test(m))return "מודעות Meta";
+ if(/manychat/.test(p.get("utm_campaign")||"")||m==="dm")return "ManyChat";
+ if(/email|responder/.test(s+m))return "מייל";
+ if(/instagram|ig/.test(s))return "אינסטגרם אורגני";
+ if(/facebook|fb/.test(s))return "פייסבוק אורגני";
+ if(p.get("fbclid"))return "Meta (fbclid)";
+ if(s)return s; return "ישיר / לא ידוע";}
+function angleOf(cr){if(ANGLES[cr])return ANGLES[cr];const c=(cr||"").toLowerCase();for(const [k,v] of ANGLE_KW)if(c.includes(k))return v;return "ללא תווית";}
+function parseX(x){const o={};(x||"").split(";").forEach(kv=>{const i=kv.indexOf("=");if(i>0)o[kv.slice(0,i)]=kv.slice(i+1)});return o}
+function pairs(s){const o={};(s||"").split(",").forEach(p=>{const [k,v]=p.split(":");if(k)o[k]=+v||0});return o}
+
+/* period */
+function bounds(){const n=new Date(),sod=new Date(n.getFullYear(),n.getMonth(),n.getDate());let a,b=new Date(+sod+864e5);
+ if(range==="today")a=sod; else if(range==="yday"){a=new Date(+sod-864e5);b=sod} else if(range==="all")a=new Date(2000,0,1);
+ else if(range==="custom"){a=cFrom?new Date(cFrom+"T00:00"):new Date(2000,0,1);b=cTo?new Date(+new Date(cTo+"T00:00")+864e5):b}
+ else a=new Date(+sod-(+range-1)*864e5);
+ const len=b-a; return {a,b,pa:new Date(+a-len),pb:a,days:Math.max(1,Math.round(len/864e5))};}
+
+/* build model from rows within [a,b) */
+function build(a,b){
+ const R=rows.filter(r=>!isNaN(r.t)&&r.t>=a&&r.t<b&&(showTests||!isTest(r)));
+ const S={}, secNames=Object.fromEntries(ALLV.map(v=>[v,{1:"פתיחה"}])), secCount=Object.fromEntries(ALLV.map(v=>[v,0])), evCount={};
+ R.forEach(r=>{evCount[r.ev]=(evCount[r.ev]||0)+1;
+  if(!ALLV.includes(r.variant)||!r.sid)return;
+  let s=S[r.sid];
+  if(!s){const p=qsObj(r.qs);s=S[r.sid]={sid:r.sid,v:r.variant,p,src:source(p),cr:(p.get("utm_content")||"").replace(/^lp_[abc]$/,"")||"(ללא קריאייטיב)",ad:p.get("ad_id")||"",cmp:p.get("utm_campaign")||"",place:p.get("placement")||p.get("site_source")||"",go:p.get("go")==="1",
+   t:r.t,last:r.t,day:dayKey(r.t),hour:r.t.getHours(),dev:"",vid:"",nv:0,time:0,act:0,scroll:0,sec:0,secs:+r.sections||0,secT:{},ctaSeen:{},fs:null,fc:null,lcp:0,cls:0,ttfb:0,load:0,
+   ctas:[],cta:false,video:0,faq:0,chk:false,cstart:false,det:false,val:0,pay:false,payMs:0,fail:false,back:false,lerr:false,jserr:0,buy:false,buyT:null,ev:[]};}
+  if(r.t<s.t)s.t=r.t; if(r.t>s.last)s.last=r.t;
+  if(r.dev&&!s.dev)s.dev=r.dev; if(r.vid&&!s.vid)s.vid=r.vid; if(+r.nv)s.nv=Math.max(s.nv,+r.nv);
+  if(r.ev!=="js_error")s.time=Math.max(s.time,+r.sec_on_page||0); /* ב47: שגיאת הדפדפן של פייסבוק נרשמת אחרי היציאה - לא נכנסת לזמן */ s.act=Math.max(s.act,+r.act||0); s.scroll=Math.max(s.scroll,+r.max_scroll_pct||0); s.sec=Math.max(s.sec,+r.max_section||0); if(+r.sections)s.secs=+r.sections;
+  if(r.x){const x=parseX(r.x); const st=pairs(x.st); for(const k in st)s.secT[k]=Math.max(s.secT[k]||0,st[k]); const cs=pairs(x.cs); for(const k in cs) if(s.ctaSeen[k]==null||cs[k]<s.ctaSeen[k]) s.ctaSeen[k]=cs[k];
+   if(x.fs&&+x.fs>0)s.fs=s.fs==null?+x.fs:Math.min(s.fs,+x.fs); if(x.fc&&s.fc==null)s.fc=+x.fc; if(+x.lcp)s.lcp=Math.max(s.lcp,+x.lcp); if(x.cls)s.cls=Math.max(s.cls,+x.cls||0); if(+x.ttfb)s.ttfb=+x.ttfb; if(+x.load)s.load=+x.load; if(x.pay_load_ms)s.payMs=+x.pay_load_ms; if(x.cl&&!s.cl)s.cl=x.cl; if(x.co&&!s.co)s.co=x.co; if(x.aff&&!s.aff)s.aff=x.aff;}
+  if(r.ev==="section"&&r.section&&r.name){secNames[r.variant][r.section]=r.name}
+  if(+r.sections)secCount[r.variant]=Math.max(secCount[r.variant],+r.sections);
+  switch(r.ev){
+   case "cta_click": s.cta=true; s.ctas.push({id:r.cta||"?",t:r.t,sec:+r.sec_on_page||0}); if(s.fc==null)s.fc=+r.sec_on_page||null; break;
+   case "video_play": s.video++; break; case "faq_open": s.faq++; break;
+   case "checkout_view": s.chk=true; break; case "checkout_contact_started": s.cstart=true; s.chk=true; break;
+   case "checkout_details": s.det=true; s.chk=true; s.cstart=true; break; case "checkout_validation_error": s.val++; s.chk=true; break;
+   case "checkout_payment_viewed": s.pay=true; break; case "checkout_failed": s.fail=true; s.chk=true; break;
+   case "checkout_back": s.back=true; break; case "checkout_load_error": s.lerr=true; break; case "js_error": s.jserr++; break;
+   case "purchase_return": case "thanks_view": s.buy=true; if(!s.buyT||r.t<s.buyT)s.buyT=r.t; break;
+  }
+  s.ev.push(r);
+ });
+ /* verified purchases (Cardcom), once per deal */
+ const seen=new Set(), buys=[];
+ R.forEach(r=>{ if(!(r.ev==="purchase"&&(r.cta==="cardcom_page_webhook"||r.cta==="cardcom_webhook")))return;
+  const m=(r.qs||"").match(/(\d+(?:\.\d+)?)\s*ILS/), d=(r.qs||"").match(/deal\s+(\S+)/); const deal=d?d[1]:"";
+  const key=deal||(r.sid?r.sid:"t"+Math.floor(r.t/6e4)); if(seen.has(key))return; seen.add(key);
+  const s=r.sid&&S[r.sid]; if(s){s.buy=true; if(!s.buyT)s.buyT=r.t; s.pay=true; s.det=true; s.chk=true;}
+  buys.push({t:r.t,day:dayKey(r.t),amt:m?+m[1]:PRICE,deal,sid:r.sid||"",s:s||null,aff:parseX(r.x).aff||""});});
+ let sess=Object.values(S);
+ sess.forEach(s=>{s.offer=seenOffer(s,secNames); s.testi=seenTesti(s,secNames); s.eng=s.act>=20||s.scroll>=50||s.cta; s.dv=(s.dev||"").split("-")[0]||"?"; s.os=(s.dev||"").split("-")[1]||"?"; s.app=(s.dev||"").split("-")[2]||"?"; s.stage=stage(s); s.lastSec=s.sec;
+  s.tbuy=s.buyT?(s.buyT-s.t)/1000:null;});
+ if(fSrc)sess=sess.filter(s=>s.src===fSrc);
+ if(fDev)sess=sess.filter(s=>s.dv===fDev);
+ if(fOwn)sess=sess.filter(s=>fOwn==="aff"?!!s.aff:!s.aff); /* ב25 */
+ const sids=new Set(sess.map(s=>s.sid));
+ const vbuys=(fSrc||fDev||fOwn)?buys.filter(b=>b.sid&&sids.has(b.sid)):buys;
+ return {R,sess,buys:vbuys,allBuys:buys,secNames,secCount,evCount};
+}
+function secIdx(names,re){for(const k in names)if(re.test(names[k]))return +k;return 0}
+const OFFER_RE=/הצעה/, TESTI_RE=/מה אומרים|תוצאות אמיתיות/;
+function seenOffer(s,N){const k=secIdx(N[s.v],OFFER_RE)||(s.secs?s.secs-1:99);return s.sec>=k||s.ctaSeen.offer!=null}
+function seenTesti(s,N){const k=secIdx(N[s.v],TESTI_RE)||99;return s.sec>=k}
+function stage(s){return s.buy?6:s.det?5:s.chk?4:s.cta?3:s.offer?2:s.scroll>=50?1:0}
+
+
+const VIDEO_NAMES={p24:"ידע לא משנה, הטמעה כן",p25:"למה המוח מחפש חסרונות",p28:"3 שנים מעכשיו",h30a4:"במחיר של ארוחה במסעדה",h30b3:"297 ₪ חד-פעמי, החזר מלא תוך 7 ימים",w31a4:"כבר מכיר אותי? זה הצעד הבא",w31a5:"לא עוד ידע, זו דרך חיים",
+ cold2_chg_orig:"למה המוח מחפש רק חסרונות סרטון שינויים + קופי מקור",cold3_chg_pain:"למה המוח מחפש רק חסרונות סרטון שינויים קופי כאב",cold4_chg_pleas:"למה המוח מחפש רק חסרונות סרטון שינויים קופי עונג",
+ warm2_chg_orig:"סרטון שינויים קופי מקור",warm3_chg_pain:"סרטון שינויים קופי כאב",warm4_chg_pleas:"סרטון שינויים קופי עונג",
+ link_in_bio:"אינסטגרם - לינק בביו",new_follower_v2:"ManyChat - עוקב חדש",mail1:"מייל 1 - עבר זמן. בניתי משהו חדש",mail2:"מייל 2 - מאות אנשים הגיעו אליי תקועים"};
+/* ב24: שם הסרטון בכל מקום. crLabel = שם מודגש עם הקוד קטן (HTML), crText = "שם (קוד)" לטקסט רגיל. קוד בלי שם מוצג כמו קודם */
+function crName(c){return VIDEO_NAMES[String(c||"").trim().toLowerCase()]||""}
+
+const LAB={"t1_decisions_a":{"name":"נשאר על הגדר","open":"זו הסיבה שאתה נשאר על הגדר","type":"סרטון","copy":"קופי A","group":"COLD_01"},"t1_decisions_c":{"name":"נשאר על הגדר","open":"זו הסיבה שאתה נשאר על הגדר","type":"סרטון","copy":"קופי C","group":"COLD_01"},"t2_whodecides_a":{"name":"מי מחליט בשבילך","open":"מי באמת מחליט בשבילך?","type":"סרטון","copy":"קופי A","group":"COLD_02"},"t2_whodecides_c":{"name":"מי מחליט בשבילך","open":"מי באמת מחליט בשבילך?","type":"סרטון","copy":"קופי C","group":"COLD_02"},"t3_proof_a":{"name":"מאות אנשים לא משקרים","open":"מאות אנשים לא משקרים","type":"סרטון","copy":"קופי A","group":"COLD_03"},"t3_proof_c":{"name":"מאות אנשים לא משקרים","open":"מאות אנשים לא משקרים","type":"סרטון","copy":"קופי C","group":"COLD_03"},"t4_knowledge_a":{"name":"הידע לא מקדם","open":"למה הידע לא באמת מקדם אותך?","type":"סרטון","copy":"קופי A","group":"COLD_04"},"t4_knowledge_c":{"name":"הידע לא מקדם","open":"למה הידע לא באמת מקדם אותך?","type":"סרטון","copy":"קופי C","group":"COLD_04"},"t5_trap_a":{"name":"המלכודת שמשאירה אותך","open":"המלכודת שמשאירה אותך באותו מקום","type":"סרטון","copy":"קופי A","group":"COLD_05"},"t5_trap_c":{"name":"המלכודת שמשאירה אותך","open":"המלכודת שמשאירה אותך באותו מקום","type":"סרטון","copy":"קופי C","group":"COLD_05"},"t6_innervoice_a":{"name":"מדבר ככה לאויב","open":"היית מדבר ככה לאויב שלך?","type":"סרטון","copy":"קופי A","group":"COLD_06"},"t6_innervoice_c":{"name":"מדבר ככה לאויב","open":"היית מדבר ככה לאויב שלך?","type":"סרטון","copy":"קופי C","group":"COLD_06"},"t7_book_a":{"name":"עוד ספר עוד קורס","open":"עוד ספר עוד קורס ושום דבר לא משתנה?","type":"סרטון","copy":"קופי A","group":"COLD_07"},"t7_book_c":{"name":"עוד ספר עוד קורס","open":"עוד ספר עוד קורס ושום דבר לא משתנה?","type":"סרטון","copy":"קופי C","group":"COLD_07"},"t8_time_a":{"name":"כל יום אותו דבר","open":"למה כל יום נראה אותו דבר?","type":"סרטון","copy":"קופי A","group":"COLD_08"},"t8_time_c":{"name":"כל יום אותו דבר","open":"למה כל יום נראה אותו דבר?","type":"סרטון","copy":"קופי C","group":"COLD_08"},"t9_motivation_a":{"name":"המוטיבציה נגמרת","open":"המוטיבציה נגמרת. ההשלכות נשארות.","type":"סרטון","copy":"קופי A","group":"COLD_09"},"t9_motivation_c":{"name":"המוטיבציה נגמרת","open":"המוטיבציה נגמרת. ההשלכות נשארות.","type":"סרטון","copy":"קופי C","group":"COLD_09"},"t10_illusion_a":{"name":"מתפתח או צובר ידע","open":"אתה מתפתח? או רק צובר ידע?","type":"סרטון","copy":"קופי A","group":"COLD_10"},"t10_illusion_c":{"name":"מתפתח או צובר ידע","open":"אתה מתפתח? או רק צובר ידע?","type":"סרטון","copy":"קופי C","group":"COLD_10"},"w1_trust_a":{"name":"מאות פידבקים","open":"מאות פידבקים מסקנה אחת","type":"סרטון","copy":"קופי A","group":"WARM_01"},"w1_trust_c":{"name":"מאות פידבקים","open":"מאות פידבקים מסקנה אחת","type":"סרטון","copy":"קופי C","group":"WARM_01"},"w2_hundreds_a":{"name":"מה מאות אנשים הבינו","open":"מה מאות אנשים הבינו לפניך?","type":"סרטון","copy":"קופי A","group":"WARM_02"},"w2_hundreds_c":{"name":"מה מאות אנשים הבינו","open":"מה מאות אנשים הבינו לפניך?","type":"סרטון","copy":"קופי C","group":"WARM_02"},"car1_trap_a":{"name":"להאמין שהשתנית","open":"יש מלכודת שגורמת לך להאמין שהשתנית.","type":"קרוסלה","copy":"קופי A","group":"CAR_01"},"car1_trap_c":{"name":"להאמין שהשתנית","open":"יש מלכודת שגורמת לך להאמין שהשתנית.","type":"קרוסלה","copy":"קופי C","group":"CAR_01"},"car2_proof_a":{"name":"מתחילים לתרגל","open":"מה קורה כשמפסיקים לאסוף ידע ומתחילים לתרגל?","type":"קרוסלה","copy":"קופי A","group":"CAR_02"},"car2_proof_c":{"name":"מתחילים לתרגל","open":"מה קורה כשמפסיקים לאסוף ידע ומתחילים לתרגל?","type":"קרוסלה","copy":"קופי C","group":"CAR_02"},"ban1_stuck_a":{"name":"עדיין תקוע","open":"אתה יודע מה לעשות. אז למה אתה עדיין תקוע?","type":"באנר","copy":"קופי A","group":"BANNER_01"},"ban1_stuck_c":{"name":"עדיין תקוע","open":"אתה יודע מה לעשות. אז למה אתה עדיין תקוע?","type":"באנר","copy":"קופי C","group":"BANNER_01"},"ban2_busy_a":{"name":"עסוק בלחיות","open":"עסוק בלחיות. ושוכח להשתנות.","type":"באנר","copy":"קופי A","group":"BANNER_02"},"ban2_busy_c":{"name":"עסוק בלחיות","open":"עסוק בלחיות. ושוכח להשתנות.","type":"באנר","copy":"קופי C","group":"BANNER_02"},"t11_patterns_a":{"name":"מאות פעמים ביום","open":"מאות פעמים ביום ואתה לא שם לב","type":"סרטון","copy":"קופי A","group":"COLD_11"},"t11_patterns_c":{"name":"מאות פעמים ביום","open":"מאות פעמים ביום ואתה לא שם לב","type":"סרטון","copy":"קופי C","group":"COLD_11"},"t12_outside_a":{"name":"מנסה לשנות מבחוץ","open":"מנסה לשנות את החיים מבחוץ?","type":"סרטון","copy":"קופי A","group":"COLD_12"},"t12_outside_c":{"name":"מנסה לשנות מבחוץ","open":"מנסה לשנות את החיים מבחוץ?","type":"סרטון","copy":"קופי C","group":"COLD_12"},"t13_three_a":{"name":"3 דברים שמשנים","open":"3 דברים שמשנים את כל התמונה","type":"סרטון","copy":"קופי A","group":"COLD_13"},"t13_three_c":{"name":"3 דברים שמשנים","open":"3 דברים שמשנים את כל התמונה","type":"סרטון","copy":"קופי C","group":"COLD_13"},"t14_timethief_a":{"name":"האוטומט השקט","open":"האוטומט השקט שגונב לך את הזמן","type":"סרטון","copy":"קופי A","group":"COLD_14"},"t14_timethief_c":{"name":"האוטומט השקט","open":"האוטומט השקט שגונב לך את הזמן","type":"סרטון","copy":"קופי C","group":"COLD_14"},"t15_aftergone_a":{"name":"מעריכים רק אחרי","open":"מעריכים רק אחרי שזה נגמר","type":"סרטון","copy":"קופי A","group":"COLD_15"},"t15_aftergone_c":{"name":"מעריכים רק אחרי","open":"מעריכים רק אחרי שזה נגמר","type":"סרטון","copy":"קופי C","group":"COLD_15"},"t16_painmemory_a":{"name":"זוכר רק את הכישלונות","open":"הכאב נצרב חזק יותר מהעונג","type":"סרטון","copy":"קופי A","group":"COLD_16"},"t16_painmemory_c":{"name":"זוכר רק את הכישלונות","open":"הכאב נצרב חזק יותר מהעונג","type":"סרטון","copy":"קופי C","group":"COLD_16"},"t17_notlogic_a":{"name":"לא חושב בהיגיון","open":"אתה לא חושב בהיגיון. אף פעם.","type":"סרטון","copy":"קופי A","group":"COLD_17"},"t17_notlogic_c":{"name":"לא חושב בהיגיון","open":"אתה לא חושב בהיגיון. אף פעם.","type":"סרטון","copy":"קופי C","group":"COLD_17"},"p25":{"name":"המוח מחפש חסרונות","open":"למה המוח מחפש חסרונות?","type":"סרטון","copy":"הקופי שרץ","group":"P25"},"p24":{"name":"ידע לא משנה","open":"ידע לא משנה - הטמעה כן","type":"סרטון","copy":"הקופי שרץ","group":"P24"},"cold_belief":{"name":"מה אתה אומר לעצמך","open":"מה אתה אומר לעצמך בראש?","type":"סרטון","copy":"הקופי של בן","group":"VIDEO_0211"},"cold_banner":{"name":"עדיין תקוע","open":"אתה יודע מה לעשות. אז למה אתה עדיין תקוע?","type":"באנר","copy":"הקופי של בן","group":"BANNER_01"},"p25_brain_c1":{"name":"המוח מחפש חסרונות","open":"למה המוח מחפש חסרונות?","type":"סרטון","copy":"משווקים: הקופי שרץ ב-P25","group":"P25"},"p25_brain_c2":{"name":"המוח מחפש חסרונות","open":"למה המוח מחפש חסרונות?","type":"סרטון","copy":"משווקים: נוסח 2","group":"P25"},"t1_decisions_b":{"name":"נשאר על הגדר","open":"זו הסיבה שאתה נשאר על הגדר","type":"סרטון","copy":"קופי B","group":"COLD_01"},"t2_whodecides_b":{"name":"מי מחליט בשבילך","open":"מי באמת מחליט בשבילך?","type":"סרטון","copy":"קופי B","group":"COLD_02"},"t3_proof_b":{"name":"מאות אנשים לא משקרים","open":"מאות אנשים לא משקרים","type":"סרטון","copy":"קופי B","group":"COLD_03"},"t4_knowledge_b":{"name":"הידע לא מקדם","open":"למה הידע לא באמת מקדם אותך?","type":"סרטון","copy":"קופי B","group":"COLD_04"},"t5_trap_b":{"name":"המלכודת שמשאירה אותך","open":"המלכודת שמשאירה אותך באותו מקום","type":"סרטון","copy":"קופי B","group":"COLD_05"},"t6_innervoice_b":{"name":"מדבר ככה לאויב","open":"היית מדבר ככה לאויב שלך?","type":"סרטון","copy":"קופי B","group":"COLD_06"},"t7_book_b":{"name":"עוד ספר עוד קורס","open":"עוד ספר עוד קורס ושום דבר לא משתנה?","type":"סרטון","copy":"קופי B","group":"COLD_07"},"t8_time_b":{"name":"כל יום אותו דבר","open":"למה כל יום נראה אותו דבר?","type":"סרטון","copy":"קופי B","group":"COLD_08"},"t9_motivation_b":{"name":"המוטיבציה נגמרת","open":"המוטיבציה נגמרת. ההשלכות נשארות.","type":"סרטון","copy":"קופי B","group":"COLD_09"},"t10_illusion_b":{"name":"מתפתח או צובר ידע","open":"אתה מתפתח? או רק צובר ידע?","type":"סרטון","copy":"קופי B","group":"COLD_10"},"w1_trust_b":{"name":"מאות פידבקים","open":"מאות פידבקים מסקנה אחת","type":"סרטון","copy":"קופי B","group":"WARM_01"},"w2_hundreds_b":{"name":"מה מאות אנשים הבינו","open":"מה מאות אנשים הבינו לפניך?","type":"סרטון","copy":"קופי B","group":"WARM_02"},"t11_patterns_b":{"name":"מאות פעמים ביום","open":"מאות פעמים ביום ואתה לא שם לב","type":"סרטון","copy":"קופי B","group":"COLD_11"},"t12_outside_b":{"name":"מנסה לשנות מבחוץ","open":"מנסה לשנות את החיים מבחוץ?","type":"סרטון","copy":"קופי B","group":"COLD_12"},"t13_three_b":{"name":"3 דברים שמשנים","open":"3 דברים שמשנים את כל התמונה","type":"סרטון","copy":"קופי B","group":"COLD_13"},"t14_timethief_b":{"name":"האוטומט השקט","open":"האוטומט השקט שגונב לך את הזמן","type":"סרטון","copy":"קופי B","group":"COLD_14"},"t15_aftergone_b":{"name":"מעריכים רק אחרי","open":"מעריכים רק אחרי שזה נגמר","type":"סרטון","copy":"קופי B","group":"COLD_15"},"t16_painmemory_b":{"name":"זוכר רק את הכישלונות","open":"הכאב נצרב חזק יותר מהעונג","type":"סרטון","copy":"קופי B","group":"COLD_16"},"t17_notlogic_b":{"name":"לא חושב בהיגיון","open":"אתה לא חושב בהיגיון. אף פעם.","type":"סרטון","copy":"קופי B","group":"COLD_17"},"v0211_belief_a":{"name":"מה אתה אומר לעצמך","open":"מה אתה אומר לעצמך בראש?","type":"סרטון","copy":"קופי A","group":"VIDEO_0211"},"v0211_belief_b":{"name":"מה אתה אומר לעצמך","open":"מה אתה אומר לעצמך בראש?","type":"סרטון","copy":"קופי B","group":"VIDEO_0211"}};
+const LAB_MIN={spend:250,ppl:100};
+function labInfo(cr){const k=String(cr||"").trim().toLowerCase(),L=LAB[k]||{},m=k.match(/^(.*?)[_-](?:copy|v)?([abc12])$/),base=m?m[1]:k;
+ const name=L.name||crName(k)||crName(base)||"",type=L.type||(/banner|באנר/.test(k)?"באנר":/car|carousel|קרוסלה/.test(k)?"קרוסלה":"סרטון"),copy=L.copy||(m?(/[abc]/.test(m[2])?"קופי "+m[2].toUpperCase():"נוסח "+m[2]):"נוסח מקור");
+ return {key:k,base:L.group||base,name,type,copy,open:L.open||"",group:L.group||"",named:!!(L.name||crName(k)||crName(base))}}
+
+/* ================= ב53: campaign page ================= */
+const LAB_START=new Date("2026-11-04T22:24:00");
+let per="lab";
+try{const p=localStorage.getItem("nlpcamp_per");if(p)per=p}catch(e){}
+const PAGE={a:"דף המכירה הראשי",a5:"דף המכירה החדש",pr:"דף הפרימיום",pr2:"דף הפרימיום החדש",a1:"דף מקוצר",a3:"דף A3",a4:"דף A4"};
+const COP={a:"דף תשלום 1 · שני שלבים",b:"דף תשלום 2 · מסך אחד"};
+const NA='<span class="na">לא הוזן</span>';
+function perBounds(){const now=new Date(),sod=new Date(now.getFullYear(),now.getMonth(),now.getDate());return {a:per==="today"?sod:per==="7"?new Date(+sod-6*864e5):LAB_START,b:new Date(+now+6e4)}}
+function daysOf(a,b){const D=[];let d=new Date(a.getFullYear(),a.getMonth(),a.getDate());const e=new Date(+b-1);while(d<=e){D.push(dayKey(d));d=new Date(d.getFullYear(),d.getMonth(),d.getDate()+1)}return D}
+const who=s=>s.vid||s.sid, code=s=>String(s.cr||"").trim().toLowerCase().replace(/[|\s]/g,"");
+const vidName=s=>{const i=labInfo(code(s));return i.name||"מודעה לא מזוהה"};
+const vidKey=s=>{const i=labInfo(code(s));return i.group||i.base||"?"};
+const copyName=s=>{const c=labInfo(code(s)).copy||"";return c.replace(/^קופי /,"נוסח ")||"נוסח לא ידוע"};
+const pageName=k=>PAGE[k]||("דף "+k);
+const coName=k=>COP[k]||"דף תשלום לא ידוע";
+const shortDate=d=>d.slice(8)+"."+d.slice(5,7);
+function render(){if(!rows)return;
+ const B=perBounds(),M=build(B.a,B.b),days=daysOf(B.a,B.b);
+ const isPaid=s=>s&&s.src==="מודעות Meta"&&!s.aff, paid=M.sess.filter(isPaid);
+ const BS=new Map();M.buys.forEach(b=>{if(isPaid(b.s)&&!b.aff){const o=BS.get(b.s)||{n:0,r:0};o.n++;o.r+=b.amt;BS.set(b.s,o)}});
+ /* spend: per-ad entries of the day, otherwise the day's total; a day with neither = not entered (never 0) */
+ const crDay={};Object.keys(cspend).forEach(k=>{const [d,c]=k.split("|");(crDay[d]||(crDay[d]={}))[String(c).toLowerCase()]=cspend[k]});
+ let spT=0;const miss=[];days.forEach(d=>{if(crDay[d])spT+=Object.values(crDay[d]).reduce((x,y)=>x+y,0);else if(spend[d]!=null)spT+=spend[d];else miss.push(d)});
+ const spKnown=days.length>miss.length, spPart=spKnown&&miss.length>0;
+ const F=k=>({k,ppl:new Set(),chk:new Set(),pay:new Set(),buy:0,rev:0,codes:new Set(),any:null});
+ const add=(f,s)=>{const w=who(s);f.ppl.add(w);if(s.chk)f.chk.add(w);if(s.pay)f.pay.add(w);const o=BS.get(s);if(o){f.buy+=o.n;f.rev+=o.r}f.codes.add(code(s));if(!f.any)f.any=s};
+ const T=F("all");paid.forEach(s=>add(T,s));
+ const spOf=codes=>{let t=0,has=false;codes.forEach(c=>days.forEach(d=>{const v=crDay[d]&&crDay[d][c];if(v!=null){t+=v;has=true}}));return has?t:null};
+ /* top line */
+ const tile=(k,v,d,hero)=>'<div class="tile'+(hero?' hero':'')+'"><span class="k">'+k+'</span><span class="v">'+v+'</span><span class="d">'+(d||"")+'</span></div>';
+ const roas=spKnown&&spT?T.rev/spT:null;
+ $("tiles").innerHTML=[
+  tile("כמה הוצאנו",spKnown?ils(spT):NA,spPart?"חסרים ימים: "+miss.map(shortDate).join(", "):spKnown?"הוצאה על המודעות":"ההוצאה עוד לא הוזנה",true),
+  tile("כמה נכנס",ils(T.rev),"מרכישות, כולל מע\"מ"),
+  tile("כמה חזר על כל שקל",roas!=null?roas.toFixed(2)+" ₪":NA,roas!=null?(roas>=1?"כל שקל בפרסום החזיר "+roas.toFixed(2)+" ₪":"עוד לא מחזירים את ההוצאה")+(spPart?" · הוצאה חלקית":""):"ROAS"),
+  tile("רכישות",fmt(T.buy),"מאומתות בקארדקום"),
+  tile("עלות לרכישה",spKnown&&T.buy?ils(spT/T.buy):spKnown?'<span class="na">אין רכישות</span>':NA,spKnown&&T.buy?"הוצאה חלקי רכישות"+(spPart?" · הוצאה חלקית":""):"")].join("");
+ $("tilesNote").textContent="רק תנועה ממומנת אמיתית ממודעות Meta: בלי משווקים, בלי בדיקות ובלי סריקות. "+B.a.toLocaleString("he-IL",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})+" עד עכשיו.";
+ /* groups */
+ const grp=(list,keyF)=>{const A={};list.forEach(s=>{const k=keyF(s);(A[k]||(A[k]=F(k))).k=k;add(A[k],s)});return Object.values(A)};
+ const rate=g=>g.ppl.size?g.buy/g.ppl.size:0, chkRate=g=>g.ppl.size?g.chk.size/g.ppl.size:0;
+ const pick=G=>{G=G.filter(g=>g.ppl.size>0);if(!G.length)return null;const tb=G.reduce((x,g)=>x+g.buy,0);
+  const byBuy=tb>0;G.sort((x,y)=>byBuy?(rate(y)-rate(x)||chkRate(y)-chkRate(x)||y.ppl.size-x.ppl.size):(chkRate(y)-chkRate(x)||y.ppl.size-x.ppl.size));
+  const L=G[0],solid=G.length>1&&byBuy&&tb>=5&&L.buy>=3&&L.ppl.size>=LAB_MIN.ppl;
+  return {L,n:G.length,byBuy,tag:G.length<2?["אין עם מה להשוות","none"]:solid?["מוביל","lead"]:["מוקדם להכריע","early"],G}};
+ const card=(q,P,nameF,unit)=>{unit=unit||"אנשים";if(!P)return '<div class="w"><div class="q">'+q+'</div><div class="n">אין עדיין תנועה</div></div>';
+  const L=P.L,m=P.byBuy?L.buy+" רכישות מתוך "+fmt(L.ppl.size)+" "+unit+" ("+pf(pct(L.buy,L.ppl.size))+")":fmt(L.chk.size)+" מתוך "+fmt(L.ppl.size)+" הגיעו לתשלום ("+pf(pct(L.chk.size,L.ppl.size))+") · עוד אין רכישות";
+  const o=P.G[1]?"הבא: "+esc(nameF(P.G[1]))+" · "+(P.byBuy?P.G[1].buy+" רכישות מתוך "+fmt(P.G[1].ppl.size):pf(pct(P.G[1].chk.size,P.G[1].ppl.size))+" הגיעו לתשלום"):"";
+  return '<div class="w"><div class="q">'+q+'</div><div class="n">'+esc(nameF(L))+'</div><div class="m">'+m+'</div>'+(o?'<div class="o">'+o+'</div>':'')+'<span class="tag '+P.tag[1]+'">'+P.tag[0]+'</span></div>'};
+ const pV=pick(grp(paid,vidKey)), lead=pV&&pV.L.any?vidKey(pV.L.any):null;
+ const pC=lead?pick(grp(paid.filter(s=>vidKey(s)===lead),copyName)):null;
+ $("works").innerHTML=[
+  card("דף המכירה",pick(grp(paid,s=>s.v)),g=>pageName(g.k)),
+  card("הסרטון",pV,g=>vidName(g.any)),
+  card("הנוסח בסרטון המוביל",pC,g=>g.k),
+  card("דף התשלום",pick(grp(paid.filter(s=>s.chk&&s.co),s=>s.co)),g=>coName(g.k),"שהגיעו אליו")].join("");
+ /* funnel (people) */
+ const st=[["נכנסו לדף",T.ppl.size],["הגיעו לדף התשלום",T.chk.size],["הגיעו לשלב האשראי",T.pay.size],["רכשו",T.buy]];
+ const mx=Math.max(1,T.ppl.size);
+ $("funnel").innerHTML=st.map((x,i)=>'<div class="fs"><span class="l">'+x[0]+'</span><span class="b"><i style="width:'+Math.max(.5,x[1]/mx*100).toFixed(1)+'%"></i></span><span class="c"><b>'+fmt(x[1])+'</b><small>'+(i?pf(pct(x[1],st[i-1][1]))+" מהשלב הקודם":"אנשים")+'</small></span></div>').join("");
+ /* combinations: people per video + copy + sales page; checkout and purchases split by the checkout they reached */
+ const V=grp(paid,s=>vidKey(s)+"|"+copyName(s)+"|"+s.v), out=[];
+ V.forEach(g=>{const mine=paid.filter(s=>vidKey(s)+"|"+copyName(s)+"|"+s.v===g.k), co=grp(mine.filter(s=>s.chk&&s.co),s=>s.co);
+  if(!co.length)out.push({g,c:null,buy:0,chk:0,rev:0}); else co.forEach(c=>out.push({g,c,buy:c.buy,chk:c.chk.size,rev:c.rev}));});
+ out.sort((x,y)=>y.buy-x.buy||y.chk-x.chk||y.g.ppl.size-x.g.ppl.size);
+ const rowsH=out.slice(0,25).map(o=>{const s=o.g.any;
+  return '<tr><td><b>'+esc(vidName(s))+'</b></td><td>'+esc(copyName(s))+'</td><td>'+esc(pageName(s.v))+'</td><td>'+(o.c?esc(coName(o.c.k)):'<small>אף אחד עוד לא הגיע</small>')+'</td><td class="num">'+fmt(o.g.ppl.size)+'</td><td class="num">'+fmt(o.chk)+'<small>'+pf(pct(o.chk,o.g.ppl.size))+'</small></td><td class="num"><b>'+fmt(o.buy)+'</b></td><td class="num">'+(o.rev?ils(o.rev):"-")+'</td><td><span class="tag '+(o.buy?"money":"traffic")+'" style="margin:0">'+(o.buy?"מביא כסף":"רק תנועה")+'</span></td></tr>'});
+ $("combos").innerHTML=rowsH.length?'<thead><tr><th>סרטון</th><th>נוסח</th><th>דף מכירה</th><th>דף תשלום</th><th>אנשים</th><th>הגיעו לתשלום</th><th>רכישות</th><th>הכנסות</th><th></th></tr></thead><tbody>'+rowsH.join("")+'</tbody>':'<tbody><tr><td class="empty">אין תנועה ממומנת בתקופה הזו</td></tr></tbody>';
+ $("foot").textContent="אנשים = מכשירים שונים, לא ביקורים. רכישות = עסקאות מאומתות בקארדקום. הוצאה = ההזנה היומית לפי מודעה (עד שבן יחבר את הדף ל-Meta, ואז היא תיכנס לבד). יום בלי הזנה מסומן \"לא הוזן\" ולא נספר כ-0. \"מוביל\" = לפחות 5 רכישות בהשוואה, 3 למוביל ו-"+LAB_MIN.ppl+" אנשים.";
+ if(storedAt)$("fresh").textContent="לנצח את האוטומט · עודכן "+new Date(storedAt).toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});}
+function status(msg){const s=$("status");if(!msg){s.hidden=true;return}s.textContent=msg;s.hidden=false}
+let busy=false;
+async function load(){if(busy)return;busy=true;
+ try{const [a,b]=await Promise.all([fetch(API+"rows",{cache:"no-store"}),fetch(API+"spend",{cache:"no-store"})]);
+  if(!a.ok)throw new Error("rows "+a.status);const ta=await a.text();
+  if(!ta.includes("\t")&&ta.trim()&&!/^\d{4}-/.test(ta.trim()))throw new Error(ta.slice(0,60));
+  rows=tsvRows(ta);
+  if(b.ok){const tb=await b.text();spend={};cspend={};tb.split("\n").slice(1).forEach(l=>{const [k,v]=l.split("\t");if(!/^\d{4}-\d{2}-\d{2}/.test(k||"")||v===""||isNaN(+v))return;if(k.includes("|"))cspend[k]=+v;else spend[k]=+v})}
+  storedAt=Date.now();status(null);render();
+ }catch(e){status("לא הצלחנו לטעון את הנתונים ("+e.message+"). נסו לרענן.")}finally{busy=false}}
+function tsvRows(text){return text.split("\n").filter(l=>l.trim()).map(l=>{const a=l.split("\t"),o={};COLS.forEach((k,i)=>o[k]=a[i]||"");o.t=new Date((o.ts||"").replace(" ","T"));return o}).filter(r=>!isNaN(r.t)).sort((a,b)=>a.t-b.t)}
+document.querySelectorAll("#per button").forEach(b=>{b.setAttribute("aria-pressed",String(b.dataset.p===per));b.onclick=()=>{per=b.dataset.p;document.querySelectorAll("#per button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));try{localStorage.setItem("nlpcamp_per",per)}catch(e){}render()}});
+load();setInterval(()=>{if(!document.hidden)load()},60000);document.addEventListener("visibilitychange",()=>{if(!document.hidden)load()});
+</script>
+</body>
+</html>
