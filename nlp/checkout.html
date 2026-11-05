@@ -181,7 +181,7 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 <label class="fld"><b>מייל</b><input id="fEmail" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" required><span>לשם נשלחים החשבונית וקישור הכניסה לקורס</span></label>
 <p class="esug" id="eSug" role="status" hidden>התכוונת ל-<button type="button" id="eSugB"></button>? <button type="button" class="no" id="eSugX">לא, המייל נכון</button></p>
 <label class="fld"><b>טלפון נייד</b><input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required placeholder="05X-XXXXXXX"><span>רק למקרה שנצטרך לעזור לך עם הגישה. לא נעביר אותו לאף אחד</span></label>
-<label class="tchk" id="tWrap"><input type="checkbox" id="fTerms" name="terms" autocomplete="off"><span>מדיניות ביטול לעסקה זו הינה לפי חוק שירותי תשלום בישראל. מאשר אני כי הנני מכיר את <a href="#deal" id="tLink">תנאי ופרטי העסקה</a>.</span></label><!-- ב52: חובה של קארדקום. לא מסומן מראש ולא נשמר. טופס התשלום נטען רק אחרי סימון -->
+<label class="tchk" id="tWrap"><input type="checkbox" id="fTerms" name="terms" autocomplete="off"><span>מדיניות ביטול לעסקה זו הינה לפי חוק שירותי תשלום בישראל. מאשר אני כי הנני מכיר את <a href="terms.html" id="tLink" target="_blank" rel="noopener">תנאי ופרטי העסקה</a>.</span></label><!-- ב52: חובה של קארדקום. לא מסומן מראש ולא נשמר. טופס התשלום נטען רק אחרי סימון -->
 <p class="terr" id="terr" role="alert"></p>
 <p class="ferr" id="ferr" role="alert"></p>
 <p class="cohint" id="coHint">ממלאים את שלושת הפרטים, וטופס התשלום המאובטח נפתח כאן מתחת</p>
@@ -227,7 +227,7 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 </ul>
 </section>
 <a class="back" href="./" id="back">חזרה לדף</a>
-<p class="legal"><a href="#deal">פרטי העסקה</a> · <a href="privacy.html" target="_blank" rel="noopener">מדיניות פרטיות</a></p><!-- ב52: "תקנון" ופרטי העסק יתווספו כאן אחרי ש-terms.html יאושר -->
+<p class="legal"><a href="terms.html" target="_blank" rel="noopener" id="tFoot">תקנון ותנאי שימוש</a> · <a href="#deal">פרטי העסקה</a> · <a href="privacy.html" target="_blank" rel="noopener">מדיניות פרטיות</a></p>
 </main>
 <script>
 /* ===== CONFIG ===== */
@@ -391,7 +391,9 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
   });
   /* back/forward cache restores form state: start unticked and locked again */
   addEventListener("pageshow", e => { if(e.persisted){ TB.checked=false; lockBtn(); if(!$("paySec").hidden) lockPay(); loadedKey=""; } });
-  $("tLink").addEventListener("click", e => { e.preventDefault(); const dl=$("deal"); try{ dl.scrollIntoView({behavior:"smooth",block:"start"}); }catch(x){ dl.scrollIntoView(); } dl.focus({preventScroll:true}); track("checkout_terms_open"); });
+  /* ב52: "תנאי ופרטי העסקה" פותח את התקנון בלשונית חדשה, כדי שהטופס והסימון יישארו */
+  $("tLink").addEventListener("click", () => track("checkout_terms_open"));
+  $("tFoot").addEventListener("click", () => track("checkout_terms_open", {name:"footer"}));
 })();
 </script>
 </body>
