@@ -15,10 +15,14 @@ var NLP_OWNER=(function(){var K="nlp_aff",D=2592e6,now=Date.now(),cur=null;
 <style>html,body{margin:0;background:#0d0d0f;color:#d6b26a;font-family:Arial,sans-serif;height:100%;display:grid;place-items:center}</style>
 <script>
 (function(){
-  /* ב42 לפי בן (עדכון 09:52, אישור יהב 04.11): ניסוי aa5_0411 - a המקורי מול a5 (A חדש: פתיחת P25, ההצעה מוקדם יותר, קופי רגשי), חצי-חצי, שיוך קבוע לכל דפדפן, לכל התנועה כולל קישורי המשווקים (aff).
-     מחליף את a34_0411. מפתח חדש = הגרלה חדשה לכולם. 256 ערכים מתחלקים בדיוק לשניים. a1, a3, a4, b ו-c נשארים באתר מחוץ לחלוקה. */
-  var EXP="aa5_0411", K="nlp_go_"+EXP, v=null; try{ v=localStorage.getItem(K); }catch(e){}
-  if(v!=="a"&&v!=="a5"){ try{ var r=new Uint8Array(1); crypto.getRandomValues(r); v=(r[0]%2)?"a5":"a"; }catch(e){ v=Math.random()<.5?"a5":"a"; } try{ localStorage.setItem(K,v); }catch(e){} }
+  /* ב47 (בן אישר את דף הפרימיום, "מאשר ב47" מיהב 05.11): ניסוי aap_0511 - a, a5 ו-pr, שליש לכל אחד, לתנועה הממומנת ולמשווקים (aff).
+     מבקר שכבר שובץ ב-aa5_0411 ל-a או ל-a5 נשאר בדף שלו וממשיך לקבל exp=aa5_0411, כך שהוא לא נכנס לניסוי החדש. רק מבקרים חדשים מוגרלים לשלושה.
+     הגרלה: 255 ערכים מתוך 256 (255 מתחלק בדיוק ל-3; ערך 255 מוגרל מחדש). a1, a3, a4, b ו-c נשארים באתר מחוץ לחלוקה. */
+  var EXP="aap_0511", K="nlp_go_"+EXP, OLD="aa5_0411", v=null, o=null; try{ v=localStorage.getItem(K); o=localStorage.getItem("nlp_go_"+OLD); }catch(e){}
+  if(v!=="a"&&v!=="a5"&&v!=="pr"){
+    if(o==="a"||o==="a5"){ v=o; EXP=OLD; }
+    else { var A=["a","a5","pr"]; try{ var r=new Uint8Array(1); do{ crypto.getRandomValues(r); }while(r[0]===255); v=A[r[0]%3]; }catch(e){ v=A[Math.floor(Math.random()*3)]; } try{ localStorage.setItem(K,v); }catch(e){} }
+  }
   var q=new URLSearchParams(location.search); if(!q.has("go")) q.set("go","1");
   /* ב44 (בקשת בן 4.11): אינסטגרם אורגני (ביו ו-ManyChat: utm_source=instagram/ig עם utm_medium=bio/dm, בלי aff ובלי utm_id) תמיד ל-a, מחוץ לניסוי.
      השיבוץ השמור בדפדפן לא משתנה, ומבקר שיחזור ממודעה ימשיך לגרסה שלו. */
