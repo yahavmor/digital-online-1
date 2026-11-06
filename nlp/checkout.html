@@ -315,9 +315,14 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
   let det = {name:"", email:"", phone:""};
   try{ det = Object.assign(det, JSON.parse(sessionStorage.getItem("cc_det")||"{}")); }catch(e){}
   $("fName").value = det.name; $("fEmail").value = det.email; $("fPhone").value = det.phone;
+  /* ב61: נרמול הטלפון לפני הבדיקה - רק ספרות (כולל ספרות בכתב ערבי/פרסי), בלי 00972/972 בהתחלה, 0 אחד בהתחלה (כך גם 9 ספרות שמתחילות ב-5 מקבלות 0). זהה בסליקה A ו-B */
+  function normPhone(v){ let d=String(v||"").replace(/[\u0660-\u0669]/g,c=>String(c.charCodeAt(0)-0x660)).replace(/[\u06F0-\u06F9]/g,c=>String(c.charCodeAt(0)-0x6F0)).replace(/\D/g,"");
+    d=d.replace(/^00972/,"").replace(/^972/,"").replace(/^0+/,""); return d ? "0"+d : ""; }
+  /* ב61: בשגיאת טלפון נרשמת רק צורת המספר שנדחה (אורך ו-3 התווים הראשונים), לא המספר עצמו */
+  function verrX(x){ const parts=x?[x]:[]; if($("fPhone").classList.contains("bad")){ const r=String($("fPhone").value||"").trim(); parts.push("len="+r.length,"p="+r.slice(0,3).replace(/[;=&\s]/g,"_")); } return parts.join(";"); }
   function check(show){ if(show===undefined) show=true;
-    const n = $("fName").value.replace(/["\\<>{}]/g,"").trim().replace(/\s+/g," "), e = $("fEmail").value.trim(), p = $("fPhone").value.replace(/[^\d+]/g,"");
-    const pn = p.replace(/^\+?972/,"0");
+    const n = $("fName").value.replace(/["\\<>{}]/g,"").trim().replace(/\s+/g," "), e = $("fEmail").value.trim();
+    const pn = normPhone($("fPhone").value);
     const bad = [];
     if(show) $("fName").classList.toggle("bad", n.length < 2 || !/\s/.test(n)); if(n.length < 2 || !/\s/.test(n)) bad.push("שם מלא (שם פרטי ומשפחה)");
     const eok = /^[^\s@"'\\<>{}]+@[^\s@"'\\<>{}]+\.[^\s@"'\\<>{}]{2,}$/.test(e); if(show) $("fEmail").classList.toggle("bad", !eok); if(!eok) bad.push("מייל תקין");
@@ -340,7 +345,7 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
   }
   function badList(){ return ["fName","fEmail","fPhone"].filter(i=>$(i).classList.contains("bad")).map(i=>i.slice(1).toLowerCase()).join(","); }
   $("det").addEventListener("submit", ev => {
-    ev.preventDefault(); const d = check(); if(!d){ track("checkout_validation_error",{name:badList()}); return; }
+    ev.preventDefault(); const d = check(); if(!d){ track("checkout_validation_error",{name:badList(),x:verrX("")}); return; }
     if(!TB.checked){ needTerms("continue"); return; }
     if (CV==="b" && keyOf(d)===loadedKey) return; accept(d);
   });
@@ -352,14 +357,14 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
     /* לחיצה על הכפתור במסגרת לפני שהפרטים מלאים: מסמנת מה חסר ומחזירה לשדה הראשון (לא שלב ביניים) */
     $("coPay").addEventListener("click", () => {
       const d = check(true);
-      if(!d){ track("checkout_validation_error",{name:badList(),x:"via=paybtn"}); const f=["fName","fEmail","fPhone"].find(i=>$(i).classList.contains("bad")); if(f){ try{ $(f).scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} $(f).focus(); } return; }
+      if(!d){ track("checkout_validation_error",{name:badList(),x:verrX("via=paybtn")}); const f=["fName","fEmail","fPhone"].find(i=>$(i).classList.contains("bad")); if(f){ try{ $(f).scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} $(f).focus(); } return; }
       if(!TB.checked){ needTerms("paybtn"); return; }
       clearTimeout(tmr); if(keyOf(d)!==loadedKey) accept(d);
     });
     const tryLoad = () => { const d = check(false); if(!d || keyOf(d)===loadedKey || !TB.checked) return; check(true); accept(d); };
     ["fName","fEmail","fPhone"].forEach(i=>{
       $(i).addEventListener("input",()=>{ clearTimeout(tmr); tmr=setTimeout(tryLoad, 1000); if($(i).classList.contains("bad")) check(true); });
-      $(i).addEventListener("blur",()=>{ if(!["fName","fEmail","fPhone"].every(k=>$(k).value.trim())) return; const d=check(true); if(!d && !verr){ verr=true; track("checkout_validation_error",{name:badList()}); } if(d){ clearTimeout(tmr); tryLoad(); } });
+      $(i).addEventListener("blur",()=>{ if(!["fName","fEmail","fPhone"].every(k=>$(k).value.trim())) return; const d=check(true); if(!d && !verr){ verr=true; track("checkout_validation_error",{name:badList(),x:verrX("")}); } if(d){ clearTimeout(tmr); tryLoad(); } });
     });
   }
   $("editDet").addEventListener("click", () => { try{ $("det").scrollIntoView({behavior:"smooth"}); }catch(e){} $("fName").focus(); });
