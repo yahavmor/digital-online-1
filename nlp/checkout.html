@@ -196,7 +196,7 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 <section class="pay" id="paySec" aria-label="תשלום" hidden>
 <div class="err" id="err" role="alert"><b>נראה שהתשלום לא עבר</b>הכול בסדר - לא בוצע חיוב. <b class="wal">התשלום בארנק (Apple Pay / Google Pay) לא עבר? הקלידו את פרטי הכרטיס בטופס למטה.</b>אפשר לנסות שוב עם אותו הכרטיס או עם כרטיס אחר.</div>
 <p class="paytitle">פרטי תשלום<span>🔒 התשלום מאובטח באמצעות Cardcom</span></p>
-<p class="walnote" id="walNote">כרטיסי כאל לא עוברים אצלנו כרגע בגלל תקלה זמנית מול חברת האשראי. אפשר לשלם בכרטיס של חברה אחרת, או לכתוב לנו בוואטסאפ לתשלום בהעברה בנקאית.</p><!-- ב62 (במקום ב41): הודעה זמנית בגרסאות A ו-B. להסיר כשהספק האינטרנטי החדש מחובר למסוף ורכישת בדיקה בכרטיס כאל עוברת -->
+<p class="walnote" id="walNote">כרגע Apple Pay ו-Google Pay לא זמינים. אפשר לשלם בכרטיס אשראי כרגיל.</p><!-- ב41: הודעה זמנית בגרסאות A ו-B. להסיר כשכאל מסיימים את המעבר למסוף אינטרנטי -->
 <div class="frame">
 <div class="cohold" id="coHold"><div class="cf"><b>מספר כרטיס</b><i></i></div><div class="row2"><div class="cf"><b>תוקף</b><i></i></div><div class="cf"><b>3 ספרות</b><i></i></div></div><button class="go" type="button" id="coPay">לתשלום מאובטח - 297 ₪</button><p class="note">נפתח ברגע שממלאים את שלושת הפרטים</p></div>
 <div class="tlock" id="tLock" hidden>יש לסמן את האישור כדי להמשיך לתשלום</div>
@@ -269,10 +269,9 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
   if (SUPPORT_WA){ $("help").hidden = false; $("helpLink").href = "https://wa.me/" + SUPPORT_WA; }
   if (PRIVACY_URL){ $("terms").hidden=false; if (TERMS_URL){ $("termsLink").href=TERMS_URL; $("privLink").href=PRIVACY_URL; } else { $("terms").innerHTML='הפרטים משמשים לביצוע הרכישה, לחשבונית ולגישה לקורס. <a href="'+PRIVACY_URL+'" target="_blank" rel="noopener">מדיניות הפרטיות</a>'; } }
   if (qs.get("status") === "failed") $("err").classList.add("on");
-  /* ב62: דחייה 60000303 (אין הרשאת סולק לכרטיס לא נוכח - כרטיסי כאל עד שהספק החדש מחובר): הודעה מדויקת במקום ההודעה הכללית. זהה ב-A וב-B */
-  if (qs.get("status") === "failed" && qs.get("ResponseCode") === "60000303"){ const er=$("err"); er.textContent=""; const t=document.createElement("b"); t.textContent="נראה שהתשלום לא עבר"; er.appendChild(t); er.append("הכול בסדר - לא בוצע חיוב. "); /* ב62 תוספת: כמו בהודעה הכללית */
-    const m="כרטיסי כאל לא עוברים אצלנו כרגע בגלל תקלה זמנית מול חברת האשראי. אפשר לשלם בכרטיס של חברה אחרת, או לכתוב לנו בוואטסאפ לתשלום בהעברה בנקאית.", w="לכתוב לנו בוואטסאפ", i=m.indexOf(w);
-    if (SUPPORT_WA && i>=0){ const a=document.createElement("a"); a.href="https://wa.me/"+SUPPORT_WA; a.target="_blank"; a.rel="noopener"; a.textContent=w; er.append(m.slice(0,i), a, m.slice(i+w.length)); } else er.append(m); }
+  /* ב62 (תיקון 06.11): דחייה 60000303 = כשל Apple Pay / Google Pay בכל חברות הכרטיסים (מקור עסקה 11). כרטיס שמוקלד ידנית עובר. הודעה מדויקת במקום ההודעה הכללית. זהה ב-A וב-B */
+  if (qs.get("status") === "failed" && qs.get("ResponseCode") === "60000303"){ const er=$("err"); er.textContent=""; const t=document.createElement("b"); t.textContent="נראה שהתשלום לא עבר"; er.appendChild(t);
+    er.append("הכול בסדר - לא בוצע חיוב. התשלום ב-Apple Pay או Google Pay לא עובר אצלנו כרגע. הקלידו את פרטי הכרטיס בטופס למטה, כל הכרטיסים עובדים."); }
   const t0 = Date.now(); let vid=""; try{ vid=localStorage.getItem("nlp_vid")||""; }catch(e){} let INT=false; try{ const ls=localStorage; if(/test|claude|internal/i.test(location.search)) ls.setItem("nlp_int","1"); INT=ls.getItem("nlp_int")==="1"; if(INT&&window.clarity) clarity("set","internal","1"); }catch(e){} try{ if(window.clarity&&vid){ clarity("identify",vid); clarity("set","vid",vid); } }catch(e){}
   const ua=navigator.userAgent||"", os=/iPhone|iPad|iPod/.test(ua)?"ios":/Android/.test(ua)?"android":/Windows/.test(ua)?"win":/Mac OS X/.test(ua)?"mac":"other", app=/Instagram/.test(ua)?"ig":/FBAN|FBAV|FB_IAB/.test(ua)?"fb":"web";
   const dev=(/Mobi|Android|iPhone|iPod/.test(ua)||(innerWidth<760)?"m":"d")+"-"+os+"-"+app;
