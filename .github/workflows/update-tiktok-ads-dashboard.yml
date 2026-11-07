@@ -1,8 +1,8 @@
 name: Update TikTok Ads performance dashboard
 
+# Stopped 07.11.2026 at Yahav's request (no longer relevant): the 15-minute schedule was removed.
+# Manual run only. To restore, add back:  schedule: - cron: "*/15 * * * *"
 on:
-  schedule:
-    - cron: "*/15 * * * *"
   workflow_dispatch: {}
 
 permissions:
