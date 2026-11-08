@@ -113,7 +113,7 @@ function fee(amt){const m=D.me;return m.fee>0?m.fee:Math.round(amt*m.pct)/100}
 function render(){
   const now=Date.now(),from=range==="all"?0:now-(+range)*864e5,inR=t=>+t>=from;
   const R=D.rows.filter(r=>!isNaN(r.t)),seen=new Set(),buys=[];
-  R.forEach(r=>{if(r.ev!=="purchase")return;const m=r.q.match(/deal\s+(\d+)/),a=r.q.match(/(\d+(?:\.\d+)?)\s*ILS/),deal=m?m[1]:"";const k=deal||r.sid;if(seen.has(k))return;seen.add(k);
+  R.forEach(r=>{if(r.ev!=="purchase")return;const m=r.q.match(/deal\s+(\d+)/),rf=/bank_transfer/.test(r.q)&&r.q.match(/ref\s+([^\s|]+)/),a=r.q.match(/(\d+(?:\.\d+)?)\s*ILS/),deal=m?m[1]:rf?"bank_"+rf[1]:""; /* ב64: העברה בנקאית - מפתח bank_אסמכתא, כמו בדשבורד */const k=deal||r.sid;if(seen.has(k))return;seen.add(k);
     const st=D.refunds.has(deal)?"refund":D.paid.has(deal)?"paid":(now-r.t<PAY_DAYS*864e5?"pending":"due");buys.push({t:r.t,sid:r.sid,deal,amt:a?+a[1]:297,st,fee:fee(a?+a[1]:297)})});
   const RR=R.filter(r=>inR(r.t)),sids=ev=>new Set(RR.filter(r=>r.ev===ev).map(r=>r.sid)).size;
   const leadSids=new Set(D.leads.filter(l=>inR(l.t)).map(l=>l.sid));RR.filter(r=>r.ev==="checkout_details").forEach(r=>leadSids.add(r.sid));
