@@ -109,7 +109,7 @@ const SUPPORT_WA = "972526951092";
     function purchase(d){
       if(framed) return; /* בתוך ה-iframe של Cardcom: לא שולחים ולא מסמנים */
       const deal = d && /^\d+$/.test(String(d.deal || "")) ? String(d.deal) : "";
-      const id = deal || (lp ? "lp_" + lp : "");
+      const id = deal; /* ב66: בלי מספר עסקה מאומת לא שולחים Purchase מהדפדפן (אחרת Meta לא מאחדת עם ה-CAPI וסופרת פעמיים). ה-CAPI של 7827404 מכסה את הרכישה */
       if(!id || !window.fbq) return;
       const key = "px_purchase_" + id;
       try{ if(localStorage.getItem(key)) return; }catch(e){}
