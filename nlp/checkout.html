@@ -258,9 +258,10 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
      ניסוי pc_0411 (דף+סליקה). co_0311 נסגר. ?co=a או ?co=b נשאר לתצוגה מקדימה בלבד */
   /* ב54 (בן, 05.11): הגרלה נקייה co_0511 - חצי-חצי לכל מי שמגיע לדף התשלום, קבועה לדפדפן, בלי קשר לדף המכירה (במקום ב46/pc_0411).
      ?co=a או ?co=b לתצוגה מקדימה בלבד (לא נשמר) */
-  const CO_EXP = "co_0511"; let CV = (qs.get("co")||"").toLowerCase();
-  if (CV!=="a" && CV!=="b"){ CV=""; try{ CV = localStorage.getItem("nlp_"+CO_EXP)||""; }catch(e){}
-    if (CV!=="a" && CV!=="b"){ CV = Math.random()<0.5 ? "a" : "b"; try{ localStorage.setItem("nlp_"+CO_EXP, CV); }catch(e){} } }
+  /* ב63 (בן 08.11, "מאשר ב63" מיהב): הגרלת הסליקה co_0511 הסתיימה - דף התשלום B (מסך אחד) לכולם, כדי שלא ירוצו שתי בדיקות על תנועה קטנה. cx=co_b_0811 מסמן את התקופה.
+     ?co=a או ?co=b נשאר לתצוגה מקדימה בלבד (לא נשמר) */
+  const CO_EXP = "co_b_0811"; let CV = (qs.get("co")||"").toLowerCase();
+  if (CV!=="a" && CV!=="b") CV = "b";
   document.documentElement.dataset.co = CV; try{ if(window.clarity) clarity("set","co",CV); }catch(e){}
   const variant = qs.get("v") || U("utm_content").replace("lp_","") || "x";
   const sid = qs.get("sid") || ((self.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now()+"-"+Math.random().toString(36).slice(2));

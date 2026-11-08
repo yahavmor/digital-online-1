@@ -15,13 +15,14 @@ var NLP_OWNER=(function(){var K="nlp_aff",D=2592e6,now=Date.now(),cur=null;
 <style>html,body{margin:0;background:#0d0d0f;color:#d6b26a;font-family:Arial,sans-serif;height:100%;display:grid;place-items:center}</style>
 <script>
 (function(){
-  /* ב47 (בן אישר את דף הפרימיום, "מאשר ב47" מיהב 05.11): ניסוי aap_0511 - a, a5 ו-pr, שליש לכל אחד, לתנועה הממומנת ולמשווקים (aff).
-     מבקר שכבר שובץ ב-aa5_0411 ל-a או ל-a5 נשאר בדף שלו וממשיך לקבל exp=aa5_0411, כך שהוא לא נכנס לניסוי החדש. רק מבקרים חדשים מוגרלים לשלושה.
-     הגרלה: 255 ערכים מתוך 256 (255 מתחלק בדיוק ל-3; ערך 255 מוגרל מחדש). a1, a3, a4, b ו-c נשארים באתר מחוץ לחלוקה. */
-  var EXP="aap_0511", K="nlp_go_"+EXP, OLD="aa5_0411", v=null, o=null; try{ v=localStorage.getItem(K); o=localStorage.getItem("nlp_go_"+OLD); }catch(e){}
-  if(v!=="a"&&v!=="a5"&&v!=="pr"){
-    if(o==="a"||o==="a5"){ v=o; EXP=OLD; }
-    else { var A=["a","a5","pr"]; try{ var r=new Uint8Array(1); do{ crypto.getRandomValues(r); }while(r[0]===255); v=A[r[0]%3]; }catch(e){ v=A[Math.floor(Math.random()*3)]; } try{ localStorage.setItem(K,v); }catch(e){} }
+  /* ב63 (בן 08.11, "מאשר ב63" מיהב): ניסוי ap2_0811 - a5 מול pr2, חצי-חצי, קבוע לדפדפן, לכל התנועה שעוברת ב-go.html (כל המודעות והמשווקים).
+     מי ששובץ ב-aap_0511 ל-a5 או ל-pr נשאר בדף שלו (pr = pr2), כדי שלא יראה דף אחר בחזרה; זה סימטרי בין שני הדפים. כל השאר (כולל מי ששובץ ל-a) מוגרלים מחדש.
+     הניסוי הקודם: ב47/ב49 aap_0511 (a, a5, pr2 שליש לכל אחד) - הסתיים. a.html נשאר באתר (אינסטגרם אורגני, ב44) */
+  var EXP="ap2_0811", K="nlp_go_"+EXP, v=null, o=null; try{ v=localStorage.getItem(K); o=localStorage.getItem("nlp_go_aap_0511"); }catch(e){}
+  if(v!=="a5"&&v!=="pr2"){
+    if(o==="a5"||o==="pr"){ v=(o==="pr"?"pr2":"a5"); }
+    else { var A=["a5","pr2"]; try{ var r=new Uint8Array(1); crypto.getRandomValues(r); v=A[r[0]%2]; }catch(e){ v=A[Math.random()<0.5?0:1]; } }
+    try{ localStorage.setItem(K,v); }catch(e){}
   }
   var q=new URLSearchParams(location.search); if(!q.has("go")) q.set("go","1");
   /* ב44 (בקשת בן 4.11): אינסטגרם אורגני (ביו ו-ManyChat: utm_source=instagram/ig עם utm_medium=bio/dm, בלי aff ובלי utm_id) תמיד ל-a, מחוץ לניסוי.
@@ -29,7 +30,6 @@ var NLP_OWNER=(function(){var K="nlp_aff",D=2592e6,now=Date.now(),cur=null;
   var s0=(q.get("utm_source")||"").toLowerCase(), m0=(q.get("utm_medium")||"").toLowerCase();
   if((s0==="instagram"||s0==="ig")&&(m0==="bio"||m0==="dm")&&!q.get("aff")&&!q.get("utm_id")){ q.delete("exp"); q.set("route","ig_org"); location.replace("a.html?"+q.toString()); return; }
   q.set("exp",EXP);
-  /* ב49 (בן אישר, "מאשר ב49" מיהב 05.11 13:56): הזרוע pr מקבלת מעכשיו את pr2 (הפרימיום המשודרג). השיבוץ השמור לא משתנה. pr_v1.html = הגרסה הקודמת לחזרה */
-  location.replace((v==="pr"?"pr2":v)+".html?"+q.toString()); /* a2/b2/c2 נשארים באתר, מחוץ לניסוי */
+  location.replace(v+".html?"+q.toString()); /* a, a1-a4, b, c, a2/b2/c2, pr ו-pr_v1 נשארים באתר, מחוץ לניסוי */
 })();
 </script></head><body>טוען...</body></html>
