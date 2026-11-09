@@ -96,7 +96,7 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
  <p class="who" id="who">החיוב הנוסף יירשם על <b id="whoName">-</b>, והחשבונית תישלח ל-<b id="whoMail" dir="ltr">-</b>.</p>
 
  <label class="chk"><input type="checkbox" id="cAgree"><span>אני מאשר/ת חיוב נוסף, חד-פעמי, של 97 ₪ על "האוטומט החדש שלי".</span></label>
- <label class="chk"><input type="checkbox" id="cTerms"><span>מדיניות ביטול לעסקה זו הינה לפי חוק שירותי תשלום בישראל. קראתי ואני מסכים/ה ל<a href="../terms.html#upsell" target="_blank" rel="noopener">תקנון</a>.</span></label>
+ <label class="chk"><input type="checkbox" id="cTerms"><span>מדיניות ביטול לעסקה זו הינה לפי חוק שירותי תשלום בישראל. קראתי ואני מסכים/ה ל<a href="terms.html#s11" target="_blank" rel="noopener">תקנון</a>.</span></label>
  <p class="err" id="err" role="alert"></p>
  <button class="go" id="go" type="button" disabled>פתיחת טופס תשלום מאובטח - 97 ₪</button>
  <a class="no" id="no" href="#">לא תודה, אני ממשיך לקורס</a>
@@ -127,8 +127,10 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 (function(){
  /* במצב אמיתי: כתובת תרחיש ה-Make של האפסייל (טיוטה, לא פעיל). עד שמוזנת - הדף לא פונה לשום מקום */
  const UPSELL_API = "%UPSELL_API%";
+ const COURSE = "thanks.html?ups=1"; /* חזרה לדף התודה, שם כפתור הכניסה לקורס (קישור הקורס לא בקוד הציבורי) */
  const q = new URLSearchParams(location.search), demo = q.get("demo"), t = (q.get("t") || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 64);
  const $ = id => document.getElementById(id);
+ document.querySelectorAll("[data-course]").forEach(a => a.href = COURSE);
  const show = id => { ["offer","stExpired","stUsed","stInvalid"].forEach(x => $(x).hidden = x !== id); };
  function mask(e){ const m = String(e||"").match(/^(.)(.*)(@.*)$/); return m ? m[1] + "***" + m[3] : "-"; }
  function render(d){
@@ -140,7 +142,7 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
  const ready = () => { $("go").disabled = !($("cAgree").checked && $("cTerms").checked); $("err").textContent = ""; };
  $("cAgree").addEventListener("change", ready); $("cTerms").addEventListener("change", ready);
  $("no").addEventListener("click", e => { e.preventDefault(); if(demo) return render({state:"declined"}); /* בתצוגה: מראים את המסך שאחרי ויתור */
-  const back = () => history.back();
+  const back = () => location.href = COURSE;
   if(UPSELL_API[0] === "%" || !t) return back();
   /* ויתור שורף את ההצעה בצד השרת, ורק אז חוזרים */
   fetch(UPSELL_API, {method:"POST", body:new URLSearchParams({action:"decline", t:t}), keepalive:true}).catch(()=>{}).finally(back); });
