@@ -386,6 +386,7 @@ const EXPERIMENTS=[
  {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"2026-10-26",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"הסתיים, הוחלף ב-abc_2610",decision:""},
 ];
 const CHANGELOG=[
+["2026-11-09","09:29 - ב71: סריקות של Meta (ביקור שכל האירועים בו meta_scan) לא נספרות יותר באף לשונית, באותו כלל כמו בלשונית 10. בגיליון של 09.11 בבוקר ירדו ב-7 ימים 285 מתוך 712 אנשים (40%), בממומן 243 מתוך 641, בניסוי ap2_0811 21 מתוך 95, ובמשווקים (30 יום) 28 מתוך 50. משפך הסליקה והרכישות בלי שינוי, ולכן אחוזי ההמרה עולים. ספירת האירועים הגולמית במסך 08 נשארת. בלי שינוי בניסוי"],
 ["2026-11-09","08:32 - ב71: לשונית חדשה \"10 השוואת קהלים - P25\": שחר (קהל קר) מול רחל (קהל חם) מ-08.11 20:00 - כניסות, מסך ראשון, הצעה, סליקה, רכישות והמרה לכל קמפיין ולכל דף, הוצאה יומית לקמפיין (מפתח aff_), עלות לכניסה וללקוח משלם. בלי סריקות של Meta. בלי שינוי בלשוניות הקיימות ובניסוי"],
 ["2026-11-08","14:19 - ב65 סבב שני (נקודת שינוי בניסוי ap2_0811): ב-a5 וב-a התמונה הראשונה במובייל ירדה ל-25KB (קובץ נפרד למובייל, הדסקטופ בלי שינוי), ופוסטר הסרטון ופס הפנים עברו ל-WebP. בלי שינוי תוכן. ב-3G מדומה a5 מופיע אחרי 2.2 שניות במקום 3.6 (pr2: 1.5). באוויר מ-14:08; ההשוואה a5 מול pr2 מתחילה מ-14:19, אחרי מטמון של עד 10 דקות"],
 ["2026-11-08","12:18 - ב70 + ב65 (נקודת שינוי אחת בניסוי ap2_0811): מ-pr2 ירדו שלושה צילומי וואטסאפ שהנוסח שלהם נכתב מראש (0183, 0184, 0188), ונשארו 4 העדויות האמיתיות כמו ב-a5. ב-a5 וב-a התמונה הראשונה עברה ל-WebP עם טעינה מראש, ותמונות העדויות ל-WebP, בלי שינוי תוכן. ההשוואה a5 מול pr2 מתחילה מהשעה הזו. ב66: דף התודה לא שולח Purchase מהדפדפן בלי מספר עסקה מאומת"],
@@ -485,7 +486,7 @@ function build(a,b){
   const key=deal||(r.sid?r.sid:"t"+Math.floor(r.t/6e4)); if(seen.has(key))return; seen.add(key);
   const s=r.sid&&S[r.sid]; if(s){s.buy=true; if(!s.buyT)s.buyT=r.t; s.pay=true; s.det=true; s.chk=true;}
   buys.push({t:r.t,day:dayKey(r.t),amt:m?+m[1]:PRICE,deal,sid:r.sid||"",s:s||null,aff:parseX(r.x).aff||(bank&&((r.qs||"").match(/aff\s+([a-z0-9_-]+)/)||[])[1])||"",bank});});
- let sess=Object.values(S);
+ let sess=Object.values(S).filter(s=>!(SCAN_FILTER&&isScanSess(s))); /* ב71: ביקור שכל האירועים בו הם סריקה של Meta (meta_scan) לא נספר באף לשונית */
  sess.forEach(s=>{s.offer=seenOffer(s,secNames); s.testi=seenTesti(s,secNames); s.eng=s.act>=20||s.scroll>=50||s.cta; s.dv=(s.dev||"").split("-")[0]||"?"; s.os=(s.dev||"").split("-")[1]||"?"; s.app=(s.dev||"").split("-")[2]||"?"; s.stage=stage(s); s.lastSec=s.sec;
   s.tbuy=s.buyT?(s.buyT-s.t)/1000:null;});
  if(fSrc)sess=sess.filter(s=>s.src===fSrc);
@@ -495,6 +496,7 @@ function build(a,b){
  const vbuys=(fSrc||fDev||fOwn)?buys.filter(b=>b.sid&&sids.has(b.sid)):buys;
  return {R,sess,buys:vbuys,allBuys:buys,secNames,secCount,evCount};
 }
+let SCAN_FILTER=true; function isScanSess(s){return s.ev.length>0&&s.ev.every(r=>/^meta_scan/.test(r.ev))}
 function secIdx(names,re){for(const k in names)if(re.test(names[k]))return +k;return 0}
 const OFFER_RE=/הצעה/, TESTI_RE=/מה אומרים|תוצאות אמיתיות/;
 function seenOffer(s,N){const k=secIdx(N[s.v],OFFER_RE)||(s.secs?s.secs-1:99);return s.sec>=k||s.ctaSeen.offer!=null}
@@ -965,8 +967,7 @@ function renderAud(){const now=new Date(),keep=[fSrc,fDev,fOwn];fSrc="";fDev="";
  const F=()=>({ppl:new Set(),v:0,p1:new Set(),off:new Set(),chk:new Set(),deals:new Set(),cr:{}});
  const BS=new Map();M.buys.forEach(b=>{if(b.s)BS.set(b.s,(BS.get(b.s)||[]).concat(b))});
  const C={};AUD.camps.forEach(c=>C[c.code]=Object.assign(F(),{c,pg:{}}));
- const scan=s=>s.ev.length&&s.ev.every(r=>/^meta_scan/.test(r.ev)); /* סריקות של Meta (ב22) לא נספרות כאן */
- M.sess.forEach(s=>{const o=C[affOf(s)];if(!o||scan(s))return;const w=who(s),pk=arms.includes(s.v)?s.v:"__other";
+ M.sess.forEach(s=>{const o=C[affOf(s)];if(!o)return; /* סריקות של Meta כבר מסוננות ב-build */const w=who(s),pk=arms.includes(s.v)?s.v:"__other";
   [o,o.pg[pk]||(o.pg[pk]=F())].forEach(f=>{f.v++;f.ppl.add(w);if(s.sec>=2||s.secT[2]>0)f.p1.add(w);if(s.offer)f.off.add(w);if(s.chk)f.chk.add(w);(BS.get(s)||[]).forEach(b=>f.deals.add(b.deal))});
   const k=s.cr||"";const r=o.cr[k]||(o.cr[k]={ppl:new Set(),chk:new Set(),deals:new Set()});r.ppl.add(w);if(s.chk)r.chk.add(w);(BS.get(s)||[]).forEach(b=>r.deals.add(b.deal))});
  /* רכישה של משווק שלא נמצא לה ביקור (למשל העברה בנקאית) - נספרת בקמפיין, לא בדף */
