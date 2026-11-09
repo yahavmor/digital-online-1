@@ -75,7 +75,6 @@ if(/test|claude/i.test(location.search))clarity("set","internal","1");}catch(e){
 <a class="cta" id="go" href="#" hidden>כניסה לקורס עכשיו</a>
 <!-- ב72: קבוצת הוואטסאפ של הרוכשים. הקישור לא נמצא בדף: הוא מגיע מ-7931441 רק אחרי אימות התשלום (כמו קישור הקורס). בלי קישור - הכפתור לא מוצג. הנוסח לאישור בן -->
 <a class="grp" id="grp" href="#" target="_blank" rel="noopener" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>הצטרפות לקבוצת הוואטסאפ של הרוכשים</a>
-<p class="sent2" id="grpNote" hidden>קבוצה סגורה, רק לרוכשי הקורס.</p>
 <p class="sent2" id="sent" data-clarity-mask="True" hidden>שלחנו גם את כל פרטי הגישה לאימייל שהזנת.</p>
 <p class="sent2">3 ערכות העבודה מחכות בשיעור הפתיחה של הקורס, בלשונית "קבצים מצורפים".</p>
 <section class="acc" id="acc" aria-labelledby="accH"><!-- ב56: אחרי רוכשת שלא מצאה את פרטי הגישה -->
@@ -126,7 +125,7 @@ const SUPPORT_WA = "972526951092";
       purchase(d);
       const a = el("go"); a.href = d.link; a.hidden = false; el("wait").hidden = true;
       if(d.email && window.__showTo) __showTo(d.email); /* ב56: המייל מוצג בתיבה "איפה פרטי הגישה?" */
-      if(typeof d.wa === "string" && /^https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]{10,40}$/.test(d.wa)){ const g = el("grp"); g.href = d.wa; g.hidden = false; el("grpNote").hidden = false; /* ב72 */
+      if(typeof d.wa === "string" && /^https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]{10,40}$/.test(d.wa)){ const g = el("grp"); g.href = d.wa; g.hidden = false; /* ב72; השורה שמתחת לכפתור הוסרה לפי החלטת בן 09.11 */
         g.addEventListener("click", () => { try{ if(TRACK_ENDPOINT[0] === "%") return; let lc = {}; try{ lc = JSON.parse(localStorage.getItem("nlp_lc") || "{}"); }catch(e){} const q = new URLSearchParams(location.search); const f = new URLSearchParams({ev:"wa_group_click", variant:lc.v || q.get("v") || "", sid:lc.sid || q.get("sid") || ""}); try{ if(localStorage.getItem("nlp_int") === "1") f.set("x","int=1"); }catch(e){} if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT, f))) fetch(TRACK_ENDPOINT, {method:"POST", body:f, mode:"no-cors"}); }catch(e){} }, {once:true}); }
       return true;
     }
