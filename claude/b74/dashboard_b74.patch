@@ -1,14 +1,15 @@
 --- a/nlp/dashboard.html
 +++ b/nlp/dashboard.html
-@@ -386,6 +386,7 @@
+@@ -386,6 +386,8 @@
   {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"2026-10-26",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"הסתיים, הוחלף ב-abc_2610",decision:""},
  ];
  const CHANGELOG=[
++["2026-11-09","15:10 - ב74 (מקומי, לא פרוס): עמלת משווקים על אפסייל - לשונית המשווקים כוללת את רכישות האפסייל של המשווק של רכישת הקורס (עמודת אפסייל, עמודת מוצר ברשימת העמלות), באותו יחס כמו בקורס (72 ₪ ל-220 ₪) עד שבן מאשר סכום. ממתין 7 ימים, ואחר כך לתשלום, אלא אם סומן החזר או תשלום לפי מספר עסקת האפסייל."],
 +["2026-11-09","13:40 - ב74 (מקומי, לא פרוס): אריח \"אפסייל 97 ₪\" בסקירה - רכישות האפסייל (upsell_purchase) נספרות בנפרד מרכישות הקורס, פעם אחת לכל מספר עסקה, עם שיעור מרוכשי הקורס והכנסה נוספת. הכנסות הקורס, העלות לרכישה והניסוי לא משתנים."],
  ["2026-11-09","11:30 - סינון לפי משווק (בקשת יהב, באישור בן; תצוגה בלבד, בלי שינוי בנתונים ובניסוי): בבורר \"בן + משווקים\" אפשר לבחור משווק אחד - אמיר, שחר, גל, רחל (ואחריהם שאר המשווקים הפעילים). כל הלשוניות מציגות רק את הביקורים שלו, הרכישות שלו כוללות גם רכישה בלי ביקור (למשל העברה בנקאית), וההוצאה לפי ההוצאה שהוזנה לקמפיין שלו (מפתח aff_)"],
  ["2026-11-09","09:29 - ב71: סריקות של Meta (ביקור שכל האירועים בו meta_scan) לא נספרות יותר באף לשונית, באותו כלל כמו בלשונית 10. בגיליון של 09.11 בבוקר ירדו ב-7 ימים 285 מתוך 712 אנשים (40%), בממומן 243 מתוך 641, בניסוי ap2_0811 21 מתוך 95, ובמשווקים (30 יום) 28 מתוך 50. משפך הסליקה והרכישות בלי שינוי, ולכן אחוזי ההמרה עולים. ספירת האירועים הגולמית במסך 08 נשארת. בלי שינוי בניסוי"],
  ["2026-11-09","08:32 - ב71: לשונית חדשה \"10 השוואת קהלים - P25\": שחר (קהל קר) מול רחל (קהל חם) מ-08.11 20:00 - כניסות, מסך ראשון, הצעה, סליקה, רכישות והמרה לכל קמפיין ולכל דף, הוצאה יומית לקמפיין (מפתח aff_), עלות לכניסה וללקוח משלם. בלי סריקות של Meta. בלי שינוי בלשוניות הקיימות ובניסוי"],
-@@ -487,6 +488,12 @@
+@@ -487,6 +489,12 @@
    const key=deal||(r.sid?r.sid:"t"+Math.floor(r.t/6e4)); if(seen.has(key))return; seen.add(key);
    const s=r.sid&&S[r.sid]; if(s){s.buy=true; if(!s.buyT)s.buyT=r.t; s.pay=true; s.det=true; s.chk=true;}
    buys.push({t:r.t,day:dayKey(r.t),amt:m?+m[1]:PRICE,deal,sid:r.sid||"",s:s||null,aff:parseX(r.x).aff||(bank&&((r.qs||"").match(/aff\s+([a-z0-9_-]+)/)||[])[1])||"",bank});});
@@ -17,11 +18,11 @@
 + R.forEach(r=>{ if(!(r.ev==="upsell_purchase"&&r.cta==="cardcom_upsell_webhook"))return;
 +  const d=(r.qs||"").match(/\|\s*deal\s+(\d+)/), c=(r.qs||"").match(/course_deal\s+([^\s|]+)/), m=(r.qs||"").match(/(\d+(?:\.\d+)?)\s*ILS/);
 +  const deal=d?d[1]:""; if(!deal||useen.has(deal))return; useen.add(deal);
-+  ups.push({t:r.t,day:dayKey(r.t),amt:m?+m[1]:97,deal,cdeal:c?c[1]:"",sid:r.sid||""});});
++  ups.push({t:r.t,day:dayKey(r.t),amt:m?+m[1]:97,deal,cdeal:c?c[1]:"",sid:r.sid||"",aff:(parseX(r.x).aff||"").toLowerCase(),up:true});}); /* aff = המשווק של רכישת הקורס (נשמר בקוד האפסייל) */
   let sess=Object.values(S).filter(s=>!(SCAN_FILTER&&isScanSess(s))); /* ב71: ביקור שכל האירועים בו הם סריקה של Meta (meta_scan) לא נספר באף לשונית */
   sess.forEach(s=>{s.offer=seenOffer(s,secNames); s.testi=seenTesti(s,secNames); s.eng=s.act>=20||s.scroll>=50||s.cta; s.dv=(s.dev||"").split("-")[0]||"?"; s.os=(s.dev||"").split("-")[1]||"?"; s.app=(s.dev||"").split("-")[2]||"?"; s.stage=stage(s); s.lastSec=s.sec;
    s.tbuy=s.buyT?(s.buyT-s.t)/1000:null;});
-@@ -496,7 +503,8 @@
+@@ -496,7 +504,8 @@
   if(fOwn)sess=sess.filter(s=>fAff?affOf(s)===fAff:fOwn==="aff"?!!s.aff:!s.aff); /* ב25; משווק אחד (aff:קוד) - לפי בקשת יהב 09.11 */
   const sids=new Set(sess.map(s=>s.sid));
   const vbuys=(fSrc||fDev||fOwn)?buys.filter(b=>(b.sid&&sids.has(b.sid))||(!fSrc&&!fDev&&fAff&&(b.aff||"").toLowerCase()===fAff)):buys; /* רכישה של המשווק גם בלי ביקור (למשל העברה בנקאית) */
@@ -31,7 +32,7 @@
  }
  let SCAN_FILTER=true; function isScanSess(s){return s.ev.length>0&&s.ev.every(r=>/^meta_scan/.test(r.ev))}
  function secIdx(names,re){for(const k in names)if(re.test(names[k]))return +k;return 0}
-@@ -508,8 +516,8 @@
+@@ -508,8 +517,8 @@
  /* spend for a period */
  function spendIn(a,b,cr){let t=0,known=false;const src=cr?cspend:spend;for(const k in src){const [d,c]=k.split("|");const dt=new Date(d+"T12:00");if(dt>=a&&dt<b&&(!cr||c===cr.replace(/[|\s]/g,""))){t+=src[k];known=true}}return known?t:null}
  function aggregate(M,a,b){
@@ -42,7 +43,7 @@
  }
  </script>
  <script>
-@@ -554,6 +562,7 @@
+@@ -554,6 +563,7 @@
    tile("המרה בדף",pf(A.conv),delta(A.conv,PA.conv),"רכישות ÷ כניסות"),
    tile("הכנסות ברוטו",ils(A.rev),delta(A.rev,PA.rev),"כולל מע\"מ"),
    tile("הכנסה נטו ממע\"מ",ils(A.net),"מע\"מ 18%",""),
@@ -50,3 +51,36 @@
    tile("ROAS",A.roas==null?'<span class="na">-</span>':A.roas.toFixed(2),A.profit!=null?"רווח תרומתי "+ils(A.profit):"","הכנסה ÷ הוצאה"),
    tile("הדף המוביל בהתקדמות",lead?lead.v:'<span class="na">-</span>',lead?lead.why:"אין מספיק נתונים","",true)].join("");
   bars($("ovFunnel"),steps([{l:"נכנסו לדף",n:A.v},{l:"ביקור מעורב",n:A.eng,tip:"20+ שניות פעילות, או חצי דף, או לחיצה"},{l:"נחשפו להצעה",n:A.off},{l:"לחצו לרכישה",n:A.cta},{l:"פתחו סליקה",n:A.chk},{l:"השאירו פרטים",n:A.det},{l:"דף התשלום נטען",n:A.pay},{l:"רכישה מאומתת",n:A.buy}]),A.v);
+@@ -885,20 +895,23 @@
+ /* ב25+ב27: משווקים. תנועה ב-30 יום לפי הבעלים בשדה x (aff=CODE); רכישה לפי הבעלים בשורת הרכישה (מ-ReturnValue בקארדקום).
+    עמלה: סכום קבוע לרכישה (fee) אם הוגדר ברשימה, אחרת אחוז. משולמת רק 7 ימים אחרי הרכישה ואם לא סומן החזר */
+ const PAY_DAYS=7;
+-function affFee(b){const inf=AFF[b.aff];if(!b.aff||!inf)return null;return inf.fee>0?inf.fee:Math.round(b.amt*inf.pct)/100}
++function affFee(b){const inf=AFF[b.aff];if(!b.aff||!inf)return null;if(b.up)return upFee(inf);return inf.fee>0?inf.fee:Math.round(b.amt*inf.pct)/100}
++/* ב74: עמלת אפסייל למשווק של רכישת הקורס. null = אותו יחס כמו בקורס (220/297 × 97 = 72 ₪). כשבן מאשר סכום אחר - מספר קבוע כאן */
++const UPSELL_FEE=null, UPSELL_PRICE=97, COURSE_PRICE=297;
++function upFee(inf){return UPSELL_FEE!=null?UPSELL_FEE:inf.fee>0?Math.round(inf.fee*UPSELL_PRICE/COURSE_PRICE):Math.round(UPSELL_PRICE*inf.pct)/100}
+ function affState(b){return REF.has(b.deal)?"refund":PAID.has(b.deal)?"paid":(Date.now()-b.t<PAY_DAYS*864e5?"pending":"due")}
+ function renderAffiliates(){const now=new Date(),keep=[fSrc,fDev,fOwn];fSrc="";fDev="";fOwn="";let M,ALL;try{M=build(new Date(+now-30*864e5),new Date(+now+864e5));ALL=build(new Date(0),new Date(+now+864e5))}finally{[fSrc,fDev,fOwn]=keep}
+- const own=s=>s.aff||"",codes=[...new Set(Object.keys(AFF).concat(M.sess.map(own).filter(Boolean),ALL.allBuys.map(b=>b.aff).filter(Boolean)))].sort();
++ const own=s=>s.aff||"",codes=[...new Set(Object.keys(AFF).concat(M.sess.map(own).filter(Boolean),ALL.allBuys.map(b=>b.aff).filter(Boolean),(ALL.allUps||[]).map(u=>u.aff).filter(Boolean)))].sort();
+  const na='<span class="na">-</span>',sum=(B,st)=>B.filter(b=>affState(b)===st).reduce((x,b)=>x+(affFee(b)||0),0);
+- const rowFor=code=>{const S=M.sess.filter(s=>own(s)===code),V=new Set(S.map(s=>s.vid||s.sid)),B=M.allBuys.filter(b=>(b.aff||"")===code),BA=ALL.allBuys.filter(b=>(b.aff||"")===code),rev=B.reduce((x,y)=>x+y.amt,0),inf=AFF[code];
++ const rowFor=code=>{const S=M.sess.filter(s=>own(s)===code),V=new Set(S.map(s=>s.vid||s.sid)),B=M.allBuys.filter(b=>(b.aff||"")===code),U=(M.allUps||[]).filter(u=>(u.aff||"")===code),BA=ALL.allBuys.filter(b=>(b.aff||"")===code).concat((ALL.allUps||[]).filter(u=>(u.aff||"")===code)),rev=B.reduce((x,y)=>x+y.amt,0),inf=AFF[code]; /* ב74: BA כולל אפסייל, לעמלות */
+   const per=code&&inf?(inf.fee>0?ils(inf.fee):inf.pct+'%'):null;
+-  return '<tr><td>'+(code?'<b>'+esc(inf?inf.name:code)+'</b> <small>'+esc(code)+(inf?(inf.active?"":" · לא פעיל"):" · לא ברשימה")+'</small>':'<b>בן נחום</b> <small>מודעות, מייל, ביו, ManyChat וישיר</small>')+'</td><td class="num">'+fmt(S.length)+'</td><td class="num">'+fmt(V.size)+'</td>'+cell(S.filter(s=>s.cta).length,S.length)+cell(S.filter(s=>s.chk).length,S.length)+'<td class="num">'+fmt(B.length)+'</td><td>'+ils(rev)+'</td><td>'+(per||na)+'</td>'+
++  return '<tr><td>'+(code?'<b>'+esc(inf?inf.name:code)+'</b> <small>'+esc(code)+(inf?(inf.active?"":" · לא פעיל"):" · לא ברשימה")+'</small>':'<b>בן נחום</b> <small>מודעות, מייל, ביו, ManyChat וישיר</small>')+'</td><td class="num">'+fmt(S.length)+'</td><td class="num">'+fmt(V.size)+'</td>'+cell(S.filter(s=>s.cta).length,S.length)+cell(S.filter(s=>s.chk).length,S.length)+'<td class="num">'+fmt(B.length)+'</td><td class="num">'+fmt(U.length)+'</td><td>'+ils(rev)+'</td><td>'+(per||na)+(code&&inf?'<small> · אפסייל '+ils(upFee(inf))+'</small>':'')+'</td>'+
+    (code?'<td>'+ils(sum(BA,"pending"))+'</td><td><b>'+ils(sum(BA,"due"))+'</b></td><td>'+ils(sum(BA,"paid"))+'</td><td class="num">'+fmt(BA.filter(b=>affState(b)==="refund").length)+'</td>':'<td>'+na+'</td><td>'+na+'</td><td>'+na+'</td><td>'+na+'</td>')+'</tr>'};
+- table($("afTable"),["בעלים","ביקורים (30 יום)","מבקרים","לחצו לקנייה","הגיעו לסליקה","רכישות (30 יום)","הכנסה (30 יום)","עמלה לרכישה","עמלה ממתינה","עמלה לתשלום","שולם","הוחזרו"],codes.map(rowFor).concat(rowFor("")));
+- const AB=ALL.allBuys.filter(b=>b.aff).sort((x,y)=>y.t-x.t),lab={pending:"ממתין",due:"לתשלום",paid:"שולם",refund:"הוחזר"};
+- table($("afBuys"),["תאריך","עסקה","משווק","סכום","עמלה","מצב"],AB.map(b=>{const st=affState(b),inf=AFF[b.aff],left=Math.ceil((PAY_DAYS*864e5-(Date.now()-b.t))/864e5);
+-  return '<tr><td>'+b.t.toLocaleDateString("he-IL")+' '+b.t.toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"})+'</td><td class="num">'+(b.bank?'העברה בנקאית <small>'+esc(b.deal.slice(5))+'</small>':esc(b.deal||"-"))+'</td><td>'+esc(inf?inf.name:b.aff)+' <small>'+esc(b.aff)+'</small></td><td>'+ils(b.amt)+'</td><td>'+(affFee(b)==null?na:ils(affFee(b)))+'</td><td><span class="pill '+(st==="due"?"good":st==="refund"?"crit":st==="paid"?"off":"warn")+'">'+lab[st]+(st==="pending"?" · עוד "+left+" ימים":"")+'</span></td></tr>'}),"אין עדיין רכישות דרך משווקים");
+- $("afNote").textContent=(Object.keys(AFF).length?"ברשימה "+Object.keys(AFF).length+" משווקים. ":"רשימת המשווקים לא נטענה או ריקה - מוצגים רק קודים שהגיעו בפועל. ")+"עמלה: סכום קבוע לרכישה אם הוגדר ברשימה, אחרת אחוז מהסכום בשורת הרכישה. ממתינה = פחות מ-"+PAY_DAYS+" ימים מהרכישה; לתשלום = עברו "+PAY_DAYS+" ימים ולא סומן החזר ולא סומן ששולם. עמלה ממתינה, לתשלום, שולם והחזרים - מכל הזמן. קישור אישי למשווק (או קישור חדש שמבטל את הקודם), סימון החזר וסימון שולם: לבקש מקלוד בצ'אט הראשי.";}
++ table($("afTable"),["בעלים","ביקורים (30 יום)","מבקרים","לחצו לקנייה","הגיעו לסליקה","רכישות (30 יום)","אפסייל (30 יום)","הכנסת קורס (30 יום)","עמלה לרכישה","עמלה ממתינה","עמלה לתשלום","שולם","הוחזרו"],codes.map(rowFor).concat(rowFor("")));
++ const AB=ALL.allBuys.filter(b=>b.aff).concat((ALL.allUps||[]).filter(u=>u.aff)).sort((x,y)=>y.t-x.t),lab={pending:"ממתין",due:"לתשלום",paid:"שולם",refund:"הוחזר"};
++ table($("afBuys"),["תאריך","מוצר","עסקה","משווק","סכום","עמלה","מצב"],AB.map(b=>{const st=affState(b),inf=AFF[b.aff],left=Math.ceil((PAY_DAYS*864e5-(Date.now()-b.t))/864e5);
++  return '<tr><td>'+b.t.toLocaleDateString("he-IL")+' '+b.t.toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"})+'</td><td>'+(b.up?'אפסייל 97 ₪':'קורס')+'</td><td class="num">'+(b.bank?'העברה בנקאית <small>'+esc(b.deal.slice(5))+'</small>':esc(b.deal||"-"))+'</td><td>'+esc(inf?inf.name:b.aff)+' <small>'+esc(b.aff)+'</small></td><td>'+ils(b.amt)+'</td><td>'+(affFee(b)==null?na:ils(affFee(b)))+'</td><td><span class="pill '+(st==="due"?"good":st==="refund"?"crit":st==="paid"?"off":"warn")+'">'+lab[st]+(st==="pending"?" · עוד "+left+" ימים":"")+'</span></td></tr>'}),"אין עדיין רכישות דרך משווקים");
++ $("afNote").textContent=(Object.keys(AFF).length?"ברשימה "+Object.keys(AFF).length+" משווקים. ":"רשימת המשווקים לא נטענה או ריקה - מוצגים רק קודים שהגיעו בפועל. ")+"עמלה: סכום קבוע לרכישה אם הוגדר ברשימה, אחרת אחוז מהסכום בשורת הרכישה. אפסייל (97 ₪): למשווק של רכישת הקורס, "+(UPSELL_FEE!=null?UPSELL_FEE+" ₪":"באותו יחס כמו בקורס")+", לפי מספר עסקת האפסייל. ממתינה = פחות מ-"+PAY_DAYS+" ימים מהרכישה; לתשלום = עברו "+PAY_DAYS+" ימים ולא סומן החזר ולא סומן ששולם. עמלה ממתינה, לתשלום, שולם והחזרים - מכל הזמן. קישור אישי למשווק (או קישור חדש שמבטל את הקודם), סימון החזר וסימון שולם: לבקש מקלוד בצ'אט הראשי.";}
+ /* ================= 🧪 lab (ב43) ================= */
+ /* שמות, סוג ונוסח קופי לכל utm_content - ימולא מטבלת המעבדה (ע7). עד אז: השם מ-VIDEO_NAMES, הסוג לפי הקוד, והנוסח לפי סיומת: _a / _c (קופי A / C, כמו בקמפיין של בן) או _1 / _2 */
+ /* מטבלת המעבדה של ע7 (גיליון "אינדקס - סרטונים 03.11", לשונית "טבלת מעבדה", עמודת utm_content), עודכן 05.11: כל 48 המודעות של המעבדה (A ו-B בסרטונים, A ו-C בקרוסלות ובבאנרים) + 4 של הקמפיין הקיים. קודי _c ישנים בסרטונים נשארו למקרה שהגיעו בעבר. מודעה חדשה: להוסיף שורה כאן */
