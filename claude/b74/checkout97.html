@@ -65,7 +65,7 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 </style>
 </head>
 <body>
-<div class="demo" id="demoBar" hidden>תצוגה בלבד, בלי תשלום · <a href="?demo=ok">הצעה בתוקף</a>·<a href="?demo=expired">פג תוקף</a>·<a href="?demo=used">כבר נרכש</a>·<a href="?demo=invalid">קישור לא תקין</a></div>
+<div class="demo" id="demoBar" hidden>תצוגה בלבד, בלי תשלום · <a href="?demo=ok">הצעה בתוקף</a>·<a href="?demo=expired">פג תוקף</a>·<a href="?demo=used">כבר נרכש</a>·<a href="?demo=declined">אחרי ויתור</a>·<a href="?demo=invalid">קישור לא תקין</a></div>
 <main class="wrap">
 <div class="brand"><i></i>בן נחום · לנצח את האוטומט</div>
 <p class="done">✓ הקורס "לנצח את האוטומט" כבר שלך</p>
@@ -79,8 +79,8 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
  </div>
  <div class="price"><b>97</b><span>₪</span></div>
  <p class="once">תשלום חד-פעמי, בלי מנוי ובלי חיוב חוזר</p>
- <!-- שורת הדחיפות: המחיר הוא שפוקע, לא המוצר (מסלול 147 ₪ באזור הקורס). טיוטה - הנוסח הסופי של בן מהמפרט נכנס כאן -->
- <p class="urg" id="urg">המחיר הזה זמין רק כאן, מיד אחרי הרכישה. אחר כך המאמן יהיה זמין באזור הקורס ב-147 ₪.</p>
+ <!-- שורת הדחיפות: הנוסח של בן (יהב 09.11), מילה במילה. ההצעה ב-97 ₪ פוקעת 30 דקות מרכישת הקורס או בוויתור; המוצר עצמו נשאר זמין ב-147 ₪ באזור הקורס -->
+ <p class="urg" id="urg">לאחר שתמשיך מהדף הזה, ההצעה המיוחדת ב-97 ₪ לא תהיה זמינה שוב</p>
 
  <section class="order" aria-label="מה מקבלים">
   <h2>מה מתווסף</h2>
@@ -118,7 +118,7 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
  </section>
 </section>
 
-<section class="state off" id="stExpired" hidden><h2>המחיר המיוחד כבר לא זמין</h2><p>ההצעה ב-97 ₪ הייתה זמינה רק מיד אחרי הרכישה.</p><p>המאמן האישי זמין באזור הקורס ב-147 ₪.</p><a class="no" href="#" data-course>לכניסה לקורס</a></section>
+<section class="state off" id="stExpired" hidden><h2>ההצעה המיוחדת כבר לא זמינה</h2><p>ההצעה ב-97 ₪ הייתה זמינה רק מיד אחרי רכישת הקורס.</p><p>המאמן האישי זמין באזור הקורס ב-147 ₪.</p><a class="no" href="#" data-course>לכניסה לקורס</a></section>
 <section class="state off" id="stUsed" hidden><h2>המאמן האישי כבר שלך</h2><p>הרכישה הזו כבר בוצעה, ולא נחייב שוב.</p><a class="no" href="#" data-course>לכניסה לקורס</a></section>
 <section class="state off" id="stInvalid" hidden><h2>הקישור לא תקין</h2><p>ההצעה נפתחת רק מדף התודה של הרכישה. צריך עזרה? כתבו לנו בוואטסאפ.</p></section>
 </main>
@@ -132,13 +132,17 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
  function mask(e){ const m = String(e||"").match(/^(.)(.*)(@.*)$/); return m ? m[1] + "***" + m[3] : "-"; }
  function render(d){
   if(!d || d.state === "invalid") return show("stInvalid");
-  if(d.state === "expired") return show("stExpired");
+  if(d.state === "expired" || d.state === "declined") return show("stExpired"); /* ויתור שורף את ההצעה */
   if(d.state === "used") return show("stUsed");
   $("whoName").textContent = d.name || "-"; $("whoMail").textContent = mask(d.email); show("offer");
  }
  const ready = () => { $("go").disabled = !($("cAgree").checked && $("cTerms").checked); $("err").textContent = ""; };
  $("cAgree").addEventListener("change", ready); $("cTerms").addEventListener("change", ready);
- $("no").addEventListener("click", e => { e.preventDefault(); if(demo) return alertBox("בתצוגה: חוזרים לדף התודה, בלי חיוב."); history.back(); });
+ $("no").addEventListener("click", e => { e.preventDefault(); if(demo) return render({state:"declined"}); /* בתצוגה: מראים את המסך שאחרי ויתור */
+  const back = () => history.back();
+  if(UPSELL_API[0] === "%" || !t) return back();
+  /* ויתור שורף את ההצעה בצד השרת, ורק אז חוזרים */
+  fetch(UPSELL_API, {method:"POST", body:new URLSearchParams({action:"decline", t:t}), keepalive:true}).catch(()=>{}).finally(back); });
  function alertBox(m){ $("err").textContent = m; }
  $("go").addEventListener("click", async () => {
   if(!($("cAgree").checked && $("cTerms").checked)) return alertBox("יש לסמן את שני האישורים כדי להמשיך.");
@@ -151,7 +155,7 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
    else { $("pay").hidden = true; render(d); }
   }catch(e){ $("pay").hidden = true; alertBox("לא הצלחנו לפתוח את טופס התשלום. לא בוצע חיוב. נסו שוב בעוד רגע."); $("go").disabled = false; }
  });
- if(demo){ $("demoBar").hidden = false; const D = {ok:{state:"ok",name:"ישראל ישראלי",email:"israel@example.com"},expired:{state:"expired"},used:{state:"used"},invalid:{state:"invalid"}}; return render(D[demo] || D.ok); }
+ if(demo){ $("demoBar").hidden = false; const D = {ok:{state:"ok",name:"ישראל ישראלי",email:"israel@example.com"},expired:{state:"expired"},declined:{state:"declined"},used:{state:"used"},invalid:{state:"invalid"}}; return render(D[demo] || D.ok); }
  if(!t || UPSELL_API[0] === "%") return render({state:"invalid"});
  fetch(UPSELL_API, {method:"POST", body:new URLSearchParams({action:"check", t:t})}).then(r => r.json()).then(render).catch(() => render({state:"invalid"}));
 })();
