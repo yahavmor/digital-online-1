@@ -386,6 +386,7 @@ const EXPERIMENTS=[
  {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"2026-10-26",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"הסתיים, הוחלף ב-abc_2610",decision:""},
 ];
 const CHANGELOG=[
+["2026-11-09","11:30 - סינון לפי משווק (בקשת יהב, באישור בן; תצוגה בלבד, בלי שינוי בנתונים ובניסוי): בבורר \"בן + משווקים\" אפשר לבחור משווק אחד - אמיר, שחר, גל, רחל (ואחריהם שאר המשווקים הפעילים). כל הלשוניות מציגות רק את הביקורים שלו, הרכישות שלו כוללות גם רכישה בלי ביקור (למשל העברה בנקאית), וההוצאה לפי ההוצאה שהוזנה לקמפיין שלו (מפתח aff_)"],
 ["2026-11-09","09:29 - ב71: סריקות של Meta (ביקור שכל האירועים בו meta_scan) לא נספרות יותר באף לשונית, באותו כלל כמו בלשונית 10. בגיליון של 09.11 בבוקר ירדו ב-7 ימים 285 מתוך 712 אנשים (40%), בממומן 243 מתוך 641, בניסוי ap2_0811 21 מתוך 95, ובמשווקים (30 יום) 28 מתוך 50. משפך הסליקה והרכישות בלי שינוי, ולכן אחוזי ההמרה עולים. ספירת האירועים הגולמית במסך 08 נשארת. בלי שינוי בניסוי"],
 ["2026-11-09","08:32 - ב71: לשונית חדשה \"10 השוואת קהלים - P25\": שחר (קהל קר) מול רחל (קהל חם) מ-08.11 20:00 - כניסות, מסך ראשון, הצעה, סליקה, רכישות והמרה לכל קמפיין ולכל דף, הוצאה יומית לקמפיין (מפתח aff_), עלות לכניסה וללקוח משלם. בלי סריקות של Meta. בלי שינוי בלשוניות הקיימות ובניסוי"],
 ["2026-11-08","14:19 - ב65 סבב שני (נקודת שינוי בניסוי ap2_0811): ב-a5 וב-a התמונה הראשונה במובייל ירדה ל-25KB (קובץ נפרד למובייל, הדסקטופ בלי שינוי), ופוסטר הסרטון ופס הפנים עברו ל-WebP. בלי שינוי תוכן. ב-3G מדומה a5 מופיע אחרי 2.2 שניות במקום 3.6 (pr2: 1.5). באוויר מ-14:08; ההשוואה a5 מול pr2 מתחילה מ-14:19, אחרי מטמון של עד 10 דקות"],
@@ -491,9 +492,10 @@ function build(a,b){
   s.tbuy=s.buyT?(s.buyT-s.t)/1000:null;});
  if(fSrc)sess=sess.filter(s=>s.src===fSrc);
  if(fDev)sess=sess.filter(s=>s.dv===fDev);
- if(fOwn)sess=sess.filter(s=>fOwn==="aff"?!!s.aff:!s.aff); /* ב25 */
+ const affOf=s=>(s.aff||(s.p&&s.p.get("aff"))||"").toLowerCase(), fAff=fOwn.indexOf("aff:")===0?fOwn.slice(4):"";
+ if(fOwn)sess=sess.filter(s=>fAff?affOf(s)===fAff:fOwn==="aff"?!!s.aff:!s.aff); /* ב25; משווק אחד (aff:קוד) - לפי בקשת יהב 09.11 */
  const sids=new Set(sess.map(s=>s.sid));
- const vbuys=(fSrc||fDev||fOwn)?buys.filter(b=>b.sid&&sids.has(b.sid)):buys;
+ const vbuys=(fSrc||fDev||fOwn)?buys.filter(b=>(b.sid&&sids.has(b.sid))||(!fSrc&&!fDev&&fAff&&(b.aff||"").toLowerCase()===fAff)):buys; /* רכישה של המשווק גם בלי ביקור (למשל העברה בנקאית) */
  return {R,sess,buys:vbuys,allBuys:buys,secNames,secCount,evCount};
 }
 let SCAN_FILTER=true; function isScanSess(s){return s.ev.length>0&&s.ev.every(r=>/^meta_scan/.test(r.ev))}
@@ -506,7 +508,7 @@ function stage(s){return s.buy?6:s.det?5:s.chk?4:s.cta?3:s.offer?2:s.scroll>=50?
 /* spend for a period */
 function spendIn(a,b,cr){let t=0,known=false;const src=cr?cspend:spend;for(const k in src){const [d,c]=k.split("|");const dt=new Date(d+"T12:00");if(dt>=a&&dt<b&&(!cr||c===cr.replace(/[|\s]/g,""))){t+=src[k];known=true}}return known?t:null}
 function aggregate(M,a,b){
- const S=M.sess,v=S.length,eng=S.filter(s=>s.eng).length,off=S.filter(s=>s.offer).length,cta=S.filter(s=>s.cta).length,chk=S.filter(s=>s.chk).length,det=S.filter(s=>s.det).length,pay=S.filter(s=>s.pay).length,buy=M.buys.length,rev=M.buys.reduce((x,y)=>x+y.amt,0),sp=(fSrc||fDev)?null:spendIn(a,b);
+ const S=M.sess,v=S.length,eng=S.filter(s=>s.eng).length,off=S.filter(s=>s.offer).length,cta=S.filter(s=>s.cta).length,chk=S.filter(s=>s.chk).length,det=S.filter(s=>s.det).length,pay=S.filter(s=>s.pay).length,buy=M.buys.length,rev=M.buys.reduce((x,y)=>x+y.amt,0),sp=(fSrc||fDev)?null:fOwn.indexOf("aff:")===0?spendIn(a,b,"aff_"+fOwn.slice(4)):fOwn==="aff"?null:spendIn(a,b);
  return {v,eng,off,cta,chk,det,pay,buy,rev,net:rev/(1+VAT),sp,cpa:sp!=null&&buy?sp/buy:null,roas:sp?rev/sp:null,conv:pct(buy,v),rpv:v?rev/v:null,profit:sp!=null?rev/(1+VAT)-sp:null};
 }
 </script>
@@ -1076,6 +1078,11 @@ function render(){if(!rows)return;const B=bounds();VARS=activeVars(B);if(!VARS.i
  const srcs=[...new Set(rows.filter(r=>VARS.includes(r.variant)&&(showTests||!isTest(r))).map(r=>source(qsObj(r.qs))))].sort();const fs=$("fSrc");if(fs.options.length-1!==srcs.length){const cur=fs.value;fs.innerHTML='<option value="">כל המקורות</option>'+srcs.map(s=>'<option'+(s===cur?" selected":"")+'>'+esc(s)+'</option>').join("")}
  try{({lab:()=>renderLab(M,B),hub:()=>renderHub(M,B),op:()=>renderOpt(),ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>{renderCheckout(M);renderRecovery(M);renderCo54(M)},jr:()=>renderJourneys(M),ex:()=>renderExperiments(M),in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M),af:()=>renderAffiliates(),aud:()=>renderAud()})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
  if(storedAt)$("fresh").textContent="· עודכן "+new Date(storedAt).toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});}
+/* סינון לפי משווק (בקשת יהב 09.11): אמיר, שחר, גל ורחל ראשונים, ואחריהם שאר המשווקים הפעילים */
+const AFF_FIRST=["amir","shahar","gal","rachel"];
+function ownOpts(){const sel=$("fOwn"),cur=fOwn;const codes=Object.keys(AFF).filter(k=>AFF[k].active&&!/^claude/.test(k)).sort((x,y)=>{const i=AFF_FIRST.indexOf(x),j=AFF_FIRST.indexOf(y);return (i<0?99:i)-(j<0?99:j)||AFF[x].name.localeCompare(AFF[y].name,"he")});
+ sel.innerHTML='<option value="">בן + משווקים</option><option value="ben">רק בן</option><option value="aff">כל המשווקים</option>'+(codes.length?'<optgroup label="משווק אחד">'+codes.map(k=>'<option value="aff:'+esc(k)+'">'+esc(AFF[k].name)+'</option>').join("")+'</optgroup>':"");
+ sel.value=cur;if(sel.value!==cur){fOwn="";sel.value=""}}
 function status(msg,kind){const s=$("status");if(!msg){s.hidden=true;return}s.className="banner "+(kind||"");s.textContent=msg;s.hidden=false;}
 function tsvRows(text){return text.split("\n").filter(l=>l.trim()).map(l=>{const a=l.split("\t"),o={};COLS.forEach((k,i)=>o[k]=a[i]||"");o.t=new Date((o.ts||"").replace(" ","T"));return o}).filter(r=>!isNaN(r.t)).sort((a,b)=>a.t-b.t)}
 let busy=false;
@@ -1086,7 +1093,7 @@ async function load(){if(busy)return;busy=true;$("refresh").disabled=true;
   if(!ta.includes("\t")&&ta.trim()&&!/^\d{4}-/.test(ta.trim()))throw new Error(ta.slice(0,80));
   rows=tsvRows(ta);
   if(b.ok){const tb=await b.text();spend={};cspend={};tb.split("\n").slice(1).forEach(l=>{const [k,v]=l.split("\t");if(!/^\d{4}-\d{2}-\d{2}/.test(k||"")||v===""||isNaN(+v))return;if(k.includes("|"))cspend[k]=+v;else spend[k]=+v})}
-  if(c&&c.ok){const tc=await c.text();if(/^affiliates/.test(tc)){AFF={};tc.split("\n").slice(1).forEach(l=>{const [k,n,p,ac,fe]=l.split("\t");const code=(k||"").trim().toLowerCase();if(code)AFF[code]={name:(n||"").trim()||code,pct:+p||0,active:(ac||"").trim()!=="false",fee:+fe||0}})}}
+  if(c&&c.ok){const tc=await c.text();if(/^affiliates/.test(tc)){AFF={};tc.split("\n").slice(1).forEach(l=>{const [k,n,p,ac,fe]=l.split("\t");const code=(k||"").trim().toLowerCase();if(code)AFF[code]={name:(n||"").trim()||code,pct:+p||0,active:(ac||"").trim()!=="false",fee:+fe||0}});ownOpts()}}
   if(d&&d.ok){const td=await d.text();if(/^refunds/.test(td))REF=new Set(td.split("\n").slice(1).map(l=>(l.split("\t")[0]||"").trim()).filter(Boolean))}
   if(e&&e.ok){const te=await e.text();if(/^paid/.test(te))PAID=new Set(te.split("\n").slice(1).map(l=>(l.split("\t")[0]||"").trim()).filter(Boolean))}
   storedAt=Date.now();status(null);render();
