@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>האוטומט החדש שלי - הצעה לרוכשי הקורס</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Assistant:wght@400;500;600&display=swap" rel="stylesheet">
+<!--
+  דף אפסייל "האוטומט החדש שלי" - 97&nbsp;₪ (פ2). גרסת בנייה מקומית בלבד.
+  כל מה שתלוי בהחלטות או בשרת נמצא ב-CONFIG למטה. אין כאן חיוב אמיתי.
+  בדיקה: ?test=1 מציג פס עם מה שעדיין לא אומת.
+-->
+<style>
+:root{
+  --bg:#08121F; --card:#111F30; --card2:#0D1928; --gold:#D9B66F; --gold-soft:rgba(217,182,111,.16);
+  --text:#F8F7F3; --muted:#B8C2D0; --green:#24B47E; --green-d:#1C9567; --line:rgba(184,194,208,.14);
+  --r:18px; --safe:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:Assistant,Heebo,system-ui,sans-serif;font-size:18px;line-height:1.6;overflow-x:hidden}
+h1,h2,h3,.h{font-family:Heebo,system-ui,sans-serif;line-height:1.25;font-weight:800}
+a{color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+.narrow{max-width:640px;margin:0 auto}
+section{padding:64px 0}
+.center{text-align:center}
+.gold{color:var(--gold)}
+.muted{color:var(--muted)}
+.small{font-size:15px}
+h2{font-size:clamp(26px,6.4vw,36px);margin-bottom:14px}
+.lead{font-size:clamp(17px,4.4vw,20px);color:var(--muted)}
+
+/* success bar */
+.success{background:linear-gradient(90deg,#0F3B2C,#12402F);border-bottom:1px solid rgba(36,180,126,.35);padding:12px 20px;text-align:center}
+.success b{font-family:Heebo;font-weight:700;font-size:17px;display:inline-flex;align-items:center;gap:8px}
+.success .ok{width:22px;height:22px;border-radius:50%;background:var(--green);display:inline-grid;place-items:center;font-size:13px;color:#fff}
+.success p{font-size:14px;color:#CDEBDD;margin-top:2px}
+
+/* tags */
+.tag{display:inline-block;border:1px solid var(--gold);color:var(--gold);background:var(--gold-soft);border-radius:999px;padding:6px 14px;font-family:Heebo;font-weight:700;font-size:14px;letter-spacing:.2px}
+
+/* hero */
+.hero{padding:36px 0 56px}
+.hero-grid{display:grid;gap:22px;align-items:center;grid-template-areas:"t" "p" "b"}
+.hero-grid>:nth-child(1){grid-area:t}.hero-grid>:nth-child(2){grid-area:p}.hero-grid>:nth-child(3){grid-area:b}
+.hero .phone{width:min(210px,58vw)}
+.hero h1{font-size:clamp(30px,8vw,48px);margin:16px 0 14px}
+.hero .sub{font-size:clamp(17px,4.5vw,20px);color:var(--muted)}
+.connector{font-family:Heebo;font-weight:700;font-size:clamp(18px,4.8vw,21px);margin:18px 0 4px;border-right:3px solid var(--gold);padding-right:14px}
+.price-box{margin:22px 0 14px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.price{font-family:Heebo;font-weight:800;font-size:46px;color:var(--gold);line-height:1}
+.price small{font-size:22px}
+.price-note{font-size:15px;color:var(--muted)}
+
+/* buttons */
+.btn{appearance:none;border:0;cursor:pointer;width:100%;display:flex;align-items:center;justify-content:center;gap:10px;min-height:60px;padding:16px 22px;border-radius:14px;background:var(--green);color:#fff;font-family:Heebo;font-weight:800;font-size:19px;text-decoration:none;box-shadow:0 8px 24px rgba(36,180,126,.28);transition:transform .15s ease,background .15s ease,box-shadow .2s ease}
+.btn:hover{background:var(--green-d);transform:translateY(-1px)}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible,.link-decline:focus-visible,.faq summary:focus-visible,.dot:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.btn[disabled]{opacity:.75;cursor:progress}
+.btn .spin{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.45);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;display:none}
+.btn.loading .spin{display:block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.btn.glow{box-shadow:0 0 0 0 rgba(36,180,126,.5),0 8px 28px rgba(36,180,126,.35)}
+.btn.pulse{animation:pulse 900ms ease-out 1}
+@keyframes pulse{0%{transform:scale(1)}40%{transform:scale(1.03);box-shadow:0 0 0 10px rgba(36,180,126,.18),0 10px 30px rgba(36,180,126,.4)}100%{transform:scale(1)}}
+.under-btn{font-size:15px;color:var(--muted);text-align:center;margin-top:10px}
+.link-decline{display:block;width:100%;background:none;border:0;cursor:pointer;color:var(--muted);text-decoration:underline;text-underline-offset:4px;font-family:Assistant;font-size:17px;padding:14px 8px;margin-top:6px;text-align:center}
+.link-decline:hover{color:var(--text)}
+
+/* phone mockup */
+.phone{width:min(280px,78vw);aspect-ratio:9/18.5;margin:0 auto;background:#050B14;border-radius:40px;padding:10px;box-shadow:0 30px 60px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.08) inset,0 0 0 2px #1d2a3b;position:relative}
+.phone::before{content:"";position:absolute;top:16px;left:50%;transform:translateX(-50%);width:84px;height:22px;background:#050B14;border-radius:12px;z-index:3}
+.screen{width:100%;height:100%;border-radius:31px;overflow:hidden;background:linear-gradient(180deg,#0E1C2E,#0A1524);position:relative}
+.screen img{width:100%;height:100%;object-fit:cover;display:block}
+.app{padding:48px 16px 16px;height:100%;display:flex;flex-direction:column;gap:10px;font-size:13px;line-height:1.45}
+.app .hello{font-family:Heebo;font-weight:700;font-size:17px}
+.app .tile{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 12px}
+.app .lbl{color:var(--muted);font-size:11px}
+.app .big{font-family:Heebo;font-weight:800;font-size:15px}
+.ring{--p:23;width:92px;height:92px;border-radius:50%;margin:4px auto;background:conic-gradient(var(--gold) calc(var(--p)*1%),rgba(255,255,255,.08) 0);display:grid;place-items:center}
+.ring span{width:74px;height:74px;border-radius:50%;background:#0E1C2E;display:grid;place-items:center;font-family:Heebo;font-weight:800;font-size:18px}
+.bar{height:7px;border-radius:9px;background:rgba(255,255,255,.08);overflow:hidden}
+.bar i{display:block;height:100%;width:var(--w,0%);background:var(--gold);border-radius:9px;transition:width 1.2s ease}
+.app .cta{background:var(--green);color:#fff;border-radius:12px;padding:10px;text-align:center;font-family:Heebo;font-weight:700}
+.app .sos{background:#3A1B22;border:1px solid #7A3340;color:#FFD9DE;border-radius:12px;padding:10px;text-align:center;font-family:Heebo;font-weight:700}
+.chips{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.chips span{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 6px;text-align:center;font-size:12px}
+.chips span.on{border-color:var(--gold);color:var(--gold)}
+.mock-flag{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:10px;background:rgba(0,0,0,.6);color:#ffd27a;padding:2px 8px;border-radius:8px;white-space:nowrap;display:none}
+.test .mock-flag{display:block}
+
+/* pain cards */
+.cards3{display:grid;gap:14px;margin-top:26px}
+.pcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px 22px 20px;position:relative}
+.pcard .n{font-family:Heebo;font-weight:800;color:var(--gold);font-size:14px;letter-spacing:1px}
+.pcard h3{font-size:20px;margin:6px 0 6px}
+.pcard p{color:var(--muted);font-size:17px}
+.bridge{font-family:Heebo;font-weight:800;font-size:clamp(21px,5.4vw,26px);margin-top:30px}
+
+/* carousel */
+.carousel{margin-top:30px}
+.track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:20px;padding:10px 4px 18px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.track::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;scroll-snap-align:center;display:flex;flex-direction:column;align-items:center;gap:16px}
+.slide-cap{text-align:center}
+.slide-cap b{font-family:Heebo;font-size:19px;display:block}
+.slide-cap span{color:var(--muted);font-size:16px}
+.dots{display:flex;justify-content:center;gap:10px;margin-top:4px}
+.dot{width:44px;height:44px;border:0;background:none;cursor:pointer;display:grid;place-items:center}
+.dot i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.25);transition:all .25s}
+.dot[aria-current="true"] i{background:var(--gold);width:26px;border-radius:6px}
+.tagline{font-family:Heebo;font-weight:700;font-size:clamp(19px,5vw,23px);margin-top:22px}
+
+/* benefits */
+.benefits{display:grid;gap:14px;margin-top:28px}
+.bcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start}
+.bicon{width:44px;height:44px;border-radius:12px;background:var(--gold-soft);border:1px solid rgba(217,182,111,.4);display:grid;place-items:center;color:var(--gold)}
+.bicon svg{width:22px;height:22px}
+.bcard h3{font-size:19px;margin-bottom:6px}
+.bcard p{color:var(--muted);font-size:16.5px}
+
+/* compare */
+.compare{display:grid;gap:14px;margin-top:28px}
+.col{border-radius:var(--r);padding:24px;border:1px solid var(--line);background:var(--card2)}
+.col.plus{background:var(--card);border-color:rgba(217,182,111,.55)}
+.col h3{font-size:19px;margin-bottom:4px}
+.col .sub{font-size:14px;color:var(--muted);margin-bottom:14px}
+.col ul{list-style:none;display:grid;gap:10px}
+.col li{display:flex;gap:10px;font-size:17px}
+.col li::before{content:"";flex:0 0 20px;height:20px;margin-top:4px;border-radius:50%;background:rgba(255,255,255,.1) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3 3 7-7' fill='none' stroke='%23B8C2D0' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") center/14px no-repeat}
+.col.plus li::before{background-color:var(--gold-soft);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3 3 7-7' fill='none' stroke='%23D9B66F' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E")}
+.together{font-family:Heebo;font-weight:800;font-size:clamp(20px,5.2vw,24px);margin-top:26px}
+
+/* morning */
+.morning{background:linear-gradient(180deg,var(--bg),#0B1728 50%,var(--bg))}
+.steps{list-style:none;margin-top:24px;display:grid;gap:0;position:relative}
+.steps li{position:relative;padding:12px 40px 12px 0;font-size:18px}
+.steps li::before{content:"";position:absolute;right:9px;top:20px;width:12px;height:12px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 5px var(--gold-soft)}
+.steps li:not(:last-child)::after{content:"";position:absolute;right:14px;top:34px;bottom:-12px;width:2px;background:var(--line)}
+.big-line{font-family:Heebo;font-weight:800;font-size:clamp(26px,7vw,40px);margin-top:28px;line-height:1.2}
+
+/* offer */
+.offer{background:radial-gradient(120% 80% at 50% 0%,#132740 0%,var(--bg) 70%)}
+.offer-card{max-width:560px;margin:0 auto;background:linear-gradient(180deg,#132338,#0E1B2C);border:1.5px solid var(--gold);border-radius:24px;padding:30px 22px 22px;box-shadow:0 0 0 6px rgba(217,182,111,.06),0 30px 70px rgba(0,0,0,.5);transform-style:preserve-3d}
+.offer-card h2{font-size:clamp(24px,6.4vw,32px);margin:16px 0 18px}
+.checks{list-style:none;display:grid;gap:11px;margin-bottom:22px;text-align:right}
+.checks li{display:flex;gap:10px;font-size:17.5px}
+.checks li::before{content:"✓";color:var(--gold);font-weight:800;font-family:Heebo}
+.offer .price{font-size:58px}
+.urgent{margin-top:14px;padding:12px 14px;border-radius:12px;background:rgba(217,182,111,.08);border:1px solid rgba(217,182,111,.3);font-size:15.5px;color:#EBDDBA}
+
+/* trust */
+.trust{display:grid;gap:14px;margin-top:26px}
+.tcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px}
+.tcard h3{font-size:18px;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.tcard h3 svg{width:22px;height:22px;color:var(--gold);flex:0 0 22px}
+.tcard p{color:var(--muted);font-size:16.5px}
+
+/* faq */
+.faq{margin-top:24px;display:grid;gap:10px}
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.faq summary{list-style:none;cursor:pointer;padding:18px 20px 18px 52px;font-family:Heebo;font-weight:700;font-size:17.5px;position:relative;min-height:56px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;left:20px;top:50%;transform:translateY(-50%);font-size:24px;color:var(--gold);transition:transform .25s}
+.faq details[open] summary::after{content:"−"}
+.faq .ans{padding:0 20px 18px;color:var(--muted);font-size:16.5px}
+
+/* close */
+.closing h2{font-size:clamp(26px,7vw,40px)}
+.closing .txt p{font-size:18px;color:var(--muted);margin-top:8px}
+
+footer{padding:30px 0 120px;text-align:center;font-size:14px;color:#7F8A9A;border-top:1px solid var(--line)}
+
+/* sticky */
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(8,18,31,.96);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid rgba(217,182,111,.35);padding:10px 16px calc(10px + var(--safe));display:flex;align-items:center;gap:14px;transform:translateY(110%);transition:transform .3s ease;visibility:hidden}
+.sticky.show{transform:none;visibility:visible}
+.sticky .s-txt{flex:1;line-height:1.25}
+.sticky .s-txt span{display:block;font-size:14px;color:var(--muted)}
+.sticky .s-txt b{font-family:Heebo;font-weight:800;font-size:22px;color:var(--gold)}
+.sticky .btn{width:auto;min-height:52px;padding:12px 22px;font-size:17px;flex:0 0 auto}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:60;background:rgba(3,8,14,.72);display:none;align-items:flex-end;justify-content:center;padding:16px}
+.modal.open{display:flex}
+.modal-box{background:var(--card);border:1px solid var(--line);border-radius:22px;max-width:460px;width:100%;padding:28px 22px calc(18px + var(--safe));animation:up .25s ease}
+@keyframes up{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+.modal-box h2{font-size:24px}
+.modal-box p{color:var(--muted);font-size:17px;margin-bottom:20px}
+
+/* states */
+.notice{display:none;max-width:560px;margin:16px auto 0;padding:14px 16px;border-radius:12px;font-size:16px;text-align:center}
+.notice.show{display:block}
+.notice.err{background:#3A1B22;border:1px solid #7A3340;color:#FFD9DE}
+.notice.info{background:rgba(217,182,111,.1);border:1px solid rgba(217,182,111,.35);color:#EBDDBA}
+.expired-view{display:none;min-height:70vh;align-items:center;justify-content:center;text-align:center;padding:40px 20px}
+body.expired .expired-view{display:flex}
+body.expired main,body.expired .sticky{display:none}
+
+/* test bar */
+.testbar{display:none;background:#3b2a05;color:#ffe3a3;font-size:13px;padding:10px 16px;line-height:1.5}
+.test .testbar{display:block}
+
+/* reveal: תוכן גלוי כברירת מחדל; מוסתר רק כש-JS רץ ואין Reduced Motion */
+.js-anim .reveal{opacity:0;transform:translateY(18px);transition:opacity .45s ease,transform .45s ease}
+.js-anim .reveal.in{opacity:1;transform:none}
+.js-anim .reveal.d1{transition-delay:.08s}.js-anim .reveal.d2{transition-delay:.16s}.js-anim .reveal.d3{transition-delay:.24s}.js-anim .reveal.d4{transition-delay:.32s}
+
+@media (min-width:860px){
+  section{padding:88px 0}
+  .hero-grid{grid-template-columns:1.15fr .85fr;grid-template-areas:"t p" "b p";column-gap:56px}
+  .hero .phone{width:280px}
+  .hero .btn{max-width:460px}
+  .cards3{grid-template-columns:repeat(3,1fr)}
+  .benefits{grid-template-columns:repeat(2,1fr)}
+  .benefits .bcard:last-child{grid-column:1/-1;max-width:calc(50% - 7px);justify-self:center}
+  .compare{grid-template-columns:1fr 1fr}
+  .trust{grid-template-columns:repeat(2,1fr)}
+  .slide{flex-basis:calc(33.333% - 14px)}
+  .dots{display:none}
+  .sticky{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+<div class="testbar" id="testbar"></div>
+
+<div class="expired-view" role="alert">
+  <div class="narrow">
+    <h2>ההצעה במסך הזה כבר לא זמינה</h2>
+    <p class="lead" style="margin:10px 0 24px">הגישה שלך ל"לנצח את האוטומט" נשמרה ומחכה לך.</p>
+    <a class="btn" data-course-link href="#">המשך לקורס</a>
+  </div>
+</div>
+
+<main>
+<!-- ===== אזור 1: פתיחה ===== -->
+<header class="success" data-section="success">
+  <b><span class="ok" aria-hidden="true">✓</span> הקורס שלך נרכש בהצלחה!</b>
+  <p>הגישה שלך ל"לנצח את האוטומט" כבר הובטחה.</p>
+</header>
+
+<section class="hero" data-section="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="tag" data-copy="heroTag">הצעה מיוחדת • לרוכשי הקורס</span>
+      <h1 data-ab="headline">קנית את הדרך לשינוי.<br><span class="gold">עכשיו הגיע הזמן להפוך אותה לפעולה יומיומית.</span></h1>
+      <p class="sub">הכירו את "האוטומט החדש שלי" - מערכת אימון אישית שבונה עבורך מסלול מותאם, נותנת לך פעולה יומית קצרה ועוזרת לך להתמודד עם הרגעים שבהם ההרגלים הישנים חוזרים.</p>
+    </div>
+    <!-- החלטה של בן: להראות את האפליקציה כבר בפתיחה -->
+    <div data-slot="hero-phone"></div>
+    <div>
+      <p class="connector">במקום לשאול את עצמך בכל יום מה לעשות - תפתח את המערכת ותדע מה הצעד הבא שלך.</p>
+      <div class="price-box">
+        <span class="price">97 <small>₪</small></span>
+        <span class="price-note">בלבד • תשלום חד-פעמי</span>
+      </div>
+      <button class="btn glow" data-buy="hero" id="heroCta"><span class="spin" aria-hidden="true"></span><span class="lbl" data-ab="cta1">כן! אני רוצה את המאמן האישי שלי ב-97&nbsp;₪</span></button>
+      <p class="under-btn">הקורס שלך כבר נרכש. זו תוספת אופציונלית בלבד.</p>
+      <button class="link-decline" data-decline="hero">לא תודה, אני ממשיך לקורס</button>
+      <div class="notice" data-notice role="status" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== אזור 2: הכאב ===== -->
+<section data-section="pain">
+  <div class="wrap">
+    <div class="narrow center reveal">
+      <h2>כי הבעיה בדרך כלל לא מתחילה כשאנחנו לומדים. <span class="gold">היא מתחילה ברגע האמת.</span></h2>
+    </div>
+    <div class="cards3">
+      <article class="pcard reveal d1"><span class="n">01</span><h3>אתה מבטיח שמחר תתחיל.</h3><p>ואז מגיע מחר, ושוב משהו אחר מקבל עדיפות.</p></article>
+      <article class="pcard reveal d2"><span class="n">02</span><h3>אתה מחליט שהפעם תגיב אחרת.</h3><p>אבל ברגע של כעס או לחץ, התגובה הישנה יוצאת לפני שאתה מספיק לחשוב.</p></article>
+      <article class="pcard reveal d3"><span class="n">03</span><h3>אתה מתחיל בהתלהבות.</h3><p>ואחרי כמה ימים עמוסים, ההרגל החדש פשוט נעלם.</p></article>
+    </div>
+    <div class="narrow center reveal">
+      <p class="bridge">בדיוק בשביל הרגעים האלה נבנה <span class="gold">האוטומט החדש שלי.</span></p>
+      <p class="lead" style="margin-top:8px">המערכת לא רק אומרת לך מה נכון לעשות. היא עוזרת לך לבחור פעולה מתאימה, לבצע אותה ולעקוב אחרי ההתקדמות שלך.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== אזור 3: המוצר ===== -->
+<section data-section="product" style="background:var(--card2)">
+  <div class="wrap">
+    <div class="narrow center reveal">
+      <h2>המאמן האישי שלך. <span class="gold">בכיס שלך. בקצב שלך.</span></h2>
+      <p class="lead">מערכת דיגיטלית אישית שעוזרת לך להפוך החלטות לפעולות קצרות, בתוך החיים שכבר יש לך.</p>
+    </div>
+    <div class="carousel reveal" aria-roledescription="carousel" aria-label="מסכים מתוך האפליקציה">
+      <div class="track" id="track" tabindex="0"></div>
+      <div class="dots" id="dots" role="tablist" aria-label="בחירת מסך"></div>
+    </div>
+    <p class="tagline center reveal" id="tagline"></p>
+  </div>
+</section>
+
+<!-- ===== אזור 4: מה מקבלים ===== -->
+<section data-section="benefits">
+  <div class="wrap">
+    <div class="narrow center reveal"><h2>כל מה שצריך כדי להפוך את השינוי <span class="gold">לחלק מהיום שלך</span></h2></div>
+    <div class="benefits">
+      <article class="bcard reveal d1"><div class="bicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></svg></div><div><h3>מסלול אישי שמתאים לך</h3><p><b style="color:var(--text)">לא כולם נתקעים באותו מקום. אז למה שכולם יקבלו את אותו אימון?</b> עונים על שאלון קצר ומקבלים מסלול שמותאם למטרה שלך, להרגלים שלך ולזמן הפנוי שלך.</p></div></article>
+      <article class="bcard reveal d2"><div class="bicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg></div><div><h3>פעולה יומית קצרה</h3><p><b style="color:var(--text)">במקום לחפש זמן לשנות את החיים - מתחילים בחמש דקות בתוך היום שלך.</b> משימה יומית ברורה, קלה להבנה וניתנת לביצוע.</p></div></article>
+      <article class="bcard reveal d3"><div class="bicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg></div><div><h3>כפתור SOS לרגעים הקשים</h3><p><b style="color:var(--text)">כשאתה נתקע - לא צריך לחפש מחדש מה לעשות.</b> בוחרים מה עוצר אותך ומקבלים תרגול קצר שעוזר לעצור ולבחור את הצעד הבא.</p></div></article>
+      <article class="bcard reveal d1"><div class="bicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div><div><h3>מד התקדמות אישי</h3><p><b style="color:var(--text)">כי חשוב לראות את הפעולות שאתה באמת עושה.</b> עוקבים אחרי התרגולים, ההרגלים וההצלחות הקטנות שלך.</p></div></article>
+      <article class="bcard reveal d2"><div class="bicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></div><div><h3>התאמה תוך כדי הדרך</h3><p><b style="color:var(--text)">החיים משתנים. גם המסלול שלך יכול להשתנות.</b> אפשר להתאים את רמת הקושי, לשנות עוגן ולחזור למסלול גם אחרי ימים עמוסים.</p></div></article>
+    </div>
+    <div class="narrow reveal" style="margin-top:28px">
+      <button class="btn" data-buy="benefits"><span class="spin" aria-hidden="true"></span><span class="lbl" data-ab="cta2">אני רוצה להתחיל להתקדם בכל יום - 97&nbsp;₪</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== אזור 5: השוואה ===== -->
+<section data-section="compare" style="background:var(--card2)">
+  <div class="wrap">
+    <div class="narrow center reveal"><h2>הקורס נותן לך את השיטה. <span class="gold">האפליקציה עוזרת לך ליישם אותה.</span></h2></div>
+    <div class="compare">
+      <div class="col reveal d1">
+        <h3>"לנצח את האוטומט"</h3><p class="sub">הקורס שכבר רכשת</p>
+        <ul><li>לימוד העקרונות והשיטה</li><li>הבנה של דפוסים והרגלים</li><li>כלים ותהליכים לשינוי</li><li>תוכנית ההטמעה הכלולה בקורס</li></ul>
+      </div>
+      <div class="col plus reveal d2">
+        <h3 class="gold">"האוטומט החדש שלי"</h3><p class="sub">התוספת ב-97&nbsp;₪</p>
+        <ul><li>אבחון אישי אינטראקטיבי</li><li>בחירת מסלול לפי המטרות שלך</li><li>משימות יומיות מותאמות</li><li>כפתור SOS</li><li>מעקב אחר התקדמות</li><li>התאמות אישיות במהלך הדרך</li></ul>
+      </div>
+    </div>
+    <p class="together center reveal">ביחד הם הופכים את הלמידה לסביבת אימון אישית.</p>
+  </div>
+</section>
+
+<!-- ===== אזור 6: הבוקר הבא ===== -->
+<section class="morning" data-section="morning">
+  <div class="wrap narrow">
+    <h2 class="reveal">תחשוב איך ייראה <span class="gold">הבוקר הבא שלך.</span></h2>
+    <ol class="steps">
+      <li class="reveal d1">במקום להתחיל את היום עם עוד הבטחה לעצמך, אתה פותח את המערכת.</li>
+      <li class="reveal d2">היא כבר יודעת על מה בחרת לעבוד.</li>
+      <li class="reveal d3">אתה רואה פעולה קצרה שמתאימה למטרה שלך.</li>
+      <li class="reveal d4">אתה מבצע אותה ומסמן התקדמות.</li>
+      <li class="reveal d4">וכשמגיע רגע שבו קשה לך - יש לך כלי זמין שעוזר לבחור את הצעד הבא.</li>
+    </ol>
+    <p class="big-line reveal">פחות לחשוב על השינוי.<br><span class="gold">יותר לתרגל אותו.</span></p>
+  </div>
+</section>
+
+<!-- ===== אזור 7: ההצעה ===== -->
+<section class="offer" id="offer" data-section="offer">
+  <div class="wrap">
+    <div class="offer-card center reveal" id="offerCard">
+      <span class="tag" data-copy="offerTag">הצעה מיוחדת לרוכשי הקורס</span>
+      <h2>המאמן האישי הדיגיטלי שלך <span class="gold">ב-97&nbsp;₪ בלבד</span></h2>
+      <ul class="checks" id="offerChecks">
+        <li>שאלון אבחון אישי</li>
+        <li>מסלול מותאם ל-30 יום</li>
+        <li>אימונים יומיים קצרים</li>
+        <li>כלי SOS לרגעים שבהם אתה תקוע</li>
+        <li>מעקב התקדמות אישי</li>
+        <!-- שורת משך הגישה נוספת מ-CONFIG.accessMonths (12, אושר 05.11) -->
+      </ul>
+      <div class="price">97 <small>₪</small></div>
+      <p class="price-note" style="margin:6px 0 18px">תשלום חד-פעמי. ללא מנוי מתחדש.</p>
+      <button class="btn glow" data-buy="offer" id="offerCta"><span class="spin" aria-hidden="true"></span><span class="lbl" data-ab="cta3">כן, תוסיפו לי את המאמן האישי ב-97&nbsp;₪</span></button>
+      <!-- דחיפות: מקום 2 מתוך 3 (ליד המחיר) -->
+      <p class="urgent" data-copy="urgent"><b>מחיר מיוחד לרוכשים חדשים:</b> 97&nbsp;₪ בתשלום חד-פעמי.</p>
+      <div class="notice" data-notice role="status" aria-live="polite"></div>
+      <button class="link-decline" data-decline="offer">לא תודה, אני ממשיך לקורס שכבר רכשתי</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== אזור 8: ביטחון ===== -->
+<section data-section="trust">
+  <div class="wrap">
+    <div class="narrow center reveal"><h2>בלי התחייבויות מיותרות. <span class="gold">בלי הפתעות.</span></h2></div>
+    <div class="trust">
+      <div class="tcard reveal d1"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>תשלום ברור</h3><p>97&nbsp;₪ בתשלום חד-פעמי. אין חיוב חודשי מתחדש.</p></div>
+      <div class="tcard reveal d2"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>גישה פשוטה</h3><p>אחרי אישור התשלום מקבלים גישה למערכת באמצעות חשבון אישי.</p></div>
+      <div class="tcard reveal d3"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>הקורס שלך כבר מובטח</h3><p>בין אם תוסיף את האפליקציה ובין אם לא, הגישה לקורס שכבר רכשת נשארת שלך.</p></div>
+    </div>
+    <!-- סמלי אבטחה / עדויות / החזר: לא מוצגים עד שיש אמיתיים ומאושרים -->
+  </div>
+</section>
+
+<!-- ===== אזור 9: שאלות ===== -->
+<section data-section="faq" style="background:var(--card2)">
+  <div class="wrap narrow">
+    <h2 class="center reveal">שאלות ותשובות</h2>
+    <div class="faq" id="faq"></div>
+  </div>
+</section>
+
+<!-- ===== אזור 10: סגירה ===== -->
+<section class="closing" id="closing" data-section="closing">
+  <div class="wrap narrow center">
+    <h2 class="reveal">השינוי לא קורה ברגע שמחליטים. <span class="gold">הוא נבנה בפעולות שעושים אחר כך.</span></h2>
+    <div class="txt reveal"><p>כבר עשית צעד חשוב כשבחרת להשקיע בעצמך.</p><p>עכשיו אפשר להוסיף מערכת אישית שתעזור לך להפוך את מה שתלמד לפעולות קצרות, בתוך היום שלך.</p></div>
+    <div class="reveal" style="margin-top:26px">
+      <div class="price">97 <small>₪</small></div>
+      <p class="price-note" style="margin:4px 0 18px">בלבד</p>
+      <button class="btn glow" data-buy="closing" id="closingCta"><span class="spin" aria-hidden="true"></span><span class="lbl" data-ab="cta4">כן! אני מוסיף את האוטומט החדש שלי</span></button>
+      <p class="under-btn">תשלום חד-פעמי • בלי מנוי • גישה אישית</p>
+      <div class="notice" data-notice role="status" aria-live="polite"></div>
+      <button class="link-decline" data-decline="closing">לא תודה, אני ממשיך לקורס</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">"האוטומט החדש שלי" • מוצר משלים ל"לנצח את האוטומט" • בן נחום<br>
+  <span data-legal></span></div>
+</footer>
+</main>
+
+<!-- כפתור דביק במובייל -->
+<div class="sticky" id="sticky" aria-hidden="true">
+  <div class="s-txt"><span>האוטומט החדש שלי</span><b>97&nbsp;₪</b></div>
+  <button class="btn" data-buy="sticky" tabindex="-1"><span class="spin" aria-hidden="true"></span><span class="lbl">כן, אני מצטרף</span></button>
+</div>
+
+<!-- מסך ויתור יחיד - דחיפות: מקום 3 מתוך 3 -->
+<div class="modal" id="declineModal" role="dialog" aria-modal="true" aria-labelledby="dmTitle">
+  <div class="modal-box center">
+    <h2 id="dmTitle">ממשיכים לקורס בלי האפליקציה?</h2>
+    <p data-copy="modal">אין בעיה. הגישה שלך לקורס כבר מובטחת. אפשר יהיה להוסיף את האפליקציה גם בהמשך.</p>
+    <button class="btn" data-buy="decline_modal"><span class="spin" aria-hidden="true"></span><span class="lbl">כן, אני רוצה להוסיף ב-97&nbsp;₪</span></button>
+    <button class="link-decline" id="confirmDecline">לא תודה, המשך לקורס</button>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   CONFIG - כל מה שתלוי בהחלטות של בן או בשרת (ב38). בלי שינוי קוד.
+   ===================================================================== */
+const CONFIG = {
+  price: 97,
+  currency: 'ILS',
+  productId: 'nlp_app_upsell_97',
+  // משך גישה בחודשים - null עד שבן מחליט (נשאל 05.11). כשנקבע: 12
+  accessMonths: 12, // בן אישר 05.11
+  // מדיניות החזר לאפסייל - null עד שבן מחליט. לא מוצג כלום עד אז.
+  refundText: 'אפשר לבקש החזר מלא תוך 7 ימים מהרכישה, בכפוף לתקנון.', // בן אישר 05.11
+  // תזכורות - false עד שיש ערוץ ששולח בפועל (שלב C)
+  remindersLive: false,
+  // נקודות חיבור לשרת (ב38). null = מצב תצוגה, בלי חיוב.
+  api: {
+    validate: null,   // GET  ?token= -> {valid:bool, expired:bool, firstName?}
+    checkout: null,   // POST {token, idempotencyKey, placement} -> {redirectUrl} | {error}
+    decline:  null,   // POST {token} -> שורף את הטוקן בשרת
+    track:    null    // POST אירוע אנליטיקה (בפורמט גיליון Events)
+  },
+  courseUrl: 'thanks.html?ups=1', // ב74: חזרה לדף התודה, שם מופיע כפתור הכניסה לקורס (קישור הקורס לא נכנס לקוד הציבורי)
+  // ב74: חיבור לסליקה. כפתורי הרכישה מובילים ל-checkout97.html?t=<טוקן>. הבדיקה והחיוב רק בשרת.
+  checkoutPage: 'checkout97.html',
+  upsellApi: '%UPSELL_API%', // תרחיש Make של האפסייל (טיוטה, לא קיים עדיין). עד שמוזן - אין פנייה לשרת
+  // צילומי מסך אמיתיים מהאפליקציה (אחרי שלב A של פ1). null = הדמיה זמנית בקוד
+  screenshots: { home: null, plan: null, sos: null },
+  // A/B: ?v=b מחליף טקסטים לפי המפתחות כאן
+  variants: {
+    a: {},
+    b: { headline: 'למדת מה צריך לעשות?<br><span class="gold">עכשיו תן למערכת אישית להראות לך איך לעשות את זה בכל יום.</span>' }
+  },
+  sectionOrder: null, // למשל ['hero','product','pain',...] לניסוי סדר מקטעים
+  // הצעה חוזרת למי שוויתר (בן אישר שתהיה, 05.11). הדף לא אומר שההצעה לא חוזרת.
+  // mode: null = ניסוח ניטרלי עד שבן בוחר | 'regular' = 97 רק כאן, אחר כך באזור הקורס ב-laterPrice | 'email97' = תזכורת במייל ב-97 למי שאישר דיוור
+  reoffer: { mode: 'regular', laterPrice: 147 } // בן אישר 05.11: A, 147 ₪, מייל אחד אחרי 3 ימים למי שאישר דיוור
+};
+const _q = new URLSearchParams(location.search).get('reoffer'); // תצוגה לבן: ?reoffer=a&p=147 או ?reoffer=b
+if (_q === 'a') CONFIG.reoffer = { mode: 'regular', laterPrice: Number(new URLSearchParams(location.search).get('p')) || 147 };
+if (_q === 'b') CONFIG.reoffer = { mode: 'email97', laterPrice: null };
+const P = CONFIG.reoffer.laterPrice;
+const COPY = {
+  null:    { heroTag: 'הצעה מיוחדת • לרוכשי הקורס', offerTag: 'הצעה מיוחדת לרוכשי הקורס',
+             urgent: '<b>מחיר מיוחד לרוכשים חדשים:</b> 97&nbsp;₪ בתשלום חד-פעמי.',
+             modal: 'אין בעיה. הגישה שלך לקורס כבר מובטחת. אפשר יהיה להוסיף את האפליקציה גם בהמשך.',
+             faq: 'הקורס שרכשת נשאר שלך. אפשר יהיה להוסיף את האפליקציה גם בהמשך.' },
+  regular: { heroTag: 'הצעה לרוכשי הקורס • 97&nbsp;₪ רק במסך הזה', offerTag: '97&nbsp;₪ רק במסך הזה',
+             urgent: `<b>שימו לב:</b> 97&nbsp;₪ זה המחיר במסך הזה בלבד. בהמשך האפליקציה תהיה זמינה באזור הקורס ב-${P}&nbsp;₪.`,
+             modal: `אין בעיה. הגישה שלך לקורס כבר מובטחת. אם תרצה להוסיף את האפליקציה בהמשך, היא תהיה זמינה באזור הקורס ב-${P}&nbsp;₪ במקום 97&nbsp;₪.`,
+             faq: `הקורס שרכשת נשאר שלך. אפשר להוסיף את האפליקציה בהמשך מאזור הקורס ב-${P}&nbsp;₪. המחיר 97&nbsp;₪ זמין רק במסך הזה.` },
+  email97: { heroTag: 'הצעה מיוחדת • לרוכשי הקורס', offerTag: 'הצעה מיוחדת לרוכשי הקורס',
+             urgent: '<b>מחיר מיוחד לרוכשים חדשים:</b> 97&nbsp;₪ בתשלום חד-פעמי.',
+             modal: 'אין בעיה. הגישה שלך לקורס כבר מובטחת. אם אישרת לקבל עדכונים במייל, נשלח לך עוד הזדמנות להוסיף את האפליקציה.',
+             faq: 'הקורס שרכשת נשאר שלך. אם אישרת לקבל עדכונים במייל, נשלח לך עוד הזדמנות להוסיף את האפליקציה.' }
+}[CONFIG.reoffer.mode || 'null'];
+
+/* ===== עזרים ===== */
+document.querySelectorAll('[data-copy]').forEach(el => { el.innerHTML = COPY[el.dataset.copy]; });
+const $ = (s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const qs = new URLSearchParams(location.search);
+const TOKEN = (qs.get('t') || qs.get('token') || '').replace(/[^A-Za-z0-9_-]/g,'').slice(0,64);
+const DEMO = qs.get('demo'); // ב74: תצוגה מקצה לקצה בלי שרת - ?demo=ok ממשיך ל-checkout97.html?demo=ok
+const API_ON = CONFIG.upsellApi && CONFIG.upsellApi[0] !== '%';
+const TEST = qs.get('test') === '1';
+const VARIANT = (qs.get('v') || 'a').toLowerCase();
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const uid = () => (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36)+Math.random().toString(36).slice(2));
+const SESSION = (()=>{try{let s=sessionStorage.getItem('ups_sid');if(!s){s=uid();sessionStorage.setItem('ups_sid',s)}return s}catch(e){return uid()}})();
+if (TEST) document.body.classList.add('test');
+if (!reduce && 'IntersectionObserver' in window) document.documentElement.classList.add('js-anim');
+
+/* ===== אנליטיקה: 8 אירועים, מזהה ייחודי, בלי פרטים אישיים ===== */
+const fired = new Set();
+function track(name, extra={}, once=true){
+  const key = name + (extra.placement||'');
+  if (once && fired.has(key)) return;
+  fired.add(key);
+  const ev = { event: name, event_id: name+'_'+SESSION+(extra.placement?'_'+extra.placement:''),
+    session_id: SESSION, variant: VARIANT, page: 'upsell_97', product_id: CONFIG.productId,
+    value: CONFIG.price, currency: CONFIG.currency, ts: new Date().toISOString(), test: TEST, ...extra };
+  (window.dataLayer = window.dataLayer || []).push(ev);
+  if (TEST) console.log('[upsell]', ev);
+  if (CONFIG.api.track && !TEST) {
+    const body = JSON.stringify(ev);
+    if (!(navigator.sendBeacon && navigator.sendBeacon(CONFIG.api.track, body)))
+      fetch(CONFIG.api.track,{method:'POST',body,keepalive:true,headers:{'Content-Type':'application/json'}}).catch(()=>{});
+  }
+}
+
+/* ===== A/B ===== */
+const V = CONFIG.variants[VARIANT] || {};
+for (const [k,html] of Object.entries(V)) { const el = $(`[data-ab="${k}"]`); if (el) el.innerHTML = html; }
+if (CONFIG.sectionOrder) { const m=$('main'), f=$('footer'); CONFIG.sectionOrder.forEach(id=>{const s=$(`[data-section="${id}"]`); if(s) m.insertBefore(s,f)}); }
+
+/* ===== מסכי האפליקציה ===== */
+const flag = '<span class="mock-flag">הדמיה זמנית - יוחלף בצילום אמיתי</span>';
+const SCREENS = {
+  home: `<div class="app"><div><div class="lbl">בוקר טוב</div><div class="hello">אורי, היום יום 7</div></div>
+    <div class="tile center"><div class="lbl">ההתקדמות שלך</div><div class="ring" style="--p:23"><span>7/30</span></div><div class="lbl">5 ימים ברצף</div></div>
+    <div class="tile"><div class="lbl">האימון של היום • 5 דק'</div><div class="big">עצירה לפני תגובה</div><div class="bar" style="margin-top:8px"><i data-w="40%"></i></div></div>
+    <div class="cta">התחל אימון</div><div class="sos">SOS - אני תקוע</div>${flag}</div>`,
+  plan: `<div class="app"><div class="hello">תוכנית הפעולה שלי</div><div class="lbl">יום 7 מתוך 30</div><div class="bar"><i data-w="23%"></i></div>
+    <div class="tile"><div class="lbl">הפעולה של היום</div><div class="big">משימה אחת לפני הטלפון</div><div class="lbl" style="margin-top:4px">בוחרים משימה אחת קטנה ומתחילים אותה לפני שפותחים הודעות.</div></div>
+    <div class="tile"><div class="lbl">העוגן הקבוע שלך</div><div class="big">צחצוח שיניים בבוקר</div></div>
+    <div class="tile" style="display:flex;justify-content:space-between;align-items:center"><span>בוצע היום?</span><span class="gold big">✓ סמן</span></div>${flag}</div>`,
+  sos: `<div class="app"><div class="sos" style="padding:14px">אני תקוע. תעזור לי לצאת מזה.</div><div class="lbl">מה עוצר אותך עכשיו?</div>
+    <div class="chips"><span class="on">דחייה</span><span>כעס</span><span>לחץ</span><span>פחד להחליט</span><span>הסחת דעת</span><span>אין כוח</span></div>
+    <div class="tile"><div class="lbl">תרגול מיידי • 2 דק'</div><div class="big">שלוש נשימות וצעד אחד</div><div class="lbl" style="margin-top:4px">עוצרים, נושמים, ובוחרים את הפעולה הכי קטנה שאפשר להתחיל עכשיו.</div></div>
+    <div class="cta">התחל תרגול</div>${flag}</div>`
+};
+const phone = k => `<div class="phone"><div class="screen">${CONFIG.screenshots[k] ? `<img src="${CONFIG.screenshots[k]}" alt="" loading="lazy">` : SCREENS[k]}</div></div>`;
+$('[data-slot="hero-phone"]').innerHTML = phone('home').replace('loading="lazy"','fetchpriority="high"');
+
+const slides = [
+  {k:'home', t:'הבית שלי', s:'ברכה אישית, מד התקדמות והאימון של היום'},
+  {k:'plan', t:'תוכנית הפעולה שלי', s:'היום הנוכחי מתוך 30, פעולה יומית ועוגן קבוע'},
+  {k:'sos',  t:'כפתור SOS', s:'בוחרים מה עוצר אותך ומקבלים תרגול מיידי'}
+];
+const track_ = $('#track'), dots = $('#dots');
+slides.forEach((sl,i)=>{
+  track_.insertAdjacentHTML('beforeend',`<div class="slide" role="group" aria-roledescription="slide" aria-label="${i+1} מתוך 3: ${sl.t}">${phone(sl.k)}<div class="slide-cap"><b>${sl.t}</b><span>${sl.s}</span></div></div>`);
+  dots.insertAdjacentHTML('beforeend',`<button class="dot" role="tab" aria-label="${sl.t}" aria-current="${i===0}"><i></i></button>`);
+});
+$('#tagline').textContent = CONFIG.remindersLive
+  ? 'לא עוד תוכן שאתה צריך לזכור. מערכת שמזכירה לך לפעול.'
+  : 'לא עוד תוכן שאתה צריך לזכור. פותחים את המערכת ורואים מה הצעד הבא.';
+let cur = 0, auto;
+const go = i => { cur=(i+slides.length)%slides.length; const s=track_.children[cur]; track_.scrollTo({left:s.offsetLeft - (track_.clientWidth-s.clientWidth)/2, behavior: reduce?'auto':'smooth'}); };
+$$('.dot',dots).forEach((d,i)=>d.addEventListener('click',()=>{stopAuto();go(i)}));
+track_.addEventListener('scroll',()=>{ const c=track_.scrollLeft+track_.clientWidth/2; let best=0,bd=1e9; [...track_.children].forEach((s,i)=>{const d=Math.abs(s.offsetLeft+s.clientWidth/2-c); if(d<bd){bd=d;best=i}}); cur=best; $$('.dot',dots).forEach((d,i)=>d.setAttribute('aria-current',i===best)); },{passive:true});
+const stopAuto = ()=>clearInterval(auto);
+['pointerdown','touchstart','focusin'].forEach(e=>track_.addEventListener(e,stopAuto,{passive:true}));
+
+/* ===== הצעה: שורת גישה רק אם הוגדרה ===== */
+if (CONFIG.accessMonths) $('#offerChecks').insertAdjacentHTML('beforeend',`<li>גישה דיגיטלית למשך ${CONFIG.accessMonths} חודשים</li>`);
+if (CONFIG.refundText) {
+  $('[data-legal]').textContent = '7 ימי אחריות: ' + CONFIG.refundText;
+  $('.trust').insertAdjacentHTML('beforeend',`<div class="tcard reveal d4"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>7 ימי אחריות</h3><p>${CONFIG.refundText}</p></div>`);
+  $('#offerCta').insertAdjacentHTML('beforebegin',`<p class="price-note" style="margin:-10px 0 16px">7 ימי אחריות עם החזר מלא, בכפוף לתקנון.</p>`);
+}
+
+/* ===== שאלות ===== */
+const period = CONFIG.accessMonths ? `עבור גישה של ${CONFIG.accessMonths} חודשים` : 'עבור תקופת הגישה המוצגת בהצעה';
+const FAQ = [
+  ['האם זה עוד קורס שאצטרך לצפות בו?','לא. זו מערכת אימון דיגיטלית אינטראקטיבית שמאפשרת לך לקבל משימות, לבצע תרגולים ולעקוב אחרי ההתקדמות.'],
+  ['כמה זמן צריך להשקיע?','מרבית התרגולים מתוכננים להימשך כחמש דקות. אפשר לבחור גם מסלולים קצרים יותר בהתאם לאפשרויות המערכת.'],
+  ['האם צריך להוריד אפליקציה?','לא. נכנסים למערכת באמצעות קישור מהטלפון או מהמחשב.'],
+  ['האם יש תשלום חודשי?',`לא. המחיר הוא 97&nbsp;₪ בתשלום חד-פעמי ${period}.`],
+  ['מה קורה אם לא ארכוש עכשיו?', COPY.faq],
+  ['האם האפליקציה מחליפה את הקורס?','לא. היא מוצר משלים שמאפשר תרגול מותאם אישית ומעקב.'],
+  ...(CONFIG.refundText ? [['אפשר לקבל החזר?', CONFIG.refundText]] : [])
+];
+$('#faq').innerHTML = FAQ.map(([q,a])=>`<details class="reveal"><summary>${q}</summary><div class="ans">${a}</div></details>`).join('');
+
+/* ===== חשיפה בגלילה + אירועים ===== */
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); $$('.bar i[data-w]',e.target).forEach(b=>b.style.setProperty('--w',b.dataset.w)); io.unobserve(e.target);} }),{threshold:.15});
+  $$('.reveal, .phone').forEach(el=>io.observe(el));
+  new IntersectionObserver((es,o)=>es.forEach(e=>{ if(e.isIntersecting){ track('UpsellOfferVisible'); o.disconnect(); } }),{threshold:.5}).observe($('#offerCard'));
+  // פעימה אחת 3 שניות אחרי שהכפתור מופיע במלואו, לא בלולאה
+  const pulsed = new WeakSet();
+  const po = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting && !pulsed.has(e.target) && !reduce){ pulsed.add(e.target); setTimeout(()=>e.target.classList.add('pulse'),3000); po.unobserve(e.target);} }),{threshold:1});
+  ['#heroCta','#offerCta'].forEach(s=>po.observe($(s)));
+  // כפתור דביק: אחרי שעברו את הכפתור הראשי, נעלם כשאזור רכישה בתצוגה
+  const sticky = $('#sticky'); const vis = {hero:true, offer:false, closing:false};
+  const upd = ()=>{ const show = !vis.hero && !vis.offer && !vis.closing && !$('#declineModal').classList.contains('open');
+    sticky.classList.toggle('show',show); sticky.setAttribute('aria-hidden',!show); $('.btn',sticky).tabIndex = show?0:-1; };
+  const so = new IntersectionObserver(es=>{ es.forEach(e=>{ const k=e.target.dataset.k; vis[k] = k==='hero' ? (e.isIntersecting || e.boundingClientRect.top>0) : e.isIntersecting; }); upd(); });
+  $('#heroCta').dataset.k='hero'; $('#offerCard').dataset.k='offer'; $('#closingCta').dataset.k='closing';
+  [$('#heroCta'),$('#offerCard'),$('#closingCta')].forEach(el=>so.observe(el));
+  window.__updSticky = upd;
+  if (!reduce) auto = setInterval(()=>{ if(matchMedia('(max-width:859px)').matches && document.visibilityState==='visible') go(cur+1); },4500);
+}
+
+/* ===== תשלום: מניעת חיוב כפול, אישור שרת בלבד ===== */
+let inFlight = false; const IDEM = 'ups_'+SESSION;
+function notice(msg, type='err'){ $$('[data-notice]').forEach(n=>{n.textContent=msg; n.className='notice show '+type;}); }
+async function buy(placement, btn){
+  if (inFlight) return; inFlight = true;
+  track('UpsellCTA_Click',{placement},false);
+  const btns = $$('[data-buy]'); btns.forEach(b=>{b.disabled=true}); btn.classList.add('loading');
+  const done = ()=>{ inFlight=false; btns.forEach(b=>{b.disabled=false; b.classList.remove('loading')}); };
+  if (CONFIG.checkoutPage && (TOKEN || DEMO)) { // ב74: מעבר לדף הסליקה, הטוקן עובר כמו שהוא
+    track('UpsellCheckoutStarted',{placement});
+    location.href = CONFIG.checkoutPage + '?' + (TOKEN ? 't='+encodeURIComponent(TOKEN) : 'demo='+encodeURIComponent(DEMO));
+    return;
+  }
+  if (!CONFIG.api.checkout) { // מצב תצוגה
+    track('UpsellCheckoutStarted',{placement,demo:true});
+    setTimeout(()=>{ done(); notice('מצב תצוגה: הסליקה עדיין לא מחוברת (ב38). לא בוצע שום חיוב.','info'); },700);
+    return;
+  }
+  try {
+    const r = await fetch(CONFIG.api.checkout,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({token:TOKEN, idempotencyKey:IDEM, placement, variant:VARIANT})});
+    const j = await r.json().catch(()=>({}));
+    if (r.status===410 || j.expired) { track('UpsellExpired',{reason:'checkout'}); document.body.classList.add('expired'); return; }
+    if (!r.ok || !j.redirectUrl) throw new Error(j.error||'checkout_failed');
+    track('UpsellCheckoutStarted',{placement});
+    location.href = j.redirectUrl; // דף הסליקה של קארדקום. UpsellPurchaseVerified נשלח רק מהשרת אחרי אימות
+  } catch(err) {
+    track('UpsellPaymentFailed',{placement, reason:String(err.message).slice(0,60)},false);
+    notice('לא הצלחנו לפתוח את התשלום. לא בוצע חיוב, והקורס שלך שמור. אפשר לנסות שוב.');
+    done();
+  }
+}
+$$('[data-buy]').forEach(b=>b.addEventListener('click',()=>{ if(b.dataset.buy==='decline_modal') closeModal(false); buy(b.dataset.buy,b); }));
+
+/* ===== ויתור: מסך אחד בלבד, תמיד אפשר לצאת ===== */
+const modal = $('#declineModal'); let lastFocus;
+function openModal(){ lastFocus=document.activeElement; modal.classList.add('open'); window.__updSticky&&__updSticky(); $('#confirmDecline').focus(); }
+function closeModal(restore=true){ modal.classList.remove('open'); window.__updSticky&&__updSticky(); if(restore&&lastFocus) lastFocus.focus(); }
+$$('[data-decline]').forEach(b=>b.addEventListener('click',openModal));
+modal.addEventListener('click',e=>{ if(e.target===modal) closeModal(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape' && modal.classList.contains('open')) closeModal(); });
+$('#confirmDecline').addEventListener('click',()=>{
+  track('UpsellDeclined');
+  if (API_ON && TOKEN) { const b=new URLSearchParams({action:'decline',t:TOKEN}); /* ב74: ויתור שורף את ההצעה בשרת */
+    if (!(navigator.sendBeacon && navigator.sendBeacon(CONFIG.upsellApi,b))) fetch(CONFIG.upsellApi,{method:'POST',body:b,keepalive:true}).catch(()=>{}); }
+  else if (CONFIG.api.decline) { const b=JSON.stringify({token:TOKEN}); navigator.sendBeacon ? navigator.sendBeacon(CONFIG.api.decline,b) : fetch(CONFIG.api.decline,{method:'POST',body:b,keepalive:true}); }
+  if (CONFIG.courseUrl && CONFIG.courseUrl!=='#' && !DEMO && !TEST) location.href = CONFIG.courseUrl;
+  else { closeModal(false); notice('מצב תצוגה: כאן הלקוח עובר לקורס בסקולר.','info'); }
+});
+$$('[data-course-link]').forEach(a=>a.href=CONFIG.courseUrl);
+
+/* ===== טעינה: אימות טוקן בשרת ===== */
+(async ()=>{
+  track('UpsellPageView');
+  if (API_ON && !DEMO) { // ב74: אותו שרת כמו checkout97 (action=check). ההצעה מוצגת רק כשהשרת מחזיר ok
+    if (!TOKEN) { track('UpsellExpired',{reason:'invalid'}); document.body.classList.add('expired'); return; }
+    try {
+      const r = await fetch(CONFIG.upsellApi,{method:'POST',body:new URLSearchParams({action:'check',t:TOKEN})});
+      const j = await r.json();
+      if (j.state !== 'ok') { track('UpsellExpired',{reason:j.state||'invalid'}); document.body.classList.add('expired'); }
+    } catch(e) { /* שרת לא זמין: לא חוסמים; checkout97 בודק שוב לפני כל תשלום */ }
+    return;
+  }
+  if (DEMO === 'expired') { document.body.classList.add('expired'); return; }
+  if (!CONFIG.api.validate) return;
+  try {
+    const r = await fetch(CONFIG.api.validate+'?token='+encodeURIComponent(TOKEN));
+    const j = await r.json();
+    if (!j.valid) { track('UpsellExpired',{reason:j.expired?'expired':'invalid'}); document.body.classList.add('expired'); }
+  } catch(e) { /* שרת לא זמין: לא חוסמים את הדף; הסליקה עצמה תאמת */ }
+})();
+
+/* ===== פס בדיקה ?test=1 ===== */
+if (TEST) $('#testbar').innerHTML = '<b>מצב בדיקה (פ2)</b> - לא אומת עדיין: '+
+  [!CONFIG.screenshots.home && 'צילומי מסך אמיתיים מהאפליקציה (כרגע הדמיה)',
+   !CONFIG.accessMonths && 'משך גישה (מוסתר)',
+   !CONFIG.refundText && 'מדיניות החזר (לא מוצגת)',
+   !CONFIG.api.checkout && 'סליקה וטוקן חד-פעמי (ב38)',
+   (!CONFIG.reoffer.mode && 'הצעה חוזרת: מתי ובאיזה מחיר (ממתין לבן)')].filter(Boolean).join(' • ') + ' • אירועים ב-console';
+</script>
+</body>
+</html>
