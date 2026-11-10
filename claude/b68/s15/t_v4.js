@@ -83,6 +83,7 @@ for(const [pg,live] of [["pr2v4","pr2"],["a5v4","a5"]]){
   const sl=await p.evaluate(()=>[...document.querySelectorAll(".v4-slot")].map(f=>{const s=f.closest("[data-sec]");const im=f.querySelector("img");return {k:f.dataset.slot,sec:s&&s.dataset.name,lazy:im&&im.loading,wh:im&&!!(im.getAttribute("width")&&im.getAttribute("height")),ar:f.querySelector(".v4-box").style.aspectRatio,complete:im&&im.complete&&im.naturalWidth>0}}));
   ok(pg+" slots placed (t15+wa in testimonials, trial in drop point 2)",sl.length===3&&sl[0].k==="t15"&&/עדויות|מה אומרים/.test(sl.find(x=>x.k==="t15").sec)&&/עדויות|מה אומרים/.test(sl.find(x=>x.k==="wa").sec)&&/הבעיה|לדעת או להטמיע/.test(sl.find(x=>x.k==="trial").sec),JSON.stringify(sl));
   ok(pg+" slot images lazy with width/height + aspect-ratio box",sl.every(x=>x.lazy==="lazy"&&x.wh&&/\d+ \/ \d+/.test(x.ar)),JSON.stringify(sl.map(x=>[x.k,x.lazy,x.wh,x.ar])));
+  ok(pg+" t15 headline above the video (Ben 10.11), nothing about buying the course",await p.evaluate(()=>{const h=document.querySelector('[data-slot="t15"] .v4-slot-h');return !!h&&h.textContent==="אנשים בדיוק כמוך, שבחרו לעשות צעד עם בן"&&h.nextElementSibling.classList.contains("v4-box")}));
   ok(pg+" no video downloaded before click",vreq.length===0,vreq.join(","));
   const before=await p.evaluate(()=>{const b=document.querySelector('[data-slot="t15"] .v4-box');b.scrollIntoView({block:"center"});return Math.round(b.getBoundingClientRect().height)});await p.waitForTimeout(600);
   await p.click('[data-slot="t15"] .v4-box');await p.waitForTimeout(800);

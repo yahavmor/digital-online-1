@@ -45,6 +45,7 @@ html{scroll-padding-top:12px}
 .sticky .cta{min-height:56px}
 /* מקומות לנכסים: גודל קבוע מראש (aspect-ratio) - אין קפיצה כשהתמונה נטענת */
 .v4-slot{margin:26px auto 0;max-width:300px;width:100%}
+.v4-slot-h{margin:0 0 14px;text-align:center;font-weight:800;font-size:20px;line-height:1.4;text-wrap:balance}
 @media (min-width:960px){.v4-slot{max-width:340px}}
 .v4-slot.v4-img{max-width:440px}
 .v4-slot .v4-box{position:relative;display:block;width:100%;padding:0;border:0;border-radius:20px;overflow:hidden;background:var(--v4-slotbg);
@@ -182,7 +183,9 @@ def slot_html(key, cfg):
     else:
         inner = ('<img src="%s" alt="%s" loading="lazy" decoding="async" width="%d" height="%d">' % (cfg["src"], cfg.get("alt", ""), cfg["w"], cfg["h"])) if has else '<span class="v4-ph">%s</span>' % cfg["label"]
         box = '<div class="v4-box" style="aspect-ratio:%s;cursor:auto">%s</div>' % (ar, inner)
-    return '<figure class="v4-slot%s" data-slot="%s">%s</figure>' % (" v4-img" if cfg["kind"] == "image" else "", key, box)
+    # כותרת מעל הנכס (למשל סרטון ההמלצות, בנוסח של בן), רק כשהנכס עצמו בדף
+    head = '<p class="v4-slot-h">%s</p>' % cfg["title"] if cfg.get("title") else ""
+    return '<figure class="v4-slot%s" data-slot="%s">%s%s</figure>' % (" v4-img" if cfg["kind"] == "image" else "", key, head, box)
 
 def place_slots(p, page):
     for key, cfg in SLOTS.items():
