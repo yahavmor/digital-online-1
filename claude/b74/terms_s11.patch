@@ -1,0 +1,26 @@
+diff --git a/nlp/terms.html b/nlp/terms.html
+index 544c788f..9a2d1526 100644
+--- a/nlp/terms.html
++++ b/nlp/terms.html
+@@ -40,7 +40,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:14px;color:v
+ <div class="brand">בן נחום · לנצח את האוטומט</div>
+ <h1>תקנון ותנאי שימוש - לנצח את האוטומט</h1>
+ <p class="upd">עדכון אחרון: 05.11.2026</p>
+-<nav class="toc" aria-label="תוכן התקנון"><b>תוכן</b><ol><li><a href="#s1">כללי</a></li><li><a href="#s2">פרטי העסק ויצירת קשר</a></li><li><a href="#s3">התוכנית ומה כוללת הרכישה</a></li><li><a href="#s4">מחיר ותשלום</a></li><li><a href="#s5">אחריות של 7 ימים, ביטול עסקה והחזרים</a></li><li><a href="#s6">רישיון שימוש וקניין רוחני</a></li><li><a href="#s7">אופי התוכן והגבלת אחריות</a></li><li><a href="#s8">כשירות ופרטים נכונים</a></li><li><a href="#s9">פרטיות ודיוור</a></li><li><a href="#s10">שינויים בתקנון, דין וסמכות שיפוט</a></li></ol></nav>
++<nav class="toc" aria-label="תוכן התקנון"><b>תוכן</b><ol><li><a href="#s1">כללי</a></li><li><a href="#s2">פרטי העסק ויצירת קשר</a></li><li><a href="#s3">התוכנית ומה כוללת הרכישה</a></li><li><a href="#s4">מחיר ותשלום</a></li><li><a href="#s5">אחריות של 7 ימים, ביטול עסקה והחזרים</a></li><li><a href="#s6">רישיון שימוש וקניין רוחני</a></li><li><a href="#s7">אופי התוכן והגבלת אחריות</a></li><li><a href="#s8">כשירות ופרטים נכונים</a></li><li><a href="#s9">פרטיות ודיוור</a></li><li><a href="#s10">שינויים בתקנון, דין וסמכות שיפוט</a></li><li><a href="#s11">"האוטומט החדש שלי"</a></li></ol></nav>
+ <h2 id="s1"><span class="n">1.</span> כללי</h2>
+ <p class="cl" id="c1-1"><span class="n">1.1</span><span class="t">תקנון זה ("התקנון") חל על רכישת התוכנית הדיגיטלית "לנצח את האוטומט" ("התוכנית") ועל השימוש באתר <span dir="ltr">funnel.digitalonline.co.il</span> ובדפים הקשורים אליו ("האתר").</span></p>
+ <p class="cl" id="c1-2"><span class="n">1.2</span><span class="t">האתר והתוכנית מופעלים על ידי או די מסחר אונליין בע"מ, ח.פ 515694784, בניהולו של בן נחום ("העסק" או "אנחנו").</span></p>
+@@ -98,6 +98,12 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:14px;color:v
+ <p class="cl" id="c10-1"><span class="n">10.1</span><span class="t">העסק רשאי לעדכן את התקנון מעת לעת. על כל רכישה חל נוסח התקנון שהיה בתוקף במועד הרכישה.</span></p>
+ <p class="cl" id="c10-2"><span class="n">10.2</span><span class="t">על התקנון ועל כל עסקה באתר חל הדין הישראלי בלבד, וסמכות השיפוט נתונה לבתי המשפט המוסמכים בישראל.</span></p>
+ <p class="cl" id="c10-3"><span class="n">10.3</span><span class="t">אם ייקבע שסעיף בתקנון אינו תקף, שאר הסעיפים יעמדו בתוקפם.</span></p>
++<h2 id="s11"><span class="n">11.</span> "האוטומט החדש שלי"</h2>
++<p class="cl" id="c11-1"><span class="n">11.1</span><span class="t">"האוטומט החדש שלי" הוא מוצר דיגיטלי נוסף שמוצע לרוכשי התוכנית ("המוצר הנוסף"). כל סעיפי התקנון חלים גם עליו, בשינויים שבסעיף זה.</span></p>
++<p class="cl" id="c11-2"><span class="n">11.2</span><span class="t">מחיר המוצר הנוסף הוא 97 ₪ כולל מע"מ, בתשלום חד פעמי, בלי מנוי ובלי חיובים חוזרים.</span></p>
++<p class="cl" id="c11-3"><span class="n">11.3</span><span class="t">הגישה למוצר הנוסף היא דיגיטלית, ל-12 חודשים ממועד הרכישה.</span></p>
++<p class="cl" id="c11-4"><span class="n">11.4</span><span class="t"><b>החזר:</b> אפשר לקבל החזר מלא של הסכום ששילמת על המוצר הנוסף בפנייה בתוך 7 ימים ממועד הרכישה, בדרכים שבסעיף 5.4.</span></p>
++<p class="cl" id="c11-5"><span class="n">11.5</span><span class="t"><b>ביטול לפי הדין:</b> ביטול העסקה על המוצר הנוסף לפי הדין ייעשה כמפורט בסעיף 5, כולל סעיפים 5.2, 5.3, 5.5 ו-5.6.</span></p>
+ <a class="back" href="javascript:history.back()">חזרה</a>
+ <footer>© בן נחום · לנצח את האוטומט · <a href="privacy.html">מדיניות פרטיות</a></footer>
+ </main>
