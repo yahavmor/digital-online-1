@@ -19,10 +19,7 @@ for(const [pg,live] of [["pr2v3","pr2"],["a5v3","a5"]]){
   const cnt=a=>a.reduce((m,x)=>(m[x]=(m[x]||0)+1,m),{});const lc=cnt(LT),nc=cnt(NT);
   const num=x=>/^(0[0-9]|1[0-5])$/.test(x)||/^מתוך \d+ · /.test(x);
   const miss=Object.keys(lc).filter(k=>(nc[k]||0)<lc[k]&&!num(k)),extra=Object.keys(nc).filter(k=>(lc[k]||0)<nc[k]&&!num(k));
-  const sec7=pg==="a5v3"?miss.filter(m=>/לפני שאתה ממשיך למחיר|האם תהיה מרוצה|הגיע הזמן להתחיל לעבוד על השורש/.test(m)):[];
-  const missReal=miss.filter(m=>!sec7.includes(m));
-  ok(pg+" same copy as live (a5: only sec 7 removed)",missReal.length===0&&extra.length===0,"missing:"+JSON.stringify(missReal.slice(0,5))+" extra:"+JSON.stringify(extra.slice(0,5))+" sec7:"+sec7.length);
-  if(process.env.V) console.log("   removed (sec 7):",JSON.stringify(sec7));
+  ok(pg+" same copy as live",miss.length===0&&extra.length===0,"missing:"+JSON.stringify(miss.slice(0,5))+" extra:"+JSON.stringify(extra.slice(0,5)));
   ok(pg+" same images/videos/testimonials as live",JSON.stringify(LM)===JSON.stringify(NM),LM.length+" vs "+NM.length);
   ok(pg+" no robots noindex",!(await p.evaluate(()=>!!document.querySelector('meta[name=robots]'))));
   ok(pg+" no testimonials 0183/0184/0188",!(await p.evaluate(()=>/018[348]/.test(document.body.innerHTML))));
@@ -36,9 +33,10 @@ for(const [pg,live] of [["pr2v3","pr2"],["a5v3","a5"]]){
   const fs=await p.evaluate(()=>{const a=document.querySelector('[data-sec="1"] [data-cta="hero_main"]').getBoundingClientRect();return {cta:Math.round(a.bottom),h:innerHeight}});
   if(dn!=="desktop") ok(tag+" price + CTA in first screen",fs.cta<=fs.h,JSON.stringify(fs));
   const order=await p.evaluate(()=>[...document.querySelectorAll("[data-sec]")].map(s=>s.dataset.sec+":"+s.dataset.name));
-  ok(tag+" offer is section 3 after testimonials, numbering 1..n",order[2]==="3:ההצעה"&&/עדויות|מה אומרים/.test(order[1])&&order.every((x,i)=>x.startsWith((i+1)+":")),order.slice(0,4).join(" | "));
+  const OI=pg==="a5v3"?3:2; /* a5v3: פתיחה, מה אומרים, רגע לפני, ההצעה (4) */
+  ok(tag+" offer right after testimonials (pr2v3: 3; a5v3: 4 after רגע לפני), numbering 1..n",order[OI]===(OI+1)+":ההצעה"&&/עדויות|מה אומרים/.test(order[1])&&(pg!=="a5v3"||order[2]==="3:רגע לפני")&&order.every((x,i)=>x.startsWith((i+1)+":")),order.slice(0,5).join(" | "));
   await p.evaluate(async()=>{for(let y=0;y<document.body.scrollHeight;y+=400){scrollTo(0,y);await new Promise(r=>setTimeout(r,60))}});await p.waitForTimeout(800);
-  const secEv=c.T.filter(t=>t.ev==="section").map(t=>t.section+":"+t.name);ok(tag+" section events in new order",secEv.includes("3:ההצעה")&&secEv.includes("2:"+order[1].split(":")[1]),secEv.slice(0,5).join(","));
+  const secEv=c.T.filter(t=>t.ev==="section").map(t=>t.section+":"+t.name);ok(tag+" section events in new order",secEv.includes((OI+1)+":ההצעה")&&secEv.includes("2:"+order[1].split(":")[1]),secEv.slice(0,5).join(","));
   await p.evaluate(()=>scrollTo(0,0));await p.waitForTimeout(200);
   const href=await p.getAttribute('[data-sec="1"] [data-cta="hero_main"]',"href");const q=new URL(href,B).searchParams;
   ok(tag+" checkout link v/utm_content/sid",q.get("v")===pg&&q.get("utm_content")==="p25"&&!!q.get("sid"),href.slice(0,120));
