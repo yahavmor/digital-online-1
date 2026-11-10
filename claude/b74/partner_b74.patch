@@ -5,7 +5,7 @@
    return out}
  function fee(amt){const m=D.me;return m.fee>0?m.fee:Math.round(amt*m.pct)/100}
 +/* ב74: עמלת אפסייל (97 ₪) - למשווק של רכישת הקורס. null = אותו יחס כמו בקורס (220/297 × 97 = 72 ₪). כשבן מאשר סכום אחר - מספר קבוע כאן */
-+const UPSELL_FEE=null;
++const UPSELL_FEE=72; /* בן אישר 10.11: 72 ₪ קבוע לכל משווק */
 +function upFee(){const m=D.me;return UPSELL_FEE!=null?UPSELL_FEE:m.fee>0?Math.round(m.fee*97/297):Math.round(97*m.pct)/100}
  function render(){
    const now=Date.now(),from=range==="all"?0:now-(+range)*864e5,inR=t=>+t>=from;
