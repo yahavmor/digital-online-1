@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="he" dir="rtl" data-variant="pr2v4">
+<head>
+<meta charset="utf-8"><script>/* ב25: שיוך רכישות למשווקים - הקליק האחרון ב-30 יום. aff בכתובת = משווק; ערוץ של בן (מודעות עם utm_id או paid, מייל, ביו, ManyChat) = בן; ביקור ישיר או לא מזוהה לא משנה. נשמר ב-localStorage ובעוגייה. NLP_OWNER() מחזיר את קוד המשווק, או "" = בן */
+var NLP_OWNER=(function(){var K="nlp_aff",D=2592e6,now=Date.now(),cur=null;
+ function rd(){var a=null,b=null;try{a=JSON.parse(localStorage.getItem(K)||"null")}catch(e){}try{var m=document.cookie.match(/(?:^|; )nlp_aff=([^;]*)/);if(m){var v=decodeURIComponent(m[1]).split(".");b={c:v[0]||"",t:+v[1]||0}}}catch(e){}return a&&b?(a.t>=b.t?a:b):(a||b)}
+ function wr(c){cur={c:c,t:now};try{localStorage.setItem(K,JSON.stringify(cur))}catch(e){}try{document.cookie=K+"="+encodeURIComponent(c+"."+now)+"; max-age=2592000; path=/; SameSite=Lax"}catch(e){}}
+ try{var q=new URLSearchParams(location.search),a=(q.get("aff")||"").toLowerCase().replace(/[^a-z0-9_-]/g,"").slice(0,32),s=(q.get("utm_source")||"").toLowerCase(),m=(q.get("utm_medium")||"").toLowerCase();
+  if(a)wr(a);else if(m!=="affiliate"&&(q.get("utm_id")||/^(paid|paid_social|cpc|responder|email|bio|dm|manychat)$/.test(m)||/^(email|responder|manychat)$/.test(s)))wr("");else cur=rd()}catch(e){}
+ return function(){return cur&&cur.c&&now-cur.t<=D?cur.c:""}})();</script>
+<meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#081020">
+<script>
+/* Microsoft Clarity: heatmaps + session recordings. Form fields are masked. */
+(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yuzolf9nxn");
+(function(){try{var q=new URLSearchParams(location.search),v=document.documentElement.getAttribute("data-variant")||q.get("v")||"",cr=(q.get("utm_content")||"").replace(/^lp_[abc]$/,"");
+clarity("set","page","lp");if(v)clarity("set","variant",v);if(cr)clarity("set","creative",cr);
+["utm_source","utm_campaign","placement"].forEach(function(k){var x=q.get(k);if(x)clarity("set",k.replace("utm_",""),x);});
+if(/test|claude/i.test(location.search))clarity("set","internal","1");}catch(e){}})();
+</script>
+<title>לנצח את האוטומט · בן נחום</title>
+<meta name="description" content="לנצח את האוטומט - שיטה מעשית של בן נחום שהופכת את הרגעים שאתה כבר חי בהם להזדמנויות לתרגול. 90 שיעורים קצרים, 5 בונוסים. 297 ₪.">
+<meta property="og:title" content="לנצח את האוטומט · בן נחום">
+<meta property="og:description" content="90 שיעורים קצרים | 30 ימי הטמעה (בונוס 3) | 5 בונוסים. 297 ₪.">
+<meta property="og:image" content="https://funnel.digitalonline.co.il/nlp/assets/ben.jpg">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/heebo-he.woff2" crossorigin>
+<style>@font-face{font-family:"Heebo";font-style:normal;font-weight:400 900;font-display:optional;src:url(assets/fonts/heebo-he.woff2) format("woff2");unicode-range:U+0020-0040, U+005B-0060, U+007B-007E, U+00A0, U+00A9, U+00AB, U+00B0, U+00B7, U+00BB, U+00D7, U+05BE, U+05C0, U+05C3, U+05C6, U+05D0-05EA, U+05F0-05F4, U+200C-200F, U+2010-2014, U+2018-201E, U+2022, U+2026, U+2030, U+2039-203A, U+20AA}@font-face{font-family:"Heebo";font-style:normal;font-weight:400 900;font-display:optional;src:url(assets/fonts/heebo-la.woff2) format("woff2");unicode-range:U+0041-005A, U+0061-007A, U+00C0-00D6, U+00D8-00F6, U+00F8-017F}</style>
+<link rel="preload" as="image" href="assets/pr/ben-45.webp" fetchpriority="high">
+<style>
+:root{--navy:#0B1220;--navy1:#101827;--navy2:#172235;--cream:#F7F6F2;--paper:#fff;--gold:#D8A64E;--gold2:#E9C47E;--gold-t:#8A6420;--green:#18845A;--green-d:#136B49;--green-t:#1F6E4E;--ink:#101827;--sub:#4F5968;--line:rgba(16,24,39,.10);--line-d:rgba(255,255,255,.12);--r:18px;--sh:0 1px 2px rgba(16,24,39,.05),0 8px 18px rgba(16,24,39,.06),0 26px 52px rgba(16,24,39,.10);--sh-up:0 2px 4px rgba(16,24,39,.06),0 14px 28px rgba(16,24,39,.10),0 36px 70px rgba(16,24,39,.16);--sh-d:0 1px 0 rgba(255,255,255,.06) inset,0 18px 40px rgba(0,0,0,.35);--ease:cubic-bezier(.2,.7,.2,1);--stk:0px}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--cream);color:var(--ink);font:400 18px/1.65 Heebo,Arial,sans-serif;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,video{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3{margin:0;line-height:1.2;font-weight:800;letter-spacing:-.012em;text-wrap:balance}
+h2{font-size:clamp(27px,7vw,40px)}
+h3{font-size:19px;line-height:1.35}
+p{margin:0}
+mark{background:none;color:var(--gold-t);font-weight:800}
+.dark mark{color:var(--gold)}
+.wrap{width:100%;max-width:1120px;margin:0 auto;padding:0 20px}
+.narrow{max-width:700px;margin-inline:auto}
+section{padding:68px 0;scroll-margin-top:12px;position:relative}
+@media (min-width:900px){section{padding:104px 0}}
+.dark{background:radial-gradient(85% 45% at 50% 0%,#172640 0%,rgba(11,18,32,0) 72%),var(--navy);color:#fff}
+section:not(.dark)+section.dark,section.dark+section:not(.dark){box-shadow:0 -1px 0 rgba(216,166,78,.18)}
+.dark .sub,.dark .muted{color:rgba(255,255,255,.74)}
+.white{background:var(--paper)}
+.kicker{display:inline-block;font-size:13px;font-weight:700;color:var(--gold-t);letter-spacing:.04em}
+.dark .kicker{color:var(--gold)}
+.sub{color:var(--sub);font-size:clamp(17px,4.6vw,20px)}
+.muted{color:var(--sub);font-size:15px}
+.center{text-align:center}
+.lines span{display:block}
+.lines span+span{margin-top:10px}
+
+/* scroll progress (page scroll only) */
+.prog{position:fixed;top:0;inset-inline:0;height:3px;z-index:50;pointer-events:none;background:transparent}
+.prog i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transform-origin:right;transform:scaleX(var(--sp,0))}
+
+/* price */
+.price{display:flex;align-items:baseline;justify-content:center;gap:12px;flex-wrap:wrap}
+.price s{font-size:20px;color:var(--sub);text-decoration-thickness:2px}
+.dark .price s{color:rgba(255,255,255,.62)}
+.price b{font-size:44px;font-weight:800;line-height:1}
+.price b small{font-size:.55em;font-weight:700}
+.launch{display:inline-block;font-size:13px;font-weight:700;color:var(--gold-t);border:1px solid rgba(138,100,32,.35);border-radius:999px;padding:3px 12px}
+.dark .launch{color:var(--gold);border-color:rgba(216,166,78,.45)}
+
+/* CTA */
+.cta{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;max-width:470px;min-height:60px;margin-inline:auto;padding:14px 22px;border-radius:14px;background:var(--green);color:#fff;font-weight:800;font-size:18px;line-height:1.3;text-align:center;text-decoration:none;box-shadow:0 10px 26px rgba(24,132,90,.34),inset 0 1px 0 rgba(255,255,255,.18);transition:background-color .2s,transform .2s;-webkit-tap-highlight-color:transparent}
+.cta:hover{background:var(--green-d)}
+.cta:active{transform:translateY(1px)}
+.cta.sm{min-height:52px;font-size:17px;max-width:380px}
+.cta:focus-visible,summary:focus-visible,.zoom:focus-visible,.play:focus-visible,.lb-x:focus-visible,.car-nav button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.cta .ar{font-size:20px;line-height:1}
+.micro{margin-top:12px;font-size:14px;color:var(--sub);text-align:center;text-wrap:balance}
+.dark .micro{color:rgba(255,255,255,.72)}
+/* ב49: strong visual shake every ~4s (sticky + the main button on screen). Not the phone's vibration. Off with Reduced Motion / ?shake=0 */
+@keyframes shk{0%,100%{transform:translate3d(0,0,0)}10%{transform:translate3d(-7px,0,0) rotate(-1.6deg)}20%{transform:translate3d(7px,0,0) rotate(1.6deg)}30%{transform:translate3d(-6px,0,0) rotate(-1.2deg)}40%{transform:translate3d(6px,0,0) rotate(1.2deg)}50%{transform:translate3d(-3px,0,0)}60%{transform:translate3d(3px,0,0)}70%{transform:translate3d(0,0,0)}}
+@keyframes ring{0%{box-shadow:0 10px 26px rgba(24,132,90,.34),0 0 0 0 rgba(233,196,126,.75)}100%{box-shadow:0 10px 26px rgba(24,132,90,.34),0 0 0 16px rgba(233,196,126,0)}}
+.cta.shk{animation:shk .72s cubic-bezier(.36,.07,.19,.97) 1,ring .9s ease-out 1}
+@media (prefers-reduced-motion:reduce){.cta.shk{animation:none}}
+
+/* reveal: visible by default; hidden only when JS runs, the element is below the fold, and motion is allowed */
+html.rvjs .rv:not(.in){opacity:0;transform:translate3d(0,28px,0) scale(.985)}
+html.rvjs .rv{transition:opacity .55s var(--ease),transform .65s var(--ease)}
+/* ב49 (Ben 11:28): gold line draws under the highlighted part of each section headline */
+h2 mark{background:linear-gradient(90deg,var(--gold2),var(--gold)) no-repeat 100% 96%/0 2px;padding-bottom:2px;transition:background-size .9s .25s var(--ease)}
+h2.in mark,html:not(.rvjs) h2 mark{background-size:100% 2px}
+@media (prefers-reduced-motion:reduce){html.rvjs .rv:not(.in){opacity:1;transform:none}html.rvjs .rv{transition:none}h2 mark{background-size:100% 2px;transition:none}}
+
+/* 1 hero */
+.hero{padding:22px 0 54px;background:radial-gradient(90% 55% at 50% 0%,#1c2b47 0%,rgba(11,18,32,0) 70%),linear-gradient(180deg,#0f1a2e 0%,var(--navy) 60%);overflow:hidden}
+.brand{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--gold);padding:5px 12px;border:1px solid rgba(216,166,78,.4);border-radius:999px}
+.brand i{width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.hero h1{margin-top:14px;font-size:clamp(30px,8.4vw,58px);line-height:1.13;letter-spacing:-.02em}
+.hero h1 .l2{display:block;color:var(--gold);margin-top:4px}
+.hero .sub{margin-top:12px;color:rgba(255,255,255,.82);font-size:clamp(16.5px,4.4vw,20px);line-height:1.55}
+.hook{margin-top:12px;font-size:clamp(16.5px,4.4vw,20px);line-height:1.5;font-weight:700;color:#fff;padding-inline-start:14px;border-inline-start:3px solid var(--gold)}
+.hphoto{position:relative;margin:18px 0 0;isolation:isolate}
+.hphoto::before{content:"";position:absolute;inset:-12% -8% -6%;z-index:-1;background:radial-gradient(50% 50% at 50% 45%,rgba(216,166,78,.32),rgba(216,166,78,0) 70%);filter:blur(6px)}
+.hphoto img{width:100%;height:210px;object-fit:cover;object-position:50% 14%;border-radius:22px;border:1px solid rgba(216,166,78,.45);box-shadow:0 26px 50px rgba(0,0,0,.45)}
+.hphoto figcaption{position:absolute;bottom:10px;inset-inline-start:10px;font-size:13px;font-weight:600;color:#fff;background:rgba(11,18,32,.72);padding:4px 10px;border-radius:999px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.intro{margin-top:16px;font-size:17px;line-height:1.55;color:rgba(255,255,255,.88)}
+.intro b{color:#fff}
+.hb{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:9px}
+.hb li{display:grid;grid-template-columns:34px 1fr;gap:11px;align-items:start;font-size:15.5px;line-height:1.45;color:rgba(255,255,255,.86)}
+.hb li b{color:#fff;font-weight:700}
+.hb .ic{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:rgba(216,166,78,.12);border:1px solid rgba(216,166,78,.28)}
+.hb .ic svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.buy{margin-top:18px;padding:16px 14px;border-radius:20px;background:rgba(255,255,255,.04);border:1px solid var(--line-d);text-align:center}
+.buy .price{margin:6px 0 12px}
+.chips{display:flex;justify-content:center;flex-wrap:wrap;gap:6px 0;margin-top:14px;font-size:14px;color:rgba(255,255,255,.78)}
+.chips span{padding:0 10px}
+.chips span+span{border-inline-start:1px solid rgba(255,255,255,.25)}
+.hero .grid>div:last-child{display:none}
+@media (min-width:900px){
+ .hero{padding:44px 0 88px}
+ .hero h1{font-size:clamp(38px,3.6vw,50px)}
+ .hero .grid{display:grid;grid-template-columns:1.12fr .88fr;gap:64px;align-items:center}
+ .hero .grid>div:last-child{display:block}
+ .hphoto.m{display:none}
+ .hphoto.d img{height:auto;aspect-ratio:4/5}
+ .buy{text-align:start;padding:22px 22px}.buy .price{justify-content:flex-start}.buy .cta{margin-inline:0}.chips{justify-content:flex-start}.buy .micro{text-align:start}
+}
+
+/* 2 problem */
+.seq{font-size:clamp(19px,5vw,22px);line-height:1.55}
+.seq span{display:block}
+.seq .turn{margin-top:10px;font-weight:700}
+.keyline{margin-top:26px;padding:18px 20px;border-inline-start:3px solid var(--gold);background:var(--cream);border-radius:0 14px 14px 0;font-size:clamp(19px,5vw,22px);font-weight:700;line-height:1.45}
+.paths{display:grid;gap:14px;margin-top:30px}
+@media (min-width:760px){.paths{grid-template-columns:1fr 1fr}}
+.path{border-radius:var(--r);padding:20px;border:1px solid var(--line);background:var(--paper);box-shadow:var(--sh)}
+.path h3{font-size:16px;margin-bottom:14px;color:var(--sub)}
+.path.new{border-color:rgba(216,166,78,.55);box-shadow:var(--sh)}
+.path.new h3{color:var(--gold-t)}
+.path ol{list-style:none;margin:0;padding:0;position:relative}
+.path ol::before{content:"";position:absolute;inset-inline-start:7px;top:10px;bottom:10px;width:2px;background:var(--line)}
+.path.new ol::before{background:rgba(216,166,78,.5)}
+.path li{position:relative;padding-inline-start:28px;padding-block:5px;font-size:17px}
+.path li::before{content:"";position:absolute;inset-inline-start:2px;top:.75em;width:12px;height:12px;border-radius:50%;background:var(--cream);border:2px solid #b9bec7}
+.path.new li::before{border-color:var(--gold);background:#fff}
+.path.old li:last-child{color:var(--sub)}
+.path.new li:last-child{font-weight:700}
+.path.new li:last-child::before{background:var(--gold)}
+
+/* 3 method storytelling */
+.method{background:radial-gradient(70% 40% at 50% 0%,#18263f 0%,rgba(11,18,32,0) 70%),var(--navy)}
+.tl{position:relative;max-width:820px;margin:40px auto 0;--p:0}
+.tlo{list-style:none;margin:0;padding:0}
+.tl::before,.tl .fill{content:"";position:absolute;inset-inline-start:23px;top:8px;width:2px;border-radius:2px}
+.tl::before{bottom:8px;background:rgba(255,255,255,.12)}
+.tl .fill{height:calc((100% - 16px) * var(--p));background:linear-gradient(180deg,var(--gold),var(--gold2));box-shadow:0 0 12px rgba(216,166,78,.6)}
+.st{position:relative;display:grid;grid-template-columns:48px 1fr;gap:16px;padding-bottom:28px}
+.st:last-child{padding-bottom:0}
+.st .n{position:relative;z-index:1;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:15px;color:var(--gold);background:var(--navy);border:1.5px solid rgba(216,166,78,.55);transition:background-color .4s,color .4s}
+.st.lit .n{background:var(--gold);color:var(--navy)}
+.st .lbl{font-size:13px;font-weight:700;color:var(--gold);letter-spacing:.04em}
+.st h3{font-size:clamp(20px,5.4vw,24px);margin-top:2px;color:#fff}
+.st p{margin-top:6px;color:rgba(255,255,255,.72);font-size:16px}
+.scene{margin-top:14px;border-radius:18px;background:linear-gradient(180deg,#16233a,#111c30);border:1px solid var(--line-d);padding:16px;display:flex;align-items:center;gap:14px;min-height:96px}
+.scene svg.fig{flex:none;width:64px;height:64px}
+.scene .note{font-size:15px;line-height:1.45;color:rgba(255,255,255,.88)}
+.bubble{position:relative;padding:10px 14px;border-radius:16px;background:rgba(216,166,78,.14);border:1px solid rgba(216,166,78,.4);color:#fff;font-weight:700;font-size:16px;line-height:1.45}
+.bubble.think{border-radius:22px}
+.bubble.think::after{content:"";position:absolute;bottom:-9px;inset-inline-end:22px;width:12px;height:12px;border-radius:50%;background:rgba(216,166,78,.14);border:1px solid rgba(216,166,78,.4)}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--line-d);font-size:14px;color:#fff}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(216,166,78,.2)}
+.days{display:flex;gap:7px;flex-wrap:wrap}
+.days span{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:rgba(255,255,255,.06);border:1px solid var(--line-d)}
+.days span svg{width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.days em{font-style:normal;font-size:14px;color:rgba(255,255,255,.7);align-self:center;margin-inline-start:4px}
+.mclose{margin:40px auto 0;max-width:760px;text-align:center}
+.mclose p{font-size:clamp(20px,5.4vw,26px);font-weight:700;line-height:1.45}
+.mclose .cta{margin-top:22px}
+.mclose .price{margin-top:12px}
+.mclose .price b{font-size:30px}
+@media (min-width:900px){.tl::before,.tl .fill{inset-inline-start:27px}.st{grid-template-columns:56px 1fr;gap:22px}.st .n{width:56px;height:56px;font-size:17px}.scene{padding:20px}}
+
+/* testimonials carousel */
+.car{position:relative;margin-top:30px}
+.car-track{display:flex;align-items:flex-start;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:14px 20px 30px;margin:-14px -20px -24px;scroll-padding-inline:20px;overscroll-behavior-x:contain}
+.car-track::-webkit-scrollbar{display:none}
+.slide{flex:0 0 92%;max-width:440px;scroll-snap-align:center;margin:0;background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:6px;box-shadow:0 1px 2px rgba(16,24,39,.05),0 8px 18px rgba(16,24,39,.07);display:flex;flex-direction:column;transition:transform .45s var(--ease),opacity .45s var(--ease),box-shadow .45s var(--ease)}
+.car.js .slide:not(.act){transform:scale(.94);opacity:.6}
+.car.js .slide.act{box-shadow:0 2px 4px rgba(16,24,39,.06),0 12px 26px rgba(16,24,39,.13)}
+@media (min-width:760px){.slide{flex:0 0 340px;max-width:none;scroll-snap-align:start}.car.js .slide:not(.act){transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.slide{transition:none}.car.js .slide:not(.act){transform:none}}
+.slide figcaption{padding:10px 10px 10px}
+.slide q{display:block;font-weight:700;font-size:17px;line-height:1.4;quotes:"\201D" "\201C"}
+.slide figcaption span{display:block;margin-top:4px;font-size:14px;color:var(--gold-t);font-weight:600}
+.zoom{display:block;width:100%;padding:0;border:0;background:#111;border-radius:17px;overflow:hidden;cursor:zoom-in;position:relative;box-shadow:0 1px 0 rgba(255,255,255,.08) inset}
+.zoom img{width:100%;height:auto}
+.zoom.crop{aspect-ratio:calc(var(--w) / var(--h));background:#0b141a}
+.zoom.crop img{position:absolute;top:0;left:0;width:calc(720 / var(--w) * 100%);max-width:none;height:auto;transform:translate(calc(var(--x) / -720 * 100%),calc(var(--y) / var(--ih) * -100%))}
+.car-nav{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:16px}
+.car-nav[hidden]{display:none}
+.car-nav button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:20px;line-height:1;cursor:pointer;box-shadow:var(--sh)}
+.car-nav button:disabled{opacity:.35;cursor:default}
+.dots{display:flex;gap:7px}
+.dots i{width:8px;height:8px;border-radius:999px;background:rgba(16,24,39,.2);transition:width .25s,background-color .25s}
+.dots i.on{width:22px;background:var(--gold-t)}
+
+
+/* 5 ben */
+.bsec{overflow:hidden}
+.story{display:grid;gap:26px;align-items:center}
+@media (min-width:900px){.story{grid-template-columns:4fr 6fr;gap:64px}}
+.story figure{margin:0;position:relative;isolation:isolate;max-width:440px;margin-inline:auto;width:100%}
+.story figure::before{content:"";position:absolute;inset:6% -6% -4%;z-index:-1;background:radial-gradient(50% 50% at 50% 50%,rgba(216,166,78,.28),rgba(216,166,78,0) 70%)}
+.story figure img{width:100%;height:auto;border-radius:24px;border:1px solid rgba(216,166,78,.4);box-shadow:0 30px 60px rgba(0,0,0,.4)}
+.story .lines{font-size:18px;color:rgba(255,255,255,.86)}
+.story .lines b{color:#fff}
+.story .cta{margin-top:26px}
+@media (min-width:900px){.story .cta{margin-inline:0}}
+
+/* 6 benefits */
+.bmain{display:grid;gap:16px;margin-top:32px}
+@media (min-width:900px){.bmain{grid-template-columns:repeat(3,1fr)}}
+.bcard{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:24px 22px;box-shadow:var(--sh);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+.bcard .num{font-size:13px;font-weight:800;color:var(--gold-t);letter-spacing:.06em}
+.bcard h3{margin-top:12px;font-size:clamp(21px,5.6vw,24px);line-height:1.3}
+.bcard p{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);color:var(--sub);font-size:16px}
+.bcard .ico{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:rgba(216,166,78,.14)}
+.bcard .ico svg{width:24px;height:24px;stroke:var(--gold-t);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.bsmall{display:grid;gap:12px;margin-top:16px}
+@media (min-width:760px){.bsmall{grid-template-columns:repeat(3,1fr)}}
+.bs{display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:start;padding:16px 18px;border-radius:16px;background:var(--cream);border:1px solid var(--line)}
+.bs .ico{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:#fff;border:1px solid var(--line)}
+.bs .ico svg{width:19px;height:19px;stroke:var(--gold-t);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.bs h3{font-size:17px}
+.bs p{margin-top:4px;color:var(--sub);font-size:15px}
+@media (hover:hover){.bcard:hover{transform:translateY(-3px);box-shadow:0 2px 4px rgba(16,24,39,.05),0 18px 40px rgba(16,24,39,.12)}}
+
+/* video */
+.vid{position:relative;margin:30px auto 0;max-width:340px;border-radius:22px;overflow:hidden;background:#000;aspect-ratio:480/848;box-shadow:0 24px 50px rgba(16,24,39,.25)}
+.vid video{width:100%;height:100%;object-fit:cover}
+.play{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;border:0;background:linear-gradient(180deg,rgba(16,24,39,0) 40%,rgba(16,24,39,.72));color:#fff;font:700 16px Heebo,sans-serif;cursor:pointer}
+.play i{width:74px;height:74px;border-radius:50%;background:rgba(255,255,255,.95);display:grid;place-items:center;box-shadow:0 0 0 10px rgba(255,255,255,.16)}
+.play i::before{content:"";margin-inline-start:-4px;border-style:solid;border-width:12px 0 12px 20px;border-color:transparent transparent transparent var(--navy)}
+.vid.on .play{display:none}
+.proofgrid{display:grid;gap:30px;margin-top:8px}
+.proofgrid>*{min-width:0}
+@media (min-width:900px){.proofgrid{grid-template-columns:340px 1fr;gap:40px;align-items:start}.proofgrid .vid{margin-top:30px}}
+
+/* 8 offer */
+.offer{background:radial-gradient(80% 40% at 50% 0%,#1a2945 0%,rgba(11,18,32,0) 70%),var(--navy)}
+.bonuses{display:grid;gap:12px;margin-top:30px}
+@media (min-width:760px){.bonuses{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:1000px){.bonuses{grid-template-columns:repeat(3,1fr)}}
+.bonus{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start;padding:18px;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.03));border:1px solid var(--line-d);box-shadow:var(--sh-d);transition:transform .3s var(--ease),border-color .3s}
+@media (hover:hover){.bonus:hover{transform:translateY(-3px);border-color:rgba(216,166,78,.45)}}
+.bonus .ico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:rgba(216,166,78,.14);border:1px solid rgba(216,166,78,.3)}
+.bonus .ico svg{width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.bonus .tag{font-size:12px;font-weight:700;color:var(--gold);letter-spacing:.04em}
+.bonus h3{margin:2px 0 4px;color:#fff;font-size:18px}
+.bonus .type{font-size:14px;color:rgba(255,255,255,.62)}
+.bonus p{margin-top:8px;font-size:15px;color:rgba(255,255,255,.82)}
+.bonus .val{margin-top:10px;display:flex;justify-content:space-between;align-items:baseline;padding-top:10px;border-top:1px solid var(--line-d);font-size:14px;color:rgba(255,255,255,.62)}
+.bonus .val b{font-size:19px;color:var(--gold)}
+.bsum{display:flex;flex-direction:column;justify-content:center;text-align:center;padding:20px;border-radius:18px;border:1px solid rgba(216,166,78,.55);background:rgba(216,166,78,.08)}
+.bsum b{font-size:34px;color:var(--gold);display:block;line-height:1.1;margin:6px 0}
+.bsum span{color:rgba(255,255,255,.78);font-size:15px}
+.ocard{max-width:580px;margin:34px auto 0;background:linear-gradient(180deg,#fff 0%,var(--cream) 60%);color:var(--ink);border-radius:26px;padding:28px 20px;border:1.5px solid var(--gold);box-shadow:0 2px 0 rgba(255,255,255,.6) inset,0 30px 70px rgba(0,0,0,.45),0 0 0 6px rgba(216,166,78,.08),0 0 80px rgba(216,166,78,.12)}
+@media (min-width:600px){.ocard{padding:36px 38px}}
+.ocard .ttl{text-align:center;font-size:24px;font-weight:800}
+.ocard .ttl small{display:block;font-size:14px;font-weight:600;color:var(--sub);margin-top:2px}
+.ticks{list-style:none;margin:18px 0 0;padding:0}
+.ticks li{position:relative;padding-inline-start:32px;margin-top:12px;font-size:17px}
+.ticks li::before{content:"";position:absolute;inset-inline-start:0;top:.35em;width:20px;height:20px;border-radius:50%;background:rgba(34,160,107,.14) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%231F6E4E' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/13px no-repeat}
+.ticks b{font-weight:800}
+.ocard .pricebox{margin:24px 0 18px;padding-top:20px;border-top:1px solid var(--line);text-align:center}
+.ocard .price b{font-size:62px}
+.ocard .price s{font-size:22px;color:var(--sub)}
+.ocard .launch{color:var(--gold-t)}
+.terms{list-style:none;margin:16px 0 0;padding:0;font-size:14px;color:var(--sub);text-align:center}
+.terms li+li{margin-top:4px}
+
+/* 9 faq */
+.faq{margin-top:26px;border-top:1px solid var(--line)}
+.faq{background:var(--paper);border-radius:22px;padding:4px 18px;box-shadow:var(--sh);border-top:0!important}
+.faq details{border-bottom:1px solid var(--line)}
+.faq details:last-child{border-bottom:0}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 2px;font-weight:700;font-size:18px;min-height:56px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);color:var(--gold-t);font-size:20px;font-weight:500;line-height:1;transition:transform .25s var(--ease)}
+.faq details[open] summary::after{content:"−";transform:rotate(180deg)}
+.faq .a{padding:0 2px 18px;color:var(--sub);font-size:17px}
+.faq .a p+p{margin-top:8px}
+@media (prefers-reduced-motion:no-preference){.faq details[open] .a{animation:faqIn .3s var(--ease)}}
+@keyframes faqIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+/* 10 close */
+.close .lines{font-size:clamp(19px,5vw,22px);line-height:1.5}
+.close .lines .em{font-weight:800;margin-top:14px}
+.motto{margin:30px 0 8px;font-size:clamp(22px,6vw,30px);font-weight:800;text-align:center}
+.motto mark{color:var(--gold-t)}
+.gold-rule{width:44px;height:2px;background:var(--gold);border:0;margin:34px auto 0}
+
+footer{background:var(--navy);color:rgba(255,255,255,.7);font-size:14px;padding:28px 0 calc(32px + var(--stk));text-align:center}
+footer a{color:#fff}
+footer p+p{margin-top:8px}
+
+/* sticky: shown once the hero is passed and stays; never covers the footer/terms (footer gets its height as padding) */
+.sticky{position:fixed;inset-inline:0;bottom:0;z-index:40;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(11,18,32,.94);border-top:1px solid rgba(216,166,78,.4);transform:translateY(110%);transition:transform .28s var(--ease);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.sticky.on{transform:none}
+.sticky.kb{display:none}
+.sticky .cta{min-height:54px;font-size:18px;max-width:520px}
+@media (prefers-reduced-motion:reduce){.sticky{transition:none}}
+@media (min-width:900px){.sticky{padding:10px 16px 12px}.sticky .cta{max-width:420px}}
+
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:60;background:rgba(8,12,20,.94);display:flex;align-items:center;justify-content:center;padding:56px 12px 20px}
+.lb[hidden]{display:none}
+.lb img{max-height:100%;width:auto;max-width:100%;border-radius:12px;background:#fff}
+.lb-x{position:absolute;top:10px;inset-inline-end:12px;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;font-size:26px;line-height:1;cursor:pointer}
+/* review marks (only with ?test=1 / ?review=1) */
+html.review [data-new]{outline:2px dashed var(--gold);outline-offset:6px;border-radius:12px;position:relative}
+html.review [data-new]::before{content:attr(data-new);position:absolute;top:-14px;inset-inline-start:10px;z-index:2;padding:2px 10px;border-radius:999px;background:var(--gold);color:#0B1220;font:800 12px/1.6 Heebo,sans-serif;white-space:nowrap}
+@media print{html.rvjs .rv:not(.in){opacity:1;transform:none}.sticky,.prog{display:none}}
+
+:root{--navy:#081020;--navy1:#0D1730;--navy2:#13213F;--gold:#E2B565;--gold2:#F0D193;--r:20px}
+.hero{background:radial-gradient(80% 50% at 80% 0%,rgba(226,181,101,.14) 0%,rgba(8,16,32,0) 60%),radial-gradient(90% 60% at 10% 10%,#16264a 0%,rgba(8,16,32,0) 70%),var(--navy)}
+.dark,.offer{background:radial-gradient(80% 45% at 50% 0%,#14244a 0%,rgba(8,16,32,0) 72%),var(--navy)}
+.dark .bcard,.dark .bonus,.offer .card,.dark .path{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.10);backdrop-filter:blur(6px)}
+.cta{border-radius:16px;box-shadow:0 0 0 1px rgba(255,255,255,.08) inset,0 14px 34px -12px rgba(24,132,90,.75)}
+.price b{text-shadow:0 0 24px rgba(226,181,101,.35)}
+.hero .buy{margin-top:20px;margin-bottom:22px}
+</style>
+<style>
+/* ===== ב68 v4: שכבת פרימיום (CSS בלבד; המסך הראשון בלי אנימציה) ===== */
+html{scroll-padding-top:12px}
+[data-sec]{scroll-margin-top:12px}
+.cta{position:relative;isolation:isolate;overflow:hidden;min-height:64px;border-radius:16px;letter-spacing:-.005em;
+  transition:transform .25s var(--ease),box-shadow .25s var(--ease),filter .25s var(--ease),background-color .25s var(--ease)}
+.cta::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;
+  background:linear-gradient(180deg,rgba(255,255,255,.26),rgba(255,255,255,0) 55%)}
+.cta::after{content:"";position:absolute;top:0;bottom:0;inset-inline-start:0;width:42%;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);opacity:0}
+.cta.v4-shine::after{animation:v4shine 1.15s var(--ease) .15s 1 backwards}
+@keyframes v4shine{0%{opacity:0;transform:translateX(130%) skewX(-18deg)}20%{opacity:1}100%{opacity:0;transform:translateX(-260%) skewX(-18deg)}}
+.cta > span:last-child,.cta .ar{transition:transform .25s var(--ease)}
+.cta:hover > span:last-child,.cta:focus-visible > span:last-child,.cta:hover .ar,.cta:focus-visible .ar{transform:translateX(-5px)}
+.cta:active{transform:translateY(1px) scale(.99)}
+.v4-lock{display:inline-flex;align-items:center;gap:5px;font-weight:700;white-space:nowrap}
+.v4-li{width:15px;height:15px;flex:none;fill:none;stroke:var(--v4-ok);stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px}
+.secure .v4-li,.secure li svg{stroke:var(--v4-ok)}
+.v4-sec{display:flex;justify-content:center;margin:12px auto 0;font-size:14px;line-height:1.4}
+.v4-sec .v4-lock{padding:6px 13px;border-radius:999px;border:1px solid var(--v4-okb);background:var(--v4-okbg);color:var(--v4-okt)}
+.sticky .cta{min-height:56px}
+/* מקומות לנכסים: גודל קבוע מראש (aspect-ratio) - אין קפיצה כשהתמונה נטענת */
+.v4-slot{margin:26px auto 0;max-width:300px;width:100%}
+@media (min-width:960px){.v4-slot{max-width:340px}}
+.v4-slot.v4-img{max-width:440px}
+.v4-slot .v4-box{position:relative;display:block;width:100%;padding:0;border:0;border-radius:20px;overflow:hidden;background:var(--v4-slotbg);
+  box-shadow:var(--v4-card);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.v4-slot img,.v4-slot video{display:block;width:100%;height:100%;object-fit:cover}
+.v4-slot .v4-pi{position:absolute;inset:0;margin:auto;width:68px;height:68px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(255,255,255,.92);box-shadow:0 10px 30px rgba(0,0,0,.35);transition:transform .25s var(--ease)}
+.v4-slot .v4-pi svg{width:30px;height:30px;fill:#111;margin-inline-start:4px}
+.v4-slot .v4-box:hover .v4-pi,.v4-slot .v4-box:focus-visible .v4-pi{transform:scale(1.06)}
+.v4-slot .v4-box:focus-visible{outline:3px solid var(--v4-ok);outline-offset:3px}
+.v4-ph{position:absolute;inset:0;display:grid;place-items:center;padding:18px;text-align:center;font:700 15px/1.5 var(--font,Heebo,sans-serif);
+  color:var(--v4-okt);border:2px dashed var(--v4-okb);border-radius:20px}
+/* כניסה עדינה בגלילה: רק מה שמתחת למסך הראשון, רק עם IntersectionObserver, ולא בהפחתת תנועה */
+html.v4rv .v4r:not(.in){opacity:0;transform:translate3d(0,22px,0)}
+html.v4rv .v4r{transition:opacity .6s var(--ease),transform .7s var(--ease)}
+@media (prefers-reduced-motion:reduce){
+  html.v4rv .v4r:not(.in){opacity:1;transform:none}
+  html.v4rv .v4r,.cta,.cta > span:last-child,.cta .ar{transition:none}
+  .cta.v4-shine::after{animation:none}
+}
+
+:root{--v4-ok:#1F9A68;--v4-okb:rgba(24,132,90,.30);--v4-okbg:rgba(24,132,90,.07);--v4-okt:#17694A;--v4-slotbg:#EEF0EC;
+  --v4-card:0 1px 2px rgba(16,24,39,.06),0 12px 28px rgba(16,24,39,.10),0 34px 70px -20px rgba(16,24,39,.22)}
+.dark{--v4-ok:#43C08A;--v4-okb:rgba(67,192,138,.38);--v4-okbg:rgba(67,192,138,.08);--v4-okt:#CDEFDF;--v4-slotbg:#172235}
+.cta{background:linear-gradient(180deg,#22A570 0%,#18845A 55%,#136B49 100%);
+  box-shadow:0 1px 0 rgba(255,255,255,.28) inset,0 -2px 0 rgba(0,0,0,.14) inset,0 14px 30px -12px rgba(24,132,90,.65),0 3px 8px rgba(16,24,39,.16)}
+.cta:hover{background:linear-gradient(180deg,#25B07A 0%,#1A8E61 55%,#147350 100%);box-shadow:0 1px 0 rgba(255,255,255,.28) inset,0 -2px 0 rgba(0,0,0,.14) inset,0 20px 40px -12px rgba(24,132,90,.75),0 5px 12px rgba(16,24,39,.2)}
+.dark .cta{box-shadow:0 1px 0 rgba(255,255,255,.28) inset,0 -2px 0 rgba(0,0,0,.18) inset,0 0 0 1px rgba(67,192,138,.35),0 18px 40px -12px rgba(31,154,104,.6)}
+.offer .pricebox{border-top-color:rgba(216,166,78,.28)}
+.white{background:radial-gradient(900px 420px at 100% 0%,rgba(216,166,78,.06),transparent 60%),var(--paper)}
+main > section:not(.white):not(.dark){background-image:radial-gradient(800px 380px at 0% 0%,rgba(16,24,39,.035),transparent 60%)}
+</style>
+</head>
+<body>
+<script>/* ב23: בלי פיקסל לסריקות Meta (חתימת app_id 256281040558 ב-fbclid, כמו ב-7798267), לקישורי בדיקה ולדפדפן הפנימי */(function(){try{var s=location.search,off=/yNTYyODEwNDA1N|MjU2MjgxMDQwNT|I1NjI4MTA0MDU1|claude|test|nocache|internal/i.test(s);try{off=off||localStorage.getItem("nlp_int")==="1"}catch(e){}window.__noPix=off;if(off)return}catch(e){}
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","1278104408729813");fbq("init","1651086743466533");fbq("track","PageView");fbq("track","ViewContent",{content_name:"השיטה - הקורס המלא",value:297,currency:"ILS"});
+})();</script>
+<div class="prog" aria-hidden="true"><i id="sp"></i></div>
+
+<main id="main">
+<!-- 1 פתיחה -->
+<header class="hero dark" data-sec="1" data-name="פתיחה"><div class="wrap grid">
+<div>
+ <span class="brand"><i></i>לנצח את האוטומט · בן נחום</span>
+ <h1>שוב הלכת לישון עם ההבטחה שמחר תתחיל. <span class="l2">ושוב התעוררת לאותם ההרגלים.</span></h1>
+ <p class="sub">אתה כבר יודע מה צריך לשנות. אתה מבטיח לעצמך, מתכנן, מתחיל בהתלהבות - אבל ברגע שהחיים חוזרים לשגרה, אתה חוזר לעשות בדיוק את מה שהבטחת להפסיק.</p>
+ <div class="buy">
+  <span class="launch">מחיר השקה לזמן מוגבל</span>
+  <div class="price" aria-label="מחיר: 297 ש״ח במקום 1,290 ש״ח"><s>1,290 ₪</s><b>297 <small>₪</small></b></div>
+  <a class="cta" data-cta="hero_main" data-checkout href="checkout.html">אני רוצה ללמוד איך לצאת מהאוטומט <span class="ar" aria-hidden="true">←</span></a>
+  <div class="chips" aria-label="מה בתוכנית"><span>90 שיעורים קצרים</span><span>30 ימי הטמעה (בונוס 3)</span><span>5 בונוסים</span></div>
+  <p class="micro">גישה דיגיטלית לאחר הרכישה • <span class="v4-lock"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span> • תנאי החזר ברורים</p>
+ </div>
+ <p class="hook">הבעיה היא לא בהכרח שחסר לך כוח רצון. יש משהו שאף אחד לא לימד אותך לעשות עם הידע שכבר יש לך.</p>
+ <figure class="hphoto m"><img src="assets/pr/ben-45.webp" alt="בן נחום" width="560" height="700" fetchpriority="high"><figcaption>בן נחום · היוצר של ׳לנצח את האוטומט׳</figcaption></figure>
+ <p class="intro">הכירו את <b>׳לנצח את האוטומט׳</b> - שיטה מעשית שהופכת את הרגעים שאתה כבר חי בהם להזדמנויות לתרגול, כדי שתוכל להתחיל להפוך ידע לפעולה.</p>
+ <ul class="hb">
+  <li><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4 4 10-10"/></svg></span><span><b>להתחיל לקיים יותר מההבטחות לעצמך</b> - באמצעות פעולות קטנות שאפשר לתרגל שוב ושוב.</span></li>
+  <li><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/></svg></span><span><b>להתמודד אחרת עם הרגלים ותגובות אוטומטיות</b> - באמצעות זיהוי הרגע שבו האוטומט מופעל.</span></li>
+  <li><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span><b>להתחיל שינוי בלי לחכות לזמן פנוי</b> - באמצעות תרגולים שמשתלבים בפעולות שכבר קיימות ביום שלך.</span></li>
+ </ul>
+</div>
+<div><figure class="hphoto d"><img src="assets/pr/ben-45.webp" alt="בן נחום" width="560" height="700"><figcaption>בן נחום · היוצר של ׳לנצח את האוטומט׳</figcaption></figure></div>
+</div></header>
+
+<!-- 4 עדויות אחרי השיטה -->
+<section data-sec="2" data-name="עדויות"><div class="wrap">
+ <div class="narrow center"><h2 class="rv">אל תסתפק במה שאני מספר. <mark>תקרא מה אנשים אמיתיים בחרו לשתף.</mark></h2></div>
+ <div class="car rv" data-car>
+  <div class="car-track" tabindex="0" aria-label="עדויות מוואטסאפ, אפשר להחליק">
+   <figure class="slide"><figcaption><q>זה ממש פשוט וממש מורגש השינוי</q><span>צילה · אחרי שבועיים של תרגול</span></figcaption><button class="zoom crop" type="button" style="--x:140;--y:166;--w:574;--h:300;--ih:874" aria-label="קריאת ההודעה של צילה"><img data-v4src="assets/pr/wa-o181.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" decoding="async" width="720" height="874"></button></figure>
+  </div>
+  <div class="car-nav" hidden><button type="button" class="prev" aria-label="העדות הקודמת">→</button><div class="dots" aria-hidden="true"></div><button type="button" class="next" aria-label="העדות הבאה">←</button></div>
+ </div>
+</div></section>
+
+<!-- 8 ההצעה -->
+<section id="offer" class="dark offer" data-sec="3" data-name="ההצעה"><div class="wrap">
+ <div class="narrow center">
+  <h2 class="rv">אתה לא צריך עוד הבטחה למחר. <mark>אתה צריך דרך להתחיל לתרגל היום.</mark></h2>
+ </div>
+ <div class="narrow center" style="margin-top:34px"><p class="kicker rv">5 בונוסים</p></div>
+ <div class="bonuses" data-stagger>
+  <article class="bonus rv"><span class="ico"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10"/><path d="M4 5h9"/></svg></span><div><span class="tag">בונוס 1</span><h3>ממחשבה לביצוע</h3><p class="type">קורס מוקלט · 16 שיעורים · פרודוקטיביות, מיקוד, ניהול זמן ואנרגיה</p><p>כדי שתוכל להפוך מטרות לסדר יום ולפעולות, במיוחד בימים שבהם אתה יודע מה צריך לעשות ובסוף היום מגלה שלא התקדמת.</p><div class="val"><span>שווי</span><b>397 ₪</b></div></div></article>
+  <article class="bonus rv"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4.5 5.5h15v10h-8l-4 3.5v-3.5h-3z"/></svg></span><div><span class="tag">בונוס 2</span><h3>כוחה של השפעה</h3><p class="type">קורס מוקלט · 39 שיעורים · השפעה, תקשורת, שכנוע ומכירות</p><p>כדי שתוכל להעביר מסר בצורה ברורה ומשכנעת יותר, במיוחד בשיחות שבהן חשוב לך שבאמת יקשיבו לך.</p><div class="val"><span>שווי</span><b>497 ₪</b></div></div></article>
+  <article class="bonus rv"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4M8.5 14.5l2 2 4-4"/></svg></span><div><span class="tag">בונוס 3</span><h3>אתגר 30 הימים</h3><p class="type">מחברת עבודה · עוגנים ואמונות חדשות · דפי תרגול ומעקב התמדה</p><p>כדי שתוכל לתרגל כל יום ולעקוב אחרי ההתמדה שלך, במיוחד אחרי שההתלהבות הראשונית יורדת.</p><div class="val"><span>שווי</span><b>79 ₪</b></div></div></article>
+  <article class="bonus rv"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".8"/></svg></span><div><span class="tag">בונוס 4</span><h3>היום המנצח שלי</h3><p class="type">ערכת תבניות · תכנון יום, מיקוד ותיעדוף</p><p>כדי שתוכל לבחור את שלוש המשימות החשובות ולהתמקד בהן, במיוחד בימים עמוסים שבהם הכול נראה דחוף.</p><div class="val"><span>שווי</span><b>59 ₪</b></div></div></article>
+  <article class="bonus rv"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 3a3 3 0 0 1 3 3v5a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3zM6 11a6 6 0 0 0 12 0M12 17v4"/></svg></span><div><span class="tag">בונוס 5</span><h3>לדבר בביטחון ולהשפיע באמת</h3><p class="type">מדריך מעשי · תבניות, תרגילים ודוגמאות לשיחות אמיתיות</p><p>כדי שתוכל להגיע לשיחות חשובות עם כלים מוכנים, במיוחד כשאתה מרגיש שהמילים לא יוצאות כמו שרצית.</p><div class="val"><span>שווי</span><b>89 ₪</b></div></div></article>
+  <div class="bsum rv"><span>5 בונוסים בשווי כולל של</span><b>1,121 ₪</b><span>במתנה במסגרת ההשקה</span></div>
+ </div>
+ <div class="ocard rv">
+  <p class="ttl">׳לנצח את האוטומט׳</p>
+  <ul class="ticks">
+   <li><b>90 שיעורים קצרים</b> - כדי ללמוד בצעדים מעשיים.</li>
+   <li><b>30 ימי הטמעה (בונוס 3)</b> - כדי לתרגל את מה שלמדת.</li>
+   <li><b>תרגולים בתוך החיים</b> - כדי לא לחכות לזמן פנוי.</li>
+   <li data-new="נוסח לאישור בן"><b>5 בונוסים</b> - עם תועלת ושווי לכל בונוס, בשווי כולל של 1,121 ₪.</li>
+  </ul>
+  <div class="pricebox">
+   <span class="launch">מחיר השקה לזמן מוגבל</span>
+   <div class="price" style="margin-top:10px" aria-label="מחיר: 297 ש״ח במקום 1,290 ש״ח"><s>1,290 ₪</s><b>297 <small>₪</small></b></div>
+  </div>
+  <a class="cta" data-cta="offer" data-checkout href="checkout.html">כן, אני רוצה להצטרף עכשיו - 297 ₪ <span class="ar" aria-hidden="true">←</span></a>
+  <ul class="terms"><li><span class="v4-lock"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></li><li>גישה דיגיטלית מיידית ל-12 חודשים</li><li>7 ימי אחריות עם החזר מלא, לפי התנאים בשאלות למטה</li></ul>
+ </div>
+</div></section>
+
+<!-- 2 הבעיה (מ-pr, בלי שינוי) -->
+<section class="white" data-sec="4" data-name="הבעיה"><div class="wrap"><div class="narrow">
+ <h2 class="rv">יש מלכודת בהתפתחות אישית: <mark>לחשוב שהבנת משהו - ולכן כבר השתנית.</mark></h2>
+ <p class="seq rv" style="margin-top:22px"><span>אתה קורא ספר.</span><span>שומע פודקאסט.</span><span>צופה בסרטון שמסביר לך בדיוק מה צריך לעשות.</span><span>לרגע אתה מרגיש שהכול ברור.</span><span class="turn">אבל אז מגיע הרגע שבו צריך לפעול.</span><span>ושם אתה מגלה שההרגל הישן עדיין איתך.</span></p>
+ <p class="keyline rv">ידע הוא התחלה. תרגול חוזר הוא הדרך להפוך אותו להתנהגות.</p>
+</div>
+ <div class="paths" data-stagger>
+  <div class="path old rv"><h3>המסלול הישן</h3><ol><li>לומד</li><li>מתלהב</li><li>חוזר לשגרה</li><li>שוכח</li><li>מתחיל שוב</li></ol></div>
+  <div class="path new rv"><h3>המסלול החדש</h3><ol><li>לומד</li><li>בוחר פעולה קטנה</li><li>מתרגל</li><li>חוזר על הפעולה</li><li>בונה הרגל</li></ol></div>
+ </div>
+</div></section>
+
+<!-- 3 השיטה - 4 שלבים -->
+<section class="dark method" data-sec="5" data-name="השיטה"><div class="wrap">
+ <div class="narrow center">
+  <p class="kicker rv">החיים עצמם הם סביבת האימון שלך</p>
+  <h2 class="rv" style="margin-top:10px">אתה מחכה שיהיה לך זמן להשתנות. <mark>אבל מה אם הזמן הזה כבר נמצא בתוך היום שלך?</mark></h2>
+  <p class="sub rv" style="margin-top:16px">במקום להוסיף עוד משימות ללוח הזמנים, אפשר ללמוד להפוך פעולות שאתה כבר עושה לתזכורות שמחזירות אותך למודעות ולתרגול.</p>
+ </div>
+ <div class="tl" id="tl"><span class="fill" aria-hidden="true"></span><ol class="tlo">
+  <li class="st rv"><span class="n">1</span><div><span class="lbl">שלב 1 - האוטומט</span><h3>אתה קם בבוקר. הכול קורה כמעט בלי מחשבה.</h3>
+   <div class="scene" data-new="המחשה - טקסט חדש"><svg class="fig" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="rgba(216,166,78,.1)"/><circle cx="46" cy="18" r="5" fill="none" stroke="#D8A64E" stroke-width="2"/><path d="M46 9v-3M46 30v-3M55 18h3M34 18h3" stroke="#D8A64E" stroke-width="2" stroke-linecap="round"/><rect x="16" y="34" width="26" height="6" rx="3" fill="none" stroke="#fff" stroke-width="2" transform="rotate(-28 29 37)"/><path d="M36 26l4-2M38 29l4-2M40 32l4-2" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg><p class="note">מצחצח שיניים, מכין קפה, יוצא מהבית - על טייס אוטומטי.</p></div></div></li>
+  <li class="st rv"><span class="n">2</span><div><span class="lbl">שלב 2 - התזכורת</span><h3>מה אם הפעולה הזאת הייתה מזכירה לך לעצור לרגע?</h3>
+   <div class="scene"><svg class="fig" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="rgba(216,166,78,.1)"/><rect x="12" y="36" width="26" height="6" rx="3" fill="none" stroke="#fff" stroke-width="2" transform="rotate(-28 25 39)"/><path d="M44 14a8 8 0 0 1 8 8v6l3 4H33l3-4v-6a8 8 0 0 1 8-8zM41 36a3 3 0 0 0 6 0" fill="none" stroke="#D8A64E" stroke-width="2" stroke-linejoin="round"/></svg><span class="pill" data-new="המחשה"><i></i>תזכורת: לעצור לרגע</span></div></div></li>
+  <li class="st rv"><span class="n">3</span><div><span class="lbl">שלב 3 - המחשבה החדשה</span><h3>במקום לפעול רק על אוטומט, אתה בוחר מה לתרגל.</h3>
+   <div class="scene"><svg class="fig" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="rgba(216,166,78,.1)"/><circle cx="26" cy="38" r="9" fill="none" stroke="#fff" stroke-width="2"/><circle cx="40" cy="22" r="4" fill="none" stroke="#D8A64E" stroke-width="2"/><circle cx="48" cy="14" r="2.5" fill="none" stroke="#D8A64E" stroke-width="2"/></svg><p class="bubble think">״היום, כשמשהו יתסכל אותי, אעצור לפני שאגיב.״</p></div></div></li>
+  <li class="st rv"><span class="n">4</span><div><span class="lbl">שלב 4 - החזרתיות</span><h3>הפעולה חוזרת. והתרגול מקבל עוד הזדמנות לחזור איתה.</h3>
+   <div class="scene" data-new="המחשה - טקסט חדש"><div class="days" aria-label="אותה פעולה, שוב ושוב"><span><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4"/></svg></span><span><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4"/></svg></span><span><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4"/></svg></span><span><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4"/></svg></span><span><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4"/></svg></span><em>בוקר אחרי בוקר</em></div></div></div></li>
+ </ol></div>
+ <div class="mclose rv">
+  <p>אתה לא צריך לחפש זמן מחוץ לחיים שלך כדי להתחיל לעבוד על עצמך. <mark>אתה צריך ללמוד להשתמש בחיים עצמם.</mark></p>
+  <a class="cta" data-cta="method" data-checkout href="checkout.html">אני רוצה להכיר את השיטה <span class="ar" aria-hidden="true">←</span></a>
+<p class="v4-sec"><span class="v4-lock"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></p>
+  <div class="price" aria-label="מחיר: 297 ש״ח במקום 1,290 ש״ח"><s>1,290 ₪</s><b>297 <small>₪</small></b></div>
+ </div>
+</div></section>
+
+<!-- 6 תועלות -->
+<section class="white" data-sec="6" data-name="תועלות"><div class="wrap">
+ <div class="narrow center" data-new="כותרת חדשה לאישור בן"><p class="kicker rv">מה התוכנית מאפשרת לך</p><h2 class="rv" style="margin-top:8px">לא עוד שיעורים. <mark>דרך להתחיל את השינוי שאתה כבר הרבה זמן רוצה לעשות.</mark></h2></div>
+ <div class="bmain" data-stagger>
+  <article class="bcard rv"><div class="ico"><svg viewBox="0 0 24 24"><path d="M5 19h3v-4H5zM10.5 19h3v-8h-3zM16 19h3V7h-3z"/></svg></div><h3>להתחיל לעשות את מה שאתה כבר יודע שחשוב לך.</h3><p>90 שיעורים קצרים שמפרקים רעיונות לכלים ולצעדי פעולה פשוטים.</p></article>
+  <article class="bcard rv"><div class="ico"><svg viewBox="0 0 24 24"><path d="M4 17l5-5 4 4 7-8"/><path d="M15 8h5v5"/></svg></div><h3>להפסיק להסתמך רק על ההתלהבות של ההתחלה.</h3><p>30 ימי הטמעה (בונוס 3) שנועדו לעזור לך לתרגל שוב ושוב, גם כשהמוטיבציה יורדת.</p></article>
+  <article class="bcard rv"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/></svg></div><h3>ללמוד לזהות את הרגע שבו ההרגל הישן מופעל.</h3><p>כלים לזיהוי מחשבות, רגשות ותגובות אוטומטיות.</p></article>
+ </div>
+ <div class="bsmall" data-stagger>
+  <article class="bs rv"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></span><div><h3>להתחיל לעבוד על עצמך גם ביום הכי עמוס.</h3><p>תרגולים שמשתלבים בתוך פעולות יומיומיות קיימות.</p></div></article>
+  <article class="bs rv"><span class="ico"><svg viewBox="0 0 24 24"><rect x="6.5" y="5" width="3.5" height="14" rx="1"/><rect x="14" y="5" width="3.5" height="14" rx="1"/></svg></span><div><h3>להרגיש יותר יכולת לבחור איך להגיב.</h3><p>כלים לתרגול תגובה מודעת במצבים של לחץ, תסכול או פחד.</p></div></article>
+  <article class="bs rv"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 20h16M7 16V9M12 16V5M17 16v-4"/></svg></span><div><h3>למדוד התקדמות דרך מה שאתה עושה - לא רק דרך מה שאתה יודע.</h3><p>שיטה שמדגישה יישום וחזרתיות במקום צבירת מידע.</p></div></article>
+ </div>
+</div></section>
+
+<!-- 7 סרטון ועדויות (אחרי התועלות, לפני המחיר) -->
+<section data-sec="7" data-name="סרטון ועדויות"><div class="wrap">
+ <div class="narrow center"><h2 class="rv">אלה לא הבטחות על תוצאה עתידית. <mark>אלה חוויות אמיתיות שאנשים שיתפו.</mark></h2></div>
+ <div class="proofgrid">
+  <figure class="vid rv" id="vid"><video playsinline preload="none" poster="assets/pr/t3.webp" width="480" height="848" src="assets/t3.mp4"></video><button class="play" type="button" aria-label="הפעלת סרטון העדויות, 2 דקות"><i></i><span>מה באמת השתנה אצלם? · 2:01</span></button></figure>
+  <div class="car rv" data-car>
+   <div class="car-track" tabindex="0" aria-label="עוד עדויות מוואטסאפ, אפשר להחליק">
+    <figure class="slide"><figcaption><q>אני ממש מרגיש שאני יותר שם לב למחשבות שלי ויותר שולט בהם</q><span>גלעד · יותר שליטה במחשבות</span></figcaption><button class="zoom crop" type="button" style="--x:176;--y:462;--w:538;--h:200;--ih:777" aria-label="קריאת ההודעה של גלעד"><img data-v4src="assets/pr/wa-o185.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" decoding="async" width="720" height="777"></button></figure>
+    <figure class="slide"><figcaption><q>בול מה שהייתי צריך כלים פרקטיים</q><span>דורון · כלים שאפשר ליישם</span></figcaption><button class="zoom crop" type="button" style="--x:136;--y:478;--w:578;--h:266;--ih:892" aria-label="קריאת ההודעה של דורון"><img data-v4src="assets/pr/wa-o186.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" decoding="async" width="720" height="892"></button></figure>
+    <figure class="slide"><figcaption><q>נראה לי שאני הולך לעוף על התוכן שלך</q><span>גל · אחרי החלק הראשון</span></figcaption><button class="zoom crop" type="button" style="--x:146;--y:618;--w:568;--h:190;--ih:814" aria-label="קריאת ההודעה של גל"><img data-v4src="assets/pr/wa-o187.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" decoding="async" width="720" height="814"></button></figure>
+   </div>
+   <div class="car-nav" hidden><button type="button" class="prev" aria-label="העדות הקודמת">→</button><div class="dots" aria-hidden="true"></div><button type="button" class="next" aria-label="העדות הבאה">←</button></div>
+  </div>
+ </div>
+</div></section>
+
+<!-- 5 הסיפור של בן -->
+<section class="dark bsec" data-sec="8" data-name="הסיפור של בן"><div class="wrap story">
+ <figure class="rv"><img data-v4src="assets/pr/ben-story.webp" alt="בן נחום" loading="lazy" decoding="async" width="600" height="750"></figure>
+ <div>
+  <h2 class="rv">החיים לא נהיו קלים יותר. <mark>אני למדתי להתמודד איתם אחרת.</mark></h2>
+  <p class="lines rv" style="margin-top:22px"><span><b>אני בן נחום.</b> עברתי ואני עדיין עובר אתגרים, ואני יודע שגם בעתיד יהיו כאלה.</span><span>אבל יש משהו שהשתנה בי - הדרך שבה אני מסתכל עליהם.</span><span>אני לא תמיד שולט במה שקורה לי. אבל אני יכול ללמוד לבחור איך לפרש את הנסיבות ואיך לפעול בעקבותיהן.</span><span>מתוך הלמידה, ההתמודדות והתרגול האלה בניתי את ׳לנצח את האוטומט׳.</span><span><b>לא כי פיצחתי את החיים. אלא כי הבנתי ששינוי הוא דבר שצריך לתרגל, ולא רק להבין.</b></span></p>
+  <a class="cta sm rv" data-cta="story" data-checkout href="checkout.html">אני רוצה להכיר את התוכנית <span class="ar" aria-hidden="true">←</span></a>
+<p class="v4-sec"><span class="v4-lock"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></p>
+ </div>
+</div></section>
+
+<!-- 9 שאלות -->
+<section data-sec="9" data-name="שאלות"><div class="wrap"><div class="narrow">
+ <h2 class="center rv">אולי גם אתה שואל את עצמך...</h2>
+ <div class="faq rv">
+  <details><summary>ואם אין לי זמן לעבוד על עצמי?</summary><div class="a"><p>בדיוק לשם כך התוכנית בנויה סביב שיעורים קצרים ותרגולים שאפשר לשלב בפעולות שכבר קיימות ביום שלך.</p></div></details>
+  <details><summary>כבר ניסיתי להשתנות בעבר. במה זה שונה?</summary><div class="a"><p>הדגש כאן הוא לא רק על הבנה או מוטיבציה, אלא על תרגול והטמעה של דרכי פעולה חדשות לאורך זמן.</p></div></details>
+  <details data-new="תשובה מטקסט קיים ב-pr"><summary>איך זה עובד בפועל?</summary><div class="a"><p>מתחילים בחלק 1: 4 שיעורים, כשעה, שבונים את העוגן הראשון שלך. ממשיכים לחלק 2 - 76 שיעורים קצרים - ונכנסים לפי הנושא שאתה עובד עליו עכשיו. חלק 3 לוקח את השינוי אל החיים עצמם: עוגן רגשי, נוכחות ודיאלוג פנימי.</p></div></details>
+  <details data-new="תשובה מטקסט קיים ב-pr"><summary>מה מקבלים?</summary><div class="a"><p>90 שיעורים קצרים (3 חלקים, רוב השיעורים 2 עד 8 דקות), 5 בונוסים בשווי 1,121 ₪, כולל 30 ימי הטמעה (מחברת העבודה "אתגר 30 הימים"), וגישה לתוכנית הדיגיטלית ל-12 חודשים, מהטלפון או מהמחשב.</p></div></details>
+  <details><summary>איך מקבלים את הקורס?</summary><div class="a"><p>מיד אחרי התשלום מגיע אליך מייל עם קישור אישי לאתר הקורס (Schooler). נכנסים מהטלפון או מהמחשב, בלי סיסמה. לא הגיע? בודקים בספאם או בקידומי מכירות, ואם עדיין לא עובד - פונים אלינו ונסדר את זה מהר.</p></div></details>
+  <details><summary>אפשר לקבל החזר?</summary><div class="a"><p>יש לך 7 ימים. אם עברת על התוכן, נתת לו הזדמנות אמיתית והרגשת שהוא לא בשבילך, שולחים לנו מייל ומקבלים החזר מלא.</p></div></details>
+  <details><summary>ומה אם אני לא מצליח להתמיד?</summary><div class="a"><p>התהליך נועד לעזור לך להתחיל בצעדים מעשיים וחוזרים. אין הבטחה שלא יהיו קשיים, והמטרה היא ללמוד להמשיך לתרגל גם כשההתלהבות הראשונית יורדת.</p></div></details>
+  <details><summary>לכמה זמן יש לי גישה?</summary><div class="a"><p>12 חודשים מיום הרכישה, בקצב שלך.</p></div></details>
+  <details><summary>יש מנוי או חיוב נוסף?</summary><div class="a"><p>לא. 297 ₪ בתשלום אחד, בלי מנוי ובלי חיובים נוספים.</p></div></details>
+ </div>
+</div></div></section>
+
+<!-- 10 סיום (מ-pr, בלי שינוי) -->
+<section class="white close" data-sec="10" data-name="סיום"><div class="wrap"><div class="narrow">
+ <h2 class="rv">עוד שנה תעבור בכל מקרה. <mark>השאלה היא מה תרצה שיהיה שונה.</mark></h2>
+ <p class="lines rv" style="margin-top:22px"><span>אתה יכול להמשיך לחכות ליום שבו יהיה לך יותר זמן.</span><span>ליום שבו תהיה לך יותר מוטיבציה.</span><span>ליום שבו הכול יסתדר.</span><span>או להתחיל ללמוד איך לתרגל אחרת בתוך החיים שכבר יש לך.</span><span class="em">אתה לא חייב לשנות הכול ביום אחד.</span><span class="em" style="margin-top:0">אבל אתה יכול לבחור להתחיל.</span></p>
+ <hr class="gold-rule">
+ <p class="motto rv">ידע לבד לא משנה חיים. <mark>הטמעה כן.</mark></p>
+ <div class="price rv" aria-label="מחיר: 297 ש״ח במקום 1,290 ש״ח"><s>1,290 ₪</s><b>297 <small>₪</small></b></div>
+ <div class="rv" style="margin-top:16px"><a class="cta" data-cta="final" data-checkout href="checkout.html">אני רוצה להתחיל היום <span class="ar" aria-hidden="true">←</span></a></div>
+ <p class="micro">297 ₪ בתשלום אחד · <span class="v4-lock"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span> · 7 ימי אחריות עם החזר מלא</p>
+</div></div></section>
+</main>
+
+<footer><div class="wrap">
+ <p>© בן נחום · לנצח את האוטומט</p>
+ <p>התוכנית היא תוכן לימודי ואינה מחליפה ייעוץ או טיפול מקצועי.</p>
+ <p><a href="privacy.html">מדיניות פרטיות</a></p>
+</div></footer>
+
+<div class="sticky" id="sticky" aria-hidden="true"><a class="cta" data-cta="sticky" data-checkout href="checkout.html" tabindex="-1">להצטרפות לתוכנית - 297 ₪</a></div>
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="ההודעה המלאה" hidden><button class="lb-x" type="button" aria-label="סגירה">×</button><img alt=""></div>
+
+<script>
+/* ב49: ?sticky=0 / ?shake=0 switches (for later tests). Default: both on. Review marks with ?test=1 / ?review=1 */
+(function(){var q=new URLSearchParams(location.search);if(q.get("sticky")==="0"){var s=document.getElementById("sticky");if(s)s.remove();}else document.body.classList.add("has-sticky");window.__noShake=q.get("shake")==="0"||q.get("pulse")==="0";if(/review|test|claude/i.test(location.search))document.documentElement.classList.add("review");})();
+</script>
+<script>
+/* ===== CONFIG ===== */
+const CHECKOUT_URL = "checkout.html";
+const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6jc";  /* Make webhook (form-urlencoded) */
+/* tracking v2: visitor id, device, active time, per-section exposure, per-CTA exposure, perf, js errors */
+(function(){
+  const V = document.documentElement.dataset.variant;
+  const uid = () => (self.crypto && crypto.randomUUID) ? crypto.randomUUID() : (Date.now()+"-"+Math.random().toString(36).slice(2));
+  const sid = uid();
+  const t0 = Date.now(); let maxSec = 1, maxPct = 0, sent = false; const hit = {};
+  const secs = [...document.querySelectorAll("[data-sec]")];
+  const N = secs.length;
+  /* visitor id + visit number (anonymous, first-party) */
+  let vid = "", nv = 1;
+  try{ const ls=localStorage; vid=ls.getItem("nlp_vid")||""; if(!vid){ vid=uid(); ls.setItem("nlp_vid",vid); } nv=(+ls.getItem("nlp_nv")||0)+1; ls.setItem("nlp_nv",String(nv)); }catch(e){}
+  try{ if(window.clarity&&vid){ clarity("identify",vid); clarity("set","vid",vid); clarity("set","visit",String(nv)); } }catch(e){}
+  /* internal browser (Yahav/Ben): set by ?test/claude/internal or by opening the dashboard. Sent as int=1 and excluded from reports */
+  let INT=false; try{ const ls=localStorage; if(/test|claude|internal/i.test(location.search)) ls.setItem("nlp_int","1"); INT=ls.getItem("nlp_int")==="1"; if(INT&&window.clarity) clarity("set","internal","1"); }catch(e){}
+  /* device: m/d + os + in-app browser */
+  const ua = navigator.userAgent||"";
+  const os = /iPhone|iPad|iPod/.test(ua)?"ios":/Android/.test(ua)?"android":/Windows/.test(ua)?"win":/Mac OS X/.test(ua)?"mac":"other";
+  const app = /Instagram/.test(ua)?"ig":/FBAN|FBAV|FB_IAB/.test(ua)?"fb":"web";
+  const dev = (/Mobi|Android|iPhone|iPod/.test(ua) || (innerWidth<760)?"m":"d")+"-"+os+"-"+app;
+  /* active time: page visible + interaction in the last 30s */
+  let lastAct = Date.now(), active = 0, firstScroll = 0;
+  ["scroll","touchstart","pointermove","keydown","click"].forEach(t=>addEventListener(t,()=>{ lastAct=Date.now(); if(t==="scroll"&&!firstScroll&&scrollY>40) firstScroll=Date.now()-t0; },{passive:true}));
+  /* section exposure time (>=35% visible, page active) */
+  const secT = {}, vis = new Set();
+  const cta = [...document.querySelectorAll("[data-checkout]")], ctaSeen = {};
+  if("IntersectionObserver" in window){
+    const io = new IntersectionObserver(es=>es.forEach(e=>{ const n=e.target.dataset.sec; if(e.isIntersecting && e.intersectionRatio>=.35) vis.add(n); else vis.delete(n); }),{threshold:[0,.35]});
+    secs.forEach(s=>io.observe(s));
+    const io2 = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting && e.intersectionRatio>=.6){ const k=e.target.dataset.cta; if(k && k!=="sticky" && !ctaSeen[k]) ctaSeen[k]=Date.now()-t0; } }),{threshold:[.6]});
+    cta.forEach(a=>io2.observe(a));
+  }
+  setInterval(()=>{ if(document.visibilityState!=="visible") return; if(Date.now()-lastAct>30000) return; active++; vis.forEach(n=>{ secT[n]=(secT[n]||0)+1; }); const st=document.getElementById("sticky"); if(st&&st.classList.contains("on")&&!ctaSeen.sticky) ctaSeen.sticky=Date.now()-t0; },1000);
+  /* perf */
+  const perf = {lcp:0,cls:0};
+  try{ new PerformanceObserver(l=>{ const e=l.getEntries(); if(e.length) perf.lcp=Math.round(e[e.length-1].startTime); }).observe({type:"largest-contentful-paint",buffered:true}); }catch(e){}
+  try{ new PerformanceObserver(l=>{ l.getEntries().forEach(e=>{ if(!e.hadRecentInput) perf.cls+=e.value; }); }).observe({type:"layout-shift",buffered:true}); }catch(e){}
+  function nav(){ try{ const n=performance.getEntriesByType("navigation")[0]; return n?{ttfb:Math.round(n.responseStart),load:Math.round(n.loadEventEnd||n.domContentLoadedEventEnd)}:{}; }catch(e){ return {}; } }
+  function xstr(){ const n=nav(); const s=Object.keys(secT).sort((a,b)=>a-b).map(k=>k+":"+secT[k]).join(","); const c=Object.keys(ctaSeen).map(k=>k+":"+Math.round(ctaSeen[k]/1000)).join(",");
+    return "fs="+(firstScroll/1000).toFixed(1)+";lcp="+perf.lcp+";cls="+perf.cls.toFixed(3)+";ttfb="+(n.ttfb||0)+";load="+(n.load||0)+";st="+s+";cs="+c; }
+  /* Clarity: link each visit to its recording (first-party cookies _clck/_clsk) */
+  function clId(){ try{ const g=n=>{ const m=document.cookie.match(new RegExp("(?:^|; )"+n+"=([^;]*)")); return m?decodeURIComponent(m[1]).split(/[|^]/)[0]:""; }; const u=g("_clck"), s=g("_clsk"); return u&&s?u+"."+s:""; }catch(e){ return ""; } }
+  const CLE={cta_click:1,shortcut_click:1,whatsapp_click:1,video_play:1,faq_open:1,js_error:1};
+  function send(ev, extra){
+    const p = Object.assign({ev, variant:V, sid, sec_on_page:Math.round((Date.now()-t0)/1000), max_section:maxSec, sections:N, max_scroll_pct:maxPct, qs:location.search.slice(1), vid, dev, nv, act:active}, extra||{});
+    const cl=clId(); if(cl) p.x=(p.x?p.x+";":"")+"cl="+cl; if(INT) p.x=(p.x?p.x+";":"")+"int=1"; const ow=window.NLP_OWNER?NLP_OWNER():""; if(ow) p.x=(p.x?p.x+";":"")+"aff="+ow;
+    try{ if(window.clarity&&CLE[ev]){ clarity("event",ev); if(ev==="cta_click") clarity("upgrade",ev); } }catch(e){}
+    (window.dataLayer = window.dataLayer || []).push(Object.assign({event:"lp_"+ev}, p));
+    try{ if(window.fbq) fbq("trackCustom","LP_"+ev,{variant:V}); }catch(e){}
+    if(TRACK_ENDPOINT){ try{ const f=new URLSearchParams(); for(const k in p) f.append(k, p[k]); if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT, f))) fetch(TRACK_ENDPOINT,{method:"POST",body:f,mode:"no-cors",keepalive:true}); }catch(e){} }
+  }
+  window.__lpSend = send; send("view");
+  /* js errors (max 3 per visit) */
+  let errs=0; addEventListener("error",e=>{ if(errs++>=3) return; send("js_error",{name:String(e.message||"error").slice(0,90)}); });
+  try{const ls=localStorage;if(!ls.getItem("nlp_ft"))ls.setItem("nlp_ft",JSON.stringify({v:V,qs:location.search.slice(1),ts:Date.now()}));}catch(e){}
+  // checkout links (keeps UTMs + variant)
+  const qs = new URLSearchParams(location.search); if(!qs.has("utm_content")) qs.set("utm_content","lp_"+V); qs.set("v",V); qs.set("sid",sid);
+  cta.forEach(a=>{
+    a.href = CHECKOUT_URL + (CHECKOUT_URL.includes("?")?"&":"?") + qs.toString();
+    a.addEventListener("click",()=>{ try{localStorage.setItem("nlp_lc",JSON.stringify({v:V,sid:sid,qs:location.search.slice(1),cta:a.dataset.cta||"",ts:Date.now()}));}catch(e){} const s=a.closest("[data-sec]"); send("cta_click",{at_section:s?+s.dataset.sec:0, cta:a.dataset.cta||"", checkout_started:1, x:xstr()+";fc="+Math.round((Date.now()-t0)/1000)}); try{ if(window.fbq&&!window.__ic){ let d=false; try{ d=sessionStorage.getItem("nlp_ic")==="1"; sessionStorage.setItem("nlp_ic","1"); }catch(e){} window.__ic=1; if(!d) fbq("track","InitiateCheckout",{value:297,currency:"ILS"}); } }catch(e){} /* ב23: פעם אחת בביקור */ });
+  });
+  document.querySelectorAll("a[data-cta]:not([data-checkout])").forEach(a=>a.addEventListener("click",()=>{ const s=a.closest("[data-sec]"); send("shortcut_click",{cta:a.dataset.cta, at_section:s?+s.dataset.sec:0}); }));
+  // progress bar + section reach
+  const bar=document.getElementById("prog"), lbl=document.getElementById("progLbl"), fill=document.getElementById("progFill");
+  function cur(){ let c=secs[0]; for(const s of secs){ if(s.getBoundingClientRect().top < innerHeight*0.45) c=s; } return c; }
+  function onScroll(){
+    const h=document.documentElement; const pct=Math.min(100,Math.round((h.scrollTop+innerHeight)/h.scrollHeight*100));
+    if(pct>maxPct) maxPct=pct; [25,50,75,90,100].forEach(m=>{ if(pct>=m && !hit[m]){ hit[m]=1; send("scroll",{depth:m}); } });
+    const c=cur(); const n=+c.dataset.sec;
+    if(n>maxSec){ maxSec=n; send("section",{section:n,name:c.dataset.name}); }
+    if(bar&&lbl&&fill){ bar.classList.toggle("on", h.scrollTop > innerHeight*0.6); lbl.innerHTML = "חלק <b>"+n+"</b> מתוך "+N+" · "+c.dataset.name; fill.style.width = (n/N*100)+"%"; } /* ב45: pr has no progress bar */
+    sticky();
+  }
+  // sticky CTA: as soon as the opening buy button has scrolled out of view (as in a2/b2/c2; here the button can sit just below the fold,
+  // so "below the screen" alone doesn't count), 25% of the page only as a fallback; hidden while offer/final visible
+  const st=document.getElementById("sticky"); const zones=[...document.querySelectorAll("[data-buyzone]")];
+  function sticky(){ if(!st) return; const hc=document.querySelector('[data-sec="1"] [data-cta="hero_main"]'),hr=hc?hc.getBoundingClientRect():null; const past=hr?hr.bottom<0:document.documentElement.scrollTop>(document.documentElement.scrollHeight-innerHeight)*0.25; const inZone=zones.some(z=>{const r=z.getBoundingClientRect();return r.top<innerHeight*0.8&&r.bottom>innerHeight*0.2}); const on=past&&!inZone; st.classList.toggle("on",on); st.setAttribute("aria-hidden",String(!on)); }
+  addEventListener("scroll",onScroll,{passive:true}); onScroll();
+  // WhatsApp question link (ב21): its own event, not a buy click
+  document.querySelectorAll("a[data-wa]").forEach(a=>a.addEventListener("click",()=>{ const s=a.closest("[data-sec]"); send("whatsapp_click",{cta:"wa_"+a.dataset.wa, at_section:s?+s.dataset.sec:0}); }));
+  // video plays
+  document.querySelectorAll("video").forEach((v,i)=>v.addEventListener("play",()=>send("video_play",{video:i+1}),{once:true}));
+  // leave / time on page (sends full snapshot; dashboard keeps the max per visit)
+  function leave(){ if(sent) return; sent=true; send("leave",{x:xstr()}); }
+  addEventListener("pagehide",leave); document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden") leave(); else sent=false; });
+})();
+</script>
+<script>
+/* ב49 UI: reveal once (never hides what is already on screen; nothing hidden without JS or with Reduced Motion), staggered 80ms,
+   method timeline, carousels, shake every ~4s on the sticky + the main button on screen, sticky keyboard/footer handling, lightbox, video */
+(function(){
+var RM=matchMedia("(prefers-reduced-motion: reduce)").matches, IO="IntersectionObserver" in window, root=document.documentElement;
+/* stagger: children of [data-stagger] get 0/80/160ms... */
+document.querySelectorAll("[data-stagger]").forEach(function(g){[].forEach.call(g.querySelectorAll(":scope > .rv"),function(e,i){e.style.transitionDelay=Math.min(i*80,400)+"ms";});});
+/* reveal */
+if(IO&&!RM){var els=[].slice.call(document.querySelectorAll(".rv")),vh=innerHeight;
+ els.forEach(function(e){if(e.getBoundingClientRect().top<vh*0.98)e.classList.add("in");});
+ root.classList.add("rvjs");
+ var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target);}});},{rootMargin:"0px 0px -6% 0px",threshold:.15});
+ els.forEach(function(e){if(!e.classList.contains("in"))io.observe(e);});
+ function catchUp(){els.forEach(function(e){if(!e.classList.contains("in")&&e.getBoundingClientRect().top<innerHeight){e.classList.add("in");io.unobserve(e);}});}
+ var ct=0;addEventListener("scroll",function(){clearTimeout(ct);ct=setTimeout(catchUp,140);},{passive:true});setTimeout(catchUp,2500);}
+/* page scroll progress + method timeline fill */
+var sp=document.getElementById("sp"),tl=document.getElementById("tl"),steps=tl?[].slice.call(tl.querySelectorAll(".st")):[],raf=0;
+function frame(){raf=0;var h=root.scrollHeight-innerHeight;if(sp)sp.style.setProperty("--sp",h>0?Math.min(1,Math.max(0,scrollY/h)).toFixed(4):"0");
+ if(tl){var r=tl.getBoundingClientRect(),p=RM?1:Math.min(1,Math.max(0,(innerHeight*0.62-r.top)/r.height));tl.style.setProperty("--p",p.toFixed(4));
+  steps.forEach(function(s){var b=s.getBoundingClientRect();s.classList.toggle("lit",RM||b.top<innerHeight*0.62);});}}
+addEventListener("scroll",function(){if(!raf)raf=requestAnimationFrame(frame);},{passive:true});addEventListener("resize",frame);frame();
+/* carousels: native swipe (works without JS); arrows + dots added by JS; no autoplay */
+document.querySelectorAll("[data-car]").forEach(function(c){var tr=c.querySelector(".car-track"),sl=[].slice.call(tr.children),nav=c.querySelector(".car-nav");if(!nav||sl.length<2)return;
+ var dots=nav.querySelector(".dots"),pv=nav.querySelector(".prev"),nx=nav.querySelector(".next"),cur=0;
+ sl.forEach(function(){dots.appendChild(document.createElement("i"));});
+ c.classList.add("js");function fit(){nav.hidden=tr.scrollWidth<=tr.clientWidth+4;}fit();addEventListener("resize",fit);
+ function mark(i){cur=i;sl.forEach(function(s,k){s.classList.toggle("act",k===i);});[].forEach.call(dots.children,function(d,k){d.classList.toggle("on",k===i);});pv.disabled=i===0;nx.disabled=i===sl.length-1;}
+ function go(i){i=Math.max(0,Math.min(sl.length-1,i));var a=sl[i].getBoundingClientRect(),q=tr.getBoundingClientRect();tr.scrollBy({left:(a.left+a.width/2)-(q.left+q.width/2),behavior:RM?"auto":"smooth"});mark(i); /* works in RTL (negative scrollLeft) */}
+ pv.addEventListener("click",function(){go(cur-1);});nx.addEventListener("click",function(){go(cur+1);});
+ if(IO){var cio=new IntersectionObserver(function(es){es.forEach(function(x){if(x.intersectionRatio>=.6)mark(sl.indexOf(x.target));});},{root:tr,threshold:[.6]});sl.forEach(function(s){cio.observe(s);});}
+ mark(0);});
+/* sticky: focusable only while shown; hidden while the on-screen keyboard is open; footer gets its height so it never covers the terms */
+var st=document.getElementById("sticky");
+if(st){var sa=st.querySelector("a");new MutationObserver(function(){sa.tabIndex=st.classList.contains("on")?0:-1;}).observe(st,{attributes:true,attributeFilter:["class"]});
+ function stk(){root.style.setProperty("--stk",st.offsetHeight+"px");}stk();addEventListener("resize",stk);
+ if(window.visualViewport){var vv=visualViewport;vv.addEventListener("resize",function(){st.classList.toggle("kb",vv.height<innerHeight*0.72);});}
+ document.addEventListener("focusin",function(e){if(/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName))st.classList.add("kb");});
+ document.addEventListener("focusout",function(){st.classList.remove("kb");});}
+/* shake: every ~4s, the sticky (when shown) and the main button on screen (most visible, >=90%). Visual only, no phone vibration */
+if(IO&&!RM&&!window.__noShake){var vis=new Map(),inPage=[].slice.call(document.querySelectorAll("main .cta"));
+ var sio=new IntersectionObserver(function(es){es.forEach(function(x){vis.set(x.target,x.intersectionRatio);});},{threshold:[0,.5,.9,1]});
+ inPage.forEach(function(b){sio.observe(b);});
+ function shake(b){b.classList.remove("shk");void b.offsetWidth;b.classList.add("shk");b.addEventListener("animationend",function e(ev){if(ev.animationName==="ring"){b.classList.remove("shk");b.removeEventListener("animationend",e);}});}
+ setInterval(function(){if(document.visibilityState!=="visible"||!document.getElementById("lb").hidden)return;
+  var best=null,br=.9;inPage.forEach(function(b){var r=vis.get(b)||0;if(r>=br){br=r;best=b;}});
+  if(best)shake(best);
+  if(st&&st.classList.contains("on")&&!st.classList.contains("kb"))shake(sa);},4000);}
+/* lightbox */
+var lb=document.getElementById("lb"),im=lb.querySelector("img"),x=lb.querySelector(".lb-x"),last=null;
+function close(){lb.hidden=true;root.style.overflow="";if(st)st.style.visibility="";if(last)last.focus();}
+document.querySelectorAll(".zoom").forEach(function(b){b.addEventListener("click",function(){var i=b.querySelector("img");last=b;im.src=i.currentSrc||i.src;im.alt=i.alt;lb.hidden=false;root.style.overflow="hidden";if(st)st.style.visibility="hidden";x.focus();
+ var s=b.closest("[data-sec]");if(window.__lpSend)__lpSend("proof_open",{name:(i.getAttribute("src")||"").split("/").pop().slice(0,40),at_section:s?+s.dataset.sec:0});});});
+lb.addEventListener("click",function(e){if(e.target!==im)close();});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!lb.hidden)close();});
+/* video: poster + play button, no autoplay; video_play is sent by the tracking script */
+var vf=document.getElementById("vid");if(vf){var v=vf.querySelector("video");vf.querySelector(".play").addEventListener("click",function(){vf.classList.add("on");v.controls=true;v.preload="auto";var p=v.play();if(p&&p.catch)p.catch(function(){});});}
+/* faq opens (same event name as a.html) */
+document.querySelectorAll(".faq details").forEach(function(d){d.addEventListener("toggle",function(){if(d.open&&window.__lpSend)__lpSend("faq_open",{name:(d.querySelector("summary").textContent||"").slice(0,40)});});});
+})();
+</script>
+<script>/* ב68 v4: (1) כניסה עדינה בגלילה למה שמתחת למסך הראשון ועוד לא מונפש בדף - רק IntersectionObserver ו-CSS, לא בהפחתת תנועה.
+   מה שכבר במסך בטעינה לא מוסתר בכלל. (2) ברק אחד על כפתור כשהוא נכנס במלואו למסך (CSS). (3) המקומות לסרטונים: הסרטון נטען רק בלחיצה. */
+(function(){var RM=matchMedia("(prefers-reduced-motion: reduce)").matches,IO="IntersectionObserver" in window,root=document.documentElement;
+ if(IO&&!RM){var vh=innerHeight,els=[];
+  document.querySelectorAll("[data-sec]").forEach(function(s){if(s.dataset.sec==="1")return;
+   [].forEach.call(s.querySelectorAll(":scope > .wrap > *, :scope > div > .wrap > *, :scope > .wrap > .stack > *"),function(e){
+    if(e.closest(".rv,.v4r")||e.querySelector(".rv,.in")||/^(SCRIPT|STYLE)$/.test(e.tagName)||e.classList.contains("rv"))return;
+    if(e.getBoundingClientRect().top<vh*0.98)return; e.classList.add("v4r");els.push(e);});});
+  root.classList.add("v4rv");
+  var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting||x.boundingClientRect.top<0){x.target.classList.add("in");io.unobserve(x.target);}});},{rootMargin:"0px 0px -6% 0px"});
+  els.forEach(function(e){io.observe(e);});
+  /* גלילה מהירה או קפיצה לעוגן (#offer): מה שכבר מעל תחתית המסך נחשף, כדי ששום דבר לא יישאר מוסתר */
+  /* חל גם על אנימציות הכניסה שכבר קיימות בדף (.rv, נחשפות עם אותו קלאס in) */
+  var pend=false;addEventListener("scroll",function(){if(pend)return;pend=true;requestAnimationFrame(function(){pend=false;var h=innerHeight;
+   [].forEach.call(document.querySelectorAll(".v4r:not(.in),.rv:not(.in)"),function(e){if(e.getBoundingClientRect().top<h){e.classList.add("in");io.unobserve(e);}});});},{passive:true});
+  var io2=new IntersectionObserver(function(es){es.forEach(function(x){if(x.intersectionRatio>=.95){x.target.classList.add("v4-shine");io2.unobserve(x.target);}});},{threshold:[.95]});
+  document.querySelectorAll("a.cta").forEach(function(b){if(b.dataset.cta!=="sticky")io2.observe(b);});}
+ /* תמונות שמחכות לתמונה הראשית (data-v4src על img) */
+ (function(){var done=false;function rel(){if(done)return;done=true;[].forEach.call(document.querySelectorAll("img[data-v4src]"),function(i){i.src=i.dataset.v4src;i.removeAttribute("data-v4src");});}
+  var h=document.querySelector('[data-sec="1"] img[fetchpriority="high"]');
+  if(!h||h.complete)rel();else{h.addEventListener("load",rel);h.addEventListener("error",rel);}
+  addEventListener("scroll",rel,{once:true,passive:true});addEventListener("touchstart",rel,{once:true,passive:true});setTimeout(rel,4000);})();
+ document.querySelectorAll(".v4-slot [data-v4src]").forEach(function(b){b.addEventListener("click",function(){
+  var v=document.createElement("video");v.src=b.dataset.v4src;v.controls=true;v.playsInline=true;v.setAttribute("playsinline","");v.poster=b.dataset.v4poster||"";
+  var k=b.closest(".v4-slot").dataset.slot;v.style.aspectRatio=b.style.aspectRatio;b.replaceWith(v);v.play().catch(function(){});
+  try{window.__lpSend&&window.__lpSend("video_play",{video:"slot_"+k});}catch(e){}});});
+})();</script>
+</body>
+</html>
