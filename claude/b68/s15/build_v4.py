@@ -3,7 +3,7 @@
 #   צללים ורקעים יוקרתיים, גלילה ומעברים חלקים. ובנוסף מקומות מוכנים לשלושה נכסים (slots.json).
 # תנאים: המסך הראשון בלי אנימציה, אנימציות רק ב-CSS עם IntersectionObserver, כיבוי בהפחתת תנועה,
 #   בלי קפיצות בפריסה, LCP במובייל עד 1.5 ש'. אותו קופי ואותה מדידה כמו v3 (ובלי טקסט חדש, חוץ מ"תשלום מאובטח").
-# הרצה: python3 claude/b68/s15/build_v4.py <שורש ריפו של main> <תיקיית יעד> [--preview] [--slots=קובץ] [--suffix=s]
+# הרצה: python3 claude/b68/s15/build_v4.py <שורש ריפו של main> <תיקיית יעד> [--preview] [--noindex] [--slots=קובץ] [--suffix=s]
 #   --preview: מסמן את המקומות הריקים במסגרת עם שם (רק למעבדה ולצילומי המסך). בלי הדגל, מקום בלי קובץ לא נכנס לדף.
 import os, re, sys, json
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -11,6 +11,7 @@ sys.path.insert(0, os.path.dirname(HERE))
 import build_v3
 
 SRC = os.path.abspath(sys.argv[1]); OUT = sys.argv[2]; PREVIEW = "--preview" in sys.argv
+NOINDEX = "--noindex" in sys.argv  # דפי בדיקה לבן לפני ראשון (מאשר ב68 - דפי בדיקה): noindex, לא מחוברים ל-go.html
 build_v3.ROOT = SRC
 ARG = dict(a[2:].split("=", 1) for a in sys.argv[3:] if a.startswith("--") and "=" in a)
 SLOTS = json.load(open(ARG.get("slots", os.path.join(HERE, "slots.json")), encoding="utf8"))
@@ -231,6 +232,9 @@ def v4(p, page, old, new):
     assert p.count("</head>") == 1
     p = p.replace("</head>", "<style>" + CSS_COMMON + CSS_PAGE[page] + "</style>\n</head>", 1)
     i = p.rindex("</body>"); p = p[:i] + JS + p[i:]
+    if NOINDEX:
+        assert 'name="robots"' not in p
+        p = p.replace('<meta name="viewport"', '<meta name="robots" content="noindex,nofollow"><meta name="viewport"', 1); assert 'name="robots"' in p
     for k in ("TRACK_ENDPOINT", "fbq(", "clarity", "NLP_OWNER", "InitiateCheckout"):
         assert k in p, "measurement missing: " + k
     return p
