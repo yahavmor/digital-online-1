@@ -113,6 +113,12 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 .tchk input{flex:none;width:22px;height:22px;margin:1px 0 0;accent-color:var(--ok);cursor:pointer}
 .tchk a{color:var(--ink);font-weight:700}
 .tchk.need{border-color:var(--err);background:#FEF3F2}
+/* ב79: הדגשה כשניסו להמשיך בלי סימון התקנון */
+.tchk.need.pulse{animation:tpulse .9s ease 2}
+@keyframes tpulse{0%,100%{box-shadow:0 0 0 0 rgba(217,45,32,0)}50%{box-shadow:0 0 0 6px rgba(217,45,32,.18)}}
+@media (prefers-reduced-motion:reduce){.tchk.need.pulse{animation:none}}
+.fld .perr{color:var(--err);font-weight:600}
+.fld .perr:empty{display:none}
 .terr{margin:0 0 8px;color:var(--err);font-size:14.5px;font-weight:700}
 .terr:empty{display:none}
 .go.locked{opacity:.5;filter:grayscale(.3)}
@@ -183,7 +189,7 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 <label class="fld"><b>שם מלא</b><input id="fName" name="name" autocomplete="name" required maxlength="50"><span>החשבונית תופק על השם הזה</span></label>
 <label class="fld"><b>מייל</b><input id="fEmail" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" required><span>לשם נשלחים החשבונית וקישור הכניסה לקורס</span></label>
 <p class="esug" id="eSug" role="status" hidden>התכוונת ל-<button type="button" id="eSugB"></button>? <button type="button" class="no" id="eSugX">לא, המייל נכון</button></p>
-<label class="fld"><b>טלפון נייד</b><input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required placeholder="05X-XXXXXXX"><span>רק למקרה שנצטרך לעזור לך עם הגישה. לא נעביר אותו לאף אחד</span></label>
+<label class="fld"><b>טלפון נייד</b><input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required placeholder="05X-XXXXXXX"><span>רק למקרה שנצטרך לעזור לך עם הגישה. לא נעביר אותו לאף אחד</span><span class="perr" id="pErr" role="alert"></span></label>
 <label class="cons"><input type="checkbox" id="fConsent" name="consent" value="1"><span>אשמח לקבל מבן נחום עדכונים והצעות במייל ובוואטסאפ. אפשר להסיר בכל רגע. <a href="privacy.html" target="_blank" rel="noopener">מדיניות הפרטיות</a></span></label><!-- ב51: תיבת הסכמה לא מסומנת. רק מי שסימן נכנס להודעות האוטומטיות -->
 <label class="tchk" id="tWrap"><input type="checkbox" id="fTerms" name="terms" autocomplete="off"><span>מדיניות ביטול לעסקה זו הינה לפי חוק שירותי תשלום בישראל. מאשר אני כי הנני מכיר את <a href="terms.html" id="tLink" target="_blank" rel="noopener">תנאי ופרטי העסקה</a>.</span></label><!-- ב52: חובה של קארדקום. לא מסומן מראש ולא נשמר. טופס התשלום נטען רק אחרי סימון -->
 <p class="terr" id="terr" role="alert"></p>
@@ -286,12 +292,16 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
     try{ const f=new URLSearchParams(Object.assign({ev, variant, sid, qs:location.search.slice(1), vid, dev, sec_on_page:Math.round((Date.now()-t0)/1000)}, extra||{}));
       if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT,f))) fetch(TRACK_ENDPOINT,{method:"POST",body:f,mode:"no-cors",keepalive:true}); }catch(e){}
   }
-  track(qs.get("status")==="failed" ? "checkout_failed" : "checkout_view");
+  /* ב79: בכשל תשלום נרשם קוד הדחייה של קארדקום (rc, מכתובת החזרה), ו-rep=1 אם זה רענון של אותו כשל (אותו דף תשלום), כדי לא לספור ניסיון פעמיים */
+  if (qs.get("status")==="failed"){ const rc=(qs.get("ResponseCode")||"").replace(/\D/g,"").slice(0,10); let rep=0;
+    try{ const lp=sessionStorage.getItem("cc_lp")||""; if(lp){ if(sessionStorage.getItem("cc_failseen")===lp) rep=1; else sessionStorage.setItem("cc_failseen",lp); } }catch(e){}
+    track("checkout_failed",{x:"rc="+(rc||"none")+(rep?";rep=1":"")}); }
+  else track("checkout_view");
   function fail(code){ if(leaving) return; $("loadTxt").textContent = "לא הצלחנו לטעון את דף התשלום. לא בוצע חיוב. נסה שוב, או כתוב לנו ב-WhatsApp ונעזור מיד."; $("retry").style.display = "inline-block"; document.querySelector(".spin").style.display="none"; $("cc").hidden = true; track("checkout_load_error", code ? {code:String(code)} : null); }
   /* ב52: Cardcom's required box. The payment form (and the wallet buttons inside it) never loads while it is unticked */
   const TB=$("fTerms"); TB.checked=false;
   function lockBtn(){ const b=$("det").querySelector(".go"); b.classList.toggle("locked",!TB.checked); b.setAttribute("aria-disabled",String(!TB.checked)); }
-  function needTerms(via){ $("terr").textContent="יש לסמן את האישור כדי להמשיך לתשלום"; $("tWrap").classList.add("need"); try{ $("tWrap").scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} TB.focus(); track("checkout_terms_missing", via?{x:"via="+via}:null); }
+  function needTerms(via){ $("terr").textContent="יש לסמן את האישור כדי להמשיך לתשלום"; $("tWrap").classList.remove("pulse"); void $("tWrap").offsetWidth; $("tWrap").classList.add("need","pulse"); try{ $("tWrap").scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} TB.focus(); track("checkout_terms_missing", via?{x:"via="+via}:null); }
   function lockPay(){ const f=$("cc"); if(f.getAttribute("src")&&f.getAttribute("src")!=="about:blank") f.src="about:blank"; f.hidden=true; $("loading").style.display="none"; $("tLock").hidden=false; if(CV==="b") f.parentNode.classList.add("wait"); }
   function load(){
     if(!TB.checked){ lockPay(); return; } $("tLock").hidden=true;
@@ -322,15 +332,24 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
   /* ב61: נרמול הטלפון לפני הבדיקה - רק ספרות (כולל ספרות בכתב ערבי/פרסי), בלי 00972/972 בהתחלה, 0 אחד בהתחלה (כך גם 9 ספרות שמתחילות ב-5 מקבלות 0). זהה בסליקה A ו-B */
   function normPhone(v){ let d=String(v||"").replace(/[\u0660-\u0669]/g,c=>String(c.charCodeAt(0)-0x660)).replace(/[\u06F0-\u06F9]/g,c=>String(c.charCodeAt(0)-0x6F0)).replace(/\D/g,"");
     d=d.replace(/^00972/,"").replace(/^972/,"").replace(/^0+/,""); return d ? "0"+d : ""; }
-  /* ב61: בשגיאת טלפון נרשמת רק צורת המספר שנדחה (אורך ו-3 התווים הראשונים), לא המספר עצמו */
-  function verrX(x){ const parts=x?[x]:[]; if($("fPhone").classList.contains("bad")){ const r=String($("fPhone").value||"").trim(); parts.push("len="+r.length,"p="+r.slice(0,3).replace(/[;=&\s]/g,"_")); } return parts.join(";"); }
+  /* ב79: סוג הבעיה בטלפון, בלי אף ספרה מהמספר: empty / letters / intl (קידומת מדינה שאינה 972) / short / long / landline (קווי, 02-09 או 07) / prefix (לא 05) */
+  function phoneType(v){ const raw=String(v||"").trim(); if(!raw) return "empty"; if(/[A-Za-z\u0590-\u05FF]/.test(raw)) return "letters";
+    const d=raw.replace(/[\u0660-\u0669]/g,c=>String(c.charCodeAt(0)-0x660)).replace(/[\u06F0-\u06F9]/g,c=>String(c.charCodeAt(0)-0x6F0)).replace(/\D/g,"");
+    if(/^(\+|00)/.test(raw.replace(/[\s()\-.]/g,"")) && !/^(00)?972/.test(d)) return "intl";
+    const pn=normPhone(raw); if(/^05\d{8}$/.test(pn)) return "";
+    if(/^0(?:[2-489]|7)/.test(pn)) return "landline"; if(!/^05/.test(pn)) return "prefix"; return pn.length<10 ? "short" : "long"; }
+  const PMSG={landline:"צריך מספר נייד (מתחיל ב-05), למשל 050-1234567", intl:"צריך מספר נייד ישראלי, למשל 050-1234567 או 972-50-1234567+", letters:"רק ספרות, למשל 050-1234567"};
+  function phoneMsg(t){ return PMSG[t] || "מספר נייד של 10 ספרות, למשל 050-1234567"; }
+  function fmtPhone(pn){ return pn.slice(0,3)+"-"+pn.slice(3); }
+  /* ב61 + ב79: בשגיאת טלפון נרשם רק סוג הבעיה ומספר הספרות, לא המספר ולא חלק ממנו */
+  function verrX(x){ const parts=x?[x]:[]; if($("fPhone").classList.contains("bad")){ const r=String($("fPhone").value||""); parts.push("pt="+phoneType(r),"len="+r.replace(/\D/g,"").length); } return parts.join(";"); }
   function check(show){ if(show===undefined) show=true;
     const n = $("fName").value.replace(/["\\<>{}]/g,"").trim().replace(/\s+/g," "), e = $("fEmail").value.trim();
     const pn = normPhone($("fPhone").value);
     const bad = [];
     if(show) $("fName").classList.toggle("bad", n.length < 2 || !/\s/.test(n)); if(n.length < 2 || !/\s/.test(n)) bad.push("שם מלא (שם פרטי ומשפחה)");
     const eok = /^[^\s@"'\\<>{}]+@[^\s@"'\\<>{}]+\.[^\s@"'\\<>{}]{2,}$/.test(e); if(show) $("fEmail").classList.toggle("bad", !eok); if(!eok) bad.push("מייל תקין");
-    const pok = /^05\d{8}$/.test(pn); if(show) $("fPhone").classList.toggle("bad", !pok); if(!pok) bad.push("טלפון נייד תקין");
+    const pok = /^05\d{8}$/.test(pn); if(show){ $("fPhone").classList.toggle("bad", !pok); $("pErr").textContent = pok ? "" : phoneMsg(phoneType($("fPhone").value)); } if(!pok) bad.push("טלפון נייד תקין");
     if(show) $("ferr").textContent = bad.length ? "חסר: " + bad.join(", ") : "";
     return bad.length ? null : {name:n, email:e, phone:pn};
   }
@@ -368,8 +387,29 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
     const tryLoad = () => { const d = check(false); if(!d || keyOf(d)===loadedKey || !TB.checked) return; check(true); accept(d); };
     ["fName","fEmail","fPhone"].forEach(i=>{
       $(i).addEventListener("input",()=>{ clearTimeout(tmr); tmr=setTimeout(tryLoad, 1000); if($(i).classList.contains("bad")) check(true); });
-      $(i).addEventListener("blur",()=>{ if(!["fName","fEmail","fPhone"].every(k=>$(k).value.trim())) return; const d=check(true); if(!d && !verr){ verr=true; track("checkout_validation_error",{name:badList(),x:verrX("")}); } if(d){ clearTimeout(tmr); tryLoad(); } });
+      $(i).addEventListener("blur",()=>{ if(!["fName","fEmail","fPhone"].every(k=>$(k).value.trim())) return; const d=check(true); if(!d && !verr && badList()!=="phone"){ verr=true; track("checkout_validation_error",{name:badList(),x:verrX("")}); } /* ב79: שגיאת טלפון בלבד נרשמת ביציאה משדה הטלפון */ if(d){ clearTimeout(tmr); tryLoad(); } });
     });
+  }
+  /* ב79: טלפון - כל פורמט נפוץ מתקבל (רווחים, מקפים, סוגריים, 972, 972+, 00972, 9 ספרות בלי 0) ומנורמל ל-05X-XXXXXXX ביציאה מהשדה.
+     שגיאה מוצגת רק ביציאה מהשדה (או בלחיצה על המשך), עם דוגמה. בזמן ההקלדה לא מוצגת שגיאה, ושגיאה קיימת נעלמת כשהמספר נהיה תקין */
+  { let lastPt="";
+    $("fPhone").addEventListener("blur",()=>{ const f=$("fPhone"), v=f.value; if(!v.trim()){ f.classList.remove("bad"); $("pErr").textContent=""; return; }
+      const t=phoneType(v);
+      if(!t){ const pn=fmtPhone(normPhone(v)); if(f.value!==pn){ f.value=pn; } f.classList.remove("bad"); $("pErr").textContent=""; return; }
+      f.classList.add("bad"); $("pErr").textContent=phoneMsg(t);
+      if(t!==lastPt){ lastPt=t; track("checkout_validation_error",{name:"phone",x:"via=phone_blur;pt="+t+";len="+v.replace(/\D/g,"").length}); } });
+    $("fPhone").addEventListener("input",()=>{ const f=$("fPhone"); if(f.classList.contains("bad") && !phoneType(f.value)){ f.classList.remove("bad"); $("pErr").textContent=""; } });
+  }
+  /* ב79: יציאה מדף הסליקה - זמן בדף, גלילה, זמני טעינה של הדף (לפי הדפדפן), ואם נגעו בשדות או ראו את טופס התשלום. פעם אחת לביקור, בלי פרטים אישיים */
+  { let sent=false, maxScr=0, touched=0, payV=0;
+    addEventListener("scroll",()=>{ const h=document.documentElement; const p=Math.round(100*(scrollY+innerHeight)/Math.max(1,h.scrollHeight)); if(p>maxScr) maxScr=Math.min(100,p); },{passive:true});
+    ["fName","fEmail","fPhone","fTerms"].forEach(i=>$(i).addEventListener("focus",()=>{ touched=1; },{once:true}));
+    $("cc").addEventListener("load",()=>{ if($("cc").getAttribute("src")&&$("cc").getAttribute("src")!=="about:blank") payV=1; });
+    let lcp=0; try{ new PerformanceObserver(l=>{ const e=l.getEntries(); if(e.length) lcp=Math.round(e[e.length-1].startTime); }).observe({type:"largest-contentful-paint",buffered:true}); }catch(e){}
+    const leave=()=>{ if(sent) return; sent=true; let nav="";
+      try{ const n=performance.getEntriesByType("navigation")[0]; if(n) nav="ttfb="+Math.round(n.responseStart)+";dcl="+Math.round(n.domContentLoadedEventEnd)+";load="+Math.round(n.loadEventEnd); }catch(e){}
+      track("checkout_leave",{x:["scr="+maxScr,"touch="+touched,"payv="+payV,nav,lcp?"lcp="+lcp:""].filter(Boolean).join(";")}); };
+    addEventListener("pagehide",leave); document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden") leave(); });
   }
   $("editDet").addEventListener("click", () => { try{ $("det").scrollIntoView({behavior:"smooth"}); }catch(e){} $("fName").focus(); });
   /* ב56: טעויות נפוצות במייל (gmial, hotmial, .con, .cmo...) - מציעים תיקון, לא חוסמים. אותו דבר בגרסה A ו-B */
