@@ -130,6 +130,15 @@ section.alt{background-image:radial-gradient(700px circle at 88% 0%,rgba(201,169
 .cta{flex-wrap:wrap;row-gap:2px}
 .cta .v4-pay{flex-basis:100%;order:9;display:flex;align-items:center;justify-content:center;gap:5px;font-size:12.5px;font-weight:700;line-height:1.1;color:rgba(0,0,0,.78)}
 .cta .v4-pay .v4-li{stroke:currentColor;width:13px;height:13px}
+/* חלק 4: בלוק האחריות בקטן בקופסת הכפתור */
+.v4-guar{display:flex;gap:12px;align-items:flex-start;margin:14px auto 0;max-width:520px;padding:14px 16px;border-radius:14px;
+  border:1px solid rgba(254,207,0,.32);background:linear-gradient(180deg,rgba(254,207,0,.07),rgba(254,207,0,.02));text-align:start}
+.v4-guar .v4-shield{flex:none;width:26px;height:26px;margin-top:2px;fill:none;stroke:#FECF00;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.v4-guar p{margin:0 0 6px;font-size:14px;line-height:1.55;color:#E6E6E6}
+.v4-guar p:last-child{margin:0}
+.v4-guar p b{color:#FFFFFF}
+.v4-guar .v4-guar-h{font-size:15.5px}
+.v4-guar .v4-guar-h b{color:#FECF00}
 .sticky .cta .st-txt{flex:0 1 auto;max-width:calc(100% - 34px)}
 .sticky .cta .v4-pay{font-size:11.5px}
 .cta .ct-t{flex:0 1 auto;max-width:calc(100% - 34px)}
@@ -264,6 +273,16 @@ def ben_a5(p):
         if mt: body = '<span class="ct-t">%s</span>%s' % (mt.group(1), mt.group(2))
         return m.group(1) + body + '<span class="v4-pay">%sתשלום מאובטח</span></a>' % LOCK
     p = re.sub(r'(<a class="cta"[^>]*data-checkout[^>]*>)(.*?)</a>', inbtn, p, flags=re.S)
+    # חלק 4 (1): סקשנים שיוצאים מהדף, כולל מה שבתוכם
+    for name, _why in BEN.get("a5_remove_sections", []):
+        a, z = sec_bounds(p, name); a = p.rindex("<section", 0, a); z += len("</section>")
+        while p[z:z + 1] == "\n": z += 1
+        p = p[:a] + p[z:]
+    # חלק 4 (2): בלוק האחריות בקופסת הכפתור, במקום השורה "החזר מלא" שמתחת לו
+    g = BEN.get("a5_guarantee")
+    if g:
+        i = p.index('data-cta="%s"' % g["cta"]); k = p.index(g["micro_old"], i); assert k - i < 1500
+        p = p[:k] + g["micro_new"] + g["html"] + p[k + len(g["micro_old"]):]
     # ראשי 11.11: בלי קווים ארוכים בטקסט (מחוץ ל-script/style)
     nd = lambda t: t.replace(" — ", " - ").replace("—", "-").replace("–", "-")
     out, last = [], 0

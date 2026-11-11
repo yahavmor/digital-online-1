@@ -1,0 +1,10 @@
+const {chromium,devices}=require('playwright');const DIR=process.argv[2];
+(async()=>{const b=await chromium.launch();const c=await b.newContext({...devices["iPhone 13"]});
+ await c.route("**/*",r=>{const u=r.request().url();return u.startsWith("http://127.0.0.1")?r.continue():r.fulfill({status:204,body:""})});
+ const p=await c.newPage();await p.goto("http://127.0.0.1:8791/nlp/a5v4.html?internal=1",{waitUntil:"networkidle"});
+ await p.evaluate(async()=>{for(let y=0;y<document.body.scrollHeight;y+=300){scrollTo({top:y,behavior:"instant"});await new Promise(r=>setTimeout(r,20))}});await p.waitForTimeout(800);
+ await p.evaluate(()=>{const e=document.querySelector('[data-cta="cta1"]');scrollTo({top:scrollY+e.getBoundingClientRect().top-40,behavior:"instant"})});await p.waitForTimeout(900);
+ await p.screenshot({path:DIR+"/a5v4_guarantee_cta1.jpg",type:"jpeg",quality:80});
+ await p.evaluate(()=>{const e=document.querySelector('[data-name="לדעת או להטמיע"]');scrollTo({top:scrollY+e.getBoundingClientRect().bottom-300,behavior:"instant"})});await p.waitForTimeout(700);
+ await p.screenshot({path:DIR+"/a5v4_after_mechanism_removed.jpg",type:"jpeg",quality:80});
+ await b.close()})();
