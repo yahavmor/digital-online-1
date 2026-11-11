@@ -1,0 +1,13 @@
+const {chromium,devices}=require('playwright');const DIR=process.argv[2];
+(async()=>{const b=await chromium.launch();const c=await b.newContext({...devices["iPhone 13"]});
+ await c.route("**/*",r=>{const u=r.request().url();return u.startsWith("http://127.0.0.1")?r.continue():r.fulfill({status:204,body:""})});
+ const p=await c.newPage();await p.goto("http://127.0.0.1:8791/nlp/a5v4.html?internal=1",{waitUntil:"networkidle"});
+ await p.evaluate(async()=>{for(let y=0;y<document.body.scrollHeight;y+=300){scrollTo({top:y,behavior:"instant"});await new Promise(r=>setTimeout(r,20))}});await p.waitForTimeout(800);
+ await p.evaluate(()=>{const e=document.querySelector(".v4-peek");scrollTo({top:scrollY+e.getBoundingClientRect().top-60,behavior:"instant"})});await p.waitForTimeout(900);
+ await p.screenshot({path:DIR+"/a5v4_20_player_e20.jpg",type:"jpeg",quality:80});
+ await p.click('[data-slot="peek20"] .v4-box');await p.waitForTimeout(3000);
+ console.log(await p.evaluate(()=>{const v=document.querySelector('[data-slot="peek20"] video');return {src:v.getAttribute("src"),muted:v.muted,t:v.currentTime.toFixed(1),bar:document.querySelector(".v4-pl-bar i").style.width,sticky:document.querySelector('[data-cta="sticky"]').getBoundingClientRect().height}}));
+ await p.screenshot({path:DIR+"/a5v4_20_player_e20_playing.jpg",type:"jpeg",quality:80});
+ await p.evaluate(()=>{const e=document.querySelector('[data-name="בונוסים"] .bx-list');scrollTo({top:scrollY+e.getBoundingClientRect().top+300,behavior:"instant"})});await p.waitForTimeout(600);
+ await p.screenshot({path:DIR+"/a5v4_dashes_sticky.jpg",type:"jpeg",quality:80});
+ await b.close()})();

@@ -250,7 +250,7 @@ body.expired main,body.expired .sticky{display:none}
 <section class="hero" data-section="hero">
   <div class="wrap hero-grid">
     <div>
-      <span class="tag" data-copy="heroTag">הצעה מיוחדת • לרוכשי הקורס</span>
+      <span class="tag" data-copy="heroTag">הצעה חד-פעמית • לרוכשי הקורס</span>
       <h1 data-ab="headline">קנית את הדרך לשינוי.<br><span class="gold">עכשיו הגיע הזמן להפוך אותה לפעולה יומיומית.</span></h1>
       <p class="sub">הכירו את "האוטומט החדש שלי" - מערכת אימון אישית שבונה עבורך מסלול מותאם, נותנת לך פעולה יומית קצרה ועוזרת לך להתמודד עם הרגעים שבהם ההרגלים הישנים חוזרים.</p>
     </div>
@@ -357,7 +357,7 @@ body.expired main,body.expired .sticky{display:none}
 <section class="offer" id="offer" data-section="offer">
   <div class="wrap">
     <div class="offer-card center reveal" id="offerCard">
-      <span class="tag" data-copy="offerTag">הצעה מיוחדת לרוכשי הקורס</span>
+      <span class="tag" data-copy="offerTag">הצעה חד-פעמית, רק במסך הזה</span>
       <h2>המאמן האישי הדיגיטלי שלך <span class="gold">ב-97&nbsp;₪ בלבד</span></h2>
       <ul class="checks" id="offerChecks">
         <li>שאלון אבחון אישי</li>
@@ -371,7 +371,7 @@ body.expired main,body.expired .sticky{display:none}
       <p class="price-note" style="margin:6px 0 18px">תשלום חד-פעמי. ללא מנוי מתחדש.</p>
       <button class="btn glow" data-buy="offer" id="offerCta"><span class="spin" aria-hidden="true"></span><span class="lbl" data-ab="cta3">כן, תוסיפו לי את המאמן האישי ב-97&nbsp;₪</span></button>
       <!-- דחיפות: מקום 2 מתוך 3 (ליד המחיר) -->
-      <p class="urgent" data-copy="urgent"><b>מחיר מיוחד לרוכשים חדשים:</b> 97&nbsp;₪ בתשלום חד-פעמי.</p>
+      <p class="urgent" data-copy="urgent"><b>שימו לב:</b> זו הצעה חד-פעמית. 97&nbsp;₪ רק במסך הזה, וכשתמשיך מהדף הזה היא לא תחזור.</p>
       <div class="notice" data-notice role="status" aria-live="polite"></div>
       <button class="link-decline" data-decline="offer">לא תודה, אני ממשיך לקורס שכבר רכשתי</button>
     </div>
@@ -431,7 +431,7 @@ body.expired main,body.expired .sticky{display:none}
 <div class="modal" id="declineModal" role="dialog" aria-modal="true" aria-labelledby="dmTitle">
   <div class="modal-box center">
     <h2 id="dmTitle">ממשיכים לקורס בלי האפליקציה?</h2>
-    <p data-copy="modal">אין בעיה. הגישה שלך לקורס כבר מובטחת. אפשר יהיה להוסיף את האפליקציה גם בהמשך.</p>
+    <p data-copy="modal">אין בעיה. הגישה שלך לקורס כבר מובטחת. רק חשוב לדעת: זו הצעה חד-פעמית שלא תחזור.</p>
     <button class="btn" data-buy="decline_modal"><span class="spin" aria-hidden="true"></span><span class="lbl">כן, אני רוצה להוסיף ב-97&nbsp;₪</span></button>
     <button class="link-decline" id="confirmDecline">לא תודה, המשך לקורס</button>
   </div>
@@ -470,28 +470,15 @@ const CONFIG = {
     b: { headline: 'למדת מה צריך לעשות?<br><span class="gold">עכשיו תן למערכת אישית להראות לך איך לעשות את זה בכל יום.</span>' }
   },
   sectionOrder: null, // למשל ['hero','product','pain',...] לניסוי סדר מקטעים
-  // הצעה חוזרת למי שוויתר (בן אישר שתהיה, 05.11). הדף לא אומר שההצעה לא חוזרת.
-  // mode: null = ניסוח ניטרלי עד שבן בוחר | 'regular' = 97 רק כאן, אחר כך באזור הקורס ב-laterPrice | 'email97' = תזכורת במייל ב-97 למי שאישר דיוור
-  reoffer: { mode: 'regular', laterPrice: 147 } // בן אישר 05.11: A, 147 ₪, מייל אחד אחרי 3 ימים למי שאישר דיוור
+  // ב74 (החלטת בן 10.11): 97 ₪ הצעה חד-פעמית. כשהדף נסגר או בוויתור אי אפשר לקבל אותה יותר; אין מחיר אחר בהמשך ואין מייל חוזר (המסלול של ב38 בוטל)
+  reoffer: { mode: 'once' }
 };
-const _q = new URLSearchParams(location.search).get('reoffer'); // תצוגה לבן: ?reoffer=a&p=147 או ?reoffer=b
-if (_q === 'a') CONFIG.reoffer = { mode: 'regular', laterPrice: Number(new URLSearchParams(location.search).get('p')) || 147 };
-if (_q === 'b') CONFIG.reoffer = { mode: 'email97', laterPrice: null };
-const P = CONFIG.reoffer.laterPrice;
 const COPY = {
-  null:    { heroTag: 'הצעה מיוחדת • לרוכשי הקורס', offerTag: 'הצעה מיוחדת לרוכשי הקורס',
-             urgent: '<b>מחיר מיוחד לרוכשים חדשים:</b> 97&nbsp;₪ בתשלום חד-פעמי.',
-             modal: 'אין בעיה. הגישה שלך לקורס כבר מובטחת. אפשר יהיה להוסיף את האפליקציה גם בהמשך.',
-             faq: 'הקורס שרכשת נשאר שלך. אפשר יהיה להוסיף את האפליקציה גם בהמשך.' },
-  regular: { heroTag: 'הצעה לרוכשי הקורס • 97&nbsp;₪ רק במסך הזה', offerTag: '97&nbsp;₪ רק במסך הזה',
-             urgent: `<b>שימו לב:</b> 97&nbsp;₪ זה המחיר במסך הזה בלבד. בהמשך האפליקציה תהיה זמינה באזור הקורס ב-${P}&nbsp;₪.`,
-             modal: `אין בעיה. הגישה שלך לקורס כבר מובטחת. אם תרצה להוסיף את האפליקציה בהמשך, היא תהיה זמינה באזור הקורס ב-${P}&nbsp;₪ במקום 97&nbsp;₪.`,
-             faq: `הקורס שרכשת נשאר שלך. אפשר להוסיף את האפליקציה בהמשך מאזור הקורס ב-${P}&nbsp;₪. המחיר 97&nbsp;₪ זמין רק במסך הזה.` },
-  email97: { heroTag: 'הצעה מיוחדת • לרוכשי הקורס', offerTag: 'הצעה מיוחדת לרוכשי הקורס',
-             urgent: '<b>מחיר מיוחד לרוכשים חדשים:</b> 97&nbsp;₪ בתשלום חד-פעמי.',
-             modal: 'אין בעיה. הגישה שלך לקורס כבר מובטחת. אם אישרת לקבל עדכונים במייל, נשלח לך עוד הזדמנות להוסיף את האפליקציה.',
-             faq: 'הקורס שרכשת נשאר שלך. אם אישרת לקבל עדכונים במייל, נשלח לך עוד הזדמנות להוסיף את האפליקציה.' }
-}[CONFIG.reoffer.mode || 'null'];
+  once: { heroTag: 'הצעה חד-פעמית • לרוכשי הקורס', offerTag: 'הצעה חד-פעמית, רק במסך הזה',
+          urgent: '<b>שימו לב:</b> זו הצעה חד-פעמית. 97&nbsp;₪ רק במסך הזה, וכשתמשיך מהדף הזה היא לא תחזור.',
+          modal: 'אין בעיה. הגישה שלך לקורס כבר מובטחת. רק חשוב לדעת: זו הצעה חד-פעמית שלא תחזור.',
+          faq: 'הקורס שרכשת נשאר שלך. ההצעה להוסיף את האפליקציה ב-97&nbsp;₪ היא חד-פעמית, רק במסך הזה, והיא לא תחזור.' }
+}.once;
 
 /* ===== עזרים ===== */
 document.querySelectorAll('[data-copy]').forEach(el => { el.innerHTML = COPY[el.dataset.copy]; });
@@ -583,7 +570,7 @@ const period = CONFIG.accessMonths ? `עבור גישה של ${CONFIG.accessMont
 const FAQ = [
   ['האם זה עוד קורס שאצטרך לצפות בו?','לא. זו מערכת אימון דיגיטלית אינטראקטיבית שמאפשרת לך לקבל משימות, לבצע תרגולים ולעקוב אחרי ההתקדמות.'],
   ['כמה זמן צריך להשקיע?','מרבית התרגולים מתוכננים להימשך כחמש דקות. אפשר לבחור גם מסלולים קצרים יותר בהתאם לאפשרויות המערכת.'],
-  ['האם צריך להוריד אפליקציה?','לא. נכנסים למערכת באמצעות קישור מהטלפון או מהמחשב.'],
+  ['האם צריך להוריד אפליקציה?','לא צריך חנות אפליקציות. נכנסים מהקישור בטלפון או במחשב, ואפשר להוסיף את האפליקציה למסך הבית ולפתוח אותה כמו כל אפליקציה.'],
   ['האם יש תשלום חודשי?',`לא. המחיר הוא 97&nbsp;₪ בתשלום חד-פעמי ${period}.`],
   ['מה קורה אם לא ארכוש עכשיו?', COPY.faq],
   ['האם האפליקציה מחליפה את הקורס?','לא. היא מוצר משלים שמאפשר תרגול מותאם אישית ומעקב.'],
@@ -689,7 +676,7 @@ if (TEST) $('#testbar').innerHTML = '<b>מצב בדיקה (פ2)</b> - לא או�
    !CONFIG.accessMonths && 'משך גישה (מוסתר)',
    !CONFIG.refundText && 'מדיניות החזר (לא מוצגת)',
    !CONFIG.api.checkout && 'סליקה וטוקן חד-פעמי (ב38)',
-   (!CONFIG.reoffer.mode && 'הצעה חוזרת: מתי ובאיזה מחיר (ממתין לבן)')].filter(Boolean).join(' • ') + ' • אירועים ב-console';
+   ].filter(Boolean).join(' • ') + ' • אירועים ב-console';
 </script>
 </body>
 </html>

@@ -130,7 +130,8 @@ section.alt{background-image:radial-gradient(700px circle at 88% 0%,rgba(201,169
 .cta{flex-wrap:wrap;row-gap:2px}
 .cta .v4-pay{flex-basis:100%;order:9;display:flex;align-items:center;justify-content:center;gap:5px;font-size:12.5px;font-weight:700;line-height:1.1;color:rgba(0,0,0,.78)}
 .cta .v4-pay .v4-li{stroke:currentColor;width:13px;height:13px}
-.sticky .cta .v4-pay{display:none}
+.sticky .cta .st-txt{flex:0 1 auto;max-width:calc(100% - 34px)}
+.sticky .cta .v4-pay{font-size:11.5px}
 .cta .ct-t{flex:0 1 auto;max-width:calc(100% - 34px)}
 .cta:hover > span:nth-last-child(2),.cta:focus-visible > span:nth-last-child(2){transform:translateX(-5px)}
 .cta:hover > .v4-pay,.cta:focus-visible > .v4-pay{transform:none}
@@ -263,6 +264,15 @@ def ben_a5(p):
         if mt: body = '<span class="ct-t">%s</span>%s' % (mt.group(1), mt.group(2))
         return m.group(1) + body + '<span class="v4-pay">%sתשלום מאובטח</span></a>' % LOCK
     p = re.sub(r'(<a class="cta"[^>]*data-checkout[^>]*>)(.*?)</a>', inbtn, p, flags=re.S)
+    # ראשי 11.11: בלי קווים ארוכים בטקסט (מחוץ ל-script/style)
+    nd = lambda t: t.replace(" — ", " - ").replace("—", "-").replace("–", "-")
+    out, last = [], 0
+    for m in re.finditer(r'<(script|style)\b.*?</\1>', p, flags=re.S):
+        out.append(nd(p[last:m.start()])); out.append(m.group(0)); last = m.end()
+    out.append(nd(p[last:])); p = "".join(out)
+    # ראשי 11.11: "תשלום מאובטח" גם בכפתור הצמוד (שורה שנייה, כמו בשאר הכפתורים)
+    p, n = re.subn(r'(<a class="cta" data-cta="sticky"[^>]*>.*?)</a>', lambda m: m.group(1) + '<span class="v4-pay">%sתשלום מאובטח</span></a>' % LOCK, p, count=1, flags=re.S)
+    assert n == 1
     # מספור מחדש אחרי הוספת הסקשן: data-sec ברצף (max_section/at_section ממשיכים לתאר עומק), והמספרים הגדולים 01, 02...
     n = iter(range(1, 999)); p = re.sub(r'(<(?:header|section)\b[^>]*?)data-sec="\d+"', lambda m: m.group(1) + 'data-sec="%d"' % next(n), p)
     k = iter(range(1, 99)); p = re.sub(r'data-num="\d+"', lambda m: 'data-num="%02d"' % next(k), p)
