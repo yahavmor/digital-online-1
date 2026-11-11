@@ -56,6 +56,22 @@ html{scroll-padding-top:12px}
 .v4-slot .v4-pi svg{width:30px;height:30px;fill:#111;margin-inline-start:4px}
 .v4-slot .v4-box:hover .v4-pi,.v4-slot .v4-box:focus-visible .v4-pi{transform:scale(1.06)}
 .v4-slot .v4-box:focus-visible{outline:3px solid var(--v4-ok);outline-offset:3px}
+/* חלק 5: מה יש בפנים - הטקסט של בן, הסיור, והכפתור "לכל 90 השיעורים" */
+.v4-show{max-width:var(--text,640px);margin:8px auto 0;text-align:center;display:grid;gap:10px}
+.v4-show h3{margin:0;font-size:24px;line-height:1.35;font-weight:900}
+.v4-show p{margin:0;font-size:17px;line-height:1.7}
+.v4-show .v4-show-sub{font-size:19px;font-weight:800;color:#FECF00}
+.v4-show .v4-show-go{margin-top:6px;font-weight:800}
+.v4-slot.v4-tour{max-width:420px}
+.v4-tour.v4-auto .v4-pi{display:none}
+.v4-all{width:100%;max-width:860px;margin:4px auto 0}
+.v4-all>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:12px 18px;border-radius:14px;
+  border:1px solid rgba(254,207,0,.45);background:rgba(254,207,0,.06);font-weight:800;font-size:17px;color:#FFFFFF}
+.v4-all>summary::-webkit-details-marker{display:none}
+.v4-all>summary::after{content:"";width:9px;height:9px;border-inline-end:2px solid #FECF00;border-bottom:2px solid #FECF00;transform:rotate(45deg) translateY(-3px);transition:transform .25s}
+.v4-all[open]>summary::after{transform:rotate(225deg) translateY(-3px)}
+.v4-all-in{display:grid;gap:16px;margin-top:16px}
+.v4-all .rv,.v4-all .v4r{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}
 /* 20: נגן "הצצה פנימה" */
 .v4-peek{display:grid;gap:14px;justify-items:center;margin:8px auto 0;width:100%;max-width:620px}
 .v4-peek-h{margin:0;font-size:24px;font-weight:900;text-align:center}
@@ -202,6 +218,14 @@ JS = """<script>/* ב68 v4: (1) כניסה עדינה בגלילה למה שמת
   if(bar)v.addEventListener("timeupdate",function(){if(v.duration)bar.style.width=(100*v.currentTime/v.duration).toFixed(1)+"%";});
   b.replaceWith(v);v.play().catch(function(){});
   try{window.__lpSend&&window.__lpSend("video_play",{video:"slot_"+k});}catch(e){}});});
+ document.querySelectorAll("[data-v4tour]").forEach(function(b){var f=b.closest(".v4-slot"),k=f.dataset.slot;
+  function mk(auto){var v=document.createElement("video");v.src=b.dataset.v4tour;v.poster=b.dataset.v4poster||"";v.playsInline=true;v.setAttribute("playsinline","");v.style.aspectRatio=b.style.aspectRatio;
+   if(auto){v.muted=true;v.setAttribute("muted","");v.loop=true;v.preload="auto";}else{v.controls=true;}b.replaceWith(v);return v;}
+  b.addEventListener("click",function(){var v=mk(false);v.play().catch(function(){});try{window.__lpSend&&window.__lpSend("video_play",{video:"slot_"+k});}catch(e){}});
+  if(RM||!IO)return; f.classList.add("v4-auto");
+  var v=null,near=new IntersectionObserver(function(es){if(es[0].isIntersecting&&!v){v=mk(true);near.disconnect();vis.observe(f);}},{rootMargin:"300px 0px"});
+  var vis=new IntersectionObserver(function(es){if(!v)return;if(es[0].intersectionRatio>=.5)v.play().catch(function(){});else v.pause();},{threshold:[0,.5]});
+  near.observe(f);});
 })();</script>
 """
 
@@ -360,6 +384,49 @@ def slot_html(key, cfg):
     head = '<p class="v4-slot-h">%s</p>' % cfg["title"] if cfg.get("title") else ""
     return '<figure class="v4-slot%s" data-slot="%s">%s%s</figure>' % (" v4-img" if cfg["kind"] == "image" else "", key, head, box)
 
+def _block(p, start):
+    # הבלוק המלא (div/details/article...) שמתחיל ב-start, לפי ספירת עומק של אותה תגית
+    tag = re.match(r'<(\w+)', p[start:]).group(1); depth = 0
+    for m in re.compile(r'<(/?)%s\b[^>]*>' % tag).finditer(p, start):
+        depth += -1 if m.group(1) else 1
+        if depth == 0: return start, m.end()
+    raise AssertionError(tag)
+
+def tour_html(key, cfg):
+    # חלק 5 סעיף 4: סיור בקורס. אין <video> ב-HTML (כדי שמספרי הסרטונים במדידה לא יזוזו) - JS יוצר אותו כשמתקרבים
+    if not cfg.get("src"):
+        return ('<figure class="v4-slot v4-tour" data-slot="%s"><div class="v4-box" style="aspect-ratio:%d/%d;cursor:auto"><span class="v4-ph">%s</span></div></figure>' % (key, cfg["w"], cfg["h"], cfg["label"])) if PREVIEW else ""
+    poster = cfg.get("poster") or ""
+    img = '<img src="%s" alt="" loading="lazy" decoding="async" width="%d" height="%d">' % (poster, cfg["w"], cfg["h"]) if poster else ""
+    return ('<figure class="v4-slot v4-tour" data-slot="%s"><button type="button" class="v4-box" style="aspect-ratio:%d/%d" aria-label="%s" data-v4tour="%s" data-v4poster="%s">%s<span class="v4-pi">%s</span></button></figure>'
+            % (key, cfg["w"], cfg["h"], cfg.get("aria", "הפעלת הסרטון"), cfg["src"], poster, img, PLAY))
+
+def ben_inside(p):
+    # בן 11.11 חלק 5: "לא לספר מה יש בפנים - להראות". סדר חדש בתוך "מה יש בפנים":
+    # כותרת + "כל חלק הוא צעד" / "לא עוד קורס שרואים ושוכחים" / הטקסט של בן / סיור (ע21) / נגן ע20 / "קורס הליבה: 90 שיעורים" / כפתור "לכל 90 השיעורים"
+    cfg = BEN["a5_inside"]
+    a, z = sec_bounds(p, "מה יש בפנים"); sec = p[a:z]
+    def take(rx):
+        nonlocal sec
+        m = re.search(rx, sec); assert m, rx
+        i, j = _block(sec, m.start()); blk = sec[i:j]; sec = sec[:i] + sec[j:]; return blk.strip()
+    def take_p(rx):
+        nonlocal sec
+        m = re.search(rx, sec, re.S); assert m, rx
+        sec = sec[:m.start()] + sec[m.end():]; return m.group(0).strip()
+    nc = take(r'<div class="notcourse">')
+    peek = take(r'<div class="v4-peek">') if '<div class="v4-peek">' in sec else take(r'<div class="peek">')
+    mods = take(r'<div class="mods">')
+    tool = take_p(r'<p class="toolbox">.*?</p>')
+    start = take_p(r'<p class="lead">לא יודעים מאיפה להתחיל\?.*?</p>')
+    m = re.search(r'<p class="lead">.*?</p>', sec, re.S); assert m and "כל חלק הוא צעד" in m.group(0)
+    head = sec[:m.end()]; rest = sec[m.end():].strip()
+    assert re.fullmatch(r'(\s|</div>)*', rest), rest[:200]
+    tour = tour_html("t21", SLOTS["t21"]) if "t21" in SLOTS else ""
+    allb = '<details class="v4-all"><summary>%s</summary><div class="v4-all-in">%s\n%s</div></details>' % (cfg["all_btn"], start, mods)
+    new = "\n".join(x for x in (head, nc, cfg["html"], tour, peek, tool, allb) if x) + "\n" + rest
+    return p[:a] + "\n" + new + p[z:]
+
 def place_slots(p, page):
     for key, cfg in SLOTS.items():
         if key.startswith("_"): continue
@@ -386,7 +453,7 @@ def place_slots(p, page):
             # 16 (a5): צילום הוואטסאפ נכנס לקרוסלת הודעות הוואטסאפ הקיימת, כשקופית ראשונה (לא בלוק נפרד)
             m = re.compile(r'<div class="car-track">').search(p, a, b); assert m, (key, page)
             if has:
-                cap = ('<figcaption class="car-q"><q>%s</q><span>%s</span></figcaption>' % (cfg["quote"], cfg.get("who", ""))) if cfg.get("quote") else ""
+                cap = ('<figcaption class="car-q"><q>%s</q>%s</figcaption>' % (cfg["quote"], ("<span>%s</span>" % cfg["who"]) if cfg.get("who") else "")) if cfg.get("quote") else ""
                 sl = '<figure class="car-slide" data-slot="%s">%s<img src="%s" alt="%s" loading="lazy" decoding="async" width="%d" height="%d"></figure>' % (key, cap, cfg["src"], cfg.get("alt", ""), cfg["w"], cfg["h"])
             elif PREVIEW:
                 sl = '<figure class="car-slide v4-slot" data-slot="%s"><div class="v4-box" style="aspect-ratio:%d/%d;cursor:auto"><span class="v4-ph">%s</span></div></figure>' % (key, cfg["w"], cfg["h"], cfg["label"])
@@ -397,6 +464,8 @@ def place_slots(p, page):
             k = p.index('<div class="car-dots">', m.end()); assert k < b + len(sl) + 50
             p = p[:k] + '<div class="car-dots"><i></i>' + p[k + len('<div class="car-dots">'):]
             continue
+        if at_ == "inside_tour":
+            continue  # חלק 5: ben_inside() מציב אותו בסדר החדש
         if at_ == "replace_peek":
             # 17 (a5): ע20 (הצצה של כחצי דקה מתוך הקורס) במקום תיבת ההצצה; בלי קובץ - התיבה נשארת
             i = p.index('<div class="peek">', a); j = p.index('<div class="notcourse">', i); assert j < b
@@ -445,6 +514,8 @@ def v4(p, page, old, new):
     p = self_font(p)
     p = lock_everywhere(p, add_lines=(page != "a5"))
     p = place_slots(p, page)
+    if page == "a5":
+        p = ben_inside(p)
     p, nd = defer_imgs(p); assert nd >= 3, nd
     # בלוק נפרד בסוף ה-head, אחרי ה-CSS של הדף, כדי שהשכבה של v4 תגבר עליו
     assert p.count("</head>") == 1
