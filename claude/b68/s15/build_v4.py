@@ -506,6 +506,8 @@ def ben_offer(p):
     old = p[a:z]; tag = m.group(0)
     cheap = re.search(r'<p class="cheap">.*?</p>', old, re.S).group(0)  # הנוסח של בן מתחת למחיר (חלק 1 סעיף 2) נשאר
     btn = re.search(r'<a class="cta" data-cta="offer".*?</a>', old, re.S).group(0)
+    if cfg.get("btn_text"):  # חלק 9: בכפתור של הקופסה בלבד - בלי המחיר המחוק
+        btn, k = re.subn(r'<span class="ct-t">.*?</span></span>', '<span class="ct-t">%s</span>' % cfg["btn_text"], btn, count=1, flags=re.S); assert k == 1
     p = p[:a] + p[z:]
     while p[a:a + 1] == "\n" and p[a - 1:a] == "\n": p = p[:a] + p[a + 1:]
     rows = "".join('<li><span>%s</span><b>%s</b></li>' % (n, v) for n, v in cfg["rows"])
