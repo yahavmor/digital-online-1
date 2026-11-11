@@ -6,8 +6,11 @@ const {chromium,devices}=require('playwright');const B=process.argv[2];
 const BEN=require(__dirname+"/ben_1111.json");
 const wl=t=>t.replace(/<[^>]+>/g," ").replace(/&nbsp;/g," ").replace(/🔒/g," ").replace(/תשלום מאובטח/g," ").split(/[\s·•]+/).filter(Boolean);
 const cntw=a=>a.reduce((m,x)=>(m[x]=(m[x]||0)+1,m),{});
-const BEN_OLD=cntw([].concat(...BEN.a5.map(x=>wl(x[0])),...BEN.a5_removed_text.map(wl)));
-const BEN_NEW=cntw([].concat(...BEN.a5.map(x=>wl(x[1])),...BEN.a5_buttons.map(b=>wl(b.text+" ← 297 ₪"))));
+const mul=(x,a)=>x[2]==="all"?[].concat(...Array(6).fill(a)):a;
+const BEN_OLD=cntw([].concat(...BEN.a5.map(x=>mul(x,wl(x[0]))),...BEN.a5_removed_text.map(wl)));
+const BEN_NEW=cntw([].concat(...BEN.a5.map(x=>mul(x,wl(x[1]))),...BEN.a5_buttons.map(b=>wl(b.text+" ← "+b.micro)),...BEN.a5_insert_after.map(i=>wl(i.html))));
+const SL=require(__dirname+"/slots.json");const T15=SL.t15&&SL.t15.src?SL.t15:null;
+if(T15){const o=wl("מה באמת השתנה אצלם? · 2:01"),n=wl(T15.title+" "+(T15.play_label||""));o.forEach(w=>BEN_OLD[w]=(BEN_OLD[w]||0)+1);n.forEach(w=>BEN_NEW[w]=(BEN_NEW[w]||0)+1);}
 const IG="Mozilla/5.0 (Linux; Android 13; SM-A536B) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/120.0 Mobile Safari/537.36 Instagram 300.0.0.0";
 const res=[];const ok=(n,c,e="")=>{res.push(!!c);if(!c||process.env.V)console.log(c?"PASS":"FAIL",n,e)};
 async function ctx(b,dev){const c=await b.newContext(dev);const T=[];c.T=T;
@@ -33,14 +36,19 @@ for(const [pg,live] of [["pr2v4","pr2"],["a5v4","a5"]]){
   const miss=Object.keys(lc).filter(k=>(nc[k]||0)<lc[k]-(ALO[k]||0)),extra=Object.keys(nc).filter(k=>nc[k]-(lc[k]||0)>(ALN[k]||0));
   ok(pg+" same copy as live (only lock + תשלום מאובטח"+(pg==="a5v4"?" + Ben 11.11 edits":"")+")",miss.length===0&&extra.length===0,"missing:"+JSON.stringify(miss.slice(0,6))+" extra:"+JSON.stringify(extra.slice(0,6)));
   if(pg==="a5v4"){const t=(await p.evaluate(()=>document.body.innerText)).replace(/\s+/g," ");
-   ok("a5v4 Ben 11.11: every new text present word for word",BEN.a5.filter(x=>x[1]).every(x=>t.includes(x[1].replace(/<h3>[^<]*<\/h3>/,"").replace(/<[^>]+>/g,"").replace(/\s+/g," ").trim())),"");
-   ok("a5v4 Ben 11.11: removed texts gone (notfit, WhatsApp in offer box, old sub)",!/פתרון קסם|יש שאלה לפני שמצטרפים|בקורס לומדים להטמיע/.test(t)&&!(await p.$('[data-wa="offer"]')));
-   ok("a5v4 new buttons: know + keys, each with 297 + lock",await p.evaluate(()=>["know","keys"].every(k=>{const a=document.querySelector('[data-cta="'+k+'"][data-checkout]');return !!a&&/297/.test(a.nextElementSibling.textContent)&&!!a.nextElementSibling.querySelector(".v4-li")})));}
-  ok(pg+" same images/videos as live (no empty slots in the page)",JSON.stringify(LM)===JSON.stringify(NM)&&!(await p.$(".v4-slot")),LM.length+" vs "+NM.length);
+   ok("a5v4 Ben 11.11: every new text present word for word",BEN.a5.filter(x=>x[1]).map(x=>x[1]).concat(BEN.a5_insert_after.map(i=>i.html)).every(h=>h.replace(/<h3>[^<]*<\/h3>/,"").split(/<\/?(?:p|h2|h3|li|ul|ol|div|section)\b[^>]*>/).map(x=>x.replace(/<[^>]+>/g,"").replace(/\s+/g," ").trim()).filter(x=>x.length>1).every(x=>t.includes(x))),"");
+   ok("a5v4 Ben 11.11: removed texts gone (notfit, WhatsApp in offer box, old sub, old pause, old notcourse, footer line)",!/פתרון קסם|יש שאלה לפני שמצטרפים|בקורס לומדים להטמיע|אם שום דבר בדפוסים|מזהים בחיים|ואינה מחליפה ייעוץ/.test(t)&&!(await p.$('[data-wa="offer"]')));
+   ok("a5v4 new buttons: know + keys, 297 + access + refund under the button",await p.evaluate(()=>["know","keys"].every(k=>{const a=document.querySelector('[data-cta="'+k+'"][data-checkout]');return !!a&&/297/.test(a.nextElementSibling.textContent)&&/החזר מלא תוך 7 ימים/.test(a.nextElementSibling.textContent)})));
+   ok("a5v4 13: lock + תשלום מאובטח inside every buy button (not sticky), not repeated under it",await p.evaluate(()=>[...document.querySelectorAll("a.cta[data-checkout]")].filter(a=>a.dataset.cta!=="sticky").every(a=>{const v=a.querySelector(".v4-pay");const n=a.nextElementSibling;return v&&v.querySelector(".v4-li")&&/תשלום מאובטח/.test(v.textContent)&&!(n&&/תשלום מאובטח/.test(n.textContent))})));
+   if(T15)ok("a5v4 19: ע15 replaces the testimonials video in place, poster set, headline above, nothing preloaded",await p.evaluate(T=>{const f=document.querySelector('[data-name="תוצאות אמיתיות"] figure.vid[data-slot="t15"]');if(!f)return false;const v=f.querySelector("video");return v.getAttribute("src")===T.src&&v.getAttribute("poster")===T.poster&&v.getAttribute("preload")==="none"&&f.previousElementSibling.textContent===T.title&&!document.querySelector('[data-name="תוצאות אמיתיות"] video[src="assets/t3.mp4"]')},T15));
+   ok("a5v4 11: new section right after רגע לפני, before the offer",await p.evaluate(()=>{const o=[...document.querySelectorAll("[data-sec]")].map(x=>x.dataset.name);return o.indexOf("מה אם")===o.indexOf("רגע לפני")+1&&o.indexOf("ההצעה")===o.indexOf("מה אם")+1}));
+   ok("a5v4 14: colors - background #0E0E10, white text, yellow CTA with black text, no beige left",await p.evaluate(()=>{const cs=getComputedStyle(document.body),b=getComputedStyle(document.querySelector('[data-cta="hero_main"]'));const src=document.documentElement.outerHTML;return cs.backgroundColor==="rgb(14, 14, 16)"&&cs.color==="rgb(255, 255, 255)"&&b.color==="rgb(0, 0, 0)"&&/254, ?207, ?0|255, ?225, ?77|FECF00|FFE14D/i.test(b.backgroundImage)&&!/#(D3B77A|C9A96E|EADBB5|F3EDE2|F0E2BE)\b|211, ?183, ?122|234, ?219, ?181/i.test(src)}));}
+  const LMx=pg==="a5v4"&&T15?(()=>{const a=LM.slice();a[a.indexOf("assets/t3.mp4")]=T15.src;return a.sort()})() /* רק הסרטון שבסקשן; הסטוריז "תלמידים מספרים" נשארים על t3 */:LM;
+  ok(pg+" same images/videos as live"+(pg==="a5v4"&&T15?" (t3 → ע15)":"")+" (no empty slots in the page)",JSON.stringify(LMx)===JSON.stringify(NM)&&!(await p.$(".v4-slot")),LM.length+" vs "+NM.length);
   ok(pg+" no robots noindex, no 0183/0184/0188",!(await p.evaluate(()=>!!document.querySelector('meta[name=robots]')||/018[348]/.test(document.body.innerHTML))));
   // כל כפתור (חוץ מהדביק) עם "תשלום מאובטח" ומנעול מיד אחריו
   const lk=await p.evaluate(()=>[...document.querySelectorAll("a.cta[data-checkout]")].filter(a=>a.dataset.cta!=="sticky").map(a=>{let n=a.nextElementSibling||a.parentElement.nextElementSibling,t="";for(let i=0;i<3&&n&&!n.matches("a.cta");i++,n=n.nextElementSibling)t+=n.innerHTML;return [a.dataset.cta,/class="v4-li"|<rect/.test(t)&&/תשלום מאובטח/.test(t)]}));
-  ok(pg+" every CTA has lock + תשלום מאובטח right after it",lk.every(x=>x[1]),JSON.stringify(lk.filter(x=>!x[1])));
+  if(pg!=="a5v4")ok(pg+" every CTA has lock + תשלום מאובטח right after it",lk.every(x=>x[1]),JSON.stringify(lk.filter(x=>!x[1])));
   await c.close();}
  for(const [dn,dev] of [["iphone",devices["iPhone 13"]],["android-ig",{...devices["Pixel 7"],userAgent:IG}],["desktop",{viewport:{width:1280,height:900}}]]){
   const tag=pg+"/"+dn;const c=await ctx(b,dev);const p=await c.newPage();const errs=[];p.on("pageerror",e=>errs.push(e.message));
@@ -58,7 +66,7 @@ for(const [pg,live] of [["pr2v4","pr2"],["a5v4","a5"]]){
    ok(tag+" "+w+"x"+h+": headline, sentence and button in first screen",f.h1<=f.vh&&f.sub<=f.vh&&f.cta<=f.vh,JSON.stringify(f));}
    await p.setViewportSize(dev.viewport);await p.waitForTimeout(150);}
   const order=await p.evaluate(()=>[...document.querySelectorAll("[data-sec]")].map(s=>s.dataset.sec+":"+s.dataset.name));
-  const OI=pg==="a5v4"?3:2;
+  const OI=pg==="a5v4"?4:2; /* a5v4: פתיחה, מה אומרים, רגע לפני, מה אם, ההצעה */
   ok(tag+" order as v3 (offer: pr2 3, a5 4), numbering 1..n",order[OI]===(OI+1)+":ההצעה"&&order.every((x,i)=>x.startsWith((i+1)+":")),order.slice(0,5).join(" | "));
   await p.evaluate(async()=>{for(let y=0;y<document.body.scrollHeight;y+=400){scrollTo(0,y);await new Promise(r=>setTimeout(r,60))}});await p.waitForTimeout(3000);
   {const left=await p.evaluate(()=>[...document.querySelectorAll(".v4r,.rv")].filter(e=>e.getBoundingClientRect().height>0&&+getComputedStyle(e).opacity<1).map(e=>e.tagName+"."+e.className));
@@ -96,15 +104,20 @@ for(const [pg,live] of [["pr2v4","pr2"],["a5v4","a5"]]){
  {const c=await ctx(b,devices["iPhone 13"]);const vreq=[];c.on("request",r=>{if(/\.mp4/.test(r.url()))vreq.push(r.url())});const p=await c.newPage();const errs=[];p.on("pageerror",e=>errs.push(e.message));
   await p.goto(B+pg+"s.html?utm_content=p25",{waitUntil:"networkidle"});
   const sl=await p.evaluate(()=>[...document.querySelectorAll(".v4-slot")].map(f=>{const s=f.closest("[data-sec]");const im=f.querySelector("img");return {k:f.dataset.slot,sec:s&&s.dataset.name,lazy:im&&im.loading,wh:im&&!!(im.getAttribute("width")&&im.getAttribute("height")),ar:f.querySelector(".v4-box").style.aspectRatio,complete:im&&im.complete&&im.naturalWidth>0}}));
-  ok(pg+" slots placed (t15+wa in testimonials, trial in drop point 2)",sl.length===3&&sl[0].k==="t15"&&/עדויות|מה אומרים/.test(sl.find(x=>x.k==="t15").sec)&&/עדויות|מה אומרים/.test(sl.find(x=>x.k==="wa").sec)&&/הבעיה|לדעת או להטמיע/.test(sl.find(x=>x.k==="trial").sec),JSON.stringify(sl));
+  if(pg==="a5v4"){const st=await p.evaluate(()=>({t15:(document.querySelector('[data-sec] figure.vid[data-slot="t15"] video')||{}).getAttribute?.("src"),head:(document.querySelector('figure.vid[data-slot="t15"]')||{}).previousElementSibling?.textContent,wa:!!document.querySelector('.car-track > figure.car-slide[data-slot="wa"]:first-child img[loading="lazy"][width][height]'),peek:!document.querySelector(".peek")&&!!document.querySelector('[data-name="מה יש בפנים"] [data-slot="peek20"] .v4-box'),vids:document.querySelectorAll("video").length}));
+   ok("a5v4 15/16/17 slots: ע15 replaces the testimonials video (headline above), WhatsApp = first carousel slide, ע20 replaces the peek box",st.t15==="assets/t1.mp4"&&st.head==="אנשים בדיוק כמוך, שבחרו לעשות צעד עם בן"&&st.wa&&st.peek,JSON.stringify(st));}
+  if(pg==="a5v4"){const pl=await p.evaluate(()=>{const f=document.querySelector('[data-name="מה יש בפנים"] .v4-peek');if(!f)return null;const a=f.querySelector('a.cta[data-cta="peek"][data-checkout]');return {h:f.querySelector(".v4-peek-h").textContent,lab:f.querySelector(".v4-pl-top").textContent,bar:!!f.querySelector(".v4-pl-bar i"),meta:!!f.querySelector(".v4-pl-meta b").textContent&&!!f.querySelector(".v4-pl-d").textContent,n:f.querySelector(".v4-peek-n").textContent,btn:!!a&&!!a.querySelector(".v4-pay")&&/297/.test(a.textContent)&&/החזר מלא תוך 7 ימים/.test(a.nextElementSibling.textContent)}});
+   ok("a5v4 20: הצצה פנימה player - label, progress bar, lesson/part/duration, 'זה שיעור אחד מתוך 90', buy button",!!pl&&pl.h==="הצצה פנימה"&&pl.lab==="שיעור אמיתי מתוך הקורס"&&pl.bar&&pl.meta&&pl.n==="זה שיעור אחד מתוך 90"&&pl.btn,JSON.stringify(pl));}
+  else ok(pg+" slots placed (t15+wa in testimonials, trial in drop point 2)",sl.length===3&&sl[0].k==="t15"&&/עדויות|מה אומרים/.test(sl.find(x=>x.k==="t15").sec)&&/עדויות|מה אומרים/.test(sl.find(x=>x.k==="wa").sec)&&/הבעיה|לדעת או להטמיע/.test(sl.find(x=>x.k==="trial").sec),JSON.stringify(sl));
   ok(pg+" slot images lazy with width/height + aspect-ratio box",sl.every(x=>x.lazy==="lazy"&&x.wh&&/\d+ \/ \d+/.test(x.ar)),JSON.stringify(sl.map(x=>[x.k,x.lazy,x.wh,x.ar])));
-  ok(pg+" t15 headline above the video (Ben 10.11), nothing about buying the course",await p.evaluate(()=>{const h=document.querySelector('[data-slot="t15"] .v4-slot-h');return !!h&&h.textContent==="אנשים בדיוק כמוך, שבחרו לעשות צעד עם בן"&&h.nextElementSibling.classList.contains("v4-box")}));
+  if(pg!=="a5v4")ok(pg+" t15 headline above the video (Ben 10.11), nothing about buying the course",await p.evaluate(()=>{const h=document.querySelector('[data-slot="t15"] .v4-slot-h');return !!h&&h.textContent==="אנשים בדיוק כמוך, שבחרו לעשות צעד עם בן"&&h.nextElementSibling.classList.contains("v4-box")}));
   ok(pg+" no video downloaded before click",vreq.length===0,vreq.join(","));
-  const before=await p.evaluate(()=>{const b=document.querySelector('[data-slot="t15"] .v4-box');b.scrollIntoView({block:"center"});return Math.round(b.getBoundingClientRect().height)});await p.waitForTimeout(600);
-  await p.click('[data-slot="t15"] .v4-box');await p.waitForTimeout(800);
-  const after=await p.evaluate(()=>{const v=document.querySelector('[data-slot="t15"] video');return v?{h:Math.round(v.getBoundingClientRect().height),src:v.getAttribute("src"),controls:v.controls}:null});
-  ok(pg+" click plays the slot video in place, same height",after&&after.src==="assets/t1.mp4"&&after.controls&&Math.abs(after.h-before)<=2,JSON.stringify([before,after]));
-  const vp=c.T.filter(t=>t.ev==="video_play");ok(pg+" video_play sent with slot name",vp.length===1&&vp[0].video==="slot_t15",JSON.stringify(vp.map(t=>t.video)));
+  const SK=pg==="a5v4"?"peek20":"t15",SV=pg==="a5v4"?"assets/t2.mp4":"assets/t1.mp4";
+  const before=await p.evaluate(SK=>{const b=document.querySelector('[data-slot="'+SK+'"] .v4-box');b.scrollIntoView({block:"center"});return Math.round(b.getBoundingClientRect().height)},SK);await p.waitForTimeout(600);
+  await p.click('[data-slot="'+SK+'"] .v4-box');await p.waitForTimeout(800);
+  const after=await p.evaluate(SK=>{const v=document.querySelector('[data-slot="'+SK+'"] video');return v?{h:Math.round(v.getBoundingClientRect().height),src:v.getAttribute("src"),controls:v.controls}:null},SK);
+  ok(pg+" click plays the slot video in place, same height",after&&after.src===SV&&(pg!=="a5v4"||await p.evaluate(async()=>{const v=document.querySelector('[data-slot="peek20"] video');await new Promise(r=>setTimeout(r,1500));return !v.muted&&parseFloat(document.querySelector(".v4-pl-bar i").style.width)>0}))&&after.controls&&Math.abs(after.h-before)<=2,JSON.stringify([before,after]));
+  const vp=c.T.filter(t=>t.ev==="video_play");ok(pg+" video_play sent with slot name",vp.length===1&&vp[0].video==="slot_"+SK,JSON.stringify(vp.map(t=>t.video)));
   ok(pg+"s no JS errors",errs.length===0,errs.join("|"));await c.close();}
 }
 await b.close();console.log("TOTAL",res.length,"FAIL",res.filter(x=>!x).length)})();

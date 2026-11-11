@@ -56,6 +56,26 @@ html{scroll-padding-top:12px}
 .v4-slot .v4-pi svg{width:30px;height:30px;fill:#111;margin-inline-start:4px}
 .v4-slot .v4-box:hover .v4-pi,.v4-slot .v4-box:focus-visible .v4-pi{transform:scale(1.06)}
 .v4-slot .v4-box:focus-visible{outline:3px solid var(--v4-ok);outline-offset:3px}
+/* 20: נגן "הצצה פנימה" */
+.v4-peek{display:grid;gap:14px;justify-items:center;margin:8px auto 0;width:100%;max-width:620px}
+.v4-peek-h{margin:0;font-size:24px;font-weight:900;text-align:center}
+.v4-slot.v4-player{max-width:620px;margin:0;padding:10px;border-radius:22px;background:linear-gradient(180deg,#1A1A1E,#0E0E10);
+  border:1px solid rgba(254,207,0,.32);box-shadow:0 30px 70px -36px rgba(0,0,0,.95),inset 0 1px 0 rgba(255,255,255,.06)}
+.v4-player .v4-box,.v4-player video{border-radius:14px}
+.v4-player video{background:#000;height:auto;object-fit:contain}
+.v4-pl-top{display:flex;align-items:center;gap:8px;padding:2px 4px 10px;font-weight:800;font-size:14px;color:#FECF00}
+.v4-pl-dot{width:8px;height:8px;border-radius:50%;background:#FECF00;box-shadow:0 0 0 4px rgba(254,207,0,.18)}
+.v4-player .v4-pi{width:84px;height:84px;background:#FECF00;box-shadow:0 0 0 12px rgba(254,207,0,.18),0 14px 34px rgba(0,0,0,.5)}
+.v4-player .v4-pi svg{width:36px;height:36px;fill:#000}
+.v4-pl-bar{direction:ltr;height:4px;margin:12px 4px 0;border-radius:4px;background:rgba(255,255,255,.14);overflow:hidden}
+.v4-pl-bar i{display:block;height:100%;width:0;background:#FECF00;border-radius:4px;transition:width .25s linear}
+.v4-pl-meta{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding:10px 4px 2px;text-align:start}
+.v4-pl-t{display:grid;gap:2px;min-width:0}
+.v4-pl-t b{font-size:16px;font-weight:800;color:#FFFFFF;overflow-wrap:anywhere}
+.v4-pl-t small{font-size:13px;color:#B8B8B8;font-weight:500}
+.v4-pl-d{flex:none;font-size:13px;color:#B8B8B8;font-variant-numeric:tabular-nums}
+.v4-peek-n{margin:2px 0 0;font-weight:800;font-size:18px;text-align:center}
+.v4-peek .v4-ctab{width:100%}
 .v4-ph{position:absolute;inset:0;display:grid;place-items:center;padding:18px;text-align:center;font:700 15px/1.5 var(--font,Heebo,sans-serif);
   color:var(--v4-okt);border:2px dashed var(--v4-okb);border-radius:20px}
 /* כניסה עדינה בגלילה: רק מה שמתחת למסך הראשון, רק עם IntersectionObserver, ולא בהפחתת תנועה */
@@ -100,6 +120,33 @@ section.alt{background-image:radial-gradient(700px circle at 88% 0%,rgba(201,169
 .cta.v4-shine::after{animation:v4shine2 5.5s var(--ease) .2s infinite backwards}
 @keyframes v4shine2{0%{opacity:0;transform:translateX(130%) skewX(-18deg)}4%{opacity:1}20%{opacity:0;transform:translateX(-260%) skewX(-18deg)}100%{opacity:0;transform:translateX(-260%) skewX(-18deg)}}
 @media (prefers-reduced-motion:reduce){.cta.v4-shine::after{animation:none}}
+/* ===== הערות בן 11.11 חלק 2 ===== */
+/* 14: ניגודיות AA - המחיר המחוק בכפתור ועל רקע כהה, והתוויות הקטנות על ערכות העבודה הלבנות */
+.cta .was{opacity:.72}
+.was{opacity:.78}
+.bx-course.bx-kit small{color:#6B5500}
+.faq .was{opacity:1}
+/* 13: "תשלום מאובטח" עם מנעול בתוך הכפתור - שורה שנייה קטנה באמצע למטה */
+.cta{flex-wrap:wrap;row-gap:2px}
+.cta .v4-pay{flex-basis:100%;order:9;display:flex;align-items:center;justify-content:center;gap:5px;font-size:12.5px;font-weight:700;line-height:1.1;color:rgba(0,0,0,.78)}
+.cta .v4-pay .v4-li{stroke:currentColor;width:13px;height:13px}
+.sticky .cta .v4-pay{display:none}
+.cta .ct-t{flex:0 1 auto;max-width:calc(100% - 34px)}
+.cta:hover > span:nth-last-child(2),.cta:focus-visible > span:nth-last-child(2){transform:translateX(-5px)}
+.cta:hover > .v4-pay,.cta:focus-visible > .v4-pay{transform:none}
+/* 10: "רגע לפני" - שורה קטנה, שתי פסקאות וכותרת */
+.pause .q small{margin-bottom:0}
+.pause .a{margin-block:0}
+/* 11: "מה אם..." */
+.v4-belief .wrap{max-width:760px}
+.v4-belief p{max-width:var(--text);color:var(--ink2);font-size:18px;line-height:1.75}
+.v4-belief .lead{color:var(--muted)}
+.v4-quotes{list-style:none;margin:4px 0;padding:0;display:grid;gap:10px}
+.v4-quotes li{font-size:clamp(20px,5.6vw,26px);font-weight:800;color:var(--ink);padding:12px 18px;border-inline-start:3px solid var(--gold);background:rgba(211,183,122,.06);border-radius:0 12px 12px 0}
+.v4-ask{font-weight:800;color:var(--gold2)!important;font-size:20px!important}
+.v4-big{font-weight:800;color:var(--ink)!important;font-size:clamp(20px,5.4vw,26px)!important;line-height:1.45!important}
+/* 12: "לא עוד קורס" - תת-כותרת */
+.notcourse .v4-nc-sub{font-weight:800;color:var(--gold2);font-size:18px}
 #offer .secure{margin-top:14px}
 """,
 "pr2": """
@@ -141,7 +188,9 @@ JS = """<script>/* ב68 v4: (1) כניסה עדינה בגלילה למה שמת
   addEventListener("scroll",rel,{once:true,passive:true});addEventListener("touchstart",rel,{once:true,passive:true});setTimeout(rel,4000);})();
  document.querySelectorAll(".v4-slot [data-v4src]").forEach(function(b){b.addEventListener("click",function(){
   var v=document.createElement("video");v.src=b.dataset.v4src;v.controls=true;v.playsInline=true;v.setAttribute("playsinline","");v.poster=b.dataset.v4poster||"";
-  var k=b.closest(".v4-slot").dataset.slot;v.style.aspectRatio=b.style.aspectRatio;b.replaceWith(v);v.play().catch(function(){});
+  var f=b.closest(".v4-slot"),k=f.dataset.slot,bar=f.querySelector(".v4-pl-bar i");v.style.aspectRatio=b.style.aspectRatio;
+  if(bar)v.addEventListener("timeupdate",function(){if(v.duration)bar.style.width=(100*v.currentTime/v.duration).toFixed(1)+"%";});
+  b.replaceWith(v);v.play().catch(function(){});
   try{window.__lpSend&&window.__lpSend("video_play",{video:"slot_"+k});}catch(e){}});});
 })();</script>
 """
@@ -186,19 +235,54 @@ def defer_imgs(p):
 # הטקסטים לא מופיעים ב-pr2, ולכן pr2v4 לא משתנה. הנוסחים ב-ben_1111.json (גם t_v4.js קורא אותם)
 BEN = json.load(open(os.path.join(HERE, "ben_1111.json"), encoding="utf8"))
 def ben_a5(p):
-    for old, new in BEN["a5"]:
-        assert p.count(old) == 1, ("ben_1111", old[:60], p.count(old)); p = p.replace(old, new)
-    for rx in BEN["a5_regex_remove"]:
+    for pair in BEN["a5"]:
+        old, new = pair[0], pair[1]; allm = len(pair) > 2 and pair[2] == "all"
+        n = p.count(old); assert (n >= 1 if allm else n == 1), ("ben_1111", old[:60], n)
+        p = p.replace(old, new)
+    for rx, _item in BEN["a5_regex_remove"]:
         p, n = re.subn(rx, "", p, count=1, flags=re.S); assert n == 1, rx
     for b in BEN["a5_buttons"]:
         btn = ('\n<div class="v4-ctab"><a class="cta" data-cta="%s" data-checkout href="#"><span class="ct-t">%s</span> <span>←</span></a>'
-               '<p class="cta-micro">297 ₪ · <span class="v4-lock">%sתשלום מאובטח</span></p></div>') % (b["cta"], b["text"], LOCK)
+               '<p class="cta-micro">%s</p></div>') % (b["cta"], b["text"], b["micro"])
         a, z = sec_bounds(p, b["section"])
         if b.get("after"):
             i = p.index(b["after"], a); assert i < z; at = i + len(b["after"])
         else:  # אחרי המפתח האחרון: אחרי רשימת המפתחות, לפני סגירת ה-wrap של הסקשן
             at = p.rindex("</div>", a, z)
         p = p[:at] + btn + p[at:]
+    # 11: סקשן חדש מיד אחרי "רגע לפני"
+    for ins in BEN["a5_insert_after"]:
+        a, z = sec_bounds(p, ins["after_section"]); at = z + len("</section>")
+        p = p[:at] + "\n\n" + ins["html"] + p[at:]
+    # 13: "תשלום מאובטח" עם מנעול בתוך כל כפתור קנייה (שורה שנייה קטנה, באמצע למטה), חוץ מהדביק
+    def inbtn(m):
+        if 'data-cta="sticky"' in m.group(1): return m.group(0)
+        body = m.group(2)
+        # טקסט חשוף (בלי ct-t, למשל cta_bonus): עוטפים כדי שלא יגלוש לשורה נוספת בגופן החלופי באנדרואיד
+        mt = re.match(r'([^<]+?)( <span>←</span>)$', body)
+        if mt: body = '<span class="ct-t">%s</span>%s' % (mt.group(1), mt.group(2))
+        return m.group(1) + body + '<span class="v4-pay">%sתשלום מאובטח</span></a>' % LOCK
+    p = re.sub(r'(<a class="cta"[^>]*data-checkout[^>]*>)(.*?)</a>', inbtn, p, flags=re.S)
+    # מספור מחדש אחרי הוספת הסקשן: data-sec ברצף (max_section/at_section ממשיכים לתאר עומק), והמספרים הגדולים 01, 02...
+    n = iter(range(1, 999)); p = re.sub(r'(<(?:header|section)\b[^>]*?)data-sec="\d+"', lambda m: m.group(1) + 'data-sec="%d"' % next(n), p)
+    k = iter(range(1, 99)); p = re.sub(r'data-num="\d+"', lambda m: 'data-num="%02d"' % next(k), p)
+    return p
+
+# 14: הצבעים של בן מהסרטונים (סגנון הזהב של P25): רקע #0E0E10, טקסט לבן, הדגשה צהוב-זהב #FECF00, כפתור צהוב וטקסט שחור.
+# מחליף כל צבע בז'/קרם/זהב-חום של a5 (גם בשכבת v4) בגוון המקביל. רק ב-a5v4
+COLOR_MAP_HEX = {"#D3B77A": "#FECF00", "#C9A96E": "#E6B800", "#EADBB5": "#FFE14D", "#F0E2BE": "#FFE14D", "#D9BE83": "#FECF00",
+                 "#C6A266": "#E6B800", "#F3EDE2": "#FFFFFF", "#DCD5C8": "#E6E6E6", "#A8A296": "#B8B8B8", "#7D786F": "#8E8E8E",
+                 "#08090C": "#0E0E10", "#0C0D12": "#0E0E10", "#111319": "#151518", "#060708": "#0A0A0B", "#0A0B0F": "#0E0E10",
+                 "#1A1C24": "#1A1A1E", "#1B1C22": "#1A1A1E", "#1B1D22": "#1A1A1E", "#121318": "#000000", "#8A6A2F": "#B38F00",
+                 "#9A7B3F": "#B38F00", "#F5F3EE": "#FFFFFF", "#E4DCCB": "#E6E6E6", "#F0D193": "#FFE14D", "#14161B": "#151518"}
+COLOR_MAP_RGB = {"211,183,122": "254,207,0", "201,169,110": "254,207,0", "234,219,181": "255,225,77", "243,237,226": "255,255,255",
+                 "8,9,12": "14,14,16", "12,13,18": "14,14,16", "120,90,40": "120,96,0", "168,162,150": "184,184,184",
+                 "6,7,10": "10,10,11", "4,5,7": "8,8,9"}
+def ben_colors(p):
+    for a_, b_ in COLOR_MAP_HEX.items():
+        p = re.sub(re.escape(a_) + r"\b", b_, p, flags=re.I)
+    for a_, b_ in COLOR_MAP_RGB.items():
+        p = re.sub(r"(rgba?\()\s*" + a_.replace(",", r",\s*") + r"\b", r"\g<1>" + b_, p)
     return p
 
 def sec_bounds(p, name):
@@ -206,9 +290,33 @@ def sec_bounds(p, name):
     end = p.index("</%s>" % m.group(1), m.end())
     return m.end(), end
 
+def player_html(key, cfg):
+    # 20 (בן 11.11): "הצצה פנימה" - מסגרת נגן כמו בקורס: תווית, תמונת פתיחה עם כפתור הפעלה גדול, פס התקדמות,
+    # שם השיעור + החלק והשיעור + משך. מתחת: "זה שיעור אחד מתוך 90" וכפתור קנייה. הסרטון נטען רק בלחיצה, עם קול
+    has = bool(cfg.get("src")); poster = cfg.get("poster") or ""
+    ar = "%d/%d" % (cfg["w"], cfg["h"])
+    if has:
+        inner = ('<img src="%s" alt="" loading="lazy" decoding="async" width="%d" height="%d">' % (poster, cfg["w"], cfg["h"]) if poster else "")
+        inner += '<span class="v4-pi">%s</span>' % PLAY
+        box = ('<button type="button" class="v4-box" style="aspect-ratio:%s" aria-label="%s" data-v4src="%s" data-v4poster="%s">%s</button>'
+               % (ar, cfg.get("aria", "הפעלת השיעור"), cfg["src"], poster, inner))
+    else:
+        box = '<div class="v4-box" style="aspect-ratio:%s;cursor:auto"><span class="v4-ph">%s</span></div>' % (ar, cfg["label"])
+    lesson = cfg.get("lesson") or "שם השיעור (מהעריכה)"
+    meta = " · ".join(x for x in (cfg.get("part"), cfg.get("num")) if x)
+    btn = ('<div class="v4-ctab"><a class="cta" data-cta="peek" data-checkout href="#"><span class="ct-t">כן, אני רוצה להתחיל עכשיו '
+           '<span class="pgrp">ב-<s class="was">1,290</s> 297 ₪</span></span> <span>←</span><span class="v4-pay">%sתשלום מאובטח</span></a>'
+           '<p class="cta-micro"><b class="launch">מחיר השקה לזמן מוגבל</b> · גישה מיידית לקורס ולבונוסים · החזר מלא תוך 7 ימים</p></div>') % LOCK
+    return ('<div class="v4-peek"><h3 class="v4-peek-h">הצצה פנימה</h3>'
+            '<figure class="v4-slot v4-player" data-slot="%s"><div class="v4-pl-top"><span class="v4-pl-dot"></span>שיעור אמיתי מתוך הקורס</div>'
+            '%s<div class="v4-pl-bar" aria-hidden="true"><i></i></div>'
+            '<figcaption class="v4-pl-meta"><span class="v4-pl-t"><b>%s</b><small>%s</small></span><span class="v4-pl-d">%s</span></figcaption></figure>'
+            '<p class="v4-peek-n">זה שיעור אחד מתוך 90</p>%s</div>') % (key, box, lesson, meta, cfg.get("dur", ""), btn)
+
 def slot_html(key, cfg):
     has = bool(cfg.get("src"))
     if not has and not PREVIEW: return ""
+    if cfg.get("player"): return player_html(key, cfg)
     ar = "%d/%d" % (cfg["w"], cfg["h"])
     poster = cfg.get("poster") or ""
     if cfg["kind"] == "video":
@@ -226,24 +334,62 @@ def slot_html(key, cfg):
 def place_slots(p, page):
     for key, cfg in SLOTS.items():
         if key.startswith("_"): continue
-        where = cfg["where"][page]; h = slot_html(key, cfg)
-        if not h: continue
+        where = cfg["where"].get(page)
+        if not where: continue
+        has = bool(cfg.get("src"))
         a, b = sec_bounds(p, where["section"])
-        if where["at"] == "after_h2":
+        at_ = where["at"]
+        if at_ == "replace_vid":
+            # 15 (a5): ע15 מחליף את סרטון ההמלצות הקיים באותו מקום (אותה מדידה של video_play). בלי קובץ - הישן נשאר
+            m = re.compile(r'<figure class="vid">(.*?)</figure>', re.S).search(p, a, b); assert m, (key, page)
+            if has:
+                fig = m.group(0)
+                fig = re.sub(r'poster="[^"]*"', 'poster="%s"' % (cfg.get("poster") or ""), fig, count=1)
+                fig = re.sub(r'(<video[^>]*?) src="[^"]*"', r'\1 src="%s"' % cfg["src"], fig, count=1)
+                if cfg.get("play_label"): fig = re.sub(r'<span>[^<]*</span></button>', '<span>%s</span></button>' % cfg["play_label"], fig, count=1)
+                head = '<p class="v4-slot-h">%s</p>\n' % cfg["title"] if cfg.get("title") else ""
+                fig = fig.replace('<figure class="vid">', '<figure class="vid" data-slot="%s">' % key, 1)
+                p = p[:m.start()] + head + fig + p[m.end():]
+            elif PREVIEW:
+                p = p[:m.end()] + '\n<figure class="v4-slot" data-slot="%s"><div class="v4-box" style="aspect-ratio:16/5;cursor:auto"><span class="v4-ph">%s</span></div></figure>' % (key, cfg["label"]) + p[m.end():]
+            continue
+        if at_ == "carousel":
+            # 16 (a5): צילום הוואטסאפ נכנס לקרוסלת הודעות הוואטסאפ הקיימת, כשקופית ראשונה (לא בלוק נפרד)
+            m = re.compile(r'<div class="car-track">').search(p, a, b); assert m, (key, page)
+            if has:
+                cap = ('<figcaption class="car-q"><q>%s</q><span>%s</span></figcaption>' % (cfg["quote"], cfg.get("who", ""))) if cfg.get("quote") else ""
+                sl = '<figure class="car-slide" data-slot="%s">%s<img src="%s" alt="%s" loading="lazy" decoding="async" width="%d" height="%d"></figure>' % (key, cap, cfg["src"], cfg.get("alt", ""), cfg["w"], cfg["h"])
+            elif PREVIEW:
+                sl = '<figure class="car-slide v4-slot" data-slot="%s"><div class="v4-box" style="aspect-ratio:%d/%d;cursor:auto"><span class="v4-ph">%s</span></div></figure>' % (key, cfg["w"], cfg["h"], cfg["label"])
+            else:
+                continue
+            p = p[:m.end()] + sl + p[m.end():]
+            continue
+        if at_ == "replace_peek":
+            # 17 (a5): ע20 (הצצה של כחצי דקה מתוך הקורס) במקום תיבת ההצצה; בלי קובץ - התיבה נשארת
+            i = p.index('<div class="peek">', a); j = p.index('<div class="notcourse">', i); assert j < b
+            h = slot_html(key, cfg)
+            if has: p = p[:i] + h + p[j:]
+            elif h: p = p[:i] + h + "\n" + p[i:]
+            continue
+        h = slot_html(key, cfg)
+        if not h: continue
+        if at_ == "after_h2":
             m = re.compile(r"</h2>").search(p, a, b); assert m, (key, page)
             # אחרי הכותרת ואחרי פסקת הפתיחה שצמודה לה, אם יש
             m2 = re.compile(r"\s*<p class=\"(?:lead|sub|offer-lead)\">.*?</p>", re.S).match(p, m.end())
             at = m2.end() if m2 else m.end()
-        elif where["at"] == "end":
+        elif at_ == "end":
             at = p.rfind("</div>", a, b); assert at > a
         p = p[:at] + "\n" + h + p[at:]
     return p
 
-def lock_everywhere(p):
+def lock_everywhere(p, add_lines=True):
     # "תשלום מאובטח" עם מנעול אחיד (SVG במקום אימוג'י), בכל מקום שהוא כבר מופיע ליד כפתור או מחיר
     p = p.replace("🔒 תשלום מאובטח", '<span class="v4-lock">%sתשלום מאובטח</span>' % LOCK)
     p = re.sub(r'(?<![>"])(?<!</svg>)תשלום מאובטח(?![^<]*</span>)', '<span class="v4-lock">%sתשלום מאובטח</span>' % LOCK, p)
     # כפתור (חוץ מהדביק) שאין אחריו "תשלום מאובטח" קרוב: מוסיפים שורה קטנה עם מנעול מתחת לכפתור
+    if not add_lines: return p
     out, last = [], 0
     for m in re.finditer(r'<a class="cta[^"]*" data-cta="([a-z_0-9]+)"[^>]*>.*?</a>', p, re.S):
         if m.group(1) == "sticky": continue
@@ -265,13 +411,15 @@ def v4(p, page, old, new):
         p = p[:mc.end()] + sec + p[mc.end():]
         p = ben_a5(p)
     p = self_font(p)
-    p = lock_everywhere(p)
+    p = lock_everywhere(p, add_lines=(page != "a5"))
     p = place_slots(p, page)
     p, nd = defer_imgs(p); assert nd >= 3, nd
     # בלוק נפרד בסוף ה-head, אחרי ה-CSS של הדף, כדי שהשכבה של v4 תגבר עליו
     assert p.count("</head>") == 1
     p = p.replace("</head>", "<style>" + CSS_COMMON + CSS_PAGE[page] + "</style>\n</head>", 1)
     i = p.rindex("</body>"); p = p[:i] + JS + p[i:]
+    if page == "a5":
+        p = ben_colors(p)
     if NOINDEX:
         assert 'name="robots"' not in p
         p = p.replace('<meta name="viewport"', '<meta name="robots" content="noindex,nofollow"><meta name="viewport"', 1); assert 'name="robots"' in p
