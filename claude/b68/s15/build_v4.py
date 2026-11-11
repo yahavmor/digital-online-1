@@ -86,6 +86,7 @@ html{scroll-padding-top:12px}
 .bx2-ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .bx2-ul li{position:relative;padding-inline-start:24px;font-size:16px;line-height:1.55;color:#E6E6E6}
 .bx2-ul li::before{content:"";position:absolute;inset-inline-start:2px;top:.55em;width:12px;height:7px;border-left:2px solid #FECF00;border-bottom:2px solid #FECF00;transform:rotate(-45deg)}
+.bx2-more{margin:0;font-size:14.5px;line-height:1.55;color:#B8B8B8;font-style:italic}
 .bx2-val{margin:4px 0 0;padding-top:12px;border-top:1px solid rgba(254,207,0,.18);display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px}
 .bx2-val s{font-size:15px;color:#B8B8B8;text-decoration-thickness:1.5px}
 .bx2-val b{font-size:17px;font-weight:900;color:#FECF00}
@@ -104,9 +105,9 @@ html{scroll-padding-top:12px}
 .v4-ko-price{padding:16px 0 4px;border-top:1px solid rgba(254,207,0,.45);display:grid;gap:4px}
 .v4-ko-reg{margin:0;font-size:16px;color:#B8B8B8}
 .v4-ko-reg s{text-decoration-thickness:1.5px}
-.v4-ko-now{margin:0;display:flex;align-items:baseline;justify-content:center;gap:10px}
-.v4-ko-now span{font-size:18px;font-weight:800;color:#FECF00}
-.v4-ko-now b{font-size:52px;line-height:1;font-weight:900;color:#FECF00;letter-spacing:-.5px}
+.v4-ko-now{margin:0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.v4-ko-now span{font-size:16px;font-weight:800;color:#FECF00}
+.v4-ko-now b{font-size:52px;line-height:1;font-weight:900;color:#FECF00;letter-spacing:-.5px;white-space:nowrap}
 .v4-ko .cheap{margin:0;font-size:15px;line-height:1.65;color:#E6E6E6}
 .v4-ko .cta{width:100%;margin:2px 0 0}
 .v4-ko .cta-micro{margin:0}
@@ -483,7 +484,7 @@ def ben_bonus(p):
     for v, c in zip(vis, cfg["cards"]):
         lis = "".join("<li>%s</li>" % t for t, _src in c["bullets"])
         cards.append('<article class="bx2"><div class="bx2-head">%s<div class="bx2-t"><h3>בונוס %d: %s</h3><p class="bx2-kind">%s</p></div></div>'
-                     '<ul class="bx2-ul">%s</ul><p class="bx2-val"><s>שווי: %d ₪</s><b>%s</b></p></article>' % (v, c["n"], c["name"], c["kind"], lis, c["value"], cfg["free"]))
+                     '<ul class="bx2-ul">%s</ul>%s<p class="bx2-val"><s>שווי: %d ₪</s><b>%s</b></p></article>' % (v, c["n"], c["name"], c["kind"], lis, ('<p class="bx2-more">%s</p>' % c["close"]) if c.get("close") else "", c["value"], cfg["free"]))
     new_list = '<div class="bx-list bx2-list">%s</div>' % "".join(cards)
     sec = sec[:i] + new_list + sec[j:]
     # הסיכום הישן יוצא: "תחשבו רגע מה אתם מקבלים" (3 עולמות) וטבלת "סיכום חבילת הבונוסים"
@@ -512,9 +513,9 @@ def ben_offer(p):
             '<ul class="v4-ko-list">%s</ul>'
             '<div class="v4-ko-tot"><span>%s</span><b>%s</b></div>'
             '<div class="v4-ko-price"><p class="v4-ko-reg">%s <s>%s</s></p><p class="v4-ko-now"><span>%s</span> <b>%s</b></p></div>'
-            '%s\n%s\n<p class="cta-micro">%s</p>'
+            '%s\n<p class="cta-micro">%s</p>\n%s'
             '</div>\n</div></section>') % (tag, cfg["h2"], rows, cfg["total"][0], cfg["total"][1], cfg["regular"][0], cfg["regular"][1],
-                                            cfg["launch"][0], cfg["launch"][1], cheap, btn, cfg["micro"])
+                                            cfg["launch"][0], cfg["launch"][1], btn, cfg["micro"], cheap)
     a2, z2 = sec_bounds(p, "בונוסים"); z2 += len("</section>")
     p = p[:z2] + "\n\n" + html + p[z2:]
     # מספור מחדש (data-sec לפי הסדר החדש; המספרים הגדולים 01.. לא משתנים בסדרם)
