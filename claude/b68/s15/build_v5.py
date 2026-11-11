@@ -12,15 +12,21 @@ import os, sys, re, json
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import build_v4 as B4  # אותו argv: SRC, OUT, --noindex, --slots, --suffix, --preview
+import stages as STG
 
 V5 = json.load(open(B4.ARG.get("v5slots", os.path.join(HERE, "slots_v5.json")), encoding="utf8"))
 STRIP_TITLE = "עוד כמה דקות עם בן"
 SOUND_LABEL = "צפו בסרטון עם קול"
 PLAY = B4.PLAY
 
-ORDER = ["מה אם", "מה אומרים", "@cta1", "רגע לפני", "לדעת או להטמיע", "תוצאות אמיתיות", "איך נראית המציאות",
-         "מה יש בפנים", "בונוסים", "ההצעה", "@strip", "למה בניתי", "למי מתאים", "עם מה תצא", "@cta2",
-         "איך מתחילים", "@cta3", "שאלות", "@final"]
+# עדכון ב83 (בן, וואטסאפ 11.11 15:30-15:45): 13 שלבים, הכי קרוב לרצף של בן. הקופי לא משתנה; מוסיפים 12 משפטי מעבר ומשפטי סגירה.
+BEN5 = json.load(open(os.path.join(HERE, "ben_v5.json"), encoding="utf8"))
+STAGES = [("hook", ["@header"]), ("pain", ["למי מתאים", "רגע לפני"]), ("cause", ["מה אם"]), ("old", ["לדעת או להטמיע"]),
+          ("solution", ["@solution"]), ("method", ["איך מתחילים", "@cta1"]), ("result", ["איך נראית המציאות", "עם מה תצא"]),
+          ("proof", ["מה אומרים", "תוצאות אמיתיות", "למה בניתי", "@strip", "@cta2"]), ("course", ["מה יש בפנים"]),
+          ("offer", ["בונוסים", "ההצעה"]), ("objections", ["שאלות"]), ("guarantee", ["@final"]), ("close", ["@close"])]
+DROP = ["@cta3"]  # cta3 יוצא
+assert [x[0] for x in STAGES] == BEN5["stages"]
 
 def vid_html(item, cls="v5-vid"):
     # פוסטר + כפתור הפעלה; הסרטון נוצר רק בלחיצה (preload=none בפועל)
@@ -55,10 +61,9 @@ def strip_section():
     items = [x for x in V5.get("strip", []) if has(x)]
     if not items: return ""
     figs = "".join(vid_html(x, "v5-vid v5-sv") for x in items)
-    btn = ('<div class="v4-ctab"><a class="cta" data-cta="strip" data-checkout href="#"><span class="ct-t">כן, אני רוצה להתחיל עכשיו <span class="pgrp">ב-<s class="was">1,290</s> 297 ₪</span></span> <span>←</span>'
-           '<span class="v4-pay">%sתשלום מאובטח</span></a><p class="cta-micro"><b class="launch">מחיר השקה לזמן מוגבל</b> · גישה מיידית לקורס ולבונוסים · החזר מלא תוך 7 ימים</p></div>') % B4.LOCK
+    # עדכון ב83: בלי כפתור משלה - cta2 מיד אחריה ("הכפתור אחרי ההוכחות")
     return ('<section data-num="00" class="alt v5-strip-sec" data-sec="0" data-name="%s"><div class="wrap stack">\n<h2>%s</h2>\n'
-            '<div class="v5-strip" tabindex="0">%s</div>\n%s\n</div></section>') % (STRIP_TITLE, STRIP_TITLE, figs, btn)
+            '<div class="v5-strip" tabindex="0">%s</div>\n</div></section>') % (STRIP_TITLE, STRIP_TITLE, figs)
 
 def hero(p):
     h = V5.get("hero", {})
@@ -80,25 +85,99 @@ def belief(p):
     k = p.rindex("</div>", a, z)  # סוף ה-wrap של הסקשן
     return p[:k] + vid_html(b) + "\n" + p[k:]
 
+def tr_html(k):
+    return '<p class="v5-tr" data-tr="%s">%s</p>' % (k, BEN5["transitions"][k])
+
+def at_end(block, html):
+    # שורת המעבר בסוף הסקשן: בתוך ה-wrap, אחרי התוכן
+    if block.startswith("<header"):
+        k = block.rindex("</div>", 0, block.rindex("</header>"))  # סוף ה-copy
+    else:
+        k = block.rindex("</div>", 0, block.rindex("</section>"))  # סוף ה-wrap
+    return block[:k] + "\n" + html + "\n" + block[k:]
+
+def drop_ctab(block, cta):
+    m = re.search(r'\s*<div class="v4-ctab"><a class="cta" data-cta="%s".*?</a><p class="cta-micro">.*?</p></div>' % cta, block, re.S)
+    assert m, cta
+    return block[:m.start()] + block[m.end():]
+
+def split_inside(sec):
+    # "מה יש בפנים" מתפצל: הפתרון (מ"כל חלק הוא צעד..." עד "...איך ליישם.", בלי שינוי מילה ובלי כותרת) / הקורס (הכותרת, 👇, ע21, ע20 בלי peek)
+    lead = re.search(r'<p class="lead">כל חלק הוא צעד.*?</p>', sec, re.S).group(0)
+    a = sec.index('<div class="v4-show">'); x, y = B4._block(sec, a); show = sec[x:y]
+    go = re.search(r'<p class="v4-show-go">.*?</p>', show).group(0)
+    show2 = show.replace(go, "")
+    assert show2.rstrip().endswith("איך ליישם.</b></p></div>"), show2[-80:]
+    sol = ('<section data-num="00" data-sec="0" data-name="הפתרון" class="v5-sol"><div class="wrap stack">\n%s\n%s\n</div></section>' % (lead, show2))
+    course = sec.replace(lead + "\n", "").replace(lead, "").replace(show, go)
+    course = drop_ctab(course, "peek")
+    assert "כל חלק הוא צעד" not in course and "v4-show\"" not in course
+    return sol, course
+
+def faq_first(sec):
+    m = re.search(r'(<h2>שאלות נפוצות</h2>)(.*?)(<details class="more">)', sec, re.S); assert m
+    items = re.findall(r'<details><summary>.*?</summary><div class="a">.*?</div></details>', m.group(2), re.S)
+    assert "".join(items) == m.group(2), "faq top-level"
+    q = lambda d: re.search(r'<summary>(.*?)</summary>', d).group(1)
+    first = [next(d for d in items if q(d) == t) for t in BEN5["faq_first"]]
+    rest = [d for d in items if d not in first]
+    return sec[:m.start(2)] + "".join(first + rest) + sec[m.end(2):]
+
+def split_final(sec):
+    # האחריות בלי final; final עובר לסגירה, אחרי משפטי הסגירה של בן
+    m = re.search(r'\s*(<a class="cta" data-cta="final".*?</a>)\s*(<p class="cta-note">.*?</p>)', sec, re.S); assert m
+    guar = sec[:m.start()] + sec[m.end():]
+    c = BEN5["close"]
+    close = ('<section class="v5-close" data-buyzone data-num="00" data-sec="0" data-name="סגירה"><div class="wrap stack">\n'
+             '<p class="v5-cl">%s</p>\n<p class="v5-cl v5-cl-b">%s</p>\n%s\n%s\n</div></section>') % (c[0], c[1], m.group(1), m.group(2))
+    return guar, close
+
 def reorder(p):
     first, end, B = blocks(p)
-    keep_cta1 = V5.get("keep_cta1", True)
+    for k in DROP: B.pop(k)
+    B["לדעת או להטמיע"] = drop_ctab(B["לדעת או להטמיע"], "know")
+    B["@solution"], B["מה יש בפנים"] = split_inside(B["מה יש בפנים"])
+    B["שאלות"] = faq_first(B["שאלות"])
+    B["@final"], B["@close"] = split_final(B["@final"])
+    s = strip_section()
+    if s: B["@strip"] = s
+    # הפתיחה: תגית שלב + מעבר 01 בסוף הפתיחה
+    h0 = p.index("<header"); h1 = p.index("</header>") + len("</header>")
+    head = stages_tag(p[h0:h1], "hook")
+    # מעבר 01: לא נכנס במסך הראשון בלי להוריד את הכפתור (375x667, 390x844), ולכן מיד אחרי קבוצת הכפתור (כפתור, שורת המחיר, שורת הבונוסים) -
+    # השורה הראשונה אחרי הקיפול, לפני רשימת "כשאתה מסתכל במראה". שאר הפתיחה כמו היום
+    m = re.search(r'<p class="cta-bonus">.*?</p>', head); assert m
+    head = head[:m.end()] + "\n" + tr_html("01") + head[m.end():]
     parts = []
-    for k in ORDER:
-        if k == "@strip":
-            s = strip_section()
-            if s: parts.append(s)
-            continue
-        if k == "@cta1" and not keep_cta1:
-            B.pop(k); continue
-        parts.append(B.pop(k))
+    for n, (st, keys) in enumerate(STAGES):
+        if st == "hook": continue
+        blk = [stages_tag(B.pop(k), st) for k in keys if k in B]
+        assert blk, st
+        if n + 1 < len(STAGES) and n < 12:
+            blk[-1] = at_end(blk[-1], tr_html("%02d" % (n + 1)))
+        parts += blk
+    B.pop("@strip", None)
     assert not B, list(B)
-    p = p[:first] + "\n\n".join(parts) + "\n\n" + p[end:]
+    p = p[:h0] + head + p[h1:first] + "\n\n".join(parts) + "\n\n" + p[end:]
     n = iter(range(1, 999)); p = re.sub(r'(<(?:header|section)\b[^>]*?)data-sec="\d+"', lambda m: m.group(1) + 'data-sec="%d"' % next(n), p)
     k = iter(range(1, 99)); p = re.sub(r'data-num="\d+"', lambda m: 'data-num="%02d"' % next(k), p)
     return p
 
+def stages_tag(block, st):
+    return STG.tag(block, 0, st)
+
 CSS = """
+/* עדכון ב83: משפטי המעבר של בן - שורה בסוף הסקשן, ממורכזת, אותו גופן, משקל 600, קו זהב דק מעליה */
+.v5-tr{margin:34px auto 0;max-width:32em;text-align:center;font-weight:600;font-size:1.06em;line-height:1.6;color:inherit;text-wrap:balance}
+.v5-tr::before{content:"";display:block;width:56px;height:1px;margin:0 auto 16px;background:rgba(254,207,0,.65)}
+.hero9 .v5-tr{margin-top:26px}
+.v5-close{padding:56px 0 64px;text-align:center}
+.v5-close .wrap{align-items:center}
+.v5-cl{margin:0 auto;max-width:28em;font-size:clamp(18px,4.8vw,22px);line-height:1.55;text-wrap:balance}
+.v5-cl-b{font-weight:800}
+.v5-close .cta{margin:10px auto 0}
+.v5-sol .lead{margin-bottom:4px}
+
 /* ===== ב83 a5v5 ===== */
 /* פתיחה: לולאת וידאו מוכהה מעל תמונת הפתיחה (התמונה נשארת ה-LCP; הלולאה נטענת אחרי שהיא צוירה) */
 .hero9 .portrait .v5-loop{position:absolute;inset:0;z-index:0;pointer-events:none}
@@ -209,7 +288,7 @@ def v5_layer(p):
     p = belief(p)
     p = reorder(p)
     p = p.replace("</head>", "<style>" + CSS + "</style>\n</head>", 1)
-    i = p.rindex("</body>"); p = p[:i] + JS + p[i:]
+    i = p.rindex("</body>"); p = p[:i] + JS + STG.JS + p[i:]
     p = B4.ben_colors(p)
     return p
 

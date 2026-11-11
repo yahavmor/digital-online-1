@@ -4,59 +4,62 @@
  "hero": {
   "code": "gold_h1_02",
   "loop": {
-   "src": "",
-   "poster": ""
+   "src": "assets/v5/hero_loop_h1_02.mp4",
+   "poster": "assets/v5/hero_loop_h1_02_poster.webp",
+   "w": 576,
+   "h": 1024
   },
   "full": {
    "code": "gold_h1_02",
-   "src": "",
-   "poster": "",
-   "w": 1080,
-   "h": 1350
+   "src": "assets/v5/gold_h1_02_web.mp4",
+   "poster": "assets/v5/gold_h1_02_poster.webp",
+   "w": 720,
+   "h": 900
   }
  },
  "belief": {
   "code": "gold_h2_01",
-  "src": "",
-  "poster": "",
-  "w": 1080,
-  "h": 1350
+  "src": "assets/v5/gold_h2_01_web.mp4",
+  "poster": "assets/v5/gold_h2_01_poster.webp",
+  "w": 720,
+  "h": 900
  },
  "strip": [
   {
    "code": "gold_h1_01",
-   "src": "",
-   "poster": "",
-   "w": 1080,
-   "h": 1350
+   "src": "assets/v5/gold_h1_01_web.mp4",
+   "poster": "assets/v5/gold_h1_01_poster.webp",
+   "w": 720,
+   "h": 900
   },
   {
    "code": "gold_h2_02",
-   "src": "",
-   "poster": "",
-   "w": 1080,
-   "h": 1350
+   "src": "assets/v5/gold_h2_02_web.mp4",
+   "poster": "assets/v5/gold_h2_02_poster.webp",
+   "w": 720,
+   "h": 900
   },
   {
    "code": "gold_h1_03",
-   "src": "",
-   "poster": "",
-   "w": 1080,
-   "h": 1350
+   "src": "assets/v5/gold_h1_03_web.mp4",
+   "poster": "assets/v5/gold_h1_03_poster.webp",
+   "w": 720,
+   "h": 900
   },
   {
    "code": "gold_h2_03",
-   "src": "",
-   "poster": "",
-   "w": 1080,
-   "h": 1350
+   "src": "assets/v5/gold_h2_03_web.mp4",
+   "poster": "assets/v5/gold_h2_03_poster.webp",
+   "w": 720,
+   "h": 900
   },
   {
    "code": "gold_h1_04",
-   "src": "",
-   "poster": "",
-   "w": 1080,
-   "h": 1350
+   "src": "assets/v5/gold_h1_04_web.mp4",
+   "poster": "assets/v5/gold_h1_04_poster.webp",
+   "w": 720,
+   "h": 900
   }
- ]
+ ],
+ "_e22": "ע22 11.11 (e22_manifest.json, sha256 נבדק): 720x900 (4:5), לולאה 576x1024 6.7 ש' - זמנית (עותק וואטסאפ), מחליפים כשהמקור מהאייפון מגיע"
 }

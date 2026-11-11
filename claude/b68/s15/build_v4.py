@@ -635,5 +635,7 @@ if __name__ == "__main__":
     for k in FONT_RANGES: shutil.copy(os.path.join(HERE, "fonts", "heebo-%s.woff2" % k), os.path.join(OUT, "assets", "fonts"))
     for page, fn, old in (("pr2", build_v3.build_pr2, "pr2v3"), ("a5", build_v3.build_a5, "a5v3")):
         new = page + "v4"; p = v4(fn(), page, old, new)
+        if page == "a5":
+            import stages; p = stages.tag_a5v4(p)  # ב83: תגיות מדידה של 13 השלבים (section_view), בלי שינוי תוכן
         open(os.path.join(OUT, new + SUFFIX + ".html"), "w", encoding="utf8").write(p)
         print(new, len(p), "slots:", re.findall(r'data-slot="(\w+)"', p), "locks:", p.count('class="v4-lock"'), "added lines:", p.count('class="v4-sec"'))
