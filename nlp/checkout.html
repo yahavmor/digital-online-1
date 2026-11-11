@@ -223,7 +223,6 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 <div><dt>חשבונית</dt><dd>נשלחת אוטומטית למייל שהזנת מיד לאחר אישור העסקה</dd></div>
 <div><dt>גישה לקורס</dt><dd>נפתחת מיד לאחר אישור התשלום, ל-12 חודשים</dd></div>
 <div><dt>אחריות</dt><dd>7 ימים. אם הקורס לא מתאים לך, שולחים מייל ומקבלים החזר מלא</dd></div>
-<div><dt>תמיכה</dt><dd>זמינים בוואטסאפ לכל שאלה לפני ואחרי הרכישה</dd></div>
 </dl>
 </section>
 
@@ -273,7 +272,8 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
   const sid = qs.get("sid") || ((self.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now()+"-"+Math.random().toString(36).slice(2));
   const $ = id => document.getElementById(id);
   if (variant !== "x") $("back").href = variant + ".html" + location.search;
-  if (SUPPORT_WA){ $("help").hidden = false; $("helpLink").href = "https://wa.me/" + SUPPORT_WA; }
+  /* ב82 (בן 11.11): במצב הרגיל בלי קישור עזרה בוואטסאפ - נשאר רק אחרי תשלום שנכשל. זהה ב-A וב-B */
+  if (SUPPORT_WA && qs.get("status") === "failed"){ $("help").hidden = false; $("helpLink").href = "https://wa.me/" + SUPPORT_WA; }
   if (PRIVACY_URL){ $("terms").hidden=false; if (TERMS_URL){ $("termsLink").href=TERMS_URL; $("privLink").href=PRIVACY_URL; } else { $("terms").innerHTML='הפרטים משמשים לביצוע הרכישה, לחשבונית ולגישה לקורס. <a href="'+PRIVACY_URL+'" target="_blank" rel="noopener">מדיניות הפרטיות</a>'; } }
   if (qs.get("status") === "failed") $("err").classList.add("on");
   /* ב62 (תיקון 06.11): דחייה 60000303 = כשל Apple Pay / Google Pay בכל חברות הכרטיסים (מקור עסקה 11). כרטיס שמוקלד ידנית עובר. הודעה מדויקת במקום ההודעה הכללית. זהה ב-A וב-B */
