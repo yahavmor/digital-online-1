@@ -90,6 +90,26 @@ html{scroll-padding-top:12px}
 .bx2-val s{font-size:15px;color:#B8B8B8;text-decoration-thickness:1.5px}
 .bx2-val b{font-size:17px;font-weight:900;color:#FECF00}
 .bx2-total{margin:18px auto 0;text-align:center;font-size:20px;font-weight:900;color:#FFFFFF;max-width:560px}
+/* חלק 7: קופסת ההצעה ("רגע הנוקאאוט") - נקי ויוקרתי, שורות עם קו זהב דק */
+.v4-ko{width:100%;max-width:560px;margin:6px auto 0;padding:22px 20px 20px;border-radius:22px;border:1px solid rgba(254,207,0,.45);
+  background:radial-gradient(420px circle at 50% 0,rgba(254,207,0,.10),transparent 70%),linear-gradient(180deg,#1A1A1E,#111114);
+  box-shadow:0 40px 80px -40px rgba(0,0,0,.95),inset 0 1px 0 rgba(255,255,255,.06);display:grid;gap:14px;text-align:center}
+.v4-ko-list{list-style:none;margin:0;padding:0}
+.v4-ko-list li{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:11px 2px;border-bottom:1px solid rgba(254,207,0,.22);text-align:start}
+.v4-ko-list li span{font-size:15.5px;line-height:1.45;color:#E6E6E6}
+.v4-ko-list li b{flex:none;font-size:15.5px;font-weight:700;color:#FFFFFF;font-variant-numeric:tabular-nums}
+.v4-ko-tot{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:4px 2px 0}
+.v4-ko-tot span{font-size:17px;font-weight:800}
+.v4-ko-tot b{font-size:22px;font-weight:900;color:#FFFFFF}
+.v4-ko-price{padding:16px 0 4px;border-top:1px solid rgba(254,207,0,.45);display:grid;gap:4px}
+.v4-ko-reg{margin:0;font-size:16px;color:#B8B8B8}
+.v4-ko-reg s{text-decoration-thickness:1.5px}
+.v4-ko-now{margin:0;display:flex;align-items:baseline;justify-content:center;gap:10px}
+.v4-ko-now span{font-size:18px;font-weight:800;color:#FECF00}
+.v4-ko-now b{font-size:52px;line-height:1;font-weight:900;color:#FECF00;letter-spacing:-.5px}
+.v4-ko .cheap{margin:0;font-size:15px;line-height:1.65;color:#E6E6E6}
+.v4-ko .cta{width:100%;margin:2px 0 0}
+.v4-ko .cta-micro{margin:0}
 /* 20: נגן "הצצה פנימה" */
 .v4-peek{display:grid;gap:14px;justify-items:center;margin:8px auto 0;width:100%;max-width:620px}
 .v4-peek-h{margin:0;font-size:24px;font-weight:900;text-align:center}
@@ -464,22 +484,42 @@ def ben_bonus(p):
         lis = "".join("<li>%s</li>" % t for t, _src in c["bullets"])
         cards.append('<article class="bx2"><div class="bx2-head">%s<div class="bx2-t"><h3>בונוס %d: %s</h3><p class="bx2-kind">%s</p></div></div>'
                      '<ul class="bx2-ul">%s</ul><p class="bx2-val"><s>שווי: %d ₪</s><b>%s</b></p></article>' % (v, c["n"], c["name"], c["kind"], lis, c["value"], cfg["free"]))
-    new_list = '<div class="bx-list bx2-list">%s</div>\n<p class="bx2-total">%s</p>' % ("".join(cards), cfg["total"])
+    new_list = '<div class="bx-list bx2-list">%s</div>' % "".join(cards)
     sec = sec[:i] + new_list + sec[j:]
     # הסיכום הישן יוצא: "תחשבו רגע מה אתם מקבלים" (3 עולמות) וטבלת "סיכום חבילת הבונוסים"
     for cls in ("bx-worlds", "bx-sum"):
         k = sec.index('<div class="%s">' % cls); x, y = _block(sec, k); sec = sec[:x] + sec[y:]
-    # בסגירה נשארים: המחיר, "קורס הליבה + ...", הכפתור. בלי "שלושה עולמות תוכן..."
-    k = sec.index('<div class="bx-final">'); x, y = _block(sec, k); fin = sec[x:y]
-    fin2 = re.sub(r'<h3>[^<]*</h3>', '', fin, count=1)
-    fin2 = re.sub(r'<div class="three">.*?</div>', '', fin2, count=1, flags=re.S)
-    fin2 = re.sub(r'<p>תחשבו כמה כלים.*?</p>', '', fin2, count=1, flags=re.S)
-    fin2 = re.sub(r'<p><b>לא עוד ידע שנשאר בראש.*?</p>', '', fin2, count=1, flags=re.S)
-    assert fin2.count("<p") < fin.count("<p") and "שלושה עולמות" not in fin2
-    sec = sec[:x] + fin2 + sec[y:]
+    # חלק 7: הסיכום שבסוף הבונוסים (המחיר, "קורס הליבה + ...", הכפתור) יוצא - עובר לקופסת ההצעה
+    k = sec.index('<div class="bx-final">'); x, y = _block(sec, k); sec = sec[:x] + sec[y:]
+    # חלק 7: כותרת חדשה
+    sec, n = re.subn(r'<h2>[^\n]*?</h2>', '<h2>%s</h2>' % cfg["h2"], sec, count=1); assert n == 1
     p = p[:a] + sec + p[z:]
-    z = p.index("</section>", a) + len("</section>")
-    return p[:z] + ctab + p[z:]
+    # cta3 (כפתור ביניים) עובר אל אחרי "איך מתחילים", כדי שהבונוסים וההצעה יהיו צמודים בלי כפתור כפול
+    a2, z2 = sec_bounds(p, "איך מתחילים"); z2 += len("</section>")
+    return p[:z2] + ctab + p[z2:]
+
+def ben_offer(p):
+    # בן 11.11 חלק 7: "רגע הנוקאאוט" - #offer עובר אל מיד אחרי הבונוסים, במבנה חדש
+    cfg = BEN["a5_offer"]
+    m = re.search(r'<section id="offer"[^>]*>', p); a = m.start(); z = p.index("</section>", a) + len("</section>")
+    old = p[a:z]; tag = m.group(0)
+    cheap = re.search(r'<p class="cheap">.*?</p>', old, re.S).group(0)  # הנוסח של בן מתחת למחיר (חלק 1 סעיף 2) נשאר
+    btn = re.search(r'<a class="cta" data-cta="offer".*?</a>', old, re.S).group(0)
+    p = p[:a] + p[z:]
+    while p[a:a + 1] == "\n" and p[a - 1:a] == "\n": p = p[:a] + p[a + 1:]
+    rows = "".join('<li><span>%s</span><b>%s</b></li>' % (n, v) for n, v in cfg["rows"])
+    html = ('%s<div class="wrap stack">\n<h2>%s</h2>\n<div class="v4-ko">'
+            '<ul class="v4-ko-list">%s</ul>'
+            '<div class="v4-ko-tot"><span>%s</span><b>%s</b></div>'
+            '<div class="v4-ko-price"><p class="v4-ko-reg">%s <s>%s</s></p><p class="v4-ko-now"><span>%s</span> <b>%s</b></p></div>'
+            '%s\n%s\n<p class="cta-micro">%s</p>'
+            '</div>\n</div></section>') % (tag, cfg["h2"], rows, cfg["total"][0], cfg["total"][1], cfg["regular"][0], cfg["regular"][1],
+                                            cfg["launch"][0], cfg["launch"][1], cheap, btn, cfg["micro"])
+    a2, z2 = sec_bounds(p, "בונוסים"); z2 += len("</section>")
+    p = p[:z2] + "\n\n" + html + p[z2:]
+    # מספור מחדש (data-sec לפי הסדר החדש; המספרים הגדולים 01.. לא משתנים בסדרם)
+    n = iter(range(1, 999)); p = re.sub(r'(<(?:header|section)\b[^>]*?)data-sec="\d+"', lambda m: m.group(1) + 'data-sec="%d"' % next(n), p)
+    return p
 
 def place_slots(p, page):
     for key, cfg in SLOTS.items():
@@ -571,6 +611,7 @@ def v4(p, page, old, new):
     if page == "a5":
         p = ben_inside(p)
         p = ben_bonus(p)
+        p = ben_offer(p)
     p, nd = defer_imgs(p); assert nd >= 3, nd
     # בלוק נפרד בסוף ה-head, אחרי ה-CSS של הדף, כדי שהשכבה של v4 תגבר עליו
     assert p.count("</head>") == 1
