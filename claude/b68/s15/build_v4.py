@@ -393,6 +393,9 @@ def place_slots(p, page):
             else:
                 continue
             p = p[:m.end()] + sl + p[m.end():]
+            # נקודה נוספת לקופית החדשה (הנקודות קבועות ב-HTML, וכפתור "הבא" מוגבל למספר שלהן)
+            k = p.index('<div class="car-dots">', m.end()); assert k < b + len(sl) + 50
+            p = p[:k] + '<div class="car-dots"><i></i>' + p[k + len('<div class="car-dots">'):]
             continue
         if at_ == "replace_peek":
             # 17 (a5): ע20 (הצצה של כחצי דקה מתוך הקורס) במקום תיבת ההצצה; בלי קובץ - התיבה נשארת
