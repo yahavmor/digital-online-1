@@ -83,6 +83,23 @@ section.alt{background-image:radial-gradient(700px circle at 88% 0%,rgba(201,169
 .sticky{-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 /* המסך הראשון מוצג מיד: בלי אנימציית הכניסה של הפתיחה (בדף החי הכותרת, הכפתור והתמונה נכנסים בהדרגה) */
 .hero8 .copy>*,.hero8 .visual,.hero9 .copy>*{animation:none}
+/* ===== הערות בן 11.11 (ב68): יותר יוקרה ועומק. הרקע השחור נשאר; קווי זהב דקים, הדרגות וצללים. CSS בלבד ===== */
+.v4-ctab{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:30px;text-align:center}
+.v4-ctab .cta{max-width:470px}
+.v4-ctab .cta-micro{margin:0;font-size:14px;color:var(--muted)}
+/* כרטיסים: קו זהב דק למעלה, הדרגה עדינה וצל עמוק (שכבות רקע, בלי pseudo, כדי לא לשבור עיטורים קיימים) */
+.card,.reality .r,.six>div,.wins li,.fitlist li,.bonus8,.module,.faq details,.bought li,.split>div,.ba>div,.outcomes>div,.car-slide,.toolbox,.bx{
+  background:linear-gradient(90deg,transparent 8%,rgba(234,219,181,.55) 50%,transparent 92%) top center/100% 1px no-repeat,
+             linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,0) 55%),var(--card,#111319);
+  border-color:rgba(211,183,122,.24);
+  box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 28px 56px -30px rgba(0,0,0,.95),0 0 0 1px rgba(0,0,0,.25)}
+.toolbox{background:linear-gradient(90deg,transparent 8%,rgba(234,219,181,.55) 50%,transparent 92%) top center/100% 1px no-repeat,linear-gradient(180deg,rgba(211,183,122,.10),rgba(211,183,122,.03))}
+.ctab .box{border-color:rgba(211,183,122,.45);box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 40px 90px -40px rgba(0,0,0,.95),0 0 60px -28px rgba(211,183,122,.30)}
+.pcard{box-shadow:0 0 0 1px rgba(234,219,181,.10) inset,0 1px 0 rgba(255,255,255,.10) inset,0 80px 140px -50px rgba(0,0,0,.95),0 0 110px -30px rgba(211,183,122,.32)}
+/* כפתור הקנייה: ברק עדין שעובר כל כמה שניות כשהכפתור במסך (transform/opacity בלבד; כבוי בהפחתת תנועה) */
+.cta.v4-shine::after{animation:v4shine2 5.5s var(--ease) .2s infinite backwards}
+@keyframes v4shine2{0%{opacity:0;transform:translateX(130%) skewX(-18deg)}4%{opacity:1}20%{opacity:0;transform:translateX(-260%) skewX(-18deg)}100%{opacity:0;transform:translateX(-260%) skewX(-18deg)}}
+@media (prefers-reduced-motion:reduce){.cta.v4-shine::after{animation:none}}
 #offer .secure{margin-top:14px}
 """,
 "pr2": """
@@ -135,7 +152,7 @@ JS = """<script>/* ב68 v4: (1) כניסה עדינה בגלילה למה שמת
 # שני קבצים מ-Heebo המלא (גופן משתנה, מצומצם למשקלים 400-900 שבשימוש), לפי טווח ולא לפי התווים שבדף היום,
 # כדי ששינויי קופי לא יציגו תו בגופן אחר: "he" = כל האותיות העבריות, ספרות, פיסוק ו-₪ (10KB, עם preload);
 # "la" = אותיות לטיניות (NLP, WhatsApp...; 12KB, בלי preload). ראו fonts/README.md
-FONT_RANGES = {"he": "U+0020-0040, U+005B-0060, U+007B-007E, U+00A0, U+00A9, U+00AB, U+00B0, U+00B7, U+00BB, U+00D7, U+05BE, U+05C0, U+05C3, U+05C6, U+05D0-05EA, U+05F0-05F4, U+200C-200F, U+2010-2014, U+2018-201E, U+2022, U+2026, U+2030, U+2039-203A, U+20AA",
+FONT_RANGES = {"he": "U+0020-0040, U+005B-0060, U+007B-007E, U+00A0, U+00A9, U+00AB, U+00B0, U+00B7, U+00BB, U+00D7, U+05B0-05C7, U+05D0-05EA, U+05F0-05F4, U+200C-200F, U+2010-2014, U+2018-201E, U+2022, U+2026, U+2030, U+2039-203A, U+20AA",
                "la": "U+0041-005A, U+0061-007A, U+00C0-00D6, U+00D8-00F6, U+00F8-017F"}
 FONT_PRELOAD = ("he",)
 def self_font(p):
@@ -164,6 +181,25 @@ def defer_imgs(p):
         n[0] += 1; return t.replace(' src="', ' data-v4src="', 1)
     tail = re.sub(r"<img\b[^>]*>", f, tail)
     return head + tail, n[0]
+
+# ---------- הערות בן 11.11 (ב68, מאושר ע"י הראשי): טקסט מילה במילה ושני כפתורים חדשים, רק ב-a5v4 ----------
+# הטקסטים לא מופיעים ב-pr2, ולכן pr2v4 לא משתנה. הנוסחים ב-ben_1111.json (גם t_v4.js קורא אותם)
+BEN = json.load(open(os.path.join(HERE, "ben_1111.json"), encoding="utf8"))
+def ben_a5(p):
+    for old, new in BEN["a5"]:
+        assert p.count(old) == 1, ("ben_1111", old[:60], p.count(old)); p = p.replace(old, new)
+    for rx in BEN["a5_regex_remove"]:
+        p, n = re.subn(rx, "", p, count=1, flags=re.S); assert n == 1, rx
+    for b in BEN["a5_buttons"]:
+        btn = ('\n<div class="v4-ctab"><a class="cta" data-cta="%s" data-checkout href="#"><span class="ct-t">%s</span> <span>←</span></a>'
+               '<p class="cta-micro">297 ₪ · <span class="v4-lock">%sתשלום מאובטח</span></p></div>') % (b["cta"], b["text"], LOCK)
+        a, z = sec_bounds(p, b["section"])
+        if b.get("after"):
+            i = p.index(b["after"], a); assert i < z; at = i + len(b["after"])
+        else:  # אחרי המפתח האחרון: אחרי רשימת המפתחות, לפני סגירת ה-wrap של הסקשן
+            at = p.rindex("</div>", a, z)
+        p = p[:at] + btn + p[at:]
+    return p
 
 def sec_bounds(p, name):
     m = re.search(r'<(header|section)\b[^>]*data-name="%s"[^>]*>' % re.escape(name), p); assert m, name
@@ -227,6 +263,7 @@ def v4(p, page, old, new):
         a, b = sec_bounds(p, "ההצעה")
         mc = re.compile(r'<a class="cta"[^>]*data-cta="offer"[^>]*>.*?</a>', re.S).search(p, a, b); assert mc
         p = p[:mc.end()] + sec + p[mc.end():]
+        p = ben_a5(p)
     p = self_font(p)
     p = lock_everywhere(p)
     p = place_slots(p, page)

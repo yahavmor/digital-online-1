@@ -2,6 +2,12 @@
 //   a5v4.html / pr2v4.html (בלי נכסים), a5v4s.html / pr2v4s.html (עם slots_test.json)
 // שימוש: node t_v4.js http://127.0.0.1:8791/nlp/
 const {chromium,devices}=require('playwright');const B=process.argv[2];
+// הערות בן 11.11 (ben_1111.json): ההבדלים המותרים בקופי של a5v4 מול a5 החי - רק המילים של הנוסחים הישנים/החדשים והכפתורים החדשים
+const BEN=require(__dirname+"/ben_1111.json");
+const wl=t=>t.replace(/<[^>]+>/g," ").replace(/&nbsp;/g," ").replace(/🔒/g," ").replace(/תשלום מאובטח/g," ").split(/[\s·•]+/).filter(Boolean);
+const cntw=a=>a.reduce((m,x)=>(m[x]=(m[x]||0)+1,m),{});
+const BEN_OLD=cntw([].concat(...BEN.a5.map(x=>wl(x[0])),...BEN.a5_removed_text.map(wl)));
+const BEN_NEW=cntw([].concat(...BEN.a5.map(x=>wl(x[1])),...BEN.a5_buttons.map(b=>wl(b.text+" ← 297 ₪"))));
 const IG="Mozilla/5.0 (Linux; Android 13; SM-A536B) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/120.0 Mobile Safari/537.36 Instagram 300.0.0.0";
 const res=[];const ok=(n,c,e="")=>{res.push(!!c);if(!c||process.env.V)console.log(c?"PASS":"FAIL",n,e)};
 async function ctx(b,dev){const c=await b.newContext(dev);const T=[];c.T=T;
@@ -23,8 +29,13 @@ for(const [pg,live] of [["pr2v4","pr2"],["a5v4","a5"]]){
   await p.goto(B+live+".html?test=1",{waitUntil:"networkidle"});const LW=await words(p),LM=await media(p);
   await p.goto(B+pg+".html?test=1",{waitUntil:"networkidle"});const NW=await words(p),NM=await media(p);
   const cnt=a=>a.reduce((m,x)=>(m[x]=(m[x]||0)+1,m),{});const lc=cnt(LW),nc=cnt(NW);
-  const miss=Object.keys(lc).filter(k=>(nc[k]||0)<lc[k]),extra=Object.keys(nc).filter(k=>(lc[k]||0)<nc[k]);
-  ok(pg+" same copy as live (only lock + תשלום מאובטח added)",miss.length===0&&extra.length===0,"missing:"+JSON.stringify(miss.slice(0,6))+" extra:"+JSON.stringify(extra.slice(0,6)));
+  const ALO=pg==="a5v4"?BEN_OLD:{},ALN=pg==="a5v4"?BEN_NEW:{};
+  const miss=Object.keys(lc).filter(k=>(nc[k]||0)<lc[k]-(ALO[k]||0)),extra=Object.keys(nc).filter(k=>nc[k]-(lc[k]||0)>(ALN[k]||0));
+  ok(pg+" same copy as live (only lock + תשלום מאובטח"+(pg==="a5v4"?" + Ben 11.11 edits":"")+")",miss.length===0&&extra.length===0,"missing:"+JSON.stringify(miss.slice(0,6))+" extra:"+JSON.stringify(extra.slice(0,6)));
+  if(pg==="a5v4"){const t=(await p.evaluate(()=>document.body.innerText)).replace(/\s+/g," ");
+   ok("a5v4 Ben 11.11: every new text present word for word",BEN.a5.filter(x=>x[1]).every(x=>t.includes(x[1].replace(/<h3>[^<]*<\/h3>/,"").replace(/<[^>]+>/g,"").replace(/\s+/g," ").trim())),"");
+   ok("a5v4 Ben 11.11: removed texts gone (notfit, WhatsApp in offer box, old sub)",!/פתרון קסם|יש שאלה לפני שמצטרפים|בקורס לומדים להטמיע/.test(t)&&!(await p.$('[data-wa="offer"]')));
+   ok("a5v4 new buttons: know + keys, each with 297 + lock",await p.evaluate(()=>["know","keys"].every(k=>{const a=document.querySelector('[data-cta="'+k+'"][data-checkout]');return !!a&&/297/.test(a.nextElementSibling.textContent)&&!!a.nextElementSibling.querySelector(".v4-li")})));}
   ok(pg+" same images/videos as live (no empty slots in the page)",JSON.stringify(LM)===JSON.stringify(NM)&&!(await p.$(".v4-slot")),LM.length+" vs "+NM.length);
   ok(pg+" no robots noindex, no 0183/0184/0188",!(await p.evaluate(()=>!!document.querySelector('meta[name=robots]')||/018[348]/.test(document.body.innerHTML))));
   // כל כפתור (חוץ מהדביק) עם "תשלום מאובטח" ומנעול מיד אחריו
@@ -42,6 +53,10 @@ for(const [pg,live] of [["pr2v4","pr2"],["a5v4","a5"]]){
   const vw=c.T.filter(t=>t.ev==="view");ok(tag+" view event with new variant",vw.length===1&&vw[0].variant===pg,JSON.stringify(vw.map(v=>v.variant)));
   const fs=await p.evaluate(()=>{const a=document.querySelector('[data-sec="1"] [data-cta="hero_main"]').getBoundingClientRect();return {cta:Math.round(a.bottom),h:innerHeight}});
   if(dn!=="desktop") ok(tag+" price + CTA in first screen",fs.cta<=fs.h,JSON.stringify(fs));
+  if(dn==="iphone"){for(const [w,h] of [[375,667],[390,844]]){await p.setViewportSize({width:w,height:h});await p.waitForTimeout(150);
+   const f=await p.evaluate(()=>{const s=document.querySelector('[data-sec="1"]'),q=e=>Math.round(e.getBoundingClientRect().bottom);return {h1:q(s.querySelector("h1")),sub:q(s.querySelector(".sub")),cta:q(s.querySelector('[data-cta="hero_main"]')),vh:innerHeight}});
+   ok(tag+" "+w+"x"+h+": headline, sentence and button in first screen",f.h1<=f.vh&&f.sub<=f.vh&&f.cta<=f.vh,JSON.stringify(f));}
+   await p.setViewportSize(dev.viewport);await p.waitForTimeout(150);}
   const order=await p.evaluate(()=>[...document.querySelectorAll("[data-sec]")].map(s=>s.dataset.sec+":"+s.dataset.name));
   const OI=pg==="a5v4"?3:2;
   ok(tag+" order as v3 (offer: pr2 3, a5 4), numbering 1..n",order[OI]===(OI+1)+":ההצעה"&&order.every((x,i)=>x.startsWith((i+1)+":")),order.slice(0,5).join(" | "));
