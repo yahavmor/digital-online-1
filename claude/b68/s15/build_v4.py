@@ -72,6 +72,24 @@ html{scroll-padding-top:12px}
 .v4-all[open]>summary::after{transform:rotate(225deg) translateY(-3px)}
 .v4-all-in{display:grid;gap:16px;margin-top:16px}
 .v4-all .rv,.v4-all .v4r{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}
+/* חלק 6: כרטיסי הבונוסים */
+.bx2-list{gap:16px}
+.bx2{background:linear-gradient(180deg,#1A1A1E,#151518);border:1px solid rgba(254,207,0,.32);border-radius:18px;padding:18px 18px 16px;display:grid;gap:12px;
+  box-shadow:0 24px 50px -34px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.05)}
+.bx2-head{display:flex;gap:14px;align-items:center}
+.bx2-head .bx-vis{flex:none;width:64px}
+.bx2-head .bx-vis img,.bx2-head .bx-course{width:64px}
+.bx2-head .bx-course{height:83px;font-size:11px;padding:6px}
+.bx2-head .bx-course small{font-size:9px;margin-top:4px}
+.bx2-t h3{margin:0;font-size:20px;line-height:1.3;font-weight:900;color:#FFFFFF}
+.bx2-kind{margin:2px 0 0;font-size:14px;font-weight:700;color:#FECF00}
+.bx2-ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.bx2-ul li{position:relative;padding-inline-start:24px;font-size:16px;line-height:1.55;color:#E6E6E6}
+.bx2-ul li::before{content:"";position:absolute;inset-inline-start:2px;top:.55em;width:12px;height:7px;border-left:2px solid #FECF00;border-bottom:2px solid #FECF00;transform:rotate(-45deg)}
+.bx2-val{margin:4px 0 0;padding-top:12px;border-top:1px solid rgba(254,207,0,.18);display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px}
+.bx2-val s{font-size:15px;color:#B8B8B8;text-decoration-thickness:1.5px}
+.bx2-val b{font-size:17px;font-weight:900;color:#FECF00}
+.bx2-total{margin:18px auto 0;text-align:center;font-size:20px;font-weight:900;color:#FFFFFF;max-width:560px}
 /* 20: נגן "הצצה פנימה" */
 .v4-peek{display:grid;gap:14px;justify-items:center;margin:8px auto 0;width:100%;max-width:620px}
 .v4-peek-h{margin:0;font-size:24px;font-weight:900;text-align:center}
@@ -402,7 +420,7 @@ def tour_html(key, cfg):
             % (key, cfg["w"], cfg["h"], cfg.get("aria", "הפעלת הסרטון"), cfg["src"], poster, img, PLAY))
 
 def ben_inside(p):
-    # בן 11.11 חלק 5: "לא לספר מה יש בפנים - להראות". סדר חדש בתוך "מה יש בפנים":
+    # בן 11.11 חלק 5-6: "לא לספר מה יש בפנים - להראות". בחלק 6 נשארים רק:
     # כותרת + "כל חלק הוא צעד" / "לא עוד קורס שרואים ושוכחים" / הטקסט של בן / סיור (ע21) / נגן ע20 / "קורס הליבה: 90 שיעורים" / כפתור "לכל 90 השיעורים"
     cfg = BEN["a5_inside"]
     a, z = sec_bounds(p, "מה יש בפנים"); sec = p[a:z]
@@ -423,9 +441,45 @@ def ben_inside(p):
     head = sec[:m.end()]; rest = sec[m.end():].strip()
     assert re.fullmatch(r'(\s|</div>)*', rest), rest[:200]
     tour = tour_html("t21", SLOTS["t21"]) if "t21" in SLOTS else ""
-    allb = '<details class="v4-all"><summary>%s</summary><div class="v4-all-in">%s\n%s</div></details>' % (cfg["all_btn"], start, mods)
-    new = "\n".join(x for x in (head, nc, cfg["html"], tour, peek, tool, allb) if x) + "\n" + rest
+    # חלק 6: הקופסה "לא עוד קורס", "קורס הליבה: 90 שיעורים", "לא יודעים מאיפה להתחיל" וכרטיסי החלקים יוצאים
+    new = "\n".join(x for x in (head, cfg["html"], tour, peek) if x) + "\n" + rest
     return p[:a] + "\n" + new + p[z:]
+
+def ben_bonus(p):
+    # בן 11.11 חלק 6: הבונוסים מיד אחרי שני הסרטונים, כרטיס לכל בונוס, סיכום מקוצר
+    cfg = BEN["a5_bonus"]
+    # הכפתור cta3 שהיה בין "מה יש בפנים" לבונוסים עובר אל אחרי הבונוסים
+    a0, z0 = sec_bounds(p, "מה יש בפנים"); z0 += len("</section>")
+    m = re.compile(r'\s*<section class="ctab" data-buyzone>.*?</section>', re.S).match(p, z0); assert m and 'data-cta="cta3"' in m.group(0)
+    ctab = m.group(0); p = p[:m.start()] + p[m.end():]
+    a, z = sec_bounds(p, "בונוסים"); sec = p[a:z]
+    # כרטיסים
+    i = sec.index('<div class="bx-list">'); i, j = _block(sec, i); old = sec[i:j]
+    vis = []
+    for mm in re.finditer(r'<div class="bx-vis">', old):
+        x, y = _block(old, mm.start()); vis.append(old[x:y])
+    assert len(vis) == len(cfg["cards"]) == 5, len(vis)
+    cards = []
+    for v, c in zip(vis, cfg["cards"]):
+        lis = "".join("<li>%s</li>" % t for t, _src in c["bullets"])
+        cards.append('<article class="bx2"><div class="bx2-head">%s<div class="bx2-t"><h3>בונוס %d: %s</h3><p class="bx2-kind">%s</p></div></div>'
+                     '<ul class="bx2-ul">%s</ul><p class="bx2-val"><s>שווי: %d ₪</s><b>%s</b></p></article>' % (v, c["n"], c["name"], c["kind"], lis, c["value"], cfg["free"]))
+    new_list = '<div class="bx-list bx2-list">%s</div>\n<p class="bx2-total">%s</p>' % ("".join(cards), cfg["total"])
+    sec = sec[:i] + new_list + sec[j:]
+    # הסיכום הישן יוצא: "תחשבו רגע מה אתם מקבלים" (3 עולמות) וטבלת "סיכום חבילת הבונוסים"
+    for cls in ("bx-worlds", "bx-sum"):
+        k = sec.index('<div class="%s">' % cls); x, y = _block(sec, k); sec = sec[:x] + sec[y:]
+    # בסגירה נשארים: המחיר, "קורס הליבה + ...", הכפתור. בלי "שלושה עולמות תוכן..."
+    k = sec.index('<div class="bx-final">'); x, y = _block(sec, k); fin = sec[x:y]
+    fin2 = re.sub(r'<h3>[^<]*</h3>', '', fin, count=1)
+    fin2 = re.sub(r'<div class="three">.*?</div>', '', fin2, count=1, flags=re.S)
+    fin2 = re.sub(r'<p>תחשבו כמה כלים.*?</p>', '', fin2, count=1, flags=re.S)
+    fin2 = re.sub(r'<p><b>לא עוד ידע שנשאר בראש.*?</p>', '', fin2, count=1, flags=re.S)
+    assert fin2.count("<p") < fin.count("<p") and "שלושה עולמות" not in fin2
+    sec = sec[:x] + fin2 + sec[y:]
+    p = p[:a] + sec + p[z:]
+    z = p.index("</section>", a) + len("</section>")
+    return p[:z] + ctab + p[z:]
 
 def place_slots(p, page):
     for key, cfg in SLOTS.items():
@@ -516,6 +570,7 @@ def v4(p, page, old, new):
     p = place_slots(p, page)
     if page == "a5":
         p = ben_inside(p)
+        p = ben_bonus(p)
     p, nd = defer_imgs(p); assert nd >= 3, nd
     # בלוק נפרד בסוף ה-head, אחרי ה-CSS של הדף, כדי שהשכבה של v4 תגבר עליו
     assert p.count("</head>") == 1
