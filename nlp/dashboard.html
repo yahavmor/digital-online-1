@@ -280,6 +280,10 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
   <!-- 06 experiments -->
   <section class="screen" id="s-ex">
     <div class="panel"><div class="panel-h"><h2>ניסוי פעיל</h2><span class="pill neutral" id="exState"></span></div><div id="exActive"></div></div>
+    <div class="panel"><div class="panel-h"><h2>מעברים בין שלבים</h2><span class="note" id="stNote"></span></div>
+      <div class="tw"><table id="stTop"></table></div>
+      <div class="tw" style="margin-top:12px"><table id="stTable"></table></div>
+      <p class="note">אנשים = מזהה מבקר ייחודי. שלב נספר כשתחילתו נכנסה למסך (section_view, פעם אחת לביקור). "מהשלב הקודם" = לפי הסדר בדף עצמו. מעבר מסך ראשון = הגיעו לסקשן 2. הגעה להצעה = הגיעו לסקשן "ההצעה". הגעה לסליקה = נפתח דף התשלום.</p></div>
     <div class="panel"><div class="panel-h"><h2>היסטוריית ניסויים ושינויים</h2></div><div class="tw"><table id="exLog"></table></div></div>
   </section>
 
@@ -387,6 +391,7 @@ const EXPERIMENTS=[
  {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"2026-10-26",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"הסתיים, הוחלף ב-abc_2610",decision:""},
 ];
 const CHANGELOG=[
+["2026-11-11","16:50 - ב83 (מאשר ב83, יהב): דף הבדיקה a5v5 (noindex, לא ב-go.html ולא בניסוי) בסדר 13 השלבים של בן עם 12 משפטי מעבר וסגירה, וסרטוני ע22. מדידה: אירוע section_view לכל שלב (hook עד close) ב-a5v5, ואותן תגיות ב-a5v4 בלי שינוי תוכן. לשונית 06: פאנל \"מעברים בין שלבים\" - לכל דף אחוז שהגיעו לכל שלב, מעבר משלב לשלב, מעבר מסך ראשון, הגעה להצעה והגעה לסליקה לאדם. a5, pr2 ו-go.html לא השתנו"],
 ["2026-11-11","11:38 - ב82 (סליקה, בקשת בן; בלי שינוי בדשבורד, במדידה ובאירועים): בגרסאות A ו-B, במצב הרגיל, ירדו הקישור \"צריך עזרה? אנחנו זמינים ב-WhatsApp\" והשורה \"תמיכה\" מטבלת פרטי העסקה. קישור הוואטסאפ נשאר רק אחרי תשלום שנכשל."],
 ["2026-11-10","13:21 - ב79 (סליקה, בלי שינוי בדשבורד): טלפון - כל פורמט נפוץ מנורמל ל-05X-XXXXXXX ביציאה מהשדה, שגיאה רק ביציאה מהשדה עם דוגמה, ובאירוע השגיאה רק סוג הבעיה ומספר הספרות (pt=, len=) בלי חלק מהמספר; הבהוב קצר בתיבת התקנון כשלא סומנה; אירוע חדש checkout_leave (זמן בדף, גלילה, נגיעה בשדה, טופס תשלום, זמני טעינה); בכשל תשלום rc=<קוד הדחייה> ו-rep=1 לרענון של אותו כשל. משותף ל-a5 ול-pr2, ap2_0811 לא מושפע."],
 ["2026-11-10","13:21 - ב80 (אחרי מ32): לשונית 10 - המשווקים עברו לאופטימיזציה ל\"מעבר לתשלום\" בסדרות חדשות. לכל משווק שורת \"לפני\" (רכישה) ושורת \"אחרי\" (מעבר לתשלום) לפי שעת כיבוי הסדרה הישנה: אמיר 10:26, יהל 10:27, רחל 10:53 (ומאז בקהל קר, 40 ₪ ליום; שם הקמפיין נשאר Warm, ולכן הסיווג לפי השעה). גל - עדיין לפני, השעה תימסר. שחר - נשאר ברכישה. אמיר נוסף ללשונית (קהל חם, c1 ו-c2, 40 ₪ ליום, מ-08.11 20:00). הוצאת הסדרה החדשה נשמרת במפתח aff_<משווק>_ic. בלי שינוי בשאר הלשוניות ובניסוי ap2_0811."],
@@ -727,6 +732,29 @@ function renderExperiments(M){const S=M.sess.filter(s=>s.go),n=S.length;$("exSta
  table($("exLog"),["תאריך","מה","סטטוס"],EXPERIMENTS.map(e=>'<tr><td>'+e.start+'</td><td><b>ניסוי:</b> '+esc(e.name)+'</td><td>'+esc(e.status)+'</td></tr>').concat(CHANGELOG.slice().reverse().map(c=>'<tr><td>'+c[0]+'</td><td>'+esc(c[1])+'</td><td>הוטמע</td></tr>')));}
 </script>
 <script>
+/* ================= ב83: מעברים בין שלבים (section_view) ================= */
+const STAGES=[["hook","הוק"],["pain","כאב"],["cause","הסיבה האמיתית"],["old","למה מה שניסה לא עבד"],["solution","הפתרון"],["method","למה השיטה שלנו"],["result","התוצאה"],["proof","הוכחות"],["course","הקורס"],["offer","ההצעה"],["objections","התנגדויות"],["guarantee","אחריות"],["close","סגירה"]],
+ STAGE_PAGES=["a5","pr2","a5v4","a5v5"],STAGE_LBL={a5:"a5 (חי)",pr2:"pr2 (חי)",a5v4:"a5v4 (בדיקה)",a5v5:"a5v5 (בדיקה)"};
+function renderStages(B){
+ const R=rows.filter(r=>!isNaN(r.t)&&r.t>=B.a&&r.t<B.b&&(showTests||!isTest(r))&&STAGE_PAGES.includes(r.variant)),pid=r=>r.vid||r.sid;
+ const P={};STAGE_PAGES.forEach(v=>P[v]={ppl:new Set(),sec2:new Set(),off:new Set(),chk:new Set(),st:{},pos:{},offIdx:0,maxs:{}});
+ R.forEach(r=>{const x=P[r.variant],id=pid(r);if(!id)return;
+  if(r.ev==="view")x.ppl.add(id);
+  if(r.ev==="section"&&/^ההצעה$/.test(r.name||"")&&+r.section)x.offIdx=+r.section;
+  x.maxs[id]=Math.max(x.maxs[id]||0,+r.max_section||0);
+  if(/^checkout_/.test(r.ev))x.chk.add(id);
+  if(r.ev==="section_view"&&r.name){(x.st[r.name]=x.st[r.name]||new Set()).add(id);(x.pos[r.name]=x.pos[r.name]||[]).push(+r.section||0)}});
+ const live=STAGE_PAGES.filter(v=>P[v].ppl.size);
+ live.forEach(v=>{const x=P[v];for(const id in x.maxs){if(!x.ppl.has(id))continue;if(x.maxs[id]>=2)x.sec2.add(id);if(x.offIdx&&x.maxs[id]>=x.offIdx)x.off.add(id)}});
+ const c=(k,n)=>'<td>'+(n?pf(pct(k,n)):'<span class="na">-</span>')+'<small>'+fmt(k)+'/'+fmt(n)+'</small></td>';
+ table($("stTop"),["דף","אנשים","מעבר מסך ראשון","הגעה להצעה","הגעה לסליקה"],live.map(v=>{const x=P[v],n=x.ppl.size;return '<tr><td><b>'+esc(STAGE_LBL[v])+'</b></td><td class="num">'+fmt(n)+'</td>'+c(x.sec2.size,n)+(x.offIdx?c(x.off.size,n):'<td><span class="na">-</span></td>')+c(x.chk.size,n)+'</tr>'}),"אין כניסות בתקופה");
+ const tagged=live.filter(v=>Object.keys(P[v].st).length);
+ const ord=v=>{const x=P[v],med=a=>{const s=a.slice().sort((p,q)=>p-q);return s[Math.floor(s.length/2)]};return STAGES.map(s=>s[0]).filter(k=>x.st[k]).sort((p,q)=>med(x.pos[p])-med(x.pos[q]))};
+ const body=STAGES.map(([k,l])=>'<tr><td><b>'+esc(l)+'</b> <small>'+k+'</small></td>'+tagged.map(v=>{const x=P[v],n=x.ppl.size,o=ord(v),i=o.indexOf(k),prev=i>0?x.st[o[i-1]].size:null,got=x.st[k]?x.st[k].size:0;
+  return x.st[k]?'<td>'+pf(pct(got,n))+'<small>'+fmt(got)+(prev!=null?' · '+pf(pct(got,prev))+' מהשלב הקודם':'')+'</small></td>':'<td><span class="na">-</span></td>'}).join("")+'</tr>');
+ table($("stTable"),["שלב"].concat(tagged.map(v=>STAGE_LBL[v]+' <small>('+fmt(P[v].ppl.size)+' אנשים)</small>')),tagged.length?body:[],"עוד אין נתוני שלבים. a5v4 ו-a5v5 מסומנים כבדיקה (int=1) - מוצגים רק עם \"כולל בדיקות\"");
+ $("stNote").textContent=showTests?"כולל בדיקות":"בלי בדיקות (דפי הבדיקה int=1 לא נספרים)";
+}
 /* ================= 00 optimization (Ben's doc, section 10) ================= */
 /* סטטיסטיקה: התפלגות Beta(1+k, 1+n-k) לכל דף, והסתברות שהדף הכי טוב / הכי חלש (Monte Carlo עם seed קבוע, כדי שהמספרים לא יקפצו בין רענונים).
    ההשוואה בין שלושת הדפים יחד מטפלת בהשוואות מרובות; הספים (95%) שמרניים כי מסתכלים על הנתונים כל יום. */
@@ -1105,7 +1133,7 @@ function renderDQ(M){const now=Date.now(),last=ev=>{for(let i=rows.length-1;i>=0
 function activeVars(B){const s=new Set();rows.forEach(r=>{if(r.t>=B.pa&&r.t<B.b&&(showTests||!isTest(r)))s.add(r.variant)});const v=ALLV.filter(x=>s.has(x));return v.length?v:ALLV.slice(0,3)}
 function render(){if(!rows)return;const B=bounds();VARS=activeVars(B);if(!VARS.includes(lpVar))lpVar=VARS[0];document.querySelectorAll("#lpVar button").forEach(b=>{b.hidden=!VARS.includes(b.dataset.v)});const M=build(B.a,B.b),P=build(B.pa,B.pb),A=aggregate(M,B.a,B.b),PA=aggregate(P,B.pa,B.pb);
  const srcs=[...new Set(rows.filter(r=>VARS.includes(r.variant)&&(showTests||!isTest(r))).map(r=>source(qsObj(r.qs))))].sort();const fs=$("fSrc");if(fs.options.length-1!==srcs.length){const cur=fs.value;fs.innerHTML='<option value="">כל המקורות</option>'+srcs.map(s=>'<option'+(s===cur?" selected":"")+'>'+esc(s)+'</option>').join("")}
- try{({lab:()=>renderLab(M,B),hub:()=>renderHub(M,B),op:()=>renderOpt(),ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>{renderCheckout(M);renderRecovery(M);renderCo54(M)},jr:()=>renderJourneys(M),ex:()=>renderExperiments(M),in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M),af:()=>renderAffiliates(),aud:()=>renderAud()})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
+ try{({lab:()=>renderLab(M,B),hub:()=>renderHub(M,B),op:()=>renderOpt(),ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>{renderCheckout(M);renderRecovery(M);renderCo54(M)},jr:()=>renderJourneys(M),ex:()=>{renderExperiments(M);renderStages(B)},in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M),af:()=>renderAffiliates(),aud:()=>renderAud()})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
  if(storedAt)$("fresh").textContent="· עודכן "+new Date(storedAt).toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});}
 /* סינון לפי משווק (בקשת יהב 09.11): אמיר, שחר, גל ורחל ראשונים, ואחריהם שאר המשווקים הפעילים */
 const AFF_FIRST=["amir","shahar","gal","rachel"];
