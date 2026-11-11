@@ -26,7 +26,7 @@ if(/test|claude/i.test(location.search))clarity("set","internal","1");}catch(e){
 <meta property="og:description" content="תוכנית NLP דיגיטלית: 90 שיעורים קצרים + 5 בונוסים. 297 ₪.">
 <meta property="og:image" content="https://funnel.digitalonline.co.il/nlp/assets/ben.jpg">
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/heebo-he.woff2" crossorigin>
-<style>@font-face{font-family:"Heebo";font-style:normal;font-weight:400 900;font-display:optional;src:url(assets/fonts/heebo-he.woff2) format("woff2");unicode-range:U+0020-0040, U+005B-0060, U+007B-007E, U+00A0, U+00A9, U+00AB, U+00B0, U+00B7, U+00BB, U+00D7, U+05BE, U+05C0, U+05C3, U+05C6, U+05D0-05EA, U+05F0-05F4, U+200C-200F, U+2010-2014, U+2018-201E, U+2022, U+2026, U+2030, U+2039-203A, U+20AA}@font-face{font-family:"Heebo";font-style:normal;font-weight:400 900;font-display:optional;src:url(assets/fonts/heebo-la.woff2) format("woff2");unicode-range:U+0041-005A, U+0061-007A, U+00C0-00D6, U+00D8-00F6, U+00F8-017F}</style>
+<style>@font-face{font-family:"Heebo";font-style:normal;font-weight:400 900;font-display:optional;src:url(assets/fonts/heebo-he.woff2) format("woff2");unicode-range:U+0020-0040, U+005B-0060, U+007B-007E, U+00A0, U+00A9, U+00AB, U+00B0, U+00B7, U+00BB, U+00D7, U+05B0-05C7, U+05D0-05EA, U+05F0-05F4, U+200C-200F, U+2010-2014, U+2018-201E, U+2022, U+2026, U+2030, U+2039-203A, U+20AA}@font-face{font-family:"Heebo";font-style:normal;font-weight:400 900;font-display:optional;src:url(assets/fonts/heebo-la.woff2) format("woff2");unicode-range:U+0041-005A, U+0061-007A, U+00C0-00D6, U+00D8-00F6, U+00F8-017F}</style>
 <style>
 :root{
   --bg0:#08090C; --bg1:#0C0D12; --bg2:#111319; --bg3:#060708;
@@ -650,6 +650,7 @@ html{scroll-padding-top:12px}
 .sticky .cta{min-height:56px}
 /* מקומות לנכסים: גודל קבוע מראש (aspect-ratio) - אין קפיצה כשהתמונה נטענת */
 .v4-slot{margin:26px auto 0;max-width:300px;width:100%}
+.v4-slot-h{margin:0 0 14px;text-align:center;font-weight:800;font-size:20px;line-height:1.4;text-wrap:balance}
 @media (min-width:960px){.v4-slot{max-width:340px}}
 .v4-slot.v4-img{max-width:440px}
 .v4-slot .v4-box{position:relative;display:block;width:100%;padding:0;border:0;border-radius:20px;overflow:hidden;background:var(--v4-slotbg);
@@ -684,6 +685,23 @@ section.alt{background-image:radial-gradient(700px circle at 88% 0%,rgba(201,169
 .sticky{-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 /* המסך הראשון מוצג מיד: בלי אנימציית הכניסה של הפתיחה (בדף החי הכותרת, הכפתור והתמונה נכנסים בהדרגה) */
 .hero8 .copy>*,.hero8 .visual,.hero9 .copy>*{animation:none}
+/* ===== הערות בן 11.11 (ב68): יותר יוקרה ועומק. הרקע השחור נשאר; קווי זהב דקים, הדרגות וצללים. CSS בלבד ===== */
+.v4-ctab{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:30px;text-align:center}
+.v4-ctab .cta{max-width:470px}
+.v4-ctab .cta-micro{margin:0;font-size:14px;color:var(--muted)}
+/* כרטיסים: קו זהב דק למעלה, הדרגה עדינה וצל עמוק (שכבות רקע, בלי pseudo, כדי לא לשבור עיטורים קיימים) */
+.card,.reality .r,.six>div,.wins li,.fitlist li,.bonus8,.module,.faq details,.bought li,.split>div,.ba>div,.outcomes>div,.car-slide,.toolbox,.bx{
+  background:linear-gradient(90deg,transparent 8%,rgba(234,219,181,.55) 50%,transparent 92%) top center/100% 1px no-repeat,
+             linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,0) 55%),var(--card,#111319);
+  border-color:rgba(211,183,122,.24);
+  box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 28px 56px -30px rgba(0,0,0,.95),0 0 0 1px rgba(0,0,0,.25)}
+.toolbox{background:linear-gradient(90deg,transparent 8%,rgba(234,219,181,.55) 50%,transparent 92%) top center/100% 1px no-repeat,linear-gradient(180deg,rgba(211,183,122,.10),rgba(211,183,122,.03))}
+.ctab .box{border-color:rgba(211,183,122,.45);box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 40px 90px -40px rgba(0,0,0,.95),0 0 60px -28px rgba(211,183,122,.30)}
+.pcard{box-shadow:0 0 0 1px rgba(234,219,181,.10) inset,0 1px 0 rgba(255,255,255,.10) inset,0 80px 140px -50px rgba(0,0,0,.95),0 0 110px -30px rgba(211,183,122,.32)}
+/* כפתור הקנייה: ברק עדין שעובר כל כמה שניות כשהכפתור במסך (transform/opacity בלבד; כבוי בהפחתת תנועה) */
+.cta.v4-shine::after{animation:v4shine2 5.5s var(--ease) .2s infinite backwards}
+@keyframes v4shine2{0%{opacity:0;transform:translateX(130%) skewX(-18deg)}4%{opacity:1}20%{opacity:0;transform:translateX(-260%) skewX(-18deg)}100%{opacity:0;transform:translateX(-260%) skewX(-18deg)}}
+@media (prefers-reduced-motion:reduce){.cta.v4-shine::after{animation:none}}
 #offer .secure{margin-top:14px}
 </style>
 </head>
@@ -696,7 +714,7 @@ section.alt{background-image:radial-gradient(700px circle at 88% 0%,rgba(201,169
 <span class="badge">לנצח את האוטומט | השיטה של בן נחום</span>
 <p class="eyebrow">למה המוח מחפש חסרונות?</p>
 <h1 class="promise">זה האוטומט, לא אתה. <mark>המוח שלך מתוכנת לחפש מה חסר.</mark></h1>
-<p class="sub">בקורס לומדים להטמיע: שיעורים קצרים שמבוססים על התהליכים מהליווי האישי, בתשלום חד-פעמי של <span class="pgrp"><s class="was">1,290</s> 297 ₪</span>.</p>
+<p class="sub">במקום להמשיך להילחם בעצמך כדי להשתנות, תלמד איך להפוך את הפעולות שאתה כבר עושה בכל יום לכלי שמאמן את המוח שלך לחשוב, להרגיש ולפעול אחרת. בלי להוסיף זמן ללוח הזמנים שלך.</p>
 <a class="cta" data-cta="hero_main" data-checkout href="#"><span class="ct-t">כן, אני רוצה להתחיל עכשיו <span class="pgrp">ב-<s class="was">1,290</s> 297 ₪</span></span> <span>←</span></a>
 <p class="cta-micro"><b class="launch">מחיר השקה לזמן מוגבל</b> · <span class="v4-lock"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span> · גישה מיידית לקורס ולבונוסים</p>
 <p class="cta-bonus">כולל 5 בונוסים: 2 קורסים מוקלטים ו-3 ערכות עבודה<span class="nb"> · 7 ימים להחזר מלא</span></p>
@@ -733,11 +751,10 @@ section.alt{background-image:radial-gradient(700px circle at 88% 0%,rgba(201,169
 <p class="anchor"><span class="pgrp"><s class="was">1,290</s> 297 ₪</span> עבור קורס הליבה + 2 קורסים מוקלטים + 3 ערכות עבודה</p>
 <p class="launch-tag">מחיר השקה לזמן מוגבל</p>
 <p class="now"><s class="was">1,290</s> 297<span>₪</span></p>
-<p class="cheap">פחות ממחיר של כמה יציאות בערב, אבל על משהו שאתה יכול לחזור אליו שוב ושוב וליישם בחיים.</p>
+<p class="cheap">פחות ממחיר של יציאה בערב. בשביל תהליך פרקטי שיכול לשנות את הדרך שבה אתה חי בכל יום. כי ערב אחד נגמר אחרי כמה שעות. אבל הכלים שתטמיע כאן נשארים איתך ומשפיעים לך על חוויה של חיים שלמים.</p>
 <div class="avs-wrap"><button class="avs" type="button" data-st="0" aria-label="צפייה בסרטוני ההמלצות של התלמידים"><span class="avs-f" aria-hidden="true"><i style="--i:2"></i><i style="--i:5"></i><i style="--i:6"></i></span><span class="avs-t"><b>מאות כבר עברו את התהליך</b><small>▶ צפו במה שהם מספרים</small></span></button></div>
 <a class="cta" data-cta="offer" data-checkout href="#"><span class="ct-t">כן, אני רוצה להתחיל עכשיו <span class="pgrp">ב-<s class="was">1,290</s> 297 ₪</span></span> <span>←</span></a>
 <ul class="secure"><li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg>גישה מיידית לאחר השלמת הרכישה</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>תהליך רכישה פשוט ומהיר</li></ul>
-<a class="wa-q" data-wa="offer" href="https://wa.me/972505226181?text=%D7%94%D7%99%D7%99%2C%20%D7%99%D7%A9%20%D7%9C%D7%99%20%D7%A9%D7%90%D7%9C%D7%94%20%D7%A2%D7%9C%20%D7%94%D7%A7%D7%95%D7%A8%D7%A1%20%D7%9C%D7%A0%D7%A6%D7%97%20%D7%90%D7%AA%20%D7%94%D7%90%D7%95%D7%98%D7%95%D7%9E%D7%98" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2A9.7 9.7 0 0 0 3.7 16.9L2.3 21.7l4.9-1.3A9.7 9.7 0 1 0 12 2.2zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A8 8 0 1 1 12 19.9zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8.9c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.5 2.5 0 0 0 1.7-1.2 2 2 0 0 0 .1-1.2c0-.1-.2-.2-.5-.3z"/></svg><span>יש שאלה לפני שמצטרפים? כתבו לנו בוואטסאפ</span></a>
 <p class="guar1">יש לך 7 ימים להיכנס, להתרשם ולהחליט. אם זה לא מתאים לך, שולחים לנו מייל ומקבלים החזר מלא.</p>
 </div></div>
 </div></section>
@@ -749,6 +766,7 @@ section.alt{background-image:radial-gradient(700px circle at 88% 0%,rgba(201,169
 <div class="do"><span class="kicker">להטמיע</span><h3>להיות</h3><p>אבל לדעת זה לא להיות. והפער הזה, בין מה שאתה יודע לבין איך שאתה חושב, מרגיש ופועל ברגע האמת, הוא בדיוק המקום שעליו בניתי את השיטה הזאת.</p></div>
 </div>
 <p class="key">המטרה היא לא לדעת את הידע. המטרה היא להפוך להיות המהות שלו.</p>
+<div class="v4-ctab"><a class="cta" data-cta="know" data-checkout href="#"><span class="ct-t">אני רוצה ללמוד להטמיע</span> <span>←</span></a><p class="cta-micro">297 ₪ · <span class="v4-lock"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></p></div>
 </div></section>
 
 <section data-num="04" class="orb" data-sec="6" data-name="המנגנון"><div class="wrap stack">
@@ -759,13 +777,14 @@ section.alt{background-image:radial-gradient(700px circle at 88% 0%,rgba(201,169
 <div class="layer stack" data-n="2"><span class="k">מפתח 2</span><h3>ההשפעה הנכונה</h3><p>להעביר את השינוי הפנימי החוצה: ראפור, רגש, טון דיבור, ושיחות שמזיזות אנשים לפעולה.</p></div>
 <div class="layer stack" data-n="3"><span class="k">מפתח 3</span><h3>היישום הנכון</h3><p>לראות את זה קורה בשיחות אמיתיות: הדרכות לייב, מודל 4 שלבים, ו-13 שעות של הקלטות זום.</p></div>
 </div>
-</div></section>
+
+<div class="v4-ctab"><a class="cta" data-cta="keys" data-checkout href="#"><span class="ct-t">אני רוצה להתחיל במפתח הראשון</span> <span>←</span></a><p class="cta-micro">297 ₪ · <span class="v4-lock"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></p></div></div></section>
 
 <section data-num="05" class="alt" data-sec="7" data-name="איך נראית המציאות"><div class="wrap stack">
 <h2>ככה מרגיש יום רגיל כשהאוטומט כבר לא מנהל אותך</h2>
 <div class="reality">
-<div class="r"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></div><div><h3>יותר בהירות</h3><p>כשיום אחד אתה חד ומלא אנרגיה, וביום אחר לא מצליח להזיז את עצמך, לדעת מה עושים גם ביום השני.</p></div></div>
-<div class="r"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div><div><h3>יותר ביטחון</h3><p>כשמישהו אומר לך לא, או כשאתה רואה אחרים מתקדמים ומתחיל לפקפק בעצמך, לא לתת לזה לקבוע איך ייראה היום שלך.</p></div></div>
+<div class="r"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></div><div><h3>יותר בהירות</h3><p>חזון ברור שנובע מתוך שאלות משמעות: 'במה אני טוב, מה אני אוהב לעשות, מה לדעתי העולם צריך?' לקום בבוקר ליצור מתוך חיוּת, תשוקה וחיבור לחזון שלך.</p></div></div>
+<div class="r"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div><div><h3>יותר ביטחון</h3><p>הדיאלוג של הערך העצמי נובע מבפנים. אתה לא ניזון מבחוץ, אתה לא צריך אישור חברתי או פידבק בשביל להרגיש ביטחון. זה נובע מתוך המערכת הרגשית שלך.</p></div></div>
 <div class="r"><div class="ic"><svg viewBox="0 0 24 24"><path d="M9.5 3A3.5 3.5 0 0 0 6 6.5 3.5 3.5 0 0 0 4 12a3.5 3.5 0 0 0 2 5.5A3.5 3.5 0 0 0 12 19V5a3 3 0 0 0-2.5-2z"/><path d="M14.5 3A3.5 3.5 0 0 1 18 6.5a3.5 3.5 0 0 1 2 5.5 3.5 3.5 0 0 1-2 5.5A3.5 3.5 0 0 1 12 19"/></svg></div><div><h3>יותר שליטה</h3><p>כשאתה מקבל הודעה שלא ציפית לה, לזהות את הרגש לפני שהוא מנהל אותך, ולבחור תגובה אחרת.</p></div></div>
 </div>
 </div></section>
@@ -783,11 +802,10 @@ section.alt{background-image:radial-gradient(700px circle at 88% 0%,rgba(201,169
 <li>למי שיודע שהוא צריך לעשות שיחה מסוימת או לקבל החלטה, אבל דוחה אותה שוב ושוב</li>
 <li>לכל מי שמדבר עם אנשים, בעבודה, בעסק או בבית, ורוצה להשפיע טוב יותר</li>
 </ul>
-<p class="notfit">השיטה פחות מתאימה למי שמחפש פתרון קסם בלי לתרגל או לעשות שינוי בפועל.</p>
 </div></section>
 
 <section data-num="08" class="alt orb" data-sec="10" data-name="עם מה תצא"><div class="wrap stack">
-<h2>מה <mark>ישתנה</mark> אצלך</h2><div class="outcomes"><div><h3>ביטחון שלא נעלם</h3><p>לבנות ביטחון עצמי שלא נעלם ברגע שמישהו אומר לך לא, מבקר אותך או לא מסכים איתך.</p></div><div><h3>לצאת מהתקיעות</h3><p>לצאת מהמקום שבו אתה יודע מה צריך לעשות, אבל דוחה שוב ושוב את אותה שיחה, החלטה, אימון או צעד שחשוב לך.</p></div><div><h3>מערכת מחשבה שמשרתת אותך</h3><p>לזהות את המשפטים שרצים לך בראש, כמו "אני לא מספיק טוב", "אני תמיד מתחיל ולא מסיים" או "זה פשוט מי שאני", ולבנות במקומם מערכת מחשבה שמשרתת אותך.</p></div><div><h3>מפת דרכים ברורה</h3><p>לדעת מה הצעד הבא שלך, במקום להגיד שוב ש"מיום ראשון מתחילים".</p></div><div><h3>תקשורת שמשפיעה</h3><p>להעביר את מה שאתה באמת חושב, בעבודה, בעסק או בבית, בלי להתכווץ ובלי להתפרץ.</p></div></div>
+<h2>מה <mark>ישתנה</mark> אצלך</h2><div class="outcomes"><div><h3>ביטחון שלא נעלם</h3><p>לבנות ביטחון עצמי שלא נעלם ברגע שמישהו אומר לך לא, מבקר אותך או לא מסכים איתך.</p></div><div><h3>לצאת מהתקיעות</h3><p>לצאת מהמקום שבו אתה יודע מה צריך לעשות, אבל דוחה שוב ושוב את אותה שיחה, החלטה, אימון או צעד שחשוב לך.</p></div><div><h3>מערכת מחשבה שמשרתת אותך</h3><p>לזהות את המשפטים שרצים לך בראש, כמו "אני לא מספיק טוב", "אני תמיד מתחיל ולא מסיים" או "זה פשוט מי שאני", ולבנות במקומם מערכת מחשבה שמשרתת אותך.</p></div><div><h3>מפת דרכים ברורה</h3><p>לדעת מה הצעד הבא שלך, במקום להגיד שוב ש"מיום ראשון מתחילים".</p></div><div><h3>תקשורת שמשפיעה</h3><p>להעביר את מה שאתה באמת חושב, בעבודה, בעסק או בבית, בלי להתכווץ ובלי להתפרץ. אנשים נמשכים לאנשים עם אישיות מקדמת, אנשים שמרגישים שיכולים להתקדם בנוכחות שלהם. וזה יהיה חלק מהעולם הפנימי שלך.</p></div></div>
 </div></section>
 <section class="ctab" data-buyzone><div class="wrap"><div class="box">
 <a class="cta" data-cta="cta2" data-checkout href="#"><span class="ct-t">כן, אני רוצה להתחיל עכשיו <span class="pgrp">ב-<s class="was">1,290</s> 297 ₪</span></span> <span>←</span></a>
@@ -809,7 +827,7 @@ section.alt{background-image:radial-gradient(700px circle at 88% 0%,rgba(201,169
 
 <section data-num="10" data-sec="12" data-name="מה יש בפנים"><div class="wrap stack">
 <h2>מה יש בפנים</h2>
-<p class="lead">כל חלק הוא עוד צעד מ'אני יודע' ל'אני עושה'.</p><p class="toolbox"><b>קורס הליבה: 90 שיעורים, ולא צריך לראות את כולם ברצף.</b> זו ספריית כלים: רוב השיעורים 2 עד 8 דקות, ונכנסים לפי הנושא שעליו עובדים עכשיו.</p><p class="lead">לא יודעים מאיפה להתחיל? מתחילים בחלק 1, ומשם השיטה מובילה אתכם צעד-צעד.</p><div class="mods"><article class="module"><header><span class="mtag">חלק 1</span><h3>פתיחה: מתחילים כאן</h3><div class="chips"><span class="chip">4 שיעורים</span><span class="chip">כשעה</span></div><p>איך השיטה עובדת, ובניית העוגן הראשון שלך. מכאן כל השאר מתחבר.</p></header><p class="cando"><b>מה תוכל לעשות אחרי החלק הזה</b>להבין איך תגובה אוטומטית נוצרת, ולבנות את העוגן הראשון שלך.</p><details><summary>כל 4 השיעורים</summary><ul class="lessons"><li>לנצח את האוטומט: הקדמה</li><li>איך השיטה עובדת: מבוא</li><li>העוגן הראשון שלך</li><li>העוגן הראשון שלך: סיכום</li></ul></details></article>
+<p class="lead">כל חלק הוא עוד צעד מ'אני יודע' ל'אני הידע'.</p><p class="toolbox"><b>קורס הליבה: 90 שיעורים, ולא צריך לראות את כולם ברצף.</b> זו ספריית כלים: רוב השיעורים 2 עד 8 דקות, ונכנסים לפי הנושא שעליו עובדים עכשיו.</p><p class="lead">לא יודעים מאיפה להתחיל? מתחילים בחלק 1, ומשם השיטה מובילה אתכם צעד-צעד.</p><div class="mods"><article class="module"><header><span class="mtag">חלק 1</span><h3>פתיחה: מתחילים כאן</h3><div class="chips"><span class="chip">4 שיעורים</span><span class="chip">כשעה</span></div><p>איך השיטה עובדת, ובניית העוגן הראשון שלך. מכאן כל השאר מתחבר.</p></header><p class="cando"><b>מה תוכל לעשות אחרי החלק הזה</b>להבין איך תגובה אוטומטית נוצרת, ולבנות את העוגן הראשון שלך.</p><details><summary>כל 4 השיעורים</summary><ul class="lessons"><li>לנצח את האוטומט: הקדמה</li><li>איך השיטה עובדת: מבוא</li><li>העוגן הראשון שלך</li><li>העוגן הראשון שלך: סיכום</li></ul></details></article>
 <article class="module"><header><span class="mtag">חלק 2</span><h3>שינוי תפיסה</h3><div class="chips"><span class="chip">76 שיעורים קצרים</span><span class="chip">כ-7 שעות</span><span class="chip">2 עד 8 דק' לשיעור</span></div><p>ספריית השיעורים המרכזית של השיטה: שיעורים קצרים שנכנסים גם ליום עמוס, כל אחד על מנגנון אחד.</p></header><p class="cando"><b>מה תוכל לעשות אחרי החלק הזה</b>לזהות בזמן אמת את המחשבה, הפחד או הסיפור שעוצרים אותך, ולבחור תגובה אחרת.</p><details><summary>דוגמאות לשיעורים</summary><ul class="lessons"><li class="mtag">פחד ותקיעות</li><li>הפסיכולוגיה של הפחד</li><li>פרפקציוניזם: דרך טובה של המוח לגרום לנו להישאר במקום</li><li>הפסיכולוגיה של התקיעות</li><li>שלוש האשליות שמשאירות אותנו במקום</li>
 <li class="mtag">הסיפור הפנימי</li><li>הסיפור שאנו מספרים לעצמנו</li><li>כוחה של פרשנות</li><li>הכוח החבוי של דיבור עצמי</li><li>הרגל 3 השורות: כתיבת סיפור פנימי</li>
 <li class="mtag">כסף ושפע</li><li>ממחסור לשפע: חוקים חדשים</li><li>פרדוקס הכסף</li><li>לשבור את משוואת הזמן וכסף</li>
