@@ -1,0 +1,22 @@
+process.env.TZ="Asia/Jerusalem";const {chromium}=require("playwright"),fs=require("fs");const [O,P,EV,SP]=process.argv.slice(2).map(f=>fs.readFileSync(f,"utf8"));
+let n=0,f=0;const ok=(m,c,i)=>{n++;if(!c){f++;console.log("FAIL",m,i||"")}else console.log("PASS",m)};
+(async()=>{const b=await chromium.launch();const run=async html=>{const c=await b.newContext({timezoneId:"Asia/Jerusalem"});await c.clock.setFixedTime(new Date("2026-11-12T19:00:00+02:00"));const errs=[];
+await c.route("**/*",r=>{const u=r.request().url();if(u.startsWith("https://local.test/"))return r.fulfill({status:200,contentType:"text/html; charset=utf-8",body:html});if(u.includes("make.com")){const a=new URL(u).searchParams.get("action");return r.fulfill({status:200,body:{rows:EV,spend:SP,affiliates:"affiliates\tname\tpct\tactive\tfee\n",refunds:"refunds\n",paid:"paid\n"}[a]||""})}return r.fulfill({status:204,body:""})});
+const p=await c.newPage();p.on("pageerror",e=>errs.push(e.message));await p.goto("https://local.test/nlp/dashboard.html#aud");await p.waitForTimeout(2500);
+const T=await p.evaluate(()=>[...document.querySelectorAll("#s-aud table")].map(t=>[...t.querySelectorAll("tr")].map(r=>[...r.children].map(x=>x.innerText.replace(/\s+/g," ").trim()))));
+const opts=await p.$$eval("#audSpCamp option",o=>o.map(x=>[x.value,x.textContent]));
+const sp=await p.evaluate(()=>AUD.seg.map(g=>[g.key,(audSpend(g)||{}).t,(audSpend(g)||{}).days]));
+const txt=await p.evaluate(()=>document.getElementById("s-aud").innerText);
+const other={};for(const t of ["snap","ov","af","co","hub"]){await p.evaluate(s=>setScreen(s),t);await p.waitForTimeout(300);other[t]=await p.evaluate(s=>document.getElementById("s-"+s).innerText.replace(/עודכן \d\d:\d\d/g,""),t)}
+await c.close();return {T,opts,sp,txt,errs,other}};
+const a=await run(O),q=await run(P);
+const S=x=>Object.fromEntries(x.sp.map(r=>[r[0],r]));const sa=S(a),sq=S(q);
+console.log("before:",JSON.stringify(a.sp));console.log("after: ",JSON.stringify(q.sp));
+ok("gal row spend = 7.19+27.56 + IC 42.27+41.33+28.39 = 146.74, 4 days",Math.abs(sq["gal|pre"][1]-146.74)<.001&&sq["gal|pre"][2]===4,JSON.stringify(sq["gal|pre"]));
+ok("rachel 'after' = IC 144.40 + COLD_18 54.78 = 199.18, 3 days",Math.abs(sq["rachel|post"][1]-199.18)<.001&&sq["rachel|post"][2]===3,JSON.stringify(sq["rachel|post"]));
+ok("all other segments unchanged",Object.keys(sa).filter(k=>k!=="gal|pre"&&k!=="rachel|post").every(k=>JSON.stringify(sa[k])===JSON.stringify(sq[k])));
+ok("form: 2 new options with names",q.opts.length===a.opts.length+2&&q.opts.some(o=>o[0]==="gal_ic"&&o[1].startsWith("גל · סדרת IC"))&&q.opts.some(o=>o[0]==="rachel_cold18"&&o[1].startsWith("רחל · קמפיין COLD_18")),JSON.stringify(q.opts.slice(-3)));
+ok("spend list shows names, not codes, for the new keys",!/aff_gal_ic|aff_rachel_cold18/.test(q.txt)&&/aff_gal_ic|aff_rachel_cold18/.test(a.txt));
+ok("other screens unchanged",Object.keys(a.other).every(k=>a.other[k]===q.other[k]),Object.keys(a.other).filter(k=>a.other[k]!==q.other[k]).join());
+ok("no JS errors",!q.errs.length,q.errs.join("|"));
+console.log("TOTAL",n-f+"/"+n);await b.close()})();
