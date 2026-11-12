@@ -1,0 +1,1298 @@
+<!doctype html>
+<html lang="he" dir="rtl" data-variant="a5v6">
+<head>
+<meta charset="utf-8"><script>/* ב25: שיוך רכישות למשווקים - הקליק האחרון ב-30 יום. aff בכתובת = משווק; ערוץ של בן (מודעות עם utm_id או paid, מייל, ביו, ManyChat) = בן; ביקור ישיר או לא מזוהה לא משנה. נשמר ב-localStorage ובעוגייה. NLP_OWNER() מחזיר את קוד המשווק, או "" = בן */
+var NLP_OWNER=(function(){var K="nlp_aff",D=2592e6,now=Date.now(),cur=null;
+ function rd(){var a=null,b=null;try{a=JSON.parse(localStorage.getItem(K)||"null")}catch(e){}try{var m=document.cookie.match(/(?:^|; )nlp_aff=([^;]*)/);if(m){var v=decodeURIComponent(m[1]).split(".");b={c:v[0]||"",t:+v[1]||0}}}catch(e){}return a&&b?(a.t>=b.t?a:b):(a||b)}
+ function wr(c){cur={c:c,t:now};try{localStorage.setItem(K,JSON.stringify(cur))}catch(e){}try{document.cookie=K+"="+encodeURIComponent(c+"."+now)+"; max-age=2592000; path=/; SameSite=Lax"}catch(e){}}
+ try{var q=new URLSearchParams(location.search),a=(q.get("aff")||"").toLowerCase().replace(/[^a-z0-9_-]/g,"").slice(0,32),s=(q.get("utm_source")||"").toLowerCase(),m=(q.get("utm_medium")||"").toLowerCase();
+  if(a)wr(a);else if(m!=="affiliate"&&(q.get("utm_id")||/^(paid|paid_social|cpc|responder|email|bio|dm|manychat)$/.test(m)||/^(email|responder|manychat)$/.test(s)))wr("");else cur=rd()}catch(e){}
+ return function(){return cur&&cur.c&&now-cur.t<=D?cur.c:""}})();</script>
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0E0E10">
+<meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>
+/* Microsoft Clarity: heatmaps + session recordings. Form fields are masked. */
+(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yuzolf9nxn");
+(function(){try{var q=new URLSearchParams(location.search),v=document.documentElement.getAttribute("data-variant")||q.get("v")||"",cr=(q.get("utm_content")||"").replace(/^lp_[abc]$/,"");
+clarity("set","page","lp");if(v)clarity("set","variant",v);if(cr)clarity("set","creative",cr);
+["utm_source","utm_campaign","placement"].forEach(function(k){var x=q.get(k);if(x)clarity("set",k.replace("utm_",""),x);});
+if(/test|claude/i.test(location.search))clarity("set","internal","1");}catch(e){}})();
+</script>
+<title>לנצח את האוטומט · בן נחום</title>
+<link rel="preload" as="image" href="assets/ben-m.webp" fetchpriority="high" media="(max-width:959px)"><link rel="preload" as="image" href="assets/ben.webp" fetchpriority="high" media="(min-width:960px)"><!-- ב65: התמונה הראשונה ב-WebP עם טעינה מראש, בלי שינוי תוכן -->
+<meta name="description" content="תוכנית NLP דיגיטלית של בן נחום: קורס ליבה של 90 שיעורים קצרים, 2 קורסים מוקלטים ו-3 ערכות עבודה. 297 ₪.">
+<meta property="og:title" content="לנצח את האוטומט · בן נחום">
+<meta property="og:description" content="תוכנית NLP דיגיטלית: 90 שיעורים קצרים + 5 בונוסים. 297 ₪.">
+<meta property="og:image" content="https://funnel.digitalonline.co.il/nlp/assets/ben.jpg">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/heebo-he.woff2" crossorigin>
+<style>@font-face{font-family:"Heebo";font-style:normal;font-weight:400 900;font-display:optional;src:url(assets/fonts/heebo-he.woff2) format("woff2");unicode-range:U+0020-0040, U+005B-0060, U+007B-007E, U+00A0, U+00A9, U+00AB, U+00B0, U+00B7, U+00BB, U+00D7, U+05B0-05C7, U+05D0-05EA, U+05F0-05F4, U+200C-200F, U+2010-2014, U+2018-201E, U+2022, U+2026, U+2030, U+2039-203A, U+20AA}@font-face{font-family:"Heebo";font-style:normal;font-weight:400 900;font-display:optional;src:url(assets/fonts/heebo-la.woff2) format("woff2");unicode-range:U+0041-005A, U+0061-007A, U+00C0-00D6, U+00D8-00F6, U+00F8-017F}</style>
+<style>
+:root{
+  --bg0:#0E0E10; --bg1:#0E0E10; --bg2:#151518; --bg3:#0A0A0B;
+  --ink:#FFFFFF; --ink2:#E6E6E6; --muted:#B8B8B8; --dim:#8E8E8E;
+  --gold:#E6B800; --gold2:#FECF00; --gold-a:rgba(254,207,0,.16); --gold-b:rgba(254,207,0,.32);
+  --card:rgba(255,255,255,.028); --card2:rgba(255,255,255,.045);
+  --font:"Heebo","Arial Hebrew",Arial,sans-serif;
+  --r:18px; --ease:cubic-bezier(.2,.7,.2,1);
+  --sec:76px; --max:1160px; --text:720px; color-scheme:dark;
+}
+@media (min-width:900px){:root{--sec:124px}}
+*{box-sizing:border-box} html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;background:var(--bg0)}
+body{margin:0;background:var(--bg0);color:var(--ink);font-family:var(--font);font-weight:400;font-size:18px;line-height:1.75;direction:rtl;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+@media (min-width:900px){body{font-size:19px}}
+body::before{content:"";position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .7 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+img,video{max-width:100%;height:auto} p{margin:0}
+.wrap{max-width:var(--max);margin:0 auto;padding-inline:20px}
+@media (min-width:900px){.wrap{padding-inline:40px}}
+.stack{display:flex;flex-direction:column;gap:22px}
+.stack>p,.lead,.res-intro{max-width:var(--text)}
+::selection{background:var(--gold);color:var(--bg1)}
+
+/* type */
+h1,h2,h3{font-family:var(--font);margin:0;text-wrap:balance;color:var(--ink)}
+h2{font-size:clamp(32px,8.6vw,64px);font-weight:900;line-height:1.12;letter-spacing:-.015em;max-width:16ch}
+h3{font-size:20px;font-weight:700;line-height:1.35}
+@media (min-width:900px){h3{font-size:22px}}
+mark{background:none;color:var(--gold2);font-weight:inherit}
+.lead,.res-intro{font-size:19px;color:var(--muted);line-height:1.7}
+.kicker,.mtag,.eyebrow{font-weight:700;font-size:13px;letter-spacing:.14em;color:var(--gold)}
+strong{font-weight:700;color:var(--ink)}
+section > .wrap > h2::after{content:"";display:block;width:64px;height:1px;margin-top:22px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+
+/* sections */
+section{position:relative;padding-block:var(--sec);background:var(--bg1);scroll-margin-top:20px;overflow:hidden}
+section.alt{background:var(--bg2)}
+section[data-num]::before{content:attr(data-num);position:absolute;top:calc(var(--sec) * .35);inset-inline-start:max(12px,calc(50% - var(--max)/2 + 20px));font-weight:900;font-size:clamp(88px,26vw,200px);line-height:1;color:rgba(254,207,0,.055);pointer-events:none;letter-spacing:-.04em}
+section > .wrap{position:relative}
+section::after{content:"";position:absolute;top:0;inset-inline:0;height:1px;background:linear-gradient(90deg,transparent,rgba(254,207,0,.22),transparent)}
+section.orb{background-image:radial-gradient(640px circle at 88% 8%,rgba(254,207,0,.09),transparent 62%)}
+section.orb.alt{background-image:radial-gradient(640px circle at 12% 12%,rgba(254,207,0,.08),transparent 62%)}
+
+/* CTA */
+.cta{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:nowrap;width:100%;min-height:62px;padding:16px 26px;border:0;border-radius:14px;
+  background:linear-gradient(180deg,#FFE14D 0%,#FECF00 55%,#E6B800 100%);color:#000000;font-family:var(--font);font-weight:800;font-size:19px;line-height:1.25;text-align:center;text-decoration:none;
+  box-shadow:0 1px 0 rgba(255,255,255,.45) inset,0 14px 34px -16px rgba(254,207,0,.7);transition:transform .2s var(--ease),box-shadow .2s var(--ease),filter .2s;-webkit-tap-highlight-color:transparent}
+.cta:hover{transform:translateY(-2px);filter:brightness(1.04);box-shadow:0 1px 0 rgba(255,255,255,.45) inset,0 0 0 1px rgba(255,225,77,.35),0 18px 40px -14px rgba(254,207,0,.75)}
+.cta:active{transform:translateY(0)}
+.cta span{transition:transform .2s var(--ease)} .cta:hover span{transform:translateX(-4px)}
+.cta .was{font-weight:500;opacity:.55;font-size:.8em;white-space:nowrap;text-decoration-thickness:1px}
+@media (min-width:768px){.cta{width:auto;min-width:400px;padding-inline:44px}}
+@media (max-width:480px){.cta{font-size:18px;padding-inline:16px;gap:8px} .ctab .cta,.guar .cta{font-size:17px;padding-inline:12px} .ctab .cta>span:last-child,.guar .cta>span:last-child{display:none}}
+@media (max-width:374px){.ctab .cta,.guar .cta{font-size:16px}}
+a:focus-visible,.cta:focus-visible,summary:focus-visible,button:focus-visible{outline:2px solid var(--gold2);outline-offset:4px}
+.was{color:inherit;opacity:.6;font-weight:500;text-decoration-thickness:1px}
+.trustrow{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 20px;font-size:14px;font-weight:500;color:var(--muted)}
+.trustrow li{display:inline-flex;align-items:center;gap:7px}
+.trustrow svg{width:15px;height:15px;flex:0 0 15px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* progress */
+.prog{position:fixed;top:0;inset-inline:0;z-index:30;height:2px;pointer-events:none;opacity:0;transition:opacity .3s}
+.prog.on{opacity:1} .prog span{display:none}
+.prog i{position:absolute;inset-inline-start:0;top:0;height:2px;width:0;background:linear-gradient(90deg,var(--gold),#FFE14D);box-shadow:0 0 12px rgba(254,207,0,.6);transition:width .3s}
+
+/* ---------- HERO (shared) ---------- */
+.hero8{position:relative;overflow:hidden;background:var(--bg0);padding:calc(22px + env(safe-area-inset-top,0px)) 0 56px;isolation:isolate}
+.hero8 .brand{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:500;color:var(--muted);letter-spacing:.04em;margin-bottom:40px}
+.hero8 .brand b{color:var(--ink);font-weight:700;letter-spacing:.02em}
+.hero8 .inner{display:grid;gap:28px;align-items:center}
+.hero8 .copy{display:flex;flex-direction:column;gap:20px;text-align:center;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;border:1px solid var(--gold-b);background:rgba(254,207,0,.06);color:var(--gold2);font-size:13px;font-weight:500;line-height:1.4;text-align:center}
+.badge::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold2);box-shadow:0 0 10px var(--gold2);flex:0 0 6px}
+.hero8 h1{font-size:clamp(46px,13vw,96px);font-weight:900;line-height:1.02;letter-spacing:-.02em;max-width:14ch}
+.hero8 h1.title{font-size:clamp(64px,19vw,128px);line-height:.95}
+.hero8 .sub{font-size:clamp(18px,4.7vw,22px);font-weight:500;line-height:1.55;color:var(--ink2);max-width:36ch}
+.hero8 .quote{font-size:16px;font-weight:500;color:var(--gold2);max-width:40ch}
+.hero8 .p{font-size:16px;line-height:1.75;color:var(--muted);max-width:52ch}
+.pricechip{display:flex;justify-content:center;align-items:baseline;gap:10px;font-size:16px;color:var(--muted)}
+.pricechip b{font-size:32px;font-weight:900;color:var(--ink);letter-spacing:-.01em}
+.hero8 .ghost{color:var(--ink2);font-size:15px;font-weight:500;text-decoration:underline;text-decoration-color:var(--gold-b);text-underline-offset:6px;padding:4px 8px}
+.hero8 .ghost:hover{color:var(--ink)}
+.hero8::before{content:"";position:absolute;inset:-20% -30% auto;height:120%;z-index:-1;background:radial-gradient(closest-side,rgba(254,207,0,.16),transparent 70%);top:-10%;pointer-events:none}
+@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.hero8 .copy>*,.hero8 .visual{animation:up .8s var(--ease) both}
+.hero8 .copy>*:nth-child(2){animation-delay:.08s}.hero8 .copy>*:nth-child(3){animation-delay:.16s}.hero8 .copy>*:nth-child(4){animation-delay:.24s}
+.hero8 .copy>*:nth-child(5){animation-delay:.32s}.hero8 .copy>*:nth-child(6){animation-delay:.4s}.hero8 .copy>*:nth-child(n+7){animation-delay:.48s}.hero8 .visual{animation-delay:.3s}
+@media (min-width:960px){
+  .hero8{padding-bottom:96px}
+  .hero8 .inner{grid-template-columns:1.1fr .9fr;gap:56px;min-height:min(74vh,720px)}
+  .hero8 .copy{text-align:right;align-items:flex-start}
+  .hero8 .pricechip,.hero8 .trustrow{justify-content:flex-start}
+  .hero8 .cta{margin:0}
+}
+
+/* A: method flow */
+.flow{list-style:none;margin:0;padding:22px 16px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px 10px;position:relative;border:1px solid var(--gold-a);border-radius:24px;background:var(--card)}
+.flow li{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;font-weight:700;font-size:15px;color:var(--ink2)}
+.flow li i{font-style:normal;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--gold-b);color:var(--gold2);font-size:13px;font-weight:700;background:var(--bg1);transition:background .5s,box-shadow .5s,color .5s}
+.flow li.on i{background:var(--gold2);color:var(--bg1);box-shadow:0 0 24px rgba(254,207,0,.45)}
+.flow li:last-child{color:var(--gold2)}
+.flow-cap{text-align:center;font-size:13px;color:var(--dim);margin-top:10px;letter-spacing:.06em}
+@media (min-width:960px){.flow{grid-template-columns:repeat(2,1fr);padding:32px 24px;gap:30px 18px} .flow li{flex-direction:row;justify-content:flex-start;text-align:right;font-size:17px}}
+
+/* B: photo hero */
+.hero8.photo{background:var(--bg0)}
+.hero8.photo .bgimg{position:absolute;inset:0;z-index:-2;background:url(assets/ben.webp) center 18%/cover no-repeat;opacity:.26;filter:grayscale(.3) contrast(1.05)}
+.hero8.photo .bgimg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,14,16,.55),rgba(14,14,16,.35) 30%,rgba(14,14,16,.92) 75%,var(--bg0))}
+.hero8.photo .inner{min-height:min(84vh,780px);grid-template-columns:1fr}
+.hero8.photo .copy{align-self:end}
+@media (min-width:960px){.hero8.photo .bgimg{background-position:left 20%;background-size:auto 120%;opacity:.42}.hero8.photo .bgimg::after{background:linear-gradient(270deg,var(--bg0) 30%,rgba(14,14,16,.55) 65%,rgba(14,14,16,.15))} .hero8.photo .copy{align-self:center;max-width:680px}}
+
+/* C: collage */
+.collage{position:relative;height:340px;max-width:440px;margin:0 auto;width:100%}
+.collage img{position:absolute;width:56%;border-radius:16px;border:1px solid var(--gold-a);box-shadow:0 30px 60px -24px rgba(0,0,0,.85)}
+.collage img:nth-child(1){top:20px;right:0;transform:rotate(4deg);z-index:1}
+.collage img:nth-child(2){top:0;left:22%;z-index:3}
+.collage img:nth-child(3){top:34px;left:0;transform:rotate(-4deg);z-index:2}
+@media (min-width:960px){.collage{height:520px}}
+
+/* proof numbers */
+.proofbar{background:var(--bg0);border-top:1px solid var(--gold-a);border-bottom:1px solid var(--gold-a)}
+.proofbar ul{list-style:none;margin:0 auto;padding:22px 12px;max-width:var(--max);display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.proofbar b{display:block;font-size:clamp(26px,7vw,44px);font-weight:900;color:var(--ink);line-height:1.05;letter-spacing:-.02em}
+.proofbar span{font-size:13px;color:var(--muted);line-height:1.35;display:block;margin-top:4px}
+.proofbar.four ul{grid-template-columns:repeat(2,1fr);row-gap:18px}
+@media (min-width:768px){.proofbar.four ul{grid-template-columns:repeat(4,1fr)}}
+
+/* cards */
+.card,.reality .r,.six>div,.wins li,.fitlist li,.bonus8,.module,.faq details,.bought li,.split>div,.ba>div,.wall figure{background:var(--card);border:1px solid var(--gold-a);border-radius:var(--r)}
+
+/* split know / embody (A) */
+.split{display:grid;gap:14px;position:relative}
+.split>div{padding:26px 22px;display:flex;flex-direction:column;gap:14px}
+.split h3{font-size:clamp(26px,7vw,40px);font-weight:900;letter-spacing:-.01em}
+.split .know{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;color:var(--muted);font-size:18px}
+.split .know li::before{content:"· ";color:var(--dim)}
+.split .do{border-color:var(--gold-b);background:linear-gradient(180deg,rgba(254,207,0,.07),rgba(254,207,0,.02))}
+.split .do h3{color:var(--gold2)}
+.split .do p{color:var(--ink2)}
+@media (min-width:900px){.split{grid-template-columns:1fr 1fr;gap:0}.split>div{padding:40px 44px}.split>div:first-child{border-radius:0 var(--r) var(--r) 0;border-left:0}.split>div:last-child{border-radius:var(--r) 0 0 var(--r)}
+  .split::after{content:"";position:absolute;top:12%;bottom:12%;left:50%;width:1px;background:linear-gradient(180deg,transparent,var(--gold),transparent)}}
+.key{font-weight:900;font-size:clamp(24px,6.4vw,40px);line-height:1.3;color:var(--ink);text-wrap:balance;max-width:24ch;letter-spacing:-.01em}
+.key::before{content:"";display:block;width:40px;height:2px;background:var(--gold);margin-bottom:18px}
+
+/* B: beats, problem, before/after */
+.beats{padding-block:calc(var(--sec) * .4)}
+.beat{min-height:42vh;display:flex;align-items:center;justify-content:center;text-align:center;font-size:clamp(34px,9.4vw,72px);font-weight:900;line-height:1.12;letter-spacing:-.02em;color:var(--ink);text-wrap:balance}
+.beat em{font-style:normal;color:var(--gold2)}
+.beats .k0{text-align:center;color:var(--gold);font-size:13px;letter-spacing:.14em;font-weight:700}
+.problem{text-align:center}
+.problem .wrap{align-items:center}
+.problem .ghostword{position:absolute;inset:0;display:grid;place-items:center;font-size:clamp(160px,46vw,420px);font-weight:900;color:rgba(255,255,255,.05);letter-spacing:-.04em;pointer-events:none;line-height:1;white-space:nowrap}
+.problem h2{max-width:none;margin-inline:auto} .problem h2::after{margin-inline:auto}
+.problem .bigline{font-size:clamp(28px,7.6vw,56px);font-weight:900;line-height:1.2;max-width:18ch;margin-inline:auto}
+.problem .bigline span{display:block;color:var(--muted);font-weight:500;font-size:.62em;margin-bottom:10px}
+.problem p{margin-inline:auto}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ba>div{padding:22px 18px;display:flex;flex-direction:column;gap:12px}
+.ba h3{font-size:13px;letter-spacing:.14em;color:var(--dim);font-weight:700}
+.ba ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;font-size:clamp(19px,5vw,26px);font-weight:700}
+.ba .before{color:var(--dim)} .ba .before li{text-decoration:line-through;text-decoration-color:rgba(184,184,184,.4);text-decoration-thickness:1px}
+.ba .after{border-color:var(--gold-b);background:linear-gradient(180deg,rgba(254,207,0,.08),rgba(254,207,0,.02))} .ba .after h3{color:var(--gold)} .ba .after li{color:var(--ink)}
+.ba .after li::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--gold2);margin-inline-end:10px;vertical-align:middle;box-shadow:0 0 10px var(--gold2)}
+
+/* reality */
+.reality{display:grid;gap:14px}
+.reality .r{display:grid;grid-template-columns:48px 1fr;gap:16px;align-items:start;padding:24px 22px}
+.reality .ic{width:48px;height:48px;border-radius:14px;border:1px solid var(--gold-a);display:grid;place-items:center;background:rgba(254,207,0,.05)}
+.reality .ic svg{width:24px;height:24px;stroke:var(--gold2);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.reality h3{margin-bottom:6px} .reality p{color:var(--muted);font-size:17px;line-height:1.7}
+@media (min-width:900px){.reality{grid-template-columns:repeat(3,1fr);gap:18px}.reality .r{grid-template-columns:1fr;padding:32px 28px}}
+
+/* so-that */
+.ifs{gap:22px}
+.ifs p{font-size:19px;line-height:1.85;color:var(--ink2);max-width:var(--text)}
+.ifs p strong{color:var(--ink);font-weight:700;background:linear-gradient(transparent 70%,rgba(254,207,0,.22) 70%)}
+.ifs p:last-child{font-size:clamp(22px,5.6vw,30px);font-weight:900;line-height:1.4;color:var(--ink);padding-top:12px}
+
+/* CTA block */
+.ctab{padding-block:12px calc(var(--sec) * .7)}
+.ctab::after{display:none}
+.ctab .box{max-width:620px;margin:0 auto;border:1px solid var(--gold-b);border-radius:22px;padding:28px 20px 22px;display:flex;flex-direction:column;gap:14px;text-align:center;
+  background:radial-gradient(420px circle at 50% 0%,rgba(254,207,0,.1),transparent 70%),var(--card)}
+.ctab h2{font-size:clamp(19px,4.8vw,22px);font-weight:700;color:var(--ink2);max-width:none;margin-inline:auto}
+.ctab h2::after{display:none}
+.ctab .fine{font-size:14px;line-height:1.6;color:var(--muted)}
+.ctab .cta{width:100%;min-width:0}
+@media (max-width:420px){.ctab .box{padding:24px 16px 20px}}
+
+/* video */
+.vid{position:relative;margin:0 auto;max-width:380px;width:100%;border-radius:22px;padding:8px;border:1px solid var(--gold-b);background:var(--card);box-shadow:0 40px 80px -40px rgba(0,0,0,.9)}
+.vid video{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:16px;background:#000}
+.vid .play{position:absolute;inset:8px;border:0;border-radius:16px;cursor:pointer;display:grid;place-items:center;background:linear-gradient(180deg,rgba(14,14,16,0) 50%,rgba(14,14,16,.75));color:var(--ink);font:inherit}
+.vid .play i{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.94);box-shadow:0 0 0 10px rgba(255,255,255,.14);transition:transform .25s var(--ease)}
+.vid .play i::before{content:"";margin-left:6px;border-style:solid;border-width:13px 0 13px 21px;border-color:transparent transparent transparent #000000}
+.vid .play:hover i{transform:scale(1.06)}
+.vid .play span{position:absolute;bottom:22px;inset-inline:16px;text-align:center;font-weight:700;font-size:15px}
+.vid.playing .play{display:none}
+.vid figcaption{text-align:center;padding:12px 4px 4px;font-size:14px;color:var(--muted);font-weight:500}
+
+/* mechanism timeline */
+.layers{display:flex;flex-direction:column;margin-top:8px}
+.layer{position:relative;padding:0 64px 34px 0;gap:8px}
+.layer:last-child{padding-bottom:0}
+.layer::before{content:"0" attr(data-n);position:absolute;right:0;top:0;width:44px;height:44px;border-radius:50%;border:1px solid var(--gold-b);background:var(--bg1);color:var(--gold2);display:grid;place-items:center;font-weight:700;font-size:14px;transition:background .6s,color .6s,box-shadow .6s}
+.layer::after{content:"";position:absolute;right:21px;top:50px;bottom:6px;width:1px;background:linear-gradient(180deg,var(--gold-b),transparent)}
+.layer:last-child::after{display:none}
+.layer.in::before{background:var(--gold2);color:var(--bg1);box-shadow:0 0 28px rgba(254,207,0,.5)}
+.layer .k{font-size:13px;font-weight:700;letter-spacing:.14em;color:var(--gold)}
+.layer h3{font-size:clamp(22px,5.8vw,30px);font-weight:900}
+.layer p{color:var(--muted);font-size:17px;max-width:56ch}
+@media (min-width:900px){.layers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.layer{padding:32px 28px;border:1px solid var(--gold-a);border-radius:var(--r);background:var(--card)}.layer::before{position:static;margin-bottom:10px}.layer::after{display:none}.layer.in{border-color:var(--gold-b)}}
+
+/* testimonials carousel */
+.car{position:relative;max-width:440px;margin:0 auto;width:100%}
+.car-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:4px 2px 16px}
+.car-track::-webkit-scrollbar{display:none}
+.car-slide{flex:0 0 100%;scroll-snap-align:center;margin:0;border:1px solid var(--gold-a);border-radius:22px;padding:8px;background:var(--card)}
+.car-slide img{display:block;width:100%;height:auto;border-radius:16px}
+.car-btn{position:absolute;top:calc(50% - 32px);width:46px;height:46px;border-radius:50%;border:1px solid var(--gold-b);background:rgba(14,14,16,.9);color:var(--ink);font-size:26px;line-height:1;cursor:pointer;display:grid;place-items:center;transition:background .2s,transform .2s}
+.car-btn:hover{background:var(--gold2);color:var(--bg1)}
+.car-btn.prev{right:-6px} .car-btn.next{left:-6px}
+@media (min-width:600px){.car-btn.prev{right:-64px} .car-btn.next{left:-64px}}
+.car-dots{display:flex;justify-content:center;gap:8px;padding-top:4px}
+.car-dots i{width:7px;height:7px;border-radius:999px;background:rgba(255,255,255,.18);transition:width .3s,background-color .3s} .car-dots i.on{width:24px;background:var(--gold2)}
+.swipe{text-align:center;font-size:14px;color:var(--muted)}
+
+/* testimonials: tap to enlarge (Ben 26.10) */
+.car-slide img{cursor:zoom-in}
+.lb{position:fixed;inset:0;z-index:99;background:rgba(10,10,11,.94);display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}
+.lb[hidden]{display:none}
+.lb img{max-width:min(100%,720px);max-height:100%;height:auto;border-radius:12px;background:#fff}
+.lb button{position:fixed;top:12px;left:12px;width:44px;height:44px;border-radius:50%;border:1px solid var(--gold-b);background:rgba(14,14,16,.9);color:var(--ink);font-size:22px;cursor:pointer}
+
+/* ב21: WhatsApp question link under the offer CTA - secondary, does not compete with the buy button */
+.wa-q{display:flex;align-items:center;justify-content:center;gap:8px;margin:12px auto 0;padding:10px 14px;max-width:420px;border:1px solid var(--gold-a);border-radius:12px;color:var(--ink2);font-size:15px;font-weight:600;text-decoration:none;background:transparent;line-height:1.35;text-align:center}
+.wa-q svg{flex:none;width:20px;height:20px;fill:#25D366}
+.wa-q:hover{border-color:var(--gold-b);color:var(--ink)}
+/* C wall */
+.wall{columns:2;column-gap:12px}
+.wall figure{break-inside:avoid;margin:0 0 12px;padding:8px;display:block}
+.wall img{display:block;width:100%;border-radius:12px}
+.wall figcaption{font-size:14px;font-weight:700;color:var(--ink2);padding:10px 6px 4px}
+.wall figcaption span{display:block;font-weight:400;color:var(--dim);font-size:12px}
+@media (min-width:900px){.wall{columns:3;column-gap:18px}.wall figure{margin-bottom:18px}}
+.wallvid{display:grid;gap:24px}
+@media (min-width:900px){.wallvid{grid-template-columns:380px 1fr;align-items:start}}
+
+/* lists */
+.fitlist{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.fitlist li{display:flex;gap:14px;align-items:flex-start;padding:18px 20px;font-size:18px;line-height:1.6;color:var(--ink2)}
+.fitlist li::before,.bought li::before{content:"";flex:0 0 22px;height:22px;margin-top:3px;border-radius:50%;border:1px solid var(--gold-b);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D3B77A' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/13px no-repeat}
+@media (min-width:900px){.fitlist{grid-template-columns:1fr 1fr;gap:16px}}
+.wins{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:w}
+.wins li{counter-increment:w;padding:24px 22px;font-size:18px;line-height:1.55;color:var(--ink2);display:flex;flex-direction:column;gap:12px}
+.wins li::before{content:"0" counter(w);font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--gold)}
+@media (min-width:700px){.wins{grid-template-columns:1fr 1fr}} @media (min-width:1000px){.wins{grid-template-columns:repeat(3,1fr);gap:18px}.wins li{padding:30px 26px;font-size:19px}}
+
+/* six */
+.six{display:grid;gap:12px}
+.six>div{padding:24px 22px}
+.six h3{margin-bottom:6px;color:var(--ink)} .six p{color:var(--muted);font-size:17px}
+@media (min-width:700px){.six{grid-template-columns:1fr 1fr}} @media (min-width:1000px){.six{grid-template-columns:repeat(3,1fr);gap:18px}.six>div{padding:30px 26px}}
+section > .wrap > h3{color:var(--muted);font-weight:500;font-size:19px;margin-top:-6px}
+
+/* story */
+.story{gap:20px}
+.story p{font-size:18px;line-height:1.85;color:var(--ink2);max-width:var(--text)}
+.story h3{color:var(--gold2)!important;font-size:22px;margin-top:10px}
+.bio{display:grid;grid-template-columns:88px 1fr;gap:18px;align-items:center;padding:16px 18px;border:1px solid var(--gold-a);border-radius:var(--r);background:var(--card);max-width:var(--text)}
+.bio img{width:88px;height:88px;border-radius:50%;object-fit:cover;object-position:center 18%;border:1px solid var(--gold-b)}
+.bio h3{font-size:20px!important;color:var(--ink)!important;margin:0!important}
+.bio p{color:var(--muted)!important;font-size:15px!important}
+
+/* bought */
+.bought{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.bought li{display:flex;gap:14px;align-items:flex-start;padding:18px 20px;font-size:18px;line-height:1.55;color:var(--ink2)}
+@media (min-width:900px){.bought{grid-template-columns:1fr 1fr;gap:16px}}
+
+/* modules */
+.mods{display:grid;gap:14px}
+@media (min-width:1000px){.mods{grid-template-columns:1fr 1fr;gap:18px;align-items:start}}
+.module{overflow:hidden}
+.module header{padding:24px 22px 20px;display:flex;flex-direction:column;gap:10px}
+.module header p{color:var(--muted);font-size:17px}
+.module h3{font-size:22px;font-weight:900}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:13px;font-weight:500;padding:4px 12px;border-radius:999px;border:1px solid var(--gold-a);color:var(--ink2)}
+.module details{border-top:1px solid var(--gold-a)}
+.module summary{cursor:pointer;list-style:none;padding:15px 22px;font-weight:700;font-size:15px;color:var(--gold2);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.lessons{margin:0;padding:0 22px 18px;list-style:none;font-size:16px;color:var(--ink2)}
+.lessons li{padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06)} .lessons li:last-child{border-bottom:0}
+.lessons li.mtag{padding-top:16px;border-bottom:0}
+.peek{display:grid;gap:12px;margin-top:6px;max-width:620px}
+.mock{background:#0E0E10;border:1px solid var(--gold-a);border-radius:var(--r);overflow:hidden;color:#E6E8EE;font-size:15px}
+.mock .mh{display:flex;justify-content:space-between;padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.06)}
+.mock .mh span{color:var(--dim)}
+.mock ul{list-style:none;margin:0;padding:0}
+.mock li{display:flex;justify-content:space-between;gap:12px;padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--ink2)}
+.mock li:first-child{background:rgba(254,207,0,.07);color:var(--ink)}
+.mock .lt{min-width:0;overflow-wrap:anywhere} .mock .ld{color:var(--dim);font-variant-numeric:tabular-nums;flex:0 0 auto}
+.mock .mf{padding:11px 16px;color:var(--gold2);font-size:14px}
+
+/* accordions */
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";flex:0 0 26px;height:26px;border-radius:50%;border:1px solid var(--gold-b);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D3B77A' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center/14px no-repeat;transition:transform .3s var(--ease)}
+details[open]>summary::after{transform:rotate(180deg)}
+details .a,.lessons{overflow:hidden}
+
+/* bonuses */
+.bonuses{display:grid;gap:16px}
+@media (min-width:760px){.bonuses{grid-template-columns:1fr 1fr;gap:18px}}
+.bonus8{display:flex;flex-direction:column;overflow:hidden}
+.bonus8 .shot{position:relative;display:grid;place-items:center;padding:28px 20px 20px;background:radial-gradient(260px circle at 50% 60%,rgba(254,207,0,.14),transparent 70%),rgba(255,255,255,.015);border-bottom:1px solid var(--gold-a)}
+.bonus8 .shot img{width:132px;border-radius:6px;transform:perspective(700px) rotateY(-14deg) rotateX(3deg);box-shadow:-18px 24px 40px -14px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.06)}
+.bonus8 .dc{width:132px;height:170px;border-radius:10px;display:grid;place-items:center;text-align:center;border:1px solid var(--gold-b);background:linear-gradient(160deg,#1A1A1E,#0E0E10);color:var(--ink);font-weight:900;font-size:16px;line-height:1.2;transform:perspective(700px) rotateY(-14deg);box-shadow:-18px 24px 40px -14px rgba(0,0,0,.85)}
+.bonus8 .dc small{display:block;font-weight:500;font-size:12px;color:var(--gold2);margin-top:6px}
+.bonus8 .no{position:absolute;top:14px;right:16px;font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--gold)}
+.bonus8 .txt{padding:20px 22px 24px;display:flex;flex-direction:column;gap:8px;flex:1}
+.bonus8 h3{font-size:21px;font-weight:900}
+.bonus8 p{font-size:16px;line-height:1.65;color:var(--muted)}
+.bonus8 .why{color:var(--ink2);font-weight:500}
+.bonus8 .val{margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid rgba(255,255,255,.06);font-size:14px;color:var(--muted)}
+.bonus8 .val b{font-size:18px;color:var(--gold2);font-weight:700}
+.btot{text-align:center;font-size:clamp(19px,4.8vw,24px);font-weight:700;padding-top:10px;color:var(--ink2)}
+.btot s{opacity:.5;font-weight:500;text-decoration-thickness:1px} .btot b{color:var(--gold2)}
+
+/* pricing */
+#offer{background:var(--bg0);background-image:radial-gradient(700px circle at 50% 30%,rgba(254,207,0,.12),transparent 65%)}
+#offer .wrap{max-width:680px}
+#offer h2,#offer .offer-lead{text-align:center;margin-inline:auto} #offer h2::after{margin-inline:auto}
+#offer .offer-lead{color:var(--muted);font-size:17px;max-width:46ch}
+.pcard{position:relative;border:1px solid var(--gold-b);border-radius:28px;background:linear-gradient(180deg,rgba(254,207,0,.06),rgba(255,255,255,.02));overflow:hidden;box-shadow:0 60px 120px -50px rgba(0,0,0,.9)}
+.pcard::before{content:"";position:absolute;inset-inline:15%;top:0;height:1px;background:linear-gradient(90deg,transparent,#FFE14D,transparent)}
+.pcard .head{padding:30px 22px 4px;text-align:center}
+.pcard .tag{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--gold2)}
+.stack6{padding:10px 24px 6px}
+.stack6 .row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:16px;line-height:1.45;color:var(--ink2)}
+.stack6 .row span{min-width:0}
+.stack6 .row b{font-weight:500;white-space:nowrap;color:var(--muted)}
+.stack6 .tot{display:flex;justify-content:space-between;padding:16px 0 4px;font-weight:700;font-size:17px;color:var(--muted)}
+.stack6 .tot span:last-child{text-decoration:line-through;text-decoration-thickness:1px}
+.pcard .pay{margin:16px;padding:28px 18px 22px;border-radius:20px;background:rgba(14,14,16,.6);border:1px solid var(--gold-a);display:flex;flex-direction:column;gap:12px;text-align:center}
+.pcard .now-l{font-size:16px;font-weight:500;color:var(--muted)}
+.pcard .now{font-weight:900;font-size:clamp(80px,24vw,120px);line-height:.92;color:var(--ink);letter-spacing:-.04em;text-shadow:0 0 60px rgba(254,207,0,.25)}
+.pcard .now span{font-size:.38em;font-weight:700;margin-inline-start:6px;color:var(--gold2)}
+.pcard .inst{display:inline-flex;align-self:center;font-size:15px;font-weight:500;color:var(--ink2);border:1px solid var(--gold-a);padding:6px 16px;border-radius:999px}
+.pcard .once{font-size:14px;color:var(--dim);margin-top:-4px}
+.pcard .cta{width:100%;min-width:0;margin-top:6px}
+@media (max-width:374px){.pcard .pay{margin:12px 10px;padding-inline:12px}.pcard .cta{font-size:17px}}
+
+/* FAQ */
+.faq .wrap{max-width:820px}
+.faq .wrap.stack{gap:12px}
+.faq h2{margin-bottom:14px}
+.faq details{transition:border-color .3s,background-color .3s}
+.faq details[open]{border-color:var(--gold-b);background:var(--card2)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:20px 22px;font-weight:700;font-size:18px;line-height:1.4;color:var(--ink);min-height:64px}
+.faq .a{padding:0 22px 20px;color:var(--muted);font-size:17px;line-height:1.75}
+
+/* guarantee */
+.guar{background:var(--bg3)!important}
+.guar .wrap{max-width:820px;align-items:center;text-align:center}
+.guar .shield{position:absolute;left:50%;top:40px;transform:translateX(-50%);width:min(560px,120vw);opacity:.05;stroke:var(--gold2);fill:none;stroke-width:.6;pointer-events:none}
+.seal{width:112px;height:112px;border-radius:50%;display:grid;place-items:center;text-align:center;border:1px solid var(--gold-b);box-shadow:0 0 0 8px rgba(254,207,0,.06),0 0 60px rgba(254,207,0,.18);color:var(--gold2);line-height:1.05;background:var(--bg1)}
+.seal b{display:block;font-size:40px;font-weight:900;color:var(--ink)} .seal small{font-size:12px;font-weight:700;letter-spacing:.08em}
+.guar h2{max-width:20ch;margin-inline:auto;font-size:clamp(30px,8vw,60px)} .guar h2::after{margin-inline:auto}
+.guar p{font-size:18px;line-height:1.85;color:var(--ink2);margin-inline:auto}
+.guar .lead{color:var(--muted)}
+.guar h3{color:var(--gold2)!important;font-size:clamp(22px,5.6vw,30px);font-weight:900}
+.guar .muted{color:var(--muted)}
+.cta-note{text-align:center;font-size:14px;color:var(--muted);margin-top:-6px}
+
+footer{padding-block:40px 130px;text-align:center;font-size:13px;line-height:1.8;color:var(--dim);background:var(--bg3);border-top:1px solid var(--gold-a)}
+
+/* sticky */
+.sticky{position:fixed;inset-inline:0;bottom:0;z-index:40;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));background:linear-gradient(180deg,rgba(14,14,16,0),rgba(14,14,16,.92) 30%);transform:translateY(120%);transition:transform .4s var(--ease)}
+.sticky.on{transform:none}
+.sticky .cta{min-height:54px;font-size:18px;width:100%;margin:0;min-width:0}
+@media (min-width:900px){.sticky{display:none}}
+
+/* reveal */
+html.js .rv{opacity:0;transform:translateY(26px);transition:opacity .75s var(--ease) var(--d,0ms),transform .75s var(--ease) var(--d,0ms)}
+html.js .rv.zoom{transform:scale(.96)}
+html.js .rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}html.js .rv{opacity:1;transform:none}}
+video::cue{direction:rtl;unicode-bidi:plaintext;font-family:var(--font);font-weight:700;font-size:20px;background:rgba(0,0,0,.72);color:#fff}
+
+/* ---- v9 hero with portrait ---- */
+.hero9{position:relative;overflow:hidden;background:var(--bg0);isolation:isolate}
+.hero9 .portrait picture{display:contents}
+.hero9 .portrait{position:relative;height:min(62vh,560px);min-height:360px;margin:0}
+.hero9 .portrait img{width:100%;height:100%;object-fit:cover;object-position:center 12%;display:block;filter:brightness(.8) contrast(1.08) saturate(.95)}
+.hero9 .portrait::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,14,16,.55) 0%,rgba(14,14,16,0) 20%,rgba(14,14,16,0) 50%,rgba(14,14,16,.85) 82%,var(--bg0) 100%)}
+.hero9 .brand{position:absolute;top:calc(18px + env(safe-area-inset-top,0px));inset-inline:20px;z-index:2;display:flex;justify-content:space-between;font-size:13px;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.5);margin:0}
+.hero9 .brand b{color:#fff}
+.hero9 .copy{position:relative;z-index:1;margin-top:-120px;padding:0 20px 52px;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center}
+.hero9 h1{font-size:clamp(40px,11vw,84px);font-weight:900;line-height:1.05;letter-spacing:-.02em;max-width:15ch}
+.hero9 h1.title{font-size:clamp(60px,18vw,120px);line-height:.95}
+.hero9 .sub{font-size:clamp(18px,4.7vw,22px);font-weight:500;line-height:1.55;color:var(--ink2);max-width:40ch}
+.hero9 .now{font-size:15px;line-height:1.7;color:var(--muted);max-width:46ch;border-top:1px solid var(--gold-a);padding-top:16px}
+.hero9 .now b{color:var(--gold2);font-weight:700}
+.hero9 .badge{font-size:12.5px;max-width:44ch}
+.hero9 .ghost{color:var(--ink2);font-size:15px;font-weight:500;text-decoration:underline;text-decoration-color:var(--gold-b);text-underline-offset:6px;padding:4px 8px}
+.hero9 .copy>*{animation:up .8s var(--ease) both}
+.hero9 .copy>*:nth-child(2){animation-delay:.08s}.hero9 .copy>*:nth-child(3){animation-delay:.16s}.hero9 .copy>*:nth-child(4){animation-delay:.24s}.hero9 .copy>*:nth-child(n+5){animation-delay:.32s}
+@media (min-width:960px){
+  .hero9{display:grid;grid-template-columns:1.05fr .95fr;min-height:min(90vh,820px)}
+  .hero9 .portrait{order:2;height:auto;min-height:100%}
+  .hero9 .portrait::after{background:linear-gradient(270deg,var(--bg0) 0%,rgba(14,14,16,.55) 16%,rgba(14,14,16,0) 42%),linear-gradient(0deg,var(--bg0) 0%,rgba(14,14,16,0) 25%)}
+  .hero9 .copy{margin:0;align-self:center;align-items:flex-start;text-align:right;padding:96px 56px 80px max(40px,calc(50vw - 560px))}
+  .hero9 .trustrow{justify-content:flex-start}.hero9 .cta{margin:0}
+  .hero9 .brand{inset-inline:auto 40px;inset-inline-start:max(40px,calc(50vw - 560px));justify-content:flex-start;gap:24px}
+}
+.power{text-align:center}.power .wrap{align-items:center}
+.power .line{font-size:clamp(28px,7.4vw,54px);font-weight:900;line-height:1.2;max-width:20ch;margin-inline:auto;text-wrap:balance}
+.power .line span{display:block;color:var(--muted);font-weight:500;font-size:.6em;margin-bottom:10px}
+.power .flow{max-width:640px;margin:10px auto 0}
+.outcomes{display:grid;gap:12px}
+.outcomes>div{background:var(--card);border:1px solid var(--gold-a);border-radius:var(--r);padding:22px 22px;display:flex;flex-direction:column;gap:6px}
+.outcomes h3{font-size:19px;font-weight:800}
+.outcomes p{color:var(--muted);font-size:16px;line-height:1.6}
+@media (min-width:760px){.outcomes{grid-template-columns:1fr 1fr}} @media (min-width:1100px){.outcomes{grid-template-columns:repeat(3,1fr)}}
+.closer{font-size:clamp(22px,5.6vw,32px);font-weight:900;line-height:1.35;max-width:26ch;text-wrap:balance}
+.closer span{display:block;color:var(--muted);font-weight:500}
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;counter-reset:rm}
+.roadmap li{list-style:none;counter-increment:rm;text-align:center;padding:18px 8px;border:1px solid var(--gold-a);border-radius:var(--r);background:var(--card);font-weight:800;font-size:18px}
+.roadmap li::before{content:"0" counter(rm);display:block;font-size:12px;letter-spacing:.12em;color:var(--gold);margin-bottom:6px}
+.roadmap{padding:0;margin:0}
+.module .cando{margin:0 22px 18px;padding:12px 14px;border-radius:12px;background:rgba(254,207,0,.07);border:1px solid var(--gold-a);font-size:15.5px;line-height:1.6;color:var(--ink2)}
+.module .cando b{display:block;font-size:12px;letter-spacing:.08em;color:var(--gold);margin-bottom:2px}
+.proofline{font-size:clamp(19px,4.8vw,24px);font-weight:700;line-height:1.5;max-width:36ch;margin:8px auto 0;text-align:center;color:var(--ink)}
+.car-btn.prev{right:auto;left:-6px} .car-btn.next{left:auto;right:-6px}
+@media (min-width:600px){.car-btn.prev{right:auto;left:-64px} .car-btn.next{left:auto;right:-64px}}
+
+:root{--sec:62px} @media (min-width:900px){:root{--sec:104px}}
+.hero9 .eyebrow{font-size:13px;font-weight:700;letter-spacing:.32em;color:var(--gold);margin-bottom:-6px}
+.hero9 h1.promise{font-size:clamp(34px,9.4vw,66px);font-weight:900;line-height:1.12;max-width:17ch}
+.hero9 h1.promise mark{color:var(--gold2)}
+.sticky{padding:7px 12px calc(7px + env(safe-area-inset-bottom,0px))}
+.sticky .cta{min-height:44px;font-size:16px;padding:10px 16px;border-radius:12px}
+.notfit{font-size:15px;color:var(--muted);border-inline-start:2px solid var(--gold-a);padding-inline-start:14px;max-width:60ch}
+.toolbox{font-size:16px;color:var(--ink2);background:rgba(254,207,0,.06);border:1px solid var(--gold-a);border-radius:14px;padding:14px 16px;max-width:var(--text)}
+.toolbox b{color:var(--gold2)}
+.car-slide{display:flex;flex-direction:column;gap:10px}
+.car-q{padding:12px 10px 2px;text-align:center}
+.car-q q{display:block;font-size:clamp(19px,5vw,23px);font-weight:800;line-height:1.35;color:var(--ink);quotes:"\201D" "\201C"}
+.car-q span{display:block;margin-top:6px;font-size:13px;color:var(--gold2);font-weight:600}
+.bonus8 .txt{gap:6px}
+.bonus8 .val b{font-size:15px}
+.steps3{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:s3}
+.steps3 li{counter-increment:s3;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center;font-size:18px;font-weight:600;color:var(--ink)}
+.steps3 li::before{content:counter(s3);width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--gold2);color:var(--bg1);font-weight:900}
+@media (min-width:900px){.steps3{grid-template-columns:repeat(3,1fr)}}
+.pcard .why{font-size:15px;line-height:1.65;color:var(--ink2);max-width:40ch;margin:0 auto}
+.hero9 .brand{display:none}
+@media (max-width:959px){.hero9 .portrait{height:min(50vh,460px);min-height:300px} .hero9 .copy{margin-top:-150px;gap:14px}}
+.hero9 h1.promise{font-size:clamp(30px,8.4vw,66px)}
+.vid .play span{bottom:auto;top:calc(50% + 56px);font-size:18px;font-weight:800;text-shadow:0 2px 12px rgba(0,0,0,.8)}
+.pcard .guar1{font-size:14px;line-height:1.6;color:var(--muted);max-width:40ch;margin:0 auto}
+
+.ident{list-style:none;margin:0;padding:0 14px 0 0;border-inline-start:2px solid var(--gold-a);display:grid;gap:6px;max-width:46ch}
+.ident li{font-size:clamp(15px,3.9vw,18px);line-height:1.55;color:var(--ink2)}
+.ident li.k{color:var(--gold2);font-weight:700}
+@media (max-width:959px){.hero9 .sub{font-size:16px}.hero9 h1{font-size:clamp(28px,8vw,46px);line-height:1.12;max-width:18ch}}
+.life{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.life li{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;font-size:18px;line-height:1.55;color:var(--ink);background:var(--card);border:1px solid var(--gold-a);border-radius:var(--r);padding:16px 18px}
+.life li::before{content:"";width:10px;height:10px;margin:8px auto 0;border-radius:50%;background:var(--gold2);box-shadow:0 0 0 5px rgba(254,207,0,.12)}
+.lifeclose{font-size:clamp(20px,5.4vw,28px);font-weight:800;line-height:1.4;color:var(--ink);text-wrap:balance}
+.lifeclose span{display:block;color:var(--muted);font-weight:500;font-size:.75em}
+.notcourse{margin-top:28px;background:rgba(254,207,0,.05);border:1px solid var(--gold-a);border-radius:var(--r);padding:24px 20px;display:grid;gap:12px}
+.notcourse h3{font-size:clamp(21px,5.6vw,28px)}
+.notcourse p{color:var(--ink2);font-size:17px;line-height:1.7;max-width:58ch}
+.loop4{list-style:none;margin:8px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;counter-reset:l4}
+.loop4 li{counter-increment:l4;position:relative;display:grid;justify-items:center;gap:8px;text-align:center;font-size:14px;font-weight:700;color:var(--ink);line-height:1.3}
+.loop4 li::before{content:counter(l4);width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--gold-b);color:var(--gold2);font-weight:900;background:var(--bg1)}
+.loop4 li:not(:last-child)::after{content:"←";position:absolute;top:9px;left:-10px;color:var(--gold);font-size:16px}
+.loop4 li:last-child::before{content:"↻";background:var(--gold2);color:var(--bg1)}
+@media (min-width:900px){.loop4 li{font-size:16px}}
+.pause .wrap{max-width:720px;text-align:center}
+.pause .q{font-size:clamp(22px,6vw,32px);font-weight:800;line-height:1.4;color:var(--ink);text-wrap:balance}
+.pause .q small{display:block;font-size:.62em;font-weight:500;color:var(--muted);margin-bottom:10px}
+.pause .a{font-size:17px;color:var(--ink2);line-height:1.7;max-width:46ch;margin:0 auto}
+.pcard .anchor{font-size:16px;font-weight:700;color:var(--ink);max-width:36ch;margin:0 auto}
+.pcard .cheap{font-size:15px;color:var(--muted);line-height:1.6;max-width:38ch;margin:0 auto}
+.secure{list-style:none;margin:2px auto 0;padding:0;display:grid;gap:8px;justify-items:start;width:max-content;max-width:100%}
+.secure li{display:inline-flex;align-items:center;gap:9px;font-size:14.5px;color:var(--ink2)}
+.secure svg{width:16px;height:16px;flex:0 0 16px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.priceline{text-align:center;font-size:15px;color:var(--ink2);margin-bottom:-4px}
+.priceline b{color:var(--gold2)}
+.priceline,.cta-note{text-wrap:balance}
+.pcard .cta{font-size:17px;padding-inline:14px;white-space:nowrap}
+.faq .more{background:transparent;border-style:dashed}
+.faq .more>summary{color:var(--gold2)}
+.faq .more .a{display:grid;gap:10px;padding-top:4px}
+.faq .more details{background:var(--bg1)}
+.close11{display:grid;gap:6px;font-size:clamp(19px,5vw,24px);line-height:1.5;color:var(--ink);margin-top:10px}
+.close11 b{font-size:clamp(24px,6.4vw,34px);font-weight:900;display:block;margin-bottom:6px;text-wrap:balance}
+@media (min-width:960px){.hero9 h1.promise,.hero9 h1{font-size:50px;max-width:20ch}.hero9 .copy{gap:14px;padding-top:40px;padding-bottom:40px}.ident li{font-size:16px}.hero9 .sub{font-size:17px}.hero9 .portrait img{position:absolute;inset:0}.hero9{min-height:min(100vh,860px)}}
+.close11 .end{color:var(--gold2);font-weight:800;margin-top:8px}
+
+.car-btn.prev{left:auto;right:-6px} .car-btn.next{right:auto;left:-6px}
+@media (min-width:600px){.car-btn.prev{left:auto;right:-64px} .car-btn.next{right:auto;left:-64px}}
+.car-btn{direction:ltr;unicode-bidi:isolate}
+.car-track{align-items:flex-start}
+.car-slide{padding:6px}
+.car-slide img{border-radius:14px;background:#fff}
+@media (max-width:599px){.car{padding-bottom:4px}.car-btn{top:auto;bottom:-10px;width:42px;height:42px;font-size:24px}.car-btn.prev{right:4px}.car-btn.next{left:4px}.car-dots{min-height:34px;align-items:center}}
+.cta-micro{font-size:14px;color:var(--muted);text-align:center;margin:0}
+.hero9 .cta-micro{text-align:inherit}
+/* ב44: מחיר השקה (אישור בן 4.11: 1,290 מחיר אמיתי, 297 מחיר השקה בלי תאריך) */
+.cta-micro .launch{color:var(--gold2);font-weight:700}
+#offer .launch-tag{display:inline-block;margin:0 auto -6px;padding:5px 14px;border:1px solid var(--gold-b);border-radius:999px;color:var(--gold2);font-weight:700;font-size:15px;text-align:center}
+
+.pcard .cta{white-space:normal;font-size:17px;line-height:1.3;text-wrap:balance}
+
+/* social proof v1: faces + stories */
+.avs{display:inline-flex;align-items:center;gap:12px;padding:6px 14px 6px 8px;border:1px solid var(--gold-a);border-radius:999px;background:rgba(255,255,255,.03);color:var(--ink2);font:inherit;cursor:pointer;text-align:start;transition:border-color .2s}
+.avs:hover,.avs:focus-visible{border-color:var(--gold-b)}
+.avs-f{display:flex;flex:0 0 auto}
+.avs-f i,.sp-st i::before,.sp-av{background:#1A1A1E url(assets/sp-faces.webp) no-repeat;background-size:800% 100%;background-position:calc(var(--i,0)*100%/7) 0}
+.avs-f i{width:32px;height:32px;border-radius:50%;border:2px solid var(--bg0);margin-inline-start:-10px}
+.avs-f i:first-child{margin-inline-start:0}
+.avs-t{display:flex;flex-direction:column;line-height:1.3}
+.avs-t b{font-size:14px;font-weight:700;color:var(--ink)}
+.avs-t small{font-size:12.5px;font-weight:500;color:var(--gold2)}
+.avs-wrap{display:flex;justify-content:center;margin:0 0 14px}
+.sp-stories{background:var(--bg0);border-bottom:1px solid var(--gold-a);padding:18px 0 14px}
+.sp-in{max-width:var(--max);margin:0 auto;padding:0 16px}
+.sp-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:0 0 12px}
+.sp-head b{font-size:15px;font-weight:800;color:var(--ink)}
+.sp-head span{font-size:13px;color:var(--muted)}
+.sp-row{display:flex;gap:14px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 6px;scroll-snap-type:x proximity}
+.sp-row::-webkit-scrollbar{display:none}
+.sp-st{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:0;padding:0;color:var(--muted);font:inherit;font-size:12px;cursor:pointer;scroll-snap-align:start;font-variant-numeric:tabular-nums}
+.sp-st i{position:relative;display:block;width:68px;height:68px;border-radius:50%;background:conic-gradient(from 210deg,#FFFFFF,#FECF00,#B38F00,#FECF00,#FFFFFF)}
+.sp-st i::before{content:"";position:absolute;inset:3px;border-radius:50%;border:2px solid var(--bg0)}
+.sp-st.seen i{background:var(--gold-b)}
+.sp-st:focus-visible i{outline:2px solid var(--gold2);outline-offset:2px}
+@media (min-width:900px){.sp-row{justify-content:center}.sp-head{justify-content:center;gap:16px}}
+.sp-modal{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:12px;background:rgba(8,8,9,.94)}
+.sp-modal[hidden]{display:none}
+.sp-box{position:relative;width:min(420px,100%);height:min(92vh,760px);border-radius:18px;overflow:hidden;background:#000;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.sp-v{display:block;width:100%;height:100%;object-fit:cover;background:#000}
+.sp-box::before{content:"";position:absolute;inset:0 0 auto;height:120px;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.65),rgba(0,0,0,0))}
+.sp-bars{position:absolute;top:10px;inset-inline:10px;z-index:3;display:flex;gap:4px}
+.sp-bars i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.3);overflow:hidden}
+.sp-bars b{display:block;width:0;height:100%;background:#fff}
+.sp-top{position:absolute;top:22px;inset-inline:10px;z-index:3;display:flex;align-items:center;gap:10px;color:#fff;font-size:14px;font-weight:700;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.sp-av{width:34px;height:34px;border-radius:50%;border:1.5px solid #fff;flex:0 0 auto}
+.sp-cnt{font-weight:500;opacity:.85;font-variant-numeric:tabular-nums}
+.sp-x{margin-inline-start:auto;width:40px;height:40px;border:0;border-radius:50%;background:rgba(0,0,0,.4);color:#fff;font-size:26px;line-height:1;cursor:pointer}
+.sp-nav{position:absolute;top:70px;bottom:70px;z-index:2;width:34%;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sp-prev{right:0}
+.sp-next{left:0}
+.sp-pause{position:absolute;top:70px;bottom:70px;left:34%;right:34%;z-index:2;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sp-btns{position:absolute;bottom:14px;inset-inline:12px;z-index:3;display:flex;justify-content:space-between;pointer-events:none}
+.sp-btns button{pointer-events:auto;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.45);color:#fff;font:inherit;font-size:14px;font-weight:700;border-radius:999px;padding:8px 16px;cursor:pointer}
+.sp-play{position:absolute;inset:0;z-index:4;display:none;place-items:center;border:0;background:rgba(0,0,0,.35);cursor:pointer}
+.sp-play i{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.94)}
+.sp-play i::before{content:"";margin-left:6px;border-style:solid;border-width:13px 0 13px 21px;border-color:transparent transparent transparent #000000}
+.sp-modal.paused .sp-play{display:grid}
+.sp-end{position:absolute;inset:0;z-index:5;display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:28px 22px;text-align:center;background:rgba(14,14,16,.92)}
+.sp-end.on{display:flex}
+.sp-end h3{font-size:24px;font-weight:900;line-height:1.25;color:var(--ink)}
+.sp-end p{font-size:16px;line-height:1.6;color:var(--ink2);margin:0}
+.sp-end .cta{width:100%}
+.sp-again{border:0;background:none;color:var(--ink2);font:inherit;font-size:15px;text-decoration:underline;text-underline-offset:5px;cursor:pointer;padding:6px}
+
+/* offer: core vs bonuses */
+.stack6 .s6-h{margin:16px 0 0;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--gold)}
+.stack6 .s6-h:first-child{margin-top:8px}
+.stack6 .s6-core span{color:var(--ink);font-weight:700}
+.stack6 .s6-core b{color:var(--ink2);font-weight:700}
+.stack6 .s6-sub{border-bottom:0;padding-top:14px}
+.stack6 .s6-sub span{font-weight:700;color:var(--ink2)}
+.stack6 .s6-sub b{font-weight:700;color:var(--gold2)}
+.stack6 .tot{border-top:1px solid var(--gold-a)}
+</style>
+<script>/* ב23: בלי פיקסל לסריקות Meta (חתימת app_id 256281040558 ב-fbclid, כמו ב-7798267), לקישורי בדיקה ולדפדפן הפנימי */(function(){try{var s=location.search,off=/yNTYyODEwNDA1N|MjU2MjgxMDQwNT|I1NjI4MTA0MDU1|claude|test|nocache|internal/i.test(s);try{off=off||localStorage.getItem("nlp_int")==="1"}catch(e){}window.__noPix=off;if(off)return}catch(e){}
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","1278104408729813");fbq("init","1651086743466533");fbq("track","PageView");fbq("track","ViewContent",{content_name:"השיטה - הקורס המלא",value:297,currency:"ILS"});
+})();</script>
+<style>/* 1,290 מחוק ליד 297 (19.10) */
+s.was{font-size:.8em;white-space:nowrap}
+.pgrp{white-space:nowrap}
+.pcard .now s.was{font-size:.26em;font-weight:700;letter-spacing:0}
+.cta .ct-t{transition:none}
+.cta:hover .ct-t{transform:none}
+.pcard .stack6 .tot span:last-child{text-decoration:none}
+</style>
+<style>/* ב42: A חדש (a5) - פתיחת P25, ההצעה מוקדם יותר. ב45: פעימה אחת בכפתור */
+.cta-bonus{font-size:14px;font-weight:700;color:var(--gold2);margin:-4px 0 2px}
+.cta-bonus .nb{white-space:nowrap}
+/* ב45 (מאשר ב45, 04.11): במקום אנימציה כל 3 שניות - פעימה אחת בכל כפתור, 3 שניות אחרי שהוא מופיע במלואו. לא בלולאה, בלי ברק, לא ב-Reduced Motion */
+@keyframes b45pulse{0%{transform:none}45%{transform:scale(1.035)}100%{transform:none}}
+.cta.pulse1{animation:b45pulse .9s ease-out 1}
+@media (prefers-reduced-motion:reduce){.cta.pulse1{animation:none}}
+@media (max-width:899px){html .sticky{padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(14,14,16,.97);border-top:1px solid rgba(254,207,0,.55);box-shadow:0 -10px 30px rgba(0,0,0,.45)}
+ html .sticky .cta{min-height:56px;font-size:18px;border-radius:14px;box-shadow:0 0 0 2px rgba(255,225,77,.5),0 10px 28px -8px rgba(254,207,0,.8)}}
+</style><style>
+/* ===== ב68 v4: שכבת פרימיום (CSS בלבד; המסך הראשון בלי אנימציה) ===== */
+html{scroll-padding-top:12px}
+[data-sec]{scroll-margin-top:12px}
+.cta{position:relative;isolation:isolate;overflow:hidden;min-height:64px;border-radius:16px;letter-spacing:-.005em;
+  transition:transform .25s var(--ease),box-shadow .25s var(--ease),filter .25s var(--ease),background-color .25s var(--ease)}
+.cta::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;
+  background:linear-gradient(180deg,rgba(255,255,255,.26),rgba(255,255,255,0) 55%)}
+.cta::after{content:"";position:absolute;top:0;bottom:0;inset-inline-start:0;width:42%;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);opacity:0}
+.cta.v4-shine::after{animation:v4shine 1.15s var(--ease) .15s 1 backwards}
+@keyframes v4shine{0%{opacity:0;transform:translateX(130%) skewX(-18deg)}20%{opacity:1}100%{opacity:0;transform:translateX(-260%) skewX(-18deg)}}
+.cta > span:last-child,.cta .ar{transition:transform .25s var(--ease)}
+.cta:hover > span:last-child,.cta:focus-visible > span:last-child,.cta:hover .ar,.cta:focus-visible .ar{transform:translateX(-5px)}
+.cta:active{transform:translateY(1px) scale(.99)}
+.v4-lock{display:inline-flex;align-items:center;gap:5px;font-weight:700;white-space:nowrap}
+.v4-li{width:15px;height:15px;flex:none;fill:none;stroke:var(--v4-ok);stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px}
+.secure .v4-li,.secure li svg{stroke:var(--v4-ok)}
+.v4-sec{display:flex;justify-content:center;margin:12px auto 0;font-size:14px;line-height:1.4}
+.v4-sec .v4-lock{padding:6px 13px;border-radius:999px;border:1px solid var(--v4-okb);background:var(--v4-okbg);color:var(--v4-okt)}
+.sticky .cta{min-height:56px}
+/* מקומות לנכסים: גודל קבוע מראש (aspect-ratio) - אין קפיצה כשהתמונה נטענת */
+.v4-slot{margin:26px auto 0;max-width:300px;width:100%}
+.v4-slot-h{margin:0 0 14px;text-align:center;font-weight:800;font-size:20px;line-height:1.4;text-wrap:balance}
+@media (min-width:960px){.v4-slot{max-width:340px}}
+.v4-slot.v4-img{max-width:440px}
+.v4-slot .v4-box{position:relative;display:block;width:100%;padding:0;border:0;border-radius:20px;overflow:hidden;background:var(--v4-slotbg);
+  box-shadow:var(--v4-card);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.v4-slot img,.v4-slot video{display:block;width:100%;height:100%;object-fit:cover}
+.v4-slot .v4-pi{position:absolute;inset:0;margin:auto;width:68px;height:68px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(255,255,255,.92);box-shadow:0 10px 30px rgba(0,0,0,.35);transition:transform .25s var(--ease)}
+.v4-slot .v4-pi svg{width:30px;height:30px;fill:#111;margin-inline-start:4px}
+.v4-slot .v4-box:hover .v4-pi,.v4-slot .v4-box:focus-visible .v4-pi{transform:scale(1.06)}
+.v4-slot .v4-box:focus-visible{outline:3px solid var(--v4-ok);outline-offset:3px}
+/* חלק 5: מה יש בפנים - הטקסט של בן, הסיור, והכפתור "לכל 90 השיעורים" */
+.v4-show{max-width:var(--text,640px);margin:8px auto 0;text-align:center;display:grid;gap:10px}
+.v4-show h3{margin:0;font-size:24px;line-height:1.35;font-weight:900}
+.v4-show p{margin:0;font-size:17px;line-height:1.7}
+.v4-show .v4-show-sub{font-size:19px;font-weight:800;color:#FECF00}
+.v4-show .v4-show-go{margin-top:6px;font-weight:800}
+.v4-slot.v4-tour{max-width:420px}
+.v4-tour.v4-auto .v4-pi{display:none}
+.v4-all{width:100%;max-width:860px;margin:4px auto 0}
+.v4-all>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:12px 18px;border-radius:14px;
+  border:1px solid rgba(254,207,0,.45);background:rgba(254,207,0,.06);font-weight:800;font-size:17px;color:#FFFFFF}
+.v4-all>summary::-webkit-details-marker{display:none}
+.v4-all>summary::after{content:"";width:9px;height:9px;border-inline-end:2px solid #FECF00;border-bottom:2px solid #FECF00;transform:rotate(45deg) translateY(-3px);transition:transform .25s}
+.v4-all[open]>summary::after{transform:rotate(225deg) translateY(-3px)}
+.v4-all-in{display:grid;gap:16px;margin-top:16px}
+.v4-all .rv,.v4-all .v4r{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}
+/* חלק 6: כרטיסי הבונוסים */
+.bx2-list{gap:16px}
+.bx2{background:linear-gradient(180deg,#1A1A1E,#151518);border:1px solid rgba(254,207,0,.32);border-radius:18px;padding:18px 18px 16px;display:grid;gap:12px;
+  box-shadow:0 24px 50px -34px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.05)}
+.bx2-head{display:flex;gap:14px;align-items:center}
+.bx2-head .bx-vis{flex:none;width:64px}
+.bx2-head .bx-vis img,.bx2-head .bx-course{width:64px}
+.bx2-head .bx-course{height:83px;font-size:11px;padding:6px}
+.bx2-head .bx-course small{font-size:9px;margin-top:4px}
+.bx2-t h3{margin:0;font-size:20px;line-height:1.3;font-weight:900;color:#FFFFFF}
+.bx2-kind{margin:2px 0 0;font-size:14px;font-weight:700;color:#FECF00}
+.bx2-ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.bx2-ul li{position:relative;padding-inline-start:24px;font-size:16px;line-height:1.55;color:#E6E6E6}
+.bx2-ul li::before{content:"";position:absolute;inset-inline-start:2px;top:.55em;width:12px;height:7px;border-left:2px solid #FECF00;border-bottom:2px solid #FECF00;transform:rotate(-45deg)}
+.bx2-more{margin:0;font-size:14.5px;line-height:1.55;color:#B8B8B8;font-style:italic}
+.bx2-val{margin:4px 0 0;padding-top:12px;border-top:1px solid rgba(254,207,0,.18);display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px}
+.bx2-val s{font-size:15px;color:#B8B8B8;text-decoration-thickness:1.5px}
+.bx2-val b{font-size:17px;font-weight:900;color:#FECF00}
+.bx2-total{margin:18px auto 0;text-align:center;font-size:20px;font-weight:900;color:#FFFFFF;max-width:560px}
+/* חלק 7: קופסת ההצעה ("רגע הנוקאאוט") - נקי ויוקרתי, שורות עם קו זהב דק */
+.v4-ko{width:100%;max-width:560px;margin:6px auto 0;padding:22px 20px 20px;border-radius:22px;border:1px solid rgba(254,207,0,.45);
+  background:radial-gradient(420px circle at 50% 0,rgba(254,207,0,.10),transparent 70%),linear-gradient(180deg,#1A1A1E,#111114);
+  box-shadow:0 40px 80px -40px rgba(0,0,0,.95),inset 0 1px 0 rgba(255,255,255,.06);display:grid;gap:14px;text-align:center}
+.v4-ko-list{list-style:none;margin:0;padding:0}
+.v4-ko-list li{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:11px 2px;border-bottom:1px solid rgba(254,207,0,.22);text-align:start}
+.v4-ko-list li span{font-size:15.5px;line-height:1.45;color:#E6E6E6}
+.v4-ko-list li b{flex:none;font-size:15.5px;font-weight:700;color:#FFFFFF;font-variant-numeric:tabular-nums}
+.v4-ko-tot{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:4px 2px 0}
+.v4-ko-tot span{font-size:17px;font-weight:800}
+.v4-ko-tot b{font-size:22px;font-weight:900;color:#FFFFFF}
+.v4-ko-price{padding:16px 0 4px;border-top:1px solid rgba(254,207,0,.45);display:grid;gap:4px}
+.v4-ko-reg{margin:0;font-size:16px;color:#B8B8B8}
+.v4-ko-reg s{text-decoration-thickness:1.5px}
+.v4-ko-now{margin:0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.v4-ko-now span{font-size:16px;font-weight:800;color:#FECF00}
+.v4-ko-now b{font-size:52px;line-height:1;font-weight:900;color:#FECF00;letter-spacing:-.5px;white-space:nowrap}
+.v4-ko .cheap{margin:0;font-size:15px;line-height:1.65;color:#E6E6E6}
+.v4-ko .cta{width:100%;margin:2px 0 0}
+.v4-ko .cta-micro{margin:0}
+/* 20: נגן "הצצה פנימה" */
+.v4-peek{display:grid;gap:14px;justify-items:center;margin:8px auto 0;width:100%;max-width:620px}
+.v4-peek-h{margin:0;font-size:24px;font-weight:900;text-align:center}
+.v4-slot.v4-player{max-width:620px;margin:0;padding:10px;border-radius:22px;background:linear-gradient(180deg,#1A1A1E,#0E0E10);
+  border:1px solid rgba(254,207,0,.32);box-shadow:0 30px 70px -36px rgba(0,0,0,.95),inset 0 1px 0 rgba(255,255,255,.06)}
+.v4-player .v4-box,.v4-player video{border-radius:14px}
+.v4-player video{background:#000;height:auto;object-fit:contain}
+.v4-pl-top{display:flex;align-items:center;gap:8px;padding:2px 4px 10px;font-weight:800;font-size:14px;color:#FECF00}
+.v4-pl-dot{width:8px;height:8px;border-radius:50%;background:#FECF00;box-shadow:0 0 0 4px rgba(254,207,0,.18)}
+.v4-player .v4-pi{width:84px;height:84px;background:#FECF00;box-shadow:0 0 0 12px rgba(254,207,0,.18),0 14px 34px rgba(0,0,0,.5)}
+.v4-player .v4-pi svg{width:36px;height:36px;fill:#000}
+.v4-pl-bar{direction:ltr;height:4px;margin:12px 4px 0;border-radius:4px;background:rgba(255,255,255,.14);overflow:hidden}
+.v4-pl-bar i{display:block;height:100%;width:0;background:#FECF00;border-radius:4px;transition:width .25s linear}
+.v4-pl-meta{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding:10px 4px 2px;text-align:start}
+.v4-pl-t{display:grid;gap:2px;min-width:0}
+.v4-pl-t b{font-size:16px;font-weight:800;color:#FFFFFF;overflow-wrap:anywhere}
+.v4-pl-t small{font-size:13px;color:#B8B8B8;font-weight:500}
+.v4-pl-d{flex:none;font-size:13px;color:#B8B8B8;font-variant-numeric:tabular-nums}
+.v4-peek-n{margin:2px 0 0;font-weight:800;font-size:18px;text-align:center}
+.v4-peek .v4-ctab{width:100%}
+.v4-ph{position:absolute;inset:0;display:grid;place-items:center;padding:18px;text-align:center;font:700 15px/1.5 var(--font,Heebo,sans-serif);
+  color:var(--v4-okt);border:2px dashed var(--v4-okb);border-radius:20px}
+/* כניסה עדינה בגלילה: רק מה שמתחת למסך הראשון, רק עם IntersectionObserver, ולא בהפחתת תנועה */
+html.v4rv .v4r:not(.in){opacity:0;transform:translate3d(0,22px,0)}
+html.v4rv .v4r{transition:opacity .6s var(--ease),transform .7s var(--ease)}
+@media (prefers-reduced-motion:reduce){
+  html.v4rv .v4r:not(.in){opacity:1;transform:none}
+  html.v4rv .v4r,.cta,.cta > span:last-child,.cta .ar{transition:none}
+  .cta.v4-shine::after{animation:none}
+}
+
+:root{--v4-ok:#43C08A;--v4-okb:rgba(67,192,138,.38);--v4-okbg:rgba(67,192,138,.08);--v4-okt:#CDEFDF;--v4-slotbg:#151518;
+  --v4-card:0 0 0 1px rgba(254,207,0,.22),0 30px 70px -30px rgba(0,0,0,.85)}
+.cta{background:linear-gradient(180deg,#FFE14D 0%,#FECF00 48%,#E6B800 100%);
+  box-shadow:0 1px 0 rgba(255,255,255,.55) inset,0 -2px 0 rgba(120,96,0,.25) inset,0 0 0 1px rgba(255,225,77,.4),0 16px 36px -14px rgba(254,207,0,.75),0 4px 10px rgba(0,0,0,.35)}
+.cta:hover{filter:brightness(1.05);box-shadow:0 1px 0 rgba(255,255,255,.55) inset,0 -2px 0 rgba(120,96,0,.25) inset,0 0 0 1px rgba(255,225,77,.55),0 22px 46px -14px rgba(254,207,0,.9),0 6px 14px rgba(0,0,0,.4)}
+.pcard{border-radius:28px;border-color:rgba(254,207,0,.42);
+  background:radial-gradient(120% 60% at 50% 0%,rgba(254,207,0,.12),transparent 60%),linear-gradient(180deg,rgba(254,207,0,.07),rgba(255,255,255,.015));
+  box-shadow:0 0 0 1px rgba(255,225,77,.08) inset,0 1px 0 rgba(255,255,255,.08) inset,0 70px 130px -50px rgba(0,0,0,.95),0 0 80px -30px rgba(254,207,0,.25)}
+section[data-sec]+section[data-sec]{box-shadow:0 1px 0 rgba(254,207,0,.07) inset}
+section.alt{background-image:radial-gradient(700px circle at 88% 0%,rgba(254,207,0,.07),transparent 60%),radial-gradient(640px circle at 12% 100%,rgba(254,207,0,.05),transparent 62%)}
+.sticky{-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+/* המסך הראשון מוצג מיד: בלי אנימציית הכניסה של הפתיחה (בדף החי הכותרת, הכפתור והתמונה נכנסים בהדרגה) */
+.hero8 .copy>*,.hero8 .visual,.hero9 .copy>*{animation:none}
+/* ===== הערות בן 11.11 (ב68): יותר יוקרה ועומק. הרקע השחור נשאר; קווי זהב דקים, הדרגות וצללים. CSS בלבד ===== */
+.v4-ctab{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:30px;text-align:center}
+.v4-ctab .cta{max-width:470px}
+.v4-ctab .cta-micro{margin:0;font-size:14px;color:var(--muted)}
+/* כרטיסים: קו זהב דק למעלה, הדרגה עדינה וצל עמוק (שכבות רקע, בלי pseudo, כדי לא לשבור עיטורים קיימים) */
+.card,.reality .r,.six>div,.wins li,.fitlist li,.bonus8,.module,.faq details,.bought li,.split>div,.ba>div,.outcomes>div,.car-slide,.toolbox,.bx{
+  background:linear-gradient(90deg,transparent 8%,rgba(255,225,77,.55) 50%,transparent 92%) top center/100% 1px no-repeat,
+             linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,0) 55%),var(--card,#151518);
+  border-color:rgba(254,207,0,.24);
+  box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 28px 56px -30px rgba(0,0,0,.95),0 0 0 1px rgba(0,0,0,.25)}
+.toolbox{background:linear-gradient(90deg,transparent 8%,rgba(255,225,77,.55) 50%,transparent 92%) top center/100% 1px no-repeat,linear-gradient(180deg,rgba(254,207,0,.10),rgba(254,207,0,.03))}
+.ctab .box{border-color:rgba(254,207,0,.45);box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 40px 90px -40px rgba(0,0,0,.95),0 0 60px -28px rgba(254,207,0,.30)}
+.pcard{box-shadow:0 0 0 1px rgba(255,225,77,.10) inset,0 1px 0 rgba(255,255,255,.10) inset,0 80px 140px -50px rgba(0,0,0,.95),0 0 110px -30px rgba(254,207,0,.32)}
+/* כפתור הקנייה: ברק עדין שעובר כל כמה שניות כשהכפתור במסך (transform/opacity בלבד; כבוי בהפחתת תנועה) */
+.cta.v4-shine::after{animation:v4shine2 5.5s var(--ease) .2s infinite backwards}
+@keyframes v4shine2{0%{opacity:0;transform:translateX(130%) skewX(-18deg)}4%{opacity:1}20%{opacity:0;transform:translateX(-260%) skewX(-18deg)}100%{opacity:0;transform:translateX(-260%) skewX(-18deg)}}
+@media (prefers-reduced-motion:reduce){.cta.v4-shine::after{animation:none}}
+/* ===== הערות בן 11.11 חלק 2 ===== */
+/* 14: ניגודיות AA - המחיר המחוק בכפתור ועל רקע כהה, והתוויות הקטנות על ערכות העבודה הלבנות */
+.cta .was{opacity:.72}
+.was{opacity:.78}
+.bx-course.bx-kit small{color:#6B5500}
+.faq .was{opacity:1}
+/* 13: "תשלום מאובטח" עם מנעול בתוך הכפתור - שורה שנייה קטנה באמצע למטה */
+.cta{flex-wrap:wrap;row-gap:2px}
+.cta .v4-pay{flex-basis:100%;order:9;display:flex;align-items:center;justify-content:center;gap:5px;font-size:12.5px;font-weight:700;line-height:1.1;color:rgba(0,0,0,.78)}
+.cta .v4-pay .v4-li{stroke:currentColor;width:13px;height:13px}
+/* חלק 4: בלוק האחריות בקטן בקופסת הכפתור */
+.v4-guar{display:flex;gap:12px;align-items:flex-start;margin:14px auto 0;max-width:520px;padding:14px 16px;border-radius:14px;
+  border:1px solid rgba(254,207,0,.32);background:linear-gradient(180deg,rgba(254,207,0,.07),rgba(254,207,0,.02));text-align:start}
+.v4-guar .v4-shield{flex:none;width:26px;height:26px;margin-top:2px;fill:none;stroke:#FECF00;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.v4-guar p{margin:0 0 6px;font-size:14px;line-height:1.55;color:#E6E6E6}
+.v4-guar p:last-child{margin:0}
+.v4-guar p b{color:#FFFFFF}
+.v4-guar .v4-guar-h{font-size:15.5px}
+.v4-guar .v4-guar-h b{color:#FECF00}
+.sticky .cta .st-txt{flex:0 1 auto;max-width:calc(100% - 34px)}
+.sticky .cta .v4-pay{font-size:11.5px}
+.cta .ct-t{flex:0 1 auto;max-width:calc(100% - 34px)}
+.cta:hover > span:nth-last-child(2),.cta:focus-visible > span:nth-last-child(2){transform:translateX(-5px)}
+.cta:hover > .v4-pay,.cta:focus-visible > .v4-pay{transform:none}
+/* 10: "רגע לפני" - שורה קטנה, שתי פסקאות וכותרת */
+.pause .q small{margin-bottom:0}
+.pause .a{margin-block:0}
+/* 11: "מה אם..." */
+.v4-belief .wrap{max-width:760px}
+.v4-belief p{max-width:var(--text);color:var(--ink2);font-size:18px;line-height:1.75}
+.v4-belief .lead{color:var(--muted)}
+.v4-quotes{list-style:none;margin:4px 0;padding:0;display:grid;gap:10px}
+.v4-quotes li{font-size:clamp(20px,5.6vw,26px);font-weight:800;color:var(--ink);padding:12px 18px;border-inline-start:3px solid var(--gold);background:rgba(254,207,0,.06);border-radius:0 12px 12px 0}
+.v4-ask{font-weight:800;color:var(--gold2)!important;font-size:20px!important}
+.v4-big{font-weight:800;color:var(--ink)!important;font-size:clamp(20px,5.4vw,26px)!important;line-height:1.45!important}
+/* 12: "לא עוד קורס" - תת-כותרת */
+.notcourse .v4-nc-sub{font-weight:800;color:var(--gold2);font-size:18px}
+#offer .secure{margin-top:14px}
+</style>
+<style>
+/* ב85: כפתורי ההצטרפות ירוקים כמו ב-pr2. הצורה, השורה "תשלום מאובטח" והברק - של a5v4 */
+body a.cta{background:#18845A;background-image:none;color:#fff;filter:none;
+  box-shadow:0 10px 26px rgba(24,132,90,.34),inset 0 1px 0 rgba(255,255,255,.18)}
+body a.cta:hover,body a.cta:focus-visible{background:#136B49;filter:none;box-shadow:0 10px 26px rgba(24,132,90,.34),inset 0 1px 0 rgba(255,255,255,.18)}
+body a.cta .ct-t,body a.cta .st-txt,body a.cta > span{color:#fff}
+body a.cta s.was{color:rgba(255,255,255,.72);text-decoration-color:rgba(255,255,255,.72)}
+body a.cta .v4-pay{color:rgba(255,255,255,.9)}
+/* ring כמו ב-pr2 (בקשת בן "שיהיו זוהרים"): ::after - טבעת זהב שמתרחבת ונעלמת, transform+opacity בלבד, באותו מחזור של הרטט.
+   כדי שהטבעת תצא מחוץ לכפתור - overflow:visible. הברק עבר ל-::before ונע רק בתוך הכפתור (לא צריך חיתוך, ובלי גלילה פנימית שגרמה ל-CLS).
+   שכבת ההבהקה הפנימית של a5v4 (::before) יורדת - כמו ב-pr2, שההבהקה שלו היא inset בצל */
+body a.cta{overflow:visible}
+body a.cta::after{content:"";position:absolute;inset:0;width:auto;border-radius:inherit;pointer-events:none;z-index:-1;background:none;
+  box-shadow:0 0 0 3px rgba(233,196,126,.8);opacity:0;transform:none;animation:none}
+body a.cta.v4-shine::after,body a.cta.pulse1::after{animation:none}
+body a.cta.v6shk::after,body a.cta.v6shk.v4-shine::after{animation:v6ring .9s ease-out 1}
+@keyframes v6ring{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(1.07,1.45)}}
+body a.cta::before{content:"";position:absolute;top:0;bottom:0;inset-inline-start:0;left:auto;width:42%;border-radius:inherit;pointer-events:none;z-index:0;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);opacity:0;animation:none}
+body a.cta.v4-shine::before{animation:v6shine 5.5s cubic-bezier(.2,.7,.2,1) .2s infinite backwards}
+@keyframes v6shine{0%{opacity:0;transform:translateX(0) skewX(-14deg)}6%{opacity:1}20%{opacity:0;transform:translateX(-136%) skewX(-14deg)}100%{opacity:0;transform:translateX(-136%) skewX(-14deg)}}
+body a.cta > *{position:relative;z-index:1}
+@media (prefers-reduced-motion:reduce){body a.cta.v6shk::after,body a.cta.v4-shine::before{animation:none}}
+html .sticky a.cta{background:#18845A;box-shadow:0 10px 26px rgba(24,132,90,.34),inset 0 1px 0 rgba(255,255,255,.18)}
+/* רטט חזק (ה-keyframes של pr2, transform בלבד) */
+@keyframes v6shk{0%,100%{transform:translate3d(0,0,0)}10%{transform:translate3d(-7px,0,0) rotate(-1.6deg)}20%{transform:translate3d(7px,0,0) rotate(1.6deg)}30%{transform:translate3d(-6px,0,0) rotate(-1.2deg)}40%{transform:translate3d(6px,0,0) rotate(1.2deg)}50%{transform:translate3d(-3px,0,0)}60%{transform:translate3d(3px,0,0)}70%{transform:translate3d(0,0,0)}}
+body a.cta.v6shk{animation:v6shk .72s cubic-bezier(.36,.07,.19,.97) 1}
+@media (prefers-reduced-motion:reduce){body a.cta.v6shk{animation:none}}
+</style>
+</head>
+<body>
+<div class="prog" id="prog" aria-hidden="true"><span id="progLbl"></span><i id="progFill"></i></div>
+<header class="hero9" data-sec="1" data-name="פתיחה" data-stage="hook">
+<figure class="portrait"><picture><source media="(min-width:960px)" srcset="assets/ben.webp"><img src="assets/ben-m.webp" alt="בן נחום" width="739" height="1600" fetchpriority="high"></picture></figure>
+<div class="brand"><b>בן נחום</b><span>NLP · רגש · תודעה</span></div>
+<div class="copy">
+<span class="badge">לנצח את האוטומט | השיטה של בן נחום</span>
+<p class="eyebrow">למה המוח מחפש חסרונות?</p>
+<h1 class="promise">זה האוטומט, לא אתה. <mark>המוח שלך מתוכנת לחפש מה חסר.</mark></h1>
+<p class="sub">במקום להמשיך להילחם בעצמך כדי להשתנות, תלמד איך להפוך את הפעולות שאתה כבר עושה בכל יום לכלי שמאמן את המוח שלך לחשוב, להרגיש ולפעול אחרת. בלי להוסיף זמן ללוח הזמנים שלך.</p>
+<a class="cta" data-cta="hero_main" data-checkout href="#"><span class="ct-t">כן, אני רוצה להתחיל עכשיו <span class="pgrp">ב-<s class="was">1,290</s> 297 ₪</span></span> <span>←</span><span class="v4-pay"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></a>
+<p class="cta-micro"><b class="launch">מחיר השקה לזמן מוגבל</b> · גישה מיידית לקורס ולבונוסים · החזר מלא תוך 7 ימים</p>
+<p class="cta-bonus">כולל 5 בונוסים: 2 קורסים מוקלטים ו-3 ערכות עבודה</p>
+<ul class="ident">
+<li>כשאתה מסתכל במראה, באוטומט אתה חושב על הדברים הפחות טובים שלך.</li>
+<li>זה לא אומר שאתה בן אדם לא טוב. אלה האוטומטים שלך, וזה טבעי.</li>
+<li>לא משנה כמה ספרים תקרא: כשצורכים ידע ולא מטמיעים אותו, שום דבר לא זז.</li>
+</ul>
+<button class="avs" type="button" data-st="0" aria-label="צפייה בסרטוני ההמלצות של התלמידים"><span class="avs-f" aria-hidden="true"><i style="--i:0"></i><i style="--i:2"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:4"></i></span><span class="avs-t"><b>מאות כבר עברו תהליך עם בן</b><small>▶ 8 תלמידים מספרים</small></span></button>
+<a class="ghost" data-cta="hero_shortcut" href="#offer">מה בדיוק מקבלים?</a>
+</div></header>
+<div class="sp-stories"><div class="sp-in"><div class="sp-head"><b>תלמידים מספרים</b><span>8 סרטונים קצרים · לחצו על עיגול</span></div><div class="sp-row"><button class="sp-st" type="button" data-st="0" aria-label="המלצה 1 מתוך 8"><i style="--i:0"></i><span>0:35</span></button><button class="sp-st" type="button" data-st="1" aria-label="המלצה 2 מתוך 8"><i style="--i:1"></i><span>0:16</span></button><button class="sp-st" type="button" data-st="2" aria-label="המלצה 3 מתוך 8"><i style="--i:2"></i><span>0:11</span></button><button class="sp-st" type="button" data-st="3" aria-label="המלצה 4 מתוך 8"><i style="--i:3"></i><span>0:11</span></button><button class="sp-st" type="button" data-st="4" aria-label="המלצה 5 מתוך 8"><i style="--i:4"></i><span>0:09</span></button><button class="sp-st" type="button" data-st="5" aria-label="המלצה 6 מתוך 8"><i style="--i:5"></i><span>0:05</span></button><button class="sp-st" type="button" data-st="6" aria-label="המלצה 7 מתוך 8"><i style="--i:6"></i><span>0:08</span></button><button class="sp-st" type="button" data-st="7" aria-label="המלצה 8 מתוך 8"><i style="--i:7"></i><span>0:16</span></button></div></div></div>
+<div class="proofbar"><ul><li><b data-count="15" data-suf="+">15+</b><span>שנות ניסיון ב-NLP</span></li><li><b>מאות</b><span>אנשים בליווי אישי</span></li><li><b data-count="90">90</b><span>שיעורים קצרים בקורס הליבה</span></li></ul></div>
+
+<section data-num="01" class="alt" data-sec="2" data-name="מה אומרים" data-stage="proof"><div class="wrap stack">
+<h2>השינוי האמיתי מתחיל במה שעושים עם הידע</h2><p class="lead">לא עוד ידע שנשאר בראש. תראו מה אנשים משתפים כשהם מתחילים לקחת כלים וליישם אותם בחיים.</p><p class="swipe">החליקו כדי לראות עוד ←</p><div class="car" data-carousel><div class="car-track"><figure class="car-slide" data-slot="wa"><figcaption class="car-q"><q>זה כבר התחיל לחלחל בי</q></figcaption><img data-v4src="assets/v4/wa-1111.webp" alt="ההודעה המקורית בוואטסאפ: וואלה אחי ראיתי את הסרטון הראשון שמעתי ראיתי מאוד יפה מאוד מעניין גם איך שאמרת לתאר זה כבר התחיל לחלחל בי ממש ראיתי בדמיון את עצמי עם ראש מורם עם כתר עם מקום שנכנס ואנשים מחבקים אותי זה כבר עשה משהו זה כבר עורר בי איזה שהיא התרגשות" loading="lazy" decoding="async" width="739" height="308"></figure><figure class="car-slide"><figcaption class="car-q"><q>זה ממש פשוט וממש מורגש השינוי</q><span>צילה · אחרי שבועיים של תרגול</span></figcaption><img data-v4src="assets/wa-o181.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" width="720" height="874"></figure><figure class="car-slide"><figcaption class="car-q"><q>אני ממש מרגיש שאני יותר שם לב למחשבות שלי ויותר שולט בהם</q><span>גלעד · יותר שליטה במחשבות</span></figcaption><img data-v4src="assets/wa-o185.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" width="720" height="777"></figure><figure class="car-slide"><figcaption class="car-q"><q>בול מה שהייתי צריך כלים פרקטיים</q><span>דורון · כלים שאפשר ליישם</span></figcaption><img data-v4src="assets/wa-o186.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" width="720" height="892"></figure><figure class="car-slide"><figcaption class="car-q"><q>נראה לי שאני הולך לעוף על התוכן שלך</q><span>גל · אחרי החלק הראשון</span></figcaption><img data-v4src="assets/wa-o187.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" width="720" height="814"></figure><figure class="car-slide"><figcaption class="car-q"><q>פעם ראשונה שמישהו גם באמת מבין, וגם באמת איכפת לו</q><span>דן · מוטיבציה, סדר ומפת דרכים</span></figcaption><img data-v4src="assets/wa-dan.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" width="672" height="1400"></figure><figure class="car-slide"><figcaption class="car-q"><q>הפרספקטיבה שלי השתנתה מקצה לקצה</q><span>מור · יוצאת מהתהליך אדם חדש</span></figcaption><img data-v4src="assets/wa-mor.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" width="610" height="870"></figure><figure class="car-slide"><figcaption class="car-q"><q>אני מרגישה יותר ביטחון להציג את עצמי</q><span>מור, מחזור 3 · השפעה, ביטחון וקבלת החלטות</span></figcaption><img data-v4src="assets/wa-mor3.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" width="473" height="1024"></figure><figure class="car-slide"><figcaption class="car-q"><q>אני מיישם את השיטות ומרגיש איך זה משפיע</q><span>אברהם · כלים שעובדים כבר באותו שבוע</span></figcaption><img data-v4src="assets/wa-avraham.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" width="473" height="1024"></figure><figure class="car-slide"><figcaption class="car-q"><q>קיבלתי כלים השפעתיים ותקשורתיים חזקים</q><span>ירין · והדבר הכי חזק: טוהר המילה</span></figcaption><img data-v4src="assets/wa-yarin.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" width="580" height="625"></figure><figure class="car-slide"><figcaption class="car-q"><q>מאוד מעריך את כל העזרה והתמיכה</q><span>מהצ'אטים שלנו</span></figcaption><img data-v4src="assets/wa-thanks.webp" alt="ההודעה המקורית בוואטסאפ" loading="lazy" width="700" height="589"></figure></div><button class="car-btn prev" type="button" aria-label="הקודם">›</button><button class="car-btn next" type="button" aria-label="הבא">‹</button><div class="car-dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><p class="proofline">אנשים שונים. אתגרים שונים. אותו עיקרון: ברגע שמשנים את הדפוס שמנהל אותך, מתחילות להשתנות גם הפעולות והתוצאות.</p>
+</div></section>
+<section class="ctab alt" data-buyzone><div class="wrap"><div class="box">
+<a class="cta" data-cta="cta1" data-checkout href="#"><span class="ct-t">כן, אני רוצה להתחיל עכשיו <span class="pgrp">ב-<s class="was">1,290</s> 297 ₪</span></span> <span>←</span><span class="v4-pay"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></a>
+<p class="cta-micro"><b class="launch">מחיר השקה לזמן מוגבל</b> · גישה מיידית לקורס ולבונוסים</p><div class="v4-guar"><svg class="v4-shield" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l8 3.3v6.4c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V5.8z"/><path d="M8.5 12.2l2.4 2.4 4.6-4.8"/></svg><div><p class="v4-guar-h"><b>7 ימי אחריות מלאה. הסיכון עלינו, ההחלטה שלך.</b></p><p><b>אנחנו כל כך בטוחים בערך שתקבל ובתהליך שמחכה לך בפנים, שאנחנו מוכנים לקחת את כל הסיכון על עצמנו.</b></p><p>תיכנס, תיחשף לתכנים, תתחיל לתרגל ותחליט בעצמך.</p><p>אם בתוך 7 ימים תרגיש שהידע, הכלים והתהליך שקיבלת <b>לא שווים עבורך את ה-297 ₪ ששילמת</b> - פשוט שלח לנו מייל ותקבל את כל הכסף בחזרה.</p><p><b>בלי שאלות. בלי שכנועים. בלי אותיות קטנות.</b></p><p><b>יש לך 7 ימים לגלות את הערך. ואת הביטחון בקנייה - אנחנו נותנים לך כבר עכשיו.</b></p></div></div>
+</div></div></section>
+
+<section data-num="02" class="alt pause" data-sec="3" data-name="רגע לפני" data-stage="pain"><div class="wrap stack">
+<p class="q"><small>עצור רגע. לפני שאתה ממשיך, תשאל את עצמך שאלה אחת שתוציא אותך מהאוטומט:</small></p>
+<p class="a">תדמיין את עצמך בעוד שנה מהיום. אותן מחשבות. אותם הרגלים. אותן אמונות שורשיות ואותו סיפור שרץ לך בראש.</p>
+<p class="q">כמה יכאב לך להבין שעברה עוד שנה מהחיים שלך, ושוב לא שינית את מה שכל כך רצית?</p>
+<p class="a">הזמן הזה יעבור בכל מקרה. והזמן של היום תמיד יהיה יקר יותר מהזמן של מחר. אתה לא הופך להיות צעיר יותר, והיום יש לך יותר אנרגיות ממה שיהיה לך מחר.</p>
+</div></section>
+
+<section class="v4-belief" data-num="03" data-sec="4" data-name="מה אם" data-stage="cause"><div class="wrap stack">
+<h2>מה אם כל מה שאתה מאמין על עצמך - הוא בכלל לא האמת?</h2>
+<p class="lead">תחשוב על זה רגע.</p>
+<p>המחשבות שרצות לך בראש בכל יום הן לא עובדות. הן הפרשנות שלך למציאות.</p>
+<p>אבל הדבר המעניין הוא שאתה מתייחס אליהן כאילו הן האמת המוחלטת.</p>
+<ul class="v4-quotes"><li>"אני לא מספיק טוב."</li><li>"אני תמיד הורס לעצמי."</li><li>"ככה אני, אני לא מסוגל להשתנות."</li></ul>
+<p class="v4-ask">ואתה יודע מה זו בעצם אמונה?</p>
+<p>מחשבה שחזרת עליה כל כך הרבה פעמים, עד שהתחלת להתייחס אליה כאמת.</p>
+<p>ועכשיו תחשוב על האפשרות הבאה:</p>
+<p class="v4-big">אם המוח שלך למד להאמין במחשבות שמגבילות אותך - מה יקרה אם תלמד אותו, בצורה מודעת, לחזור על מחשבות שמקדמות אותך?</p>
+<p>מחשבות שגורמות לך לראות את עצמך אחרת, להרגיש אחרת, לבחור אחרת - ובסופו של דבר גם לפעול אחרת.</p>
+<p class="v4-ask">וזה בדיוק מה שאנחנו עושים כאן.</p>
+<p>לא רק לומדים לחשוב חיובי.</p>
+<p>אנחנו יוצרים עוגנים בתוך פעולות שאתה כבר עושה בכל יום, שמאפשרים לך לצאת לרגע מהחשיבה האוטומטית, לבחור מחשבה חדשה ולתרגל אותה שוב ושוב.</p>
+<p>עד שבהדרגה, המחשבות החדשות הופכות למוכרות, נגישות וטבעיות יותר.</p>
+<p>כי המטרה היא לא רק לשנות את מה שאתה חושב.</p>
+<p class="v4-big">המטרה היא לשנות את הדרך שבה אתה חווה את עצמך - ואת החיים שלך.</p>
+<p>בלי להוסיף שעות ליום שלך. בלי להסתפק בעוד ידע שתשכח מחר.</p>
+<p class="key">החיים שלך הופכים לסביבת האימון שלך.</p>
+</div></section>
+
+<section data-num="04" class="alt" data-sec="5" data-name="לדעת או להטמיע" data-stage="old"><div class="wrap stack">
+<h2>אתה כבר יודע. <mark>אז למה זה עדיין לא משתנה?</mark></h2>
+<div class="split">
+<div><span class="kicker">לדעת</span><h3>לדעת</h3><ul class="know"><li>אתה יודע שאתה צריך לפעול</li><li>אתה יודע שלא כדאי לקחת הכל אישית</li><li>אתה יודע שפחד הוא רק מחשבה</li><li>אתה יודע שצריך להאמין בעצמך</li></ul></div>
+<div class="do"><span class="kicker">להטמיע</span><h3>להיות</h3><p>אבל לדעת זה לא להיות. והפער הזה, בין מה שאתה יודע לבין איך שאתה חושב, מרגיש ופועל ברגע האמת, הוא בדיוק המקום שעליו בניתי את השיטה הזאת.</p></div>
+</div>
+<p class="key">המטרה היא לא לדעת את הידע. המטרה היא להפוך להיות המהות שלו.</p>
+<div class="v4-ctab"><a class="cta" data-cta="know" data-checkout href="#"><span class="ct-t">אני רוצה ללמוד להטמיע</span> <span>←</span><span class="v4-pay"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></a><p class="cta-micro">297 ₪ · גישה מיידית · החזר מלא תוך 7 ימים</p></div>
+</div></section>
+
+<section data-num="05" class="alt" data-sec="6" data-name="איך נראית המציאות" data-stage="result"><div class="wrap stack">
+<h2>ככה מרגיש יום רגיל כשהאוטומט כבר לא מנהל אותך</h2>
+<div class="reality">
+<div class="r"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></div><div><h3>יותר בהירות</h3><p>חזון ברור שנובע מתוך שאלות משמעות: 'במה אני טוב, מה אני אוהב לעשות, מה לדעתי העולם צריך?' לקום בבוקר ליצור מתוך חיוּת, תשוקה וחיבור לחזון שלך.</p></div></div>
+<div class="r"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div><div><h3>יותר ביטחון</h3><p>הדיאלוג של הערך העצמי נובע מבפנים. אתה לא ניזון מבחוץ, אתה לא צריך אישור חברתי או פידבק בשביל להרגיש ביטחון. זה נובע מתוך המערכת הרגשית שלך.</p></div></div>
+<div class="r"><div class="ic"><svg viewBox="0 0 24 24"><path d="M9.5 3A3.5 3.5 0 0 0 6 6.5 3.5 3.5 0 0 0 4 12a3.5 3.5 0 0 0 2 5.5A3.5 3.5 0 0 0 12 19V5a3 3 0 0 0-2.5-2z"/><path d="M14.5 3A3.5 3.5 0 0 1 18 6.5a3.5 3.5 0 0 1 2 5.5 3.5 3.5 0 0 1-2 5.5A3.5 3.5 0 0 1 12 19"/></svg></div><div><h3>יותר שליטה</h3><p>יש לך מודעות לדיאלוג שלך, פחות פעולות אימפולסיביות, יותר זמן התבוננות לפני תגובה. יכולת לנהל את הרגש שלך בזמן אמת.</p></div></div>
+</div>
+</div></section>
+
+<section data-num="06" data-sec="7" data-name="תוצאות אמיתיות" data-stage="proof"><div class="wrap stack">
+<h2>מה באמת <mark>השתנה</mark> אצלם</h2><p class="lead">תלמידי Module Z מספרים, במילים שלהם, מה השתנה אצלם.</p><p class="v4-slot-h">אנשים בדיוק כמוך, שבחרו לעשות צעד עם בן</p>
+<figure class="vid" data-slot="t15"><video playsinline preload="none" poster="assets/v4/e15.webp" src="assets/v4/e15.mp4"></video>
+<button class="play" type="button" aria-label="הפעלת הסרטון"><i></i><span>אנשים בדיוק כמוך · 0:50</span></button></figure>
+</div></section>
+
+<section data-num="07" data-sec="8" data-name="למי מתאים" data-stage="pain"><div class="wrap stack">
+<h2>למי מתאימה השיטה?</h2>
+<ul class="fitlist">
+<li>למי שמסתכל במראה ולא מרוצה מהמקום שבו הוא נמצא, ומרגיש שכבר תקופה ארוכה רק הזמן עובר</li>
+<li>למי שמבטיח לעצמו שהפעם הוא מתמיד, ונשבר אחרי כמה ימים</li>
+<li>למי שיודע שהוא צריך לעשות שיחה מסוימת או לקבל החלטה, אבל דוחה אותה שוב ושוב</li>
+<li>לכל מי שמדבר עם אנשים, בעבודה, בעסק או בבית, ורוצה להשפיע טוב יותר</li>
+</ul>
+</div></section>
+
+<section data-num="08" class="alt orb" data-sec="9" data-name="עם מה תצא" data-stage="result"><div class="wrap stack">
+<h2>מה <mark>ישתנה</mark> אצלך</h2><div class="outcomes"><div><h3>ביטחון שלא נעלם</h3><p>לבנות ביטחון עצמי שלא נעלם ברגע שמישהו אומר לך לא, מבקר אותך או לא מסכים איתך.</p></div><div><h3>לצאת מהתקיעות</h3><p>לצאת מהמקום שבו אתה יודע מה צריך לעשות, אבל דוחה שוב ושוב את אותה שיחה, החלטה, אימון או צעד שחשוב לך.</p></div><div><h3>מערכת מחשבה שמשרתת אותך</h3><p>לזהות את המשפטים שרצים לך בראש, כמו "אני לא מספיק טוב", "אני תמיד מתחיל ולא מסיים" או "זה פשוט מי שאני", ולבנות במקומם מערכת מחשבה שמשרתת אותך.</p></div><div><h3>מפת דרכים ברורה</h3><p>לדעת מה הצעד הבא שלך, במקום להגיד שוב ש"מיום ראשון מתחילים".</p></div><div><h3>תקשורת שמשפיעה</h3><p>להעביר את מה שאתה באמת חושב, בעבודה, בעסק או בבית, בלי להתכווץ ובלי להתפרץ. אנשים נמשכים לאנשים עם אישיות מקדמת, אנשים שמרגישים שיכולים להתקדם בנוכחות שלהם. וזה יהיה חלק מהעולם הפנימי שלך.</p></div></div>
+</div></section>
+<section class="ctab" data-buyzone><div class="wrap"><div class="box">
+<a class="cta" data-cta="cta2" data-checkout href="#"><span class="ct-t">כן, אני רוצה להתחיל עכשיו <span class="pgrp">ב-<s class="was">1,290</s> 297 ₪</span></span> <span>←</span><span class="v4-pay"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></a>
+<p class="cta-micro"><b class="launch">מחיר השקה לזמן מוגבל</b> · גישה מיידית לקורס ולבונוסים · החזר מלא תוך 7 ימים</p>
+</div></div></section>
+
+<section data-num="09" class="alt" data-sec="10" data-name="למה בניתי" data-stage="proof"><div class="wrap stack">
+<div class="story stack">
+<h2>למה בניתי את השיטה?</h2>
+<div class="bio"><img src="assets/ben-m.webp" alt="בן נחום" loading="lazy"><div><h3 style="color:var(--ink);margin:0">היי, קוראים לי בן נחום</h3><p style="color:var(--muted);font-size:16px">NLP, שינוי דפוסי חשיבה והטמעת אמונות</p></div></div>
+<p>ב-15 השנים האחרונות אני חי יום-יום את עולם ה-NLP, שינוי דפוסי חשיבה והטמעת אמונות חדשות. עם השנים בניתי לעצמי שיטה ברורה שמאפשרת לי לנהל את המחשבות שלי בצורה מודעת, וכשהמחשבות משתנות, גם הפעולות והתוצאות משתנות יחד איתן.</p>
+<h3>האמת?</h3>
+<p>ליוויתי באופן אישי מאות אנשים בתהליכי שינוי, וראיתי שוב ושוב שאנשים שונים מגיעים עם אתגרים שונים, אבל המנגנון שמייצר שינוי נשאר דומה. ברגע שמזהים את האמונה או הדפוס שמעכבים אותך, ומתחילים להטמיע במקומם דרך חשיבה חדשה, יכול להיווצר שינוי עמוק בהתנהגות ובחוויה.</p>
+<h3>אז מה עשיתי?</h3>
+<p>את כל מה שלמדתי, תרגלתי והעברתי לאחרים במשך שנים הכנסתי לשיטה הזאת, בצורה פרקטית וישירה. המטרה היא שכל סרטון לא רק יגרום לך לחשוב אחרת, אלא ייתן לך כלי שאפשר להתחיל ליישם כבר באותו רגע.</p>
+<p class="key">כי בסוף, החיים שלנו לא משתנים רק בגלל מה שאנחנו יודעים. הם משתנים כשדרך החשיבה שמייצרת את הבחירות שלנו משתנה.</p>
+</div>
+</div></section>
+
+<section data-num="10" data-sec="11" data-name="מה יש בפנים" data-stage="course">
+<div class="wrap stack">
+<h2>מה יש בפנים</h2>
+<p class="lead">כל חלק הוא צעד שגורם לך לא רק להבין, אלא להיות. אתה תצא מהמחשבה של 'אני יודע' ותתחיל להרגיש 'אני הידע'.</p>
+<div class="v4-show" data-stage="solution"><h3>לא עוד שעות של תאוריה. שינוי שמתחיל בחיים עצמם.</h3><p class="v4-show-sub">תחשוב על זה כמו מלא חטיפים למוח שלך</p><p>כל סרטון קצר נותן לך כלי אחד, פרקטי וממשי, שאתה יכול להתחיל להטמיע כבר בסיום הצפייה.</p><p>בלי לחכות לסוף הקורס. בלי לפנות שעות מהיום שלך. ובלי לצבור עוד ידע שלא הופך לפעולה.</p><p>כל כלי מתחבר לפעולות שאתה כבר עושה, ויוצר רגעים קטנים של מחשבה מודעת בתוך השגרה שלך.</p><p>כי המטרה היא לא שתסיים את הקורס עם יותר ידע.</p><p><b>המטרה היא שתסיים כל סרטון עם משהו חדש שאתה כבר יודע איך ליישם.</b></p><p class="v4-show-go">👇 תגלול ותראה בעצמך מה מחכה לך בפנים.</p></div>
+<div class="v4-peek"><h3 class="v4-peek-h">הצצה פנימה</h3><figure class="v4-slot v4-player" data-slot="peek20"><div class="v4-pl-top"><span class="v4-pl-dot"></span>שיעור אמיתי מתוך הקורס</div><button type="button" class="v4-box" style="aspect-ratio:1280/720" aria-label="הפעלת השיעור" data-v4src="assets/v4/e20.mp4" data-v4poster="assets/v4/e20.webp"><img data-v4src="assets/v4/e20.webp" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="v4-pi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg></span></button><div class="v4-pl-bar" aria-hidden="true"><i></i></div><figcaption class="v4-pl-meta"><span class="v4-pl-t"><b>מתוך חלק 1: פתיחה - העוגן הראשון</b><small></small></span><span class="v4-pl-d">0:43</span></figcaption></figure><p class="v4-peek-n">זה שיעור אחד מתוך 90</p><div class="v4-ctab"><a class="cta" data-cta="peek" data-checkout href="#"><span class="ct-t">כן, אני רוצה להתחיל עכשיו <span class="pgrp">ב-<s class="was">1,290</s> 297 ₪</span></span> <span>←</span><span class="v4-pay"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></a><p class="cta-micro"><b class="launch">מחיר השקה לזמן מוגבל</b> · גישה מיידית לקורס ולבונוסים · החזר מלא תוך 7 ימים</p></div></div>
+</div></section>
+
+<section data-num="11" class="alt orb" data-sec="12" data-name="בונוסים" data-stage="offer"><div class="wrap stack">
+<style>
+.bx-intro{max-width:var(--text);margin:0 auto;text-align:center;display:grid;gap:10px}
+.bx-intro p{font-size:18px;line-height:1.7;color:var(--ink2)}
+.bx-intro p b{color:var(--ink)}
+.bx-list{display:grid;gap:18px;max-width:860px;width:100%;margin:6px auto 0}
+.bx{background:var(--card);border:1px solid var(--gold-a);border-radius:var(--r);overflow:hidden}
+.bx-head{display:flex;gap:18px;align-items:center;padding:20px;border-bottom:1px solid var(--gold-a);background:radial-gradient(300px circle at 88% 50%,rgba(254,207,0,.11),transparent 70%)}
+.bx-vis{flex:none;width:92px}
+.bx-vis img{display:block;width:92px;height:auto;border-radius:6px;box-shadow:-10px 14px 26px -12px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.06)}
+.bx-course{width:92px;height:119px;border-radius:9px;display:grid;place-items:center;text-align:center;border:1px solid var(--gold-b);background:linear-gradient(160deg,#1A1A1E,#0E0E10);font-weight:900;font-size:14px;line-height:1.25;color:var(--ink);padding:8px;box-shadow:-10px 14px 26px -12px rgba(0,0,0,.85)}
+.bx-course small{display:block;color:var(--gold2);font-weight:600;font-size:11px;margin-top:6px}
+.bx-kit{background:linear-gradient(160deg,#FFFFFF,#E6E6E6);color:#1A1A1E;border-color:rgba(254,207,0,.55)}
+.bx-kit small{color:#B38F00}
+.bx-tt{min-width:0}
+.bx-tt .no{font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--gold)}
+.bx-tt h3{font-size:22px;font-weight:900;margin:2px 0 4px;line-height:1.25}
+.bx-tt .sub{font-size:15px;color:var(--ink2);font-weight:600;line-height:1.5}
+.bx-tt .val{margin-top:8px;font-size:14px;color:var(--muted)}
+.bx-tt .val b{color:var(--gold2);margin-inline-start:6px;white-space:nowrap}
+.bx-body{padding:18px 22px 22px;display:grid;gap:12px}
+.bx-body p{font-size:16.5px;line-height:1.7;color:var(--ink2)}
+.bx-body .hook{color:var(--ink);font-weight:700}
+.bx-body h4{font-size:17px;font-weight:900;color:var(--gold2);margin-top:4px}
+.bx-ul{list-style:none;display:grid;gap:9px;padding:0;margin:0}
+.bx-ul li{position:relative;padding-inline-start:18px;font-size:16px;line-height:1.6;color:var(--ink2)}
+.bx-ul li::before{content:"";position:absolute;inset-inline-start:0;top:.62em;width:7px;height:7px;border-radius:50%;background:var(--gold)}
+.bx-ul li b{color:var(--ink)}
+.bx-body .bx-more b{color:var(--ink)}
+.bx-body .bx-close{font-weight:800;color:var(--ink);border-top:1px solid rgba(255,255,255,.07);padding-top:12px}
+.bx-worlds{max-width:860px;width:100%;margin:22px auto 0;text-align:center;display:grid;gap:10px}
+.bx-worlds h3,.bx-sum h3,.bx-final h3{font-size:clamp(23px,5.6vw,32px);font-weight:900;line-height:1.25}
+.bx-worlds .lead{color:var(--ink2);font-size:17px;line-height:1.7}
+.bx-worlds .lead b{color:var(--ink)}
+.bx-w3{display:grid;gap:12px;margin-top:6px;text-align:start}
+@media(min-width:760px){.bx-w3{grid-template-columns:repeat(3,1fr)}}
+.bx-w{background:var(--card);border:1px solid var(--gold-a);border-radius:var(--r);padding:18px}
+.bx-w .k{font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--gold)}
+.bx-w h4{font-size:19px;font-weight:900;margin:4px 0 6px}
+.bx-w p{font-size:15.5px;line-height:1.65;color:var(--ink2)}
+.bx-w p b{display:block;margin-top:6px;color:var(--ink)}
+.bx-worlds .plus{font-weight:800;color:var(--gold2);font-size:17px}
+.bx-sum{max-width:640px;width:100%;margin:22px auto 0;background:var(--card);border:1px solid var(--gold-b);border-radius:var(--r);padding:20px}
+.bx-sum h3{text-align:center;margin-bottom:8px}
+.bx-sum .r{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:16px;color:var(--ink2)}
+.bx-sum .r b{color:var(--ink);white-space:nowrap}
+.bx-sum .t{display:flex;justify-content:space-between;gap:12px;padding-top:12px;font-weight:900;font-size:18px;color:var(--gold2)}
+.bx-sum .n{font-size:15px;color:var(--muted);text-align:center;margin-top:12px}
+.bx-final{max-width:720px;width:100%;margin:24px auto 0;text-align:center;display:grid;gap:12px}
+.bx-final .three{display:grid;gap:2px;font-size:19px;font-weight:800;color:var(--gold2)}
+.bx-final p{font-size:17px;line-height:1.7;color:var(--ink2)}
+.bx-final p b{color:var(--ink)}
+.bx-final .price{font-size:clamp(25px,6.4vw,36px);font-weight:900;color:var(--ink);line-height:1.3}
+.bx-final .price b{color:var(--gold2)}
+.bx-final .cta{margin:6px auto 0}
+</style><h2>וזה עוד לפני שדיברנו על כל הבונוסים שמחכים לך במסגרת ההצעה…</h2><div class="bx-intro"><p><b>כי שינוי אמיתי לא נשאר רק במחשבות. הוא בא לידי ביטוי בדרך שבה אתם פועלים, מתקשרים ומשפיעים על העולם שסביבכם.</b></p><p>לכן, בנוסף לקורס <b>"לנצח את האוטומט"</b>, תקבלו גם שני קורסים מוקלטים נוספים ושלוש ערכות עבודה מעשיות.</p><p><b>חמישה בונוסים משלימים שנועדו לתת לכם הרבה יותר מידע - אבל בעיקר הרבה יותר כלים ליישום בחיים האמיתיים.</b></p></div><div class="bx-list bx2-list"><article class="bx2"><div class="bx2-head"><div class="bx-vis"><div class="bx-course"><div>ממחשבה<br>לביצוע<small>קורס מוקלט</small></div></div></div><div class="bx2-t"><h3>בונוס 1: ממחשבה לביצוע</h3><p class="bx2-kind">קורס מוקלט</p></div></div><ul class="bx2-ul"><li>איך בונים סדר יום שבאמת משרת את המטרות שלך</li><li>לזהות מה באמת חשוב, ולשים שם את האנרגיה</li><li>כלים שיעזרו לך להתחיל גם כשלא מתחשק</li><li>לפרק מטרה גדולה לצעדים קטנים וברורים</li></ul><p class="bx2-more">וזה רק חלק קטן מתוך עוד מגוון נושאים מרתקים שתלמדו בקורס</p><p class="bx2-val"><s>שווי: 397 ₪</s><b>במסגרת ההצעה - בחינם!</b></p></article><article class="bx2"><div class="bx2-head"><div class="bx-vis"><div class="bx-course"><div>כוחה של<br>השפעה<small>קורס מוקלט</small></div></div></div><div class="bx2-t"><h3>בונוס 2: כוחה של השפעה</h3><p class="bx2-kind">קורס מוקלט</p></div></div><ul class="bx2-ul"><li>סוגסטיה והשפעה</li><li>העברת מסרים דרך תת-המודע</li><li>שפת גוף ותקשורת לא מילולית</li><li>טכניקות ליצירת השפעה על האדם שמולך</li><li>תהליכי התאמה והעברת רעיונות בצורה אפקטיבית</li></ul><p class="bx2-more">וזה רק חלק קטן מתוך עוד מגוון נושאים מרתקים שתלמדו בקורס</p><p class="bx2-val"><s>שווי: 497 ₪</s><b>במסגרת ההצעה - בחינם!</b></p></article><article class="bx2"><div class="bx2-head"><div class="bx-vis"><div class="bx-course bx-kit"><div>אתגר<br>30 הימים<small>מחברת עבודה</small></div></div></div><div class="bx2-t"><h3>בונוס 3: אתגר 30 הימים</h3><p class="bx2-kind">מחברת עבודה</p></div></div><ul class="bx2-ul"><li>בוחרים אמונה אחת שרוצים לפתח, ובונים לה עוגן אישי</li><li>דפי תרגול יומיים שהופכים את הכלים לשגרה</li><li>שאלות לעבודה על הדיאלוג הפנימי</li><li>מעקב התמדה לאורך 30 ימים</li></ul><p class="bx2-more">וזה רק חלק קטן מתוך עוד מגוון נושאים מרתקים שמחכים לך בערכה</p><p class="bx2-val"><s>שווי: 79 ₪</s><b>במסגרת ההצעה - בחינם!</b></p></article><article class="bx2"><div class="bx2-head"><div class="bx-vis"><div class="bx-course bx-kit"><div>היום<br>המנצח שלי<small>ערכת תבניות</small></div></div></div><div class="bx2-t"><h3>בונוס 4: היום המנצח שלי</h3><p class="bx2-kind">ערכת תבניות</p></div></div><ul class="bx2-ul"><li>תבנית לתכנון יום אפקטיבי</li><li>בוחרים את שלוש המשימות שבאמת חשובות</li><li>דף עבודה לניהול אנרגיה ומיקוד</li><li>תרגיל קצר שעוזר להתחיל גם כשבא לדחות</li></ul><p class="bx2-more">וזה רק חלק קטן מתוך עוד מגוון נושאים מרתקים שמחכים לך בערכה</p><p class="bx2-val"><s>שווי: 59 ₪</s><b>במסגרת ההצעה - בחינם!</b></p></article><article class="bx2"><div class="bx2-head"><div class="bx-vis"><div class="bx-course bx-kit"><div>לדבר<br>בביטחון<small>מדריך מעשי</small></div></div></div><div class="bx2-t"><h3>בונוס 5: לדבר בביטחון ולהשפיע באמת</h3><p class="bx2-kind">מדריך</p></div></div><ul class="bx2-ul"><li>תבניות להעברת מסר ברור ומשכנע</li><li>איך למסגר רעיון מחדש כך שיתקבל אחרת</li><li>כלים להתמודדות עם התנגדויות</li><li>תרגילי הקשבה, שפת גוף ונוכחות</li></ul><p class="bx2-more">וזה רק חלק קטן מתוך עוד מגוון נושאים מרתקים שמחכים לך במדריך</p><p class="bx2-val"><s>שווי: 89 ₪</s><b>במסגרת ההצעה - בחינם!</b></p></article></div>
+</div></section>
+
+<section id="offer" data-sec="13" data-name="ההצעה" data-buyzone data-stage="offer"><div class="wrap stack">
+<h2>כל מה שאתה צריך כדי שהשנה הבאה שלך תיראה אחרת.</h2>
+<div class="v4-ko"><ul class="v4-ko-list"><li><span>קורס הליבה "לנצח את האוטומט"</span><b>1,290 ₪</b></li><li><span>קורס מוקלט "ממחשבה לביצוע"</span><b>397 ₪</b></li><li><span>קורס מוקלט "כוחה של השפעה"</span><b>497 ₪</b></li><li><span>מחברת העבודה "אתגר 30 הימים"</span><b>79 ₪</b></li><li><span>ערכת התבניות "היום המנצח שלי"</span><b>59 ₪</b></li><li><span>המדריך "לדבר בביטחון ולהשפיע באמת"</span><b>89 ₪</b></li></ul><div class="v4-ko-tot"><span>שווי כולל:</span><b>2,411 ₪</b></div><div class="v4-ko-price"><p class="v4-ko-reg">מחיר כולל הבונוסים <s>2,411 ₪</s></p><p class="v4-ko-now"><span>מחיר השקה לזמן מוגבל</span> <b>297 ₪</b></p></div><a class="cta" data-cta="offer" data-checkout href="#"><span class="ct-t">כן, אני רוצה להתחיל עכשיו ב-297 ₪</span> <span>←</span><span class="v4-pay"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></a>
+<p class="cta-micro">גישה מיידית לקורס ולבונוסים · החזר מלא תוך 7 ימים</p>
+<p class="cheap">פחות ממחיר של יציאה בערב. בשביל תהליך פרקטי שיכול לשנות את הדרך שבה אתה חי בכל יום. כי ערב אחד נגמר אחרי כמה שעות. אבל הכלים שתטמיע כאן נשארים איתך ומשפיעים לך על חוויה של חיים שלמים.</p></div>
+</div></section>
+
+<section data-num="12" data-sec="14" data-name="איך מתחילים" data-stage="method"><div class="wrap stack">
+<h2>איך <mark>מתחילים</mark></h2>
+<ol class="steps3"><li>משלמים ומקבלים גישה מיידית</li><li>מתחילים במסלול הראשון של השיטה</li><li>צופים 5-10 דקות ביום ומיישמים כלי אחד</li></ol>
+</div></section>
+<section class="ctab" data-buyzone><div class="wrap"><div class="box">
+<a class="cta" data-cta="cta3" data-checkout href="#"><span class="ct-t">כן, אני רוצה להתחיל עכשיו <span class="pgrp">ב-<s class="was">1,290</s> 297 ₪</span></span> <span>←</span><span class="v4-pay"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></a>
+<p class="cta-micro"><b class="launch">מחיר השקה לזמן מוגבל</b> · גישה מיידית לקורס ולבונוסים · החזר מלא תוך 7 ימים</p>
+</div></div></section>
+
+<section class="faq alt" data-sec="15" data-name="שאלות" data-stage="objections"><div class="wrap stack"><h2>שאלות נפוצות</h2><details><summary>כבר קראתי ספרים או עשיתי קורסים. זה עדיין רלוונטי בשבילי?</summary><div class="a"><p>כן. המטרה היא לא רק לתת עוד ידע, אלא לעזור לך לקחת את הדברים שאתה אולי כבר יודע, ולהתחיל לזהות וליישם אותם בתוך החיים עצמם.</p></div></details><details><summary>צריך ניסיון קודם?</summary><div class="a"><p>לא. התהליך בנוי בצורה פשוטה ומדורגת, ואפשר להתחיל מהבסיס.</p></div></details><details><summary>כמה זמן צריך להשקיע?</summary><div class="a"><p>לא צריך להפוך את החיים. עדיף מעט יישום עקבי מאשר שעות של צפייה בלי תרגול.</p></div></details><details><summary>מקבלים גישה מיד?</summary><div class="a"><p>כן. לאחר השלמת התשלום תקבל גישה לתוכן בצורה אוטומטית.</p></div></details><details><summary>זה מתאים למי שמרגיש תקוע אבל לא יודע בדיוק מה הבעיה?</summary><div class="a"><p>כן. חלק גדול מהתהליך הוא קודם כל לזהות מה חוזר על עצמו ומה מנהל אותך, לפני שמנסים לשנות אותו.</p></div></details><details class="more"><summary>שאלות נוספות</summary><div class="a"><details><summary>איפה צופים בתכנים? אפשר מהטלפון?</summary><div class="a"><p>כן. הכל באתר הקורס (Schooler), מהטלפון או מהמחשב, דרך הקישור האישי שמגיע במייל.</p></div></details><details><summary>לכמה זמן יש לי גישה?</summary><div class="a"><p>12 חודשים מיום הרכישה, בקצב שלך.</p></div></details><details><summary>צריך לראות את כל 90 השיעורים?</summary><div class="a"><p>לא. זו ספריית כלים. מתחילים בחלק 1, ומשם נכנסים לפי הנושא שאתה עובד עליו עכשיו.</p></div></details><details><summary>יש מנוי או חיוב נוסף?</summary><div class="a"><p>לא. <span class="pgrp"><s class="was">1,290</s> 297 ₪</span>, בלי מנוי ובלי חיובים נוספים.</p></div></details><details><summary>מה בדיוק כוללת האחריות?</summary><div class="a"><p>יש לך 7 ימים. אם עברת על התוכן, נתת לו הזדמנות אמיתית והרגשת שהוא לא בשבילך, שולחים לנו מייל ומקבלים החזר מלא.</p></div></details><details><summary>לא קיבלתי את המייל או לא מצליח להתחבר. מה עושים?</summary><div class="a"><p>בודקים בספאם או בקידומי מכירות. במייל יש קישור כניסה ישיר בלי סיסמה. אם עדיין לא עובד, פנו אלינו ונסדר את זה מהר.</p></div></details></div></details></div></section>
+<section class="guar" data-buyzone data-stage="guarantee"><svg class="shield" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l8 3.3v6.4c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V5.8z"/><path d="M8.5 12.2l2.4 2.4 4.6-4.8"/></svg><div class="wrap stack">
+<div class="seal" aria-hidden="true"><div><b>7</b><small>ימי אחריות</small></div></div>
+<p class="kicker">אחריות מלאה</p>
+<h2>או שהתוכן הזה שווה לך הרבה יותר מ-297 ₪, <mark>או שאנחנו מחזירים לך את כל הכסף.</mark></h2>
+<p>אם במהלך השבוע הראשון עברת על התוכן, נתת לו הזדמנות אמיתית, והרגשת שהוא לא בשבילך, פשוט שולחים לנו מייל ומקבלים החזר מלא. <strong>בלי ויכוחים ובלי אותיות קטנות.</strong></p>
+<div class="close11" data-stage="close">
+<b>אתה לא חייב להפוך מחר לאדם אחר.</b>
+<span>אתה רק צריך להתחיל לזהות רגע אחד שבו האוטומט מנהל אותך,</span>
+<span>ולבחור בו אחרת.</span>
+<span>אחר כך עוד רגע. ועוד אחד.</span>
+<span>ככה מתחיל שינוי אמיתי.</span>
+<span class="end">אם אתה מרגיש שהגיע הזמן להתחיל, אנחנו מחכים לך בפנים.</span>
+</div>
+<a class="cta" data-cta="final" data-checkout href="#"><span class="ct-t">כן, אני רוצה להתחיל עכשיו <span class="pgrp">ב-<s class="was">1,290</s> 297 ₪</span></span> <span>←</span><span class="v4-pay"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></a>
+<p class="cta-note">גישה מיידית לקורס ולבונוסים · החזר מלא תוך 7 ימים</p>
+</div></section>
+
+<footer><div class="wrap">© בן נחום · תוכנית NLP דיגיטלית<br><a href="privacy.html" style="color:inherit;text-decoration:underline">מדיניות פרטיות</a></div></footer>
+<div class="sticky" id="sticky" aria-hidden="true"><a class="cta" data-cta="sticky" data-checkout href="#"><span class="st-txt">להתחיל עכשיו <span class="pgrp">ב-<s class="was">1,290</s> 297 ₪</span></span> <span>←</span><span class="v4-pay"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></a></div>
+<div class="sp-modal" id="spModal" hidden role="dialog" aria-modal="true" aria-label="תלמידים מספרים"><div class="sp-box">
+<video class="sp-v" playsinline preload="none" src="assets/t3.mp4"></video>
+<div class="sp-bars" aria-hidden="true"></div>
+<div class="sp-top"><i class="sp-av" aria-hidden="true"></i><span>תלמידים מספרים <span class="sp-cnt"></span></span><button class="sp-x" type="button" aria-label="סגירה">×</button></div>
+<button class="sp-nav sp-prev" type="button" aria-label="הקודם"></button><button class="sp-pause" type="button" aria-label="עצירה או המשך"></button><button class="sp-nav sp-next" type="button" aria-label="הבא"></button>
+<div class="sp-btns"><button class="sp-b-prev" type="button">› הקודם</button><button class="sp-b-next" type="button">הבא ‹</button></div>
+<button class="sp-play" type="button" aria-label="הפעלה"><i></i></button>
+<div class="sp-end"><h3>רוצה לעבור את התהליך בעצמך?</h3><p>קורס הליבה, 2 קורסים מוקלטים ו-3 ערכות עבודה. <span class="pgrp"><s class="was">1,290</s> 297 ₪</span>, עם 7 ימי אחריות מלאה.</p><a class="cta" data-cta="stories" data-checkout href="#"><span class="ct-t">כן, אני רוצה להתחיל <span class="pgrp">ב-<s class="was">1,290</s> 297 ₪</span></span> <span>←</span><span class="v4-pay"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></a><button class="sp-again" type="button">לצפות שוב</button></div>
+</div></div>
+<script>
+/* ===== CONFIG ===== */
+const CHECKOUT_URL = "checkout.html";
+const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6jc";  /* Make webhook (form-urlencoded) */
+/* tracking v2: visitor id, device, active time, per-section exposure, per-CTA exposure, perf, js errors */
+(function(){
+  const V = document.documentElement.dataset.variant;
+  const uid = () => (self.crypto && crypto.randomUUID) ? crypto.randomUUID() : (Date.now()+"-"+Math.random().toString(36).slice(2));
+  const sid = uid();
+  const t0 = Date.now(); let maxSec = 1, maxPct = 0, sent = false; const hit = {};
+  const secs = [...document.querySelectorAll("[data-sec]")];
+  const N = secs.length;
+  /* visitor id + visit number (anonymous, first-party) */
+  let vid = "", nv = 1;
+  try{ const ls=localStorage; vid=ls.getItem("nlp_vid")||""; if(!vid){ vid=uid(); ls.setItem("nlp_vid",vid); } nv=(+ls.getItem("nlp_nv")||0)+1; ls.setItem("nlp_nv",String(nv)); }catch(e){}
+  try{ if(window.clarity&&vid){ clarity("identify",vid); clarity("set","vid",vid); clarity("set","visit",String(nv)); } }catch(e){}
+  /* internal browser (Yahav/Ben): set by ?test/claude/internal or by opening the dashboard. Sent as int=1 and excluded from reports */
+  let INT=false; try{ const ls=localStorage; if(/test|claude|internal/i.test(location.search)) ls.setItem("nlp_int","1"); INT=ls.getItem("nlp_int")==="1"; if(INT&&window.clarity) clarity("set","internal","1"); }catch(e){}
+  /* device: m/d + os + in-app browser */
+  const ua = navigator.userAgent||"";
+  const os = /iPhone|iPad|iPod/.test(ua)?"ios":/Android/.test(ua)?"android":/Windows/.test(ua)?"win":/Mac OS X/.test(ua)?"mac":"other";
+  const app = /Instagram/.test(ua)?"ig":/FBAN|FBAV|FB_IAB/.test(ua)?"fb":"web";
+  const dev = (/Mobi|Android|iPhone|iPod/.test(ua) || (innerWidth<760)?"m":"d")+"-"+os+"-"+app;
+  /* active time: page visible + interaction in the last 30s */
+  let lastAct = Date.now(), active = 0, firstScroll = 0;
+  ["scroll","touchstart","pointermove","keydown","click"].forEach(t=>addEventListener(t,()=>{ lastAct=Date.now(); if(t==="scroll"&&!firstScroll&&scrollY>40) firstScroll=Date.now()-t0; },{passive:true}));
+  /* section exposure time (>=35% visible, page active) */
+  const secT = {}, vis = new Set();
+  const cta = [...document.querySelectorAll("[data-checkout]")], ctaSeen = {};
+  if("IntersectionObserver" in window){
+    const io = new IntersectionObserver(es=>es.forEach(e=>{ const n=e.target.dataset.sec; if(e.isIntersecting && e.intersectionRatio>=.35) vis.add(n); else vis.delete(n); }),{threshold:[0,.35]});
+    secs.forEach(s=>io.observe(s));
+    const io2 = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting && e.intersectionRatio>=.6){ const k=e.target.dataset.cta; if(k && k!=="sticky" && !ctaSeen[k]) ctaSeen[k]=Date.now()-t0; } }),{threshold:[.6]});
+    cta.forEach(a=>io2.observe(a));
+  }
+  setInterval(()=>{ if(document.visibilityState!=="visible") return; if(Date.now()-lastAct>30000) return; active++; vis.forEach(n=>{ secT[n]=(secT[n]||0)+1; }); const st=document.getElementById("sticky"); if(st&&st.classList.contains("on")&&!ctaSeen.sticky) ctaSeen.sticky=Date.now()-t0; },1000);
+  /* perf */
+  const perf = {lcp:0,cls:0};
+  try{ new PerformanceObserver(l=>{ const e=l.getEntries(); if(e.length) perf.lcp=Math.round(e[e.length-1].startTime); }).observe({type:"largest-contentful-paint",buffered:true}); }catch(e){}
+  try{ new PerformanceObserver(l=>{ l.getEntries().forEach(e=>{ if(!e.hadRecentInput) perf.cls+=e.value; }); }).observe({type:"layout-shift",buffered:true}); }catch(e){}
+  function nav(){ try{ const n=performance.getEntriesByType("navigation")[0]; return n?{ttfb:Math.round(n.responseStart),load:Math.round(n.loadEventEnd||n.domContentLoadedEventEnd)}:{}; }catch(e){ return {}; } }
+  function xstr(){ const n=nav(); const s=Object.keys(secT).sort((a,b)=>a-b).map(k=>k+":"+secT[k]).join(","); const c=Object.keys(ctaSeen).map(k=>k+":"+Math.round(ctaSeen[k]/1000)).join(",");
+    return "fs="+(firstScroll/1000).toFixed(1)+";lcp="+perf.lcp+";cls="+perf.cls.toFixed(3)+";ttfb="+(n.ttfb||0)+";load="+(n.load||0)+";st="+s+";cs="+c; }
+  /* Clarity: link each visit to its recording (first-party cookies _clck/_clsk) */
+  function clId(){ try{ const g=n=>{ const m=document.cookie.match(new RegExp("(?:^|; )"+n+"=([^;]*)")); return m?decodeURIComponent(m[1]).split(/[|^]/)[0]:""; }; const u=g("_clck"), s=g("_clsk"); return u&&s?u+"."+s:""; }catch(e){ return ""; } }
+  const CLE={cta_click:1,shortcut_click:1,whatsapp_click:1,video_play:1,faq_open:1,js_error:1};
+  function send(ev, extra){
+    const p = Object.assign({ev, variant:V, sid, sec_on_page:Math.round((Date.now()-t0)/1000), max_section:maxSec, sections:N, max_scroll_pct:maxPct, qs:location.search.slice(1), vid, dev, nv, act:active}, extra||{});
+    const cl=clId(); if(cl) p.x=(p.x?p.x+";":"")+"cl="+cl; if(INT) p.x=(p.x?p.x+";":"")+"int=1"; const ow=window.NLP_OWNER?NLP_OWNER():""; if(ow) p.x=(p.x?p.x+";":"")+"aff="+ow;
+    try{ if(window.clarity&&CLE[ev]){ clarity("event",ev); if(ev==="cta_click") clarity("upgrade",ev); } }catch(e){}
+    (window.dataLayer = window.dataLayer || []).push(Object.assign({event:"lp_"+ev}, p));
+    try{ if(window.fbq) fbq("trackCustom","LP_"+ev,{variant:V}); }catch(e){}
+    if(TRACK_ENDPOINT){ try{ const f=new URLSearchParams(); for(const k in p) f.append(k, p[k]); if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT, f))) fetch(TRACK_ENDPOINT,{method:"POST",body:f,mode:"no-cors",keepalive:true}); }catch(e){} }
+  }
+  window.__lpSend = send; send("view");
+  /* js errors (max 3 per visit) */
+  let errs=0; addEventListener("error",e=>{ if(errs++>=3) return; send("js_error",{name:String(e.message||"error").slice(0,90)}); });
+  try{const ls=localStorage;if(!ls.getItem("nlp_ft"))ls.setItem("nlp_ft",JSON.stringify({v:V,qs:location.search.slice(1),ts:Date.now()}));}catch(e){}
+  // checkout links (keeps UTMs + variant)
+  const qs = new URLSearchParams(location.search); if(!qs.has("utm_content")) qs.set("utm_content","lp_"+V); qs.set("v",V); qs.set("sid",sid);
+  cta.forEach(a=>{
+    a.href = CHECKOUT_URL + (CHECKOUT_URL.includes("?")?"&":"?") + qs.toString();
+    a.addEventListener("click",()=>{ try{localStorage.setItem("nlp_lc",JSON.stringify({v:V,sid:sid,qs:location.search.slice(1),cta:a.dataset.cta||"",ts:Date.now()}));}catch(e){} const s=a.closest("[data-sec]"); send("cta_click",{at_section:s?+s.dataset.sec:0, cta:a.dataset.cta||"", checkout_started:1, x:xstr()+";fc="+Math.round((Date.now()-t0)/1000)}); try{ if(window.fbq&&!window.__ic){ let d=false; try{ d=sessionStorage.getItem("nlp_ic")==="1"; sessionStorage.setItem("nlp_ic","1"); }catch(e){} window.__ic=1; if(!d) fbq("track","InitiateCheckout",{value:297,currency:"ILS"}); } }catch(e){} /* ב23: פעם אחת בביקור */ });
+  });
+  document.querySelectorAll("a[data-cta]:not([data-checkout])").forEach(a=>a.addEventListener("click",()=>{ const s=a.closest("[data-sec]"); send("shortcut_click",{cta:a.dataset.cta, at_section:s?+s.dataset.sec:0}); }));
+  // progress bar + section reach
+  const bar=document.getElementById("prog"), lbl=document.getElementById("progLbl"), fill=document.getElementById("progFill");
+  function cur(){ let c=secs[0]; for(const s of secs){ if(s.getBoundingClientRect().top < innerHeight*0.45) c=s; } return c; }
+  function onScroll(){
+    const h=document.documentElement; const pct=Math.min(100,Math.round((h.scrollTop+innerHeight)/h.scrollHeight*100));
+    if(pct>maxPct) maxPct=pct; [25,50,75,90,100].forEach(m=>{ if(pct>=m && !hit[m]){ hit[m]=1; send("scroll",{depth:m}); } });
+    const c=cur(); const n=+c.dataset.sec;
+    if(n>maxSec){ maxSec=n; send("section",{section:n,name:c.dataset.name}); }
+    bar.classList.toggle("on", h.scrollTop > innerHeight*0.6);
+    lbl.innerHTML = "חלק <b>"+n+"</b> מתוך "+N+" · "+c.dataset.name;
+    fill.style.width = (n/N*100)+"%";
+    sticky();
+  }
+  // sticky CTA: as soon as the opening buy button has scrolled out of view (as in a2/b2/c2; here the button can sit just below the fold,
+  // so "below the screen" alone doesn't count), 25% of the page only as a fallback; hidden while offer/final visible
+  const st=document.getElementById("sticky"); const zones=[...document.querySelectorAll("[data-buyzone]")];
+  function sticky(){ const hc=document.querySelector('[data-sec="1"] [data-cta="hero_main"]'),hr=hc?hc.getBoundingClientRect():null; const past=hr?hr.bottom<0:document.documentElement.scrollTop>(document.documentElement.scrollHeight-innerHeight)*0.25; const inZone=zones.some(z=>{const r=z.getBoundingClientRect();return r.top<innerHeight*0.8&&r.bottom>innerHeight*0.2}); const on=past&&!inZone; st.classList.toggle("on",on); st.setAttribute("aria-hidden",String(!on)); }
+  addEventListener("scroll",onScroll,{passive:true}); onScroll();
+  // WhatsApp question link (ב21): its own event, not a buy click
+  document.querySelectorAll("a[data-wa]").forEach(a=>a.addEventListener("click",()=>{ const s=a.closest("[data-sec]"); send("whatsapp_click",{cta:"wa_"+a.dataset.wa, at_section:s?+s.dataset.sec:0}); }));
+  // video plays
+  document.querySelectorAll("video").forEach((v,i)=>v.addEventListener("play",()=>send("video_play",{video:i+1}),{once:true}));
+  // leave / time on page (sends full snapshot; dashboard keeps the max per visit)
+  function leave(){ if(sent) return; sent=true; send("leave",{x:xstr()}); }
+  addEventListener("pagehide",leave); document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden") leave(); else sent=false; });
+})();
+</script>
+<script>(function(){document.querySelectorAll('[data-carousel]').forEach(function(c){var t=c.querySelector('.car-track'),d=[].slice.call(c.querySelectorAll('.car-dots i')),seen={};
+function idx(){return Math.round(Math.abs(t.scrollLeft)/t.clientWidth)}
+function upd(){var i=idx();d.forEach(function(x,k){x.classList.toggle('on',k===i)}); if(!seen[i]){seen[i]=1; try{(window.dataLayer=window.dataLayer||[]).push({event:'lp_carousel_slide',slide:i+1})}catch(e){}}}
+t.addEventListener('scroll',function(){clearTimeout(t._s);t._s=setTimeout(upd,80)},{passive:true});
+function go(n){var i=Math.max(0,Math.min(d.length-1,idx()+n)); var dir=getComputedStyle(t).direction==='rtl'?-1:1; t.scrollTo({left:dir*i*t.clientWidth,behavior:'smooth'})}
+c.querySelector('.prev').addEventListener('click',function(){go(-1)}); c.querySelector('.next').addEventListener('click',function(){go(1)}); upd();});})();</script><script>(function(){var lb=document.createElement('div');lb.className='lb';lb.hidden=true;lb.setAttribute('role','dialog');lb.setAttribute('aria-modal','true');lb.setAttribute('aria-label','הגדלת ההודעה');lb.innerHTML='<button type="button" aria-label="סגירה">✕</button><img alt="">';document.body.appendChild(lb);var im=lb.querySelector('img');
+function close(){lb.hidden=true;im.removeAttribute('src');document.documentElement.style.overflow=''}
+document.querySelectorAll('.car-slide img').forEach(function(i){i.addEventListener('click',function(){im.src=i.currentSrc||i.src;im.alt=i.alt;lb.hidden=false;document.documentElement.style.overflow='hidden';lb.querySelector('button').focus();try{(window.dataLayer=window.dataLayer||[]).push({event:'lp_testimonial_zoom',img:i.getAttribute('src')})}catch(e){}})});
+lb.addEventListener('click',close);document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!lb.hidden)close()});})();</script><script>(function(){var R=matchMedia('(prefers-reduced-motion: reduce)').matches;document.querySelectorAll('details').forEach(function(d){var s=d.querySelector('summary'),b=s&&s.nextElementSibling;if(!b||R)return;
+s.addEventListener('click',function(e){e.preventDefault();if(d._a)return;var open=d.open;if(!open){d.open=true;var h=b.scrollHeight;b.style.height='0px';b.style.opacity='0';requestAnimationFrame(function(){b.style.transition='height .28s ease,opacity .28s ease';b.style.height=h+'px';b.style.opacity='1'})}else{b.style.height=b.scrollHeight+'px';requestAnimationFrame(function(){b.style.transition='height .24s ease,opacity .2s ease';b.style.height='0px';b.style.opacity='0'})}d._a=1;
+b.addEventListener('transitionend',function t(ev){if(ev.propertyName!=='height')return;b.removeEventListener('transitionend',t);if(open)d.open=false;b.style.cssText='';d._a=0})})})})();</script><script>(function(){var d=document.documentElement,RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.querySelectorAll('.vid').forEach(function(f){var v=f.querySelector('video'),b=f.querySelector('.play');b.addEventListener('click',function(){f.classList.add('playing');v.controls=true;v.play();});});
+var flow=document.querySelector('[data-flow]');
+function count(el){var t=+el.dataset.count,s=el.dataset.suf||'',t0=null;if(RM){return}function f(ts){if(!t0)t0=ts;var p=Math.min(1,(ts-t0)/1200),e=1-Math.pow(1-p,3);el.textContent=Math.round(t*e)+s;if(p<1)requestAnimationFrame(f)}requestAnimationFrame(f)}
+if(!('IntersectionObserver' in window)||RM){return}
+d.classList.add('js');
+var single='[data-num] > .wrap > h2, [data-num] > .wrap > .lead, [data-num] > .wrap > h3, .ctab .box, .vid, .car, .pcard, #offer h2, .faq h2, .guar .seal, .guar h2, .key, .ifs p, .story p, .story h3, .bio, .peek, .btot, .problem .bigline, .beats .beat, .layer';
+var groups='.reality, .six, .wins, .fitlist, .bonuses, .bought, .split, .ba, .wall, .mods, .faq .wrap';
+document.querySelectorAll(single).forEach(function(e){e.classList.add('rv')});
+document.querySelectorAll(groups).forEach(function(p){[].forEach.call(p.children,function(c,i){if(c.tagName==='H2')return;c.classList.add('rv');c.style.setProperty('--d',Math.min(i,6)*110+'ms')})});
+document.querySelectorAll('.vid,.car,.bio').forEach(function(e){e.classList.add('zoom')});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;e.target.classList.add('in');io.unobserve(e.target)})},{rootMargin:'0px 0px -10% 0px',threshold:.06});
+document.querySelectorAll('.rv').forEach(function(e){io.observe(e)});
+var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;io2.unobserve(e.target);
+ if(e.target.dataset.count)count(e.target);
+ if(e.target===flow){[].forEach.call(flow.children,function(li,i){setTimeout(function(){li.classList.add('on')},300+i*380)})}
+})},{threshold:.4});
+document.querySelectorAll('[data-count]').forEach(function(e){io2.observe(e)}); if(flow)io2.observe(flow);
+})();</script><script>(function(){var st=document.getElementById('sticky'),o=document.getElementById('offer');if(!st||!o)return;var t=st.querySelector('.st-txt');
+function u(){var past=o.getBoundingClientRect().top<innerHeight*0.6;t.innerHTML=past?'להתחיל עכשיו <span class="pgrp">ב-<s class="was">1,290</s> 297 ₪</span>':'להתחיל עכשיו <span class="pgrp">ב-<s class="was">1,290</s> 297 ₪</span>'}addEventListener('scroll',u,{passive:true});u();
+document.querySelectorAll('.faq details').forEach(function(d){d.addEventListener('toggle',function(){if(d.open&&window.__lpSend)__lpSend('faq_open',{name:(d.querySelector('summary').textContent||'').slice(0,40)})})});})();</script><script>
+/* social proof v1: stories player over assets/t3.mp4 */
+(function(){var M=document.getElementById('spModal');if(!M)return;
+var V=M.querySelector('.sp-v'),bars=M.querySelector('.sp-bars'),cnt=M.querySelector('.sp-cnt'),av=M.querySelector('.sp-av'),end=M.querySelector('.sp-end');
+var S=[[[0,26.3],[105.1,113.6]],[[28.75,44.25]],[[44.3,55.25]],[[55.3,66.25]],[[66.3,75.3]],[[75.4,80.75]],[[80.85,88.85]],[[88.9,105]]];
+var N=S.length,cur=0,part=0,raf=0,isOpen=false,opener=null;
+bars.innerHTML=S.map(function(){return '<i><b></b></i>'}).join('');var B=[].slice.call(bars.querySelectorAll('b'));
+function dur(i){return S[i].reduce(function(a,p){return a+p[1]-p[0]},0)}
+function play(){var p=V.play();M.classList.remove('paused');if(p&&p.catch)p.catch(function(){M.classList.add('paused')})}
+function tick(){if(!isOpen)return;var t=V.currentTime,seg=S[cur],done=0;for(var k=0;k<part;k++)done+=seg[k][1]-seg[k][0];done+=Math.max(0,Math.min(t,seg[part][1])-seg[part][0]);
+B.forEach(function(b,k){b.style.width=(k<cur?100:k>cur?0:Math.min(100,done/dur(cur)*100))+'%'});
+if(t>=seg[part][1]-0.06&&t<=seg[part][1]+2){if(part<seg.length-1){part++;V.currentTime=seg[part][0]}else{go(cur+1);return}}
+raf=requestAnimationFrame(tick)}
+function show(i){cur=i;part=0;end.classList.remove('on');av.style.setProperty('--i',i);cnt.textContent=(i+1)+'/'+N;
+try{V.currentTime=S[i][0][0]}catch(e){}play();var b=document.querySelector('.sp-st[data-st="'+i+'"]');if(b)b.classList.add('seen');
+cancelAnimationFrame(raf);raf=requestAnimationFrame(tick)}
+function go(i){if(i<0)i=0;if(i>=N){V.pause();cancelAnimationFrame(raf);B.forEach(function(b){b.style.width='100%'});end.classList.add('on');return}show(i)}
+function openAt(i,el){opener=el||null;isOpen=true;M.hidden=false;document.documentElement.style.overflow='hidden';if(V.preload!=='auto')V.preload='auto';show(i);
+try{M.querySelector('.sp-x').focus({preventScroll:true})}catch(e){}try{if(window.clarity)clarity('event','stories_open')}catch(e){}}
+function close(){isOpen=false;V.pause();cancelAnimationFrame(raf);M.hidden=true;document.documentElement.style.overflow='';if(opener)try{opener.focus({preventScroll:true})}catch(e){}}
+[].forEach.call(document.querySelectorAll('[data-st]'),function(b){b.addEventListener('click',function(){openAt(+b.getAttribute('data-st')||0,b)})});
+M.querySelector('.sp-x').addEventListener('click',close);
+M.addEventListener('click',function(e){if(e.target===M)close()});
+document.addEventListener('keydown',function(e){if(!isOpen)return;if(e.key==='Escape')close();else if(e.key==='ArrowLeft')go(cur+1);else if(e.key==='ArrowRight')go(cur-1)});
+[].forEach.call(M.querySelectorAll('.sp-next,.sp-b-next'),function(b){b.addEventListener('click',function(){go(cur+1)})});
+[].forEach.call(M.querySelectorAll('.sp-prev,.sp-b-prev'),function(b){b.addEventListener('click',function(){go(cur-1)})});
+M.querySelector('.sp-pause').addEventListener('click',function(){if(V.paused)play();else{V.pause();M.classList.add('paused')}});
+M.querySelector('.sp-play').addEventListener('click',play);
+M.querySelector('.sp-again').addEventListener('click',function(){go(0)});
+V.addEventListener('loadedmetadata',function(){if(isOpen){var s=S[cur][part][0];if(Math.abs(V.currentTime-s)>0.5)V.currentTime=s}});
+})();
+</script>
+<script>/* ב45: פעימה אחת לכל כפתור, 3 שניות אחרי שהוא מופיע במלואו (גם הכפתור הדביק). הקלאס נשאר אחרי הפעימה כדי שאנימציית הכניסה לא תתחיל מחדש */
+(function(){if(!("IntersectionObserver" in window)||matchMedia("(prefers-reduced-motion: reduce)").matches)return;var T=new Map();
+var io=new IntersectionObserver(function(es){es.forEach(function(x){var b=x.target;if(b.dataset.pd)return;
+ if(x.intersectionRatio>=.99){if(!T.has(b))T.set(b,setTimeout(function(){b.dataset.pd="1";b.classList.add("pulse1");io.unobserve(b);},3000));}
+ else if(T.has(b)){clearTimeout(T.get(b));T.delete(b);}});},{threshold:[0,.99,1]});
+document.querySelectorAll("a.cta").forEach(function(b){io.observe(b);});})();</script>
+<script>/* ב68 v4: (1) כניסה עדינה בגלילה למה שמתחת למסך הראשון ועוד לא מונפש בדף - רק IntersectionObserver ו-CSS, לא בהפחתת תנועה.
+   מה שכבר במסך בטעינה לא מוסתר בכלל. (2) ברק אחד על כפתור כשהוא נכנס במלואו למסך (CSS). (3) המקומות לסרטונים: הסרטון נטען רק בלחיצה. */
+(function(){var RM=matchMedia("(prefers-reduced-motion: reduce)").matches,IO="IntersectionObserver" in window,root=document.documentElement;
+ if(IO&&!RM){var vh=innerHeight,els=[];
+  document.querySelectorAll("[data-sec]").forEach(function(s){if(s.dataset.sec==="1")return;
+   [].forEach.call(s.querySelectorAll(":scope > .wrap > *, :scope > div > .wrap > *, :scope > .wrap > .stack > *"),function(e){
+    if(e.closest(".rv,.v4r")||e.querySelector(".rv,.in")||/^(SCRIPT|STYLE)$/.test(e.tagName)||e.classList.contains("rv"))return;
+    if(e.getBoundingClientRect().top<vh*0.98)return; e.classList.add("v4r");els.push(e);});});
+  root.classList.add("v4rv");
+  var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting||x.boundingClientRect.top<0){x.target.classList.add("in");io.unobserve(x.target);}});},{rootMargin:"0px 0px -6% 0px"});
+  els.forEach(function(e){io.observe(e);});
+  /* גלילה מהירה או קפיצה לעוגן (#offer): מה שכבר מעל תחתית המסך נחשף, כדי ששום דבר לא יישאר מוסתר */
+  /* חל גם על אנימציות הכניסה שכבר קיימות בדף (.rv, נחשפות עם אותו קלאס in) */
+  var pend=false;addEventListener("scroll",function(){if(pend)return;pend=true;requestAnimationFrame(function(){pend=false;var h=innerHeight;
+   [].forEach.call(document.querySelectorAll(".v4r:not(.in),.rv:not(.in)"),function(e){if(e.getBoundingClientRect().top<h){e.classList.add("in");io.unobserve(e);}});});},{passive:true});
+  var io2=new IntersectionObserver(function(es){es.forEach(function(x){if(x.intersectionRatio>=.95){x.target.classList.add("v4-shine");io2.unobserve(x.target);}});},{threshold:[.95]});
+  document.querySelectorAll("a.cta").forEach(function(b){if(b.dataset.cta!=="sticky")io2.observe(b);});}
+ /* תמונות שמחכות לתמונה הראשית (data-v4src על img) */
+ (function(){var done=false;function rel(){if(done)return;done=true;[].forEach.call(document.querySelectorAll("img[data-v4src]"),function(i){i.src=i.dataset.v4src;i.removeAttribute("data-v4src");});}
+  var h=document.querySelector('[data-sec="1"] img[fetchpriority="high"]');
+  if(!h||h.complete)rel();else{h.addEventListener("load",rel);h.addEventListener("error",rel);}
+  addEventListener("scroll",rel,{once:true,passive:true});addEventListener("touchstart",rel,{once:true,passive:true});setTimeout(rel,4000);})();
+ document.querySelectorAll(".v4-slot [data-v4src]").forEach(function(b){b.addEventListener("click",function(){
+  var v=document.createElement("video");v.src=b.dataset.v4src;v.controls=true;v.playsInline=true;v.setAttribute("playsinline","");v.poster=b.dataset.v4poster||"";
+  var f=b.closest(".v4-slot"),k=f.dataset.slot,bar=f.querySelector(".v4-pl-bar i");v.style.aspectRatio=b.style.aspectRatio;
+  if(bar)v.addEventListener("timeupdate",function(){if(v.duration)bar.style.width=(100*v.currentTime/v.duration).toFixed(1)+"%";});
+  b.replaceWith(v);v.play().catch(function(){});
+  try{window.__lpSend&&window.__lpSend("video_play",{video:"slot_"+k});}catch(e){}});});
+ document.querySelectorAll("[data-v4tour]").forEach(function(b){var f=b.closest(".v4-slot"),k=f.dataset.slot;
+  function mk(auto){var v=document.createElement("video");v.src=b.dataset.v4tour;v.poster=b.dataset.v4poster||"";v.playsInline=true;v.setAttribute("playsinline","");v.style.aspectRatio=b.style.aspectRatio;
+   if(auto){v.muted=true;v.setAttribute("muted","");v.loop=true;v.preload="auto";}else{v.controls=true;}b.replaceWith(v);return v;}
+  b.addEventListener("click",function(){var v=mk(false);v.play().catch(function(){});try{window.__lpSend&&window.__lpSend("video_play",{video:"slot_"+k});}catch(e){}});
+  if(RM||!IO)return; f.classList.add("v4-auto");
+  var v=null,near=new IntersectionObserver(function(es){if(es[0].isIntersecting&&!v){v=mk(true);near.disconnect();vis.observe(f);}},{rootMargin:"300px 0px"});
+  var vis=new IntersectionObserver(function(es){if(!v)return;if(es[0].intersectionRatio>=.5)v.play().catch(function(){});else v.pause();},{threshold:[0,.5]});
+  near.observe(f);});
+})();</script>
+<script>/* ב83: section_view לכל שלב (data-stage), פעם אחת בביקור. section = מיקום השלב בדף */
+(function(){var els=[].slice.call(document.querySelectorAll("[data-stage]"));if(!els.length)return;var order=[],done={};
+ els.forEach(function(e){var s=e.getAttribute("data-stage");if(order.indexOf(s)<0)order.push(s);});
+ function hit(s){if(done[s])return;done[s]=1;try{window.__lpSend&&window.__lpSend("section_view",{name:s,section:order.indexOf(s)+1});}catch(e){}}
+ if(!("IntersectionObserver" in window)){hit(order[0]);return;}
+ var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){hit(x.target.getAttribute("data-stage"));io.unobserve(x.target);}});},{rootMargin:"0px 0px -30% 0px"});
+ els.forEach(function(e){io.observe(e);});
+})();</script><script>/* ב85: רטט חזק כל 2.5 ש' - הכפתור הבולט במסך (90%+) והכפתור הצמוד; ברק גם בכפתור הצמוד; הכפתור הצמוד נשאר אחרי כפתור הפתיחה. כבוי בהפחתת תנועה / ?shake=0 */
+(function(){var q=new URLSearchParams(location.search),RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+ var st=document.getElementById("sticky"),sa=st&&st.querySelector("a.cta"),sp=document.getElementById("spModal"),hc=document.querySelector('[data-sec="1"] [data-cta="hero_main"]');
+ /* הכפתור הצמוד: מוצג מרגע שכפתור הפתיחה יצא מהמסך, ולא נעלם באזורי הקנייה */
+ if(st&&hc){var keep=function(){if(hc.getBoundingClientRect().bottom<0&&!st.classList.contains("on")){st.classList.add("on");st.setAttribute("aria-hidden","false");}};
+  new MutationObserver(keep).observe(st,{attributes:true,attributeFilter:["class"]});addEventListener("scroll",keep,{passive:true});keep();}
+ if(RM)return;
+ if(sa)sa.classList.add("v4-shine");
+ if(!("IntersectionObserver" in window)||q.get("shake")==="0")return;
+ var inPage=[].slice.call(document.querySelectorAll("a.cta")).filter(function(b){return !b.closest(".sticky,.sp-modal");}),vis=new Map();
+ var sio=new IntersectionObserver(function(es){es.forEach(function(x){vis.set(x.target,x.intersectionRatio);});},{threshold:[0,.5,.9,1]});
+ inPage.forEach(function(b){sio.observe(b);});
+ function shake(b){b.classList.remove("v6shk");void b.offsetWidth;b.classList.add("v6shk");var done=function(){b.classList.remove("v6shk");b.removeEventListener("animationend",e);clearTimeout(t);},e=function(ev){if(ev.animationName==="v6ring")done();},t=setTimeout(done,1100);b.addEventListener("animationend",e);}
+ setInterval(function(){if(document.visibilityState!=="visible"||(sp&&!sp.hidden))return;
+  var best=null,br=.9;inPage.forEach(function(b){var r=vis.get(b)||0;if(r>=br){br=r;best=b;}});
+  if(best)shake(best);
+  if(st&&sa&&st.classList.contains("on"))shake(sa);},2500);
+})();</script></body>
+</html>
