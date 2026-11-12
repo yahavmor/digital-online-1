@@ -87,6 +87,24 @@ nav.tabs b{font-family:var(--f-mono);font-size:11px;color:var(--muted);margin-in
 .frow .n small{display:block;font-weight:400;color:var(--muted);font-size:12px}
 /* tables */
 .tw{overflow-x:auto}
+/* ב86 תמונת מצב */
+nav.tabs:not(.open) button[data-s]:not([data-s="snap"]){display:none}
+nav.tabs .adv-t{flex:none;border:0;background:transparent;color:var(--muted);font:600 14px var(--f-body);padding:10px 12px;cursor:pointer;white-space:nowrap}
+nav.tabs.open .adv-t{color:var(--ink)}
+body[data-scr="snap"] :is(#range,#customBox,#fSrc,#fOwn,#fDev,.controls .chk){display:none!important}
+.snap-h{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:4px 0 12px}
+.snap-h h2{margin:0;font-size:22px}
+.snap-tiles{grid-template-columns:repeat(5,minmax(0,1fr))}
+.snap-lines{display:grid;gap:8px}
+.snap-line{display:flex;gap:10px;align-items:flex-start;border-radius:12px;padding:10px 14px;font-size:15px;line-height:1.5}
+.snap-line i{flex:none;width:12px;height:12px;border-radius:50%;margin-top:6px}
+.snap-line.g{background:var(--good-bg)} .snap-line.g i{background:var(--good)}
+.snap-line.y{background:var(--warn-bg)} .snap-line.y i{background:var(--warn)}
+.snap-line.r{background:var(--crit-bg)} .snap-line.r i{background:var(--crit)}
+#snapAds td,#snapAds th,#snapPages td,#snapPages th,#snapCo td,#snapCo th{white-space:nowrap}
+#snapAds td.nm{white-space:normal;min-width:150px;max-width:220px}
+#snapAds td.nm small.ty{display:block;color:var(--muted);font-weight:400}
+@media (max-width:760px){.snap-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.snap-tiles .tile:last-child{grid-column:1/-1}}
 table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
 th{font-weight:600;color:var(--ink2);text-align:right;padding:7px 9px;border-bottom:1px solid var(--line);white-space:nowrap;font-size:13px;vertical-align:bottom}
 td{padding:8px 9px;border-bottom:1px solid var(--line);white-space:nowrap}
@@ -147,7 +165,9 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
     </div>
   </header>
   <div id="status" class="banner" hidden></div>
-  <nav class="tabs" role="tablist" aria-label="מסכים">
+  <nav class="tabs" role="tablist" aria-label="מסכים" id="tabsNav">
+    <button role="tab" data-s="snap" class="snap-t"><b>◎</b>תמונת מצב</button>
+    <button type="button" class="adv-t" id="advT" aria-expanded="false">מתקדם <span aria-hidden="true">▾</span></button>
     <button role="tab" data-s="lab"><b>🧪</b>מעבדה: לפי מודעה</button>
     <button role="tab" data-s="hub"><b>★</b>דשבורד מאוחד</button>
     <button role="tab" data-s="op"><b>00</b>אופטימיזציית דפי מכירה וסליקה</button>
@@ -162,6 +182,19 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
     <button role="tab" data-s="af"><b>09</b>משווקים</button>
     <button role="tab" data-s="aud"><b>10</b>השוואת קהלים - P25</button>
   </nav>
+
+  <!-- ◎ תמונת מצב (ב86): מסך ראשי פשוט. רק רכישות מאומתות, אנשים לפי מזהה מבקר, בלי ביקורים פנימיים -->
+  <section class="screen" id="s-snap">
+    <div class="snap-h"><h2>תמונת מצב</h2>
+      <div class="seg" role="group" aria-label="תקופה" id="snapPer"><button data-p="week">השבוע</button><button data-p="today">היום</button><button data-p="7">7 ימים</button><button data-p="30">30 ימים</button><button data-p="launch">מההשקה</button></div>
+      <span class="note" id="snapRange"></span></div>
+    <div class="tiles snap-tiles" id="snapKpi"></div>
+    <div class="panel"><div class="panel-h"><h2>מה עובד ומה לא</h2><span class="note">המלצה בלבד, לפי כללי מ35. ההחלטות פעם בשבוע (הראשונה 16.11), ו-72 שעות בלי לגעת אחרי שינוי</span></div><div id="snapLines" class="snap-lines"></div></div>
+    <div class="panel"><div class="panel-h"><h2>מודעות</h2><span class="note">הקוד מופיע כשמעבירים את העכבר על השם</span></div><div class="tw"><table id="snapAds"></table></div><p class="note" id="snapAdsNote"></p></div>
+    <div class="panel"><div class="panel-h"><h2>דפי מכירה</h2><span class="note">אנשים, ומתוכם כמה הגיעו לכל שלב</span><label class="chk"><input type="checkbox" id="snapGo"> רק תנועת הניסוי (go.html)</label></div><div class="tw"><table id="snapPages"></table></div></div>
+    <div class="panel"><div class="panel-h"><h2>דפי תשלום</h2><span class="note">מתוך מי שהגיע לדף התשלום</span></div><div class="tw"><table id="snapCo"></table></div></div>
+    <p class="note" id="snapNote"></p>
+  </section>
 
   <!-- 🧪 lab (ב43): שורה לכל מודעה, סיכומים לפי קריאייטיב, נוסח קופי, דף ומקור. "מוביל" רק עם מספיק נתונים -->
   <section class="screen" id="s-lab">
@@ -393,6 +426,7 @@ const EXPERIMENTS=[
  {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"2026-10-26",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"הסתיים, הוחלף ב-abc_2610",decision:""},
 ];
 const CHANGELOG=[
+["2026-11-12","13:42 - ב86 (\"מאשר ב86\" מיהב): מסך ראשי חדש \"תמונת מצב\" - הוצאה, הכנסות, רכישות מאומתות, עלות לרכישה ו-ROAS; מודעות בשם מתוך מילון המודעות; דפי מכירה ודפי תשלום ב-5 שלבים; 3 שורות \"מה עובד ומה לא\" לפי מ35. הלשוניות הקיימות עברו ל\"מתקדם\" בלי שינוי","הושק"],
 ["2026-11-12","11:44 - ב85 (\"מאשר\" מיהב): go.html מפנה את הזרוע a5 בניסוי ap2_0811 ל-a5v6 (a5v4 עם כפתורים ירוקים כמו ב-pr2, רטט, ring וברק, כפתור צמוד לאורך הגלילה). pr2, החלוקה חצי-חצי, השיבוץ השמור ודף התשלום B בלי שינוי. בלשונית 00 ההשוואה a5v6 מול pr2 מתחילה 11:54. a5.html נשאר באתר מחוץ לחלוקה"],
 ["2026-11-11","16:42 - ב83 (מאשר ב83, יהב): דף הבדיקה a5v5 (noindex, לא ב-go.html ולא בניסוי) בסדר 13 השלבים של בן עם 12 משפטי מעבר וסגירה, וסרטוני ע22. מדידה: אירוע section_view לכל שלב (hook עד close) ב-a5v5, ואותן תגיות ב-a5v4 בלי שינוי תוכן. לשונית 06: פאנל \"מעברים בין שלבים\" - לכל דף אחוז שהגיעו לכל שלב, מעבר משלב לשלב, מעבר מסך ראשון, הגעה להצעה והגעה לסליקה לאדם. a5, pr2 ו-go.html לא השתנו"],
 ["2026-11-11","11:38 - ב82 (סליקה, בקשת בן; בלי שינוי בדשבורד, במדידה ובאירועים): בגרסאות A ו-B, במצב הרגיל, ירדו הקישור \"צריך עזרה? אנחנו זמינים ב-WhatsApp\" והשורה \"תמיכה\" מטבלת פרטי העסקה. קישור הוואטסאפ נשאר רק אחרי תשלום שנכשל."],
@@ -424,7 +458,7 @@ const CHANGELOG=[
 ["2026-11-05","06:55 - ב47: go.html מחלק מבקרים חדשים לשלושה: a, a5 ו-pr, שליש לכל אחד (ניסוי aap_0511). מי ששובץ קודם ל-a או ל-a5 נשאר בדף שלו (aa5_0411). אינסטגרם אורגני ממשיך ל-a (ב44). pr לסליקה A"],["2026-11-04","16:28 - ב41: הודעה קבועה בסליקה (A ו-B) מעל טופס התשלום: Apple Pay ו-Google Pay לא זמינים כרגע, משלמים בכרטיס. להסיר כשכאל מסיימים"],["2026-11-04","16:12 - ב45: דף הפרימיום pr.html עלה לאוויר בלי תנועה (לא ב-go.html, ניסוי בסבב הבא); ב-a5 במקום אנימציה כל 3 שניות - פעימה אחת בכל כפתור"],["2026-11-04","13:58 - ב46: הסליקה לפי הדף - a5 תמיד לסליקה B, a וכל דף אחר לסליקה A (ניסוי pc_0411 דף+סליקה, במקום החלוקה האקראית co_0311)"],["2026-11-04","13:58 - ב44: אינסטגרם אורגני (ביו, ManyChat) תמיד ל-a מחוץ לניסוי; ב-a וב-a5 ~~1,290~~ 297 ו\"מחיר השקה לזמן מוגבל\""],["2026-11-04","ניסוי aa5_0411: go.html → a/a5 חצי-חצי, במקום a34_0411 (ב42, לפי בן, באישור יהב)"],["2026-11-04","ניסוי a34_0411: go.html → a3/a4 חצי-חצי, במקום aa1_0211 (ב42, באישור יהב ובן)"],["2026-11-02","ניסוי aa1_0211: go.html → a/a1 חצי-חצי (ב36, באישור בן)"],["2026-11-02","go.html: b יצא 16:55 (ב35), כל התנועה ל-a 18:04 (ב36); a1.html עלה כתצוגה מקדימה 22:02"]
 ];
 
-let rows=null, spend={}, cspend={}, storedAt=0, range="7", screen="op", lpVar="a2", showTests=false, fSrc="", fOwn="", AFF={}, REF=new Set(), PAID=new Set(), fDev="", cFrom="", cTo="", jrStage="", openSid="", openCr="";
+let rows=null, spend={}, cspend={}, storedAt=0, range="7", screen="snap", lpVar="a2", showTests=false, fSrc="", fOwn="", AFF={}, REF=new Set(), PAID=new Set(), fDev="", cFrom="", cTo="", jrStage="", openSid="", openCr="";
 const $=id=>document.getElementById(id);
 function st(){try{return localStorage}catch(e){return null}}
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
@@ -935,6 +969,85 @@ function renderAffiliates(){const now=new Date(),keep=[fSrc,fDev,fOwn];fSrc="";f
  table($("afBuys"),["תאריך","עסקה","משווק","סכום","עמלה","מצב"],AB.map(b=>{const st=affState(b),inf=AFF[b.aff],left=Math.ceil((PAY_DAYS*864e5-(Date.now()-b.t))/864e5);
   return '<tr><td>'+b.t.toLocaleDateString("he-IL")+' '+b.t.toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"})+'</td><td class="num">'+(b.bank?'העברה בנקאית <small>'+esc(b.deal.slice(5))+'</small>':esc(b.deal||"-"))+'</td><td>'+esc(inf?inf.name:b.aff)+' <small>'+esc(b.aff)+'</small></td><td>'+ils(b.amt)+'</td><td>'+(affFee(b)==null?na:ils(affFee(b)))+'</td><td><span class="pill '+(st==="due"?"good":st==="refund"?"crit":st==="paid"?"off":"warn")+'">'+lab[st]+(st==="pending"?" · עוד "+left+" ימים":"")+'</span></td></tr>'}),"אין עדיין רכישות דרך משווקים");
  $("afNote").textContent=(Object.keys(AFF).length?"ברשימה "+Object.keys(AFF).length+" משווקים. ":"רשימת המשווקים לא נטענה או ריקה - מוצגים רק קודים שהגיעו בפועל. ")+"עמלה: סכום קבוע לרכישה אם הוגדר ברשימה, אחרת אחוז מהסכום בשורת הרכישה. ממתינה = פחות מ-"+PAY_DAYS+" ימים מהרכישה; לתשלום = עברו "+PAY_DAYS+" ימים ולא סומן החזר ולא סומן ששולם. עמלה ממתינה, לתשלום, שולם והחזרים - מכל הזמן. קישור אישי למשווק (או קישור חדש שמבטל את הקודם), סימון החזר וסימון שולם: לבקש מקלוד בצ'אט הראשי.";}
+/* ================= ◎ תמונת מצב (ב86) =================
+   רק רכישות מאומתות (כרטיס והעברה בנקאית, ב64). אנשים = מזהה מבקר (עמודה Q). בלי ביקורים פנימיים ובלי מזהי מבקר שהופיעו בבדיקות שלנו.
+   שם וסוג לכל מודעה: "מילון המודעות" (לשונית Ads בגיליון, מ36). קוד בלי שם - "לא מזוהה".
+   הוצאה לכל מודעה: אותו טופס הוצאה, מפתח "YYYY-MM-DD|utm_content" (הפורמט שהממומן מזין במ36 סעיף 3). הוצאה כללית שלנו: מפתח "YYYY-MM-DD".
+   כללי מ35: עד 245 ₪ לרכישה אצלנו ועד 220 ₪ אצל משווק; כל עוד יש מעט רכישות - עד 35 ₪ למעבר לתשלום; 250 ₪ בלי מעבר לתשלום,
+   או 500 ₪ בלי רכישה (משווק 440 ₪) - עצירה. המלצה בלבד: החלטות פעם בשבוע (הראשונה 16.11), 72 שעות בלי לגעת אחרי שינוי. */
+const SNAP_LAUNCH=new Date("2026-10-20T00:00"), SNAP_TEST_VIDS=["77438727","fead4466"];
+const SNAP_PAGES={a5v6:"דף A החדש (a5v6)",pr2:"דף הפרימיום (pr2)",a5:"דף A הקודם (a5)",a:"דף A המקורי (a)",a5v4:"דף בדיקה a5v4",a5v5:"דף בדיקה a5v5"};
+const SNAP_CO={a:"דף תשלום 1 - שני שלבים (A)",b:"דף תשלום 2 - מסך אחד (B)"};
+const M35={cpa:245,cpaAff:220,perChk:35,noChk:250,noBuy:500,noBuyAff:440,few:3};
+let snapPer="week", snapGo=false, SNAP_TV=null, SNAP_FIRST=null, SNAP_TV_N=-1;
+let ADS=Object.fromEntries([["warm3_chg_pain","סרטון - שינויים, קופי כאב (חם, אוקטובר)","סרטון","lenatzeach_warm","חם","לא פעיל (אין תנועה מאז 2026-11-02)"],["w31a4","חם - W31A4 (אוקטובר)","סרטון","lenatzeach_warm","חם","לא פעיל (אין תנועה מאז 2026-11-05)"],["p24","סרטון - ידע לא משנה","סרטון","lenatzeach_cold","קר","לא פעיל (אין תנועה מאז 2026-11-10)"],["mail2","לא מודעה - מייל השקה","לא מודעה","launch_oct","","לא מודעה"],["p25","סרטון - המוח מחפש חסרונות","סרטון","NLP | Cold | Sales | IC | 10.11 ; lenatzeach_cold","קר","פעיל (תנועה ב-11-12.11)"],["warm4_chg_pleas","סרטון - שינויים, קופי 4 (חם, אוקטובר)","סרטון","lenatzeach_warm","חם","לא פעיל (אין תנועה מאז 2026-11-01)"],["link_in_bio","לא מודעה - קישור בביו","לא מודעה","","","לא מודעה"],["mc_default","לא מודעה - ManyChat","לא מודעה","guide","","לא מודעה"],["cold2_chg_orig","סרטון - שינויים, קופי מקור (קר, אוקטובר)","סרטון","lenatzeach_cold","קר","לא פעיל (אין תנועה מאז 2026-11-02)"],["cold_banner","באנר - עדיין תקוע","באנר","lenatzeach_cold","קר","לא פעיל (אין תנועה מאז 2026-11-04)"],["cold_belief","סרטון - מה אתה אומר לעצמך","סרטון","lenatzeach_cold","קר","לא פעיל (אין תנועה מאז 2026-11-03)"],["lp_a1","לא מודעה - בדיקת דף a1","לא מודעה","","","לא מודעה"],["new_follower_v2","לא מודעה - ManyChat עוקב חדש","לא מודעה","manychat","","לא מודעה"],["ban1_stuck_c","באנר - עדיין תקוע, גרסה C","באנר","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["ban1_stuck_a","באנר - עדיין תקוע, גרסה A","באנר","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-05)"],["car2_proof_c","קרוסלה - מתחילים לתרגל, גרסה C","קרוסלה","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-10)"],["car2_proof_a","קרוסלה - מתחילים לתרגל, גרסה A","קרוסלה","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["v0211_belief_b","סרטון - מה אתה אומר לעצמך, גרסה B","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-07)"],["car1_trap_a","קרוסלה - להאמין שהשתנית, גרסה A","קרוסלה","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["t6_innervoice_a","סרטון - מדבר ככה לאויב, גרסה A","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["t6_innervoice_b","סרטון - מדבר ככה לאויב, גרסה B","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["t13_three_b","סרטון - 3 דברים שמשנים, גרסה B","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-04)"],["w2_hundreds_a","סרטון - מה מאות אנשים הבינו, גרסה A","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-05)"],["ban2_busy_c","באנר - עסוק בלחיות, גרסה C","באנר","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-06)"],["t9_motivation_b","סרטון - המוטיבציה נגמרת, גרסה B","סרטון","NLP | Cold | Sales | IC | 10.11 ; lenatzeach_lab","קר (מעבדה)","פעיל (תנועה ב-11-12.11)"],["t13_three_a","סרטון - 3 דברים שמשנים, גרסה A","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["t7_book_a","סרטון - עוד ספר עוד קורס, גרסה A","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["t16_painmemory_a","סרטון - זוכר רק את הכישלונות, גרסה A","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-07)"],["t16_painmemory_b","סרטון - זוכר רק את הכישלונות, גרסה B","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["t12_outside_a","סרטון - מנסה לשנות מבחוץ, גרסה A","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-05)"],["t11_patterns_b","סרטון - מאות פעמים ביום, גרסה B","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-07)"],["t3_proof_b","סרטון - מאות אנשים לא משקרים, גרסה B","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["ban2_busy_a","באנר - עסוק בלחיות, גרסה A","באנר","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-04)"],["t3_proof_a","סרטון - מאות אנשים לא משקרים, גרסה A","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-06)"],["t17_notlogic_b","סרטון - לא חושב בהיגיון, גרסה B","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["t1_decisions_a","סרטון - נשאר על הגדר, גרסה A","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-07)"],["w1_trust_b","סרטון - מאות פידבקים, גרסה B","סרטון","lenatzeach_lab","קר (מעבדה)","פעיל (תנועה ב-11-12.11)"],["w1_trust_a","סרטון - מאות פידבקים, גרסה A","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["t14_timethief_a","סרטון - האוטומט השקט, גרסה A","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["t14_timethief_b","סרטון - האוטומט השקט, גרסה B","סרטון","NLP | Cold | Sales | IC | 10.11 ; lenatzeach_lab","קר (מעבדה)","פעיל (תנועה ב-11-12.11)"],["t15_aftergone_a","סרטון - מעריכים רק אחרי, גרסה A","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-06)"],["t11_patterns_a","סרטון - מאות פעמים ביום, גרסה A","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-06)"],["t12_outside_b","סרטון - מנסה לשנות מבחוץ, גרסה B","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["w2_hundreds_b","סרטון - מה מאות אנשים הבינו, גרסה B","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["t9_motivation_a","סרטון - המוטיבציה נגמרת, גרסה A","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["car1_trap_c","קרוסלה - להאמין שהשתנית, גרסה C","קרוסלה","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["t8_time_a","סרטון - כל יום אותו דבר, גרסה A","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-04)"],["v0211_belief_a","סרטון - מה אתה אומר לעצמך, גרסה A","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["t15_aftergone_b","סרטון - מעריכים רק אחרי, גרסה B","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-06)"],["t5_trap_a","סרטון - המלכודת שמשאירה אותך, גרסה A","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["t10_illusion_a","סרטון - מתפתח או צובר ידע, גרסה A","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["t8_time_b","סרטון - כל יום אותו דבר, גרסה B","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["t1_decisions_b","סרטון - נשאר על הגדר, גרסה B","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-09)"],["t17_notlogic_a","סרטון - לא חושב בהיגיון, גרסה A","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["t7_book_b","סרטון - עוד ספר עוד קורס, גרסה B","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["t5_trap_b","סרטון - המלכודת שמשאירה אותך, גרסה B","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["t10_illusion_b","סרטון - מתפתח או צובר ידע, גרסה B","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["t2_whodecides_a","סרטון - מי מחליט בשבילך, גרסה A","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["t2_whodecides_b","סרטון - מי מחליט בשבילך, גרסה B","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-08)"],["t4_knowledge_b","סרטון - הידע לא מקדם, גרסה B","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-05)"],["t4_knowledge_a","סרטון - הידע לא מקדם, גרסה A","סרטון","lenatzeach_lab","קר (מעבדה)","לא פעיל (אין תנועה מאז 2026-11-07)"],["lp_a","לא מודעה - בדיקת דף a","לא מודעה","","","לא מודעה"],["p25_brain_c1","P25 - למה המוח מחפש חסרונות, נוסח 1","סרטון","NLP | Aff shahar | Sales | Cold | P2 ; NLP | Aff amir | Sales | 05.11 ; NLP | Aff rachel | Sales | Warm | P25","חם + משווק (amir, rachel, shahar)","פעיל (תנועה ב-11-12.11)"],["p25_brain_c2","P25 - למה המוח מחפש חסרונות, נוסח 2","סרטון","NLP | Cold | Sales | IC | 10.11 ; x ; NLP | Aff amir | Sales | 05.11","משווק (amir) + קר","פעיל (תנועה ב-11-12.11)"],["mc_tools","לא מודעה - ManyChat (כלים)","לא מודעה","manychat","","לא מודעה"],["lp_pr2","לא מודעה - בדיקת דף pr2","לא מודעה","","","לא מודעה"],["car3_tomorrow_a","קרוסלה - 23:40. אתה במיטה, גולל בטלפון, גרסה A","קרוסלה","lenatzeach_lab","קר","לא פעיל (אין תנועה מאז 2026-11-10)"],["car5_3habits_a","קרוסלה - 3 הרגלים, גרסה A","קרוסלה","lenatzeach_lab","קר","לא פעיל (אין תנועה מאז 2026-11-10)"],["car4_warm_a","קרוסלה - שמרת את הפוסטים, גרסה A","קרוסלה","lenatzeach_lab","חם","פעיל (תנועה ב-11-12.11)"],["p25_brain_c3","P25 - למה המוח מחפש חסרונות, נוסח 3 (בלי מחיר)","סרטון","NLP | Aff gal | Sales | Cold | P25 ; NLP | Aff yahel | Sales | Cold | P25","משווק (gal, yahel)","פעיל (תנועה ב-11-12.11)"],["cold18_survival_a","סרטון - המוח שלך משאיר אותך במקום (COLD_18), גרסה A","סרטון","NLP | Aff rachel | Sales | Cold | COLD_18","משווק (rachel)","פעיל (תנועה ב-11-12.11)"],["gold_h1_02","סרטון - למה המוח שלך משאיר אותך במקום (זהב, טייק 2)","סרטון","NLP | Aff rachel | Sales | Cold | COLD_18","משווק (rachel)","פעיל (תנועה ב-11-12.11)"],["--sanitized--","לא ידוע (הפרמטרים הוסתרו)","לא ידוע","לא ידוע","לא ידוע","לא ידוע"]].map(r=>[r[0].toLowerCase(),{name:r[1],type:r[2],camp:r[3],aud:r[4],status:r[5]}])), ADS_SRC="תמונה של הלשונית Ads (12.11)";
+/* מילון חי מה-API (פעולה ads ב-7843392), אם קיימת; אחרת נשארת התמונה */
+function snapAds(){fetch(API+"ads",{cache:"no-store"}).then(r=>r.ok?r.text():"").then(t=>{if(!/^ads\n/.test(t))return;const m={};t.split("\n").slice(1).forEach(l=>{const a=l.split("\t");if(a[0]&&a[0].trim())m[a[0].trim().toLowerCase()]={name:(a[1]||"").trim(),type:(a[2]||"").trim(),camp:(a[3]||"").trim(),aud:(a[4]||"").trim(),status:(a[5]||"").trim()}});
+ if(Object.keys(m).length){ADS=m;ADS_SRC="הלשונית Ads (חי)";if(screen==="snap")render();}}).catch(()=>{})}
+function snapBounds(){const n=new Date(),sod=new Date(n.getFullYear(),n.getMonth(),n.getDate()),b=new Date(+sod+864e5);let a;
+ if(snapPer==="today")a=sod;else if(snapPer==="week")a=new Date(n.getFullYear(),n.getMonth(),n.getDate()-n.getDay());else if(snapPer==="launch")a=SNAP_LAUNCH;else a=new Date(n.getFullYear(),n.getMonth(),n.getDate()-(+snapPer-1));
+ return {a,b}}
+function snapTV(){if(SNAP_TV&&SNAP_TV_N===rows.length)return SNAP_TV;SNAP_TV=new Set(rows.filter(isTest).map(r=>r.vid).filter(Boolean));
+ SNAP_FIRST=new Map();rows.forEach(r=>{if(r.sid&&!isNaN(r.t)&&!SNAP_FIRST.has(r.sid))SNAP_FIRST.set(r.sid,r.t)}); /* השורות ממוינות לפי זמן: הראשונה = תחילת הביקור */
+ SNAP_TV_N=rows.length;return SNAP_TV}
+function snapCode(s){return ((s.p&&s.p.get("utm_content"))||"").trim()}
+function renderSnap(){
+ const B=snapBounds(),keep=[fSrc,fDev,fOwn,showTests];fSrc="";fDev="";fOwn="";showTests=false;let M;try{M=build(B.a,B.b)}finally{[fSrc,fDev,fOwn,showTests]=keep}
+ document.querySelectorAll("#snapPer button").forEach(x=>x.setAttribute("aria-pressed",String(x.dataset.p===snapPer)));
+ $("snapRange").textContent=B.a.toLocaleDateString("he-IL",{day:"2-digit",month:"2-digit"})+" עד היום";
+ const TV=snapTV(),internal=s=>TV.has(s.vid)||SNAP_TEST_VIDS.some(p=>(s.vid||"").indexOf(p)===0);
+ const S=M.sess.filter(s=>!internal(s)&&!(SNAP_FIRST.get(s.sid)<B.a)) /* ביקור נספר לפי שעת ההתחלה שלו: אירוע מאוחר (יציאה, שגיאה) של ביקור שהתחיל לפני התקופה לא נספר */,who=s=>s.vid||s.sid,uniq=a=>new Set(a.map(who)).size;
+ const buys=M.buys.filter(b=>!(b.s&&internal(b.s))),bySid=new Map();buys.forEach(b=>{if(b.sid)bySid.set(b.sid,b)});
+ const bought=s=>bySid.has(s.sid),na='<span class="na">-</span>',pc=(k,n)=>n?' <small>'+pf(pct(k,n))+'</small>':'';
+ /* --- למעלה --- */
+ const spLast=Object.keys(spend).filter(k=>{const d=new Date(k+"T12:00");return d>=B.a&&d<B.b}).sort().pop()||"";
+ const sp=spendIn(B.a,B.b),ours=buys.filter(b=>!b.aff),rev=buys.reduce((x,b)=>x+b.amt,0),ourRev=ours.reduce((x,b)=>x+b.amt,0),cpa=sp!=null&&ours.length?sp/ours.length:null;
+ $("snapKpi").innerHTML=[
+  tile("הוצאה על מודעות",sp==null?na:ils(sp),"החשבון של בן"+(spLast&&spLast<dayKey(new Date(+B.b-2*864e5))?" · מוזן עד "+spLast.split("-").reverse().slice(0,2).join("."):""),""),
+  tile("הכנסות",ils(rev),"מרכישות מאומתות, כולל מע\"מ",""),
+  tile("רכישות",fmt(buys.length),buys.length?fmt(buys.filter(b=>b.bank).length)+" בהעברה בנקאית · "+fmt(buys.length-ours.length)+" דרך משווקים":"מאומתות בלבד",""),
+  tile("עלות לרכישה",cpa==null?na:ils(cpa),cpa==null?(sp?"אין עדיין רכישות מהמודעות של בן":""):'<span class="pill '+(cpa<=M35.cpa?"good":"crit")+'">'+(cpa<=M35.cpa?"עד ":"מעל ")+ils(M35.cpa)+'</span>',"הוצאה ÷ רכישות שלא דרך משווק"),
+  tile("ROAS",sp?(ourRev/sp).toFixed(2):na,sp?"כל 1 ₪ על מודעות החזיר "+(ourRev/sp).toFixed(2)+" ₪":"","הכנסה שלא דרך משווק ÷ הוצאה")].join("");
+ /* --- מודעות --- */
+ const spC={},spD={};for(const k in cspend){const [d,c]=k.split("|");if(!c||/^aff_/.test(c))continue;const dt=new Date(d+"T12:00");if(dt>=B.a&&dt<B.b){const kk=c.toLowerCase();spC[kk]=(spC[kk]||0)+cspend[k];(spD[kk]=spD[kk]||new Set()).add(d)}}
+ const G={};S.forEach(s=>{const c=snapCode(s).toLowerCase();(G[c]=G[c]||[]).push(s)});
+ const A=Object.keys(G).map(c=>{const ss=G[c],d=ADS[c],chk=uniq(ss.filter(s=>s.chk)),b=ss.filter(bought).length,spend=spC[c]!=null?spC[c]:null,aff=d&&/משווק/.test(d.aud)&&!/קר|חם/.test(d.aud);
+   /* עלות לרכישה וההמלצות: רק על הימים שיש להם הוצאה למודעה הזו - כדי לא לחלק הוצאה של יום אחד ברכישות של חודש */
+   const sd=spD[c],ds=sd?ss.filter(s=>sd.has(dayKey(SNAP_FIRST.get(s.sid)||s.t))):[],schk=uniq(ds.filter(s=>s.chk)),sb=ds.filter(bought).length;
+   return {c,d,ppl:uniq(ss),chk:schk,b:sb,tchk:chk,tb:b,spend,aff,cpa:spend!=null&&sb?spend/sb:null,partial:!!sd&&sd.size<Math.round((Math.min(B.b,new Date())-B.a)/864e5)}}).sort((x,y)=>y.ppl-x.ppl);
+ const nm=r=>!r.c?'<b>בלי קוד מודעה</b> <small>כניסה ישירה או אורגנית</small>':r.d?'<b title="קוד: '+esc(r.c)+'">'+esc(r.d.name)+'</b>':'<b title="קוד: '+esc(r.c)+'">לא מזוהה</b>';
+ const SHOW=25,typ=r=>r.d&&r.d.type?'<small class="ty">'+esc(r.d.type)+'</small>':'';
+ const rowsA=A.slice(0,SHOW).map(r=>'<tr><td class="nm">'+nm(r)+typ(r)+'</td><td class="num">'+fmt(r.ppl)+'</td><td class="num">'+fmt(r.tchk)+pc(r.tchk,r.ppl)+'</td><td class="num">'+fmt(r.tb)+'</td><td>'+(r.spend==null?na:ils(r.spend)+(r.partial?' <small>'+(spD[r.c].size===1?'יום אחד':fmt(spD[r.c].size)+' ימים')+'</small>':''))+'</td><td>'+(r.cpa!=null?ils(r.cpa):r.spend?'<small>אין רכישות בימים האלה</small>':na)+'</td><td>'+(r.d&&r.d.aud?esc(r.d.aud):na)+'</td><td><small>'+(r.d&&r.d.camp?esc(r.d.camp):"")+'</small></td></tr>');
+ table($("snapAds"),["מודעה","אנשים","הגיעו לסליקה","רכישות","הוצאה","עלות לרכישה","קהל","קמפיין"],rowsA,"אין כניסות בתקופה");
+ const unk=A.filter(r=>r.c&&!r.d);
+ $("snapAdsNote").textContent=(A.length>SHOW?"מוצגות "+SHOW+" המודעות עם הכי הרבה אנשים מתוך "+A.length+". ":"")+(unk.length?"לא מזוהים ("+unk.length+"): צריך להוסיף אותם למילון המודעות. ":"")+"השמות מ"+ADS_SRC+". הוצאה לכל מודעה - מהטופס, כשהממומן מזין אותה (מ36). עלות לרכישה - רק על הימים שהוזנה להם הוצאה למודעה.";
+ /* --- דפי מכירה ודפי תשלום --- */
+ const pageRow=(lab,ss)=>{const n=uniq(ss),c=uniq(ss.filter(s=>s.chk)),st=uniq(ss.filter(s=>s.cstart)),py=uniq(ss.filter(s=>s.pay)),b=uniq(ss.filter(bought));
+  return '<tr><td><b>'+esc(lab)+'</b></td><td class="num">'+fmt(n)+'</td><td class="num">'+fmt(c)+pc(c,n)+'</td><td class="num">'+fmt(st)+pc(st,n)+'</td><td class="num">'+fmt(py)+pc(py,n)+'</td><td class="num">'+fmt(b)+pc(b,n)+'</td></tr>'};
+ const SP=snapGo?S.filter(s=>s.go):S,byV={};SP.forEach(s=>{(byV[s.v]=byV[s.v]||[]).push(s)});const V=Object.keys(byV).sort((x,y)=>uniq(byV[y])-uniq(byV[x]));
+ table($("snapPages"),["דף","אנשים","הגיעו לסליקה","התחילו להזין פרטים","שלב התשלום","רכישות"],V.map(v=>pageRow(SNAP_PAGES[v]||VLBL[v]||v,byV[v])),"אין כניסות בתקופה");
+ const byC={};SP.filter(s=>s.chk).forEach(s=>{const c=s.co==="a"||s.co==="b"?s.co:"?";(byC[c]=byC[c]||[]).push(s)});
+ const coRow=(lab,ss)=>{const n=uniq(ss),st=uniq(ss.filter(s=>s.cstart)),py=uniq(ss.filter(s=>s.pay)),b=uniq(ss.filter(bought));return '<tr><td><b>'+esc(lab)+'</b></td><td class="num">'+fmt(n)+'</td><td class="num">'+fmt(st)+pc(st,n)+'</td><td class="num">'+fmt(py)+pc(py,n)+'</td><td class="num">'+fmt(b)+pc(b,n)+'</td></tr>'};
+ table($("snapCo"),["דף תשלום","הגיעו","התחילו להזין פרטים","שלב התשלום","רכישות"],Object.keys(byC).sort().map(c=>coRow(SNAP_CO[c]||"לא ידוע",byC[c])),"אף אחד לא הגיע לדף התשלום בתקופה");
+ /* --- מה עובד ומה לא (מ35) --- */
+ const W=A.filter(r=>r.c&&r.spend>0),L=[];const nmT=r=>r.d?r.d.name:"מודעה לא מזוהה ("+r.c+")";
+ const tgt=r=>r.aff?M35.cpaAff:M35.cpa,perC=r=>r.chk?r.spend/r.chk:null;
+ const isRed=r=>r.spend>=M35.noChk&&!r.chk||r.spend>=(r.aff?M35.noBuyAff:M35.noBuy)&&!r.b;
+ const isGreen=r=>!isRed(r)&&(r.b&&r.cpa<=tgt(r)||r.chk&&perC(r)<=M35.perChk&&r.b<M35.few);
+ const red=W.filter(isRed).sort((x,y)=>y.spend-x.spend)[0];
+ const green=W.filter(isGreen).sort((x,y)=>(x.b&&x.cpa<=tgt(x)?x.cpa/tgt(x):1+perC(x)/M35.perChk)-(y.b&&y.cpa<=tgt(y)?y.cpa/tgt(y):1+perC(y)/M35.perChk))[0];
+ const yellow=W.filter(r=>!isRed(r)&&!isGreen(r)).sort((x,y)=>y.spend-x.spend)[0];
+ if(!W.length){L.push(["y","עוד אין הוצאה לפי מודעה בטופס ההוצאה, ולכן אי אפשר לדעת איזו מודעה משתלמת. כשהממומן יזין אותה (מ36), כאן יופיעו ההמלצות."]);
+  const bestPage=V.filter(v=>uniq(byV[v])>=50).map(v=>({v,r:uniq(byV[v].filter(s=>s.chk))/uniq(byV[v])})).sort((x,y)=>y.r-x.r)[0];
+  L.unshift(["g",buys.length?fmt(buys.length)+" רכישות מאומתות בתקופה"+(bestPage?". הכי הרבה הגעה לסליקה: "+(SNAP_PAGES[bestPage.v]||bestPage.v)+" ("+pf(bestPage.r*100)+")":"")+".":"עוד אין רכישות מאומתות בתקופה."]);
+  L.push(["r","אין מודעה שעברה את סף העצירה (אין נתוני הוצאה לפי מודעה)."]);}
+ else{
+  L.push(green?["g",nmT(green)+": "+(green.b&&green.cpa<=tgt(green)?"עלות לרכישה "+ils(green.cpa)+" (היעד עד "+ils(tgt(green))+"). לפי הכללים: אפשר להגדיל ב-20% תקציב, כל 3 ימים.":ils(perC(green))+" לכל מי שהגיע לסליקה (היעד עד 35 ₪ כל עוד יש מעט רכישות). ממשיכים.")]:["g","עוד אין מודעה שעומדת ביעד (עד "+ils(M35.cpa)+" לרכישה, או עד 35 ₪ לכל מי שמגיע לסליקה)."]);
+  L.push(yellow?["y",nmT(yellow)+": "+(yellow.b&&yellow.cpa>tgt(yellow)?"עלות לרכישה "+ils(yellow.cpa)+", מעל היעד ("+ils(tgt(yellow))+"). לעקוב.":yellow.chk?ils(perC(yellow))+" לכל מי שהגיע לסליקה, מעל 35 ₪. לעקוב עוד כמה ימים.":"הוציאה "+ils(yellow.spend)+" ועוד אף אחד לא הגיע לסליקה (העצירה ב-250 ₪).")]:["y","אין מודעה באמצע - כל המודעות עם הוצאה כבר ביעד או מעבר לסף."]);
+  L.push(red?["r",nmT(red)+": הוציאה "+ils(red.spend)+" "+(!red.chk?"בלי אף אחד שהגיע לסליקה":"בלי רכישה")+". לפי הכללים: לעצור."]:["r","אין מודעה שעברה את סף העצירה (250 ₪ בלי הגעה לסליקה, או "+ils(M35.noBuy)+" בלי רכישה)."]);}
+ $("snapLines").innerHTML=L.slice(0,3).map(l=>'<div class="snap-line '+l[0]+'"><i aria-hidden="true"></i><span>'+esc(l[1])+'</span></div>').join("");
+ $("snapNote").textContent="רק רכישות מאומתות (כרטיס והעברה בנקאית). אנשים = מבקר ייחודי לפי מזהה הדפדפן. בלי ביקורים פנימיים ובלי מבקרים שהופיעו בבדיקות שלנו, ובלי סריקות של Meta. הוצאה ועלות לרכישה - מטופס ההוצאה. הלשוניות המפורטות - בכפתור \"מתקדם\".";
+}
 /* ================= 🧪 lab (ב43) ================= */
 /* שמות, סוג ונוסח קופי לכל utm_content - ימולא מטבלת המעבדה (ע7). עד אז: השם מ-VIDEO_NAMES, הסוג לפי הקוד, והנוסח לפי סיומת: _a / _c (קופי A / C, כמו בקמפיין של בן) או _1 / _2 */
 /* מטבלת המעבדה של ע7 (גיליון "אינדקס - סרטונים 03.11", לשונית "טבלת מעבדה", עמודת utm_content), עודכן 05.11: כל 48 המודעות של המעבדה (A ו-B בסרטונים, A ו-C בקרוסלות ובבאנרים) + 4 של הקמפיין הקיים. קודי _c ישנים בסרטונים נשארו למקרה שהגיעו בעבר. מודעה חדשה: להוסיף שורה כאן */
@@ -1136,7 +1249,7 @@ function renderDQ(M){const now=Date.now(),last=ev=>{for(let i=rows.length-1;i>=0
 function activeVars(B){const s=new Set();rows.forEach(r=>{if(r.t>=B.pa&&r.t<B.b&&(showTests||!isTest(r)))s.add(r.variant)});const v=ALLV.filter(x=>s.has(x));return v.length?v:ALLV.slice(0,3)}
 function render(){if(!rows)return;const B=bounds();VARS=activeVars(B);if(!VARS.includes(lpVar))lpVar=VARS[0];document.querySelectorAll("#lpVar button").forEach(b=>{b.hidden=!VARS.includes(b.dataset.v)});const M=build(B.a,B.b),P=build(B.pa,B.pb),A=aggregate(M,B.a,B.b),PA=aggregate(P,B.pa,B.pb);
  const srcs=[...new Set(rows.filter(r=>VARS.includes(r.variant)&&(showTests||!isTest(r))).map(r=>source(qsObj(r.qs))))].sort();const fs=$("fSrc");if(fs.options.length-1!==srcs.length){const cur=fs.value;fs.innerHTML='<option value="">כל המקורות</option>'+srcs.map(s=>'<option'+(s===cur?" selected":"")+'>'+esc(s)+'</option>').join("")}
- try{({lab:()=>renderLab(M,B),hub:()=>renderHub(M,B),op:()=>renderOpt(),ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>{renderCheckout(M);renderRecovery(M);renderCo54(M)},jr:()=>renderJourneys(M),ex:()=>{renderExperiments(M);renderStages(B)},in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M),af:()=>renderAffiliates(),aud:()=>renderAud()})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
+ try{({snap:()=>renderSnap(),lab:()=>renderLab(M,B),hub:()=>renderHub(M,B),op:()=>renderOpt(),ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>{renderCheckout(M);renderRecovery(M);renderCo54(M)},jr:()=>renderJourneys(M),ex:()=>{renderExperiments(M);renderStages(B)},in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M),af:()=>renderAffiliates(),aud:()=>renderAud()})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
  if(storedAt)$("fresh").textContent="· עודכן "+new Date(storedAt).toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});}
 /* סינון לפי משווק (בקשת יהב 09.11): אמיר, שחר, גל ורחל ראשונים, ואחריהם שאר המשווקים הפעילים */
 const AFF_FIRST=["amir","shahar","gal","rachel"];
@@ -1159,12 +1272,14 @@ async function load(){if(busy)return;busy=true;$("refresh").disabled=true;
   storedAt=Date.now();status(null);render();
  }catch(e){status("לא הצלחנו לטעון את הנתונים ("+e.message+"). בדקו חיבור לאינטרנט ונסו לרענן.","warn")}
  finally{busy=false;$("refresh").disabled=false}}
-function setScreen(s){screen=s;document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.s===s)));document.querySelectorAll(".screen").forEach(x=>x.classList.toggle("on",x.id==="s-"+s));try{st()&&st().setItem("nlpdash_screen",s);history.replaceState(null,"","#"+s)}catch(e){}render()}
+function setScreen(s){screen=s;document.body.dataset.scr=s;if(s!=="snap"&&$("tabsNav"))$("tabsNav").classList.add("open");document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.s===s)));document.querySelectorAll(".screen").forEach(x=>x.classList.toggle("on",x.id==="s-"+s));try{st()&&st().setItem("nlpdash_screen",s);history.replaceState(null,"","#"+s)}catch(e){}render()}
 (function init(){
- try{const r=st()&&st().getItem("nlpdash_range2");if(r)range=r;const sc=(location.hash||"").slice(1)||(st()&&st().getItem("nlpdash_screen"));if(sc&&$("s-"+sc))screen=sc}catch(e){}
+ try{const r=st()&&st().getItem("nlpdash_range2");if(r)range=r;const sc=(location.hash||"").slice(1); /* ב86: בלי #, נפתח תמיד במסך "תמונת מצב" */if(sc&&$("s-"+sc))screen=sc}catch(e){}
  document.querySelectorAll("#range button").forEach(b=>{b.setAttribute("aria-pressed",String(b.dataset.r===range));b.onclick=()=>{range=b.dataset.r;$("customBox").hidden=range!=="custom";document.querySelectorAll("#range button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));try{st()&&st().setItem("nlpdash_range2",range)}catch(e){}render()}});
  $("customBox").hidden=range!=="custom";$("cFrom").onchange=e=>{cFrom=e.target.value;render()};$("cTo").onchange=e=>{cTo=e.target.value;render()};
- document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>setScreen(b.dataset.s));
+ document.querySelectorAll("nav.tabs button[data-s]").forEach(b=>b.onclick=()=>setScreen(b.dataset.s));
+ $("advT").onclick=()=>{const n=$("tabsNav"),o=n.classList.toggle("open");$("advT").setAttribute("aria-expanded",String(o));if(!o&&screen!=="snap")setScreen("snap");};
+ document.querySelectorAll("#snapPer button").forEach(x=>x.onclick=()=>{snapPer=x.dataset.p;render()});$("snapGo").onchange=e=>{snapGo=e.target.checked;render()};snapAds();
  document.querySelectorAll("#lpVar button").forEach(b=>b.onclick=()=>{lpVar=b.dataset.v;render()});
  $("fSrc").onchange=e=>{fSrc=e.target.value;render()};$("fOwn").onchange=e=>{fOwn=e.target.value;render()};$("fDev").onchange=e=>{fDev=e.target.value;render()};$("jrStage").onchange=e=>{jrStage=e.target.value;render()};
  $("showTests").onchange=e=>{showTests=e.target.checked;render()};$("refresh").onclick=load; $("hubVid").addEventListener("input",()=>{if(screen==="hub")render()});
