@@ -1,4 +1,4 @@
-import json,base64,urllib.parse as up,random,re,sys
+import os,json,base64,urllib.parse as up,random,re,sys
 from datetime import datetime
 from collections import Counter,defaultdict
 o=json.load(open(sys.argv[1])); c=o["content"]
@@ -128,3 +128,12 @@ for r in R:
 scan=[rs for rs in SS.values() if any(x["ev"].startswith("meta_scan:") for x in rs)]
 print("b22 since prev: sessions",len(SS),"with meta_scan",len(scan),"by device",Counter(next((x["dev"] for x in rs if x["dev"]),"?") for rs in scan).most_common(6))
 print("b22 desktop non-scan sessions since prev:",Counter((next((x["dev"] for x in rs if x["dev"]),"?"),src(up.parse_qs(rs[0]["qs"]))) for rs in SS.values() if rs not in scan and next((x["dev"] for x in rs if x["dev"]),"").startswith("d-")).most_common(6))
+# ב86: קודי מודעה בלי שם במילון המודעות (לשונית Ads, עותק ב-claude/b86/ads_dict.json) - נכנסים לסיכום היומי כ"לא מזוהה"
+_AD=os.path.join(os.path.dirname(os.path.abspath(__file__)),"..","b86","ads_dict.json")
+KNOWN={a[0].lower() for a in json.load(open(_AD,encoding="utf8"))} if os.path.exists(_AD) else set()
+unk=Counter()
+for s in S.values():
+    if s["t"]<PREV or (s.get("vid") or "") in TV or (s.get("vid") or "").startswith(("fead4466","77438727")): continue
+    c=(up.parse_qs(s["qs"]).get("utm_content",[""])[0] or "").strip().lower()
+    if c and c not in KNOWN and not re.match(r"^lp_[abc]$",c): unk[c]+=1
+print("b86 unknown ad codes since prev (not in Ads dictionary):",unk.most_common(15) if unk else "none")
