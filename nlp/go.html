@@ -17,7 +17,9 @@ var NLP_OWNER=(function(){var K="nlp_aff",D=2592e6,now=Date.now(),cur=null;
 (function(){
   /* ב63 (בן 08.11, "מאשר ב63" מיהב): ניסוי ap2_0811 - a5 מול pr2, חצי-חצי, קבוע לדפדפן, לכל התנועה שעוברת ב-go.html (כל המודעות והמשווקים).
      מי ששובץ ב-aap_0511 ל-a5 או ל-pr נשאר בדף שלו (pr = pr2), כדי שלא יראה דף אחר בחזרה; זה סימטרי בין שני הדפים. כל השאר (כולל מי ששובץ ל-a) מוגרלים מחדש.
-     הניסוי הקודם: ב47/ב49 aap_0511 (a, a5, pr2 שליש לכל אחד) - הסתיים. a.html נשאר באתר (אינסטגרם אורגני, ב44) */
+     הניסוי הקודם: ב47/ב49 aap_0511 (a, a5, pr2 שליש לכל אחד) - הסתיים. a.html נשאר באתר (אינסטגרם אורגני, ב44)
+     ב85 ("מאשר" מיהב, 12.11 11:44): הזרוע a5 מופנית ל-a5v6 (a5v4 עם הכפתורים הירוקים). השיבוץ השמור לא משתנה - מי ששובץ ל-a5 מקבל את a5v6, ו-pr2 נשאר pr2.
+     a5.html נשאר באתר, מחוץ לחלוקה */
   var EXP="ap2_0811", K="nlp_go_"+EXP, v=null, o=null; try{ v=localStorage.getItem(K); o=localStorage.getItem("nlp_go_aap_0511"); }catch(e){}
   if(v!=="a5"&&v!=="pr2"){
     if(o==="a5"||o==="pr"){ v=(o==="pr"?"pr2":"a5"); }
@@ -30,6 +32,6 @@ var NLP_OWNER=(function(){var K="nlp_aff",D=2592e6,now=Date.now(),cur=null;
   var s0=(q.get("utm_source")||"").toLowerCase(), m0=(q.get("utm_medium")||"").toLowerCase();
   if((s0==="instagram"||s0==="ig")&&(m0==="bio"||m0==="dm")&&!q.get("aff")&&!q.get("utm_id")){ q.delete("exp"); q.set("route","ig_org"); location.replace("a.html?"+q.toString()); return; }
   q.set("exp",EXP);
-  location.replace(v+".html?"+q.toString()); /* a, a1-a4, b, c, a2/b2/c2, pr ו-pr_v1 נשארים באתר, מחוץ לניסוי */
+  location.replace((v==="a5"?"a5v6":v)+".html?"+q.toString()); /* a, a1-a4, b, c, a2/b2/c2, pr ו-pr_v1 נשארים באתר, מחוץ לניסוי */
 })();
 </script></head><body>טוען...</body></html>
