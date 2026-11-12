@@ -17,6 +17,7 @@ for l in t.split("\n")[1:]:
 print("rows",len(R),"last",max(r["ts"] for r in R))
 PREV=datetime.strptime(sys.argv[2],"%Y-%m-%d %H:%M")
 X0=datetime(2026,11,5,6,55); SW=datetime(2026,11,8,14,19); CO54=datetime(2026,11,8,9,58)
+V6=datetime(2026,11,12,11,54)  # ב85: go.html מפנה את הזרוע a5 ל-a5v6 (פריסה 11:45, ועוד עד 10 דקות מטמון)
 def isTest(r):
     q=r["qs"].lower()
     return bool(re.search("claude|test|nocache",q)) or bool(re.search(r"(^|;)int=1(;|$)",r["x"] or "")) or r["variant"]=="test" or bool(re.search("בדיקה|בדיקת",r["name"] or "")) or r["sid"]=="6ac363a1-80a1-4715-9964-0a72520b66fb" or "267429750" in r["qs"]
@@ -34,7 +35,7 @@ secn=defaultdict(dict)
 for r in L:
     if r["ev"]=="section" and r["section"].isdigit(): secn[r["variant"]][int(r["section"])]=r["name"]
 offk={v:min([k for k,n in d.items() if "הצעה" in n] or [99]) for v,d in secn.items()}
-print("offer section idx:",{v:offk[v] for v in ("a","a5","pr","pr2") if v in offk})
+print("offer section idx:",{v:offk[v] for v in ("a","a5","a5v6","pr","pr2") if v in offk})
 S={}
 for r in L:
     if not r["sid"] or isTest(r) or r["vid"] in TV: continue
@@ -88,13 +89,18 @@ def report(lo,hi,arms,label,only_paid=True,since=None):
 EXPID="aap_0511"
 report(datetime(2026,11,5,13,56),SW,["a","a5","pr2"],"OLD aap_0511 final (05.11 13:56 - 08.11 09:58), paid only")
 EXPID="ap2_0811"
-report(SW,datetime(2100,1,1),["a5","pr2"],"MAIN ap2_0811 (from 08.11 12:18, after b70+b65), paid only")
-report(max(PREV,SW),datetime(2100,1,1),["a5","pr2"],"since last summary, paid only")
-report(SW,datetime(2100,1,1),["a5","pr2"],"ap2_0811 ALL sources (incl aff)",only_paid=False)
+report(SW,V6,["a5","pr2"],"ap2_0811 phase 1: a5 vs pr2 (08.11 14:19 - 12.11 11:54), paid only")
+report(SW,V6,["a5","pr2"],"ap2_0811 phase 1 ALL sources (incl aff)",only_paid=False)
+report(V6,datetime(2100,1,1),["a5v6","pr2"],"ap2_0811 phase 2: a5v6 vs pr2 (from 12.11 11:54, b85), paid only")
+report(V6,datetime(2100,1,1),["a5v6","pr2"],"ap2_0811 phase 2 ALL sources (incl aff)",only_paid=False)
+if PREV<V6: report(max(PREV,SW),V6,["a5","pr2"],"since last summary until the switch, paid only")
+report(max(PREV,V6),datetime(2100,1,1),["a5v6","pr2"],"since last summary (phase 2), paid only")
 E=[s for s in S.values() if s["exp"]=="ap2_0811" and s["t"]>=SW]
 print("ap2_0811 sources since SW:",Counter(s["src"] for s in E))
 print("ap2_0811 aff/non-paid sessions since SW:",Counter((s["v"],s["src"]) for s in E if s["src"]!="paid"))
-print("SRM people per arm (paid) since SW:",Counter(s["v"] for s in {(s["vid"] or s["t"].isoformat()):s for s in E if s["src"]=="paid"}.values()))
+print("SRM people per arm (paid) phase 1:",Counter(s["v"] for s in {(s["vid"] or s["t"].isoformat()):s for s in E if s["src"]=="paid" and s["t"]<V6}.values()))
+print("SRM people per arm (paid) phase 2 (a5v6 vs pr2):",Counter(s["v"] for s in {(s["vid"] or s["t"].isoformat()):s for s in E if s["src"]=="paid" and s["t"]>=V6}.values()))
+print("a5 (old page) visits with exp=ap2_0811 after the switch (should be ~0):",sum(1 for s in E if s["v"]=="a5" and s["t"]>=V6))
 print("arms seen with exp=ap2_0811 since SW:",Counter(s["v"] for s in E))
 old=[s for s in S.values() if s["exp"]=="aa5_0411" and s["t"]>=X0]
 print("aa5_0411 since 05.11 06:55: sessions",len(old),Counter(s["v"] for s in old),"chk",sum(s["chk"] for s in old),"buy",sum(s["buy"] for s in old))
