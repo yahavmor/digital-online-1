@@ -20,7 +20,7 @@ X0=datetime(2026,11,5,6,55); SW=datetime(2026,11,8,14,19); CO54=datetime(2026,11
 V6=datetime(2026,11,12,11,54)  # ב85: go.html מפנה את הזרוע a5 ל-a5v6 (פריסה 11:45, ועוד עד 10 דקות מטמון)
 def isTest(r):
     q=r["qs"].lower()
-    return bool(re.search("claude|test|nocache",q)) or bool(re.search(r"(^|;)int=1(;|$)",r["x"] or "")) or r["variant"]=="test" or bool(re.search("בדיקה|בדיקת",r["name"] or "")) or r["sid"]=="6ac363a1-80a1-4715-9964-0a72520b66fb" or "267429750" in r["qs"]
+    return bool(re.search("claude|test|nocache",q)) or bool(re.search(r"(^|;)int=1(;|$)",r["x"] or "")) or r["variant"]=="test" or bool(re.search("בדיקה|בדיקת",r["name"] or "")) or r["sid"]=="6ac363a1-80a1-4715-9964-0a72520b66fb" or any(d in r["qs"] for d in ("267429750","270060105"))  # עסקאות בדיקה (270060105 = ב69, 13.11 19:24)
 TV={r["vid"] for r in R if r["vid"] and isTest(r)}|{"77438727"}
 def src(p):
     s=(p.get("utm_source") or [""])[0].lower(); m=(p.get("utm_medium") or [""])[0].lower()
