@@ -4,7 +4,7 @@
 #  - a5v6 ו-pr2: מתחת לכפתור הראשי (hero_main) ומתחת לכפתור באזור המחיר (offer). אותו קטע בדיוק בשני הדפים.
 #  - ביט: מוסתר עד שיהב מאמת בטלפון שכפתור הביט מופיע (bit_url לא ריק). ההפעלה: PAYLOGO_BIT=true בשלושת הדפים יחד.
 #  - דפדפן פנימי של אינסטגרם/פייסבוק: Apple Pay ו-Google Pay לא נתמכים שם (WKWebView / WebView), אז הלוגואים שלהם מוסתרים
-#    ומוצג רמז קצר (הנוסח ממתין לאישור).
+#    ובדף התשלום בלבד מוצג רמז (נוסח מאושר, ראשי 13.11). בדפי המכירה רק מסתירים, בלי רמז.
 # שימוש: python3 patch_paylogos.py <nlp dir מקור> <nlp dir יעד>
 import sys, os, shutil
 SRC, OUT = sys.argv[1], sys.argv[2]
@@ -40,7 +40,9 @@ var els=document.querySelectorAll("[data-paylogos]");for(var i=0;i<els.length;i+
  if(!inapp){p.push("\u2066Apple Pay\u2069","\u2066Google Pay\u2069")} /* בידוד כיווניות, כדי שהשמות באנגלית לא יהפכו את סדר המשפט */if(PAYLOGO_BIT)p.push("ביט");
  var t=el.querySelector(".pl-t"),h=el.querySelector(".pl-h");
  t.textContent=inapp?(PAYLOGO_BIT?"אפשר לשלם בביט או באשראי":"אפשר לשלם באשראי"):"אפשר לשלם ב-"+p.join(", ")+" או אשראי";
- if(inapp){h.textContent=ios?"ל-\u2066Apple Pay\u2069 פתחו את הדף בספארי":and?"ל-\u2066Google Pay\u2069 פתחו את הדף בכרום":"ל-\u2066Apple Pay\u2069 או \u2066Google Pay\u2069 פתחו את הדף בדפדפן";h.hidden=false}
+ /* ב89 (מאשר ב89 - פריסה): רמז רק בדף התשלום (co_*), ורק באייפון/אנדרואיד. בדפי המכירה רק מסתירים */
+ var hint=!inapp||!/^co_/.test(el.getAttribute("data-paylogos")||"")?"":ios?"ל-\u2066Apple Pay\u2069: לחצו על שלוש הנקודות למעלה ופתחו בספארי":and?"ל-\u2066Google Pay\u2069: לחצו על שלוש הנקודות למעלה ופתחו בכרום":"";
+ if(hint){h.textContent=hint;h.hidden=false}
  el.setAttribute("data-inapp",inapp?"1":"0")}
 })();</script>
 '''

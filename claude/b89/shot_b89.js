@@ -10,7 +10,7 @@ const J = [ ['checkout.html', '', '[data-paylogos="co_pay"]', 'checkout_b'], ['c
 (async () => {
   const b = await chromium.launch();
   for (const ua of ['safari', 'ig']) for (const [pg, q, sel, name] of J) {
-    if (ua === 'ig' && /withbit|checkout_a|offer/.test(name)) continue;
+    if (ua === 'ig' && /withbit|offer/.test(name)) continue;
     const ctx = await b.newContext({ userAgent: UA[ua], viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, reducedMotion: 'reduce' });
     const p = await ctx.newPage(); await p.route(/^(?!http:\/\/127\.0\.0\.1)/, r => r.abort());
     await p.goto(BASE + '/' + pg + q, { waitUntil: 'load' });
