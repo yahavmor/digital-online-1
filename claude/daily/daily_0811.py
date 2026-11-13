@@ -136,4 +136,5 @@ for s in S.values():
     if s["t"]<PREV or (s.get("vid") or "") in TV or (s.get("vid") or "").startswith(("fead4466","77438727")): continue
     c=(up.parse_qs(s["qs"]).get("utm_content",[""])[0] or "").strip().lower()
     if c and c not in KNOWN and not re.match(r"^lp_[abc]$",c): unk[c]+=1
-print("b86 unknown ad codes since prev (not in Ads dictionary):",unk.most_common(15) if unk else "none")
+if KNOWN: print("b86 unknown ad codes since prev (not in Ads dictionary):",unk.most_common(15) if unk else "none")
+else: print("b86 unknown ad codes: SKIPPED - ads_dict.json not next to the script; check these codes against the live dictionary (dashboard API action=ads):",unk.most_common(15))
