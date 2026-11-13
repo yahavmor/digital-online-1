@@ -1,0 +1,22 @@
+// ב84 תיקון חריגה: בדיקת 120% בלשונית 11 לפי ההוצאה של לשונית 10. נתונים מדומים, Make מדומה.
+process.env.TZ="Asia/Jerusalem";const {chromium}=require("playwright"),fs=require("fs");const [O,P,EV,SP]=process.argv.slice(2).map(f=>fs.readFileSync(f,"utf8"));
+const AFF="affiliates\tname\tpct\tactive\tfee\tbudget\namir\tאמיר\t0\ttrue\t220\t40\nrachel\tרחל\t0\ttrue\t220\t100\ngal\tגל\t0\ttrue\t220\t40\nyahel\tיהל\t0\ttrue\t220\t40\nshahar\tשחר\t0\ttrue\t220\t20\nyosef\tיוסף\t0\ttrue\t220\t40\nshira\tשירה\t0\ttrue\t220\t\n";
+let n=0,f=0;const ok=(m,c,i)=>{n++;if(!c){f++;console.log("FAIL",m,i||"")}else console.log("PASS",m)};
+(async()=>{const b=await chromium.launch();const run=async html=>{const c=await b.newContext({timezoneId:"Asia/Jerusalem"});await c.clock.setFixedTime(new Date("2026-11-13T22:00:00+02:00"));const errs=[];
+await c.route("**/*",r=>{const u=new URL(r.request().url());if(u.href.startsWith("https://local.test/"))return r.fulfill({status:200,contentType:"text/html; charset=utf-8",body:html});if(u.hostname.endsWith("make.com")){const a=u.searchParams.get("action");return r.fulfill({status:200,body:{rows:EV,spend:SP,affiliates:AFF,refunds:"refunds\n",paid:"paid\tat\taff\n"}[a]||""})}return r.fulfill({status:204,body:""})});
+const p=await c.newPage();p.on("pageerror",e=>errs.push(e.message));await p.goto("https://local.test/nlp/dashboard.html#fin");await p.waitForTimeout(3000);return {c,p,errs}};
+const A=await run(O),B=await run(P);
+const al=X=>X.p.evaluate(()=>document.getElementById("finAlerts").innerText);const [ta,tb]=[await al(A),await al(B)];
+const line=(t,nm)=>(t.split("\n").find(l=>l.includes("מעל 120%")&&false)||"")||t;
+console.log("BEFORE:\n"+ta.split("\n").filter(l=>/120%|רחל|יוסף|גל/.test(l)).join("\n"));console.log("AFTER:\n"+tb.split("\n").filter(l=>/120%|רחל|יוסף|גל/.test(l)).join("\n"));
+ok("before: rachel 12.11 not flagged (only aff_rachel_ic counted)",!/רחל: [^\n]*12\.11/.test(ta));
+ok("after: rachel 12.11 flagged with IC 33.02 + COLD_18 19.05 + G12 70 = 122.07 (> 120)",/רחל: [^\n]*12\.11 ₪?122|רחל: [^\n]*12\.11 122/.test(tb.replace(/,/g,"")),tb);
+ok("after: yosef 13.11 = per-ad 30+25 = 55 (aff_yosef 12.96 not added) > 48",/יוסף: [^\n]*13\.11 (₪)?55/.test(tb)&&!/67\.96|68/.test((tb.match(/יוסף:[^\n]*/)||[""])[0]),(tb.match(/יוסף:[^\n]*/)||[""])[0]);
+ok("after: gal 10.11 = aff_gal 27.56 + gal_ic 42.27 = 69.83 > 48 (same as before)",/גל: [^\n]*10\.11/.test(tb)&&/גל: [^\n]*10\.11/.test(ta));
+const sp=X=>X.p.evaluate(()=>JSON.stringify(AUD.seg.map(g=>[g.key,audSpend(g)])));ok("tab 10 spend per row unchanged by the refactor",(await sp(A))===(await sp(B)));
+const nonAlert=X=>X.p.evaluate(()=>{const s=document.getElementById("s-fin").cloneNode(true);const a=s.querySelector("#finAlerts");if(a)a.remove();return s.innerText});
+ok("tab 11: everything except the alerts is unchanged",(await nonAlert(A))===(await nonAlert(B)));
+const other=async X=>{const o=[];for(const t of ["snap","aud","af","ov"]){await X.p.evaluate(s=>setScreen(s),t);await X.p.waitForTimeout(250);o.push(await X.p.evaluate(s=>document.getElementById("s-"+s).innerText.replace(/עודכן \d\d:\d\d/g,""),t))}return o.join("|")};
+ok("other tabs unchanged (snap, 10, 09, 01)",(await other(A))===(await other(B)));
+ok("no JS errors",!B.errs.length,B.errs.join("|"));
+console.log("TOTAL",n-f+"/"+n);await b.close();process.exit(f?1:0)})();
