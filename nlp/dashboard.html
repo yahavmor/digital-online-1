@@ -448,6 +448,7 @@ const EXPERIMENTS=[
  {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"2026-10-26",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"הסתיים, הוחלף ב-abc_2610",decision:""},
 ];
 const CHANGELOG=[
+["2026-11-13","20:33 - ב84 תיקון חריגה (\"מאשר ב84 - תיקון חריגה\"): הבדיקה \"הוצאה מעל 120% מהתקציב\" בלשונית 11 מחשבת עכשיו את ההוצאה היומית של כל משווק באותה פונקציה של לשונית 10. כך נכנסים גם COLD_18 ו-G12 של רחל, וההוצאה של יוסף לפי מודעה (aff_yosef רק ביום בלי הוצאה לפי מודעה, בלי ספירה כפולה). משווק בלי שורה בלשונית 10: aff_<קוד> + aff_<קוד>_ic כמו קודם","הושק"],
 ["2026-11-13","20:20 - ב84 (\"מאשר ב84\" של יהב): לשונית 11 \"בקרה כספית\" (תחת \"מתקדם\"), קריאה בלבד. מציגה הוצאה, הכנסות, עמלות שממתינות או לתשלום, ותקציב מול הוצאה לכל משווק. ב-Make: נוסף שדה budget (תקציב יומי) לרשימת המשווקים, ו-API הדשבורד מחזיר אותו, ואת תאריך התשלום בעמלות ששולמו. התקציבים עצמם עוד לא הוזנו, ולכן מוצג \"חסר נתון\"","הושק"],
 ["2026-11-13","19:40 - ב41/ב62 (\"מאשר\" של יהב, אחרי שבן אישר שהחשבונית ומייל הגישה הגיעו ברכישת הבדיקה במסוף החדש): בדף התשלום, A ו-B, ירדו ההודעה \"כרגע Apple Pay ו-Google Pay לא זמינים\", השורה על הארנק בהודעת הכשל, והנוסח המיוחד לדחייה 60000303. דחייה כזו מקבלת עכשיו את הודעת הכשל הכללית","הושק"],
 ["2026-11-13","19:35 - ב69: רכישת הבדיקה של בן במסוף החדש, 19:24 (עסקה 270060105), סומנה כבדיקה ומוחרגת מהדשבורד, מהסיכום היומי ומהעמלות. ב-Meta נשלחו עליה שני אירועי Purchase (שתי ערכות הנתונים), ואי אפשר למחוק אותם. לכן ב-13.11 יש ב-Meta רכישת בדיקה אחת. התיקון (סימון בדיקה מדף התשלום דרך ReturnValue, ו-7827404 שמדלג על CAPI ועל עמלה) מוכן ומחכה לאישור. ביט (\"מאשר ביט\"): בדף התשלום, A ו-B, נוסף כפתור \"תשלום בביט\". הוא מופיע רק אחרי סימון התיבה ורק כש-7827398 מחזיר bit_url","הושק"],
@@ -1140,7 +1141,7 @@ function renderFinance(){
  const first=Object.keys(spend).sort()[0];if(first){const miss=[];const yday=new Date(B.sod.getFullYear(),B.sod.getMonth(),B.sod.getDate()-1),f0=new Date(first+"T00:00"),st0=finPer==="today"?yday:new Date(Math.max(+B.a,+f0));for(let d=new Date(st0.getFullYear(),st0.getMonth(),st0.getDate());d<B.sod;d.setDate(d.getDate()+1)){if(d<f0)continue;if(spend[dayKey(d)]==null)miss.push(dayKey(d))}
   if(miss.length)al.push(['warn','יום בלי הזנת הוצאה לחשבון שלנו',miss.slice(-10).map(k=>k.slice(8,10)+"."+k.slice(5,7)).join(", ")+(miss.length>10?" (ועוד "+(miss.length-10)+")":"")])}
  else al.push(['warn','יום בלי הזנת הוצאה לחשבון שלנו','לא נטענה הוצאה בכלל']);
- const noBud=[];codes.forEach(code=>{const inf=AFF[code];if(!inf||!inf.budget){noBud.push(code);return}const over={};for(const k in cspend){const [d,c]=k.split("|");if(c!=="aff_"+code&&c!=="aff_"+code+"_ic")continue;const dt=new Date(d+"T12:00");if(dt<B.a||dt>=B.b)continue;over[d]=(over[d]||0)+cspend[k]}
+ const noBud=[];codes.forEach(code=>{const inf=AFF[code];if(!inf||!inf.budget){noBud.push(code);return}const over={},ad=affDaySpend(code);for(const d in ad){const dt=new Date(d+"T12:00");if(dt<B.a||dt>=B.b)continue;over[d]=ad[d]} /* ב84: אותה הוצאה כמו בלשונית 10 */
   const bad=Object.keys(over).filter(d=>over[d]>inf.budget*FIN_OVER).sort();if(bad.length)al.push(['crit','הוצאה מעל '+Math.round(FIN_OVER*100)+'% מהתקציב',esc(inf.name)+': '+bad.map(d=>d.slice(8,10)+"."+d.slice(5,7)+" "+ils(over[d])).join(", ")+' (תקציב '+ils(inf.budget)+')'])});
  if(noBud.length)al.push(['','בדיקת '+Math.round(FIN_OVER*100)+'% מהתקציב לא פעילה','חסר תקציב יומי ל-'+noBud.length+' משווקים (שדה budget ב-Make, אחרי "מאשר ב84")']);
  $("finAlerts").innerHTML=al.map(a=>'<div class="banner '+a[0]+'"><b>'+a[1]+'</b><span>'+a[2]+'</span></div>').join("")||'<div class="banner">אין התראות</div>';
@@ -1241,10 +1242,16 @@ AUD.seg=[];AUD.camps.forEach(c=>{const swT=c.sw?new Date(c.sw):null,pre=Object.a
 const AUD_X=[{key:"rachel|post",spk:"aff_rachel_cold18",lbl:"רחל",phl:"קמפיין COLD_18",aud:"נספר בשורת \"אחרי\" של רחל"},{key:"rachel|post",spk:"aff_rachel_g12",lbl:"רחל",phl:"קמפיין G12",aud:"נספר בשורת \"אחרי\" של רחל"}];
 const AUD_ADS=[];AUD.seg.forEach(g=>(g.ads||[]).forEach(a=>AUD_ADS.push({key:g.key,spk:a,lbl:g.lbl,phl:"מודעה "+a,aud:"הוצאה לפי מודעה (בלי aff_)"})));
 AUD_X.forEach(x=>{const g=AUD.seg.find(s=>s.key===x.key);if(g)(g.xspk=g.xspk||[]).push(x.spk)});
-function audSpend(g){if(g.nospend)return null;const A=(g.ads||[]).map(x=>x.toLowerCase()),byD={},adD={};for(const k in cspend){const [d,cc]=k.split("|");if(!cc||d<g.sday)continue;const c=cc.toLowerCase();
+/* הוצאה יומית של שורה בלשונית 10 ({תאריך: סכום}). משמשת את לשונית 10 ואת בדיקת החריגה בלשונית 11 (ב84) */
+function audSegDays(g){if(g.nospend)return null;const A=(g.ads||[]).map(x=>x.toLowerCase()),byD={},adD={};for(const k in cspend){const [d,cc]=k.split("|");if(!cc||d<g.sday)continue;const c=cc.toLowerCase();
   if(A.includes(c)){adD[d]=(adD[d]||0)+cspend[k]}else if(cc===g.spk||(g.xspk||[]).includes(cc)){byD[d]=(byD[d]||0)+cspend[k]}}
  for(const d in adD)byD[d]=adD[d]; /* ב86: ביום עם הוצאה לפי מודעה - רק סכום המודעות, כדי לא לספור פעמיים */
- const ds=Object.keys(byD);return ds.length?{t:ds.reduce((x,d)=>x+byD[d],0),days:ds.length}:null}
+ return byD}
+function audSpend(g){const byD=audSegDays(g);if(!byD)return null;const ds=Object.keys(byD);return ds.length?{t:ds.reduce((x,d)=>x+byD[d],0),days:ds.length}:null}
+/* הוצאה יומית של משווק: סכום השורות שלו בלשונית 10 (המפתחות שלהן שונים, אז אין כפילות). בלי שורה בלשונית 10 - aff_<קוד> + aff_<קוד>_ic */
+function affDaySpend(code){const S=AUD.seg.filter(g=>g.code===code),o={};
+ if(!S.length){for(const k in cspend){const [d,c]=k.split("|");if(c==="aff_"+code||c==="aff_"+code+"_ic")o[d]=(o[d]||0)+cspend[k]}return o}
+ S.forEach(g=>{const D=audSegDays(g);if(D)for(const d in D)o[d]=(o[d]||0)+D[d]});return o}
 function audAdSpend(g,ad){if(!(g.ads||[]).some(x=>x.toLowerCase()===String(ad).toLowerCase()))return null;let t=0,n=0;for(const k in cspend){const [d,cc]=k.split("|");if(cc&&d>=g.sday&&cc.toLowerCase()===String(ad).toLowerCase()){t+=cspend[k];n++}}return n?t:null}
 function audCopy(code){if(Array.isArray(code)){const L=code.map(audCopy);return {code:code.join(" + "),lbl:L.map(x=>x.lbl).join(" + "),text:L.map(x=>x.text).filter(Boolean).join(" | ")}}const i=LAB[code]||{};return {code,lbl:i.name&&/נוסח/.test(i.name)?i.name:(i.copy||"").replace(/^משווקים: /,"")||code,text:i.text||i.open||""}}
 function renderAud(){const now=new Date(),keep=[fSrc,fDev,fOwn];fSrc="";fDev="";fOwn="";let M;try{M=build(AUD.start,new Date(+now+864e5))}finally{[fSrc,fDev,fOwn]=keep}
