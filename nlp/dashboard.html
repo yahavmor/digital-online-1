@@ -426,6 +426,7 @@ const EXPERIMENTS=[
  {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"2026-10-26",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"הסתיים, הוחלף ב-abc_2610",decision:""},
 ];
 const CHANGELOG=[
+["2026-11-13","10:20 - ב86 גל (\"מאשר ב86 - גל\"): לפי היסטוריית הפעילות, הקבוצה הישנה \"Cold IL 25-55 | gal\" כובתה 11.11 07:52, וסדרת ה-IC פעילה מ-10.11 09:16. בלשונית 10: \"לפני\" עד 10.11 09:16, \"חפיפה\" עד 11.11 07:52 בשורה נפרדת עם הערה ובלי הוצאה משלה, ו\"אחרי\" מ-11.11 07:52. הכלל להוצאה: הקבוצה הישנה ב-aff_gal, כולל 11.11 (בשורת \"לפני\"), וסדרת ה-IC ב-aff_gal_ic מ-10.11 (בשורת \"אחרי\"). הכלל הזמני מ-12.11, שספר את IC בשורה של גל, בוטל","הושק"],
 ["2026-11-13","09:04 - ב86 (\"מאשר ב86 - פריסה ותיקון\"): לשונית 10 - מפתחות הוצאה חדשים: סדרת ה-IC של גל (נספרת בשורה של גל עד שתימסר שעת המעבר), COLD_18 ו-G12 של רחל (בשורת \"אחרי\"), ושורה חדשה ליוסף מ-12.11 21:44 (קהל קר, 40 ₪ ליום, השוואה בין p25_yosef ל-g12_0466_a_yosef). הוצאה של יוסף לפי מודעה נשמרת בקוד המודעה, ו-aff_yosef נספר רק ביום בלי הוצאה לפי מודעה, כדי שלא תהיה ספירה כפולה. בטבלת הסרטונים יש הוצאה ועלות לרכישה לכל סרטון של יוסף. הטופס חוסם שמירה בלי שם משווק. 6.81 ₪ של רחל מ-08.11 הועברו למפתח הנכון","הושק"],
 ["2026-11-12","13:42 - ב86 (\"מאשר ב86\" מיהב): מסך ראשי חדש \"תמונת מצב\" - הוצאה, הכנסות, רכישות מאומתות, עלות לרכישה ו-ROAS; מודעות בשם מתוך מילון המודעות; דפי מכירה ודפי תשלום ב-5 שלבים; 3 שורות \"מה עובד ומה לא\" לפי מ35. הלשוניות הקיימות עברו ל\"מתקדם\" בלי שינוי","הושק"],
 ["2026-11-12","11:44 - ב85 (\"מאשר\" מיהב): go.html מפנה את הזרוע a5 בניסוי ap2_0811 ל-a5v6 (a5v4 עם כפתורים ירוקים כמו ב-pr2, רטט, ring וברק, כפתור צמוד לאורך הגלילה). pr2, החלוקה חצי-חצי, השיבוץ השמור ודף התשלום B בלי שינוי. בלשונית 00 ההשוואה a5v6 מול pr2 מתחילה 11:54. a5.html נשאר באתר מחוץ לחלוקה"],
@@ -1113,26 +1114,29 @@ function renderLab(M,B){
    אצל כל קמפיין סופרים מהכניסה הראשונה עם ה-aff שלו, ולא לפני from (כדי שתנועה ישנה מקישורים אורגניים לא תיכנס). כולם דרך go.html, כלומר בתוך הניסוי ap2_0811 */
 /* ב80 (אחרי מ32, 10.11): המשווקים עברו לאופטימיזציה ל"מעבר לתשלום" (InitiateCheckout) בסדרות חדשות. לכל משווק שורת "לפני" (רכישה) ושורת "אחרי" (מעבר לתשלום),
    לפי שעת הכיבוי של הסדרה הישנה (sw). בין הדלקת החדשה לכיבוי הישנה רצו שתיהן, והכניסות מאותו זמן נספרות ב"לפני".
-   אמיר 10:26, יהל 10:27, רחל 10:53 (ובאותה שעה עברה מקהל חם לקר; שם הקמפיין נשאר "Warm", ולכן הסיווג לפי השעה ולא לפי השם). גל: השעה תימסר (sw:null = עדיין לפני).
+   אמיר 10:26, יהל 10:27, רחל 10:53 (ובאותה שעה עברה מקהל חם לקר; שם הקמפיין נשאר "Warm", ולכן הסיווג לפי השעה ולא לפי השם). גל (ב86, 13.11): הישנה כובתה 11.11 07:52 וה-IC פעילה מ-10.11 09:16 - "אחרי" מ-11.11 07:52, והחפיפה בשורה נפרדת (ovl) בלי הוצאה משלה.
    שחר: אין גישה לשינוי, נשאר ברכישה. אמיר נוסף ללשונית (פעיל מ-05.11, נספר כאן מ-08.11 20:00 כמו שחר ורחל).
    הוצאה: "לפני" במפתח aff_<משווק>, "אחרי" במפתח aff_<משווק>_ic (הסדרה החדשה במנהל המודעות). */
 const AUD={start:new Date("2026-11-08T20:00:00"),day0:"2026-11-08",min:100,camps:[
  {code:"shahar",lbl:"שחר",aud:"קהל קר",copy:"p25_brain_c1",budget:20,from:"2026-11-08T20:00:00",day0:"2026-11-08",sw:null,noSwitch:"לא עבר (אין גישה לשינוי)"},
  {code:"rachel",lbl:"רחל",aud:"קהל חם",copy:"p25_brain_c1",budget:20,from:"2026-11-08T20:00:00",day0:"2026-11-08",sw:"2026-11-10T10:53:00",post:{aud:"קהל קר",budget:40}},
  {code:"amir",lbl:"אמיר",aud:"קהל חם",copy:["p25_brain_c1","p25_brain_c2"],budget:40,from:"2026-11-08T20:00:00",day0:"2026-11-08",sw:"2026-11-10T10:26:00"},
- {code:"gal",lbl:"גל",aud:"קהל קר",copy:"p25_brain_c3",budget:40,from:"2026-11-09T21:00:00",day0:"2026-11-09",sw:null},
+ {code:"gal",lbl:"גל",aud:"קהל קר",copy:"p25_brain_c3",budget:40,from:"2026-11-09T21:00:00",day0:"2026-11-09",sw:"2026-11-11T07:52:00",ovl:"2026-11-10T09:16:00",
+  ovlNote:"שתי הקבוצות רצו יחד (סדרת IC מ-10.11 09:16, הישנה כובתה 11.11 07:52). הכניסות כאן לא נספרות ב\"לפני\" ולא ב\"אחרי\", וההוצאה נשארת בשורות שלהן (aff_gal, aff_gal_ic). לפי utm_term, כל הכניסות בחלון הזה הגיעו מהסדרה החדשה"},
  {code:"yahel",lbl:"יהל",aud:"קהל קר",copy:"p25_brain_c3",budget:40,from:"2026-11-09T21:00:00",day0:"2026-11-09",sw:"2026-11-10T10:27:00"},
  /* ב86/ב87 (13.11): יוסף - קמפיין חדש להשוואה בין 2 סרטונים. הוצאה לפי מודעה במפתחות הסרטונים (ads); aff_yosef רק ביום בלי הוצאה לפי מודעה */
  {code:"yosef",lbl:"יוסף",aud:"קהל קר",copy:["p25_yosef","g12_0466_a_yosef"],budget:40,from:"2026-11-12T21:44:00",day0:"2026-11-12",sw:null,noSwitch:"מ-12.11 21:44",ph0:"השוואת 2 סרטונים",ads:["p25_yosef","g12_0466_a_yosef"]}]};
 AUD.camps.forEach(c=>c.fromT=new Date(c.from));
 /* מקטעים: לכל משווק "לפני" (מ-from עד sw) ו"אחרי" (מ-sw). בלי sw - רק "לפני", עד עכשיו */
 AUD.seg=[];AUD.camps.forEach(c=>{const swT=c.sw?new Date(c.sw):null,pre=Object.assign({},c,{key:c.code+"|pre",ph:"pre",phl:c.ph0||"לפני · רכישה",toT:swT,spk:"aff_"+c.code,sday:c.day0});
- AUD.seg.push(pre);if(swT)AUD.seg.push(Object.assign({},c,c.post||{},{key:c.code+"|post",ph:"post",phl:"אחרי · מעבר לתשלום",fromT:swT,toT:null,spk:"aff_"+c.code+"_ic",sday:dayKey(swT)}))});
+ const ovT=c.ovl?new Date(c.ovl):null;if(ovT)pre.toT=ovT;
+ AUD.seg.push(pre);if(ovT&&swT)AUD.seg.push(Object.assign({},c,{key:c.code+"|ovl",ph:"ovl",phl:"חפיפה · שתי הקבוצות",fromT:ovT,toT:swT,spk:null,nospend:true,note:c.ovlNote||""}));
+ if(swT)AUD.seg.push(Object.assign({},c,c.post||{},{key:c.code+"|post",ph:"post",phl:"אחרי · מעבר לתשלום",fromT:swT,toT:null,spk:"aff_"+c.code+"_ic",sday:dayKey(ovT||swT)}))});
 /* ב86 (12.11): מפתחות הוצאה נוספים לקמפיין שכבר קיים בטבלה. גל - סדרת IC, נספרת בשורה של גל עד שתימסר שעת המעבר; רחל - COLD_18, נספר בשורת "אחרי" שלה */
-const AUD_X=[{key:"gal|pre",spk:"aff_gal_ic",lbl:"גל",phl:"סדרת IC (מעבר לתשלום)",aud:"נספרת בשורה של גל עד שתימסר שעת המעבר"},{key:"rachel|post",spk:"aff_rachel_cold18",lbl:"רחל",phl:"קמפיין COLD_18",aud:"נספר בשורת \"אחרי\" של רחל"},{key:"rachel|post",spk:"aff_rachel_g12",lbl:"רחל",phl:"קמפיין G12",aud:"נספר בשורת \"אחרי\" של רחל"}];
+const AUD_X=[{key:"rachel|post",spk:"aff_rachel_cold18",lbl:"רחל",phl:"קמפיין COLD_18",aud:"נספר בשורת \"אחרי\" של רחל"},{key:"rachel|post",spk:"aff_rachel_g12",lbl:"רחל",phl:"קמפיין G12",aud:"נספר בשורת \"אחרי\" של רחל"}];
 const AUD_ADS=[];AUD.seg.forEach(g=>(g.ads||[]).forEach(a=>AUD_ADS.push({key:g.key,spk:a,lbl:g.lbl,phl:"מודעה "+a,aud:"הוצאה לפי מודעה (בלי aff_)"})));
 AUD_X.forEach(x=>{const g=AUD.seg.find(s=>s.key===x.key);if(g)(g.xspk=g.xspk||[]).push(x.spk)});
-function audSpend(g){const A=(g.ads||[]).map(x=>x.toLowerCase()),byD={},adD={};for(const k in cspend){const [d,cc]=k.split("|");if(!cc||d<g.sday)continue;const c=cc.toLowerCase();
+function audSpend(g){if(g.nospend)return null;const A=(g.ads||[]).map(x=>x.toLowerCase()),byD={},adD={};for(const k in cspend){const [d,cc]=k.split("|");if(!cc||d<g.sday)continue;const c=cc.toLowerCase();
   if(A.includes(c)){adD[d]=(adD[d]||0)+cspend[k]}else if(cc===g.spk||(g.xspk||[]).includes(cc)){byD[d]=(byD[d]||0)+cspend[k]}}
  for(const d in adD)byD[d]=adD[d]; /* ב86: ביום עם הוצאה לפי מודעה - רק סכום המודעות, כדי לא לספור פעמיים */
  const ds=Object.keys(byD);return ds.length?{t:ds.reduce((x,d)=>x+byD[d],0),days:ds.length}:null}
@@ -1141,7 +1145,7 @@ function audCopy(code){if(Array.isArray(code)){const L=code.map(audCopy);return 
 function renderAud(){const now=new Date(),keep=[fSrc,fDev,fOwn];fSrc="";fDev="";fOwn="";let M;try{M=build(AUD.start,new Date(+now+864e5))}finally{[fSrc,fDev,fOwn]=keep}
  const affOf=s=>(s.aff||(s.p&&s.p.get("aff"))||"").toLowerCase(), who=s=>s.vid||s.sid, arms=(EXP.arms||[]).slice();
  const lastRow=rows.length?rows[rows.length-1].t:null;
- const sel=$("audSpCamp"),OPT=AUD.seg.concat(AUD_X,AUD_ADS);if(sel.options.length!==OPT.length)sel.innerHTML=OPT.map(g=>'<option value="'+esc(g.spk)+'">'+esc(g.lbl+" · "+g.phl+" · "+g.aud)+'</option>').join("");
+ const sel=$("audSpCamp"),OPT=AUD.seg.filter(g=>g.spk).concat(AUD_X,AUD_ADS);if(sel.options.length!==OPT.length)sel.innerHTML=OPT.map(g=>'<option value="'+esc(g.spk)+'">'+esc(g.lbl+" · "+g.phl+" · "+g.aud)+'</option>').join("");
  if(!$("audSpDate").value)$("audSpDate").value=dayKey(new Date(+now-864e5));
  const F=()=>({ppl:new Set(),v:0,p1:new Set(),off:new Set(),chk:new Set(),deals:new Set(),cr:{}});
  const BS=new Map();M.buys.forEach(b=>{if(b.s)BS.set(b.s,(BS.get(b.s)||[]).concat(b))});
@@ -1155,11 +1159,11 @@ function renderAud(){const now=new Date(),keep=[fSrc,fDev,fOwn];fSrc="";fDev="";
  M.buys.forEach(b=>{if(b.s&&C&&AUD.seg.some(g=>C[g.key].deals.has(b.deal)))return;const o=segOf((b.aff||"").toLowerCase(),b.t);if(o)o.deals.add(b.deal)});
  const L=AUD.seg.map(g=>{const o=C[g.key];o.n=o.ppl.size;o.buy=o.deals.size;o.sp=audSpend(g);o.few=o.n<AUD.min;o.cp=audCopy(g.copy);return o});
  const cpCell=o=>'<span data-tip="'+esc(o.cp.text)+'">'+esc(o.cp.lbl)+'</span><small>'+esc(o.cp.code)+'</small>';
- const per=o=>o.c.ph==="post"?'מ-'+hm2(o.c.fromT):(o.c.toT?'עד '+hm2(o.c.toT):(o.c.noSwitch||'עוד לא עבר - השעה תימסר'));
+ const per=o=>o.c.ph==="ovl"?hm2(o.c.fromT)+' עד '+hm2(o.c.toT):o.c.ph==="post"?'מ-'+hm2(o.c.fromT):(o.c.toT?'עד '+hm2(o.c.toT):(o.c.noSwitch||'עוד לא עבר - השעה תימסר'));
  const nm=o=>'<b>'+esc(o.c.lbl)+'</b> · '+esc(o.c.aud)+'<br><span class="'+(o.c.ph==="post"?"tagp":"tagb")+'">'+esc(o.c.phl)+'</span> <small>'+per(o)+'</small><small>'+o.c.budget+' ₪ ליום · '+(o.first?'כניסה ראשונה '+hm2(o.first):'עוד אין כניסות')+'</small>'+(o.few?'<br><span class="na">מעט נתונים</span><small>'+fmt(o.n)+'/'+AUD.min+' כניסות</small>':'');
  const money=(v,why)=>v!=null?ils(v):noData(why);
  table($("audCamp"),["קמפיין","קופי","הוצאה","כניסות","עברו מסך ראשון","הגיעו להצעה","הגיעו לסליקה","רכישות","המרה","עלות לכניסה","עלות ללקוח משלם"],
-  L.map(o=>'<tr><td>'+nm(o)+'</td><td>'+cpCell(o)+'</td><td>'+(o.sp?ils(o.sp.t)+'<small>'+o.sp.days+' ימים</small>':noData("לא הוזנה הוצאה לקמפיין"))+'</td><td class="num">'+fmt(o.n)+'<small>'+fmt(o.v)+' ביקורים</small></td>'+cell(o.p1.size,o.n)+cell(o.off.size,o.n)+cell(o.chk.size,o.n)+'<td class="num">'+fmt(o.buy)+'</td>'+cell(o.buy,o.n)+'<td>'+money(o.sp&&o.n?o.sp.t/o.n:null,o.sp?"אין כניסות":"אין הוצאה")+'</td><td>'+money(o.sp&&o.buy?o.sp.t/o.buy:null,!o.buy?"אין רכישות":"אין הוצאה")+'</td></tr>'),"אין עדיין כניסות מהקמפיינים");
+  L.map(o=>'<tr><td>'+nm(o)+'</td><td>'+cpCell(o)+'</td><td>'+(o.c.ph==="ovl"?'<small>'+esc(o.c.note)+'</small>':o.sp?ils(o.sp.t)+'<small>'+o.sp.days+' ימים</small>':noData("לא הוזנה הוצאה לקמפיין"))+'</td><td class="num">'+fmt(o.n)+'<small>'+fmt(o.v)+' ביקורים</small></td>'+cell(o.p1.size,o.n)+cell(o.off.size,o.n)+cell(o.chk.size,o.n)+'<td class="num">'+fmt(o.buy)+'</td>'+cell(o.buy,o.n)+'<td>'+money(o.sp&&o.n?o.sp.t/o.n:null,o.sp?"אין כניסות":"אין הוצאה")+'</td><td>'+money(o.sp&&o.buy?o.sp.t/o.buy:null,!o.buy?"אין רכישות":"אין הוצאה")+'</td></tr>'),"אין עדיין כניסות מהקמפיינים");
  const pages=arms.concat(L.some(o=>o.pg.__other)?["__other"]:[]), pl=v=>v==="__other"?"דפים אחרים":esc(VLBL[v]||v);
  const rowsP=[];L.forEach(o=>pages.forEach(v=>{const P=o.pg[v];if(!P)return;const n=P.ppl.size;rowsP.push('<tr><td>'+esc(o.c.lbl)+' · '+esc(o.c.phl)+' · '+esc(o.c.aud)+(P.ppl.size<AUD.min?' <span class="na">מעט נתונים</span>':'')+'</td><td>'+cpCell(o)+'</td><td>'+(v==="__other"?"":'<i class="sw" style="background:'+(VCOL[v]||"var(--line)")+'"></i>')+pl(v)+'</td><td class="num">'+fmt(n)+'</td>'+cell(P.p1.size,n)+cell(P.off.size,n)+cell(P.chk.size,n)+'<td class="num">'+fmt(P.deals.size)+'</td>'+cell(P.deals.size,n)+'</tr>')}));
  table($("audPage"),["קמפיין","קופי","דף","כניסות","עברו מסך ראשון","הגיעו להצעה","הגיעו לסליקה","רכישות","המרה"],rowsP,"אין עדיין כניסות מהקמפיינים");
