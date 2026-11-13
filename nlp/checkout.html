@@ -176,6 +176,17 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 .paylogos .pl-h{margin:3px 0 0;font-size:13px;line-height:1.4;font-weight:600;opacity:.9}
 .paylogos .pl-h[hidden]{display:none}
 </style>
+<style>/* ב89 המשך: Apple Pay ו-Google Pay בראש דף התשלום */
+.walltop{margin:14px auto 2px;text-align:center}
+.walltop .wt-row{display:flex;justify-content:center;align-items:center;gap:14px;direction:rtl}
+.walltop .wt-b{display:block;padding:0;margin:0;border:0;background:none;cursor:pointer;line-height:0;border-radius:10px;-webkit-tap-highlight-color:transparent}
+.walltop .wt-b:focus-visible{outline:3px solid var(--gold2);outline-offset:3px}
+.walltop .wt-b img{display:block;height:44px;width:auto}
+.walltop .wt-t{margin:10px 0 0;font-size:15px;line-height:1.45;font-weight:600;color:var(--ink2)}
+.walltop .wt-h{margin:0;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:#F4F6F8;font-size:15px;line-height:1.45;font-weight:600;color:var(--ink2)}
+.walltop [hidden]{display:none}
+.fld input.wt-flash{outline:3px solid var(--gold2);outline-offset:1px;box-shadow:0 0 0 6px rgba(201,169,110,.28);transition:box-shadow .3s}
+</style>
 </head>
 <body>
 <main class="wrap">
@@ -184,6 +195,8 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 <section class="top">
 <h1>השלמת הרכישה</h1>
 <p class="what">עוד רגע זה שלך. לאחר אישור התשלום תקבל גישה מיידית לקורס ולכל הבונוסים.</p>
+<div class="walltop" id="wallTop"><div class="wt-row" id="wtRow"><button type="button" class="wt-b" data-w="apple" aria-label="תשלום ב-Apple Pay: מתחילים בשם, מייל וטלפון"><img src="assets/pay/apple-pay-mark.svg" alt="Apple Pay" width="69" height="44" decoding="async"></button><button type="button" class="wt-b" data-w="google" aria-label="תשלום ב-Google Pay: מתחילים בשם, מייל וטלפון"><img src="assets/pay/google-pay-mark.svg" alt="Google Pay" width="82" height="44" decoding="async"></button></div>
+<p class="wt-t" id="wtT">משלמים ב-<bdi>Apple Pay</bdi> או ב-<bdi>Google Pay</bdi> בלחיצה, אחרי שם, מייל וטלפון</p><p class="wt-h" id="wtH" hidden></p></div>
 </section>
 
 <section class="order" aria-label="ההזמנה שלך">
@@ -309,6 +322,7 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
     try{ const f=new URLSearchParams(Object.assign({ev, variant, sid, qs:location.search.slice(1), vid, dev, sec_on_page:Math.round((Date.now()-t0)/1000)}, extra||{}));
       if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT,f))) fetch(TRACK_ENDPOINT,{method:"POST",body:f,mode:"no-cors",keepalive:true}); }catch(e){}
   }
+  window.NLP_CO_TRACK=track; /* ב89 המשך: לחיצה על לוגו בראש הדף */
   /* ב79: בכשל תשלום נרשם קוד הדחייה של קארדקום (rc, מכתובת החזרה), ו-rep=1 אם זה רענון של אותו כשל (אותו דף תשלום), כדי לא לספור ניסיון פעמיים */
   if (qs.get("status")==="failed"){ const rc=(qs.get("ResponseCode")||"").replace(/\D/g,"").slice(0,10); let rep=0;
     try{ const lp=sessionStorage.getItem("cc_lp")||""; if(lp){ if(sessionStorage.getItem("cc_failseen")===lp) rep=1; else sessionStorage.setItem("cc_failseen",lp); } }catch(e){}
@@ -483,6 +497,20 @@ var els=document.querySelectorAll("[data-paylogos]");for(var i=0;i<els.length;i+
  var hint=!inapp||!/^co_/.test(el.getAttribute("data-paylogos")||"")?"":ios?"ל-⁦Apple Pay⁩: לחצו על שלוש הנקודות למעלה ופתחו בספארי":and?"ל-⁦Google Pay⁩: לחצו על שלוש הנקודות למעלה ופתחו בכרום":"";
  if(hint){h.textContent=hint;h.hidden=false}
  el.setAttribute("data-inapp",inapp?"1":"0")}
+})();</script>
+<script>/* ב89 המשך: Apple Pay ו-Google Pay בראש הדף. לחיצה = גלילה לשדה השם וסימון. בדפדפן פנימי - הרמז במקום הלוגואים */
+(function(){var W=document.getElementById("wallTop");if(!W)return;
+var ua=navigator.userAgent||"",inapp=/Instagram|FBAN|FBAV|FB_IAB|FBIOS|FB4A/i.test(ua),ios=/iPhone|iPad|iPod/i.test(ua)||(/Macintosh/i.test(ua)&&navigator.maxTouchPoints>1),and=/Android/i.test(ua);
+if(inapp){var hint=ios?"ל-\u2066Apple Pay\u2069: לחצו על שלוש הנקודות למעלה ופתחו בספארי":and?"ל-\u2066Google Pay\u2069: לחצו על שלוש הנקודות למעלה ופתחו בכרום":"";
+ document.getElementById("wtRow").hidden=true;document.getElementById("wtT").hidden=true;
+ var h=document.getElementById("wtH");if(hint){h.textContent=hint;h.hidden=false}else W.hidden=true;
+ var L=document.querySelectorAll(".paylogos .pl-h");for(var i=0;i<L.length;i++)L[i].hidden=true; /* הרמז רק פעם אחת, בראש הדף */
+ return}
+var B=W.querySelectorAll(".wt-b");for(var j=0;j<B.length;j++)B[j].addEventListener("click",function(){var w=this.getAttribute("data-w"),f=document.getElementById("fName");
+ try{if(window.NLP_CO_TRACK)NLP_CO_TRACK("checkout_wallet_tap",{x:"w="+w})}catch(e){}
+ if(!f)return;try{f.scrollIntoView({behavior:"smooth",block:"center"})}catch(e){f.scrollIntoView()}
+ try{f.focus({preventScroll:true})}catch(e){f.focus()}
+ f.classList.add("wt-flash");setTimeout(function(){f.classList.remove("wt-flash")},1800)});
 })();</script>
 </body>
 </html>
