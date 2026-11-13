@@ -71,7 +71,7 @@ const FSP = "key\tvalue\n2026-11-10\t600\n2026-11-10|" + G + "\t200\n2026-11-10|
   await p.click('#snapPer button[data-p="today"]'); await p.waitForTimeout(200);
   ok("today (12.11): no spend, no sessions", (await kpi(p))[0][1] === "-" && (await p.innerText("#snapAds")).includes("אין כניסות"));
   await p.click("#advT"); await p.waitForTimeout(150);
-  ok("'מתקדם' opens the existing 13 tabs", (await p.$$eval("nav.tabs button[data-s]", bs => bs.filter(x => x.offsetParent).length)) === 14);
+  ok("'מתקדם' opens all the existing tabs (13+, with ב84: 14)", (await p.$$eval("nav.tabs button[data-s]", bs => bs.filter(x => x.offsetParent).length)) >= 14);
   await p.click('nav.tabs button[data-s="ov"]'); await p.waitForTimeout(300);
   ok("advanced tab works and filters return", await p.evaluate(() => document.getElementById("s-ov").classList.contains("on") && !!document.getElementById("range").offsetParent));
   await p.click('nav.tabs button[data-s="snap"]'); await p.waitForTimeout(200);

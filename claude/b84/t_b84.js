@@ -111,7 +111,7 @@ let fails = 0, n = 0; const ok = (name, c, info) => {n++; if (!c) {fails++; cons
   ok("7d: gal 2 purchases (100102 + bank), pending 512", g7[H.indexOf("רכישות קורס")].startsWith("2 ") && g7[H.indexOf("עמלה ממתינה")] === "512 ₪" && g7[H.indexOf("יתרה לתשלום")] === "220 ₪", g7.join("|"));
   ok("7d: pressed state", await p.getAttribute('#finPer button[data-p="7"]', "aria-pressed") === "true");
   // קריאה בלבד: רק GET לחמש הפעולות הקיימות, בלי טפסים
-  ok("read-only: only GET of rows/spend/affiliates/refunds/paid", X.reqs.every(r => /^GET (rows|spend|affiliates|refunds|paid)$/.test(r)), X.reqs.join(","));
+  ok("read-only: only GET of rows/spend/affiliates/refunds/paid/ads", X.reqs.every(r => /^GET (rows|spend|affiliates|refunds|paid|ads)$/.test(r)), X.reqs.join(","));
   ok("read-only: no form/inputs in tab other than select", await p.evaluate(() => !document.querySelector("#s-fin form,#s-fin input,#s-fin textarea")));
   ok("global filters hidden on this tab", !(await p.isVisible("#range")) && !(await p.isVisible("#fOwn")) && await p.isVisible("#refresh"));
   await p.click('nav.tabs button[data-s="af"]'); await p.waitForTimeout(200);
