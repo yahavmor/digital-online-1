@@ -203,9 +203,9 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 </section>
 
 <section class="pay" id="paySec" aria-label="תשלום" hidden>
-<div class="err" id="err" role="alert"><b>נראה שהתשלום לא עבר</b>הכול בסדר - לא בוצע חיוב. <b class="wal">התשלום בארנק (Apple Pay / Google Pay) לא עבר? הקלידו את פרטי הכרטיס בטופס למטה.</b>אפשר לנסות שוב עם אותו הכרטיס או עם כרטיס אחר.</div>
+<div class="err" id="err" role="alert"><b>נראה שהתשלום לא עבר</b>הכול בסדר - לא בוצע חיוב. אפשר לנסות שוב עם אותו הכרטיס או עם כרטיס אחר.</div>
 <p class="paytitle">פרטי תשלום<span>🔒 התשלום מאובטח באמצעות Cardcom</span></p>
-<p class="walnote" id="walNote">כרגע Apple Pay ו-Google Pay לא זמינים. אפשר לשלם בכרטיס אשראי כרגיל.</p><!-- ב41: הודעה זמנית בגרסאות A ו-B. להסיר כשכאל מסיימים את המעבר למסוף אינטרנטי -->
+<!-- ב41: ההודעה הזמנית על Apple Pay ו-Google Pay הוסרה אחרי שכאל השלימו את המעבר למסוף אינטרנטי -->
 <div class="bitwrap" id="bitWrap" hidden><a class="bitbtn" id="bitBtn" href="#" rel="noopener">תשלום בביט</a><span class="bitor">או</span></div><!-- ביט: מעל טופס הכרטיס, כדי שייראה בלי לגלול; רק אחרי סימון התיבה ורק כש-7827398 מחזיר bit_url -->
 <div class="frame">
 <div class="cohold" id="coHold"><div class="cf"><b>מספר כרטיס</b><i></i></div><div class="row2"><div class="cf"><b>תוקף</b><i></i></div><div class="cf"><b>3 ספרות</b><i></i></div></div><button class="go" type="button" id="coPay">לתשלום מאובטח - 297 ₪</button><p class="note">נפתח ברגע שממלאים את שלושת הפרטים</p></div>
@@ -280,9 +280,7 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
   if (SUPPORT_WA && qs.get("status") === "failed"){ $("help").hidden = false; $("helpLink").href = "https://wa.me/" + SUPPORT_WA; }
   if (PRIVACY_URL){ $("terms").hidden=false; if (TERMS_URL){ $("termsLink").href=TERMS_URL; $("privLink").href=PRIVACY_URL; } else { $("terms").innerHTML='הפרטים משמשים לביצוע הרכישה, לחשבונית ולגישה לקורס. <a href="'+PRIVACY_URL+'" target="_blank" rel="noopener">מדיניות הפרטיות</a>'; } }
   if (qs.get("status") === "failed") $("err").classList.add("on");
-  /* ב62 (תיקון 06.11): דחייה 60000303 = כשל Apple Pay / Google Pay בכל חברות הכרטיסים (מקור עסקה 11). כרטיס שמוקלד ידנית עובר. הודעה מדויקת במקום ההודעה הכללית. זהה ב-A וב-B */
-  if (qs.get("status") === "failed" && qs.get("ResponseCode") === "60000303"){ const er=$("err"); er.textContent=""; const t=document.createElement("b"); t.textContent="נראה שהתשלום לא עבר"; er.appendChild(t);
-    er.append("הכול בסדר - לא בוצע חיוב. התשלום ב-Apple Pay או Google Pay לא עובר אצלנו כרגע. הקלידו את פרטי הכרטיס בטופס למטה, כל הכרטיסים עובדים."); }
+  /* ב62: הנוסח המיוחד לדחייה 60000303 (כשל ארנק) הוסר יחד עם ב41 - דחייה כזו מקבלת את הודעת הכשל הכללית */
   const t0 = Date.now(); let vid=""; try{ vid=localStorage.getItem("nlp_vid")||""; }catch(e){} let INT=false; try{ const ls=localStorage; if(/test|claude|internal/i.test(location.search)) ls.setItem("nlp_int","1"); INT=ls.getItem("nlp_int")==="1"; if(INT&&window.clarity) clarity("set","internal","1"); }catch(e){} try{ if(window.clarity&&vid){ clarity("identify",vid); clarity("set","vid",vid); } }catch(e){}
   const ua=navigator.userAgent||"", os=/iPhone|iPad|iPod/.test(ua)?"ios":/Android/.test(ua)?"android":/Windows/.test(ua)?"win":/Mac OS X/.test(ua)?"mac":"other", app=/Instagram/.test(ua)?"ig":/FBAN|FBAV|FB_IAB/.test(ua)?"fb":"web";
   const dev=(/Mobi|Android|iPhone|iPod/.test(ua)||(innerWidth<760)?"m":"d")+"-"+os+"-"+app;
