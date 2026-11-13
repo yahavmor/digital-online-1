@@ -62,13 +62,13 @@ const ok = (c, m) => { if (c) pass++; else { fail++; console.log('FAIL', m); } }
   {
     const { r } = await probe('checkout.html', 'ig_ios');
     const v = Object.fromEntries(r.map(x => [x.where, x]));
-    ok(!v.co_pay.apple && !v.co_pay.google && v.co_pay.h === 'ל-Apple Pay: לחצו על שלוש הנקודות למעלה ופתחו בספארי', 'checkout IG hint ' + v.co_pay.h);
+    ok(!v.co_pay.apple && !v.co_pay.google && v.co_pay.h === '' /* ב89 המשך: הרמז עבר לראש הדף (t_walltop.js) */, 'checkout IG hint ' + v.co_pay.h);
     const { r: ra } = await probe('checkout.html', 'ig_and');
     const va = Object.fromEntries(ra.map(x => [x.where, x]));
-    ok(!va.co_pay.apple && !va.co_pay.google && va.co_pay.h === 'ל-Google Pay: לחצו על שלוש הנקודות למעלה ופתחו בכרום', 'checkout IG android hint ' + va.co_pay.h);
+    ok(!va.co_pay.apple && !va.co_pay.google && va.co_pay.h === '' /* ב89 המשך: הרמז עבר לראש הדף (t_walltop.js) */, 'checkout IG android hint ' + va.co_pay.h);
     const { r: rf } = await probe('checkout.html', 'fb_ios', '?co=a');
     const vf = Object.fromEntries(rf.map(x => [x.where, x]));
-    ok(vf.co_det.shown && !vf.co_det.apple && vf.co_det.h === 'ל-Apple Pay: לחצו על שלוש הנקודות למעלה ופתחו בספארי', 'checkout A FB hint ' + vf.co_det.h);
+    ok(vf.co_det.shown && !vf.co_det.apple && vf.co_det.h === '' /* ב89 המשך: הרמז עבר לראש הדף (t_walltop.js) */, 'checkout A FB hint ' + vf.co_det.h);
   }
   {
     const { r } = await probe('checkout_bit.html', 'safari');

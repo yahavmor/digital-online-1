@@ -58,3 +58,18 @@
 python3 claude/b89/patch_paylogos.py nlp /tmp/b89 && cp /tmp/b89/*.html nlp/ && mkdir -p nlp/assets/pay && cp /tmp/b89/assets/pay/*.svg nlp/assets/pay/
 ```
 המקור: checkout a33b536709817d11, a5v6 1f33d3d0c7085d96, pr2 a14f6772eff99148. אם הדף השתנה ב-main, הסקריפט נעצר על assert.
+
+## ב89 המשך - Apple Pay ו-Google Pay בראש דף התשלום (בקשת יהב, ראשי 13.11). מקומי, פריסה רק אחרי "מאשר"
+- `patch_walltop.py <checkout.html> <out>` רץ על דף התשלום החי (5227dd4c5723002d). התוצאה: checkout deca20bf1391a9d9.
+- **בראש הדף, בשתי הגרסאות (החלק המשותף לפני "ההזמנה"):**
+  - Apple Pay ו-Google Pay בגובה 44px, ו-Apple Pay מימין.
+  - מתחתם: "משלמים ב-Apple Pay או ב-Google Pay בלחיצה, אחרי שם, מייל וטלפון".
+- **לחיצה על לוגו:**
+  - גוללת לשדה "שם מלא", נותנת לו פוקוס ומסמנת אותו בזהב לשנייה וחצי.
+  - נרשם אירוע checkout_wallet_tap (x=w=apple/google), דרך track של הדף (window.NLP_CO_TRACK).
+- **בדפדפן של אינסטגרם ופייסבוק:**
+  - במקום הלוגואים והטקסט מופיע הרמז הקיים (שלוש הנקודות, ספארי או כרום).
+  - הרמז הוסר מהשורה התחתונה, כדי שלא יופיע פעמיים.
+- **ביט:** לא בבלוק הזה עד שיאומת.
+- **בדיקות:** `node t_walltop.js` 44/44, ו-`node t_paylogos.js` 58/58 (שלוש ציפיות עודכנו כי הרמז עבר לראש הדף).
+- **צילומים:** shots/wt_*.png.
