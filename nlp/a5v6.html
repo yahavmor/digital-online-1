@@ -845,6 +845,16 @@ html .sticky a.cta{background:#18845A;box-shadow:0 10px 26px rgba(24,132,90,.34)
 body a.cta.v6shk{animation:v6shk .72s cubic-bezier(.36,.07,.19,.97) 1}
 @media (prefers-reduced-motion:reduce){body a.cta.v6shk{animation:none}}
 </style>
+<style>/* ב89: שורת אמצעי תשלום. גבהים שווים, Apple Pay ראשון (מימין), רווח של 8px לפחות סביב כל סימן */
+.paylogos{margin:10px auto 0;text-align:center;max-width:420px}
+.paylogos .pl-row{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none;direction:rtl}
+.paylogos .pl-row li{display:block;line-height:0}
+.paylogos .pl-row li[hidden]{display:none}
+.paylogos img{display:block;height:26px;width:auto}
+.paylogos .pl-t{margin:6px 0 0;font-size:13.5px;line-height:1.4;font-weight:500;opacity:.78}
+.paylogos .pl-h{margin:3px 0 0;font-size:13px;line-height:1.4;font-weight:600;opacity:.9}
+.paylogos .pl-h[hidden]{display:none}
+</style>
 </head>
 <body>
 <div class="prog" id="prog" aria-hidden="true"><span id="progLbl"></span><i id="progFill"></i></div>
@@ -857,6 +867,7 @@ body a.cta.v6shk{animation:v6shk .72s cubic-bezier(.36,.07,.19,.97) 1}
 <h1 class="promise">זה האוטומט, לא אתה. <mark>המוח שלך מתוכנת לחפש מה חסר.</mark></h1>
 <p class="sub">במקום להמשיך להילחם בעצמך כדי להשתנות, תלמד איך להפוך את הפעולות שאתה כבר עושה בכל יום לכלי שמאמן את המוח שלך לחשוב, להרגיש ולפעול אחרת. בלי להוסיף זמן ללוח הזמנים שלך.</p>
 <a class="cta" data-cta="hero_main" data-checkout href="#"><span class="ct-t">כן, אני רוצה להתחיל עכשיו <span class="pgrp">ב-<s class="was">1,290</s> 297 ₪</span></span> <span>←</span><span class="v4-pay"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></a>
+<div class="paylogos" data-paylogos="hero"><ul class="pl-row" aria-hidden="true"><li data-pl="apple"><img src="assets/pay/apple-pay-mark.svg" alt="" width="41" height="26" decoding="async"></li><li data-pl="google"><img src="assets/pay/google-pay-mark.svg" alt="" width="49" height="26" decoding="async"></li><li data-pl="bit" hidden><img src="assets/pay/bit-mark.svg" alt="" width="41" height="26" decoding="async"></li><li data-pl="card"><img src="assets/pay/card.svg" alt="" width="41" height="26" decoding="async"></li></ul><p class="pl-t">אפשר לשלם ב-<bdi>Apple Pay</bdi>, <bdi>Google Pay</bdi> או אשראי</p><p class="pl-h" hidden></p></div>
 <p class="cta-micro"><b class="launch">מחיר השקה לזמן מוגבל</b> · גישה מיידית לקורס ולבונוסים · החזר מלא תוך 7 ימים</p>
 <p class="cta-bonus">כולל 5 בונוסים: 2 קורסים מוקלטים ו-3 ערכות עבודה</p>
 <ul class="ident">
@@ -1031,6 +1042,7 @@ body a.cta.v6shk{animation:v6shk .72s cubic-bezier(.36,.07,.19,.97) 1}
 <section id="offer" data-sec="13" data-name="ההצעה" data-buyzone data-stage="offer"><div class="wrap stack">
 <h2>כל מה שאתה צריך כדי שהשנה הבאה שלך תיראה אחרת.</h2>
 <div class="v4-ko"><ul class="v4-ko-list"><li><span>קורס הליבה "לנצח את האוטומט"</span><b>1,290 ₪</b></li><li><span>קורס מוקלט "ממחשבה לביצוע"</span><b>397 ₪</b></li><li><span>קורס מוקלט "כוחה של השפעה"</span><b>497 ₪</b></li><li><span>מחברת העבודה "אתגר 30 הימים"</span><b>79 ₪</b></li><li><span>ערכת התבניות "היום המנצח שלי"</span><b>59 ₪</b></li><li><span>המדריך "לדבר בביטחון ולהשפיע באמת"</span><b>89 ₪</b></li></ul><div class="v4-ko-tot"><span>שווי כולל:</span><b>2,411 ₪</b></div><div class="v4-ko-price"><p class="v4-ko-reg">מחיר כולל הבונוסים <s>2,411 ₪</s></p><p class="v4-ko-now"><span>מחיר השקה לזמן מוגבל</span> <b>297 ₪</b></p></div><a class="cta" data-cta="offer" data-checkout href="#"><span class="ct-t">כן, אני רוצה להתחיל עכשיו ב-297 ₪</span> <span>←</span><span class="v4-pay"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></a>
+<div class="paylogos" data-paylogos="offer"><ul class="pl-row" aria-hidden="true"><li data-pl="apple"><img src="assets/pay/apple-pay-mark.svg" alt="" width="41" height="26" loading="lazy" decoding="async"></li><li data-pl="google"><img src="assets/pay/google-pay-mark.svg" alt="" width="49" height="26" loading="lazy" decoding="async"></li><li data-pl="bit" hidden><img src="assets/pay/bit-mark.svg" alt="" width="41" height="26" loading="lazy" decoding="async"></li><li data-pl="card"><img src="assets/pay/card.svg" alt="" width="41" height="26" loading="lazy" decoding="async"></li></ul><p class="pl-t">אפשר לשלם ב-<bdi>Apple Pay</bdi>, <bdi>Google Pay</bdi> או אשראי</p><p class="pl-h" hidden></p></div>
 <p class="cta-micro">גישה מיידית לקורס ולבונוסים · החזר מלא תוך 7 ימים</p>
 <p class="cheap">פחות ממחיר של יציאה בערב. בשביל תהליך פרקטי שיכול לשנות את הדרך שבה אתה חי בכל יום. כי ערב אחד נגמר אחרי כמה שעות. אבל הכלים שתטמיע כאן נשארים איתך ומשפיעים לך על חוויה של חיים שלמים.</p></div>
 </div></section>
@@ -1294,5 +1306,19 @@ document.querySelectorAll("a.cta").forEach(function(b){io.observe(b);});})();</s
   var best=null,br=.9;inPage.forEach(function(b){var r=vis.get(b)||0;if(r>=br){br=r;best=b;}});
   if(best)shake(best);
   if(st&&sa&&st.classList.contains("on"))shake(sa);},2500);
-})();</script></body>
+})();</script><script>/* ב89: שורת אמצעי תשלום - ביט רק אחרי אימות, ובדפדפן פנימי של אינסטגרם/פייסבוק בלי Apple Pay ו-Google Pay */
+(function(){var PAYLOGO_BIT=false;
+var ua=navigator.userAgent||"",inapp=/Instagram|FBAN|FBAV|FB_IAB|FBIOS|FB4A|FBAN\/Messenger/i.test(ua),ios=/iPhone|iPad|iPod/i.test(ua)||(/Macintosh/i.test(ua)&&navigator.maxTouchPoints>1),and=/Android/i.test(ua);
+var els=document.querySelectorAll("[data-paylogos]");for(var i=0;i<els.length;i++){var el=els[i],p=[];
+ function show(k,on){var li=el.querySelector('[data-pl="'+k+'"]');if(li)li.hidden=!on}
+ show("apple",!inapp);show("google",!inapp);show("bit",PAYLOGO_BIT);
+ if(!inapp){p.push("⁦Apple Pay⁩","⁦Google Pay⁩")} /* בידוד כיווניות, כדי שהשמות באנגלית לא יהפכו את סדר המשפט */if(PAYLOGO_BIT)p.push("ביט");
+ var t=el.querySelector(".pl-t"),h=el.querySelector(".pl-h");
+ t.textContent=inapp?(PAYLOGO_BIT?"אפשר לשלם בביט או באשראי":"אפשר לשלם באשראי"):"אפשר לשלם ב-"+p.join(", ")+" או אשראי";
+ /* ב89 (מאשר ב89 - פריסה): רמז רק בדף התשלום (co_*), ורק באייפון/אנדרואיד. בדפי המכירה רק מסתירים */
+ var hint=!inapp||!/^co_/.test(el.getAttribute("data-paylogos")||"")?"":ios?"ל-⁦Apple Pay⁩: לחצו על שלוש הנקודות למעלה ופתחו בספארי":and?"ל-⁦Google Pay⁩: לחצו על שלוש הנקודות למעלה ופתחו בכרום":"";
+ if(hint){h.textContent=hint;h.hidden=false}
+ el.setAttribute("data-inapp",inapp?"1":"0")}
+})();</script>
+</body>
 </html>

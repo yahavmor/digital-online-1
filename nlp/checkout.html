@@ -156,12 +156,25 @@ html[data-co="b"] .frame.wait .cohold{display:block;padding:18px 16px 20px}
 .cohold .cf i{display:block;height:46px;border:1px solid var(--line);border-radius:10px;background:#F4F2EE}
 .cohold .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .cohold .go{margin-top:4px}
+html[data-co="b"] #det .paylogos,html:not([data-co="b"]) #paySec .paylogos{display:none} /* ב89: ב' בראש "פרטי תשלום", א' מעל כפתור ההמשך */
+#paySec .paylogos{margin:0 auto 12px}
+#det .paylogos{margin:4px auto 12px}
 .cohold .note{margin:12px 0 0;text-align:center;font-size:15px;font-weight:600;color:var(--ink2)}
 </style>
 <style>/* 1,290 מחוק ליד 297 (19.10) */
 s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;white-space:nowrap}
 .pgrp{white-space:nowrap}
 .price s.was{font-size:22px;font-weight:700}
+</style>
+<style>/* ב89: שורת אמצעי תשלום. גבהים שווים, Apple Pay ראשון (מימין), רווח של 8px לפחות סביב כל סימן */
+.paylogos{margin:10px auto 0;text-align:center;max-width:420px}
+.paylogos .pl-row{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none;direction:rtl}
+.paylogos .pl-row li{display:block;line-height:0}
+.paylogos .pl-row li[hidden]{display:none}
+.paylogos img{display:block;height:26px;width:auto}
+.paylogos .pl-t{margin:6px 0 0;font-size:13.5px;line-height:1.4;font-weight:500;opacity:.78}
+.paylogos .pl-h{margin:3px 0 0;font-size:13px;line-height:1.4;font-weight:600;opacity:.9}
+.paylogos .pl-h[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -198,6 +211,7 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 <p class="terr" id="terr" role="alert"></p>
 <p class="ferr" id="ferr" role="alert"></p>
 <p class="cohint" id="coHint">ממלאים את שלושת הפרטים, וטופס התשלום המאובטח נפתח כאן מתחת</p>
+<div class="paylogos" data-paylogos="co_det"><ul class="pl-row" aria-hidden="true"><li data-pl="apple"><img src="assets/pay/apple-pay-mark.svg" alt="" width="41" height="26" decoding="async"></li><li data-pl="google"><img src="assets/pay/google-pay-mark.svg" alt="" width="49" height="26" decoding="async"></li><li data-pl="bit" hidden><img src="assets/pay/bit-mark.svg" alt="" width="41" height="26" decoding="async"></li><li data-pl="card"><img src="assets/pay/card.svg" alt="" width="41" height="26" decoding="async"></li></ul><p class="pl-t">אפשר לשלם ב-<bdi>Apple Pay</bdi>, <bdi>Google Pay</bdi> או אשראי</p><p class="pl-h" hidden></p></div>
 <button class="go" type="submit"><span>המשך לתשלום מאובטח - <span class="pgrp">297 ₪</span></span></button>
 </form>
 </section>
@@ -205,6 +219,7 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 <section class="pay" id="paySec" aria-label="תשלום" hidden>
 <div class="err" id="err" role="alert"><b>נראה שהתשלום לא עבר</b>הכול בסדר - לא בוצע חיוב. אפשר לנסות שוב עם אותו הכרטיס או עם כרטיס אחר.</div>
 <p class="paytitle">פרטי תשלום<span>🔒 התשלום מאובטח באמצעות Cardcom</span></p>
+<div class="paylogos" data-paylogos="co_pay"><ul class="pl-row" aria-hidden="true"><li data-pl="apple"><img src="assets/pay/apple-pay-mark.svg" alt="" width="41" height="26" decoding="async"></li><li data-pl="google"><img src="assets/pay/google-pay-mark.svg" alt="" width="49" height="26" decoding="async"></li><li data-pl="bit" hidden><img src="assets/pay/bit-mark.svg" alt="" width="41" height="26" decoding="async"></li><li data-pl="card"><img src="assets/pay/card.svg" alt="" width="41" height="26" decoding="async"></li></ul><p class="pl-t">אפשר לשלם ב-<bdi>Apple Pay</bdi>, <bdi>Google Pay</bdi> או אשראי</p><p class="pl-h" hidden></p></div>
 <!-- ב41: ההודעה הזמנית על Apple Pay ו-Google Pay הוסרה אחרי שכאל השלימו את המעבר למסוף אינטרנטי -->
 <div class="bitwrap" id="bitWrap" hidden><a class="bitbtn" id="bitBtn" href="#" rel="noopener">תשלום בביט</a><span class="bitor">או</span></div><!-- ביט: מעל טופס הכרטיס, כדי שייראה בלי לגלול; רק אחרי סימון התיבה ורק כש-7827398 מחזיר bit_url -->
 <div class="frame">
@@ -455,5 +470,19 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
   $("tFoot").addEventListener("click", () => track("checkout_terms_open", {name:"footer"}));
 })();
 </script>
+<script>/* ב89: שורת אמצעי תשלום - ביט רק אחרי אימות, ובדפדפן פנימי של אינסטגרם/פייסבוק בלי Apple Pay ו-Google Pay */
+(function(){var PAYLOGO_BIT=false;
+var ua=navigator.userAgent||"",inapp=/Instagram|FBAN|FBAV|FB_IAB|FBIOS|FB4A|FBAN\/Messenger/i.test(ua),ios=/iPhone|iPad|iPod/i.test(ua)||(/Macintosh/i.test(ua)&&navigator.maxTouchPoints>1),and=/Android/i.test(ua);
+var els=document.querySelectorAll("[data-paylogos]");for(var i=0;i<els.length;i++){var el=els[i],p=[];
+ function show(k,on){var li=el.querySelector('[data-pl="'+k+'"]');if(li)li.hidden=!on}
+ show("apple",!inapp);show("google",!inapp);show("bit",PAYLOGO_BIT);
+ if(!inapp){p.push("⁦Apple Pay⁩","⁦Google Pay⁩")} /* בידוד כיווניות, כדי שהשמות באנגלית לא יהפכו את סדר המשפט */if(PAYLOGO_BIT)p.push("ביט");
+ var t=el.querySelector(".pl-t"),h=el.querySelector(".pl-h");
+ t.textContent=inapp?(PAYLOGO_BIT?"אפשר לשלם בביט או באשראי":"אפשר לשלם באשראי"):"אפשר לשלם ב-"+p.join(", ")+" או אשראי";
+ /* ב89 (מאשר ב89 - פריסה): רמז רק בדף התשלום (co_*), ורק באייפון/אנדרואיד. בדפי המכירה רק מסתירים */
+ var hint=!inapp||!/^co_/.test(el.getAttribute("data-paylogos")||"")?"":ios?"ל-⁦Apple Pay⁩: לחצו על שלוש הנקודות למעלה ופתחו בספארי":and?"ל-⁦Google Pay⁩: לחצו על שלוש הנקודות למעלה ופתחו בכרום":"";
+ if(hint){h.textContent=hint;h.hidden=false}
+ el.setAttribute("data-inapp",inapp?"1":"0")}
+})();</script>
 </body>
 </html>

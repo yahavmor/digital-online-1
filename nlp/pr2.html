@@ -324,6 +324,16 @@ html.review [data-new]{outline:2px dashed var(--gold);outline-offset:6px;border-
 html.review [data-new]::before{content:attr(data-new);position:absolute;top:-14px;inset-inline-start:10px;z-index:2;padding:2px 10px;border-radius:999px;background:var(--gold);color:#0B1220;font:800 12px/1.6 Heebo,sans-serif;white-space:nowrap}
 @media print{html.rvjs .rv:not(.in){opacity:1;transform:none}.sticky,.prog{display:none}}
 </style>
+<style>/* ב89: שורת אמצעי תשלום. גבהים שווים, Apple Pay ראשון (מימין), רווח של 8px לפחות סביב כל סימן */
+.paylogos{margin:10px auto 0;text-align:center;max-width:420px}
+.paylogos .pl-row{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none;direction:rtl}
+.paylogos .pl-row li{display:block;line-height:0}
+.paylogos .pl-row li[hidden]{display:none}
+.paylogos img{display:block;height:26px;width:auto}
+.paylogos .pl-t{margin:6px 0 0;font-size:13.5px;line-height:1.4;font-weight:500;opacity:.78}
+.paylogos .pl-h{margin:3px 0 0;font-size:13px;line-height:1.4;font-weight:600;opacity:.9}
+.paylogos .pl-h[hidden]{display:none}
+</style>
 </head>
 <body>
 <script>/* ב23: בלי פיקסל לסריקות Meta (חתימת app_id 256281040558 ב-fbclid, כמו ב-7798267), לקישורי בדיקה ולדפדפן הפנימי */(function(){try{var s=location.search,off=/yNTYyODEwNDA1N|MjU2MjgxMDQwNT|I1NjI4MTA0MDU1|claude|test|nocache|internal/i.test(s);try{off=off||localStorage.getItem("nlp_int")==="1"}catch(e){}window.__noPix=off;if(off)return}catch(e){}
@@ -350,6 +360,7 @@ html.review [data-new]::before{content:attr(data-new);position:absolute;top:-14p
   <span class="launch">מחיר השקה לזמן מוגבל</span>
   <div class="price" aria-label="מחיר: 297 ש״ח במקום 1,290 ש״ח"><s>1,290 ₪</s><b>297 <small>₪</small></b></div>
   <a class="cta" data-cta="hero_main" data-checkout href="checkout.html">אני רוצה ללמוד איך לצאת מהאוטומט <span class="ar" aria-hidden="true">←</span></a>
+  <div class="paylogos" data-paylogos="hero"><ul class="pl-row" aria-hidden="true"><li data-pl="apple"><img src="assets/pay/apple-pay-mark.svg" alt="" width="41" height="26" decoding="async"></li><li data-pl="google"><img src="assets/pay/google-pay-mark.svg" alt="" width="49" height="26" decoding="async"></li><li data-pl="bit" hidden><img src="assets/pay/bit-mark.svg" alt="" width="41" height="26" decoding="async"></li><li data-pl="card"><img src="assets/pay/card.svg" alt="" width="41" height="26" decoding="async"></li></ul><p class="pl-t">אפשר לשלם ב-<bdi>Apple Pay</bdi>, <bdi>Google Pay</bdi> או אשראי</p><p class="pl-h" hidden></p></div>
   <div class="chips" aria-label="מה בתוכנית"><span>90 שיעורים קצרים</span><span>30 ימי הטמעה (בונוס 3)</span><span>5 בונוסים</span></div>
   <p class="micro">גישה דיגיטלית לאחר הרכישה • תשלום מאובטח • תנאי החזר ברורים</p>
  </div>
@@ -472,6 +483,7 @@ html.review [data-new]::before{content:attr(data-new);position:absolute;top:-14p
    <div class="price" style="margin-top:10px" aria-label="מחיר: 297 ש״ח במקום 1,290 ש״ח"><s>1,290 ₪</s><b>297 <small>₪</small></b></div>
   </div>
   <a class="cta" data-cta="offer" data-checkout href="checkout.html">כן, אני רוצה להצטרף עכשיו - 297 ₪ <span class="ar" aria-hidden="true">←</span></a>
+  <div class="paylogos" data-paylogos="offer"><ul class="pl-row" aria-hidden="true"><li data-pl="apple"><img src="assets/pay/apple-pay-mark.svg" alt="" width="41" height="26" loading="lazy" decoding="async"></li><li data-pl="google"><img src="assets/pay/google-pay-mark.svg" alt="" width="49" height="26" loading="lazy" decoding="async"></li><li data-pl="bit" hidden><img src="assets/pay/bit-mark.svg" alt="" width="41" height="26" loading="lazy" decoding="async"></li><li data-pl="card"><img src="assets/pay/card.svg" alt="" width="41" height="26" loading="lazy" decoding="async"></li></ul><p class="pl-t">אפשר לשלם ב-<bdi>Apple Pay</bdi>, <bdi>Google Pay</bdi> או אשראי</p><p class="pl-h" hidden></p></div>
   <ul class="terms"><li>🔒 תשלום מאובטח</li><li>גישה דיגיטלית מיידית ל-12 חודשים</li><li>7 ימי אחריות עם החזר מלא, לפי התנאים בשאלות למטה</li></ul>
  </div>
 </div></section>
@@ -667,5 +679,19 @@ var vf=document.getElementById("vid");if(vf){var v=vf.querySelector("video");vf.
 document.querySelectorAll(".faq details").forEach(function(d){d.addEventListener("toggle",function(){if(d.open&&window.__lpSend)__lpSend("faq_open",{name:(d.querySelector("summary").textContent||"").slice(0,40)});});});
 })();
 </script>
+<script>/* ב89: שורת אמצעי תשלום - ביט רק אחרי אימות, ובדפדפן פנימי של אינסטגרם/פייסבוק בלי Apple Pay ו-Google Pay */
+(function(){var PAYLOGO_BIT=false;
+var ua=navigator.userAgent||"",inapp=/Instagram|FBAN|FBAV|FB_IAB|FBIOS|FB4A|FBAN\/Messenger/i.test(ua),ios=/iPhone|iPad|iPod/i.test(ua)||(/Macintosh/i.test(ua)&&navigator.maxTouchPoints>1),and=/Android/i.test(ua);
+var els=document.querySelectorAll("[data-paylogos]");for(var i=0;i<els.length;i++){var el=els[i],p=[];
+ function show(k,on){var li=el.querySelector('[data-pl="'+k+'"]');if(li)li.hidden=!on}
+ show("apple",!inapp);show("google",!inapp);show("bit",PAYLOGO_BIT);
+ if(!inapp){p.push("⁦Apple Pay⁩","⁦Google Pay⁩")} /* בידוד כיווניות, כדי שהשמות באנגלית לא יהפכו את סדר המשפט */if(PAYLOGO_BIT)p.push("ביט");
+ var t=el.querySelector(".pl-t"),h=el.querySelector(".pl-h");
+ t.textContent=inapp?(PAYLOGO_BIT?"אפשר לשלם בביט או באשראי":"אפשר לשלם באשראי"):"אפשר לשלם ב-"+p.join(", ")+" או אשראי";
+ /* ב89 (מאשר ב89 - פריסה): רמז רק בדף התשלום (co_*), ורק באייפון/אנדרואיד. בדפי המכירה רק מסתירים */
+ var hint=!inapp||!/^co_/.test(el.getAttribute("data-paylogos")||"")?"":ios?"ל-⁦Apple Pay⁩: לחצו על שלוש הנקודות למעלה ופתחו בספארי":and?"ל-⁦Google Pay⁩: לחצו על שלוש הנקודות למעלה ופתחו בכרום":"";
+ if(hint){h.textContent=hint;h.hidden=false}
+ el.setAttribute("data-inapp",inapp?"1":"0")}
+})();</script>
 </body>
 </html>
