@@ -119,7 +119,17 @@ for cx,co in (("co_0511","a"),("co_0511","b"),("co_b_0811","b")):
             k=s["vid"] or s["t"].isoformat(); o=P.setdefault(k,{"det":0,"pay":0,"buy":0})
             for f in o: o[f]|=s[f]
         print("checkout",cx,co.upper(),lab,"people reached",len(P),"filled",sum(o["det"] for o in P.values()),"payment form",sum(o["pay"] for o in P.values()),"bought",sum(o["buy"] for o in P.values()))
-print("chk sessions without cx since CO54:",Counter((s["v"],s["co"] or "-") for s in S.values() if s["chk"] and s["t"]>=CO54 and s["cx"]!="co_b_0811"))
+# ב90: B מול B2 בדף התשלום (co_b2_1311), לפי אנשים, בכל דף מכירה בנפרד. בודקים אחרי כ-100 שהגיעו לדף התשלום בכל גרסה
+for pg in ("a5v6","pr2","*"):
+    for co in ("b","b2"):
+        for lab,only in (("paid",True),("all",False)):
+            ss=[s for s in S.values() if s["cx"]=="co_b2_1311" and s["co"]==co and s["chk"] and (pg=="*" or s["v"]==pg) and (not only or s["src"]=="paid")]
+            P={}
+            for s in ss:
+                k=s["vid"] or s["t"].isoformat(); o=P.setdefault(k,{"det":0,"pay":0,"buy":0})
+                for f in o: o[f]|=s[f]
+            print("b90",pg,co.upper(),lab,"people reached",len(P),"started filling",sum(o["det"] for o in P.values()),"payment form",sum(o["pay"] for o in P.values()),"bought",sum(o["buy"] for o in P.values()),"(of 100)" if len(P)<100 else "(100+ - ready to compare)")
+print("chk sessions without cx since CO54:",Counter((s["v"],s["co"] or "-") for s in S.values() if s["chk"] and s["t"]>=CO54 and s["cx"] not in("co_b_0811","co_b2_1311")))
 print("cta/chk sessions since prev:",[(s["v"],s["t"].strftime("%d %H:%M"),s["ctas"],s["chk"],s["co"],s["src"],s["exp"]) for s in S.values() if (s["cta"] or s["chk"]) and s["t"]>=PREV])
 FB=datetime(2026,10,28,13,15)
 SS=defaultdict(list)
