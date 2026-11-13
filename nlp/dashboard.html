@@ -298,6 +298,7 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
       <div class="panel"><div class="panel-h"><h2>משפך סליקה</h2><span class="note">אחוז מתוך מי שלחץ לרכישה</span></div><div class="fun" id="coFunnel"></div></div>
       <div class="panel"><div class="panel-h"><h2>חיכוך ותקלות</h2></div><div class="tw"><table id="coIssues"></table></div></div>
     </div>
+    <div class="panel"><div class="panel-h"><h2>דף תשלום B מול B2 - לפי אנשים, בכל דף מכירה (ב90)</h2><span class="note" id="co90N"></span></div><div class="tw"><table id="co90"></table></div></div>
     <div class="panel"><div class="panel-h"><h2>דף תשלום 1 מול דף תשלום 2 - לפי אנשים (ב54)</h2><span class="note" id="co54N"></span></div><div class="tw"><table id="co54"></table></div></div>
     <div class="panel"><div class="panel-h"><h2>סליקה לפי מכשיר ודפדפן</h2></div><div class="tw"><table id="coDev"></table></div></div>
     <div class="panel"><div class="panel-h"><h2>החזרת נוטשים (ב50)</h2><span class="note">נוטש = השאיר פרטים ולא רכש. חזרה = כניסה מקישור עם utm_medium=recovery</span></div><div class="grid2"><div class="tw"><table id="coRec"></table></div><div class="tw"><table id="coRecCh"></table></div></div></div>
@@ -448,6 +449,7 @@ const EXPERIMENTS=[
  {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"2026-10-26",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"הסתיים, הוחלף ב-abc_2610",decision:""},
 ];
 const CHANGELOG=[
+["2026-11-13","22:09 - ב90: ניסוי בדף התשלום B מול B2 (cx=co_b2_1311): חצי-חצי לכל מכשיר, ולכן חצי-חצי בתוך כל דף מכירה (a5v6, pr2), והדפים עצמם לא השתנו. B2 = B עם 1,290 ₪ מחוק ליד 297 ₪ ו\"מחיר השקה לזמן מוגבל\", שורת אחריות של 7 ימים מתחת למחיר, \"שלב 1 מתוך 2\" / \"שלב 2 מתוך 2\", ופרטי העסקה עם Apple Pay ו-Google Pay. באירועים co=b או co=b2. טבלה חדשה בלשונית הסליקה, ובודקים אחרי כ-100 שהגיעו בכל גרסה."],
 ["2026-11-13","20:33 - ב84 תיקון חריגה (\"מאשר ב84 - תיקון חריגה\"): הבדיקה \"הוצאה מעל 120% מהתקציב\" בלשונית 11 מחשבת עכשיו את ההוצאה היומית של כל משווק באותה פונקציה של לשונית 10. כך נכנסים גם COLD_18 ו-G12 של רחל, וההוצאה של יוסף לפי מודעה (aff_yosef רק ביום בלי הוצאה לפי מודעה, בלי ספירה כפולה). משווק בלי שורה בלשונית 10: aff_<קוד> + aff_<קוד>_ic כמו קודם","הושק"],
 ["2026-11-13","20:20 - ב84 (\"מאשר ב84\" של יהב): לשונית 11 \"בקרה כספית\" (תחת \"מתקדם\"), קריאה בלבד. מציגה הוצאה, הכנסות, עמלות שממתינות או לתשלום, ותקציב מול הוצאה לכל משווק. ב-Make: נוסף שדה budget (תקציב יומי) לרשימת המשווקים, ו-API הדשבורד מחזיר אותו, ואת תאריך התשלום בעמלות ששולמו. התקציבים עצמם עוד לא הוזנו, ולכן מוצג \"חסר נתון\"","הושק"],
 ["2026-11-13","19:40 - ב41/ב62 (\"מאשר\" של יהב, אחרי שבן אישר שהחשבונית ומייל הגישה הגיעו ברכישת הבדיקה במסוף החדש): בדף התשלום, A ו-B, ירדו ההודעה \"כרגע Apple Pay ו-Google Pay לא זמינים\", השורה על הארנק בהודעת הכשל, והנוסח המיוחד לדחייה 60000303. דחייה כזו מקבלת עכשיו את הודעת הכשל הכללית","הושק"],
@@ -751,6 +753,19 @@ function renderCo54(M){const S=M.sess.filter(s=>s.src==="מודעות Meta"&&!s.
  rowsH.push('<tr><td><b>המרה מהגעה לרכישה</b></td>'+["a","b"].map(c=>'<td class="num"><b>'+pf(pct(bought(c),n(c)))+'</b></td>').join("")+'</tr>');
  table($("co54"),["","דף תשלום 1 · שני שלבים (A)","דף תשלום 2 · מסך אחד (B)"],rowsH,"עוד אין כניסות בהגרלה");
  $("co54N").innerHTML=(early?'<span class="pill warn">ראשוני</span> ':'')+'הגרלה חצי-חצי לכל מי שמגיע לדף התשלום, קבועה לדפדפן, מ-'+CO54_START.toLocaleString("he-IL",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})+'. אנשים = מכשירים. "ניסו לשלם" = נכשלו או רכשו (את הניסיון עצמו קארדקום לא מדווח). ב-B טופס קארדקום מציג שוב שם, מייל וטלפון - ראו ב54(4).';}
+
+/* ב90: B מול B2 (co_b2_1311) - חצי-חצי לכל מכשיר בדף התשלום, ולכן חצי-חצי בתוך כל דף מכירה. לפי אנשים (מכשיר), כל מקורות התנועה, בלי בדיקות */
+const CO90_N=100;
+function renderCo90(M){const who=s=>s.vid||s.sid,S=M.sess.filter(s=>(s.co==="b"||s.co==="b2")&&s.ev.some(r=>parseX(r.x).cx==="co_b2_1311"));
+ const K=[["הגיעו לדף התשלום",s=>s.chk||s.buy],["התחילו למלא",s=>s.cstart||s.det||s.pay||s.buy],["הגיעו לטופס התשלום (קארדקום נטען)",s=>s.pay||s.buy],["רכישה מאומתת",s=>s.buy]];
+ const PG=[["a5v6","a5v6"],["pr2","pr2"],["*","כל הדפים"]],C=[["b","B"],["b2","B2"]],P={};
+ PG.forEach(([g])=>C.forEach(([c])=>{P[g+"|"+c]=K.map(()=>new Set())}));
+ S.forEach(s=>{[s.v==="a5v6"||s.v==="pr2"?s.v:null,"*"].forEach(g=>{if(!g)return;const o=P[g+"|"+s.co];K.forEach(([,f],i)=>{if(f(s))o[i].add(who(s))})})});
+ const cols=PG.flatMap(([g,gl])=>C.map(([c,cl])=>[g+"|"+c,gl+" · "+cl]));
+ const rows=K.map(([l],i)=>'<tr><td>'+l+'</td>'+cols.map(([k])=>{const v=P[k][i].size,n=P[k][0].size;return '<td class="num">'+fmt(v)+(i?'<small>'+pf(pct(v,n))+'</small>':'')+'</td>'}).join("")+'</tr>');
+ table($("co90"),["לפי אנשים"].concat(cols.map(([,l])=>esc(l))),S.length?rows:[],"עוד אין כניסות בניסוי B מול B2 (מתחיל בפריסה)");
+ const nB=P["*|b"][0].size,nB2=P["*|b2"][0].size,ready=nB>=CO90_N&&nB2>=CO90_N;
+ $("co90N").innerHTML=(ready?'':'<span class="pill warn">ראשוני</span> ')+'הגרלה חצי-חצי בדף התשלום, קבועה למכשיר (cx=co_b2_1311). B2 = B עם עוגן מחיר, שורת אחריות ושלבים 1-2. אחוזים מתוך מי שהגיע לדף התשלום באותה עמודה. בודקים אחרי כ-'+CO90_N+' שהגיעו בכל גרסה: עכשיו B '+nB+', B2 '+nB2+'.'}
 
 /* ב51: abandoned checkouts + recovery by channel (wa_manual, wa_auto, email1, email1f, email2, email3) */
 function renderRecovery(M){const S=M.sess,det=S.filter(s=>s.det),ab=det.filter(s=>!s.buy),fl=ab.filter(s=>s.fail);
@@ -1376,7 +1391,7 @@ function renderDQ(M){const now=Date.now(),last=ev=>{for(let i=rows.length-1;i>=0
 function activeVars(B){const s=new Set();rows.forEach(r=>{if(r.t>=B.pa&&r.t<B.b&&(showTests||!isTest(r)))s.add(r.variant)});const v=ALLV.filter(x=>s.has(x));return v.length?v:ALLV.slice(0,3)}
 function render(){document.body.dataset.scr=screen;if(!rows)return;const B=bounds();VARS=activeVars(B);if(!VARS.includes(lpVar))lpVar=VARS[0];document.querySelectorAll("#lpVar button").forEach(b=>{b.hidden=!VARS.includes(b.dataset.v)});const M=build(B.a,B.b),P=build(B.pa,B.pb),A=aggregate(M,B.a,B.b),PA=aggregate(P,B.pa,B.pb);
  const srcs=[...new Set(rows.filter(r=>VARS.includes(r.variant)&&(showTests||!isTest(r))).map(r=>source(qsObj(r.qs))))].sort();const fs=$("fSrc");if(fs.options.length-1!==srcs.length){const cur=fs.value;fs.innerHTML='<option value="">כל המקורות</option>'+srcs.map(s=>'<option'+(s===cur?" selected":"")+'>'+esc(s)+'</option>').join("")}
- try{({snap:()=>renderSnap(),lab:()=>renderLab(M,B),hub:()=>renderHub(M,B),op:()=>renderOpt(),ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>{renderCheckout(M);renderRecovery(M);renderCo54(M)},jr:()=>renderJourneys(M),ex:()=>{renderExperiments(M);renderStages(B)},in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M),af:()=>renderAffiliates(),aud:()=>renderAud(),fin:()=>renderFinance()})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
+ try{({snap:()=>renderSnap(),lab:()=>renderLab(M,B),hub:()=>renderHub(M,B),op:()=>renderOpt(),ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>{renderCheckout(M);renderRecovery(M);renderCo90(M);renderCo54(M)},jr:()=>renderJourneys(M),ex:()=>{renderExperiments(M);renderStages(B)},in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M),af:()=>renderAffiliates(),aud:()=>renderAud(),fin:()=>renderFinance()})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
  if(storedAt)$("fresh").textContent="· עודכן "+new Date(storedAt).toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});}
 /* סינון לפי משווק (בקשת יהב 09.11): אמיר, שחר, גל ורחל ראשונים, ואחריהם שאר המשווקים הפעילים */
 const AFF_FIRST=["amir","shahar","gal","rachel"];

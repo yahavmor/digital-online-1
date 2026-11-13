@@ -187,6 +187,21 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 .walltop [hidden]{display:none}
 .fld input.wt-flash{outline:3px solid var(--gold2);outline-offset:1px;box-shadow:0 0 0 6px rgba(201,169,110,.28);transition:box-shadow .3s}
 </style>
+<script>/* ב90: ניסוי co_b2_1311 - B מול B2 חצי-חצי, נשמר במכשיר. co=a/b/b2 בכתובת גובר */
+(function(){var c="b";try{c=(new URLSearchParams(location.search).get("co")||"").toLowerCase();
+if(c!=="a"&&c!=="b"&&c!=="b2"){var k="nlp_co_b2",v=null;try{v=localStorage.getItem(k)}catch(e){}
+ if(v!=="b"&&v!=="b2"){v=Math.random()<0.5?"b2":"b";try{localStorage.setItem(k,v)}catch(e){}}c=v}}catch(e){c="b"}
+window.NLP_CO=c;document.documentElement.setAttribute("data-co2",c==="b2"?"1":"0")})();</script>
+<style>/* ב90: תצוגת B2 (מוסתרת ב-B) */
+.b2x,.b2xi,.pt-b{display:none}
+html[data-co2="1"] .b2x{display:block}
+html[data-co2="1"] .b2xi,html[data-co2="1"] .pt-b{display:inline}
+html[data-co2="1"] .pt-a{display:none}
+.b2-launch{margin:10px auto 0;width:max-content;max-width:100%;padding:3px 12px;border:1px solid var(--gold2);border-radius:999px;font-size:14px;font-weight:700;color:var(--gold)}
+.b2-guar{margin:10px auto 2px;max-width:360px;padding:8px 12px;border-radius:12px;background:#EEF6F1;color:var(--ok);font-size:14.5px;font-weight:600;line-height:1.45}
+.b2-step{color:var(--gold)}
+.paytitle .pt-a,.paytitle .pt-b{font-size:inherit;font-weight:inherit;color:inherit}
+</style>
 </head>
 <body>
 <main class="wrap">
@@ -201,7 +216,9 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 
 <section class="order" aria-label="ההזמנה שלך">
 <p class="item">הקורס המלא + כל הבונוסים</p>
-<p class="price"><b>297</b><span>₪</span></p>
+<p class="b2x b2-launch">מחיר השקה לזמן מוגבל</p>
+<p class="price"><s class="was b2xi">1,290 ₪</s><b>297</b><span>₪</span></p>
+<p class="b2x b2-guar">7 ימי אחריות: אם הקורס לא מתאים לך, שולחים מייל ומקבלים החזר מלא.</p>
 <p class="once">תשלום חד-פעמי</p>
 <p class="nosub">ללא מנוי · ללא חיובים נוספים</p>
 <ul class="incl">
@@ -213,7 +230,7 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 </section>
 
 <section class="why" aria-label="הפרטים שלך">
-<h2>הפרטים שלך</h2>
+<h2><span class="b2xi b2-step">שלב 1 מתוך 2: </span>הפרטים שלך</h2>
 <form id="det" novalidate data-clarity-mask="True">
 <label class="fld"><b>שם מלא</b><input id="fName" name="name" autocomplete="name" required maxlength="50"><span>החשבונית תופק על השם הזה</span></label>
 <label class="fld"><b>מייל</b><input id="fEmail" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" required><span>לשם נשלחים החשבונית וקישור הכניסה לקורס</span></label>
@@ -231,7 +248,7 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 
 <section class="pay" id="paySec" aria-label="תשלום" hidden>
 <div class="err" id="err" role="alert"><b>נראה שהתשלום לא עבר</b>הכול בסדר - לא בוצע חיוב. אפשר לנסות שוב עם אותו הכרטיס או עם כרטיס אחר.</div>
-<p class="paytitle">פרטי תשלום<span>🔒 התשלום מאובטח באמצעות Cardcom</span></p>
+<p class="paytitle"><span class="pt-a">פרטי תשלום</span><span class="pt-b">שלב 2 מתוך 2: תשלום</span><span>🔒 התשלום מאובטח באמצעות Cardcom</span></p>
 <div class="paylogos" data-paylogos="co_pay"><ul class="pl-row" aria-hidden="true"><li data-pl="apple"><img src="assets/pay/apple-pay-mark.svg" alt="" width="41" height="26" decoding="async"></li><li data-pl="google"><img src="assets/pay/google-pay-mark.svg" alt="" width="49" height="26" decoding="async"></li><li data-pl="bit" hidden><img src="assets/pay/bit-mark.svg" alt="" width="41" height="26" decoding="async"></li><li data-pl="card"><img src="assets/pay/card.svg" alt="" width="41" height="26" decoding="async"></li></ul><p class="pl-t">אפשר לשלם ב-<bdi>Apple Pay</bdi>, <bdi>Google Pay</bdi> או אשראי</p><p class="pl-h" hidden></p></div>
 <!-- ב41: ההודעה הזמנית על Apple Pay ו-Google Pay הוסרה אחרי שכאל השלימו את המעבר למסוף אינטרנטי -->
 <div class="bitwrap" id="bitWrap" hidden><a class="bitbtn" id="bitBtn" href="#" rel="noopener">תשלום בביט</a><span class="bitor">או</span></div><!-- ביט: מעל טופס הכרטיס, כדי שייראה בלי לגלול; רק אחרי סימון התיבה ורק כש-7827398 מחזיר bit_url -->
@@ -251,7 +268,7 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 <dl>
 <div><dt>מוצר</dt><dd>לנצח את האוטומט - הקורס המלא + כל הבונוסים</dd></div>
 <div><dt>סכום לתשלום</dt><dd><span class="pgrp">297 ₪</span>, כולל הכל</dd></div>
-<div><dt>אופן התשלום</dt><dd>תשלום חד-פעמי בכרטיס אשראי. ללא מנוי, ללא חיוב חוזר וללא עלויות נסתרות</dd></div>
+<div><dt>אופן התשלום</dt><dd><span class="pt-a">תשלום חד-פעמי בכרטיס אשראי</span><span class="pt-b" id="b2PayHow">תשלום חד-פעמי באשראי, <bdi>Apple Pay</bdi> או <bdi>Google Pay</bdi></span>. ללא מנוי, ללא חיוב חוזר וללא עלויות נסתרות</dd></div>
 <div><dt>חשבונית</dt><dd>נשלחת אוטומטית למייל שהזנת מיד לאחר אישור העסקה</dd></div>
 <div><dt>גישה לקורס</dt><dd>נפתחת מיד לאחר אישור התשלום, ל-12 חודשים</dd></div>
 <div><dt>אחריות</dt><dd>7 ימים. אם הקורס לא מתאים לך, שולחים מייל ומקבלים החזר מלא</dd></div>
@@ -297,9 +314,8 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
      ?co=a או ?co=b לתצוגה מקדימה בלבד (לא נשמר) */
   /* ב63 (בן 08.11, "מאשר ב63" מיהב): הגרלת הסליקה co_0511 הסתיימה - דף התשלום B (מסך אחד) לכולם, כדי שלא ירוצו שתי בדיקות על תנועה קטנה. cx=co_b_0811 מסמן את התקופה.
      ?co=a או ?co=b נשאר לתצוגה מקדימה בלבד (לא נשמר) */
-  const CO_EXP = "co_b_0811"; let CV = (qs.get("co")||"").toLowerCase();
-  if (CV!=="a" && CV!=="b") CV = "b";
-  document.documentElement.dataset.co = CV; try{ if(window.clarity) clarity("set","co",CV); }catch(e){}
+  const CO_EXP = "co_b2_1311"; const CO_L = window.NLP_CO==="a"||window.NLP_CO==="b2" ? window.NLP_CO : "b"; let CV = CO_L==="a" ? "a" : "b"; /* ב90: B2 מתנהגת כמו B; רק התצוגה והסימון (co=b2) שונים */
+  document.documentElement.dataset.co = CV; try{ if(window.clarity) clarity("set","co",CO_L); }catch(e){}
   const variant = qs.get("v") || U("utm_content").replace("lp_","") || "x";
   const sid = qs.get("sid") || ((self.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now()+"-"+Math.random().toString(36).slice(2));
   const $ = id => document.getElementById(id);
@@ -316,7 +332,7 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
   function clId(){ try{ const g=n=>{ const m=document.cookie.match(new RegExp("(?:^|; )"+n+"=([^;]*)")); return m?decodeURIComponent(m[1]).split(/[|^]/)[0]:""; }; const u=g("_clck"), s=g("_clsk"); return u&&s?u+"."+s:""; }catch(e){ return ""; } }
   function track(ev, extra){
     try{ if(window.clarity){ clarity("event",ev); clarity("upgrade",ev); } }catch(e){}
-    extra=Object.assign({},extra||{}); extra.x=(extra.x?extra.x+";":"")+"co="+CV+";cx="+CO_EXP;
+    extra=Object.assign({},extra||{}); extra.x=(extra.x?extra.x+";":"")+"co="+CO_L+";cx="+CO_EXP;
     const cl=clId(); if(cl){ extra=Object.assign({},extra||{}); extra.x=(extra.x?extra.x+";":"")+"cl="+cl; } if(INT){ extra=Object.assign({},extra||{}); extra.x=(extra.x?extra.x+";":"")+"int=1"; } { const ow=window.NLP_OWNER?NLP_OWNER():""; if(ow){ extra=Object.assign({},extra||{}); extra.x=(extra.x?extra.x+";":"")+"aff="+ow; } }
     if(!TRACK_ENDPOINT || TRACK_ENDPOINT[0]==="%") return;
     try{ const f=new URLSearchParams(Object.assign({ev, variant, sid, qs:location.search.slice(1), vid, dev, sec_on_page:Math.round((Date.now()-t0)/1000)}, extra||{}));
@@ -512,5 +528,8 @@ var B=W.querySelectorAll(".wt-b");for(var j=0;j<B.length;j++)B[j].addEventListen
  try{f.focus({preventScroll:true})}catch(e){f.focus()}
  f.classList.add("wt-flash");setTimeout(function(){f.classList.remove("wt-flash")},1800)});
 })();</script>
+<script>/* ב90: B2 - ביט בפרטי העסקה רק כשהוא מופיע בשורת הלוגואים (PAYLOGO_BIT) */
+(function(){if(window.NLP_CO!=="b2")return;var bit=document.querySelector('.paylogos [data-pl="bit"]:not([hidden])'),el=document.getElementById("b2PayHow");
+if(bit&&el)el.innerHTML='תשלום חד-פעמי באשראי, <bdi>Apple Pay</bdi>, <bdi>Google Pay</bdi> או ביט'})();</script>
 </body>
 </html>
