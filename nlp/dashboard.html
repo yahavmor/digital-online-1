@@ -95,6 +95,9 @@ nav.tabs b{font-family:var(--f-mono);font-size:11px;color:var(--muted);margin-in
 #finAff td,#finAff th{white-space:nowrap}
 /* בלשונית הזו יש בורר תקופה משלה, והסינונים הכלליים לא חלים עליה - מוסתרים כדי שלא יבלבלו */
 body[data-scr="fin"] :is(#range,#customBox,#fSrc,#fOwn,#fDev){display:none!important}
+/* ב91 אפסייל: שלוש תקופות זו לצד זו, בלי הסינונים הכלליים */
+body[data-scr="up"] :is(#range,#customBox,#fSrc,#fOwn,#fDev){display:none!important}
+#upTable td,#upTable th,#upAff td,#upAff th{white-space:nowrap}
 /* ב86 תמונת מצב */
 nav.tabs:not(.open) button[data-s]:not([data-s="snap"]){display:none}
 nav.tabs .adv-t{flex:none;border:0;background:transparent;color:var(--muted);font:600 14px var(--f-body);padding:10px 12px;cursor:pointer;white-space:nowrap}
@@ -190,6 +193,7 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
     <button role="tab" data-s="af"><b>09</b>משווקים</button>
     <button role="tab" data-s="aud"><b>10</b>השוואת קהלים - P25</button>
     <button role="tab" data-s="fin"><b>11</b>בקרה כספית</button>
+    <button role="tab" data-s="up"><b>12</b>אפסייל</button>
   </nav>
 
   <!-- ◎ תמונת מצב (ב86): מסך ראשי פשוט. רק רכישות מאומתות, אנשים לפי מזהה מבקר, בלי ביקורים פנימיים -->
@@ -385,6 +389,13 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
       <div class="tw"><table id="finDet"></table></div><p class="note" id="finDetNote"></p></div>
   </section>
 
+  <!-- 12 (ב91): אפסייל 97 ₪. קריאה בלבד. קודים מ-251557 (דרך API הדשבורד, בלי פרטים אישיים), רכישות מהגיליון -->
+  <section class="screen" id="s-up">
+    <div class="banner" id="upSrc" hidden></div>
+    <div class="panel"><div class="panel-h"><h2>אפסייל 97 ₪ - קודים ורכישות</h2><span class="note" id="upNote"></span></div><div class="tw"><table id="upTable"></table></div></div>
+    <div class="panel"><div class="panel-h"><h2>עמלות אפסייל לפי משווק</h2><span class="note" id="upAffNote"></span></div><div class="tw"><table id="upAff"></table></div></div>
+  </section>
+
   <!-- 10 (ב71): השוואת קהלים - P25. שחר (קר) מול רחל (חם), אותו קמפיין ואותו קופי. מתחיל בשעת הפרסום של מ28 -->
   <section class="screen" id="s-aud">
     <div class="banner" id="audSrc"></div>
@@ -449,6 +460,7 @@ const EXPERIMENTS=[
  {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"2026-10-26",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"הסתיים, הוחלף ב-abc_2610",decision:""},
 ];
 const CHANGELOG=[
+["2026-11-14","19:24 - ב91: לשונית 12 \"אפסייל\" (קריאה בלבד). היום / 7 ימים / מתחילת החודש: קודים שהונפקו, נוצלו, נדחו, פגו בלי החלטה ובתוקף (מ-251557, דרך action=upsell, בלי פרטים אישיים), אחוז המרה מתוך הקודים, רכישות והכנסה מאפסייל ועמלות אפסייל לפי משווק (72 ₪, מהגיליון). בלי עסקאות בדיקה. \"לא נפתחו\" - חסר נתון עד שהמאגר ישמור פתיחה."],
 ["2026-11-13","22:09 - ב90: ניסוי בדף התשלום B מול B2 (cx=co_b2_1311): חצי-חצי לכל מכשיר, ולכן חצי-חצי בתוך כל דף מכירה (a5v6, pr2), והדפים עצמם לא השתנו. B2 = B עם 1,290 ₪ מחוק ליד 297 ₪ ו\"מחיר השקה לזמן מוגבל\", שורת אחריות של 7 ימים מתחת למחיר, \"שלב 1 מתוך 2\" / \"שלב 2 מתוך 2\", ופרטי העסקה עם Apple Pay ו-Google Pay. באירועים co=b או co=b2. טבלה חדשה בלשונית הסליקה, ובודקים אחרי כ-100 שהגיעו בכל גרסה."],
 ["2026-11-13","20:33 - ב84 תיקון חריגה (\"מאשר ב84 - תיקון חריגה\"): הבדיקה \"הוצאה מעל 120% מהתקציב\" בלשונית 11 מחשבת עכשיו את ההוצאה היומית של כל משווק באותה פונקציה של לשונית 10. כך נכנסים גם COLD_18 ו-G12 של רחל, וההוצאה של יוסף לפי מודעה (aff_yosef רק ביום בלי הוצאה לפי מודעה, בלי ספירה כפולה). משווק בלי שורה בלשונית 10: aff_<קוד> + aff_<קוד>_ic כמו קודם","הושק"],
 ["2026-11-13","20:20 - ב84 (\"מאשר ב84\" של יהב): לשונית 11 \"בקרה כספית\" (תחת \"מתקדם\"), קריאה בלבד. מציגה הוצאה, הכנסות, עמלות שממתינות או לתשלום, ותקציב מול הוצאה לכל משווק. ב-Make: נוסף שדה budget (תקציב יומי) לרשימת המשווקים, ו-API הדשבורד מחזיר אותו, ואת תאריך התשלום בעמלות ששולמו. התקציבים עצמם עוד לא הוזנו, ולכן מוצג \"חסר נתון\"","הושק"],
@@ -1171,6 +1183,55 @@ function renderFinance(){
   try{navigator.clipboard.writeText(txt).then(done,()=>{window.prompt("להעתקה:",txt)})}catch(e){window.prompt("להעתקה:",txt)}};
  $("finNote").textContent="קריאה בלבד. עמלה: "+FIN_FEE+" ₪ לרכישת קורס (או הסכום ברשימת המשווקים), "+FIN_UP_FEE+" ₪ לאפסייל. ממתינה "+PAY_DAYS+" ימים מהרכישה ואז לתשלום; החזר מבטל. תשלום למשווקים ביום ראשון. סימון \"שולם\" או החזר: לבקש מהצ'אט הראשי (Make). "+(codes.some(c=>AFF[c]&&AFF[c].budget)?"":"תקציב יומי: חסר נתון עד שיתווסף השדה ב-Make. ")+(FIN_PROC_RATE==null?"עמלות סליקה: חסר נתון עד שבן ימסור את השיעור.":"");
 }
+/* ================= 12 אפסייל (ב91) ================= */
+/* קודים: API action=upsell (נתיב ב-7843392 שקורא את 251557). כותרת לפי שמות, כך ששדות שיתווספו (opened, declined_at) ייקלטו בלי שינוי כאן.
+   רשומות סימון (mailed:/alerted:) לא מגיעות - הנתיב מחזיר רק רשומות עם token. בדיקות: test=true או עסקה ב-TEST_DEALS (אלא אם "כולל בדיקות") */
+let UPS=null, UPS_ST="idle";
+function upsParse(t){const L=t.replace(/\r/g,"").split("\n"),h=(L[0]||"").split("\t").map(x=>x.trim().toLowerCase());if(h[0]!=="upsell")return null;
+ const D=v=>{v=(v||"").trim();if(!v)return null;const d=new Date(v.replace(" ","T"));return isNaN(d)?null:d},T=v=>/^true$/i.test((v||"").trim());
+ return {cols:h,rows:L.slice(1).filter(l=>l.trim()).map(l=>{const a=l.split("\t"),o={};h.forEach((k,i)=>{if(i)o[k]=(a[i-1]||"").trim()});
+  return {created:D(o.created),expires:D(o.expires),paid:D(o.paid_at),used:T(o.used),declined:T(o.declined),test:T(o.test),aff:(o.aff||"").toLowerCase(),deal:o.deal||"",up:o.up_deal||"",
+   opened:"opened" in o?D(o.opened):undefined}}).filter(r=>r.created)}}
+function upsLoad(){UPS_ST="loading";fetch(API+"upsell",{cache:"no-store"}).then(r=>r.ok?r.text():"").then(t=>{UPS=upsParse(t);UPS_ST=UPS?"ok":"none"}).catch(()=>{UPS=null;UPS_ST="err"}).finally(()=>{if(screen==="up")render()})}
+function upsTestDeal(d){return !!d&&TEST_DEALS.includes(d)}
+function renderUpsell(){
+ if(UPS_ST==="idle")upsLoad();
+ const n=new Date(),sod=new Date(n.getFullYear(),n.getMonth(),n.getDate()),end=new Date(+sod+864e5);
+ const PER=[["today","היום",sod],["7","7 ימים",new Date(+sod-6*864e5)],["mtd","מתחילת החודש",new Date(n.getFullYear(),n.getMonth(),1)]];
+ const keep=[fSrc,fDev,fOwn];fSrc="";fDev="";fOwn="";let ALL;try{ALL=build(new Date(0),end)}finally{[fSrc,fDev,fOwn]=keep}
+ /* רכישות מהגיליון: finUps (פעם אחת לעסקה), בלי עסקאות בדיקה - של האפסייל או של הקורס שממנו הונפק הקוד */
+ const cdeal=r=>{const m=(r.qs||"").match(/course_deal\s+(\S+)/);return m?m[1]:""},CD={};ALL.R.forEach(r=>{if(r.ev==="upsell_purchase"){const d=(r.qs||"").match(/\|\s*deal\s+(\d+)/);if(d)CD[d[1]]=cdeal(r)}});
+ const BUY=finUps(ALL).filter(x=>showTests||!(upsTestDeal(x.deal)||upsTestDeal(CD[x.deal]))),live=x=>affState(x)!=="refund";
+ const C=UPS?UPS.rows.filter(r=>showTests||!(r.test||upsTestDeal(r.deal)||upsTestDeal(r.up))):[],hasOpen=!!UPS&&UPS.cols.includes("opened");
+ const inP=(t,a)=>t&&t>=a&&t<end,MISS='<span class="na">חסר נתון</span>',WAIT='<span class="na">…</span>';
+ const rowsT=[],head=["לפי מועד הנפקת הקוד"].concat(PER.map(p=>p[1]));
+ const codeRow=(label,f,showPct)=>{rowsT.push('<tr><td>'+label+'</td>'+PER.map(([,,a])=>{if(!UPS)return '<td class="num">'+(UPS_ST==="loading"||UPS_ST==="idle"?WAIT:MISS)+'</td>';const I=C.filter(r=>inP(r.created,a)),v=I.filter(f).length;return '<td class="num">'+fmt(v)+(showPct?'<small>'+pf(pct(v,I.length))+'</small>':'')+'</td>'}).join("")+'</tr>')};
+ codeRow("קודים שהונפקו <small>רוכשי קורס שקיבלו הצעה</small>",()=>true,false);
+ codeRow("נוצלו <small>= רכישות אפסייל</small>",r=>r.used,true);
+ codeRow("נדחו <small>\"לא תודה\"</small>",r=>r.declined&&!r.used,true);
+ codeRow("לא נפתחו",r=>hasOpen?!r.opened&&!r.used&&!r.declined:false,true);
+ if(!hasOpen)rowsT[rowsT.length-1]=rowsT[rowsT.length-1].replace(/<td class="num">[^]*?<\/td>/g,'<td class="num">'+MISS+'</td>');
+ codeRow("פגו בלי החלטה <small>לא נוצלו ולא נדחו"+(hasOpen?"":", כולל מי שלא פתח")+"</small>",r=>!r.used&&!r.declined&&r.expires&&r.expires<=n,true);
+ codeRow("עדיין בתוקף <small>30 דקות מרכישת הקורס</small>",r=>!r.used&&!r.declined&&r.expires&&r.expires>n,true);
+ rowsT.push('<tr><td><b>אחוז המרה</b> <small>רכישות אפסייל מתוך קודים שהונפקו</small></td>'+PER.map(([,,a])=>{if(!UPS)return '<td class="num">'+(UPS_ST==="loading"||UPS_ST==="idle"?WAIT:MISS)+'</td>';const I=C.filter(r=>inP(r.created,a));return '<td class="num"><b>'+pf(pct(I.filter(r=>r.used).length,I.length))+'</b></td>'}).join("")+'</tr>');
+ rowsT.push('<tr><td colspan="'+(PER.length+1)+'" class="note">לפי מועד הרכישה (גיליון האירועים)</td></tr>');
+ const buyRow=(label,g)=>rowsT.push('<tr><td>'+label+'</td>'+PER.map(([,,a])=>'<td class="num">'+g(BUY.filter(x=>inP(x.t,a)))+'</td>').join("")+'</tr>');
+ buyRow("רכישות אפסייל",P=>fmt(P.filter(live).length)+(P.some(x=>!live(x))?' <small>'+fmt(P.filter(x=>!live(x)).length)+' הוחזרו</small>':''));
+ buyRow("<b>הכנסה מאפסייל</b> <small>כולל מע\"מ, בלי החזרים</small>",P=>'<b>'+ils(P.filter(live).reduce((s,x)=>s+x.amt,0))+'</b>');
+ buyRow("עמלות אפסייל <small>"+FIN_UP_FEE+" ₪ לרכישה דרך משווק</small>",P=>ils(P.filter(x=>live(x)&&finCode(x)).reduce((s,x)=>s+FIN_UP_FEE,0)));
+ table($("upTable"),head,rowsT);
+ /* עמלות לפי משווק */
+ const codes=[...new Set(BUY.map(finCode).filter(Boolean))].sort((x,y)=>((AFF[x]||{}).name||x).localeCompare((AFF[y]||{}).name||y,"he"));
+ const affRows=codes.map(c=>'<tr><td><b>'+esc((AFF[c]||{}).name||c)+'</b>'+(AFF[c]?'':' <small>לא ברשימה</small>')+'</td>'+PER.map(([,,a])=>{const P=BUY.filter(x=>finCode(x)===c&&inP(x.t,a)),L=P.filter(live);return '<td class="num">'+ils(L.length*FIN_UP_FEE)+' <small>'+fmt(L.length)+' רכישות'+(P.length>L.length?' · '+fmt(P.length-L.length)+' הוחזרו':'')+'</small></td>'}).join("")+'</tr>');
+ if(codes.length)affRows.push('<tr><td>בלי משווק <small>בלי עמלה</small></td>'+PER.map(([,,a])=>'<td class="num">'+fmt(BUY.filter(x=>!finCode(x)&&live(x)&&inP(x.t,a)).length)+' <small>רכישות</small></td>').join("")+'</tr>');
+ table($("upAff"),["משווק"].concat(PER.map(p=>p[1])),affRows,"עוד אין רכישות אפסייל דרך משווקים");
+ $("upAffNote").textContent="המשווק של רכישת הקורס. "+FIN_UP_FEE+" ₪ קבוע לכל רכישת אפסייל, גם למשווק באחוזים; החזר מבטל. סטטוס התשלום (ממתינה / לתשלום / שולמה) - בלשונית 11.";
+ const u=$("upSrc");
+ if(UPS_ST==="none"||UPS_ST==="err"){u.className="banner warn";u.textContent="מקור הקודים (251557) עוד לא מחובר ל-API של הדשבורד, ולכן אין כאן קודים שהונפקו, נדחו ואחוז המרה. הרכישות, ההכנסה והעמלות כבר מוצגות מהגיליון.";u.hidden=false}
+ else if(UPS&&!hasOpen){u.className="banner";u.textContent="\"לא נפתחו\": חסר נתון - מאגר הקודים לא שומר אם ומתי הקוד נפתח. עד שיתווסף שדה כזה, מי שלא פתח נספר ב\"פגו בלי החלטה\".";u.hidden=false}
+ else u.hidden=true;
+ $("upNote").textContent="קריאה בלבד. קוד אחד לכל רכישת קורס מאומתת, בתוקף 30 דקות. הקודים נספרים לפי מועד ההנפקה, כך שאחוז ההמרה הוא מתוך אותם קודים. בלי עסקאות בדיקה"+(showTests?" (עכשיו: כולל בדיקות)":"")+". אחוזים מתוך הקודים שהונפקו באותה תקופה.";
+}
 /* ================= 🧪 lab (ב43) ================= */
 /* שמות, סוג ונוסח קופי לכל utm_content - ימולא מטבלת המעבדה (ע7). עד אז: השם מ-VIDEO_NAMES, הסוג לפי הקוד, והנוסח לפי סיומת: _a / _c (קופי A / C, כמו בקמפיין של בן) או _1 / _2 */
 /* מטבלת המעבדה של ע7 (גיליון "אינדקס - סרטונים 03.11", לשונית "טבלת מעבדה", עמודת utm_content), עודכן 05.11: כל 48 המודעות של המעבדה (A ו-B בסרטונים, A ו-C בקרוסלות ובבאנרים) + 4 של הקמפיין הקיים. קודי _c ישנים בסרטונים נשארו למקרה שהגיעו בעבר. מודעה חדשה: להוסיף שורה כאן */
@@ -1391,7 +1452,7 @@ function renderDQ(M){const now=Date.now(),last=ev=>{for(let i=rows.length-1;i>=0
 function activeVars(B){const s=new Set();rows.forEach(r=>{if(r.t>=B.pa&&r.t<B.b&&(showTests||!isTest(r)))s.add(r.variant)});const v=ALLV.filter(x=>s.has(x));return v.length?v:ALLV.slice(0,3)}
 function render(){document.body.dataset.scr=screen;if(!rows)return;const B=bounds();VARS=activeVars(B);if(!VARS.includes(lpVar))lpVar=VARS[0];document.querySelectorAll("#lpVar button").forEach(b=>{b.hidden=!VARS.includes(b.dataset.v)});const M=build(B.a,B.b),P=build(B.pa,B.pb),A=aggregate(M,B.a,B.b),PA=aggregate(P,B.pa,B.pb);
  const srcs=[...new Set(rows.filter(r=>VARS.includes(r.variant)&&(showTests||!isTest(r))).map(r=>source(qsObj(r.qs))))].sort();const fs=$("fSrc");if(fs.options.length-1!==srcs.length){const cur=fs.value;fs.innerHTML='<option value="">כל המקורות</option>'+srcs.map(s=>'<option'+(s===cur?" selected":"")+'>'+esc(s)+'</option>').join("")}
- try{({snap:()=>renderSnap(),lab:()=>renderLab(M,B),hub:()=>renderHub(M,B),op:()=>renderOpt(),ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>{renderCheckout(M);renderRecovery(M);renderCo90(M);renderCo54(M)},jr:()=>renderJourneys(M),ex:()=>{renderExperiments(M);renderStages(B)},in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M),af:()=>renderAffiliates(),aud:()=>renderAud(),fin:()=>renderFinance()})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
+ try{({snap:()=>renderSnap(),lab:()=>renderLab(M,B),hub:()=>renderHub(M,B),op:()=>renderOpt(),ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>{renderCheckout(M);renderRecovery(M);renderCo90(M);renderCo54(M)},jr:()=>renderJourneys(M),ex:()=>{renderExperiments(M);renderStages(B)},in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M),af:()=>renderAffiliates(),aud:()=>renderAud(),fin:()=>renderFinance(),up:()=>renderUpsell()})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
  if(storedAt)$("fresh").textContent="· עודכן "+new Date(storedAt).toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});}
 /* סינון לפי משווק (בקשת יהב 09.11): אמיר, שחר, גל ורחל ראשונים, ואחריהם שאר המשווקים הפעילים */
 const AFF_FIRST=["amir","shahar","gal","rachel"];
@@ -1401,7 +1462,7 @@ function ownOpts(){const sel=$("fOwn"),cur=fOwn;const codes=Object.keys(AFF).fil
 function status(msg,kind){const s=$("status");if(!msg){s.hidden=true;return}s.className="banner "+(kind||"");s.textContent=msg;s.hidden=false;}
 function tsvRows(text){return text.split("\n").filter(l=>l.trim()).map(l=>{const a=l.split("\t"),o={};COLS.forEach((k,i)=>o[k]=a[i]||"");o.t=new Date((o.ts||"").replace(" ","T"));return o}).filter(r=>!isNaN(r.t)).sort((a,b)=>a.t-b.t)}
 let busy=false;
-async function load(){if(busy)return;busy=true;$("refresh").disabled=true;
+async function load(){if(busy)return;busy=true;$("refresh").disabled=true;if(UPS_ST!=="loading")UPS_ST="idle";
  try{const [a,b,c,d,e]=await Promise.all([fetch(API+"rows",{cache:"no-store"}),fetch(API+"spend",{cache:"no-store"}),fetch(API+"affiliates",{cache:"no-store"}).catch(()=>null),fetch(API+"refunds",{cache:"no-store"}).catch(()=>null),fetch(API+"paid",{cache:"no-store"}).catch(()=>null)]);
   if(!a.ok)throw new Error("rows "+a.status);const ta=await a.text();
   if(ta.trim()==="Accepted")throw new Error("השרת לא החזיר נתונים");
