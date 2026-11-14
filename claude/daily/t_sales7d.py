@@ -17,19 +17,28 @@ R = ["header",
  row("2026-11-12 11:00:00", "purchase", "a", "s4", "cardcom | 297 ILS | deal 270060105 | src ", cta="cardcom_webhook"),  # בדיקה
  row("2026-11-12 12:00:00", "purchase", "a", "bank_x", "bank | 297 ILS | ref R1", cta="manual_bank_transfer"),          # בלי אירועים
  row("2026-11-01 10:00:00", "purchase", "a", "s5", "cardcom | 297 ILS | deal 999 | src ", cta="cardcom_webhook"),       # מחוץ לחלון
- row("2026-11-12 13:00:00", "view", "a5v6", "s6", "utm_content=p25&claude=1"),                                         # בדיקה - לא נספר כראשונה
+ row("2026-11-12 13:00:00", "view", "a5v6", "s6", "utm_content=p25&claude=1"),
+ row("2026-11-09 08:00:00", "view", "a5", "s7", "utm_campaign=ic_camp&utm_content=p25"),
+ row("2026-11-09 08:10:00", "purchase", "a5", "s7", "cardcom | 297 ILS | deal 1007 | src ", cta="cardcom_webhook"),       # לפני נתוני ההוצאה
+ row("2026-11-12 14:00:00", "purchase", "a5v6", "s1", "cardcom | 297 ILS | deal 1008 | src ", x="int=1", cta="cardcom_webhook"),  # בדיקה (b88)
+ row("2026-11-12 15:00:00", "view", "a5v6", "s9", "utm_campaign=lenatzeach_lab&utm_content=car4"),
+ row("2026-11-12 15:20:00", "purchase", "a5v6", "s9", "cardcom | 297 ILS | deal 1009 | src ", cta="cardcom_webhook"),      # אין רכישה בימי ההוצאה
+                                         # בדיקה - לא נספר כראשונה
 ]
 json.dump({"content": "\n".join(R)}, open(d + "/ev.json", "w"))
-open(d + "/sp.tsv", "w").write("spend\n2026-11-10|p25\t10\n2026-11-11|p25\t20\n2026-11-11|p25_brain_c2\t50\n2026-11-11|aff_amir_ic\t30\n2026-11-12|aff_amir_ic\t40\n2026-11-12|p25_yosef\t7\n2026-11-12|aff_yosef\t5\n2026-11-13|aff_yosef\t4\n2026-11-01|p25\t999\n")
+open(d + "/sp.tsv", "w").write("spend\n2026-11-10|p25\t10\n2026-11-11|p25\t20\n2026-11-11|p25_brain_c2\t50\n2026-11-11|aff_amir_ic\t30\n2026-11-12|aff_amir_ic\t40\n2026-11-12|p25_yosef\t7\n2026-11-13|car4\t9\n2026-11-12|aff_yosef\t5\n2026-11-13|aff_yosef\t4\n2026-11-01|p25\t999\n")
 out = subprocess.run([sys.executable, "-I", sys.argv[1], d + "/ev.json", "2026-11-14 10:00", d + "/sp.tsv"], capture_output=True, text=True).stdout
 print(out)
 n = f = 0
 def ok(m, c):
     global n, f; n += 1
     if not c: f += 1; print("FAIL", m)
-ok("4 purchases (dedupe, test deal and out-of-window excluded)", "verified purchases 4," in out)
-ok("first entry wins: lenatzeach_cold / p25", "ad | p25 | purchases 1" in out and "OTHER" not in out)
-ok("p25 spend in window only (30, 2/8 days)", "spend 7d 30 (2/8" in out)
+ok("6 purchases (dedupe, test deal, int=1 and out-of-window excluded)", "verified purchases 6," in out)
+ok("first entry wins (s1 -> lenatzeach_cold), p25 has 2 purchases", "ad | p25 | purchases 2" in out and "OTHER" not in out)
+ok("p25 spend in window only (30, 2/8 days), shared by 2 campaigns", "spend 7d 30 (2/8 ימים עם הוצאה; משותפת ל-2 קמפיינים: ic_camp 1, lenatzeach_cold 1 ביקורים)" in out)
+ok("cpa = 30 / 1 purchase on spend days, 1 before spend data", "cost/purchase 30; 1 לפני נתוני ההוצאה" in out)
+ok("ad with spend but no purchase on spend days", "ad | car4 | purchases 1" in out and "אין רכישות בימי ההוצאה; 1 לפני נתוני ההוצאה" in out)
+ok("single-campaign ad not marked shared", "spend 7d 9 (1/8 ימים עם הוצאה)" in out)
 ok("amir shared ad -> spend at affiliate", "p25_brain_c2 · aff amir" in out and "אצל המשווק" in out and "aff | amir | purchases 1 | spend 7d 70 (2/8" in out)
 ok("campaign decoded, pipe replaced", "camp | NLP / Aff amir |" in out)
 ok("yosef own ad uses per-ad spend 7", "p25_yosef · aff yosef | purchases 1 | revenue 297 | spend 7d 7 (1/8" in out)

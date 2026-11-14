@@ -8,6 +8,11 @@
 #    אם ל-sid אין אירועים (למשל העברה בנקאית) - "לא ידוע".
 #  - הוצאה למודעה: סכום המפתחות "תאריך|<utm_content>" בחלון של 7 הימים (הוצאה לפי מודעה של בן ושל יוסף).
 #    למשווקים בלי הוצאה לפי מודעה - ההוצאה של המשווק בחלון (aff_<קוד> ו-aff_<קוד>_*), בשורה נפרדת. בלי הוצאה לקמפיין (אין במאגר).
+#  תיקונים (ראשי 14.11):
+#   1. עלות לרכישה = ההוצאה בימים שיש בהם הוצאה לפי מודעה, חלקי הרכישות באותם ימים. רכישה מיום בלי נתוני הוצאה נספרת ברכישות
+#      ומסומנת "לפני נתוני ההוצאה".
+#   2. שורת רכישה עם int=1 ב-x (סימון הבדיקה של b88) לא נספרת. אחרי רכישת הבדיקה של ראשון - להוסיף את העסקאות שלה ל-TEST_DEALS.
+#   3. כשאותו utm_content מופיע בחלון ביותר מקמפיין אחד (באירועים, בלי בדיקות וסריקות) - ליד ההוצאה "משותפת ל-N קמפיינים".
 import json, base64, re, sys, urllib.parse as up
 from datetime import datetime, timedelta
 from collections import defaultdict
@@ -20,7 +25,7 @@ TEST_DEALS = ("267429750", "270060105")
 COLS = ["ts","ev","variant","sid","sec_on_page","max_section","sections","max_scroll_pct","qs","at_section","section","name","video","cta","checkout_started","depth","vid","dev","nv","act","x"]
 def is_test(r):
     return bool(re.search("claude|test|nocache", (r["qs"] or "").lower())) or bool(re.search(r"(^|;)int=1(;|$)", r["x"] or "")) or r["variant"] == "test"
-first = {}; buys = []; seen = set()
+first = {}; buys = []; seen = set(); ADC = defaultdict(lambda: defaultdict(set))
 for l in t.replace("\r", "").split("\n")[1:]:
     a = l.split("\t")
     if len(a) < 9: continue
@@ -29,6 +34,7 @@ for l in t.replace("\r", "").split("\n")[1:]:
     except Exception: continue
     if r["ev"] == "purchase":
         if r["cta"] not in ("cardcom_webhook", "cardcom_page_webhook", "manual_bank_transfer") or not (START <= r["t"] < END): continue
+        if re.search(r"(^|;)int=1(;|$)", r["x"] or ""): continue  # תיקון 2: רכישת בדיקה מסומנת (b88)
         if r["cta"] == "manual_bank_transfer":
             m = re.search(r"ref\s+([^\s|]+)", r["qs"]); d = "bank_" + m.group(1) if m else r["sid"]
         else:
@@ -38,6 +44,9 @@ for l in t.replace("\r", "").split("\n")[1:]:
         buys.append({"t": r["t"], "sid": r["sid"], "amt": float(am.group(1)) if am else 0.0, "bank": r["cta"] == "manual_bank_transfer"})
         continue
     if not r["sid"] or r["ev"].startswith("meta_scan") or is_test(r): continue
+    if START <= r["t"] < END:  # תיקון 3: באילו קמפיינים רץ כל utm_content בחלון
+        mc = re.search(r"(?:^|[?&])utm_content=([^&]*)", r["qs"] or "")
+        if mc: ADC[up.unquote_plus(mc.group(1)).lower()][(up.unquote_plus((re.search(r"(?:^|[?&])utm_campaign=([^&]*)", r["qs"] or "") or [None, ""])[1] or "") or "(בלי קמפיין)").replace("|", "/")].add(r["sid"])
     f = first.get(r["sid"])
     if f is None or r["t"] < f["t"]: first[r["sid"]] = r
 def q(qs, k):
@@ -80,8 +89,17 @@ for (k, af), L in sorted(A.items(), key=lambda kv: -len(kv[1])):
     if SP is None: spt = "לא נטען"
     elif not own: spt = "אצל המשווק (למטה)"
     elif sp is None: spt = "אין במאגר"
-    else: spt = "%s (%d/%d ימים עם הוצאה)" % (fmt(sp), len(SPD[k]), NDAYS)
-    cpa = fmt(sp / len(L)) if sp is not None else "-"
+    else:
+        CC = ADC.get(k, {}); nc = len(CC)
+        sh = ("; משותפת ל-%d קמפיינים: %s ביקורים" % (nc, ", ".join("%s %d" % (c, len(v)) for c, v in sorted(CC.items(), key=lambda kv: (-len(kv[1]), kv[0]))))) if nc > 1 else ""
+        spt = "%s (%d/%d ימים עם הוצאה%s)" % (fmt(sp), len(SPD[k]), NDAYS, sh)
+    # תיקון 1: עלות לרכישה רק לפי הרכישות בימים שיש בהם הוצאה לפי מודעה
+    inD = [b for b in L if b["t"].strftime("%Y-%m-%d") in SPD.get(k, ())] if sp is not None else []
+    pre = len(L) - len(inD) if sp is not None else 0
+    if sp is None: cpa = "-"
+    elif inD: cpa = fmt(sp / len(inD))
+    else: cpa = "אין רכישות בימי ההוצאה"
+    if pre: cpa += "; %d לפני נתוני ההוצאה" % pre
     camps = sorted({b["camp"] for b in L})
     print("ad | %s%s | purchases %d | revenue %s | spend 7d %s | cost/purchase %s | campaigns %s" % (k, (" · aff " + af) if af else "", len(L), fmt(sum(b["amt"] for b in L)), spt, cpa, ",".join(camps)))
 AF = sorted({b["aff"] for b in buys if b["aff"]})
