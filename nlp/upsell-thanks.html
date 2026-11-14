@@ -85,7 +85,7 @@ body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-appl
 (function(){
  try{ if(top !== self) return; }catch(e){ return; } /* בתוך ה-iframe של דף הסליקה: רק יוצאים למעלה, בלי פנייה לשרת */
  /* אותו שרת כמו checkout97 (תרחיש 8463689, כבוי). עד שהכתובת מוזנת - אין פנייה לשום מקום */
- const UPSELL_API = "%UPSELL_API%";
+ const UPSELL_API = "https://hook.eu1.make.com/afnx34prmqo6zjf7b8zoqe7fvvy6q97b";
  const q = new URLSearchParams(location.search), demo = q.get("demo"), t = (q.get("t") || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 64);
  const $ = id => document.getElementById(id);
  const show = id => ["stDone","stWait","stNone"].forEach(x => $(x).hidden = x !== id);

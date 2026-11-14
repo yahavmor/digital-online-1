@@ -461,9 +461,9 @@ const CONFIG = {
   courseUrl: 'thanks.html?ups=1', // ב74: חזרה לדף התודה, שם מופיע כפתור הכניסה לקורס (קישור הקורס לא נכנס לקוד הציבורי)
   // ב74: חיבור לסליקה. כפתורי הרכישה מובילים ל-checkout97.html?t=<טוקן>. הבדיקה והחיוב רק בשרת.
   checkoutPage: 'checkout97.html',
-  upsellApi: '%UPSELL_API%', // תרחיש Make של האפסייל (טיוטה, לא קיים עדיין). עד שמוזן - אין פנייה לשרת
+  upsellApi: 'https://hook.eu1.make.com/afnx34prmqo6zjf7b8zoqe7fvvy6q97b', // ב74: תרחיש 8463689 (hook 4068821). פעיל רק בחלון בדיקה או אחרי ההשקה; כבוי = אין הצעה
   // צילומי מסך אמיתיים מהאפליקציה (אחרי שלב A של פ1). null = הדמיה זמנית בקוד
-  screenshots: { home: null, plan: null, sos: null },
+  screenshots: { home: 'assets/upsell/app-home.jpg', plan: 'assets/upsell/app-plan.jpg', sos: 'assets/upsell/app-sos.jpg' }, // בן אישר 14.11
   // A/B: ?v=b מחליף טקסטים לפי המפתחות כאן
   variants: {
     a: {},
