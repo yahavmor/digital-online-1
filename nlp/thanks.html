@@ -102,6 +102,7 @@ const SUPPORT_WA = "972526951092";
   /* קישור הכניסה לקורס לא נמצא בקוד הדף: הוא מגיע מהשרת רק אחרי אימות התשלום מול Cardcom */
   (function(){
     const VERIFY = "https://hook.eu1.make.com/s9ay2kp6sldk9527d77seuuq83xxto60";
+    const UPSELL_ISSUE = "https://hook.eu1.make.com/qhq5knj8mf2npzvmn4wufssrsk7uzyqd"; /* ב74: 8463664 - קוד חד-פעמי לאפסייל אחרי תשלום מאומת */
     const el = id => document.getElementById(id);
     let lp = "";
     try{ lp = sessionStorage.getItem("cc_lp") || ""; }catch(e){}
@@ -124,10 +125,24 @@ const SUPPORT_WA = "972526951092";
       if(!(d && d.ok === true && typeof d.link === "string" && /^https:\/\/[^\/]*schooler\.biz\//i.test(d.link))) return false;
       purchase(d);
       const a = el("go"); a.href = d.link; a.hidden = false; el("wait").hidden = true;
+      upsell(0);
       if(d.email && window.__showTo) __showTo(d.email); /* ב56: המייל מוצג בתיבה "איפה פרטי הגישה?" */
       if(typeof d.wa === "string" && /^https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]{10,40}$/.test(d.wa)){ const g = el("grp"); g.href = d.wa; g.hidden = false; /* ב72; השורה שמתחת לכפתור הוסרה לפי החלטת בן 09.11 */
         g.addEventListener("click", () => { try{ if(TRACK_ENDPOINT[0] === "%") return; let lc = {}; try{ lc = JSON.parse(localStorage.getItem("nlp_lc") || "{}"); }catch(e){} const q = new URLSearchParams(location.search); const f = new URLSearchParams({ev:"wa_group_click", variant:lc.v || q.get("v") || "", sid:lc.sid || q.get("sid") || ""}); try{ if(localStorage.getItem("nlp_int") === "1") f.set("x","int=1"); }catch(e){} if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT, f))) fetch(TRACK_ENDPOINT, {method:"POST", body:f, mode:"no-cors"}); }catch(e){} }, {once:true}); }
       return true;
+    }
+    /* ב74: הצעת האפסייל. ההמתנה של 1.5 שניות נותנת ל-Purchase ולאירועי הדף להישלח לפני המעבר */
+    let upFired = false;
+    function upsell(n){
+      if(framed || !lp || qs.has("ups") || (n === 0 && upFired)) return; upFired = true;
+      const retry = () => { if(n < 4) setTimeout(() => upsell(n + 1), 3000); };
+      fetch(UPSELL_ISSUE, {method:"POST", body:new URLSearchParams({lookup_lp: lp})})
+        .then(r => r.json()).then(u => {
+          const t = u && typeof u.up === "string" ? u.up : "";
+          if(!/^[A-Za-z0-9]{32}$/.test(t)) return retry();
+          let seen = false; try{ seen = sessionStorage.getItem("ups_seen") === t; sessionStorage.setItem("ups_seen", t); }catch(e){}
+          if(!seen) setTimeout(() => { location.href = "upsell-97.html?t=" + t; }, 1500);
+        }).catch(retry);
     }
     function ask(n){
       const ctl = ("AbortController" in self) ? new AbortController() : null; const t = setTimeout(() => ctl && ctl.abort(), 20000);
