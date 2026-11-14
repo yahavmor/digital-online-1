@@ -356,6 +356,7 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
     $("loading").style.display = ""; $("cc").hidden = true; $("retry").style.display = "none"; document.querySelector(".spin").style.display=""; $("loadTxt").textContent = "טוען תשלום מאובטח...";
     let prev=""; try{ if(qs.get("status")==="failed") prev=sessionStorage.getItem("cc_lp")||""; }catch(e){}
     const body = new URLSearchParams({variant, sid, name:det.name, email:det.email, phone:det.phone, utm_source:U("utm_source"), utm_medium:U("utm_medium"), utm_campaign:U("utm_campaign"), utm_content:U("utm_content")}); if(prev) body.set("prev_lp", prev); body.set("co", CV); { const ow=window.NLP_OWNER?NLP_OWNER():""; if(ow) body.set("aff", ow); }
+    if(INT) body.set("test","1"); /* ב69: ביקור פנימי - 7827398 מעביר ל-ReturnValue, ו-7827404 מדלג על CAPI ועל עמלה */
     /* נתוני התאמה ל-Meta CAPI: נשמרים ב-Make לפי מזהה דף התשלום ונשלחים עם ה-Purchase מהשרת. כל שדה רק כשיש לו ערך */
     try{ const ck=n=>{ const m=document.cookie.match(new RegExp("(?:^|; )"+n+"=([^;]*)")); return m?decodeURIComponent(m[1]):""; };
       const fbp=ck("_fbp"), fbclid=qs.get("fbclid"); let fbc=ck("_fbc"); if(!fbc&&fbclid) fbc="fb.1."+Date.now()+"."+fbclid;
