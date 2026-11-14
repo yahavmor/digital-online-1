@@ -1,0 +1,15 @@
+{
+  "_note": "ב91: נתיב חדש action=upsell ב-7843392 (API הדשבורד). קורא את 251557 בלי token, name, email, phone ו-sid. מתווסף כנתיב אחרון בנתב 2, בלי שינוי בנתיבים הקיימים. ההחלה רק אחרי מאשר.",
+  "flow": [
+    {"id": 28, "module": "datastore:SearchRecord", "version": 1,
+     "filter": {"name": "upsell (ב91 - קודי האפסייל, בלי פרטים אישיים)", "conditions": [[{"a": "{{1.action}}", "b": "upsell", "o": "text:equal"}]]},
+     "parameters": {"limit": 5000, "datastore": 251557, "continueWhenNoRes": true},
+     "mapper": {"filter": [[{"a": "token", "b": null, "o": "exist"}]]}},
+    {"id": 29, "module": "util:TextAggregator", "version": 1,
+     "parameters": {"feeder": 28, "rowSeparator": "\n"},
+     "mapper": {"value": "{{formatDate(28.data.created; \"YYYY-MM-DD HH:mm:ss\"; \"Asia/Jerusalem\")}}\t{{if(28.data.expires; formatDate(28.data.expires; \"YYYY-MM-DD HH:mm:ss\"; \"Asia/Jerusalem\"); \"\")}}\t{{28.data.used}}\t{{28.data.declined}}\t{{if(28.data.paid_at; formatDate(28.data.paid_at; \"YYYY-MM-DD HH:mm:ss\"; \"Asia/Jerusalem\"); \"\")}}\t{{28.data.test}}\t{{28.data.aff}}\t{{28.data.deal}}\t{{28.data.up_deal}}"}},
+    {"id": 30, "module": "gateway:WebhookRespond", "version": 1, "parameters": {},
+     "mapper": {"body": "upsell\tcreated\texpires\tused\tdeclined\tpaid_at\ttest\taff\tdeal\tup_deal\n{{29.text}}", "status": 200,
+       "headers": [{"key": "Access-Control-Allow-Origin", "value": "*"}, {"key": "Content-Type", "value": "text/plain; charset=utf-8"}, {"key": "Cache-Control", "value": "no-store"}]}}
+  ]
+}
