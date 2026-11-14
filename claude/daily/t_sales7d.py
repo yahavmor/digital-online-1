@@ -18,6 +18,8 @@ R = ["header",
  row("2026-11-12 12:00:00", "purchase", "a", "bank_x", "bank | 297 ILS | ref R1", cta="manual_bank_transfer"),          # בלי אירועים
  row("2026-11-01 10:00:00", "purchase", "a", "s5", "cardcom | 297 ILS | deal 999 | src ", cta="cardcom_webhook"),       # מחוץ לחלון
  row("2026-11-12 13:00:00", "view", "a5v6", "s6", "utm_content=p25&claude=1"),
+ row("2026-11-12 16:26:30", "view", "a5v6", "s10", "utm_campaign=x&utm_content=p25&fbclid=IwAR1tnpw6glbrf"),   # utm_campaign=x - בדיקה
+ row("2026-11-12 16:30:00", "view", "a5v6", "s11", "utm_campaign=xmas&utm_content=car4"),                          # לא x בדיוק - נספר
  row("2026-11-09 08:00:00", "view", "a5", "s7", "utm_campaign=ic_camp&utm_content=p25"),
  row("2026-11-09 08:10:00", "purchase", "a5", "s7", "cardcom | 297 ILS | deal 1007 | src ", cta="cardcom_webhook"),       # לפני נתוני ההוצאה
  row("2026-11-12 14:00:00", "purchase", "a5v6", "s1", "cardcom | 297 ILS | deal 1008 | src ", x="int=1", cta="cardcom_webhook"),  # בדיקה (b88)
@@ -38,7 +40,7 @@ ok("first entry wins (s1 -> lenatzeach_cold), p25 has 2 purchases", "ad | p25 | 
 ok("p25 spend in window only (30, 2/8 days), shared by 2 campaigns", "spend 7d 30 (2/8 ימים עם הוצאה; משותפת ל-2 קמפיינים: ic_camp 1, lenatzeach_cold 1 ביקורים)" in out)
 ok("cpa = 30 / 1 purchase on spend days, 1 before spend data", "cost/purchase 30; 1 לפני נתוני ההוצאה" in out)
 ok("ad with spend but no purchase on spend days", "ad | car4 | purchases 1" in out and "אין רכישות בימי ההוצאה; 1 לפני נתוני ההוצאה" in out)
-ok("single-campaign ad not marked shared", "spend 7d 9 (1/8 ימים עם הוצאה)" in out)
+ok("utm_campaign=x not counted; xmas is (car4 shared by 2)", "x 1" not in out and "משותפת ל-2 קמפיינים: ic_camp 1, lenatzeach_cold 1 ביקורים" in out and "spend 7d 9 (1/8 ימים עם הוצאה; משותפת ל-2 קמפיינים: lenatzeach_lab 1, xmas 1 ביקורים)" in out)
 ok("amir shared ad -> spend at affiliate", "p25_brain_c2 · aff amir" in out and "אצל המשווק" in out and "aff | amir | purchases 1 | spend 7d 70 (2/8" in out)
 ok("campaign decoded, pipe replaced", "camp | NLP / Aff amir |" in out)
 ok("yosef own ad uses per-ad spend 7", "p25_yosef · aff yosef | purchases 1 | revenue 297 | spend 7d 7 (1/8" in out)

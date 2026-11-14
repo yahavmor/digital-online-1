@@ -24,7 +24,8 @@ SPF = sys.argv[3] if len(sys.argv) > 3 else None
 TEST_DEALS = ("267429750", "270060105")
 COLS = ["ts","ev","variant","sid","sec_on_page","max_section","sections","max_scroll_pct","qs","at_section","section","name","video","cta","checkout_started","depth","vid","dev","nv","act","x"]
 def is_test(r):
-    return bool(re.search("claude|test|nocache", (r["qs"] or "").lower())) or bool(re.search(r"(^|;)int=1(;|$)", r["x"] or "")) or r["variant"] == "test"
+    return bool(re.search("claude|test|nocache", (r["qs"] or "").lower())) or bool(re.search(r"(^|;)int=1(;|$)", r["x"] or "")) or r["variant"] == "test" \
+        or bool(re.search(r"(?:^|[?&])utm_campaign=x(?:&|$)", r["qs"] or ""))  # מאשר (ראשי 14.11): utm_campaign=x בדיוק = בדיקה. בלי כלל לפי fbclid
 first = {}; buys = []; seen = set(); ADC = defaultdict(lambda: defaultdict(set))
 for l in t.replace("\r", "").split("\n")[1:]:
     a = l.split("\t")
