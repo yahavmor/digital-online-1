@@ -60,6 +60,11 @@ for r in sorted(R,key=lambda r:r["t"]):
     if e=="checkout_details": s["lead"]=1; s["start"]=1
 for sid,s in S.items():
     if not s.get("test") and sid in BUY: s["buy"]=1; s["bt"]=BUY[sid]
+# ראשי 15.11 (ב93/ב94): מ-15.11 הקוד p24 ב-lenatzeach_cold הוא קמפיין הבדיקות של P24 (30 ₪ ליום, אופטימיזציה לרכישה), לא הפיילוט.
+# הקישור נשאר lenatzeach_cold. בטבלאות: p24 מ-15.11 בשורה נפרדת, וגם ההוצאה של המפתח p24 מ-15.11.
+P24T=datetime(2026,11,15); P24L="p24 (בדיקות P24, מ-15.11)"
+for v in S.values():
+    if not v.get("test") and v.get("ad")=="p24" and v["t"]>=P24T: v["ad"]=P24L
 SS={k:v for k,v in S.items() if not v.get("test")}
 nobuy=[sid for sid in BUY if sid not in SS]
 # מילון המודעות - קהל
@@ -85,6 +90,8 @@ for l in open(SPF,encoding="utf8").read().replace("\r","").split("\n")[1:]:
     if len(a)<2 or not a[0].strip(): continue
     try: SP[(a[0].split("|")[0].strip(), (a[0].split("|",1)[1].strip().lower() if "|" in a[0] else ""))]+=float(a[1])
     except: pass
+for (d,k) in list(SP):
+    if k=="p24" and d>="2026-11-15": SP[(d,P24L)]+=SP.pop((d,k))
 DAYS=sorted({d for d,k in SP})
 def is_aff_key(k): return k.startswith("aff_") or any(f in k for f in AFFS if len(f)>2)
 def ben_ad(d,ad): return SP.get((d,ad),0.0) if not is_aff_key(ad) else 0.0
@@ -141,9 +148,13 @@ for lab,A,B in RANGES:
     # בן - לפי קמפיין (בלי הוצאה - ההוצאה במאגר רק לפי מודעה)
     print("\n### התנועה של בן - לפי קמפיין (utm_campaign; ההוצאה במאגר לא לפי קמפיין)\n"); print("| קמפיין | קהל | אנשים | הגיעו לתשלום | התחילו למלא | לידים | רכישות |"); print("|---|---|---|---|---|---|---|")
     G=defaultdict(list)
-    for s in ben: G[s["camp"]].append(s)
-    for c,L in sorted(G.items(),key=lambda kv:(-agg(kv[1])[4],-agg(kv[1])[0])):
-        n=agg(L); auds=sorted({aud(c,s["ad"]) for s in L})
+    def clab(s):
+        if s["camp"]!="lenatzeach_cold": return s["camp"]
+        return "lenatzeach_cold · " + ("p25 (פיילוט)" if s["ad"]=="p25" else "p24 (בדיקות P24, מ-15.11)" if s["ad"]==P24L else "p24 (עד 14.11)" if s["ad"]=="p24" else "מודעות אחרות")
+    for s in ben: G[clab(s)].append(s)
+    if B>P24T: G.setdefault("lenatzeach_cold · p24 (בדיקות P24, מ-15.11)",[])  # מוצג גם כשעוד אין כניסות
+    for c,L in sorted(G.items(),key=lambda kv:(-(agg(kv[1])[4] if kv[1] else 0),-(agg(kv[1])[0] if kv[1] else 0))):
+        n=agg(L) if L else [0]*5; auds=sorted({aud(s["camp"],s["ad"]) for s in L}) or ["קר"]
         print("| %s | %s | %d | %d | %d | %d | %d |"%(c,auds[0] if len(auds)==1 else "/".join(auds),*n))
     # משווקים
     print("\n### משווקים (aff)\n"); print(HEAD%"משווק (קמפיינים)"); print(SEP)
