@@ -73,7 +73,11 @@ for l in open(ADF,encoding="utf8").read().split("\n")[1:]:
     a=l.split("\t")
     if len(a)>4 and a[0].strip(): ADA[a[0].strip().lower()]=a[4].strip()
 AFFS=sorted({s["aff"] for s in SS.values() if s["aff"]})
-def aud(camp,ad):
+AUD_FIX={"w1_trust_b":"חם","car4_warm_a":"חם"}  # ראשי 15.11: בקבוצה החמה
+AFF_AUD={"amir":"חם"}  # ראשי 15.11: אצל אמיר שתי הקבוצות חמות
+def aud(camp,ad,aff=""):
+    if aff in AFF_AUD: return AFF_AUD[aff]
+    if ad in AUD_FIX: return AUD_FIX[ad]
     v=ADA.get(ad,"")  # מילון המודעות קודם (הקהל שבן הגדיר למודעה), ואז שם הקמפיין
     if v in("חם",): return "חם"
     if v in("קר","קר (מעבדה)"): return "קר"
@@ -112,10 +116,28 @@ def agg(L):
     for s in L:
         o=P[s["vid"]]; o[0]=1; o[1]|=s["chk"]; o[2]|=s["start"]; o[3]|=s["lead"]; o[4]|=s["buy"]
     return [sum(o[i] for o in P.values()) for i in range(5)]
+# ראשי 15.11: לטווח מ-20.10 - סכומים כוללים עד תאריך (בלי השורות היומיות של אותם ימים), ומשם השורות היומיות
+OVR={"p25":(1780.0,"2026-11-14","P25 בפיילוט עד 14.11"),"p24":(838.73+27.09,"2026-11-14","P24v2 838.73 + 27.09 במעבדה"),"t9_motivation_b":(101.51,"2026-11-10","עד 10.11")}
+def itemized(d):  # יום שההוצאה של בן בו מפורטת כמעט כולה לפי מודעה
+    tot=ben_total(d)
+    return tot is None or ben_unalloc(d)<=max(5.0,0.03*tot)
+def ad_spend(ad,D,L,use_ovr):
+    """(הוצאה, ימים עם שורה, מכסה את כל הטווח?)"""
+    days_vis={s["t"].strftime("%Y-%m-%d") for s in L}
+    sp=0.0; nd=0; full=True; cut=None
+    if use_ovr and ad in OVR: sp,cut=OVR[ad][0],OVR[ad][1]
+    for d in D:
+        if cut and d<=cut: continue
+        if (d,ad) in SP: sp+=SP[(d,ad)]; nd+=1 if SP[(d,ad)]>0 else 0; continue
+        if itemized(d) or d not in days_vis: continue
+        full=False
+    return sp,nd,full,cut
+ORG=("(בלי קמפיין)","launch_oct","manychat","guide")
+def per2(sp,n,full): return per(sp,n) if full else "חלקי"
 HEAD="| %s | קהל | הוצאה ₪ | אנשים | הגיעו לתשלום | התחילו למלא | לידים | רכישות | ₪ לליד | ₪ לרכישה |"
 SEP="|---|---|---|---|---|---|---|---|---|---|"
 for lab,A,B in RANGES:
-    D=days_in(A,B); E=[s for s in SS.values() if A<=s["t"]<B]
+    D=days_in(A,B); use_ovr=A<=datetime(2026,10,20,0,1); E=[s for s in SS.values() if A<=s["t"]<B]
     ben=[s for s in E if not s["aff"]]; affs=[s for s in E if s["aff"]]
     print("\n## %s (%s - %s, שעון ישראל)"%(lab,A.strftime("%d.%m %H:%M"),B.strftime("%d.%m %H:%M")))
     tb=agg(E); print("סה\"כ: אנשים %d, הגיעו לתשלום %d, התחילו %d, לידים %d, רכישות %d"%tuple(tb))
@@ -125,30 +147,31 @@ for lab,A,B in RANGES:
     for s in ben: G[s["ad"]].append(s)
     rows=[]; alloc=0.0
     for ad,L in G.items():
-        sp=sum(ben_ad(d,ad) for d in D); nd=sum(1 for d in D if ben_ad(d,ad)>0); alloc+=sp
+        sp,nd,full,cut=ad_spend(ad,D,L,use_ovr); alloc+=sp
+        if all(x["camp"] in ORG for x in L) and not sp: full=True  # אורגני / מייל / ManyChat - אין הוצאה, לא "חלקי"
         n=agg(L); cc=Counter(s["camp"] for s in L)
         auds=sorted({aud(s["camp"],ad) for s in L}); au=auds[0] if len(auds)==1 else "/".join(auds)
-        rows.append((n[4],n[0],"| %s <small>(%s)</small> | %s | %s | %d | %d | %d | %d | %d | %s | %s |"%(ad,", ".join("%s: %d"%(c,v) for c,v in cc.most_common(3))+(" …" if len(cc)>3 else ""),au,(f0(sp)+(" (%d ימים)"%nd if nd else "")) if sp else "-",*n,per(sp,n[3]),per(sp,n[4])),n,sp))
+        spt=(f0(sp)+(" <small>(סה\"כ %s%s)</small>"%(OVR[ad][2],(" + %d ימים אחריו"%nd) if nd else "") if cut else (" (%d ימים)"%nd if nd else ""))+("" if full else " <small>חלקי</small>")) if sp else ("-" if full else "- <small>חלקי</small>")
+        rows.append((n[4],n[0],"| %s <small>(%s)</small> | %s | %s | %d | %d | %d | %d | %d | %s | %s |"%(ad,", ".join("%s: %d"%(c,v) for c,v in cc.most_common(3))+(" …" if len(cc)>3 else ""),au,spt,*n,per2(sp,n[3],full),per2(sp,n[4],full)),n,sp,au,full))
     # מודעות עם הוצאה בלי כניסות
     for ad in sorted({k for (d,k) in SP if k and not is_aff_key(k) and d in D}-set(G)):
-        sp=sum(ben_ad(d,ad) for d in D); alloc+=sp
-        if sp: rows.append((0,0,"| %s <small>(בלי כניסות)</small> | %s | %s | 0 | 0 | 0 | 0 | 0 | אין | אין |"%(ad,aud("",ad),f0(sp)),[0]*5,sp))
+        sp,nd,full,cut=ad_spend(ad,D,[],use_ovr); alloc+=sp
+        if sp: rows.append((0,0,"| %s <small>(בלי כניסות)</small> | %s | %s | 0 | 0 | 0 | 0 | 0 | אין | אין |"%(ad,aud("",ad),f0(sp)),[0]*5,sp,aud("",ad),True))
     big=[r for r in rows if r[1]>=10 or r[3][1]>0 or r[3][4]>0 or r[4]>=20]; small=[r for r in rows if r not in big]
     for r in sorted(big,key=lambda x:(-x[0],-x[1])): print(r[2])
     if small:
-        ssp=sum(r[4] for r in small); sn=[sum(r[3][i] for r in small) for i in range(5)]
-        print("| שאר המודעות <small>(%d מודעות, כל אחת פחות מ-10 אנשים ובלי סליקה)</small> | קר | %s | %d | %d | %d | %d | %d | %s | %s |"%(len(small),f0(ssp) if ssp else "-",*sn,per(ssp,sn[3]),per(ssp,sn[4])))
+        ssp=sum(r[4] for r in small); sn=[sum(r[3][i] for r in small) for i in range(5)]; sa=sorted({r[5] for r in small}); sf=all(r[6] for r in small)
+        print("| שאר המודעות <small>(%d מודעות, כל אחת פחות מ-10 אנשים ובלי סליקה)</small> | %s | %s | %d | %d | %d | %d | %d | %s | %s |"%(len(small),"/".join(sa),(f0(ssp) if ssp else "-")+("" if sf else " <small>חלקי</small>"),*sn,per2(ssp,sn[3],sf),per2(ssp,sn[4],sf)))
     tot_ben=sum((ben_total(d) or 0) for d in D)
-    full=[d for d in D if ben_total(d) is not None and not any(k and not is_aff_key(k) for (dd,k) in SP if dd==d)]
-    part=[d for d in D if d not in full and ben_unalloc(d)>0.5]
-    if full: print("| **הוצאה של בן - רק סה\"כ יומי, בלי פירוט לפי מודעה** <small>(%d ימים: %s-%s)</small> | | %s | | | | | | | |"%(len(full),full[0][8:10]+"."+full[0][5:7],full[-1][8:10]+"."+full[-1][5:7],f0(sum(ben_unalloc(d) for d in full))))
-    if part: print("| **הוצאה של בן - הפרש בין הסה\"כ היומי למודעות** <small>(%d ימים: %s)</small> | | %s | | | | | | | |"%(len(part),", ".join(d[8:10]+"."+d[5:7] for d in part),f0(sum(ben_unalloc(d) for d in part))))
+    nofull=[d for d in D if not itemized(d)]
+    print("| **הוצאה של בן שלא משויכת למודעה** <small>(הסה\"כ פחות ההוצאה בשורות שלמעלה; ימים בלי פירוט מלא: %s)</small> | | %s | | | | | | | |"%(", ".join(d[8:10]+"."+d[5:7] for d in nofull) if len(nofull)<=8 else "%d ימים, %s-%s"%(len(nofull),nofull[0][8:10]+"."+nofull[0][5:7],nofull[-1][8:10]+"."+nofull[-1][5:7]),f0(tot_ben-alloc)))
     nb=agg(ben)
     print("| **סה\"כ בן** | | %s | %d | %d | %d | %d | %d | %s | %s |"%(f0(tot_ben),*nb,per(tot_ben,nb[3]),per(tot_ben,nb[4])))
     # בן - לפי קמפיין (בלי הוצאה - ההוצאה במאגר רק לפי מודעה)
     print("\n### התנועה של בן - לפי קמפיין (utm_campaign; ההוצאה במאגר לא לפי קמפיין)\n"); print("| קמפיין | קהל | אנשים | הגיעו לתשלום | התחילו למלא | לידים | רכישות |"); print("|---|---|---|---|---|---|---|")
     G=defaultdict(list)
     def clab(s):
+        if s["camp"]=="lenatzeach_lab": return "lenatzeach_lab · "+aud(s["camp"],s["ad"])
         if s["camp"]!="lenatzeach_cold": return s["camp"]
         return "lenatzeach_cold · " + ("p25 (פיילוט)" if s["ad"]=="p25" else "p24 (בדיקות P24, מ-15.11)" if s["ad"]==P24L else "p24 (עד 14.11)" if s["ad"]=="p24" else "מודעות אחרות")
     for s in ben: G[clab(s)].append(s)
@@ -162,7 +185,7 @@ for lab,A,B in RANGES:
     for s in affs: G[s["aff"]].append(s)
     for f in sorted(set(G)|{k[4:].split("_")[0] for (d,k) in SP if k.startswith("aff_") and d in D},key=lambda f:(-agg(G.get(f,[]))[4],-agg(G.get(f,[]))[0])):
         L=G.get(f,[]); sp=sum(aff_day(d,f) for d in D); nd=sum(1 for d in D if aff_day(d,f)>0); n=agg(L) if L else [0]*5
-        cc=Counter(s["camp"] for s in L); auds=sorted({aud(s["camp"],s["ad"]) for s in L}) or ["-"]
+        cc=Counter(s["camp"] for s in L); auds=sorted({aud(s["camp"],s["ad"],s["aff"]) for s in L}) or ["-"]
         print("| %s <small>(%s)</small> | %s | %s | %d | %d | %d | %d | %d | %s | %s |"%(f,", ".join(c for c,v in cc.most_common(2)) or "-",auds[0] if len(auds)==1 else "/".join(auds),(f0(sp)+" (%d ימים)"%nd) if sp else "-",*n,per(sp,n[3]),per(sp,n[4])))
     na=agg(affs); spa=sum(aff_day(d,f) for d in D for f in set(G)|{k[4:].split("_")[0] for (dd,k) in SP if k.startswith("aff_") and dd in D})
     print("| **סה\"כ משווקים** | | %s | %d | %d | %d | %d | %d | %s | %s |"%(f0(spa),*na,per(spa,na[3]),per(spa,na[4])))
