@@ -23,13 +23,21 @@ var NLP_OWNER=(function(){var K="nlp_aff",D=2592e6,now=Date.now(),cur=null;
   /* ב68 שלב ג ("מאשר" מיהב, 15.11 07:22): ap2_0811 נסגר - a5v6 נקבע כדף המוביל (9 מתוך 96 הגיעו לסליקה, מול 0 מתוך 90 ב-pr2).
      כל התנועה שעוברת ב-go.html (כל המודעות והמשווקים) עוברת ל-a5v6, בלי הגרלה, עם exp=a5v6_1511. גם מי ששובץ קודם ל-pr2.
      pr2 ו-a5 נשארים באתר, מחוץ לחלוקה. השיבוץ השמור של ap2_0811 נשאר בדפדפן ולא נקרא */
-  var EXP="a5v6_1511";
+  /* ב94 ("מאשר ב94" מיהב, 15.11 14:07): ניסוי דפים pg_1611 - a5v6 מול pr2, חצי-חצי, קבוע לדפדפן, לכל התנועה שעוברת ב-go.html (כל המודעות והמשווקים).
+     מי ששובץ ב-ap2_0811 נשאר בדף שלו (a5 = a5v6, pr2 = pr2), כדי שלא יראה דף אחר בחזרה; זה סימטרי בין שני הדפים. כל השאר מוגרלים.
+     אינסטגרם אורגני ממשיך ל-a (ב44). הדפים, דף התשלום וניסוי B מול B2 לא משתנים */
+  var EXP="pg_1611", K="nlp_go_"+EXP, v=null, o=null; try{ v=localStorage.getItem(K); o=localStorage.getItem("nlp_go_ap2_0811"); }catch(e){}
+  if(v!=="a5v6"&&v!=="pr2"){
+    if(o==="a5"||o==="pr2"){ v=(o==="a5"?"a5v6":"pr2"); }
+    else { var A=["a5v6","pr2"]; try{ var r=new Uint8Array(1); crypto.getRandomValues(r); v=A[r[0]%2]; }catch(e){ v=A[Math.random()<0.5?0:1]; } }
+    try{ localStorage.setItem(K,v); }catch(e){}
+  }
   var q=new URLSearchParams(location.search); if(!q.has("go")) q.set("go","1");
   /* ב44 (בקשת בן 4.11): אינסטגרם אורגני (ביו ו-ManyChat: utm_source=instagram/ig עם utm_medium=bio/dm, בלי aff ובלי utm_id) תמיד ל-a, מחוץ לניסוי.
      השיבוץ השמור בדפדפן לא משתנה, ומבקר שיחזור ממודעה ימשיך לגרסה שלו. */
   var s0=(q.get("utm_source")||"").toLowerCase(), m0=(q.get("utm_medium")||"").toLowerCase();
   if((s0==="instagram"||s0==="ig")&&(m0==="bio"||m0==="dm")&&!q.get("aff")&&!q.get("utm_id")){ q.delete("exp"); q.set("route","ig_org"); location.replace("a.html?"+q.toString()); return; }
   q.set("exp",EXP);
-  location.replace("a5v6.html?"+q.toString()); /* a, a1-a5, b, c, a2/b2/c2, pr, pr_v1 ו-pr2 נשארים באתר, מחוץ לחלוקה */
+  location.replace(v+".html?"+q.toString()); /* a, a1-a5, b, c, a2/b2/c2, pr ו-pr_v1 נשארים באתר, מחוץ לניסוי */
 })();
 </script></head><body>טוען...</body></html>
