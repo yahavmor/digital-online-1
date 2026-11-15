@@ -45,15 +45,15 @@ let n = 0, f = 0; const ok = (m, c, i) => { n++; if (!c) { f++; console.log("FAI
     ok(pg + ": checkout events with same sid and aff", X.ev.some(e => /^checkout_/.test(e.ev || "") && e.sid === c.searchParams.get("sid") && /aff=gal/.test(e.x || "")));
     ok(pg + ": no JS errors", !X.errs.length, X.errs.join("|")); await X.c.close() }
   // 6. דשבורד: טבלת pg_1611 עם נתונים מדומים
-  const row = (t, ev, v, sid, vid, extra) => { const a = Array(21).fill(""); a[0] = "2026-11-16 " + t; a[1] = ev; a[2] = v; a[3] = sid; a[16] = vid; a[17] = "m-ios-fb"; a[8] = "utm_source=fb&utm_medium=paid&utm_id=1&exp=pg_1611&go=1"; Object.assign(a, extra || {}); return a.join("\t") };
+  const row = (t, ev, v, sid, vid, extra) => { const a = Array(21).fill(""); a[0] = "2026-11-15 " + t; a[1] = ev; a[2] = v; a[3] = sid; a[16] = vid; a[17] = "m-ios-fb"; a[8] = "utm_source=fb&utm_medium=paid&utm_id=1&exp=pg_1611&go=1"; Object.assign(a, extra || {}); return a.join("\t") };
   const R = [];
   const sess = (t, v, sid, vid, evs) => evs.forEach((e, i) => R.push(row(t.replace(/:(\d\d)$/, (m, s) => ":" + String(+s + i).padStart(2, "0")), e, v, sid, vid)));
-  sess("11:00:00", "a5v6", "s1", "v1", ["view"]); sess("11:01:00", "a5v6", "s2", "v2", ["view", "checkout_view"]); sess("11:02:00", "a5v6", "s3", "v3", ["view", "checkout_view", "checkout_contact_started", "checkout_details"]);
-  sess("11:03:00", "pr2", "s4", "v4", ["view"]); sess("11:04:00", "pr2", "s5", "v4", ["view", "checkout_view"]); sess("11:05:00", "pr2", "s6", "v6", ["view", "checkout_view", "checkout_contact_started"]);
-  R.push(row("11:06:00", "view", "pr2", "s7", "v7", { 8: "utm_source=fb&utm_medium=paid&exp=ap2_0811" })); // ניסוי אחר - לא נספר
-  R.push(row("11:20:00", "purchase", "a5v6", "s3", "", { 8: "cardcom | 297 ILS | deal 990000009 | src ", 13: "cardcom_webhook", 17: "" }));
+  sess("14:30:00", "a5v6", "s1", "v1", ["view"]); sess("14:31:00", "a5v6", "s2", "v2", ["view", "checkout_view"]); sess("14:32:00", "a5v6", "s3", "v3", ["view", "checkout_view", "checkout_contact_started", "checkout_details"]);
+  sess("14:33:00", "pr2", "s4", "v4", ["view"]); sess("14:34:00", "pr2", "s5", "v4", ["view", "checkout_view"]); sess("14:35:00", "pr2", "s6", "v6", ["view", "checkout_view", "checkout_contact_started"]);
+  R.push(row("14:36:00", "view", "pr2", "s7", "v7", { 8: "utm_source=fb&utm_medium=paid&exp=ap2_0811" })); // ניסוי אחר - לא נספר
+  R.push(row("14:50:00", "purchase", "a5v6", "s3", "", { 8: "cardcom | 297 ILS | deal 990000009 | src ", 13: "cardcom_webhook", 17: "" }));
   const EV = R.join("\n");
-  const dash = async dir => { const c = await b.newContext({ timezoneId: "Asia/Jerusalem" }); await c.clock.setFixedTime(new Date("2026-11-16T12:00:00+02:00")); const errs = [];
+  const dash = async dir => { const c = await b.newContext({ timezoneId: "Asia/Jerusalem" }); await c.clock.setFixedTime(new Date("2026-11-15T16:00:00+02:00")); const errs = [];
     await c.route("**/*", r => { const u = new URL(r.request().url()); if (u.href.startsWith("https://local.test/")) return r.fulfill({ status: 200, contentType: "text/html; charset=utf-8", body: fs.readFileSync(path.join(dir, "dashboard.html")) });
       if (u.hostname.endsWith("make.com")) { const a = u.searchParams.get("action"); return r.fulfill({ status: 200, body: { rows: EV, spend: "spend\n", affiliates: "affiliates\tname\tpct\tactive\tfee\tbudget\n", refunds: "refunds\n", paid: "paid\tat\taff\n", ads: "ads\n" }[a] || "" }) }
       return r.fulfill({ status: 204, body: "" }) });
@@ -67,7 +67,7 @@ let n = 0, f = 0; const ok = (m, c, i) => { n++; if (!c) { f++; console.log("FAI
   ok("pg table: P(best) on leads and buys", /הטוב ביותר/.test(tab[4][1]) && /הטוב ביותר/.test(tab[5][2]));
   ok("dashboard: no JS errors", !D2.errs.length, D2.errs.join("|"));
   const ex = await D2.p.evaluate(() => [EXP.id, EXP.arms.join(","), EXP.start.toISOString(), CHANGELOG[0][1].slice(0, 40), EXPERIMENTS[0].id]);
-  ok("EXP=pg_1611 a5v6,pr2 from 10:10; changelog and experiments list", ex[0] === "pg_1611" && ex[1] === "a5v6,pr2" && ex[2] === "2026-11-16T08:10:00.000Z" && /ב94/.test(ex[3]) && ex[4] === "pg_1611", JSON.stringify(ex));
+  ok("EXP=pg_1611 a5v6,pr2 from 14:17; changelog and experiments list", ex[0] === "pg_1611" && ex[1] === "a5v6,pr2" && ex[2] === "2026-11-15T12:17:00.000Z" && /ב94/.test(ex[3]) && ex[4] === "pg_1611", JSON.stringify(ex));
   const scr = async (X, s) => { await X.p.evaluate(s => setScreen(s), s); await X.p.waitForTimeout(300); return X.p.evaluate(s => document.getElementById("s-" + s).innerText.replace(/עודכן \d\d:\d\d/g, ""), s) };
   for (const s of ["snap", "co", "af", "fin", "up"]) ok("screen " + s + " unchanged", (await scr(D1, s)) === (await scr(D2, s)));
   console.log("TOTAL", n - f + "/" + n); await b.close(); process.exit(f ? 1 : 0)

@@ -52,3 +52,16 @@ python3 claude/b53/build_campaign.py                                    # EXP נ
   - יש הסתברות בלידים וברכישות.
   - אין שגיאות.
   - הלשוניות snap, co, af, fin ו-up לא השתנו.
+
+## פריסה (15.11, "מאשר ב94" מיהב, אחרי שבן אישר את pr2)
+- **main 7b810f91:**
+  - נדחף: 14:08:56.
+  - patch_pg עם השעה 14:07, כך שההשוואה בדשבורד מתחילה ב-14:17.
+  - campaign.html נבנה מחדש.
+- **הגיבובים:**
+  - go.html bbbd350f871f28d4
+  - dashboard.html fba700eba431dda4
+  - campaign.html e7c035d9b85004bb
+  - לא השתנו: a5v6 8b03ecf1cf3509d3, pr2 7355072c1ea8977c, checkout 86bee7aaee724790.
+- **t_pg.js מול main הקודם (692fe06a):** 28/28.
+- **daily_0811.py (ענף):** שורות pg_1611 מ-14:17.

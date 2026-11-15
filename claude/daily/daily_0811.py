@@ -18,6 +18,7 @@ print("rows",len(R),"last",max(r["ts"] for r in R))
 PREV=datetime.strptime(sys.argv[2],"%Y-%m-%d %H:%M")
 X0=datetime(2026,11,5,6,55); SW=datetime(2026,11,8,14,19); CO54=datetime(2026,11,8,9,58)
 V6=datetime(2026,11,12,11,54)
+PG=datetime(2026,11,15,14,17)  # ב94: pg_1611 a5v6 מול pr2 (פריסה + 10 דקות מטמון)
 SC=datetime(2026,11,15,7,33)  # ב68 שלב ג: go.html מפנה הכול ל-a5v6 עם exp=a5v6_1511 (פריסה 07:22, באוויר 07:23, ועוד עד 10 דקות מטמון)  # ב85: go.html מפנה את הזרוע a5 ל-a5v6 (פריסה 11:45, ועוד עד 10 דקות מטמון)
 def isTest(r):
     q=r["qs"].lower()
@@ -50,6 +51,7 @@ for r in L:
     e=r["ev"]
     if e.startswith("checkout_"): s["chk"]=1
     if e in("checkout_details","checkout_contact_started"): s["det"]=1
+    if e=="checkout_details": s["lead"]=1
     if e=="checkout_payment_viewed": s["pay"]=1
     if e=="checkout_failed": s["failed"]+=1
     if e=="cta_click": s["cta"]=1; s["ctas"].append(r["cta"])
@@ -94,6 +96,14 @@ report(SW,V6,["a5","pr2"],"ap2_0811 phase 1: a5 vs pr2 (08.11 14:19 - 12.11 11:5
 report(SW,V6,["a5","pr2"],"ap2_0811 phase 1 ALL sources (incl aff)",only_paid=False)
 report(V6,datetime(2100,1,1),["a5v6","pr2"],"ap2_0811 phase 2: a5v6 vs pr2 (from 12.11 11:54, b85), paid only")
 report(V6,datetime(2100,1,1),["a5v6","pr2"],"ap2_0811 phase 2 ALL sources (incl aff)",only_paid=False)
+EXPID="pg_1611"
+for only in (True,False):
+    E=[s for s in S.values() if s["exp"]=="pg_1611" and s["v"] in("a5v6","pr2") and s["t"]>=PG and (not only or s["src"]=="paid")]
+    P=defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+    for s in E:
+        o=P[s["v"]][s["vid"] or s["v"]+s["t"].isoformat()]
+        for f in ("chk","det","lead","buy"): o[f]|=s.get(f,0)
+    print("b94 pg_1611","paid" if only else "all",{v:{"people":len(P[v]),"checkout":sum(o["chk"] for o in P[v].values()),"started":sum(o["det"] for o in P[v].values()),"leads":sum(o["lead"] for o in P[v].values()),"buys":sum(o["buy"] for o in P[v].values())} for v in ("a5v6","pr2")})
 EXPID="a5v6_1511"
 report(SC,datetime(2100,1,1),["a5v6"],"a5v6 all traffic (b68 stage C, from 15.11 07:33), paid only")
 report(SC,datetime(2100,1,1),["a5v6"],"a5v6 all traffic (b68 stage C) ALL sources",only_paid=False)
