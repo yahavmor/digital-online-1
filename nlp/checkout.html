@@ -200,6 +200,18 @@ html[data-co2="1"] .pt-a{display:none}
 .b2-launch{margin:10px auto 0;width:max-content;max-width:100%;padding:3px 12px;border:1px solid var(--gold2);border-radius:999px;font-size:14px;font-weight:700;color:var(--gold)}
 .b2-guar{margin:10px auto 2px;max-width:360px;padding:8px 12px;border-radius:12px;background:#EEF6F1;color:var(--ok);font-size:14.5px;font-weight:600;line-height:1.45}
 .b2-step{color:var(--gold)}
+/* ב96: B2 צמוד יותר - העוגן ושורת האחריות נשארים, כדי ששדה השם ייכנס למסך הראשון */
+html[data-co2="1"] .top{padding:14px 0 2px}
+html[data-co2="1"] .order{position:relative;margin-top:22px;padding:14px 16px 8px}
+html[data-co2="1"] .b2-launch{position:absolute;top:-11px;left:50%;transform:translateX(-50%);margin:0;padding:1px 10px;font-size:12.5px;line-height:1.5;background:var(--soft);white-space:nowrap}
+html[data-co2="1"] .order .price{margin:4px 0 0}
+html[data-co2="1"] .price s.was{font-size:18px}
+html[data-co2="1"] .b2-guar{margin:6px auto 0;max-width:none;padding:4px 10px;font-size:13px;line-height:1.35;border-radius:10px}
+html[data-co2="1"] .once,html[data-co2="1"] .nosub{display:inline-block;margin:6px 5px 0;vertical-align:baseline}
+html[data-co2="1"] .incl{margin:8px 0 0;padding:6px 0 0;gap:4px}
+html[data-co2="1"] .why{margin-top:12px;padding-top:10px}
+/* ב96: Apple Pay / Google Pay מתחת לטופס */
+.walltop.wt-below{margin:14px auto 0}
 .paytitle .pt-a,.paytitle .pt-b{font-size:inherit;font-weight:inherit;color:inherit}
 </style>
 </head>
@@ -210,8 +222,6 @@ html[data-co2="1"] .pt-a{display:none}
 <section class="top">
 <h1>השלמת הרכישה</h1>
 <p class="what">עוד רגע זה שלך. לאחר אישור התשלום תקבל גישה מיידית לקורס ולכל הבונוסים.</p>
-<div class="walltop" id="wallTop"><div class="wt-row" id="wtRow"><button type="button" class="wt-b" data-w="apple" aria-label="תשלום ב-Apple Pay: מתחילים בשם, מייל וטלפון"><img src="assets/pay/apple-pay-mark.svg" alt="Apple Pay" width="69" height="44" decoding="async"></button><button type="button" class="wt-b" data-w="google" aria-label="תשלום ב-Google Pay: מתחילים בשם, מייל וטלפון"><img src="assets/pay/google-pay-mark.svg" alt="Google Pay" width="82" height="44" decoding="async"></button></div>
-<p class="wt-t" id="wtT">משלמים ב-<bdi>Apple Pay</bdi> או ב-<bdi>Google Pay</bdi> בלחיצה, אחרי שם, מייל וטלפון</p><p class="wt-h" id="wtH" hidden></p></div>
 </section>
 
 <section class="order" aria-label="ההזמנה שלך">
@@ -244,6 +254,8 @@ html[data-co2="1"] .pt-a{display:none}
 <div class="paylogos" data-paylogos="co_det"><ul class="pl-row" aria-hidden="true"><li data-pl="apple"><img src="assets/pay/apple-pay-mark.svg" alt="" width="41" height="26" decoding="async"></li><li data-pl="google"><img src="assets/pay/google-pay-mark.svg" alt="" width="49" height="26" decoding="async"></li><li data-pl="bit" hidden><img src="assets/pay/bit-mark.svg" alt="" width="41" height="26" decoding="async"></li><li data-pl="card"><img src="assets/pay/card.svg" alt="" width="41" height="26" decoding="async"></li></ul><p class="pl-t">אפשר לשלם ב-<bdi>Apple Pay</bdi>, <bdi>Google Pay</bdi> או אשראי</p><p class="pl-h" hidden></p></div>
 <button class="go" type="submit"><span>המשך לתשלום מאובטח - <span class="pgrp">297 ₪</span></span></button>
 </form>
+<div class="walltop wt-below" id="wallTop"><!-- ב96: מתחת לטופס (היה בראש הדף) --><div class="wt-row" id="wtRow"><button type="button" class="wt-b" data-w="apple" aria-label="תשלום ב-Apple Pay: מתחילים בשם, מייל וטלפון"><img src="assets/pay/apple-pay-mark.svg" alt="Apple Pay" width="69" height="44" decoding="async"></button><button type="button" class="wt-b" data-w="google" aria-label="תשלום ב-Google Pay: מתחילים בשם, מייל וטלפון"><img src="assets/pay/google-pay-mark.svg" alt="Google Pay" width="82" height="44" decoding="async"></button></div>
+<p class="wt-t" id="wtT">משלמים ב-<bdi>Apple Pay</bdi> או ב-<bdi>Google Pay</bdi> בלחיצה, אחרי שם, מייל וטלפון</p><p class="wt-h" id="wtH" hidden></p></div>
 </section>
 
 <section class="pay" id="paySec" aria-label="תשלום" hidden>
@@ -314,7 +326,7 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
      ?co=a או ?co=b לתצוגה מקדימה בלבד (לא נשמר) */
   /* ב63 (בן 08.11, "מאשר ב63" מיהב): הגרלת הסליקה co_0511 הסתיימה - דף התשלום B (מסך אחד) לכולם, כדי שלא ירוצו שתי בדיקות על תנועה קטנה. cx=co_b_0811 מסמן את התקופה.
      ?co=a או ?co=b נשאר לתצוגה מקדימה בלבד (לא נשמר) */
-  const CO_EXP = "co_b2_1311"; const CO_L = window.NLP_CO==="a"||window.NLP_CO==="b2" ? window.NLP_CO : "b"; let CV = CO_L==="a" ? "a" : "b"; /* ב90: B2 מתנהגת כמו B; רק התצוגה והסימון (co=b2) שונים */
+  const CO_EXP = "co_b2_1511"; /* ב96 (15.11 15:46): הספירה של B מול B2 מתחילה מחדש - שתי הגרסאות השתנו (Apple Pay/Google Pay מתחת לטופס, B2 צמוד יותר). היה co_b2_1311 */ const CO_L = window.NLP_CO==="a"||window.NLP_CO==="b2" ? window.NLP_CO : "b"; let CV = CO_L==="a" ? "a" : "b"; /* ב90: B2 מתנהגת כמו B; רק התצוגה והסימון (co=b2) שונים */
   document.documentElement.dataset.co = CV; try{ if(window.clarity) clarity("set","co",CO_L); }catch(e){}
   const variant = qs.get("v") || U("utm_content").replace("lp_","") || "x";
   const sid = qs.get("sid") || ((self.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now()+"-"+Math.random().toString(36).slice(2));
