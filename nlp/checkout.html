@@ -210,6 +210,15 @@ html[data-co2="1"] .b2-guar{margin:6px auto 0;max-width:none;padding:4px 10px;fo
 html[data-co2="1"] .once,html[data-co2="1"] .nosub{display:inline-block;margin:6px 5px 0;vertical-align:baseline}
 html[data-co2="1"] .incl{margin:8px 0 0;padding:6px 0 0;gap:4px}
 html[data-co2="1"] .why{margin-top:12px;padding-top:10px}
+/* ב96 המשך: שורת אמון */
+.trust{display:flex;align-items:center;gap:10px;margin:0 0 10px;padding:6px 10px;border-radius:12px;background:var(--soft);text-align:right}
+.trust img{width:34px;height:34px;border-radius:50%;flex:none;object-fit:cover}
+.trust p{margin:0;font-size:13.5px;line-height:1.35;font-weight:600;color:var(--ink2)}
+.trust p{min-width:0}
+.trust p span{display:inline-block;max-width:100%}
+.trust p span+span::before{content:" · ";color:var(--muted);font-weight:400}
+.fld+.trust{margin:-2px 0 12px}
+html[data-co2="1"] .b2-guar{display:none} /* ב-B2 האחריות בשורת האמון */
 /* ב96: Apple Pay / Google Pay מתחת לטופס */
 .walltop.wt-below{margin:14px auto 0}
 .paytitle .pt-a,.paytitle .pt-b{font-size:inherit;font-weight:inherit;color:inherit}
@@ -243,6 +252,7 @@ html[data-co2="1"] .why{margin-top:12px;padding-top:10px}
 <h2><span class="b2xi b2-step">שלב 1 מתוך 2: </span>הפרטים שלך</h2>
 <form id="det" novalidate data-clarity-mask="True">
 <label class="fld"><b>שם מלא</b><input id="fName" name="name" autocomplete="name" required maxlength="50"><span>החשבונית תופק על השם הזה</span></label>
+<div class="trust" id="coTrust"><img src="assets/ben-avatar.webp" alt="בן נחום" width="34" height="34" decoding="async"><p><span>90 שיעורים קצרים + 5 בונוסים</span><span>7 ימי אחריות עם החזר מלא</span></p></div>
 <label class="fld"><b>מייל</b><input id="fEmail" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" required><span>לשם נשלחים החשבונית וקישור הכניסה לקורס</span></label>
 <p class="esug" id="eSug" role="status" hidden>התכוונת ל-<button type="button" id="eSugB"></button>? <button type="button" class="no" id="eSugX">לא, המייל נכון</button></p>
 <label class="fld"><b>טלפון נייד</b><input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required placeholder="05X-XXXXXXX"><span>רק למקרה שנצטרך לעזור לך עם הגישה. לא נעביר אותו לאף אחד</span><span class="perr" id="pErr" role="alert"></span></label>
@@ -326,7 +336,7 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
      ?co=a או ?co=b לתצוגה מקדימה בלבד (לא נשמר) */
   /* ב63 (בן 08.11, "מאשר ב63" מיהב): הגרלת הסליקה co_0511 הסתיימה - דף התשלום B (מסך אחד) לכולם, כדי שלא ירוצו שתי בדיקות על תנועה קטנה. cx=co_b_0811 מסמן את התקופה.
      ?co=a או ?co=b נשאר לתצוגה מקדימה בלבד (לא נשמר) */
-  const CO_EXP = "co_b2_1511"; /* ב96 (15.11 15:46): הספירה של B מול B2 מתחילה מחדש - שתי הגרסאות השתנו (Apple Pay/Google Pay מתחת לטופס, B2 צמוד יותר). היה co_b2_1311 */ const CO_L = window.NLP_CO==="a"||window.NLP_CO==="b2" ? window.NLP_CO : "b"; let CV = CO_L==="a" ? "a" : "b"; /* ב90: B2 מתנהגת כמו B; רק התצוגה והסימון (co=b2) שונים */
+  const CO_EXP = "co_b2_1511t"; /* ב96 המשך (15.11 15:55): שורת אמון - הספירה מתחילה מחדש */ /* ב96 (15.11 15:46): הספירה של B מול B2 מתחילה מחדש - שתי הגרסאות השתנו (Apple Pay/Google Pay מתחת לטופס, B2 צמוד יותר). היה co_b2_1311 */ const CO_L = window.NLP_CO==="a"||window.NLP_CO==="b2" ? window.NLP_CO : "b"; let CV = CO_L==="a" ? "a" : "b"; /* ב90: B2 מתנהגת כמו B; רק התצוגה והסימון (co=b2) שונים */
   document.documentElement.dataset.co = CV; try{ if(window.clarity) clarity("set","co",CO_L); }catch(e){}
   const variant = qs.get("v") || U("utm_content").replace("lp_","") || "x";
   const sid = qs.get("sid") || ((self.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now()+"-"+Math.random().toString(36).slice(2));
