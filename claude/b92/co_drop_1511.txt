@@ -1,0 +1,112 @@
+people reached checkout: 48 | started 5 | details 4 | payment form 4 | bought 3
+
+-- browser -- reached / started / payment form / bought
+  in-app FB               44 / 4 / 3 / 2
+  in-app IG                2 / 1 / 1 / 1
+  desktop                  1 / 0 / 0 / 0
+  mobile web               1 / 0 / 0 / 0
+
+-- OS -- reached / started / payment form / bought
+  Android                 34 / 5 / 4 / 3
+  iOS                     13 / 0 / 0 / 0
+  desktop                  1 / 0 / 0 / 0
+
+-- dev -- reached / started / payment form / bought
+  m-android-fb            31 / 4 / 3 / 2
+  m-ios-fb                13 / 0 / 0 / 0
+  m-android-ig             2 / 1 / 1 / 1
+  d-win-web                1 / 0 / 0 / 0
+  m-android-web            1 / 0 / 0 / 0
+
+-- checkout version (co) -- reached / started / payment form / bought
+  b co_b_0811             39 / 4 / 3 / 2
+  b co_b2_1311             6 / 0 / 0 / 0
+  b2 co_b2_1311            2 / 0 / 0 / 0
+  a co_0511                1 / 1 / 1 / 1
+
+-- source -- reached / started / payment form / bought
+  aff                     32 / 3 / 2 / 1
+  paid                    15 / 2 / 2 / 2
+  other                    1 / 0 / 0 / 0
+
+-- sales page -- reached / started / payment form / bought
+  pr2                     20 / 3 / 2 / 1
+  a5v6                    19 / 0 / 0 / 0
+  a5                       8 / 1 / 1 / 1
+  a                        1 / 1 / 1 / 1
+
+== did NOT start filling: 43
+with leave event: 35 | without (closed tab / app killed, no beacon): 8
+seconds on page: median 9 | buckets Counter({'6-15': 13, '0-5': 12, '31-60': 4, '16-30': 3, '60+': 3})
+scroll %: median 39 | buckets Counter({'0-25': 14, '76-100': 11, '26-50': 7, '51-75': 3})
+touched page: Counter({'0': 31, '1': 4})
+ttfb ms: n 35 median 259 p75 425 max 1326 | >3000ms: 0
+dcl ms: n 35 median 649 p75 1082 max 9761 | >3000ms: 1
+load ms: n 35 median 1237 p75 1893 max 2679172 | >3000ms: 3
+lcp ms: n 28 median 685.5 p75 1088 max 34556 | >3000ms: 1
+
+per person (no PII): dev | co | src | page | sec | scr | touch | load | lcp
+   08.11 10:42 m-android-fb b paid pr2 None - - - - 
+   08.11 12:45 m-android-ig b aff pr2 None - - - - 
+   08.11 18:52 d-win-web b other pr2 None - - - - 
+   09.11 09:32 m-ios-fb b paid pr2 None - - - - 
+   10.11 08:53 m-android-fb b aff a5 None - - - - 
+   10.11 09:36 m-android-fb b aff pr2 None - - - - 
+   10.11 13:06 m-ios-fb b aff a5 None - - - - 
+   10.11 21:40 m-android-fb b paid a5 41 76 0 3444 34556 
+   11.11 00:51 m-ios-fb b aff pr2 8 0 0 1553 475 
+   11.11 07:24 m-android-fb b aff pr2 51 100 0 841 492 
+   11.11 19:24 m-android-fb b aff a5 5 31 1 839 304 
+   11.11 21:00 m-android-fb b aff a5 2 0 0 1504 544 
+   11.11 21:50 m-android-fb b aff a5 15 29 0 655 440 
+   11.11 23:33 m-ios-fb b aff pr2 2 0 0 404 315 
+   11.11 23:47 m-android-fb b aff pr2 25 0 0 0 - 
+   11.11 23:51 m-android-fb b aff pr2 81 100 0 1097 492 
+   12.11 01:59 m-android-fb b aff pr2 None - - - - 
+   12.11 07:27 m-android-fb b aff pr2 9 0 1 876 - 
+   12.11 08:26 m-android-fb b paid a5 5 0 0 832 544 
+   12.11 12:26 m-android-fb b paid a5v6 1 0 0 0 1444 
+   12.11 13:24 m-android-fb b aff pr2 31 100 0 1472 1088 
+   12.11 16:55 m-ios-fb b paid a5v6 4 0 0 731 656 
+   12.11 19:47 m-android-web b paid a5v6 3 37 0 2526 1376 
+   12.11 22:24 m-android-fb b aff a5v6 36 100 0 1893 1272 
+   13.11 00:24 m-android-fb b aff pr2 7 0 0 0 - 
+   13.11 02:53 m-android-fb b paid a5v6 1801 0 0 3800 - 
+   13.11 05:52 m-android-fb b paid a5v6 8538 0 0 2679172 - 
+   13.11 07:23 m-ios-fb b paid a5v6 13 74 0 1329 571 
+   13.11 09:20 m-ios-fb b aff a5v6 9 60 1 1246 1184 
+   13.11 13:25 m-android-fb b paid a5v6 10 39 1 1639 - 
+   13.11 14:56 m-ios-fb b aff a5v6 8 100 0 2108 736 
+   13.11 19:07 m-android-fb b aff a5v6 10 92 0 1237 944 
+   13.11 19:40 m-android-fb b paid a5v6 1 44 0 0 1032 
+   13.11 19:47 m-android-fb b paid a5v6 24 43 0 2581 788 
+   13.11 20:00 m-ios-fb b aff a5v6 6 100 0 2309 - 
+   14.11 03:19 m-android-fb b aff a5v6 1 0 0 2031 1572 
+   14.11 04:13 m-android-fb b aff a5v6 5 100 0 1554 708 
+   14.11 10:43 m-android-fb b2 aff a5v6 13 84 0 1123 900 
+   15.11 00:06 m-ios-fb b aff pr2 3 0 0 1099 1054 
+   15.11 03:10 m-ios-fb b aff pr2 21 42 0 704 663 
+   15.11 04:22 m-android-fb b aff a5v6 9 0 0 1326 632 
+   15.11 06:24 m-ios-fb b aff pr2 4 56 0 645 445 
+   15.11 07:37 m-ios-fb b2 aff a5v6 9 100 0 648 485 
+
+== started filling: 5
+   08.11 08:59 m-android-ig a aff det 1 payform 1 pay_load_ms [2142] buy 1 fail 2 val 0 wallet 0 leave []
+   09.11 06:05 m-android-fb b paid det 1 payform 1 pay_load_ms [1905] buy 1 fail 0 val 0 wallet 0 leave []
+   09.11 13:33 m-android-fb b aff det 1 payform 1 pay_load_ms [3678] buy 0 fail 0 val 0 wallet 0 leave []
+   11.11 00:50 m-android-fb b aff det 0 payform 0 pay_load_ms [] buy 0 fail 0 val 0 wallet 0 leave [(10, '100', '0')]
+   12.11 06:42 m-android-fb b paid det 1 payform 1 pay_load_ms [1222] buy 1 fail 0 val 0 wallet 0 leave [(36, '53', '0')]
+
+errors on checkout sessions: Counter() []
+checkout_failed: 2 validation_error: 0 wallet taps: 0
+
+== which button led to checkout (sales page, same sid)
+  sticky             24  {'started': 4, 'no': 20}  sec on sales page before click: [11, 14, 14, 20, 24, 24, 25, 31, 33, 33, 39, 40, 41, 54, 56, 58, 63, 65, 165, 353, 1329, 1417, 2871, 8507]
+  hero_main          16  {'no': 15, 'started': 1}  sec on sales page before click: [0, 1, 5, 7, 11, 23, 27, 29, 31, 38, 58, 58, 125, 159, 967, 6967]
+  final              6  {'started': 1, 'no': 5}  sec on sales page before click: [43, 78, 163, 208, 977, 9861]
+  method             1  {'no': 1}  sec on sales page before click: [22]
+  offer              1  {'no': 1}  sec on sales page before click: [222]
+  story              1  {'no': 1}  sec on sales page before click: [226]
+  know               1  {'no': 1}  sec on sales page before click: [367]
+  cta1               1  {'no': 1}  sec on sales page before click: [18]
+  cta2               1  {'no': 1}  sec on sales page before click: [77]
