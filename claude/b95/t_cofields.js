@@ -36,7 +36,7 @@ const res = []; let n = 0, f = 0; const ok = (m, c, i) => { n++; if (!c) { f++; 
     await p.keyboard.type("בדיקה טכנית", { delay: 30 }); await p.waitForTimeout(1200);
     const cs = ev.filter(e => e.ev === "checkout_contact_started");
     ok(tag + ": typing sends checkout_contact_started once", cs.length === 1, ev.map(e => e.ev).join(","));
-    if (cs[0]) ok(tag + ": event marked test (int=1) with co=" + co, /(^|;)int=1(;|$)/.test(cs[0].x || "") && new RegExp("co=" + co + ";").test(cs[0].x || ""), cs[0].x);
+    if (cs[0]) ok(tag + ": event marked test (int=1) with co=" + co, /(^|;)int=1(;|$)/.test(cs[0].x || "") && new RegExp("co=" + co + ";cx=" + (process.env.CX || "co_b2_1311")).test(cs[0].x || ""), cs[0].x);
     // גלילה לאורך הדף: אלמנטים קבועים (fixed/sticky) שעולים על השדות
     const fixed = await p.evaluate(() => [...document.querySelectorAll("body *")].filter(e => { const s = getComputedStyle(e); return (s.position === "fixed" || s.position === "sticky") && s.display !== "none" && s.visibility !== "hidden" && e.getBoundingClientRect().height > 0 }).map(e => { const r = e.getBoundingClientRect(); return e.tagName + "#" + e.id + "." + String(e.className).slice(0, 30) + " " + Math.round(r.top) + "-" + Math.round(r.bottom) + " z" + getComputedStyle(e).zIndex }));
     res.push({ tag, fixed, errs, cs: cs[0] || null, other: [...new Set(other)] });
