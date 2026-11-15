@@ -35,3 +35,12 @@
 
 ## פריסה (אחרי "מאשר")
 `python3 patch_b99.py <root> <date> <HH:MM>` מפעילים על main ועל claude/daily. אחרי זה מריצים build_campaign, אחר כך push, ובסוף בודקים hash חי.
+
+## נפרס (מאשר ב99 מיהב)
+- **main:** 37c3daac. push ב-17:18:22, חי מ-17:19:30 (15.11).
+- **hash חי:** checkout bc4b7e484f6a388f · dashboard 95d5b6fce158c1d5 · campaign 8ec6ab238481a15e
+- **בדיקה אחרי הפריסה** (`live_check.js`, על הקובץ שנפרס - ה-hash זהה לחי):
+  - **ב-375x667:** "שם מלא" ב-237px, ב-B וב-B2.
+  - **האירועים:** הבקשות שהדף שלח נשלחו מה-workbench ל-Make, ונרשמו בגיליון ב-17:20:13 וב-17:20:14. שתי שורות checkout_contact_started עם `co=b;cx=co_b2_1511m;int=1` ו-`co=b2;cx=co_b2_1511m;int=1`.
+  - **הערה:** מסביבת הבדיקה אין גישה ישירה לאתר ול-Make, ולכן הבקשות נשלחו דרך ה-workbench.
+- **הסיכום היומי:** `claude/daily/daily_0811.py` מסנן לפי cx=co_b2_1511m.
