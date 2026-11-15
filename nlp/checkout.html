@@ -219,6 +219,23 @@ html[data-co2="1"] .why{margin-top:12px;padding-top:10px}
 .trust p span+span::before{content:" · ";color:var(--muted);font-weight:400}
 .fld+.trust{margin:-2px 0 12px}
 html[data-co2="1"] .b2-guar{display:none} /* ב-B2 האחריות בשורת האמון */
+/* ב99: במובייל הטופס במסך הראשון - כרטיס הזמנה בשורה אחת, ✓ בסוף הדף */
+.one1,.incl-end{display:none}
+@media (max-width:600px){
+.wrap{padding-top:10px}
+.brand{padding:2px 0 8px}
+.top,html[data-co2="1"] .top{padding:10px 0 0}
+.top h1{font-size:26px;margin:0 0 2px}
+.top .what{font-size:15.5px}
+.top .what2{display:none}
+.order,html[data-co2="1"] .order{margin:10px 0 0;padding:9px 12px}
+.order>*:not(.one1){display:none!important}
+.order .one1{display:block;margin:0;text-align:center;font-size:16px;font-weight:800;line-height:1.35}
+.why,html[data-co2="1"] .why{margin-top:10px;padding-top:10px}
+.why h2{margin:0 0 6px}
+.incl-end{display:block;margin:16px 0 0;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r);background:var(--soft)}
+.incl-end .incl{margin:0;padding:0;border:0}
+}
 /* ב96: Apple Pay / Google Pay מתחת לטופס */
 .walltop.wt-below{margin:14px auto 0}
 .paytitle .pt-a,.paytitle .pt-b{font-size:inherit;font-weight:inherit;color:inherit}
@@ -230,10 +247,11 @@ html[data-co2="1"] .b2-guar{display:none} /* ב-B2 האחריות בשורת ה�
 
 <section class="top">
 <h1>השלמת הרכישה</h1>
-<p class="what">עוד רגע זה שלך. לאחר אישור התשלום תקבל גישה מיידית לקורס ולכל הבונוסים.</p>
+<p class="what">עוד רגע זה שלך.<span class="what2"> לאחר אישור התשלום תקבל גישה מיידית לקורס ולכל הבונוסים.</span></p>
 </section>
 
 <section class="order" aria-label="ההזמנה שלך">
+<p class="one1">הקורס המלא + 5 בונוסים · <span class="pgrp">297 ₪</span> חד-פעמי</p><!-- ב99: שורה אחת במובייל בלבד -->
 <p class="item">הקורס המלא + כל הבונוסים</p>
 <p class="b2x b2-launch">מחיר השקה לזמן מוגבל</p>
 <p class="price"><s class="was b2xi">1,290 ₪</s><b>297</b><span>₪</span></p>
@@ -306,6 +324,12 @@ html[data-co2="1"] .b2-guar{display:none} /* ב-B2 האחריות בשורת ה�
 <li><b>אימות בנקאי</b>ייתכן שהבנק יבקש אישור קצר בטלפון. זה חלק רגיל מאבטחת העסקה</li>
 </ul>
 </section>
+<section class="incl-end" aria-label="מה מקבלים"><ul class="incl">
+<li>קורס הליבה: 90 שיעורים קצרים ומעשיים</li>
+<li>תרגולים מעשיים ליישום ביום-יום</li>
+<li>5 בונוסים בשווי 1,121 ₪: 2 קורסים מוקלטים + 3 ערכות עבודה</li>
+<li>גישה מיידית, מהטלפון או מהמחשב</li>
+</ul></section><!-- ב99: במובייל רשימת ה-✓ כאן, בסוף הדף -->
 <a class="back" href="./" id="back">חזרה לדף</a>
 <p class="legal"><a href="terms.html" target="_blank" rel="noopener" id="tFoot">תקנון ותנאי שימוש</a> · <a href="#deal">פרטי העסקה</a> · <a href="privacy.html" target="_blank" rel="noopener">מדיניות פרטיות</a></p>
 </main>
@@ -336,7 +360,7 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
      ?co=a או ?co=b לתצוגה מקדימה בלבד (לא נשמר) */
   /* ב63 (בן 08.11, "מאשר ב63" מיהב): הגרלת הסליקה co_0511 הסתיימה - דף התשלום B (מסך אחד) לכולם, כדי שלא ירוצו שתי בדיקות על תנועה קטנה. cx=co_b_0811 מסמן את התקופה.
      ?co=a או ?co=b נשאר לתצוגה מקדימה בלבד (לא נשמר) */
-  const CO_EXP = "co_b2_1511t"; /* ב96 המשך (15.11 15:55): שורת אמון - הספירה מתחילה מחדש */ /* ב96 (15.11 15:46): הספירה של B מול B2 מתחילה מחדש - שתי הגרסאות השתנו (Apple Pay/Google Pay מתחת לטופס, B2 צמוד יותר). היה co_b2_1311 */ const CO_L = window.NLP_CO==="a"||window.NLP_CO==="b2" ? window.NLP_CO : "b"; let CV = CO_L==="a" ? "a" : "b"; /* ב90: B2 מתנהגת כמו B; רק התצוגה והסימון (co=b2) שונים */
+  const CO_EXP = "co_b2_1511m"; /* ב99 (15.11 17:17): במובייל הטופס במסך הראשון - הספירה מתחילה מחדש */ /* ב96 המשך (15.11 15:55): שורת אמון - הספירה מתחילה מחדש */ /* ב96 (15.11 15:46): הספירה של B מול B2 מתחילה מחדש - שתי הגרסאות השתנו (Apple Pay/Google Pay מתחת לטופס, B2 צמוד יותר). היה co_b2_1311 */ const CO_L = window.NLP_CO==="a"||window.NLP_CO==="b2" ? window.NLP_CO : "b"; let CV = CO_L==="a" ? "a" : "b"; /* ב90: B2 מתנהגת כמו B; רק התצוגה והסימון (co=b2) שונים */
   document.documentElement.dataset.co = CV; try{ if(window.clarity) clarity("set","co",CO_L); }catch(e){}
   const variant = qs.get("v") || U("utm_content").replace("lp_","") || "x";
   const sid = qs.get("sid") || ((self.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now()+"-"+Math.random().toString(36).slice(2));
