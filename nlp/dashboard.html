@@ -97,6 +97,8 @@ nav.tabs b{font-family:var(--f-mono);font-size:11px;color:var(--muted);margin-in
 body[data-scr="fin"] :is(#range,#customBox,#fSrc,#fOwn,#fDev){display:none!important}
 /* ב91 אפסייל: שלוש תקופות זו לצד זו, בלי הסינונים הכלליים */
 body[data-scr="up"] :is(#range,#customBox,#fSrc,#fOwn,#fDev){display:none!important}
+body[data-scr="ws"] :is(#range,#customBox,#fSrc,#fOwn,#fDev){display:none!important}
+#wsAd td,#wsAd th,#wsCamp td,#wsCamp th,#wsAff td,#wsAff th{white-space:nowrap}
 #upTable td,#upTable th,#upAff td,#upAff th{white-space:nowrap}
 /* ב86 תמונת מצב */
 nav.tabs:not(.open) button[data-s]:not([data-s="snap"]){display:none}
@@ -194,6 +196,7 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
     <button role="tab" data-s="aud"><b>10</b>השוואת קהלים - P25</button>
     <button role="tab" data-s="fin"><b>11</b>בקרה כספית</button>
     <button role="tab" data-s="up"><b>12</b>אפסייל</button>
+    <button role="tab" data-s="ws"><b>13</b>מה מוכר</button>
   </nav>
 
   <!-- ◎ תמונת מצב (ב86): מסך ראשי פשוט. רק רכישות מאומתות, אנשים לפי מזהה מבקר, בלי ביקורים פנימיים -->
@@ -397,6 +400,16 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
     <div class="panel"><div class="panel-h"><h2>עמלות אפסייל לפי משווק</h2><span class="note" id="upAffNote"></span></div><div class="tw"><table id="upAff"></table></div></div>
   </section>
 
+  <!-- 13 (ב93): מה מוכר - לפי מודעה, קמפיין ומשווק. קריאה בלבד -->
+  <section class="screen" id="s-ws">
+    <div class="panel"><div class="panel-h"><h2>מה מוכר</h2>
+      <div class="seg" role="group" aria-label="תקופה" id="wsPer"><button data-p="7">7 ימים</button><button data-p="2010">מ-20.10</button></div></div>
+      <p class="note" id="wsNote"></p></div>
+    <div class="panel"><div class="panel-h"><h2>התנועה של בן - לפי מודעה</h2><span class="note" id="wsAdN"></span></div><div class="tw"><table id="wsAd"></table></div></div>
+    <div class="panel"><div class="panel-h"><h2>התנועה של בן - לפי קמפיין</h2><span class="note">ההוצאה במאגר נשמרת לפי מודעה, לא לפי קמפיין</span></div><div class="tw"><table id="wsCamp"></table></div></div>
+    <div class="panel"><div class="panel-h"><h2>משווקים</h2><span class="note">לפי aff. ההוצאה: ביום עם מודעה שהקוד שלו בשם (p25_yosef) - המודעות; אחרת aff_קוד</span></div><div class="tw"><table id="wsAff"></table></div></div>
+  </section>
+
   <!-- 10 (ב71): השוואת קהלים - P25. שחר (קר) מול רחל (חם), אותו קמפיין ואותו קופי. מתחיל בשעת הפרסום של מ28 -->
   <section class="screen" id="s-aud">
     <div class="banner" id="audSrc"></div>
@@ -463,6 +476,7 @@ const EXPERIMENTS=[
  {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"2026-10-26",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"הסתיים, הוחלף ב-abc_2610",decision:""},
 ];
 const CHANGELOG=[
+["2026-11-15","14:16 - ב93 (\"מאשר ב93\" מיהב): לשונית 13 \"מה מוכר\" (קריאה בלבד) - 7 ימים / מ-20.10: לפי מודעה, לפי קמפיין (lenatzeach_cold לפי מודעה, lenatzeach_lab לפי חם/קר) ולפי משווק - קהל, הוצאה, אנשים, הגיעו לתשלום, התחילו למלא, לידים, רכישות, ₪ לליד ולרכישה (רק בכיסוי מלא, אחרת \"חלקי\"). אותה לוגיקה כמו claude/b93/whatsells.py."],
 ["2026-11-15","14:07 - ב94 (\"מאשר ב94\" מיהב, אחרי אישור בן לדף הפרימיום): ניסוי דפים pg_1611 - go.html מחלק את כל התנועה חצי-חצי בין a5v6 ל-pr2, קבוע לדפדפן (מי ששובץ ב-ap2_0811 נשאר בדף שלו). אינסטגרם אורגני ל-a. הדפים, דף התשלום וניסוי B מול B2 בלי שינוי. טבלה חדשה בלשונית 00: אנשים, הגיעו לתשלום, התחילו למלא, לידים ורכישות, וההשוואה בלשונית מתחילה ב-14:17."],
 ["2026-11-15","07:22 - ב68 שלב ג (\"מאשר\" מיהב): ap2_0811 נסגר. a5v6 נקבע כדף המוביל (הגעה לסליקה 9/96 מול 0/90 ב-pr2), וכל התנועה ב-go.html עוברת אליו עם exp=a5v6_1511, בלי הגרלה. pr2 ו-a5 נשארים באתר, מחוץ לחלוקה. בלי שינוי ב-a5v6, בדף התשלום, בדף התודה ובאפסייל. ההשוואה בלשונית 00 נעצרת בשעה הזו (ביקורים חדשים לא מסומנים ap2_0811)."],
 ["2026-11-14","19:24 - ב91: לשונית 12 \"אפסייל\" (קריאה בלבד). היום / 7 ימים / מתחילת החודש: קודים שהונפקו, נוצלו, נדחו, פגו בלי החלטה ובתוקף (מ-251557, דרך action=upsell, בלי פרטים אישיים), אחוז המרה מתוך הקודים, רכישות והכנסה מאפסייל ועמלות אפסייל לפי משווק (72 ₪, מהגיליון). בלי עסקאות בדיקה. \"לא נפתחו\" - חסר נתון עד שהמאגר ישמור פתיחה."],
@@ -1246,6 +1260,65 @@ function renderUpsell(){
  else u.hidden=true;
  $("upNote").textContent="קריאה בלבד. קוד אחד לכל רכישת קורס מאומתת, בתוקף 30 דקות. הקודים נספרים לפי מועד ההנפקה, כך שאחוז ההמרה הוא מתוך אותם קודים. בלי עסקאות בדיקה"+(showTests?" (עכשיו: כולל בדיקות)":"")+". אחוזים מתוך הקודים שהונפקו באותה תקופה.";
 }
+/* ================= 13 מה מוכר (ב93) ================= */
+/* כמו claude/b93/whatsells.py: שיוך לפי הכניסה הראשונה של ה-sid, לפי אנשים. ליד = השאירו פרטים (checkout_details). רכישה = מאומתת.
+   עלות רק כשההוצאה של המודעה מכסה את כל הטווח, אחרת "חלקי". לטווח מ-20.10 סכומים כוללים (ראשי 15.11) */
+let wsPer="7";
+const WS_OVR={p25:[1780,"2026-11-14","סה\"כ P25 בפיילוט עד 14.11"],p24:[838.73+27.09,"2026-11-14","סה\"כ P24v2 + מעבדה"],t9_motivation_b:[101.51,"2026-11-10","סה\"כ עד 10.11"]};
+const WS_AUD_FIX={w1_trust_b:"חם",car4_warm_a:"חם"},WS_AFF_AUD={amir:"חם"},WS_ORG=["(בלי קמפיין)","launch_oct","manychat","guide"],WS_P24T=new Date("2026-11-15T00:00:00"),WS_P24L="p24 (בדיקות P24, מ-15.11)";
+function wsAud(camp,ad,aff){if(WS_AFF_AUD[aff])return WS_AFF_AUD[aff];if(WS_AUD_FIX[ad])return WS_AUD_FIX[ad];const v=((typeof ADS!=="undefined"&&ADS[ad])||{}).aud||"";
+ if(v==="חם")return "חם";if(v==="קר"||v==="קר (מעבדה)")return "קר";const c=camp.toLowerCase();if(c.includes("warm"))return "חם";if(/cold|lab|(^|[\/ _])ic([\/ _]|$)/.test(c))return "קר";
+ if(v.includes("חם")&&!v.includes("קר"))return "חם";if(v.includes("קר")&&!v.includes("חם"))return "קר";return "לא ידוע"}
+function renderWs(){
+ document.querySelectorAll("#wsPer button").forEach(x=>x.setAttribute("aria-pressed",String(x.dataset.p===wsPer)));
+ const now=new Date(),A=wsPer==="7"?new Date(+now-7*864e5):new Date("2026-10-20T00:00:00"),useOvr=wsPer!=="7";
+ const keep=[fSrc,fDev,fOwn];fSrc="";fDev="";fOwn="";let M;try{M=build(new Date(0),new Date(+now+864e5))}finally{[fSrc,fDev,fOwn]=keep}
+ const vb=new Set(M.allBuys.filter(b=>b.sid).map(b=>b.sid));
+ /* כמו whatsells.py: utm_campaign=x = בדיקה, ומבקר (vid) שהיה לו ביקור בדיקה כלשהו לא נספר */
+ const TV=new Set(rows.filter(r=>r.vid&&r.ev!=="purchase"&&isTest(r)).map(r=>r.vid));
+ const SS=M.sess.filter(s=>!(s.vid&&TV.has(s.vid))&&!(s.p&&s.p.get("utm_campaign")==="x")).map(s=>{const p=s.p||new URLSearchParams(),camp=(p.get("utm_campaign")||"(בלי קמפיין)").replace(/\|/g,"/");let ad=(p.get("utm_content")||"(בלי מודעה)").toLowerCase();if(ad==="p24"&&s.t>=WS_P24T)ad=WS_P24L;
+  return {t:s.t,who:s.vid||s.sid,camp,ad,aff:(p.get("aff")||s.aff||"").toLowerCase(),chk:!!s.chk,start:!!(s.cstart||s.det),lead:!!s.det,buy:vb.has(s.sid)}});
+ const E=SS.filter(s=>s.t>=A&&s.t<now),AFFS=[...new Set(SS.map(s=>s.aff).filter(a=>a.length>2).concat(Object.keys(AFF||{})))];
+ const agg=L=>{const P={};L.forEach(s=>{const o=P[s.who]||(P[s.who]=[1,0,0,0,0]);o[1]|=s.chk;o[2]|=s.start;o[3]|=s.lead;o[4]|=s.buy});const v=Object.values(P);return [0,1,2,3,4].map(i=>v.reduce((x,o)=>x+o[i],0))};
+ /* הוצאה */
+ const SP={};const add=(d,k,v)=>{if(k==="p24"&&d>="2026-11-15")k=WS_P24L;SP[d+"|"+k]=(SP[d+"|"+k]||0)+v};
+ for(const d in spend)add(d,"",+spend[d]);for(const k in cspend){const i=k.indexOf("|");add(k.slice(0,i),k.slice(i+1).trim().toLowerCase(),+cspend[k])}
+ const d0=dayKey(A),d1=dayKey(now),D=[...new Set(Object.keys(SP).map(k=>k.split("|")[0]))].filter(d=>d>=d0&&d<=d1).sort();
+ const isAffKey=k=>k.startsWith("aff_")||AFFS.some(f=>k.includes(f)),keysOn=d=>Object.keys(SP).filter(k=>k.startsWith(d+"|")).map(k=>k.slice(11)).filter(Boolean);
+ const tot=d=>SP[d+"|"]!=null?SP[d+"|"]:null,unal=d=>{const t=tot(d);if(t==null)return 0;return Math.max(0,t-keysOn(d).filter(k=>!isAffKey(k)).reduce((x,k)=>x+SP[d+"|"+k],0))};
+ const itemized=d=>{const t=tot(d);return t==null||unal(d)<=Math.max(5,.03*t)};
+ const adSpend=(ad,L)=>{const vis=new Set(L.map(s=>dayKey(s.t)));let sp=0,nd=0,full=true,cut=null;if(useOvr&&WS_OVR[ad]){sp=WS_OVR[ad][0];cut=WS_OVR[ad][1]}
+  D.forEach(d=>{if(cut&&d<=cut)return;const k=d+"|"+ad;if(SP[k]!=null){sp+=SP[k];if(SP[k]>0)nd++;return}if(itemized(d)||!vis.has(d))return;full=false});return {sp,nd,full,cut}};
+ const affDay=(d,f)=>{const ks=keysOn(d),ad=ks.filter(k=>k.includes(f)&&!k.startsWith("aff_"));if(ad.length)return ad.reduce((x,k)=>x+SP[d+"|"+k],0);return ks.filter(k=>k==="aff_"+f||k.startsWith("aff_"+f+"_")).reduce((x,k)=>x+SP[d+"|"+k],0)};
+ const per=(sp,n,full)=>!full?'<span class="na">חלקי</span>':(!sp?"-":(!n?"אין":ils(sp/n)));
+ const cells=n=>n.map(v=>'<td class="num">'+fmt(v)+'</td>').join("");
+ const H=["קהל","הוצאה","אנשים","הגיעו לתשלום","התחילו למלא","לידים","רכישות","₪ לליד","₪ לרכישה"];
+ /* בן לפי מודעה */
+ const ben=E.filter(s=>!s.aff),G={};ben.forEach(s=>(G[s.ad]=G[s.ad]||[]).push(s));let alloc=0;const adRows=[];
+ Object.keys(G).forEach(ad=>{const L=G[ad],r=adSpend(ad,L);if(L.every(s=>WS_ORG.includes(s.camp))&&!r.sp)r.full=true;alloc+=r.sp;const n=agg(L),cc={};L.forEach(s=>cc[s.camp]=(cc[s.camp]||0)+1);
+  const au=[...new Set(L.map(s=>wsAud(s.camp,ad,"")))].sort().join("/"),spt=r.sp?ils(r.sp)+(r.cut?' <small>('+WS_OVR[ad][2]+(r.nd?" + "+r.nd+" ימים":"")+')</small>':(r.nd?' <small>'+r.nd+' ימים</small>':"")):"-";
+  adRows.push({n,sp:r.sp,au,full:r.full,html:'<tr><td><b>'+esc(ad)+'</b> <small>'+esc(Object.entries(cc).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([c,v])=>c+": "+v).join(", "))+'</small></td><td>'+au+'</td><td>'+spt+(r.full?"":' <small class="na">חלקי</small>')+'</td>'+cells(n)+'<td>'+per(r.sp,n[3],r.full)+'</td><td>'+per(r.sp,n[4],r.full)+'</td></tr>'})});
+ [...new Set(D.flatMap(d=>keysOn(d).filter(k=>!isAffKey(k))))].filter(k=>!G[k]).forEach(ad=>{const r=adSpend(ad,[]);alloc+=r.sp;if(r.sp)adRows.push({n:[0,0,0,0,0],sp:r.sp,au:wsAud("",ad,""),full:true,html:'<tr><td><b>'+esc(ad)+'</b> <small>בלי כניסות</small></td><td>'+wsAud("",ad,"")+'</td><td>'+ils(r.sp)+'</td>'+cells([0,0,0,0,0])+'<td>אין</td><td>אין</td></tr>'})});
+ const big=adRows.filter(r=>r.n[0]>=10||r.n[1]>0||r.n[4]>0||r.sp>=20),small=adRows.filter(r=>!big.includes(r));big.sort((a,b)=>b.n[4]-a.n[4]||b.n[0]-a.n[0]);
+ const out=big.map(r=>r.html);
+ if(small.length){const sp=small.reduce((x,r)=>x+r.sp,0),n=[0,1,2,3,4].map(i=>small.reduce((x,r)=>x+r.n[i],0)),f=small.every(r=>r.full);out.push('<tr><td>שאר המודעות <small>'+small.length+' מודעות, כל אחת פחות מ-10 אנשים ובלי סליקה</small></td><td>'+[...new Set(small.map(r=>r.au))].sort().join("/")+'</td><td>'+(sp?ils(sp):"-")+(f?"":' <small class="na">חלקי</small>')+'</td>'+cells(n)+'<td>'+per(sp,n[3],f)+'</td><td>'+per(sp,n[4],f)+'</td></tr>')}
+ const tb=D.reduce((x,d)=>x+(tot(d)||0),0),nofull=D.filter(d=>!itemized(d)),nb=agg(ben);
+ out.push('<tr><td><b>הוצאה של בן שלא משויכת למודעה</b> <small>'+(nofull.length?"ימים בלי פירוט מלא: "+(nofull.length>8?nofull.length+" ימים":nofull.map(d=>d.slice(8,10)+"."+d.slice(5,7)).join(", ")):"")+'</small></td><td></td><td>'+ils(tb-alloc)+'</td><td colspan="7"></td></tr>');
+ out.push('<tr><td><b>סה"כ בן</b></td><td></td><td><b>'+ils(tb)+'</b></td>'+cells(nb)+'<td>'+per(tb,nb[3],true)+'</td><td>'+per(tb,nb[4],true)+'</td></tr>');
+ table($("wsAd"),["מודעה (קמפיינים: אנשים)"].concat(H),out,"אין כניסות בתקופה");
+ /* בן לפי קמפיין */
+ const cl=s=>s.camp==="lenatzeach_lab"?"lenatzeach_lab · "+wsAud(s.camp,s.ad,""):s.camp!=="lenatzeach_cold"?s.camp:"lenatzeach_cold · "+(s.ad==="p25"?"p25 (פיילוט)":s.ad===WS_P24L?WS_P24L:s.ad==="p24"?"p24 (עד 14.11)":"מודעות אחרות");
+ const GC={};ben.forEach(s=>(GC[cl(s)]=GC[cl(s)]||[]).push(s));if(now>WS_P24T)GC["lenatzeach_cold · "+WS_P24L]=GC["lenatzeach_cold · "+WS_P24L]||[];
+ table($("wsCamp"),["קמפיין","קהל","אנשים","הגיעו לתשלום","התחילו למלא","לידים","רכישות"],Object.entries(GC).map(([c,L])=>({c,L,n:L.length?agg(L):[0,0,0,0,0]})).sort((a,b)=>b.n[4]-a.n[4]||b.n[0]-a.n[0]).map(o=>'<tr><td>'+esc(o.c)+'</td><td>'+([...new Set(o.L.map(s=>wsAud(s.camp,s.ad,"")))].sort().join("/")||"קר")+'</td>'+cells(o.n)+'</tr>'),"אין כניסות בתקופה");
+ /* משווקים */
+ const af=E.filter(s=>s.aff),GA={};af.forEach(s=>(GA[s.aff]=GA[s.aff]||[]).push(s));D.forEach(d=>keysOn(d).filter(k=>k.startsWith("aff_")).forEach(k=>{const f=k.slice(4).split("_")[0];GA[f]=GA[f]||[]}));
+ let spa=0;const ra=Object.entries(GA).map(([f,L])=>{const sp=D.reduce((x,d)=>x+affDay(d,f),0),nd=D.filter(d=>affDay(d,f)>0).length,n=L.length?agg(L):[0,0,0,0,0],cc=[...new Set(L.map(s=>s.camp))].slice(0,2).join(", ");spa+=sp;
+  return {n,html:'<tr><td><b>'+esc((AFF[f]||{}).name||f)+'</b> <small>'+esc(cc)+'</small></td><td>'+([...new Set(L.map(s=>wsAud(s.camp,s.ad,f)))].sort().join("/")||"-")+'</td><td>'+(sp?ils(sp)+' <small>'+nd+' ימים</small>':"-")+'</td>'+cells(n)+'<td>'+per(sp,n[3],true)+'</td><td>'+per(sp,n[4],true)+'</td></tr>'}}).sort((a,b)=>b.n[4]-a.n[4]||b.n[0]-a.n[0]).map(o=>o.html);
+ const na=agg(af);ra.push('<tr><td><b>סה"כ משווקים</b></td><td></td><td><b>'+ils(spa)+'</b></td>'+cells(na)+'<td>'+per(spa,na[3],true)+'</td><td>'+per(spa,na[4],true)+'</td></tr>');
+ table($("wsAff"),["משווק"].concat(H),ra,"אין משווקים בתקופה");
+ const ta=agg(E);$("wsNote").textContent=(wsPer==="7"?"7 הימים האחרונים":"מ-20.10")+": "+fmt(ta[0])+" אנשים, "+fmt(ta[1])+" הגיעו לתשלום, "+fmt(ta[2])+" התחילו למלא, "+fmt(ta[3])+" לידים, "+fmt(ta[4])+" רכישות. שיוך לפי הכניסה הראשונה של כל ביקור, לפי אנשים, בלי בדיקות וסריקות. ליד = השאירו פרטים בדף התשלום. ₪ לליד ולרכישה רק כשההוצאה של המודעה מכסה את כל התקופה (אחרת \"חלקי\")"+(useOvr?". מ-20.10: p25, p24 ו-t9_motivation_b לפי הסכומים הכוללים מהראשי (15.11)":"")+". קהל: לפי מילון המודעות ושם הקמפיין; w1_trust_b, car4_warm_a ואמיר - חם.";
+ $("wsAdN").textContent="p24 מ-15.11 = קמפיין הבדיקות של P24 (שורה נפרדת)";
+}
 /* ================= 🧪 lab (ב43) ================= */
 /* שמות, סוג ונוסח קופי לכל utm_content - ימולא מטבלת המעבדה (ע7). עד אז: השם מ-VIDEO_NAMES, הסוג לפי הקוד, והנוסח לפי סיומת: _a / _c (קופי A / C, כמו בקמפיין של בן) או _1 / _2 */
 /* מטבלת המעבדה של ע7 (גיליון "אינדקס - סרטונים 03.11", לשונית "טבלת מעבדה", עמודת utm_content), עודכן 05.11: כל 48 המודעות של המעבדה (A ו-B בסרטונים, A ו-C בקרוסלות ובבאנרים) + 4 של הקמפיין הקיים. קודי _c ישנים בסרטונים נשארו למקרה שהגיעו בעבר. מודעה חדשה: להוסיף שורה כאן */
@@ -1466,7 +1539,7 @@ function renderDQ(M){const now=Date.now(),last=ev=>{for(let i=rows.length-1;i>=0
 function activeVars(B){const s=new Set();rows.forEach(r=>{if(r.t>=B.pa&&r.t<B.b&&(showTests||!isTest(r)))s.add(r.variant)});const v=ALLV.filter(x=>s.has(x));return v.length?v:ALLV.slice(0,3)}
 function render(){document.body.dataset.scr=screen;if(!rows)return;const B=bounds();VARS=activeVars(B);if(!VARS.includes(lpVar))lpVar=VARS[0];document.querySelectorAll("#lpVar button").forEach(b=>{b.hidden=!VARS.includes(b.dataset.v)});const M=build(B.a,B.b),P=build(B.pa,B.pb),A=aggregate(M,B.a,B.b),PA=aggregate(P,B.pa,B.pb);
  const srcs=[...new Set(rows.filter(r=>VARS.includes(r.variant)&&(showTests||!isTest(r))).map(r=>source(qsObj(r.qs))))].sort();const fs=$("fSrc");if(fs.options.length-1!==srcs.length){const cur=fs.value;fs.innerHTML='<option value="">כל המקורות</option>'+srcs.map(s=>'<option'+(s===cur?" selected":"")+'>'+esc(s)+'</option>').join("")}
- try{({snap:()=>renderSnap(),lab:()=>renderLab(M,B),hub:()=>renderHub(M,B),op:()=>{renderPg(build(EXP.start,new Date(Date.now()+864e5)));renderOpt()},ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>{renderCheckout(M);renderRecovery(M);renderCo90(M);renderCo54(M)},jr:()=>renderJourneys(M),ex:()=>{renderExperiments(M);renderStages(B)},in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M),af:()=>renderAffiliates(),aud:()=>renderAud(),fin:()=>renderFinance(),up:()=>renderUpsell()})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
+ try{({snap:()=>renderSnap(),lab:()=>renderLab(M,B),hub:()=>renderHub(M,B),op:()=>{renderPg(build(EXP.start,new Date(Date.now()+864e5)));renderOpt()},ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>{renderCheckout(M);renderRecovery(M);renderCo90(M);renderCo54(M)},jr:()=>renderJourneys(M),ex:()=>{renderExperiments(M);renderStages(B)},in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M),af:()=>renderAffiliates(),aud:()=>renderAud(),fin:()=>renderFinance(),up:()=>renderUpsell(),ws:()=>renderWs()})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
  if(storedAt)$("fresh").textContent="· עודכן "+new Date(storedAt).toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});}
 /* סינון לפי משווק (בקשת יהב 09.11): אמיר, שחר, גל ורחל ראשונים, ואחריהם שאר המשווקים הפעילים */
 const AFF_FIRST=["amir","shahar","gal","rachel"];
@@ -1499,7 +1572,7 @@ function setScreen(s){screen=s;document.body.dataset.scr=s;if(s!=="snap"&&$("tab
  document.querySelectorAll("#snapPer button").forEach(x=>x.onclick=()=>{snapPer=x.dataset.p;render()});$("snapGo").onchange=e=>{snapGo=e.target.checked;render()};snapAds();
  document.querySelectorAll("#lpVar button").forEach(b=>b.onclick=()=>{lpVar=b.dataset.v;render()});
  $("fSrc").onchange=e=>{fSrc=e.target.value;render()};$("fOwn").onchange=e=>{fOwn=e.target.value;render()};$("fDev").onchange=e=>{fDev=e.target.value;render()};$("jrStage").onchange=e=>{jrStage=e.target.value;render()};
- $("showTests").onchange=e=>{showTests=e.target.checked;render()};document.querySelectorAll("#finPer button").forEach(x=>x.onclick=()=>{finPer=x.dataset.p;render()});$("finAffSel").onchange=e=>{finAff=e.target.value;render()};$("refresh").onclick=load; $("hubVid").addEventListener("input",()=>{if(screen==="hub")render()});
+ $("showTests").onchange=e=>{showTests=e.target.checked;render()};document.querySelectorAll("#finPer button").forEach(x=>x.onclick=()=>{finPer=x.dataset.p;render()});document.querySelectorAll("#wsPer button").forEach(x=>x.onclick=()=>{wsPer=x.dataset.p;render()});$("finAffSel").onchange=e=>{finAff=e.target.value;render()};$("refresh").onclick=load; $("hubVid").addEventListener("input",()=>{if(screen==="hub")render()});
  $("spDate").value=dayKey(new Date());
  $("spendForm").addEventListener("submit",async e=>{e.preventDefault();const d=$("spDate").value,a=$("spAmt").value,c=($("spCr").value||"").replace(/[|\s]/g,"");if(!d||a==="")return;if(/^aff_?$/i.test(c)){$("spendState").textContent="חסר שם משווק אחרי aff_ - לא נשמר";return}
   $("spSave").disabled=true;try{const r=await fetch(API+"spend_set&date="+encodeURIComponent(d)+"&amount="+encodeURIComponent(a)+(c?"&creative="+encodeURIComponent(c):""),{cache:"no-store"});if(!r.ok)throw new Error(r.status);if(c)cspend[d+"|"+c]=+a;else spend[d]=+a;$("spendState").textContent="נשמר: "+d.split("-").reverse().join(".")+(c?" · "+c:"")+" "+ils(+a);$("spAmt").value="";render()}catch(err){$("spendState").textContent="השמירה נכשלה, נסו שוב"}finally{$("spSave").disabled=false}});
