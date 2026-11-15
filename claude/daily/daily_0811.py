@@ -97,13 +97,20 @@ report(SW,V6,["a5","pr2"],"ap2_0811 phase 1 ALL sources (incl aff)",only_paid=Fa
 report(V6,datetime(2100,1,1),["a5v6","pr2"],"ap2_0811 phase 2: a5v6 vs pr2 (from 12.11 11:54, b85), paid only")
 report(V6,datetime(2100,1,1),["a5v6","pr2"],"ap2_0811 phase 2 ALL sources (incl aff)",only_paid=False)
 EXPID="pg_1611"
-for only in (True,False):
-    E=[s for s in S.values() if s["exp"]=="pg_1611" and s["v"] in("a5v6","pr2") and s["t"]>=PG and (not only or s["src"]=="paid")]
+# ב94 (ראשי 15.11): לכל דף, ובכל דף בנפרד ממומן / משווקים / הכול: אנשים, הגיעו לתשלום, התחילו למלא, לידים, רכישות + SRM. מחליטים לפי לידים ורכישות
+import math
+def srm(a,b):
+    n=a+b
+    if not n: return "-"
+    x=(a-n/2)**2/(n/2)*2; p=math.erfc(math.sqrt(x/2)); return "%d מול %d, p=%.2f%s"%(a,b,p," - לבדוק" if p<0.01 else "")
+for lab,keep in (("paid",lambda s:s["src"]=="paid"),("aff",lambda s:s["src"]=="aff"),("all",lambda s:True)):
+    E=[s for s in S.values() if s["exp"]=="pg_1611" and s["v"] in("a5v6","pr2") and s["t"]>=PG and keep(s)]
     P=defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
     for s in E:
         o=P[s["v"]][s["vid"] or s["v"]+s["t"].isoformat()]
         for f in ("chk","det","lead","buy"): o[f]|=s.get(f,0)
-    print("b94 pg_1611","paid" if only else "all",{v:{"people":len(P[v]),"checkout":sum(o["chk"] for o in P[v].values()),"started":sum(o["det"] for o in P[v].values()),"leads":sum(o["lead"] for o in P[v].values()),"buys":sum(o["buy"] for o in P[v].values())} for v in ("a5v6","pr2")})
+    R2={v:{"people":len(P[v]),"checkout":sum(o["chk"] for o in P[v].values()),"started":sum(o["det"] for o in P[v].values()),"leads":sum(o["lead"] for o in P[v].values()),"buys":sum(o["buy"] for o in P[v].values())} for v in ("a5v6","pr2")}
+    print("b94 pg_1611",lab,R2,"| SRM",srm(R2["a5v6"]["people"],R2["pr2"]["people"]))
 EXPID="a5v6_1511"
 report(SC,datetime(2100,1,1),["a5v6"],"a5v6 all traffic (b68 stage C, from 15.11 07:33), paid only")
 report(SC,datetime(2100,1,1),["a5v6"],"a5v6 all traffic (b68 stage C) ALL sources",only_paid=False)

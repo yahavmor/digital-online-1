@@ -189,4 +189,14 @@ for lab,A,B in RANGES:
         print("| %s <small>(%s)</small> | %s | %s | %d | %d | %d | %d | %d | %s | %s |"%(f,", ".join(c for c,v in cc.most_common(2)) or "-",auds[0] if len(auds)==1 else "/".join(auds),(f0(sp)+" (%d ימים)"%nd) if sp else "-",*n,per(sp,n[3]),per(sp,n[4])))
     na=agg(affs); spa=sum(aff_day(d,f) for d in D for f in set(G)|{k[4:].split("_")[0] for (dd,k) in SP if k.startswith("aff_") and dd in D})
     print("| **סה\"כ משווקים** | | %s | %d | %d | %d | %d | %d | %s | %s |"%(f0(spa),*na,per(spa,na[3]),per(spa,na[4])))
+# ראשי 15.11: שורה יומית לקמפיין הבדיקות של P24 (utm_content=p24 מ-15.11): הוצאה, אנשים, לידים, רכישות
+T24=[s for s in SS.values() if s["ad"]==P24L and s["t"]<NOW]
+if NOW>P24T:
+    print("\n### קמפיין הבדיקות של P24 (p24 מ-15.11) - לפי יום\n"); print("| יום | הוצאה ₪ | אנשים | לידים | רכישות |"); print("|---|---|---|---|---|")
+    days=sorted({d for (d,k) in SP if k==P24L}|{s["t"].strftime("%Y-%m-%d") for s in T24}|{NOW.strftime("%Y-%m-%d")})
+    for d in [d for d in days if d>="2026-11-15"]:
+        L=[s for s in T24 if s["t"].strftime("%Y-%m-%d")==d]; n=agg(L) if L else [0]*5; sp=SP.get((d,P24L))
+        print("| %s | %s | %d | %d | %d |"%(d[8:10]+"."+d[5:7],f0(sp) if sp is not None else "אין במאגר",n[0],n[3],n[4]))
+    n=agg(T24) if T24 else [0]*5; sp=sum(v for (d,k),v in SP.items() if k==P24L)
+    print("| **מ-15.11** | %s | %d | %d | %d |"%(f0(sp),n[0],n[3],n[4]))
 print("\nרכישות מאומתות שלא נמצא להן sid עם כניסה (למשל העברה בנקאית בלי ביקור): %d"%len([b for b in nobuy]))
