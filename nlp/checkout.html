@@ -187,11 +187,12 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 .walltop [hidden]{display:none}
 .fld input.wt-flash{outline:3px solid var(--gold2);outline-offset:1px;box-shadow:0 0 0 6px rgba(201,169,110,.28);transition:box-shadow .3s}
 </style>
-<script>/* ב90: ניסוי co_b2_1311 - B מול B2 חצי-חצי, נשמר במכשיר. co=a/b/b2 בכתובת גובר */
-(function(){var c="b";try{c=(new URLSearchParams(location.search).get("co")||"").toLowerCase();
-if(c!=="a"&&c!=="b"&&c!=="b2"){var k="nlp_co_b2",v=null;try{v=localStorage.getItem(k)}catch(e){}
- if(v!=="b"&&v!=="b2"){v=Math.random()<0.5?"b2":"b";try{localStorage.setItem(k,v)}catch(e){}}c=v}}catch(e){c="b"}
-window.NLP_CO=c;document.documentElement.setAttribute("data-co2",c==="b2"?"1":"0")})();</script>
+<script>/* ב102 (16.11): ניסוי on_1611 - זרוע "ישן" = סליקה A, זרוע "חדש" = B2. סדר: co בכתובת > exp=on_1611 בכתובת (v=a -> A, אחרת B2) > nlp_co_ab (נשמר ב-go.html) > שיבוץ B/B2 קודם (ב90) > B2.
+   ניסוי B מול B2 (ב90) נסגר: מכשיר חדש מחוץ לניסוי מקבל B2 */
+(function(){var c="b2";try{var q=new URLSearchParams(location.search);c=(q.get("co")||"").toLowerCase();
+if(c!=="a"&&c!=="b"&&c!=="b2"){if(q.get("exp")==="on_1611")c=(q.get("v")==="a"?"a":"b2");else{var ab=null,v=null;try{ab=localStorage.getItem("nlp_co_ab");v=localStorage.getItem("nlp_co_b2")}catch(e){}
+ if(ab==="a"||ab==="b2")c=ab;else if(v==="b"||v==="b2")c=v;else{c="b2";try{localStorage.setItem("nlp_co_b2","b2")}catch(e){}}}}}catch(e){c="b2"}
+window.NLP_CO=c;document.documentElement.setAttribute("data-co2",c==="b2"?"1":"0");document.documentElement.setAttribute("data-co",c==="a"?"a":"b")})();</script>
 <style>/* ב90: תצוגת B2 (מוסתרת ב-B) */
 .b2x,.b2xi,.pt-b{display:none}
 html[data-co2="1"] .b2x{display:block}
@@ -218,25 +219,28 @@ html[data-co2="1"] .why{margin-top:12px;padding-top:10px}
 .trust p span{display:inline-block;max-width:100%}
 .trust p span+span::before{content:" · ";color:var(--muted);font-weight:400}
 .fld+.trust{margin:-2px 0 12px}
+html[data-co="a"] .trust{display:none} /* ב102: סליקה A כמו שהייתה (בלי שורת האמון של ב96) */
+.pay3i{display:none}
+@media (max-width:600px){html[data-co="a"] .pay3{display:none}html[data-co="a"] .pay3i{display:inline}} /* ב102: ב-A במובייל שורת 3 התשלומים מאוחדת עם "תשלום חד-פעמי" - בלי תוספת גובה */
 html[data-co2="1"] .b2-guar{display:none} /* ב-B2 האחריות בשורת האמון */
 /* ב99: במובייל הטופס במסך הראשון - כרטיס הזמנה בשורה אחת, ✓ בסוף הדף */
 .one1,.incl-end{display:none}
 .pay3{margin:2px 0 0;text-align:center;font-size:15px;font-weight:700;color:var(--ink2)}
 .one1 .pay3m{display:block;font-size:13.5px;font-weight:600;color:var(--ink2)}
-@media (max-width:600px){
-.wrap{padding-top:10px}
-.brand{padding:2px 0 8px}
-.top,html[data-co2="1"] .top{padding:10px 0 0}
-.top h1{font-size:26px;margin:0 0 2px}
-.top .what{font-size:15.5px}
-.top .what2{display:none}
-.order,html[data-co2="1"] .order{margin:10px 0 0;padding:9px 12px}
-.order>*:not(.one1){display:none!important}
-.order .one1{display:block;margin:0;text-align:center;font-size:16px;font-weight:800;line-height:1.35}
-.why,html[data-co2="1"] .why{margin-top:10px;padding-top:10px}
-.why h2{margin:0 0 6px}
-.incl-end{display:block;margin:16px 0 0;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r);background:var(--soft)}
-.incl-end .incl{margin:0;padding:0;border:0}
+@media (max-width:600px){ /* ב102: רק B ו-B2 - סליקה A נשארת בעיצוב שלה */
+html:not([data-co="a"]) .wrap{padding-top:10px}
+html:not([data-co="a"]) .brand{padding:2px 0 8px}
+html:not([data-co="a"]) .top{padding:10px 0 0}
+html:not([data-co="a"]) .top h1{font-size:26px;margin:0 0 2px}
+html:not([data-co="a"]) .top .what{font-size:15.5px}
+html:not([data-co="a"]) .top .what2{display:none}
+html:not([data-co="a"]) .order{margin:10px 0 0;padding:9px 12px}
+html:not([data-co="a"]) .order>*:not(.one1){display:none!important}
+html:not([data-co="a"]) .order .one1{display:block;margin:0;text-align:center;font-size:16px;font-weight:800;line-height:1.35}
+html:not([data-co="a"]) .why{margin-top:10px;padding-top:10px}
+html:not([data-co="a"]) .why h2{margin:0 0 6px}
+html:not([data-co="a"]) .incl-end{display:block;margin:16px 0 0;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r);background:var(--soft)}
+html:not([data-co="a"]) .incl-end .incl{margin:0;padding:0;border:0}
 }
 /* ב96: Apple Pay / Google Pay מתחת לטופס */
 .walltop.wt-below{margin:14px auto 0}
@@ -259,7 +263,7 @@ html[data-co2="1"] .b2-guar{display:none} /* ב-B2 האחריות בשורת ה�
 <p class="price"><s class="was b2xi">1,290 ₪</s><b>297</b><span>₪</span></p>
 <p class="pay3">או 3 תשלומים של 99 ₪</p><!-- ב97: רק אחרי ש-3 תשלומים עובדים בקארדקום -->
 <p class="b2x b2-guar">7 ימי אחריות: אם הקורס לא מתאים לך, שולחים מייל ומקבלים החזר מלא.</p>
-<p class="once">תשלום חד-פעמי</p>
+<p class="once">תשלום חד-פעמי<span class="pay3i"> · או 3 תשלומים של 99 ₪</span></p>
 <p class="nosub">ללא מנוי · ללא חיובים נוספים</p>
 <ul class="incl">
 <li>קורס הליבה: 90 שיעורים קצרים ומעשיים</li>
@@ -363,7 +367,7 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
      ?co=a או ?co=b לתצוגה מקדימה בלבד (לא נשמר) */
   /* ב63 (בן 08.11, "מאשר ב63" מיהב): הגרלת הסליקה co_0511 הסתיימה - דף התשלום B (מסך אחד) לכולם, כדי שלא ירוצו שתי בדיקות על תנועה קטנה. cx=co_b_0811 מסמן את התקופה.
      ?co=a או ?co=b נשאר לתצוגה מקדימה בלבד (לא נשמר) */
-  const CO_EXP = "co_b2_1511m"; /* ב99 (15.11 17:17): במובייל הטופס במסך הראשון - הספירה מתחילה מחדש */ /* ב96 המשך (15.11 15:55): שורת אמון - הספירה מתחילה מחדש */ /* ב96 (15.11 15:46): הספירה של B מול B2 מתחילה מחדש - שתי הגרסאות השתנו (Apple Pay/Google Pay מתחת לטופס, B2 צמוד יותר). היה co_b2_1311 */ const CO_L = window.NLP_CO==="a"||window.NLP_CO==="b2" ? window.NLP_CO : "b"; let CV = CO_L==="a" ? "a" : "b"; /* ב90: B2 מתנהגת כמו B; רק התצוגה והסימון (co=b2) שונים */
+  const CO_EXP = "co_on_1611"; /* ב102 (16.11 14:55): ניסוי on_1611 (A מול B2); ב90 נסגר */ const CO_EXP_OLD = "co_b2_1511m"; /* ב99 (15.11 17:17): במובייל הטופס במסך הראשון - הספירה מתחילה מחדש */ /* ב96 המשך (15.11 15:55): שורת אמון - הספירה מתחילה מחדש */ /* ב96 (15.11 15:46): הספירה של B מול B2 מתחילה מחדש - שתי הגרסאות השתנו (Apple Pay/Google Pay מתחת לטופס, B2 צמוד יותר). היה co_b2_1311 */ const CO_L = window.NLP_CO==="a"||window.NLP_CO==="b2" ? window.NLP_CO : "b"; let CV = CO_L==="a" ? "a" : "b"; /* ב90: B2 מתנהגת כמו B; רק התצוגה והסימון (co=b2) שונים */
   document.documentElement.dataset.co = CV; try{ if(window.clarity) clarity("set","co",CO_L); }catch(e){}
   const variant = qs.get("v") || U("utm_content").replace("lp_","") || "x";
   const sid = qs.get("sid") || ((self.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now()+"-"+Math.random().toString(36).slice(2));

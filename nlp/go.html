@@ -26,18 +26,22 @@ var NLP_OWNER=(function(){var K="nlp_aff",D=2592e6,now=Date.now(),cur=null;
   /* ב94 ("מאשר ב94" מיהב, 15.11 14:07): ניסוי דפים pg_1611 - a5v6 מול pr2, חצי-חצי, קבוע לדפדפן, לכל התנועה שעוברת ב-go.html (כל המודעות והמשווקים).
      מי ששובץ ב-ap2_0811 נשאר בדף שלו (a5 = a5v6, pr2 = pr2), כדי שלא יראה דף אחר בחזרה; זה סימטרי בין שני הדפים. כל השאר מוגרלים.
      אינסטגרם אורגני ממשיך ל-a (ב44). הדפים, דף התשלום וניסוי B מול B2 לא משתנים */
-  var EXP="pg_1611", K="nlp_go_"+EXP, v=null, o=null; try{ v=localStorage.getItem(K); o=localStorage.getItem("nlp_go_ap2_0811"); }catch(e){}
-  if(v!=="a5v6"&&v!=="pr2"){
-    if(o==="a5"||o==="pr2"){ v=(o==="a5"?"a5v6":"pr2"); }
-    else { var A=["a5v6","pr2"]; try{ var r=new Uint8Array(1); crypto.getRandomValues(r); v=A[r[0]%2]; }catch(e){ v=A[Math.random()<0.5?0:1]; } }
-    try{ localStorage.setItem(K,v); }catch(e){}
+  /* ב102 ("מאשר ב102" מיהב, 16.11 14:55, בן אישר): ניסוי on_1611 - המסלול הישן (a.html + סליקה A, שני שלבים) מול a5v6 + סליקה B2. חצי-חצי, קבוע לדפדפן,
+     לכל התנועה שעוברת ב-go.html. pg_1611 נסגר: מי ששובץ בו (או ב-ap2_0811) נשאר בדף שלו עם ה-exp הישן ולא נכנס לניתוח. pr2 נשאר באתר, מחוץ לחלוקה.
+     הזרוע נשמרת גם ב-nlp_co_ab, ודף התשלום פותח לפיה סליקה A או B2. אינסטגרם אורגני ממשיך ל-a בלי exp (ב44), אבל מבקר חדש מוגרל קודם לזרוע (nlp_co_ab), ולכן בסליקה הוא מקבל A או B2 לפי הזרוע */
+  var EXP="on_1611", K="nlp_go_"+EXP, v=null, pg=null, o=null, ex=EXP; try{ v=localStorage.getItem(K); pg=localStorage.getItem("nlp_go_pg_1611"); o=localStorage.getItem("nlp_go_ap2_0811"); }catch(e){}
+  if(v!=="a"&&v!=="a5v6"){
+    if(pg==="a5v6"||pg==="pr2"){ v=pg; ex="pg_1611"; }
+    else if(o==="a5"||o==="pr2"){ v=(o==="a5"?"a5v6":"pr2"); ex="ap2_0811"; }
+    else { var A=["a","a5v6"]; try{ var r=new Uint8Array(1); crypto.getRandomValues(r); v=A[r[0]%2]; }catch(e){ v=A[Math.random()<0.5?0:1]; }
+      try{ localStorage.setItem(K,v); localStorage.setItem("nlp_co_ab",v==="a"?"a":"b2"); }catch(e){} }
   }
   var q=new URLSearchParams(location.search); if(!q.has("go")) q.set("go","1");
   /* ב44 (בקשת בן 4.11): אינסטגרם אורגני (ביו ו-ManyChat: utm_source=instagram/ig עם utm_medium=bio/dm, בלי aff ובלי utm_id) תמיד ל-a, מחוץ לניסוי.
      השיבוץ השמור בדפדפן לא משתנה, ומבקר שיחזור ממודעה ימשיך לגרסה שלו. */
   var s0=(q.get("utm_source")||"").toLowerCase(), m0=(q.get("utm_medium")||"").toLowerCase();
   if((s0==="instagram"||s0==="ig")&&(m0==="bio"||m0==="dm")&&!q.get("aff")&&!q.get("utm_id")){ q.delete("exp"); q.set("route","ig_org"); location.replace("a.html?"+q.toString()); return; }
-  q.set("exp",EXP);
+  q.set("exp",ex);
   location.replace(v+".html?"+q.toString()); /* a, a1-a5, b, c, a2/b2/c2, pr ו-pr_v1 נשארים באתר, מחוץ לניסוי */
 })();
 </script></head><body>טוען...</body></html>
