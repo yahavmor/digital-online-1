@@ -241,7 +241,7 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
   <!-- 00 optimization: Ben's doc section 10 -->
   <section class="screen" id="s-op">
     <div class="banner" id="opMeta"></div>
-    <div class="panel"><div class="panel-h"><h2>on_1611: המסלול הישן (a + סליקה A) מול a5v6 + B2 - לפי אנשים (ב102)</h2><span class="note" id="onN"></span></div><div class="tw"><table id="onT"></table></div><div class="tw"><table id="onT2"></table></div></div>
+    <div class="panel"><div class="panel-h"><h2>on_1611: המסלול הישן (a + סליקה A) מול a5v6 + B2 - לפי אנשים (ב102)</h2><span class="note" id="onN"></span></div><div class="tw"><table id="onT"></table></div><div class="tw"><table id="onT2"></table></div><div class="tw"><table id="onT3"></table></div><p class="note" id="onOut"></p></div>
     <div class="panel"><div class="panel-h"><h2>pg_1611: a5v6 מול pr2 - לפי אנשים (ב94, נסגר 16.11)</h2><span class="note" id="pgN"></span></div><div class="tw"><table id="pgT"></table></div></div>
     <div class="panel"><div class="panel-h"><h2>הדפים בניסוי זה לצד זה</h2><span class="note">רק ביקורים שנכנסו לניסוי דרך go.html (exp=ap2_0811, a5 מול pr2), מ-08.11 14:19 (אחרי הסבב השני של הקלת התמונות ב-a5; ההסרה מ-pr2 ב-12:16, הניסוי עצמו מ-09:58). הניסוי הקודם aap_0511 (a, a5, pr2) לא נספר כאן - נמצא בלשונית הניסויים. רכישה = עסקה מאושרת בקארדקום, פעם אחת לעסקה</span></div><div class="tw"><table id="opTable"></table></div><p class="note" id="opRule"></p></div>
     <div class="grid2">
@@ -478,6 +478,7 @@ const EXPERIMENTS=[
  {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"2026-10-26",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"הסתיים, הוחלף ב-abc_2610",decision:""},
 ];
 const CHANGELOG=[
+["2026-11-16","21:38 - ב103 (\"מאשר ב103\" מיהב): שירה בלשונית המשווקים (aff=shira, קהל קר, 40 ₪ ליום, p25_brain_c2, מ-16.11 20:05, הוצאה aff_shira). בטבלת on_1611: טבלת סך הכול (בן + משווקים) ושורת \"נשארו דקה ומעלה\" לכל זרוע; כניסות ישר לדף בלי go.html (למשל המודעות של יוסף) מסומנות \"מחוץ לניסוי\" ולא נספרות בזרוע. המדד הראשי וכלל העצירה בלי שינוי."],
 ["2026-11-16","14:55 - ב102 (\"מאשר ב102\" מיהב, בן אישר): ניסוי on_1611 - go.html מחלק חצי-חצי בין המסלול הישן (a + סליקה A, שני שלבים) ל-a5v6 + B2, קבוע לדפדפן. pg_1611 וניסוי B מול B2 נסגרו (מי ששובץ קודם נשאר בדף שלו). סליקה A בעיצוב שלה (בלי שורת האמון ובלי כרטיס השורה האחת של ב99), עם 3 התשלומים, ביט, Apple Pay ו-Google Pay, ההתאמה המתקדמת וסימון הבדיקה. cx=co_on_1611. אינסטגרם אורגני ממשיך ל-a בלי exp, אבל מבקר חדש מוגרל לזרוע ובסליקה מקבל A או B2 לפיה (שורה נפרדת בסיכום היומי). ההשוואה מ-15:05."],
 ["2026-11-15","17:17 - ב99 (ראשי, \"מאשר\" מיהב): במובייל בלבד, ב-B וב-B2, הטופס בדף התשלום עולה למסך הראשון. כרטיס ההזמנה בשורה אחת (\"הקורס המלא + 5 בונוסים · 297 ₪ חד-פעמי\"), רשימת ה-✓ עברה לסוף הדף, ומתחת לכותרת רק \"עוד רגע זה שלך.\". במחשב אין שינוי. הספירה של B מול B2 מתחילה מחדש (cx=co_b2_1511m)."],
 ["2026-11-15","15:55 - ב96 המשך (\"מאשר ב96\" מיהב, בן אישר): שורת אמון בדף התשלום מיד מתחת לשדה השם - תמונה עגולה של בן, \"90 שיעורים קצרים + 5 בונוסים\" ו\"7 ימי אחריות עם החזר מלא\", בלי טקסט חדש. ב-B2 שורת האחריות הנפרדת אוחדה לתוך שורת האמון. הספירה של B מול B2 מתחילה מחדש (cx=co_b2_1511t)."],
@@ -810,12 +811,18 @@ function renderCo90(M){const who=s=>s.vid||s.sid,S=M.sess.filter(s=>(s.co==="b"|
 const ON_START=new Date("2026-11-16T15:05:00");
 function renderOn(M){const who=s=>s.vid||s.sid,ARM={a:"ישן: a + סליקה A",a5v6:"חדש: a5v6 + B2"};
  const all=M.sess.filter(s=>(s.v==="a"||s.v==="a5v6")&&s.p&&s.p.get("exp")==="on_1611");
- const K=[["אנשים",s=>true],["הגיעו לדף התשלום",s=>s.chk||s.buy],["התחילו למלא",s=>s.cstart||s.det||s.pay||s.buy],["השאירו פרטים (מדד ראשי)",s=>s.det||s.pay||s.buy],["הגיעו לטופס התשלום",s=>s.pay||s.buy],["רכישות מאומתות",s=>s.buy]];
+ const K=[["אנשים",s=>true],["נשארו דקה ומעלה",s=>(s.time||0)>=60],["הגיעו לדף התשלום",s=>s.chk||s.buy],["התחילו למלא",s=>s.cstart||s.det||s.pay||s.buy],["השאירו פרטים (מדד ראשי)",s=>s.det||s.pay||s.buy],["הגיעו לטופס התשלום",s=>s.pay||s.buy],["רכישות מאומתות",s=>s.buy]]; /* ב103: שורת "נשארו דקה ומעלה" (זמן בדף 60 שניות ומעלה) */
  const tab=(S)=>{const P={a:K.map(()=>new Set()),a5v6:K.map(()=>new Set())};S.forEach(s=>K.forEach(([,f],i)=>{if(f(s))P[s.v][i].add(who(s))}));
   return K.map(([l],i)=>'<tr><td>'+l+'</td>'+["a","a5v6"].map(v=>'<td class="num">'+fmt(P[v][i].size)+(i?'<small>'+pf(pct(P[v][i].size,P[v][0].size))+'</small>':'')+'</td>').join("")+'</tr>')};
  const ben=all.filter(s=>s.src==="מודעות Meta"&&!s.aff),aff=all.filter(s=>s.aff);
  table($("onT"),["ממודעות של בן (ראשי)",ARM.a,ARM.a5v6],ben.length?tab(ben):[],"עוד אין כניסות ממודעות של בן בניסוי on_1611 (מתחיל בפריסה)");
  table($("onT2"),["משווקים (בנפרד)",ARM.a,ARM.a5v6],aff.length?tab(aff):[],"עוד אין כניסות של משווקים בניסוי");
+ const tot=all.filter(s=>(s.src==="מודעות Meta"&&!s.aff)||s.aff); /* ב103: סך הכול - המודעות של בן יחד עם המשווקים */
+ table($("onT3"),["סך הכול: בן + משווקים",ARM.a,ARM.a5v6],tot.length?tab(tot):[],"עוד אין כניסות בניסוי");
+ /* ב103: כניסות ישר לדף בלי go.html (בלי exp, לא אינסטגרם אורגני) - מחוץ לניסוי, לא נספרות בזרוע */
+ const out=M.sess.filter(s=>(s.v==="a"||s.v==="a5v6")&&s.t>=ON_START&&s.p&&!s.p.get("exp")&&s.p.get("route")!=="ig_org"&&s.p.get("go")!=="1");
+ const oc={};out.forEach(s=>{const c=s.aff&&AUD.camps.find(c=>c.code===s.aff),k=(s.aff?"משווק "+(c?c.lbl:s.aff):s.src)+" (דף "+s.v+")";(oc[k]=oc[k]||new Set()).add(who(s))});
+ $("onOut").textContent="מחוץ לניסוי (נכנסו ישר לדף בלי go.html, לא נספרים בזרוע): "+(Object.keys(oc).length?Object.entries(oc).sort((x,y)=>y[1].size-x[1].size).map(([k,v])=>k+": "+v.size).join(" · "):"אין");
  const n=v=>new Set(ben.filter(s=>s.v===v).map(who)).size,d=Math.floor((Date.now()-ON_START)/864e5);
  $("onN").textContent="מ-"+ON_START.toLocaleString("he-IL",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})+". עצירה: 150 אנשים לזרוע ממודעות של בן או 14 יום (עכשיו "+n("a")+" / "+n("a5v6")+", יום "+d+"). מנצחת: פי 2 בהשארת פרטים ולפחות 5. בלי בדיקות; מי ששובץ קודם ב-pg_1611 לא נספר."}
 
@@ -1417,7 +1424,9 @@ const AUD={start:new Date("2026-11-08T20:00:00"),day0:"2026-11-08",min:100,camps
   ovlNote:"שתי הקבוצות רצו יחד (סדרת IC מ-10.11 09:16, הישנה כובתה 11.11 07:52). הכניסות כאן לא נספרות ב\"לפני\" ולא ב\"אחרי\", וההוצאה נשארת בשורות שלהן (aff_gal, aff_gal_ic). לפי utm_term, כל הכניסות בחלון הזה הגיעו מהסדרה החדשה"},
  {code:"yahel",lbl:"יהל",aud:"קהל קר",copy:"p25_brain_c3",budget:40,from:"2026-11-09T21:00:00",day0:"2026-11-09",sw:"2026-11-10T10:27:00"},
  /* ב86/ב87 (13.11): יוסף - קמפיין חדש להשוואה בין 2 סרטונים. הוצאה לפי מודעה במפתחות הסרטונים (ads); aff_yosef רק ביום בלי הוצאה לפי מודעה */
- {code:"yosef",lbl:"יוסף",aud:"קהל קר",copy:["p25_yosef","g12_0466_a_yosef"],budget:40,from:"2026-11-12T21:44:00",day0:"2026-11-12",sw:null,noSwitch:"מ-12.11 21:44",ph0:"השוואת 2 סרטונים",ads:["p25_yosef","g12_0466_a_yosef"]}]};
+ {code:"yosef",lbl:"יוסף",aud:"קהל קר",copy:["p25_yosef","g12_0466_a_yosef"],budget:40,from:"2026-11-12T21:44:00",day0:"2026-11-12",sw:null,noSwitch:"מ-12.11 21:44",ph0:"השוואת 2 סרטונים",ads:["p25_yosef","g12_0466_a_yosef"]},
+ /* ב103 (16.11): שירה - קהל קר 25-55 בלי החרגות, 40 ₪ ליום, p25_brain_c2, פורסם 16.11 20:05. הוצאה במפתח aff_shira */
+ {code:"shira",lbl:"שירה",aud:"קהל קר",copy:"p25_brain_c2",budget:40,from:"2026-11-16T20:05:00",day0:"2026-11-16",sw:null,noSwitch:"מ-16.11 20:05"}]};
 AUD.camps.forEach(c=>c.fromT=new Date(c.from));
 /* מקטעים: לכל משווק "לפני" (מ-from עד sw) ו"אחרי" (מ-sw). בלי sw - רק "לפני", עד עכשיו */
 AUD.seg=[];AUD.camps.forEach(c=>{const swT=c.sw?new Date(c.sw):null,pre=Object.assign({},c,{key:c.code+"|pre",ph:"pre",phl:c.ph0||"לפני · רכישה",toT:swT,spk:"aff_"+c.code,sday:c.day0});
