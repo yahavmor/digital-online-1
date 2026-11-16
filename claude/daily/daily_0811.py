@@ -111,6 +111,27 @@ for lab,keep in (("paid",lambda s:s["src"]=="paid"),("aff",lambda s:s["src"]=="a
         for f in ("chk","det","lead","buy"): o[f]|=s.get(f,0)
     R2={v:{"people":len(P[v]),"checkout":sum(o["chk"] for o in P[v].values()),"started":sum(o["det"] for o in P[v].values()),"leads":sum(o["lead"] for o in P[v].values()),"buys":sum(o["buy"] for o in P[v].values())} for v in ("a5v6","pr2")}
     print("b94 pg_1611",lab,R2,"| SRM",srm(R2["a5v6"]["people"],R2["pr2"]["people"]))
+# ב102: on_1611 - "ישן" (a + סליקה A) מול "חדש" (a5v6 + B2). ראשי: השאירו פרטים (checkout_details) לאדם, ממודעות של בן בלבד. משווקים בנפרד
+ON=datetime(2026,11,16,15,5)  # פריסה + 10 דקות מטמון
+for lab,keep in (("paid",lambda s:s["src"]=="paid"),("aff",lambda s:s["src"]=="aff"),("all",lambda s:True)):
+    E=[s for s in S.values() if s["exp"]=="on_1611" and s["v"] in("a","a5v6") and s["t"]>=ON and keep(s)]
+    P=defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+    for s in E:
+        o=P[s["v"]][s["vid"] or s["v"]+s["t"].isoformat()]
+        for f in ("chk","det","lead","pay","buy"): o[f]|=s.get(f,0)
+    R3={v:{"people":len(P[v]),"checkout":sum(o["chk"] for o in P[v].values()),"started":sum(o["det"] for o in P[v].values()),"leads":sum(o["lead"] for o in P[v].values()),"payform":sum(o["pay"] for o in P[v].values()),"buys":sum(o["buy"] for o in P[v].values())} for v in ("a","a5v6")}
+    print("b102 on_1611",lab,R3,"| SRM",srm(R3["a"]["people"],R3["a5v6"]["people"]))
+print("b102 stop rule: paid people per arm (150) a=%d a5v6=%d, days %d of 14" % (len({s["vid"] or s["t"] for s in S.values() if s["exp"]=="on_1611" and s["v"]=="a" and s["t"]>=ON and s["src"]=="paid"}),len({s["vid"] or s["t"] for s in S.values() if s["exp"]=="on_1611" and s["v"]=="a5v6" and s["t"]>=ON and s["src"]=="paid"}),max(0,(datetime.now()-ON).days)))
+IG=defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+for s in S.values():
+    if s["route"]=="ig_org" and s["t"]>=ON and s["chk"]:
+        o=IG[s["co"] or "-"][s["vid"] or s["t"].isoformat()]
+        for f in ("chk","lead","buy"): o[f]|=s.get(f,0)
+IGP=defaultdict(set)
+for s in S.values():
+    if s["route"]=="ig_org" and s["t"]>=ON: IGP["all"].add(s["vid"] or s["t"].isoformat())
+print("b102 ig_org by checkout (A vs B2): people (all ig_org)",len(IGP["all"]),{co:{"reached checkout":len(P),"details":sum(o["lead"] for o in P.values()),"buys":sum(o["buy"] for o in P.values())} for co,P in IG.items()})
+print("b102 checkout version by arm (should be a->a, a5v6->b2):",Counter((s["v"],s["co"] or "-") for s in S.values() if s["exp"]=="on_1611" and s["chk"]))
 EXPID="a5v6_1511"
 report(SC,datetime(2100,1,1),["a5v6"],"a5v6 all traffic (b68 stage C, from 15.11 07:33), paid only")
 report(SC,datetime(2100,1,1),["a5v6"],"a5v6 all traffic (b68 stage C) ALL sources",only_paid=False)

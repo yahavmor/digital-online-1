@@ -37,10 +37,10 @@ let n = 0, f = 0; const ok = (m, c, i) => { n++; if (!c) { f++; console.log("FAI
     ok(arm + ": landed with exp=on_1611", u.pathname.endsWith("/" + arm + ".html") && u.searchParams.get("exp") === "on_1611", u.href);
     ok(arm + ": page events carry exp=on_1611 and aff=gal", X.ev.some(e => e.variant === arm && /exp=on_1611/.test(e.qs || "") && /aff=gal/.test(e.x || "")));
     await Promise.all([X.p.waitForURL(/checkout\.html/, { timeout: 10000 }).catch(() => {}), X.p.click('[data-cta="hero_main"] >> nth=0')]); await X.p.waitForTimeout(1500);
-    const c = new URL(X.p.url()); const st = await X.p.evaluate(() => ({ co: window.NLP_CO, dco: document.documentElement.getAttribute("data-co"), trust: getComputedStyle(document.getElementById("coTrust")).display, one1: getComputedStyle(document.querySelector(".one1")).display, price: getComputedStyle(document.querySelector(".order .price")).display, pay3: getComputedStyle(document.querySelector(".pay3")).display }));
+    const c = new URL(X.p.url()); const st = await X.p.evaluate(() => ({ co: window.NLP_CO, dco: document.documentElement.getAttribute("data-co"), trust: getComputedStyle(document.getElementById("coTrust")).display, one1: getComputedStyle(document.querySelector(".one1")).display, price: getComputedStyle(document.querySelector(".order .price")).display, pay3: getComputedStyle(document.querySelector(".pay3")).display, pay3i: getComputedStyle(document.querySelector(".pay3i")).display, name: Math.round(document.getElementById("fName").getBoundingClientRect().top + scrollY) }));
     ok(arm + ": checkout with v, exp, sid", /checkout\.html$/.test(c.pathname) && c.searchParams.get("v") === arm && /on_1611/.test(c.search) && !!c.searchParams.get("sid"), c.search);
     ok(arm + ": checkout version " + co, st.co === co && st.dco === (co === "a" ? "a" : "b"), JSON.stringify(st));
-    if (arm === "a") ok("a: checkout A as it was - price card shown, no one-line card, no trust row, 3 payments line shown (mobile)", st.price !== "none" && st.one1 === "none" && st.trust === "none" && st.pay3 !== "none", JSON.stringify(st));
+    if (arm === "a") ok("a: checkout A as it was - price card shown, no one-line card, no trust row, 3 payments line shown (mobile)", st.price !== "none" && st.one1 === "none" && st.trust === "none" && st.pay3 === "none" && st.pay3i !== "none", JSON.stringify(st));
     else ok("a5v6: B2 as today - one-line card, trust row (mobile)", st.one1 !== "none" && st.trust !== "none" && st.price === "none", JSON.stringify(st));
     if (SH) await X.p.screenshot({ path: path.join(SH, "arm_" + arm + "_checkout_iphone13.png") });
     await X.p.fill("#fName", "בדיקה פנימית"); await X.p.waitForTimeout(500);
@@ -82,7 +82,7 @@ let n = 0, f = 0; const ok = (m, c, i) => { n++; if (!c) { f++; console.log("FAI
   const note = await D2.p.evaluate(() => document.getElementById("onN").textContent); ok("stop-rule progress shown (3 / 2)", /150/.test(note) && /3 \/ 2/.test(note), note);
   ok("dashboard: no JS errors", !D2.errs.length, D2.errs.join("|"));
   const ex = await D2.p.evaluate(() => [ON_START.toISOString(), CHANGELOG[0][1].slice(0, 30), EXPERIMENTS[0].id, EXPERIMENTS.find(e => e.id === "pg_1611").status]);
-  ok("start 20:10, changelog ב102, experiments on_1611 first, pg_1611 closed", ex[0] === "2026-11-16T18:10:00.000Z" && /ב102/.test(ex[1]) && ex[2] === "on_1611" && /נסגר/.test(ex[3]), JSON.stringify(ex));
+  ok("start 20:10, changelog ב102, experiments on_1611 first, pg_1611 closed", ex[0] === (process.env.ONSTART || "2026-11-16T18:10:00.000Z") && /ב102/.test(ex[1]) && ex[2] === "on_1611" && /נסגר/.test(ex[3]), JSON.stringify(ex));
   const scr = async (X, s) => { await X.p.evaluate(s => setScreen(s), s); await X.p.waitForTimeout(300); return X.p.evaluate(s => document.getElementById("s-" + s).innerText.replace(/עודכן \d\d:\d\d/g, ""), s) };
   for (const s of ["snap", "co", "af", "fin", "up"]) ok("screen " + s + " unchanged", (await scr(D1, s)) === (await scr(D2, s)));
   console.log("TOTAL", n - f + "/" + n); await b.close(); process.exit(f ? 1 : 0) })();
