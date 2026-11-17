@@ -486,6 +486,7 @@ const EXPERIMENTS=[
  {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"2026-10-26",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"הסתיים, הוחלף ב-abc_2610",decision:""},
 ];
 const CHANGELOG=[
+["2026-11-17","11:54 - ב101 (\"מאשר\" מיהב): בלשונית 12 (אפסייל) קישורים אישיים לרוכשים קיימים (תוקף 7 ימים) לא נספרים ב\"קודים שהונפקו\" ובאחוז ההמרה, ומוצגים בשורה נפרדת. רכישות והכנסה בלי שינוי."],
 ["2026-11-17","09:41 - ב81 (יהב אישר לבנות 17.11): לשונית 14 \"פרופיל רוכשים\" - שורה לכל רכישה מאומתת: דף, מקור, קמפיין, מודעה, מכשיר, פלטפורמה, זמן מהביקור הראשון, מספר ביקורים עד הרכישה, משווק, ותשובות שתי השאלות בדף התודה (buyer_survey). בלי שמות, טלפונים, מיילים ומספרי עסקה."],
 ["2026-11-16","21:38 - ב103 (\"מאשר ב103\" מיהב): שירה בלשונית המשווקים (aff=shira, קהל קר, 40 ₪ ליום, p25_brain_c2, מ-16.11 20:05, הוצאה aff_shira). בטבלת on_1611: טבלת סך הכול (בן + משווקים) ושורת \"נשארו דקה ומעלה\" לכל זרוע; כניסות ישר לדף בלי go.html (למשל המודעות של יוסף) מסומנות \"מחוץ לניסוי\" ולא נספרות בזרוע. המדד הראשי וכלל העצירה בלי שינוי."],
 ["2026-11-16","14:55 - ב102 (\"מאשר ב102\" מיהב, בן אישר): ניסוי on_1611 - go.html מחלק חצי-חצי בין המסלול הישן (a + סליקה A, שני שלבים) ל-a5v6 + B2, קבוע לדפדפן. pg_1611 וניסוי B מול B2 נסגרו (מי ששובץ קודם נשאר בדף שלו). סליקה A בעיצוב שלה (בלי שורת האמון ובלי כרטיס השורה האחת של ב99), עם 3 התשלומים, ביט, Apple Pay ו-Google Pay, ההתאמה המתקדמת וסימון הבדיקה. cx=co_on_1611. אינסטגרם אורגני ממשיך ל-a בלי exp, אבל מבקר חדש מוגרל לזרוע ובסליקה מקבל A או B2 לפיה (שורה נפרדת בסיכום היומי). ההשוואה מ-15:05."],
@@ -1259,6 +1260,7 @@ function upsParse(t){const L=t.replace(/\r/g,"").split("\n"),h=(L[0]||"").split(
    opened:"opened" in o?D(o.opened):undefined}}).filter(r=>r.created)}}
 function upsLoad(){UPS_ST="loading";fetch(API+"upsell",{cache:"no-store"}).then(r=>r.ok?r.text():"").then(t=>{UPS=upsParse(t);UPS_ST=UPS?"ok":"none"}).catch(()=>{UPS=null;UPS_ST="err"}).finally(()=>{if(screen==="up")render()})}
 function upsTestDeal(d){return !!d&&TEST_DEALS.includes(d)}
+function upsPersonal(r){return !!(r.created&&r.expires)&&(r.expires-r.created)>864e5} /* ב101: קישור אישי לרוכש קיים (תוקף 7 ימים), לא קוד מדף התודה (30 דקות) */
 function renderUpsell(){
  if(UPS_ST==="idle")upsLoad();
  const n=new Date(),sod=new Date(n.getFullYear(),n.getMonth(),n.getDate()),end=new Date(+sod+864e5);
@@ -1267,7 +1269,7 @@ function renderUpsell(){
  /* רכישות מהגיליון: finUps (פעם אחת לעסקה), בלי עסקאות בדיקה - של האפסייל או של הקורס שממנו הונפק הקוד */
  const cdeal=r=>{const m=(r.qs||"").match(/course_deal\s+(\S+)/);return m?m[1]:""},CD={};ALL.R.forEach(r=>{if(r.ev==="upsell_purchase"){const d=(r.qs||"").match(/\|\s*deal\s+(\d+)/);if(d)CD[d[1]]=cdeal(r)}});
  const BUY=finUps(ALL).filter(x=>showTests||!(upsTestDeal(x.deal)||upsTestDeal(CD[x.deal]))),live=x=>affState(x)!=="refund";
- const C=UPS?UPS.rows.filter(r=>showTests||!(r.test||upsTestDeal(r.deal)||upsTestDeal(r.up))):[],hasOpen=!!UPS&&UPS.cols.includes("opened");
+ const C0=UPS?UPS.rows.filter(r=>showTests||!(r.test||upsTestDeal(r.deal)||upsTestDeal(r.up))):[],C=C0.filter(r=>!upsPersonal(r)),CP=C0.filter(upsPersonal),hasOpen=!!UPS&&UPS.cols.includes("opened");
  const inP=(t,a)=>t&&t>=a&&t<end,MISS='<span class="na">חסר נתון</span>',WAIT='<span class="na">…</span>';
  const rowsT=[],head=["לפי מועד הנפקת הקוד"].concat(PER.map(p=>p[1]));
  const codeRow=(label,f,showPct)=>{rowsT.push('<tr><td>'+label+'</td>'+PER.map(([,,a])=>{if(!UPS)return '<td class="num">'+(UPS_ST==="loading"||UPS_ST==="idle"?WAIT:MISS)+'</td>';const I=C.filter(r=>inP(r.created,a)),v=I.filter(f).length;return '<td class="num">'+fmt(v)+(showPct?'<small>'+pf(pct(v,I.length))+'</small>':'')+'</td>'}).join("")+'</tr>')};
@@ -1279,6 +1281,7 @@ function renderUpsell(){
  codeRow("פגו בלי החלטה <small>לא נוצלו ולא נדחו"+(hasOpen?"":", כולל מי שלא פתח")+"</small>",r=>!r.used&&!r.declined&&r.expires&&r.expires<=n,true);
  codeRow("עדיין בתוקף <small>30 דקות מרכישת הקורס</small>",r=>!r.used&&!r.declined&&r.expires&&r.expires>n,true);
  rowsT.push('<tr><td><b>אחוז המרה</b> <small>רכישות אפסייל מתוך קודים שהונפקו</small></td>'+PER.map(([,,a])=>{if(!UPS)return '<td class="num">'+(UPS_ST==="loading"||UPS_ST==="idle"?WAIT:MISS)+'</td>';const I=C.filter(r=>inP(r.created,a));return '<td class="num"><b>'+pf(pct(I.filter(r=>r.used).length,I.length))+'</b></td>'}).join("")+'</tr>');
+ rowsT.push('<tr><td>קישורים אישיים לרוכשים קיימים <small>ב101, תוקף 7 ימים. לא נספרים בשורות ובהמרה שלמעלה</small></td>'+PER.map(([,,a])=>{if(!UPS)return '<td class="num">'+(UPS_ST==="loading"||UPS_ST==="idle"?WAIT:MISS)+'</td>';const I=CP.filter(r=>inP(r.created,a));return '<td class="num">'+fmt(I.length)+(I.length?'<small>'+fmt(I.filter(r=>r.used).length)+' נוצלו · '+fmt(I.filter(r=>r.declined&&!r.used).length)+' נדחו</small>':'')+'</td>'}).join("")+'</tr>'); /* ב101 */
  rowsT.push('<tr><td colspan="'+(PER.length+1)+'" class="note">לפי מועד הרכישה (גיליון האירועים)</td></tr>');
  const buyRow=(label,g)=>rowsT.push('<tr><td>'+label+'</td>'+PER.map(([,,a])=>'<td class="num">'+g(BUY.filter(x=>inP(x.t,a)))+'</td>').join("")+'</tr>');
  buyRow("רכישות אפסייל",P=>fmt(P.filter(live).length)+(P.some(x=>!live(x))?' <small>'+fmt(P.filter(x=>!live(x)).length)+' הוחזרו</small>':''));
@@ -1295,7 +1298,7 @@ function renderUpsell(){
  if(UPS_ST==="none"||UPS_ST==="err"){u.className="banner warn";u.textContent="מקור הקודים (251557) עוד לא מחובר ל-API של הדשבורד, ולכן אין כאן קודים שהונפקו, נדחו ואחוז המרה. הרכישות, ההכנסה והעמלות כבר מוצגות מהגיליון.";u.hidden=false}
  else if(UPS&&!hasOpen){u.className="banner";u.textContent="\"לא נפתחו\": חסר נתון - מאגר הקודים לא שומר אם ומתי הקוד נפתח. עד שיתווסף שדה כזה, מי שלא פתח נספר ב\"פגו בלי החלטה\".";u.hidden=false}
  else u.hidden=true;
- $("upNote").textContent="קריאה בלבד. קוד אחד לכל רכישת קורס מאומתת, בתוקף 30 דקות. הקודים נספרים לפי מועד ההנפקה, כך שאחוז ההמרה הוא מתוך אותם קודים. בלי עסקאות בדיקה"+(showTests?" (עכשיו: כולל בדיקות)":"")+". אחוזים מתוך הקודים שהונפקו באותה תקופה.";
+ $("upNote").textContent="קריאה בלבד. קוד אחד לכל רכישת קורס מאומתת, בתוקף 30 דקות. הקודים נספרים לפי מועד ההנפקה, כך שאחוז ההמרה הוא מתוך אותם קודים. בלי עסקאות בדיקה"+(showTests?" (עכשיו: כולל בדיקות)":"")+". אחוזים מתוך הקודים שהונפקו באותה תקופה. קישורים אישיים לרוכשים קיימים (ב101, תוקף יותר מיום) מוצגים בשורה נפרדת ולא נספרים בהמרה. רכישות האפסייל וההכנסה למטה כוללות את כל הרכישות.";
 }
 /* ================= 13 מה מוכר (ב93) ================= */
 /* כמו claude/b93/whatsells.py: שיוך לפי הכניסה הראשונה של ה-sid, לפי אנשים. ליד = השאירו פרטים (checkout_details). רכישה = מאומתת.
