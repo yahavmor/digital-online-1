@@ -98,6 +98,7 @@ body[data-scr="fin"] :is(#range,#customBox,#fSrc,#fOwn,#fDev){display:none!impor
 /* ב91 אפסייל: שלוש תקופות זו לצד זו, בלי הסינונים הכלליים */
 body[data-scr="up"] :is(#range,#customBox,#fSrc,#fOwn,#fDev){display:none!important}
 body[data-scr="ws"] :is(#range,#customBox,#fSrc,#fOwn,#fDev){display:none!important}
+body[data-scr="pr"] :is(#range,#customBox,#fSrc,#fOwn,#fDev){display:none!important}
 #wsAd td,#wsAd th,#wsCamp td,#wsCamp th,#wsAff td,#wsAff th{white-space:nowrap}
 #upTable td,#upTable th,#upAff td,#upAff th{white-space:nowrap}
 /* ב86 תמונת מצב */
@@ -197,6 +198,7 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
     <button role="tab" data-s="fin"><b>11</b>בקרה כספית</button>
     <button role="tab" data-s="up"><b>12</b>אפסייל</button>
     <button role="tab" data-s="ws"><b>13</b>מה מוכר</button>
+    <button role="tab" data-s="pr"><b>14</b>פרופיל רוכשים</button>
   </nav>
 
   <!-- ◎ תמונת מצב (ב86): מסך ראשי פשוט. רק רכישות מאומתות, אנשים לפי מזהה מבקר, בלי ביקורים פנימיים -->
@@ -401,6 +403,12 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
     <div class="panel"><div class="panel-h"><h2>עמלות אפסייל לפי משווק</h2><span class="note" id="upAffNote"></span></div><div class="tw"><table id="upAff"></table></div></div>
   </section>
 
+  <!-- 14 (ב81): פרופיל רוכשים - שורה לכל רכישה מאומתת. בלי שמות, טלפונים, מיילים ומספרי עסקה. קריאה בלבד -->
+  <section class="screen" id="s-pr">
+    <div class="panel"><div class="panel-h"><h2>פרופיל רוכשים</h2><span class="note" id="prNote"></span></div><div class="tw"><table id="prTable"></table></div></div>
+    <div class="panel"><div class="panel-h"><h2>תשובות בדף התודה</h2><span class="note">מ-buyer_survey (ב81). לא חובה, לכן לא לכל רכישה יש תשובה</span></div><div class="tw"><table id="prAns"></table></div></div>
+  </section>
+
   <!-- 13 (ב93): מה מוכר - לפי מודעה, קמפיין ומשווק. קריאה בלבד -->
   <section class="screen" id="s-ws">
     <div class="panel"><div class="panel-h"><h2>מה מוכר</h2>
@@ -478,6 +486,7 @@ const EXPERIMENTS=[
  {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"2026-10-26",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"הסתיים, הוחלף ב-abc_2610",decision:""},
 ];
 const CHANGELOG=[
+["2026-11-17","09:41 - ב81 (יהב אישר לבנות 17.11): לשונית 14 \"פרופיל רוכשים\" - שורה לכל רכישה מאומתת: דף, מקור, קמפיין, מודעה, מכשיר, פלטפורמה, זמן מהביקור הראשון, מספר ביקורים עד הרכישה, משווק, ותשובות שתי השאלות בדף התודה (buyer_survey). בלי שמות, טלפונים, מיילים ומספרי עסקה."],
 ["2026-11-16","21:38 - ב103 (\"מאשר ב103\" מיהב): שירה בלשונית המשווקים (aff=shira, קהל קר, 40 ₪ ליום, p25_brain_c2, מ-16.11 20:05, הוצאה aff_shira). בטבלת on_1611: טבלת סך הכול (בן + משווקים) ושורת \"נשארו דקה ומעלה\" לכל זרוע; כניסות ישר לדף בלי go.html (למשל המודעות של יוסף) מסומנות \"מחוץ לניסוי\" ולא נספרות בזרוע. המדד הראשי וכלל העצירה בלי שינוי."],
 ["2026-11-16","14:55 - ב102 (\"מאשר ב102\" מיהב, בן אישר): ניסוי on_1611 - go.html מחלק חצי-חצי בין המסלול הישן (a + סליקה A, שני שלבים) ל-a5v6 + B2, קבוע לדפדפן. pg_1611 וניסוי B מול B2 נסגרו (מי ששובץ קודם נשאר בדף שלו). סליקה A בעיצוב שלה (בלי שורת האמון ובלי כרטיס השורה האחת של ב99), עם 3 התשלומים, ביט, Apple Pay ו-Google Pay, ההתאמה המתקדמת וסימון הבדיקה. cx=co_on_1611. אינסטגרם אורגני ממשיך ל-a בלי exp, אבל מבקר חדש מוגרל לזרוע ובסליקה מקבל A או B2 לפיה (שורה נפרדת בסיכום היומי). ההשוואה מ-15:05."],
 ["2026-11-15","17:17 - ב99 (ראשי, \"מאשר\" מיהב): במובייל בלבד, ב-B וב-B2, הטופס בדף התשלום עולה למסך הראשון. כרטיס ההזמנה בשורה אחת (\"הקורס המלא + 5 בונוסים · 297 ₪ חד-פעמי\"), רשימת ה-✓ עברה לסוף הדף, ומתחת לכותרת רק \"עוד רגע זה שלך.\". במחשב אין שינוי. הספירה של B מול B2 מתחילה מחדש (cx=co_b2_1511m)."],
@@ -1571,8 +1580,34 @@ function renderDQ(M){const now=Date.now(),last=ev=>{for(let i=rows.length-1;i>=0
 function activeVars(B){const s=new Set();rows.forEach(r=>{if(r.t>=B.pa&&r.t<B.b&&(showTests||!isTest(r)))s.add(r.variant)});const v=ALLV.filter(x=>s.has(x));return v.length?v:ALLV.slice(0,3)}
 function render(){document.body.dataset.scr=screen;if(!rows)return;const B=bounds();VARS=activeVars(B);if(!VARS.includes(lpVar))lpVar=VARS[0];document.querySelectorAll("#lpVar button").forEach(b=>{b.hidden=!VARS.includes(b.dataset.v)});const M=build(B.a,B.b),P=build(B.pa,B.pb),A=aggregate(M,B.a,B.b),PA=aggregate(P,B.pa,B.pb);
  const srcs=[...new Set(rows.filter(r=>VARS.includes(r.variant)&&(showTests||!isTest(r))).map(r=>source(qsObj(r.qs))))].sort();const fs=$("fSrc");if(fs.options.length-1!==srcs.length){const cur=fs.value;fs.innerHTML='<option value="">כל המקורות</option>'+srcs.map(s=>'<option'+(s===cur?" selected":"")+'>'+esc(s)+'</option>').join("")}
- try{({snap:()=>renderSnap(),lab:()=>renderLab(M,B),hub:()=>renderHub(M,B),op:()=>{renderOn(build(ON_START,new Date(Date.now()+864e5)));renderPg(build(EXP.start,new Date(Date.now()+864e5)));renderOpt()},ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>{renderCheckout(M);renderRecovery(M);renderCo90(M);renderCo54(M)},jr:()=>renderJourneys(M),ex:()=>{renderExperiments(M);renderStages(B)},in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M),af:()=>renderAffiliates(),aud:()=>renderAud(),fin:()=>renderFinance(),up:()=>renderUpsell(),ws:()=>renderWs()})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
+ try{({snap:()=>renderSnap(),lab:()=>renderLab(M,B),hub:()=>renderHub(M,B),op:()=>{renderOn(build(ON_START,new Date(Date.now()+864e5)));renderPg(build(EXP.start,new Date(Date.now()+864e5)));renderOpt()},ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>{renderCheckout(M);renderRecovery(M);renderCo90(M);renderCo54(M)},jr:()=>renderJourneys(M),ex:()=>{renderExperiments(M);renderStages(B)},in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M),af:()=>renderAffiliates(),aud:()=>renderAud(),fin:()=>renderFinance(),up:()=>renderUpsell(),ws:()=>renderWs(),pr:()=>renderPr()})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
  if(storedAt)$("fresh").textContent="· עודכן "+new Date(storedAt).toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});}
+/* ================= 14 פרופיל רוכשים (ב81) =================
+   שורה לכל רכישה מאומתת (כרטיס והעברה בנקאית), מכל הזמן, בלי עסקאות בדיקה. מקור/קמפיין/מודעה/דף מהביקור שבו נקנה;
+   זמן מהביקור הראשון ומספר ביקורים - לפי מזהה המבקר (vid), עד רגע הרכישה. תשובות: אירוע buyer_survey מדף התודה, לפי deal=. */
+const PR_Q1={video:"סרטון של בן",testimonials:"ההמלצות בדף",method:"ההסבר על השיטה",price_bonus:"המחיר והבונוסים",refund7:"7 ימים להחזר",referral:"המלצה של מישהו",other:"אחר"},
+ PR_Q2={facebook:"פייסבוק",instagram:"אינסטגרם",friend_aff:"חבר או משווק",youtube_google:"יוטיוב או גוגל",other:"אחר"},
+ PR_DV={m:"נייד",d:"מחשב",t:"טאבלט"},PR_APP={fb:"אפליקציית פייסבוק",ig:"אפליקציית אינסטגרם",web:"דפדפן"};
+function prDur(ms){if(ms==null||!isFinite(ms))return "-";const h=ms/36e5;return h<1?"פחות משעה":h<24?Math.round(h)+" שעות":(Math.round(h/24*10)/10)+" ימים"}
+function prAns(a,M){if(!a)return '<span class="na">-</span>';const o=/^other:/.test(a)?"אחר: "+a.slice(6):(M[a]||a);return esc(o)}
+function renderPr(){
+ const now=new Date(),keep=[fSrc,fDev,fOwn];fSrc="";fDev="";fOwn="";let M;try{M=build(new Date(0),new Date(+now+864e5))}finally{[fSrc,fDev,fOwn]=keep}
+ const ANS={},SANS={};M.R.forEach(r=>{if(r.ev!=="buyer_survey"||!/^q[12]$/.test(r.cta||""))return;const x=parseX(r.x),d=x.deal||"";const o=d?(ANS[d]=ANS[d]||{}):(SANS[r.sid]=SANS[r.sid]||{});if(!o[r.cta])o[r.cta]=String(r.name||"")});
+ const byV={};M.sess.forEach(s=>{if(s.vid)(byV[s.vid]=byV[s.vid]||[]).push(s)});
+ const B=M.allBuys.slice().sort((x,y)=>y.t-x.t),na='<span class="na">-</span>';
+ const body=B.map(b=>{const s=b.s,an=ANS[b.deal]||(b.sid&&SANS[b.sid])||{};
+  const V=s&&s.vid&&byV[s.vid]?byV[s.vid].filter(x=>x.t<=b.t):(s?[s]:[]),first=V.length?Math.min(...V.map(x=>+x.t)):null;
+  const p=s&&s.p,aff=b.aff||(s&&s.aff)||(p&&p.get("aff"))||"",inf=aff&&AFF&&AFF[aff];
+  const plat=s?[s.os&&s.os!=="?"?s.os:"",PR_APP[s.app]||(s.app&&s.app!=="?"?s.app:"")].filter(Boolean).join(" · "):"";
+  return '<tr><td>'+hm2(b.t)+(b.bank?' <small>העברה בנקאית</small>':'')+'</td><td>'+(s?esc(s.v):na)+'</td><td>'+(s?esc(s.src):na)+'</td><td>'+(p&&p.get("utm_campaign")?esc(p.get("utm_campaign")):na)+'</td><td>'+(s&&s.cr&&s.cr!=="(ללא קריאייטיב)"?esc(s.cr):na)+'</td><td>'+(s?esc(PR_DV[s.dv]||s.dv):na)+'</td><td>'+(plat?esc(plat):na)+'</td><td class="num">'+(first!=null?prDur(+b.t-first):na)+'</td><td class="num">'+(V.length?fmt(V.length):na)+'</td><td>'+(aff?esc(inf?inf.name:aff)+' <small>'+esc(aff)+'</small>':'בן')+'</td><td>'+prAns(an.q1,PR_Q1)+'</td><td>'+prAns(an.q2,PR_Q2)+'</td></tr>'});
+ table($("prTable"),["תאריך","דף","מקור","קמפיין","מודעה","מכשיר","פלטפורמה","מהביקור הראשון לרכישה","ביקורים עד הרכישה","משווק","מה שכנע","איפה שמע"],body,"אין עדיין רכישות מאומתות");
+ const noS=B.filter(b=>!b.s).length;
+ $("prNote").textContent=B.length+" רכישות מאומתות מכל הזמן, בלי עסקאות בדיקה. ביקורים וזמן - לפי מזהה המבקר (מכשיר), עד הרכישה."+(noS?" "+noS+" רכישות בלי ביקור מזוהה (למשל העברה בנקאית) - בלי מקור ובלי מכשיר.":"")+" שאלות דף התודה נוספו ב-ב81, ולרכישות מלפני כן אין תשובות.";
+ const cnt=(q,MAP)=>{const C={};B.forEach(b=>{const a=(ANS[b.deal]||(b.sid&&SANS[b.sid])||{})[q];if(a){const k=/^other:/.test(a)?"other":a;C[k]=(C[k]||0)+1}});return Object.keys(MAP).map(k=>[MAP[k],C[k]||0])};
+ const c1=cnt("q1",PR_Q1),c2=cnt("q2",PR_Q2),n1=c1.reduce((x,y)=>x+y[1],0),n2=c2.reduce((x,y)=>x+y[1],0),rows2=[];
+ for(let i=0;i<Math.max(c1.length,c2.length);i++){const a=c1[i],b=c2[i];rows2.push('<tr><td>'+(a?esc(a[0]):"")+'</td><td class="num">'+(a?fmt(a[1])+(n1?'<small>'+pf(pct(a[1],n1))+'</small>':''):"")+'</td><td>'+(b?esc(b[0]):"")+'</td><td class="num">'+(b?fmt(b[1])+(n2?'<small>'+pf(pct(b[1],n2))+'</small>':''):"")+'</td></tr>')}
+ table($("prAns"),["מה שכנע ("+n1+" ענו)","רוכשים","איפה שמע לראשונה ("+n2+" ענו)","רוכשים"],n1||n2?rows2:[],"עוד אין תשובות");
+}
 /* סינון לפי משווק (בקשת יהב 09.11): אמיר, שחר, גל ורחל ראשונים, ואחריהם שאר המשווקים הפעילים */
 const AFF_FIRST=["amir","shahar","gal","rachel"];
 function ownOpts(){const sel=$("fOwn"),cur=fOwn;const codes=Object.keys(AFF).filter(k=>AFF[k].active&&!/^claude/.test(k)).sort((x,y)=>{const i=AFF_FIRST.indexOf(x),j=AFF_FIRST.indexOf(y);return (i<0?99:i)-(j<0?99:j)||AFF[x].name.localeCompare(AFF[y].name,"he")});

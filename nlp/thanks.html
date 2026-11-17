@@ -49,6 +49,20 @@ h1{font-size:clamp(28px,8vw,36px);font-weight:900;line-height:1.15;margin:0 0 8p
 .wait{display:flex;justify-content:center;align-items:center;gap:10px;min-height:56px;border-radius:14px;background:#F6F3EC;color:var(--ink2);font-weight:700;font-size:16px;padding:0 14px}
 .wait i{flex:none;width:18px;height:18px;border-radius:50%;border:3px solid #E2D6BC;border-top-color:var(--gold);animation:sp .8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
+/* ב81: שתי שאלות אחרי התשלום - לא חובה, לחיצה אחת */
+.srv{margin:22px 0 0;padding:16px 14px 14px;border:1px solid var(--line);border-radius:16px;text-align:right}
+.srv h2{font-size:16px;font-weight:800;margin:0 0 2px}
+.srv .sub{font-size:13.5px;color:var(--muted);margin:0 0 10px}
+.srv fieldset{border:0;margin:0;padding:0}.srv fieldset+fieldset{margin-top:14px}
+.srv legend{font-size:15.5px;font-weight:700;padding:0;margin:0 0 8px;color:var(--ink)}
+.srv .ch{display:flex;flex-wrap:wrap;gap:7px}
+.srv .ch button{font:inherit;font-size:14.5px;min-height:40px;padding:6px 13px;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:var(--ink);cursor:pointer}
+.srv .ch button:focus-visible{outline:3px solid var(--gold2);outline-offset:2px}
+.srv .ch button[aria-pressed="true"]{border-color:var(--gold);background:#FBF5E8;font-weight:700}
+.srv .oth{display:flex;gap:7px;margin-top:8px}
+.srv .oth input{flex:1;min-width:0;font:inherit;font-size:15px;min-height:42px;padding:6px 12px;border:1.5px solid var(--line);border-radius:12px}
+.srv .oth button{font:inherit;font-weight:700;min-height:42px;padding:0 16px;border:0;border-radius:12px;background:var(--ink);color:#fff;cursor:pointer}
+.srv .ty{font-size:14.5px;color:var(--ok);font-weight:700;margin:6px 0 0}
 </style>
 <script>try{if(top!==self)top.location.replace(location.href)}catch(e){}</script>
 <script>/* ב23: בלי פיקסל לסריקות Meta (חתימת app_id 256281040558 ב-fbclid, כמו ב-7798267), לקישורי בדיקה ולדפדפן הפנימי */(function(){try{var s=location.search.replace(/[?&](terminalnumber|lowprofile[a-z]*|respon[a-z]*code|operation|status|traceid|internaldealnumber|dealresponse|tranzactionid)=[^&]*/gi,""),off=/yNTYyODEwNDA1N|MjU2MjgxMDQwNT|I1NjI4MTA0MDU1|claude|test|nocache|internal/i.test(s);try{off=off||localStorage.getItem("nlp_int")==="1"}catch(e){}window.__noPix=off;if(off)return}catch(e){}
@@ -77,6 +91,19 @@ if(/test|claude/i.test(location.search))clarity("set","internal","1");}catch(e){
 <a class="grp" id="grp" href="#" target="_blank" rel="noopener" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>הצטרפות לקבוצת הוואטסאפ של הרוכשים</a>
 <p class="sent2" id="sent" data-clarity-mask="True" hidden>שלחנו גם את כל פרטי הגישה לאימייל שהזנת.</p>
 <p class="sent2">3 ערכות העבודה מחכות בשיעור הפתיחה של הקורס, בלשונית "קבצים מצורפים".</p>
+<!-- ב81: שתי שאלות קצרות, רק אחרי אימות התשלום. לא חובה. התשובה נשמרת בגיליון האירועים עם מספר העסקה בלבד. הנוסח לאישור בן -->
+<section class="srv" id="srv" aria-labelledby="srvH" hidden>
+ <h2 id="srvH">2 שאלות קצרות, לא חובה</h2>
+ <p class="sub">לחיצה אחת בכל שאלה. זה עוזר לבן להבין מה באמת עובד.</p>
+ <fieldset id="srvQ1"><legend>מה הכי שכנע אותך להצטרף?</legend><div class="ch">
+  <button type="button" data-a="video">סרטון של בן</button><button type="button" data-a="testimonials">ההמלצות בדף</button><button type="button" data-a="method">ההסבר על השיטה</button><button type="button" data-a="price_bonus">המחיר והבונוסים</button><button type="button" data-a="refund7">7 ימים להחזר</button><button type="button" data-a="referral">המלצה של מישהו</button><button type="button" data-a="other">אחר</button></div>
+  <div class="oth" id="srvOth" hidden><input id="srvTxt" type="text" maxlength="60" placeholder="במילה או שתיים" aria-label="מה עוד שכנע אותך" data-clarity-mask="True"><button type="button" id="srvSend">שליחה</button></div>
+ </fieldset>
+ <fieldset id="srvQ2"><legend>איפה שמעת על בן לראשונה?</legend><div class="ch">
+  <button type="button" data-a="facebook">פייסבוק</button><button type="button" data-a="instagram">אינסטגרם</button><button type="button" data-a="friend_aff">חבר או משווק</button><button type="button" data-a="youtube_google">יוטיוב או גוגל</button><button type="button" data-a="other">אחר</button></div>
+ </fieldset>
+ <p class="ty" id="srvTy" role="status" hidden>תודה!</p>
+</section>
 <section class="acc" id="acc" aria-labelledby="accH"><!-- ב56: אחרי רוכשת שלא מצאה את פרטי הגישה -->
  <h2 id="accH">איפה פרטי הגישה?</h2>
  <p class="to" id="accTo" data-clarity-mask="True">שלחנו אותם לאימייל שהזנת בתשלום.</p>
@@ -126,10 +153,36 @@ const SUPPORT_WA = "972526951092";
       purchase(d);
       const a = el("go"); a.href = d.link; a.hidden = false; el("wait").hidden = true;
       upsell(0);
+      survey(d);
       if(d.email && window.__showTo) __showTo(d.email); /* ב56: המייל מוצג בתיבה "איפה פרטי הגישה?" */
       if(typeof d.wa === "string" && /^https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]{10,40}$/.test(d.wa)){ const g = el("grp"); g.href = d.wa; g.hidden = false; /* ב72; השורה שמתחת לכפתור הוסרה לפי החלטת בן 09.11 */
         g.addEventListener("click", () => { try{ if(TRACK_ENDPOINT[0] === "%") return; let lc = {}; try{ lc = JSON.parse(localStorage.getItem("nlp_lc") || "{}"); }catch(e){} const q = new URLSearchParams(location.search); const f = new URLSearchParams({ev:"wa_group_click", variant:lc.v || q.get("v") || "", sid:lc.sid || q.get("sid") || ""}); try{ if(localStorage.getItem("nlp_int") === "1") f.set("x","int=1"); }catch(e){} if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT, f))) fetch(TRACK_ENDPOINT, {method:"POST", body:f, mode:"no-cors"}); }catch(e){} }, {once:true}); }
       return true;
+    }
+    /* ב81: שתי שאלות אחרי תשלום מאומת בלבד (גם בחזרה מדף האפסייל, ups=1). לחיצה אחת שולחת אירוע buyer_survey לגיליון:
+       cta = q1 (מה שכנע) או q2 (איפה שמע), name = קוד התשובה (או other:טקסט קצר בלי מספרים ובלי מייל), x = deal=<מספר העסקה>.
+       תשובה שכבר נשלחה מאותו דפדפן לא מוצגת שוב. לא חוסם ולא משנה את ההפניה לאפסייל */
+    function survey(d){
+      if(framed || TRACK_ENDPOINT[0] === "%") return;
+      const deal = d && /^\d+$/.test(String(d.deal || "")) ? String(d.deal) : ""; if(!deal) return;
+      const box = el("srv"); if(!box || box.dataset.on) return; box.dataset.on = "1";
+      const K = q => "srv_" + deal + "_" + q, done = q => { try{ return !!localStorage.getItem(K(q)); }catch(e){ return false; } };
+      const send = (q, a) => { try{ localStorage.setItem(K(q), "1"); }catch(e){}
+        try{ let lc = {}; try{ lc = JSON.parse(localStorage.getItem("nlp_lc") || "{}"); }catch(e){}
+          const f = new URLSearchParams({ev:"buyer_survey", variant:lc.v || qs.get("v") || "", sid:lc.sid || qs.get("sid") || "", cta:q, name:a, x:"deal=" + deal});
+          try{ if(localStorage.getItem("nlp_int") === "1") f.set("x", f.get("x") + ";int=1"); }catch(e){}
+          try{ const ow = window.NLP_OWNER ? NLP_OWNER() : ""; if(ow) f.set("x", f.get("x") + ";aff=" + ow); }catch(e){}
+          if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT, f))) fetch(TRACK_ENDPOINT, {method:"POST", body:f, mode:"no-cors"}); }catch(e){} };
+      const fin = () => { if(done("q1") && done("q2")) el("srvTy").hidden = false; };
+      [["q1", "srvQ1"], ["q2", "srvQ2"]].forEach(([q, id]) => { const fs = el(id); if(done(q)){ fs.hidden = true; return; }
+        fs.querySelectorAll(".ch button").forEach(b => b.addEventListener("click", () => { if(done(q)) return;
+          fs.querySelectorAll(".ch button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+          if(q === "q1" && b.dataset.a === "other"){ el("srvOth").hidden = false; el("srvTxt").focus(); return; }
+          send(q, b.dataset.a); fs.hidden = true; fin(); })); });
+      el("srvSend").addEventListener("click", () => { if(done("q1")) return;
+        const t = String(el("srvTxt").value || "").replace(/\S+@\S+/g, "").replace(/[\d+()\-]{5,}/g, "").replace(/[\t\r\n;|]+/g, " ").trim().slice(0, 60);
+        send("q1", t ? "other:" + t : "other"); el("srvQ1").hidden = true; fin(); });
+      if(done("q1") && done("q2")) return; box.hidden = false;
     }
     /* ב74: הצעת האפסייל. ההמתנה של 1.5 שניות נותנת ל-Purchase ולאירועי הדף להישלח לפני המעבר */
     let upFired = false;
