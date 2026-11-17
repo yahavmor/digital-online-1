@@ -114,20 +114,22 @@ for lab,keep in (("paid",lambda s:s["src"]=="paid"),("aff",lambda s:s["src"]=="a
     R2={v:{"people":len(P[v]),"checkout":sum(o["chk"] for o in P[v].values()),"started":sum(o["det"] for o in P[v].values()),"leads":sum(o["lead"] for o in P[v].values()),"buys":sum(o["buy"] for o in P[v].values())} for v in ("a5v6","pr2")}
     print("b94 pg_1611",lab,R2,"| SRM",srm(R2["a5v6"]["people"],R2["pr2"]["people"]))
 # ב102: on_1611 - "ישן" (a + סליקה A) מול "חדש" (a5v6 + B2). ראשי: השאירו פרטים (checkout_details) לאדם, ממודעות של בן בלבד. משווקים בנפרד
-ON=datetime(2026,11,16,15,5)  # פריסה + 10 דקות מטמון
+ON=ON0=datetime(2026,11,16,15,5)  # פריסה + 10 דקות מטמון
+# ב105 (17.11): on_1711 מחליף את on_1611 - "ישן" (a + סליקה A) מול "חדש" (a5v7 + B2). נדחף 20:47:55, ON_START 20:59. on_1611 נסגר; שאריות on_1611 לא נספרות
+ON=datetime(2026,11,17,20,59); OX="on_1711"; NV="a5v7"
 for lab,keep in (("paid",lambda s:s["src"]=="paid"),("aff",lambda s:s["src"]=="aff"),("ben+aff",lambda s:s["src"] in("paid","aff")),("all",lambda s:True)):  # ב103: ben+aff = סך הכול
-    E=[s for s in S.values() if s["exp"]=="on_1611" and s["v"] in("a","a5v6") and s["t"]>=ON and keep(s)]
+    E=[s for s in S.values() if s["exp"]==OX and s["v"] in("a",NV) and s["t"]>=ON and keep(s)]
     P=defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
     for s in E:
         o=P[s["v"]][s["vid"] or s["v"]+s["t"].isoformat()]
         for f in ("chk","det","lead","pay","buy"): o[f]|=s.get(f,0)
         o["min1"]|=int(s.get("time",0)>=60)
-    R3={v:{"people":len(P[v]),"stayed_1min":sum(o["min1"] for o in P[v].values()),"checkout":sum(o["chk"] for o in P[v].values()),"started":sum(o["det"] for o in P[v].values()),"leads":sum(o["lead"] for o in P[v].values()),"payform":sum(o["pay"] for o in P[v].values()),"buys":sum(o["buy"] for o in P[v].values())} for v in ("a","a5v6")}
-    print("b102 on_1611",lab,R3,"| SRM",srm(R3["a"]["people"],R3["a5v6"]["people"]))
-print("b102 stop rule: paid people per arm (150) a=%d a5v6=%d, days %d of 14" % (len({s["vid"] or s["t"] for s in S.values() if s["exp"]=="on_1611" and s["v"]=="a" and s["t"]>=ON and s["src"]=="paid"}),len({s["vid"] or s["t"] for s in S.values() if s["exp"]=="on_1611" and s["v"]=="a5v6" and s["t"]>=ON and s["src"]=="paid"}),max(0,(datetime.now()-ON).days)))
+    R3={v:{"people":len(P[v]),"stayed_1min":sum(o["min1"] for o in P[v].values()),"checkout":sum(o["chk"] for o in P[v].values()),"started":sum(o["det"] for o in P[v].values()),"leads":sum(o["lead"] for o in P[v].values()),"payform":sum(o["pay"] for o in P[v].values()),"buys":sum(o["buy"] for o in P[v].values())} for v in ("a",NV)}
+    print("b105 "+OX,lab,R3,"| SRM",srm(R3["a"]["people"],R3[NV]["people"]))
+print(("b105 stop rule: paid people per arm (150) a=%d "+NV+"=%d, days %d of 14") % (len({s["vid"] or s["t"] for s in S.values() if s["exp"]==OX and s["v"]=="a" and s["t"]>=ON and s["src"]=="paid"}),len({s["vid"] or s["t"] for s in S.values() if s["exp"]==OX and s["v"]==NV and s["t"]>=ON and s["src"]=="paid"}),max(0,(datetime.now()-ON).days)))
 OUT=defaultdict(set)  # ב103: ישר לדף בלי go.html - מחוץ לניסוי
 for s in S.values():
-    if s["v"] in("a","a5v6") and s["t"]>=ON and not s["exp"] and s["route"]!="ig_org" and "go=1" not in s["qs"]:
+    if s["v"] in("a","a5v6",NV) and s["t"]>=ON and not s["exp"] and s["route"]!="ig_org" and "go=1" not in s["qs"]:
         OUT[(s["src"],s["v"])].add(s["vid"] or s["t"].isoformat())
 print("b103 out of experiment (direct to page, no go.html):",{"%s/%s"%k:len(v) for k,v in sorted(OUT.items(),key=lambda kv:-len(kv[1]))})
 IG=defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
@@ -139,7 +141,7 @@ IGP=defaultdict(set)
 for s in S.values():
     if s["route"]=="ig_org" and s["t"]>=ON: IGP["all"].add(s["vid"] or s["t"].isoformat())
 print("b102 ig_org by checkout (A vs B2): people (all ig_org)",len(IGP["all"]),{co:{"reached checkout":len(P),"details":sum(o["lead"] for o in P.values()),"buys":sum(o["buy"] for o in P.values())} for co,P in IG.items()})
-print("b102 checkout version by arm (should be a->a, a5v6->b2):",Counter((s["v"],s["co"] or "-") for s in S.values() if s["exp"]=="on_1611" and s["chk"]))
+print("b105 checkout version by arm (should be a->a, "+NV+"->b2):",Counter((s["v"],s["co"] or "-") for s in S.values() if s["exp"]==OX and s["chk"] and s["t"]>=ON))
 EXPID="a5v6_1511"
 report(SC,datetime(2100,1,1),["a5v6"],"a5v6 all traffic (b68 stage C, from 15.11 07:33), paid only")
 report(SC,datetime(2100,1,1),["a5v6"],"a5v6 all traffic (b68 stage C) ALL sources",only_paid=False)
@@ -155,7 +157,7 @@ print("a5 (old page) visits with exp=ap2_0811 after the switch (should be ~0):",
 print("arms seen with exp=ap2_0811 since SW:",Counter(s["v"] for s in E))
 old=[s for s in S.values() if s["exp"]=="aa5_0411" and s["t"]>=X0]
 print("aa5_0411 since 05.11 06:55: sessions",len(old),Counter(s["v"] for s in old),"chk",sum(s["chk"] for s in old),"buy",sum(s["buy"] for s in old))
-print("go=1 to out-of-exp pages since X0:",[(s["v"],s["t"].strftime("%d %H:%M")) for s in S.values() if "go=1" in s["qs"] and s["t"]>=X0 and (s["v"] in("a1","a3","a4","b","c","pr") or (s["v"]=="a" and s["t"]<ON)) and s["t"]>=SW])  # 17.11: מ-ON הדף a בניסוי on_1611 (ו-ig_org מגיע אליו עם go=1 בלי exp), אז הוא לא "מחוץ לניסוי"
+print("go=1 to out-of-exp pages since X0:",[(s["v"],s["t"].strftime("%d %H:%M")) for s in S.values() if "go=1" in s["qs"] and s["t"]>=X0 and (s["v"] in("a1","a3","a4","b","c","pr") or (s["v"]=="a" and s["t"]<ON0)) and s["t"]>=SW])  # 17.11: מ-ON הדף a בניסוי on_1611 (ו-ig_org מגיע אליו עם go=1 בלי exp), אז הוא לא "מחוץ לניסוי"
 igo=[s for s in S.values() if s["route"]=="ig_org" and s["t"]>=X0]
 print("route=ig_org since X0:",Counter((s["v"],s["exp"] or "-") for s in igo))
 print("other exp keys since X0:",Counter((s["v"],s["exp"]) for s in S.values() if s["t"]>=X0 and s["exp"] and s["exp"] not in("ap2_0811",) and s["t"]>=SW))

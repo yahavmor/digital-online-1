@@ -39,5 +39,5 @@ const [NEW, OLD] = process.argv.slice(2); let n = 0, f = 0; const ok = (m, c, d)
  ok("ALLV has a5v7", await D.p.evaluate(() => ALLV.includes("a5v7")));
  ok("dashboard no JS errors", !D.errs.length, D.errs.join("|"));
  const scr = async (X, s) => { await X.p.evaluate(s => setScreen(s), s); await X.p.waitForTimeout(300); return X.p.evaluate(s => document.getElementById("s-" + s).innerText.replace(/עודכן \d\d:\d\d/g, ""), s) };
- for (const s of ["fin", "up", "af", "pr"]) ok("screen " + s + " unchanged", (await scr(D0, s)) === (await scr(D, s)));
+ for (const s of ["fin", "up", "af", "pr"]) { const o = await scr(D0, s), w = await scr(D, s); ok("screen " + s + " unchanged", o === w); if (o !== w) { const ol = o.split("\n"), wl = w.split("\n"); console.log("  OLD-only:", ol.filter(x => !wl.includes(x)).join(" / ")); console.log("  NEW-only:", wl.filter(x => !ol.includes(x)).join(" / ")) } }
  console.log("TOTAL", n - f + "/" + n); await b.close(); process.exit(f ? 1 : 0) })();
