@@ -155,7 +155,7 @@ print("a5 (old page) visits with exp=ap2_0811 after the switch (should be ~0):",
 print("arms seen with exp=ap2_0811 since SW:",Counter(s["v"] for s in E))
 old=[s for s in S.values() if s["exp"]=="aa5_0411" and s["t"]>=X0]
 print("aa5_0411 since 05.11 06:55: sessions",len(old),Counter(s["v"] for s in old),"chk",sum(s["chk"] for s in old),"buy",sum(s["buy"] for s in old))
-print("go=1 to out-of-exp pages since X0:",[(s["v"],s["t"].strftime("%d %H:%M")) for s in S.values() if "go=1" in s["qs"] and s["t"]>=X0 and s["v"] in("a","a1","a3","a4","b","c","pr") and s["t"]>=SW])
+print("go=1 to out-of-exp pages since X0:",[(s["v"],s["t"].strftime("%d %H:%M")) for s in S.values() if "go=1" in s["qs"] and s["t"]>=X0 and (s["v"] in("a1","a3","a4","b","c","pr") or (s["v"]=="a" and s["t"]<ON)) and s["t"]>=SW])  # 17.11: מ-ON הדף a בניסוי on_1611 (ו-ig_org מגיע אליו עם go=1 בלי exp), אז הוא לא "מחוץ לניסוי"
 igo=[s for s in S.values() if s["route"]=="ig_org" and s["t"]>=X0]
 print("route=ig_org since X0:",Counter((s["v"],s["exp"] or "-") for s in igo))
 print("other exp keys since X0:",Counter((s["v"],s["exp"]) for s in S.values() if s["t"]>=X0 and s["exp"] and s["exp"] not in("ap2_0811",) and s["t"]>=SW))
