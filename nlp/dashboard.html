@@ -115,7 +115,7 @@ body[data-scr="snap"] :is(#range,#customBox,#fSrc,#fOwn,#fDev,.controls .chk){di
 .snap-line.g{background:var(--good-bg)} .snap-line.g i{background:var(--good)}
 .snap-line.y{background:var(--warn-bg)} .snap-line.y i{background:var(--warn)}
 .snap-line.r{background:var(--crit-bg)} .snap-line.r i{background:var(--crit)}
-#snapAds td,#snapAds th,#snapPages td,#snapPages th,#snapCo td,#snapCo th{white-space:nowrap}
+#d14T td,#d14T th,#d14F td,#d14F th,#snapAds td,#snapAds th,#snapPages td,#snapPages th,#snapCo td,#snapCo th{white-space:nowrap}
 #snapAds td.nm{white-space:normal;min-width:150px;max-width:220px}
 #snapAds td.nm small.ty{display:block;color:var(--muted);font-weight:400}
 @media (max-width:760px){.snap-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.snap-tiles .tile:last-child{grid-column:1/-1}}
@@ -150,6 +150,7 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
 @media (max-width:760px){.grid2{grid-template-columns:minmax(0,1fr)} .tiles{grid-template-columns:repeat(2,minmax(0,1fr))} .frow{grid-template-columns:110px minmax(0,1fr) 84px} .tl div{grid-template-columns:56px 1fr} .tl div span:last-child{grid-column:1/-1;color:var(--muted)}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 .tagb,.tagp{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 6px;margin-top:2px}.tagb{background:#EEF0F3;color:#3A3E47}.tagp{background:#E8F3EC;color:#1F7A4D}
+.d14-line{font-size:15px;line-height:1.75;margin:4px 0 12px}.d14-h{font-size:15px;margin:16px 0 6px}#d14T tr.d14y td{background:rgba(212,175,55,.08);font-weight:700}#d14T tr.d14a td{border-top:2px solid var(--line,#ddd)}
 </style>
 </head>
 <body>
@@ -207,6 +208,8 @@ form.inline label{display:flex;flex-direction:column;gap:4px;font-size:13px;colo
       <div class="seg" role="group" aria-label="תקופה" id="snapPer"><button data-p="week">השבוע</button><button data-p="today">היום</button><button data-p="7">7 ימים</button><button data-p="30">30 ימים</button><button data-p="launch">מההשקה</button></div>
       <span class="note" id="snapRange"></span></div>
     <div class="tiles snap-tiles" id="snapKpi"></div>
+    <div class="panel" id="d14"><div class="panel-h"><h2>תנועה מיום ליום</h2><span class="note">14 ימים, לפי מכשיר. "חינם" = כל מה שלא מודעה של בן ולא משווק (פירוט למטה). בלי בדיקות פנימיות ובלי סריקות של Meta</span></div><p class="d14-line" id="d14Line"></p><div class="tw"><table id="d14T"></table></div>
+      <h3 class="d14-h">מקורות חינם</h3><div class="tw"><table id="d14F"></table></div><p class="note">וואטסאפ = utm_source=whatsapp. דף הפייסבוק = utm_source=facebook עם utm_medium=page או page_post. Meta (fbclid) = הגיעו מפייסבוק או אינסטגרם בלי קוד מעקב, ואי אפשר לדעת אם ממודעה או לא</p></div>
     <div class="panel"><div class="panel-h"><h2>מה עובד ומה לא</h2><span class="note">המלצה בלבד, לפי כללי מ35. ההחלטות פעם בשבוע (הראשונה 16.11), ו-72 שעות בלי לגעת אחרי שינוי</span></div><div id="snapLines" class="snap-lines"></div></div>
     <div class="panel"><div class="panel-h"><h2>מודעות</h2><span class="note">הקוד מופיע כשמעבירים את העכבר על השם</span></div><div class="tw"><table id="snapAds"></table></div><p class="note" id="snapAdsNote"></p></div>
     <div class="panel"><div class="panel-h"><h2>דפי מכירה</h2><span class="note">אנשים, ומתוכם כמה הגיעו לכל שלב</span><label class="chk"><input type="checkbox" id="snapGo"> רק תנועת הניסוי (go.html)</label></div><div class="tw"><table id="snapPages"></table></div></div>
@@ -487,6 +490,7 @@ const EXPERIMENTS=[
  {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"2026-10-26",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"הסתיים, הוחלף ב-abc_2610",decision:""},
 ];
 const CHANGELOG=[
+["2026-11-18","14:46 - ב107 (בקשת בן 18.11): בלשונית תמונת מצב - \"תנועה מיום ליום\": 14 ימים של מבקרים (המודעות של בן, משווקים, חינם), הגעה לדף התשלום, השארת פרטים ורכישות, שורה בשפה פשוטה (אתמול מול שלשום ומול ממוצע 7 ימים), וטבלת מקורות חינם. מקורות חדשים: וואטסאפ (utm_source=whatsapp) ודף הפייסבוק (utm_source=facebook עם utm_medium=page/page_post)."],
 ["2026-11-18","11:49 - ב106: שאלה שלישית בדף התודה - טווח גיל (לא חובה, 18-24 עד 65+), נשמרת כמו שתי השאלות של ב81 (buyer_survey, cta=q3, בלי פרטים מזהים). בלשונית 14 נוספה עמודת גיל וספירה לפי טווח."],
 ["2026-11-17","20:47 - ב105 (\"מאשר ב105\" מיהב, בן אישר, הוק א): a5v7 באתר (מ-a5v6: הוק חדש, בלי \"למה בניתי\", ההצעה והאחריות אחרי הפתרון, ההוכחות מתחת להצעה). ניסוי on_1711 מחליף את on_1611: a + סליקה A מול a5v7 + B2, חצי-חצי, ספירה חדשה מ-2026-11-17 20:59. מי ששובץ ב-on_1611 נשאר בדף שלו מחוץ לניתוח. טבלת הניסוי בלשונית 00 עברה ל-on_1711."],
 ["2026-11-17","11:54 - ב101 (\"מאשר\" מיהב): בלשונית 12 (אפסייל) קישורים אישיים לרוכשים קיימים (תוקף 7 ימים) לא נספרים ב\"קודים שהונפקו\" ובאחוז ההמרה, ומוצגים בשורה נפרדת. רכישות והכנסה בלי שינוי."],
@@ -564,6 +568,8 @@ function source(p){const s=(p.get("utm_source")||"").toLowerCase(),m=(p.get("utm
  if(p.get("aff")||m==="affiliate")return "משווקים"; /* ב25: לפני מודעות Meta, כדי ש"מודעות Meta" יישאר רק המודעות של בן */
  if(/meta|facebook|fb|ig|instagram/.test(s)&&/paid|cpc|ads?$|social_paid|paid_social/.test(m))return "מודעות Meta";
  if(/manychat/.test(p.get("utm_campaign")||"")||m==="dm")return "ManyChat";
+ if(/^(whatsapp|wa)$/.test(s))return "וואטסאפ (קבוצות)"; /* ב107: קבוצות הוואטסאפ של בן */
+ if(/facebook|fb/.test(s)&&/^(page|page_post)$/.test(m))return "דף הפייסבוק"; /* ב107: פוסטים בדף הפייסבוק */
  if(/email|responder/.test(s+m))return "מייל";
  if(/instagram|ig/.test(s))return "אינסטגרם אורגני";
  if(/facebook|fb/.test(s))return "פייסבוק אורגני";
@@ -1115,6 +1121,35 @@ function snapTV(){if(SNAP_TV&&SNAP_TV_N===rows.length)return SNAP_TV;SNAP_TV=new
  SNAP_FIRST=new Map();rows.forEach(r=>{if(r.sid&&!isNaN(r.t)&&!SNAP_FIRST.has(r.sid))SNAP_FIRST.set(r.sid,r.t)}); /* השורות ממוינות לפי זמן: הראשונה = תחילת הביקור */
  SNAP_TV_N=rows.length;return SNAP_TV}
 function snapCode(s){return ((s.p&&s.p.get("utm_content"))||"").trim()}
+/* ב107: תנועה מיום ליום (בקשת בן 18.11). יום = יום תחילת הביקור. אנשים = מכשירים (vid). בלי בדיקות פנימיות ובלי סריקות של Meta.
+   "המודעות של בן" = מודעות Meta בלי משווק; "משווקים" = aff; "חינם" = כל השאר (פירוט לפי מקור בטבלה השנייה).
+   הגיעו לדף התשלום = chk; השאירו פרטים = det/pay/buy (כמו המדד הראשי בניסוי); רכישות = מאומתות, לפי יום הרכישה. */
+const D14_FREE=["אינסטגרם אורגני","וואטסאפ (קבוצות)","דף הפייסבוק","פייסבוק אורגני","מייל","ManyChat","Meta (fbclid)","ישיר / לא ידוע"];
+function renderDaily14(){
+ const n=new Date(),sod=new Date(n.getFullYear(),n.getMonth(),n.getDate()),a=new Date(+sod-13*864e5),b=new Date(+sod+864e5);
+ const keep=[fSrc,fDev,fOwn,showTests];fSrc="";fDev="";fOwn="";showTests=false;let M;try{M=build(a,b)}finally{[fSrc,fDev,fOwn,showTests]=keep}
+ const TV=snapTV(),internal=s=>TV.has(s.vid)||SNAP_TEST_VIDS.some(p=>(s.vid||"").indexOf(p)===0),who=s=>s.vid||s.sid;
+ const grp=s=>s.aff?"aff":s.src==="מודעות Meta"?"ben":"free",dk=s=>dayKey(SNAP_FIRST.get(s.sid)||s.t);
+ const S=M.sess.filter(s=>!internal(s)&&!(SNAP_FIRST.get(s.sid)<a)),days=[];for(let i=0;i<14;i++)days.push(dayKey(new Date(+sod-i*864e5)));
+ const D={};days.forEach(d=>D[d]={ben:new Set,aff:new Set,free:new Set,all:new Set,chk:new Set,det:new Set,buy:0,fs:{}});
+ S.forEach(s=>{const o=D[dk(s)];if(!o)return;const w=who(s);o[grp(s)].add(w);o.all.add(w);if(s.chk)o.chk.add(w);if(s.det||s.pay||s.buy)o.det.add(w);
+  if(grp(s)==="free"){const k=D14_FREE.includes(s.src)?s.src:"אחר";(o.fs[k]=o.fs[k]||{p:new Set,c:new Set,d:new Set}).p.add(w);if(s.chk)o.fs[k].c.add(w);if(s.det||s.pay||s.buy)o.fs[k].d.add(w)}});
+ M.buys.filter(x=>!(x.s&&internal(x.s))).forEach(x=>{const o=D[dayKey(x.t)];if(o)o.buy++});
+ const V=d=>{const o=D[d];return {ben:o.ben.size,aff:o.aff.size,free:o.free.size,all:o.all.size,chk:o.chk.size,det:o.det.size,buy:o.buy}};
+ const K=["ben","aff","free","all","chk","det","buy"],avg=ds=>{const r={};K.forEach(k=>r[k]=ds.reduce((x,d)=>x+V(d)[k],0)/ds.length);return r};
+ const y=V(days[1]),y2=V(days[2]),a7=avg(days.slice(1,8)),f1=v=>Math.round(v*10)/10;
+ const cmp=(v,ref)=>"אתמול נכנסו "+(!ref?(v?"יותר אנשים":"אותו מספר אנשים"):v/ref>=1.15?"יותר אנשים":v/ref<=0.85?"פחות אנשים":"בערך אותו מספר אנשים")+".";
+ const dd=d=>d.split("-").reverse().slice(0,2).join(".");
+ $("d14Line").innerHTML='<b>אתמול ('+dd(days[1])+'):</b> '+fmt(y.all)+' אנשים נכנסו לדף ('+fmt(y.ben)+' מהמודעות של בן, '+fmt(y.aff)+' דרך משווקים, '+fmt(y.free)+' בחינם), '+fmt(y.chk)+' הגיעו לדף התשלום, '+fmt(y.det)+' השאירו פרטים, '+fmt(y.buy)+' רכישות.'+
+  '<br><b>שלשום:</b> '+fmt(y2.all)+' אנשים, '+fmt(y2.chk)+' לדף התשלום, '+fmt(y2.det)+' השאירו פרטים, '+fmt(y2.buy)+' רכישות. '+cmp(y.all,y2.all)+
+  '<br><b>ממוצע 7 ימים:</b> '+f1(a7.all)+' אנשים ביום, '+f1(a7.chk)+' לדף התשלום, '+f1(a7.det)+' השאירו פרטים, '+f1(a7.buy)+' רכישות. '+cmp(y.all,a7.all);
+ const row=(lab,v,cls)=>'<tr'+(cls?' class="'+cls+'"':'')+'><td>'+lab+'</td>'+K.map(k=>'<td class="num">'+(Number.isInteger(v[k])?fmt(v[k]):f1(v[k]))+'</td>').join("")+'</tr>';
+ const body=days.map((d,i)=>row(dd(d)+(i===0?' <small>היום, עד עכשיו</small>':i===1?' <small>אתמול</small>':''),V(d),i===1?"d14y":"")).concat([row("<b>ממוצע 7 ימים</b> <small>אתמול ו-6 הימים שלפניו</small>",a7,"d14a")]);
+ table($("d14T"),["יום","המודעות של בן","משווקים","חינם","סה\"כ אנשים","הגיעו לדף התשלום","השאירו פרטים","רכישות"],body,"אין נתונים");
+ const FS={};days.forEach((d,i)=>{for(const k in D[d].fs){const o=D[d].fs[k],f=FS[k]=FS[k]||{y:new Set,w:new Set,m:new Set,c:new Set,d:new Set};if(i===1)o.p.forEach(x=>f.y.add(x));if(i>=1&&i<=7)o.p.forEach(x=>f.w.add(x));o.p.forEach(x=>f.m.add(x));o.c.forEach(x=>f.c.add(x));o.d.forEach(x=>f.d.add(x))}});
+ const order=D14_FREE.concat(["אחר"]).filter(k=>FS[k]);
+ table($("d14F"),["מקור","אתמול","7 ימים","14 ימים","הגיעו לדף התשלום (14 ימים)","השאירו פרטים (14 ימים)"],order.map(k=>{const f=FS[k];return '<tr><td>'+esc(k)+'</td><td class="num">'+fmt(f.y.size)+'</td><td class="num">'+fmt(f.w.size)+'</td><td class="num">'+fmt(f.m.size)+'</td><td class="num">'+fmt(f.c.size)+'</td><td class="num">'+fmt(f.d.size)+'</td></tr>'}),"אין כניסות חינם ב-14 הימים");
+}
 function renderSnap(){
  const B=snapBounds(),keep=[fSrc,fDev,fOwn,showTests];fSrc="";fDev="";fOwn="";showTests=false;let M;try{M=build(B.a,B.b)}finally{[fSrc,fDev,fOwn,showTests]=keep}
  document.querySelectorAll("#snapPer button").forEach(x=>x.setAttribute("aria-pressed",String(x.dataset.p===snapPer)));
@@ -1586,7 +1621,7 @@ function renderDQ(M){const now=Date.now(),last=ev=>{for(let i=rows.length-1;i>=0
 function activeVars(B){const s=new Set();rows.forEach(r=>{if(r.t>=B.pa&&r.t<B.b&&(showTests||!isTest(r)))s.add(r.variant)});const v=ALLV.filter(x=>s.has(x));return v.length?v:ALLV.slice(0,3)}
 function render(){document.body.dataset.scr=screen;if(!rows)return;const B=bounds();VARS=activeVars(B);if(!VARS.includes(lpVar))lpVar=VARS[0];document.querySelectorAll("#lpVar button").forEach(b=>{b.hidden=!VARS.includes(b.dataset.v)});const M=build(B.a,B.b),P=build(B.pa,B.pb),A=aggregate(M,B.a,B.b),PA=aggregate(P,B.pa,B.pb);
  const srcs=[...new Set(rows.filter(r=>VARS.includes(r.variant)&&(showTests||!isTest(r))).map(r=>source(qsObj(r.qs))))].sort();const fs=$("fSrc");if(fs.options.length-1!==srcs.length){const cur=fs.value;fs.innerHTML='<option value="">כל המקורות</option>'+srcs.map(s=>'<option'+(s===cur?" selected":"")+'>'+esc(s)+'</option>').join("")}
- try{({snap:()=>renderSnap(),lab:()=>renderLab(M,B),hub:()=>renderHub(M,B),op:()=>{renderOn(build(ON_START,new Date(Date.now()+864e5)));renderPg(build(EXP.start,new Date(Date.now()+864e5)));renderOpt()},ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>{renderCheckout(M);renderRecovery(M);renderCo90(M);renderCo54(M)},jr:()=>renderJourneys(M),ex:()=>{renderExperiments(M);renderStages(B)},in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M),af:()=>renderAffiliates(),aud:()=>renderAud(),fin:()=>renderFinance(),up:()=>renderUpsell(),ws:()=>renderWs(),pr:()=>renderPr()})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
+ try{({snap:()=>{renderSnap();renderDaily14()},lab:()=>renderLab(M,B),hub:()=>renderHub(M,B),op:()=>{renderOn(build(ON_START,new Date(Date.now()+864e5)));renderPg(build(EXP.start,new Date(Date.now()+864e5)));renderOpt()},ov:()=>renderOverview(M,P,A,PA,B),cr:()=>renderCreatives(M,B),lp:()=>renderPages(M,P),co:()=>{renderCheckout(M);renderRecovery(M);renderCo90(M);renderCo54(M)},jr:()=>renderJourneys(M),ex:()=>{renderExperiments(M);renderStages(B)},in:()=>renderInsights(M,A,B),dq:()=>renderDQ(M),af:()=>renderAffiliates(),aud:()=>renderAud(),fin:()=>renderFinance(),up:()=>renderUpsell(),ws:()=>renderWs(),pr:()=>renderPr()})[screen]()}catch(e){status("שגיאה בהצגת המסך: "+e.message,"warn");console.error(e)}
  if(storedAt)$("fresh").textContent="· עודכן "+new Date(storedAt).toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});}
 /* ================= 14 פרופיל רוכשים (ב81) =================
    שורה לכל רכישה מאומתת (כרטיס והעברה בנקאית), מכל הזמן, בלי עסקאות בדיקה. מקור/קמפיין/מודעה/דף מהביקור שבו נקנה;
