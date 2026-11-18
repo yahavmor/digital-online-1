@@ -6,7 +6,7 @@ var NLP_OWNER=(function(){var K="nlp_aff",D=2592e6,now=Date.now(),cur=null;
  function rd(){var a=null,b=null;try{a=JSON.parse(localStorage.getItem(K)||"null")}catch(e){}try{var m=document.cookie.match(/(?:^|; )nlp_aff=([^;]*)/);if(m){var v=decodeURIComponent(m[1]).split(".");b={c:v[0]||"",t:+v[1]||0}}}catch(e){}return a&&b?(a.t>=b.t?a:b):(a||b)}
  function wr(c){cur={c:c,t:now};try{localStorage.setItem(K,JSON.stringify(cur))}catch(e){}try{document.cookie=K+"="+encodeURIComponent(c+"."+now)+"; max-age=2592000; path=/; SameSite=Lax"}catch(e){}}
  try{var q=new URLSearchParams(location.search),a=(q.get("aff")||"").toLowerCase().replace(/[^a-z0-9_-]/g,"").slice(0,32),s=(q.get("utm_source")||"").toLowerCase(),m=(q.get("utm_medium")||"").toLowerCase();
-  if(a)wr(a);else if(m!=="affiliate"&&(q.get("utm_id")||/^(paid|paid_social|cpc|responder|email|bio|dm|manychat)$/.test(m)||/^(email|responder|manychat)$/.test(s)))wr("");else cur=rd()}catch(e){}
+  if(a)wr(a);else if(m!=="affiliate"&&(q.get("utm_id")||/^(paid|paid_social|cpc|responder|email|bio|dm|manychat|group|story|page|page_post)$/.test(m)||/^(email|responder|manychat|whatsapp)$/.test(s)))wr("");else cur=rd()}catch(e){}
  return function(){return cur&&cur.c&&now-cur.t<=D?cur.c:""}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0B1220">
