@@ -487,6 +487,7 @@ const EXPERIMENTS=[
  {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"2026-10-26",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"הסתיים, הוחלף ב-abc_2610",decision:""},
 ];
 const CHANGELOG=[
+["2026-11-18","11:49 - ב106: שאלה שלישית בדף התודה - טווח גיל (לא חובה, 18-24 עד 65+), נשמרת כמו שתי השאלות של ב81 (buyer_survey, cta=q3, בלי פרטים מזהים). בלשונית 14 נוספה עמודת גיל וספירה לפי טווח."],
 ["2026-11-17","20:47 - ב105 (\"מאשר ב105\" מיהב, בן אישר, הוק א): a5v7 באתר (מ-a5v6: הוק חדש, בלי \"למה בניתי\", ההצעה והאחריות אחרי הפתרון, ההוכחות מתחת להצעה). ניסוי on_1711 מחליף את on_1611: a + סליקה A מול a5v7 + B2, חצי-חצי, ספירה חדשה מ-2026-11-17 20:59. מי ששובץ ב-on_1611 נשאר בדף שלו מחוץ לניתוח. טבלת הניסוי בלשונית 00 עברה ל-on_1711."],
 ["2026-11-17","11:54 - ב101 (\"מאשר\" מיהב): בלשונית 12 (אפסייל) קישורים אישיים לרוכשים קיימים (תוקף 7 ימים) לא נספרים ב\"קודים שהונפקו\" ובאחוז ההמרה, ומוצגים בשורה נפרדת. רכישות והכנסה בלי שינוי."],
 ["2026-11-17","09:41 - ב81 (יהב אישר לבנות 17.11): לשונית 14 \"פרופיל רוכשים\" - שורה לכל רכישה מאומתת: דף, מקור, קמפיין, מודעה, מכשיר, פלטפורמה, זמן מהביקור הראשון, מספר ביקורים עד הרכישה, משווק, ותשובות שתי השאלות בדף התודה (buyer_survey). בלי שמות, טלפונים, מיילים ומספרי עסקה."],
@@ -1592,26 +1593,27 @@ function render(){document.body.dataset.scr=screen;if(!rows)return;const B=bound
    זמן מהביקור הראשון ומספר ביקורים - לפי מזהה המבקר (vid), עד רגע הרכישה. תשובות: אירוע buyer_survey מדף התודה, לפי deal=. */
 const PR_Q1={video:"סרטון של בן",testimonials:"ההמלצות בדף",method:"ההסבר על השיטה",price_bonus:"המחיר והבונוסים",refund7:"7 ימים להחזר",referral:"המלצה של מישהו",other:"אחר"},
  PR_Q2={facebook:"פייסבוק",instagram:"אינסטגרם",friend_aff:"חבר או משווק",youtube_google:"יוטיוב או גוגל",other:"אחר"},
+ PR_Q3={a18_24:"18-24",a25_34:"25-34",a35_44:"35-44",a45_54:"45-54",a55_64:"55-64",a65p:"65+"},  /* ב106: טווח גיל */
  PR_DV={m:"נייד",d:"מחשב",t:"טאבלט"},PR_APP={fb:"אפליקציית פייסבוק",ig:"אפליקציית אינסטגרם",web:"דפדפן"};
 function prDur(ms){if(ms==null||!isFinite(ms))return "-";const h=ms/36e5;return h<1?"פחות משעה":h<24?Math.round(h)+" שעות":(Math.round(h/24*10)/10)+" ימים"}
 function prAns(a,M){if(!a)return '<span class="na">-</span>';const o=/^other:/.test(a)?"אחר: "+a.slice(6):(M[a]||a);return esc(o)}
 function renderPr(){
  const now=new Date(),keep=[fSrc,fDev,fOwn];fSrc="";fDev="";fOwn="";let M;try{M=build(new Date(0),new Date(+now+864e5))}finally{[fSrc,fDev,fOwn]=keep}
- const ANS={},SANS={};M.R.forEach(r=>{if(r.ev!=="buyer_survey"||!/^q[12]$/.test(r.cta||""))return;const x=parseX(r.x),d=x.deal||"";const o=d?(ANS[d]=ANS[d]||{}):(SANS[r.sid]=SANS[r.sid]||{});if(!o[r.cta])o[r.cta]=String(r.name||"")});
+ const ANS={},SANS={};M.R.forEach(r=>{if(r.ev!=="buyer_survey"||!/^q[123]$/.test(r.cta||""))return;const x=parseX(r.x),d=x.deal||"";const o=d?(ANS[d]=ANS[d]||{}):(SANS[r.sid]=SANS[r.sid]||{});if(!o[r.cta])o[r.cta]=String(r.name||"")});
  const byV={};M.sess.forEach(s=>{if(s.vid)(byV[s.vid]=byV[s.vid]||[]).push(s)});
  const B=M.allBuys.slice().sort((x,y)=>y.t-x.t),na='<span class="na">-</span>';
  const body=B.map(b=>{const s=b.s,an=ANS[b.deal]||(b.sid&&SANS[b.sid])||{};
   const V=s&&s.vid&&byV[s.vid]?byV[s.vid].filter(x=>x.t<=b.t):(s?[s]:[]),first=V.length?Math.min(...V.map(x=>+x.t)):null;
   const p=s&&s.p,aff=b.aff||(s&&s.aff)||(p&&p.get("aff"))||"",inf=aff&&AFF&&AFF[aff];
   const plat=s?[s.os&&s.os!=="?"?s.os:"",PR_APP[s.app]||(s.app&&s.app!=="?"?s.app:"")].filter(Boolean).join(" · "):"";
-  return '<tr><td>'+hm2(b.t)+(b.bank?' <small>העברה בנקאית</small>':'')+'</td><td>'+(s?esc(s.v):na)+'</td><td>'+(s?esc(s.src):na)+'</td><td>'+(p&&p.get("utm_campaign")?esc(p.get("utm_campaign")):na)+'</td><td>'+(s&&s.cr&&s.cr!=="(ללא קריאייטיב)"?esc(s.cr):na)+'</td><td>'+(s?esc(PR_DV[s.dv]||s.dv):na)+'</td><td>'+(plat?esc(plat):na)+'</td><td class="num">'+(first!=null?prDur(+b.t-first):na)+'</td><td class="num">'+(V.length?fmt(V.length):na)+'</td><td>'+(aff?esc(inf?inf.name:aff)+' <small>'+esc(aff)+'</small>':'בן')+'</td><td>'+prAns(an.q1,PR_Q1)+'</td><td>'+prAns(an.q2,PR_Q2)+'</td></tr>'});
- table($("prTable"),["תאריך","דף","מקור","קמפיין","מודעה","מכשיר","פלטפורמה","מהביקור הראשון לרכישה","ביקורים עד הרכישה","משווק","מה שכנע","איפה שמע"],body,"אין עדיין רכישות מאומתות");
+  return '<tr><td>'+hm2(b.t)+(b.bank?' <small>העברה בנקאית</small>':'')+'</td><td>'+(s?esc(s.v):na)+'</td><td>'+(s?esc(s.src):na)+'</td><td>'+(p&&p.get("utm_campaign")?esc(p.get("utm_campaign")):na)+'</td><td>'+(s&&s.cr&&s.cr!=="(ללא קריאייטיב)"?esc(s.cr):na)+'</td><td>'+(s?esc(PR_DV[s.dv]||s.dv):na)+'</td><td>'+(plat?esc(plat):na)+'</td><td class="num">'+(first!=null?prDur(+b.t-first):na)+'</td><td class="num">'+(V.length?fmt(V.length):na)+'</td><td>'+(aff?esc(inf?inf.name:aff)+' <small>'+esc(aff)+'</small>':'בן')+'</td><td>'+prAns(an.q1,PR_Q1)+'</td><td>'+prAns(an.q2,PR_Q2)+'</td><td>'+prAns(an.q3,PR_Q3)+'</td></tr>'});
+ table($("prTable"),["תאריך","דף","מקור","קמפיין","מודעה","מכשיר","פלטפורמה","מהביקור הראשון לרכישה","ביקורים עד הרכישה","משווק","מה שכנע","איפה שמע","גיל"],body,"אין עדיין רכישות מאומתות");
  const noS=B.filter(b=>!b.s).length;
- $("prNote").textContent=B.length+" רכישות מאומתות מכל הזמן, בלי עסקאות בדיקה. ביקורים וזמן - לפי מזהה המבקר (מכשיר), עד הרכישה."+(noS?" "+noS+" רכישות בלי ביקור מזוהה (למשל העברה בנקאית) - בלי מקור ובלי מכשיר.":"")+" שאלות דף התודה נוספו ב-ב81, ולרכישות מלפני כן אין תשובות.";
+ $("prNote").textContent=B.length+" רכישות מאומתות מכל הזמן, בלי עסקאות בדיקה. ביקורים וזמן - לפי מזהה המבקר (מכשיר), עד הרכישה."+(noS?" "+noS+" רכישות בלי ביקור מזוהה (למשל העברה בנקאית) - בלי מקור ובלי מכשיר.":"")+" שאלות דף התודה נוספו ב-ב81 (שאלת הגיל ב-ב106), ולרכישות מלפני כן אין תשובות.";
  const cnt=(q,MAP)=>{const C={};B.forEach(b=>{const a=(ANS[b.deal]||(b.sid&&SANS[b.sid])||{})[q];if(a){const k=/^other:/.test(a)?"other":a;C[k]=(C[k]||0)+1}});return Object.keys(MAP).map(k=>[MAP[k],C[k]||0])};
- const c1=cnt("q1",PR_Q1),c2=cnt("q2",PR_Q2),n1=c1.reduce((x,y)=>x+y[1],0),n2=c2.reduce((x,y)=>x+y[1],0),rows2=[];
- for(let i=0;i<Math.max(c1.length,c2.length);i++){const a=c1[i],b=c2[i];rows2.push('<tr><td>'+(a?esc(a[0]):"")+'</td><td class="num">'+(a?fmt(a[1])+(n1?'<small>'+pf(pct(a[1],n1))+'</small>':''):"")+'</td><td>'+(b?esc(b[0]):"")+'</td><td class="num">'+(b?fmt(b[1])+(n2?'<small>'+pf(pct(b[1],n2))+'</small>':''):"")+'</td></tr>')}
- table($("prAns"),["מה שכנע ("+n1+" ענו)","רוכשים","איפה שמע לראשונה ("+n2+" ענו)","רוכשים"],n1||n2?rows2:[],"עוד אין תשובות");
+ const c1=cnt("q1",PR_Q1),c2=cnt("q2",PR_Q2),c3=cnt("q3",PR_Q3),n1=c1.reduce((x,y)=>x+y[1],0),n2=c2.reduce((x,y)=>x+y[1],0),n3=c3.reduce((x,y)=>x+y[1],0),rows2=[];
+ for(let i=0;i<Math.max(c1.length,c2.length,c3.length);i++){const a=c1[i],b=c2[i],g=c3[i];rows2.push('<tr><td>'+(a?esc(a[0]):"")+'</td><td class="num">'+(a?fmt(a[1])+(n1?'<small>'+pf(pct(a[1],n1))+'</small>':''):"")+'</td><td>'+(b?esc(b[0]):"")+'</td><td class="num">'+(b?fmt(b[1])+(n2?'<small>'+pf(pct(b[1],n2))+'</small>':''):"")+'</td><td>'+(g?esc(g[0]):"")+'</td><td class="num">'+(g?fmt(g[1])+(n3?'<small>'+pf(pct(g[1],n3))+'</small>':''):"")+'</td></tr>')}
+ table($("prAns"),["מה שכנע ("+n1+" ענו)","רוכשים","איפה שמע לראשונה ("+n2+" ענו)","רוכשים","טווח גיל ("+n3+" ענו)","רוכשים"],n1||n2||n3?rows2:[],"עוד אין תשובות");
 }
 /* סינון לפי משווק (בקשת יהב 09.11): אמיר, שחר, גל ורחל ראשונים, ואחריהם שאר המשווקים הפעילים */
 const AFF_FIRST=["amir","shahar","gal","rachel"];
