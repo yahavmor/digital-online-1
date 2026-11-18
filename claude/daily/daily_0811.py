@@ -70,6 +70,15 @@ for r in R:
         seen.add(d); B[r["sid"]]=(r["ts"],r["variant"],d,"bank" if r["cta"]=="manual_bank_transfer" else "card")
 print("verified purchases since 4.11:",[(v[0],v[1],v[3]) for v in B.values()], "sids in S:",sum(1 for k in B if k in S))
 for s_id,s in S.items(): s["buy"]=1 if s_id in B else 0
+# ב108 (18.11): עד שהתיקון של NLP_OWNER באוויר - רכישה מוואטסאפ שמשויכת למשווק (aff ב-x) עלולה להיזקף למשווק בטעות. לבדוק לפני תשלום עמלה
+WA=[]
+for r in R:
+    if r["ev"]=="purchase" and r["t"]>=datetime(2026,11,18) and not isTest(r):
+        ses=[x for x in R if x["sid"]==r["sid"] and x["sid"]] if r["sid"] else []
+        wa=any(re.search(r"(?:^|&)utm_source=whatsapp(?:&|$)",x["qs"] or "") for x in ses)
+        aff=re.search(r"(?:^|;)aff=([^;]+)",r["x"] or "") or next((re.search(r"(?:^|;)aff=([^;]+)",x["x"] or "") for x in ses if re.search(r"(?:^|;)aff=",x["x"] or "")),None)
+        if wa and aff: WA.append((r["ts"][:16],r["variant"],aff.group(1)))
+print("b108 whatsapp purchases attributed to an affiliate (check before paying commission):",WA or "none")
 EXPID="ap2_0811"
 def report(lo,hi,arms,label,only_paid=True,since=None):
     E=[s for s in S.values() if s["exp"]==EXPID and s["v"] in arms and lo<=s["t"]<hi and (not only_paid or s["src"]=="paid")]
