@@ -190,7 +190,7 @@ s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;wh
 <script>/* ב102 (16.11): ניסוי on_1611 - זרוע "ישן" = סליקה A, זרוע "חדש" = B2. סדר: co בכתובת > exp=on_1611 בכתובת (v=a -> A, אחרת B2) > nlp_co_ab (נשמר ב-go.html) > שיבוץ B/B2 קודם (ב90) > B2.
    ניסוי B מול B2 (ב90) נסגר: מכשיר חדש מחוץ לניסוי מקבל B2 */
 (function(){var c="b2";try{var q=new URLSearchParams(location.search);c=(q.get("co")||"").toLowerCase();
-if(c!=="a"&&c!=="b"&&c!=="b2"){if(/^on_1[67]11$/.test(q.get("exp")||""))c=(q.get("v")==="a"?"a":"b2"); /* ב105: גם on_1711 (a -> A, a5v7 -> B2) */else{var ab=null,v=null;try{ab=localStorage.getItem("nlp_co_ab");v=localStorage.getItem("nlp_co_b2")}catch(e){}
+if(c!=="a"&&c!=="b"&&c!=="b2"){if(/^on_1[67]11$/.test(q.get("exp")||""))c=(q.get("v")==="a"?"a":"b2"); /* ב105: גם on_1711 (a -> A, a5v7 -> B2) */else if(q.get("v")==="a5s")c="b2"; /* ב111: הדף הקצר תמיד B2, בלי קשר לשיבוץ הקודם של הדפדפן */else{var ab=null,v=null;try{ab=localStorage.getItem("nlp_co_ab");v=localStorage.getItem("nlp_co_b2")}catch(e){}
  if(ab==="a"||ab==="b2")c=ab;else if(v==="b"||v==="b2")c=v;else{c="b2";try{localStorage.setItem("nlp_co_b2","b2")}catch(e){}}}}}catch(e){c="b2"}
 window.NLP_CO=c;document.documentElement.setAttribute("data-co2",c==="b2"?"1":"0");document.documentElement.setAttribute("data-co",c==="a"?"a":"b")})();</script>
 <style>/* ב90: תצוגת B2 (מוסתרת ב-B) */
