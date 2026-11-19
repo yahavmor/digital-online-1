@@ -17,11 +17,11 @@ const BEN = c => "utm_source=facebook&utm_medium=paid&utm_campaign=lenatzeach_w4
  const r1 = await visit(BEN("w1_ben"), {}, "ben w1 fresh", 1);
  ok("Ben link, new browser: owner ben, checkout owner ben", r1.owner === "" && r1.co.owner === "", JSON.stringify(r1.co));
  ok("Ben link: checkout gets v=a5s and utm_content=w1_ben", /v=a5s/.test(r1.co.url) && /utm_content=w1_ben/.test(r1.co.url) && !/aff=/.test(r1.co.url), r1.co.url);
- console.log("   checkout version (new browser):", r1.co.co);
+ ok("a5s, new browser: checkout B2", r1.co.co === "b2", r1.co.co);
  const r2 = await visit(BEN("w2_ben"), { nlp_aff: JSON.stringify({ c: "gal", t: Date.now() - 2 * 864e5 }) }, "ben w2 prior gal", 2);
  ok("Ben link after an affiliate click: owner resets to ben (utm_medium=paid)", r2.owner === "" && r2.co.owner === "", JSON.stringify([r2.owner, r2.co.owner]));
  const r3 = await visit(BEN("w3_ben"), { nlp_go_on_1711: "a", nlp_co_ab: "a" }, "ben w3 browser in on_1711 arm a", 3);
- console.log("   checkout version (browser already in on_1711 arm a):", r3.co.co);
+ ok("a5s, browser already in on_1711 arm a: checkout B2 (ב111)", r3.co.co === "b2", r3.co.co);
  const r4 = await visit(RAMI, {}, "rami", 4);
  ok("Rami link: owner rami", r4.owner === "rami" && r4.co.owner === "rami", JSON.stringify(r4.co));
  ok("events from Ben's visits carry no aff", [r1, r2, r3].every(r => r.ev.every(e => !/aff=/.test((e.qs || "") + ";" + (e.x || "")))), "");

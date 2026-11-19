@@ -138,9 +138,21 @@ for lab,keep in (("paid",lambda s:s["src"]=="paid"),("aff",lambda s:s["src"]=="a
 print(("b105 stop rule: paid people per arm (150) a=%d "+NV+"=%d, days %d of 14") % (len({s["vid"] or s["t"] for s in S.values() if s["exp"]==OX and s["v"]=="a" and s["t"]>=ON and s["src"]=="paid"}),len({s["vid"] or s["t"] for s in S.values() if s["exp"]==OX and s["v"]==NV and s["t"]>=ON and s["src"]=="paid"}),max(0,(datetime.now()-ON).days)))
 OUT=defaultdict(set)  # ב103: ישר לדף בלי go.html - מחוץ לניסוי
 for s in S.values():
-    if s["v"] in("a","a5v6",NV) and s["t"]>=ON and not s["exp"] and s["route"]!="ig_org" and "go=1" not in s["qs"]:
+    if s["v"] in("a","a5v6",NV,"a5s") and s["t"]>=ON and not s["exp"] and s["route"]!="ig_org" and "go=1" not in s["qs"]:
         OUT[(s["src"],s["v"])].add(s["vid"] or s["t"].isoformat())
 print("b103 out of experiment (direct to page, no go.html):",{"%s/%s"%k:len(v) for k,v in sorted(OUT.items(),key=lambda kv:-len(kv[1]))})
+# ב111 (19.11): הקמפיין של בן לדף הקצר (lenatzeach_w40, בלי aff) - לפי מודעה, מאז הסיכום הקודם ומההתחלה. מחוץ לניסוי on_1711
+W40=defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+for s in S.values():
+    if s["v"]=="a5s" and s["src"]=="paid" and "utm_campaign=lenatzeach_w40" in s["qs"]:
+        for per in (("all",True),("prev",s["t"]>=PREV)):
+            if not per[1]: continue
+            o=W40[per[0]][s["uc"] or "-"]; k=s["vid"] or s["t"].isoformat()
+            o.setdefault("_p",set()).add(k)
+            if s["chk"]: o.setdefault("_c",set()).add(k)
+            if s.get("lead") or s["pay"] or s.get("buy"): o.setdefault("_l",set()).add(k)
+            if s.get("buy"): o.setdefault("_b",set()).add(k)
+print("b111 lenatzeach_w40 (Ben -> a5s) by ad:",{per:{uc:{"people":len(o.get("_p",())),"checkout":len(o.get("_c",())),"leads":len(o.get("_l",())),"buys":len(o.get("_b",()))} for uc,o in d.items()} for per,d in W40.items()} or "no visits yet")
 IG=defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
 for s in S.values():
     if s["route"]=="ig_org" and s["t"]>=ON and s["chk"]:
