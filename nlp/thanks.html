@@ -148,6 +148,7 @@ const SUPPORT_WA = "972526951092";
       const key = "px_purchase_" + id;
       try{ if(localStorage.getItem(key)) return; }catch(e){}
       try{ fbq("track", "Purchase", {value:297, currency:"ILS", content_name:"השיטה - הקורס המלא"}, {eventID: id}); window.__pur = 1; }catch(e){ return; }
+      try{ if(window.__pxSend) window.__pxSend("pur"); else window.__pxPending = 1; }catch(e){} /* ב113: האבחון מיד אחרי ה-Purchase */
       /* מסמנים "נשלח" רק אחרי שליחה בפועל בחלון הראשי */
       try{ localStorage.setItem(key, "1"); }catch(e){}
     }
@@ -215,13 +216,16 @@ const SUPPORT_WA = "972526951092";
     try{ if(localStorage.getItem("nlp_int")==="1") f.set("x","int=1"); }catch(e){} try{ const ow=window.NLP_OWNER?NLP_OWNER():""; if(ow) f.set("x",(f.get("x")?f.get("x")+";":"")+"aff="+ow); }catch(e){}
     if(!(navigator.sendBeacon&&navigator.sendBeacon(TRACK_ENDPOINT,f))) fetch(TRACK_ENDPOINT,{method:"POST",body:f,mode:"no-cors"}); } }catch(e){}
   /* ב34: אבחון פיקסל בדף התודה (חלון ראשי בלבד) - האם הספרייה של Meta נטענה, האם נשלח Purchase, ושמות הפרמטרים בכתובת (בלי ערכים) */
-  setTimeout(function(){ try{ if(window.self !== window.top || TRACK_ENDPOINT[0]==="%") return;
+  /* ב113: אותו אבחון, פעם אחת בביקור - מיד אחרי Purchase (at=pur), אחרת אחרי 12 שניות (at=12s) */
+  window.__pxSend = function(at){ try{ if(window.__pxSent || window.self !== window.top || TRACK_ENDPOINT[0]==="%") return; window.__pxSent = 1;
     const st = window.__noPix ? "off" : (!window.fbq ? "nofbq" : (window.fbq.callMethod ? "loaded" : "blocked"));
     const keys = []; qs.forEach(function(v,k){ keys.push(k); });
-    const g = new URLSearchParams({ev:"px_status", variant:qs.get("v")||"", sid:qs.get("sid")||"", x:"px="+st+";pur="+(window.__pur?1:0), name:keys.join(",").slice(0,200)});
+    const g = new URLSearchParams({ev:"px_status", variant:qs.get("v")||"", sid:qs.get("sid")||"", x:"px="+st+";pur="+(window.__pur?1:0)+";at="+at, name:keys.join(",").slice(0,200)});
     try{ if(localStorage.getItem("nlp_int")==="1") g.set("x", g.get("x")+";int=1"); }catch(e){}
     if(!(navigator.sendBeacon&&navigator.sendBeacon(TRACK_ENDPOINT,g))) fetch(TRACK_ENDPOINT,{method:"POST",body:g,mode:"no-cors"});
-  }catch(e){} }, 12000);
+  }catch(e){} };
+  if(window.__pxPending) window.__pxSend("pur");
+  setTimeout(function(){ window.__pxSend("12s"); }, 12000);
 })();
 </script>
 </body>
