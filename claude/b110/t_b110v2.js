@@ -2,7 +2,9 @@
 const { chromium, devices } = require("playwright"), fs = require("fs"), path = require("path"), crypto = require("crypto");
 const [ROOT, MAIN, SH] = process.argv.slice(2); let n = 0, f = 0; const ok = (m, c, d) => { n++; if (!c) f++; console.log((c ? "ok  " : "FAIL") + " " + m + (c ? "" : "  <- " + JSON.stringify(d))) };
 const CT = { ".html": "text/html; charset=utf-8", ".svg": "image/svg+xml", ".webp": "image/webp", ".png": "image/png", ".jpg": "image/jpeg", ".mp4": "video/mp4" };
-const PAGE = "https://local.test/nlp/a5s_b110v2.html";
+const PFILE = process.argv[5] || "a5s_b110v2.html", QUOTES = /_q\.html$/.test(PFILE), LIVEV = PFILE === "a5s.html";
+const VAR = LIVEV ? "a5s" : "a5s_f";
+const PAGE = "https://local.test/nlp/" + PFILE;
 (async () => { const b = await chromium.launch();
  const ctx = async (mode) => { const c = await b.newContext({ ...devices["iPhone 13"] }); const ev = [], co = [];
   await c.route("**/*", async r => { const u = new URL(r.request().url());
@@ -25,17 +27,24 @@ const PAGE = "https://local.test/nlp/a5s_b110v2.html";
        afterFaq: !!(faq.compareDocumentPosition(f2) & Node.DOCUMENT_POSITION_FOLLOWING), fields: [...f1.querySelectorAll("input:not(.lpf-hp)")].map(i => i.name).join(","), boxUnchecked: !f1.querySelector('[name="box"]').checked,
        variant: document.documentElement.dataset.variant, noindex: /noindex/.test(document.querySelector('meta[name="robots"]').content), phone: !!document.querySelector('form.lpf [name="phone"]') } });
    ok("2 forms: offer card under the price + after the FAQ", st.forms === 2 && st.inOffer && st.priceAbove && st.afterFaq, st);
-   ok("fields: name, email, one box (unchecked), no phone", st.fields === "name,email,box,news" && st.boxUnchecked && !st.phone, st);
+   ok("fields: name, email, one box (unchecked), no phone", st.fields === "name,email,box" && st.boxUnchecked && !st.phone, st);
    ok("one visible box (second box hidden in BOX_MODE one_required)", await X.p.evaluate(() => [...document.querySelectorAll("#lpForm1 .lpf-c")].filter(l => getComputedStyle(l).display !== "none").length === 1));
-   ok("draft is separate (variant a5s_f, noindex)", st.variant === "a5s_f" && st.noindex, st);
+   ok("noindex kept", st.noindex, st);
    const tq = await X.p.evaluate(() => { const q = document.querySelector('[data-testimonials="price"]'), f1 = document.getElementById("lpForm1"), pr = document.querySelector("#offer .v4-ko-now");
      return { n: q ? q.querySelectorAll("[data-quote]").length : 0, ph: q ? [...q.querySelectorAll("blockquote")].every(b => /^\[.*מחכה/.test(b.innerText.trim())) : false,
        afterPrice: !!(q && (pr.compareDocumentPosition(q) & Node.DOCUMENT_POSITION_FOLLOWING)), beforeForm: !!(q && (q.compareDocumentPosition(f1) & Node.DOCUMENT_POSITION_FOLLOWING)), inOffer: !!(q && q.closest("#offer")) } });
-   ok("ב114: testimonials block (3 placeholders) between the price and the form", tq.n === 3 && tq.ph && tq.afterPrice && tq.beforeForm && tq.inOffer, tq);
+   if (QUOTES) ok("ב114 stage 2: testimonials block (2 placeholders) between the price and the form", tq.n === 2 && tq.ph && tq.afterPrice && tq.beforeForm && tq.inOffer, tq);
+   else ok("stage 1 (form only): no testimonials block", tq.n === 0, tq);
+   const wd = await X.p.evaluate(() => { const f = document.getElementById("lpForm1"), l = f.querySelector('[data-box="one"]');
+     return { btn: f.querySelector("button .ct-t").innerText.trim(), how: f.querySelector(".lpf-how").innerText.trim(), box: l.innerText.replace(/\s+/g, " ").trim(),
+       links: [...l.querySelectorAll("a")].map(a => a.getAttribute("href")).join(","), req: l.querySelector("input").required, legal: !!f.querySelector(".lpf-legal a[href='terms.html']"),
+       brackets: /\[/.test(f.innerText) } });
+   ok("Ben's approved wording: button, line above the form, box (terms + privacy links), no placeholders left", wd.btn === "בן, אני רוצה להתחיל עכשיו" && wd.how === "ממלאים שם ומייל, עוברים לתשלום מאובטח, והגישה לקורס מגיעה למייל תוך כמה דקות." && wd.box === "קראתי ואני מאשר/ת את התקנון ומדיניות הפרטיות, ומסכים/ה לקבל מבן נחום מיילים עם תוכן והצעות. אפשר להסיר בכל רגע." && wd.links === "terms.html,privacy.html" && wd.req && wd.legal && !wd.brackets, wd);
+   ok("variant " + (LIVEV ? "a5s (live build)" : "a5s_f (draft)"), (await X.p.evaluate(() => document.documentElement.dataset.variant)) === (LIVEV ? "a5s" : "a5s_f"));
    // 2. כפתורי קנייה גוללים לטופס הקרוב, בלי מעבר דף
    for (const [cta, exp] of [["hero_main", "1"], ["guar", "1"]]) { await X.p.evaluate(() => scrollTo(0, 0)); await X.p.waitForTimeout(200);
      const k = X.ev.length; await X.p.click('a[data-cta="' + cta + '"]'); await X.p.waitForTimeout(1300); const nf = await nearest(X.p); const e = X.ev.slice(k).find(e => e.ev === "cta_click");
-     ok(cta + ": scrolls to form " + exp + ", stays on page, cta_click to=form" + exp, nf.form === exp && nf.dist < 260 && /a5s_b110v2/.test(X.p.url()) && e && /to=form/.test(e.x) && !X.co.length, { nf, e, url: X.p.url() }) }
+     ok(cta + ": scrolls to form " + exp + ", stays on page, cta_click to=form" + exp, nf.form === exp && nf.dist < 260 && X.p.url().includes(PFILE) && e && /to=form/.test(e.x) && !X.co.length, { nf, e, url: X.p.url() }) }
    const foc = await X.p.evaluate(() => document.activeElement && document.activeElement.name); ok("after scroll: no auto-focus (no keyboard pops up)", foc !== "name", foc);
    await X.p.focus("#lfName1"); await X.p.waitForTimeout(400);
    const fo = X.ev.filter(e => e.ev === "form_open").map(e => e.name); const fs1 = X.ev.filter(e => e.ev === "form_start").map(e => e.name);
@@ -58,9 +67,9 @@ const PAGE = "https://local.test/nlp/a5s_b110v2.html";
    await X.p.check("#lfBox1"); const sid = await X.p.evaluate(() => window.__lpSid);
    await Promise.all([X.p.waitForURL(/cardcom\.solutions/, { timeout: 8000 }).catch(() => { }), X.p.click("#lpForm1 button[type=submit]")]); await X.p.waitForTimeout(500);
    const det = X.ev.find(e => e.ev === "checkout_details"), sub = X.ev.find(e => e.ev === "form_submit"), red = X.ev.find(e => e.ev === "checkout_pay_redirect"), c0 = X.co[0] || {};
-   ok("lead saved: checkout_details with name, email, empty phone, consent=1", det && det.lead_name === "ישראל ישראלי" && det.lead_email === "test.user@example.com" && det.lead_phone === "" && det.lead_consent === "1" && det.variant === "a5s_f" && det.sid === sid, det);
+   ok("lead saved: checkout_details with name, email, empty phone, consent=1", det && det.lead_name === "ישראל ישראלי" && det.lead_email === "test.user@example.com" && det.lead_phone === "" && det.lead_consent === "1" && det.variant === VAR && det.sid === sid, det);
    ok("form_submit + checkout_pay_redirect events", sub && /form=1/.test(sub.x) && red && /pay_load_ms=/.test(red.x), { sub, red });
-   ok("payment page request: name+email, no phone, same sid, v=a5s_f, utm passed", c0.name === "ישראל ישראלי" && c0.email === "test.user@example.com" && c0.phone === "" && c0.sid === sid && c0.variant === "a5s_f" && c0.utm_campaign === "lenatzeach_w40" && c0.utm_content === "w1_ben" && c0.utm_medium === "paid" && !c0.aff, c0);
+   ok("payment page request: name+email, no phone, same sid, v=a5s_f, utm passed", c0.name === "ישראל ישראלי" && c0.email === "test.user@example.com" && c0.phone === "" && c0.sid === sid && c0.variant === VAR && c0.utm_campaign === "lenatzeach_w40" && c0.utm_content === "w1_ben" && c0.utm_medium === "paid" && !c0.aff, c0);
    const fb = await X.p.evaluate(() => window.__fb).catch(() => []);
    ok("went straight to the Cardcom page (no details page)", /secure\.cardcom\.solutions/.test(X.p.url()), X.p.url());
    ok("no JS errors", !X.errs.length, X.errs); await X.c.close() }
@@ -83,7 +92,7 @@ const PAGE = "https://local.test/nlp/a5s_b110v2.html";
    await X.p.fill("#lfName1", "רות לוי"); await X.p.fill("#lfEmail1", "ruth@example.com"); await X.p.check("#lfBox1");
    await Promise.all([X.p.waitForURL(/checkout\.html/, { timeout: 8000 }).catch(() => { }), X.p.click("#lpForm1 button[type=submit]")]); await X.p.waitForTimeout(1500);
    const v = await X.p.evaluate(() => ({ n: (document.getElementById("fName") || {}).value, e: (document.getElementById("fEmail") || {}).value })).catch(() => ({}));
-   ok("payment page error: falls back to checkout.html with name+email filled, load_error logged", /checkout\.html\?.*v=a5s_f/.test(X.p.url()) && v.n === "רות לוי" && v.e === "ruth@example.com" && X.ev.some(e => e.ev === "checkout_load_error"), { url: X.p.url(), v }); await X.c.close() }
+   ok("payment page error: falls back to checkout.html with name+email filled, load_error logged", new RegExp("checkout\\.html\\?.*v=" + VAR + "(&|$)").test(X.p.url()) && v.n === "רות לוי" && v.e === "ruth@example.com" && X.ev.some(e => e.ev === "checkout_load_error"), { url: X.p.url(), v }); await X.c.close() }
  // 8. בוט (שדה נסתר מולא) - לא נשמר ליד
  { const X = await ctx(); await X.p.goto(PAGE); await X.p.waitForTimeout(900);
    await X.p.fill("#lfName1", "בוט בוט"); await X.p.fill("#lfEmail1", "bot@example.com"); await X.p.check("#lfBox1"); await X.p.evaluate(() => document.querySelector('#lpForm1 [name="company"]').value = "x");
@@ -101,5 +110,5 @@ const PAGE = "https://local.test/nlp/a5s_b110v2.html";
  // 10. הקבצים החיים לא השתנו
  const h = fp => crypto.createHash("sha256").update(fs.readFileSync(fp)).digest("hex");
  const live = fs.readdirSync(path.join(MAIN, "nlp")).filter(x => x.endsWith(".html")); const diff = live.filter(x => h(path.join(MAIN, "nlp", x)) !== h(path.join(ROOT, "nlp", x)));
- ok("live pages unchanged (only the draft file is new)", !diff.length && !fs.existsSync(path.join(MAIN, "nlp", "a5s_b110v2.html")), diff);
+ ok("other live pages unchanged" + (LIVEV ? " (only a5s.html differs)" : ""), diff.join(",") === (LIVEV ? "a5s.html" : "") && !fs.existsSync(path.join(MAIN, "nlp", "a5s_b110v2.html")), diff);
  console.log("TOTAL", n - f + "/" + n); await b.close(); process.exit(f ? 1 : 0) })();

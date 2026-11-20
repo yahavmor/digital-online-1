@@ -8,20 +8,25 @@
 #    אם יצירת דף התשלום נכשלת - מעבר ל-checkout.html עם הפרטים ממולאים (גיבוי).
 #  - aff ו-UTM: נשלחים ל-7827398 בדיוק כמו מהסליקה (utm_*, aff מ-NLP_OWNER, v, sid, fbp/fbc/ua).
 #  - נוסחים שמחכים לבן מסומנים בסוגריים מרובעים. שורת 3 התשלומים היא הנוסח שכבר באוויר בסליקה.
-# הרצה: python3 build_b110v2.py <שורש main> <תיקיית יעד>
+# הרצה: python3 build_b110v2.py <שורש main> <תיקיית יעד> [--quotes] [--live]
+#   --quotes: עם בלוק 2 ההמלצות ליד המחיר (שלב 2, 3 ימים אחרי הטופס). בלי - הטופס בלבד (שלב 1).
+#   --live: הקובץ לפריסה - nlp/a5s.html עם variant=a5s (הדשבורד מכיר את a5s; a5s_f לא ב-ALLV). בלי - טיוטה a5s_b110v2*.html עם variant=a5s_f.
+# ב110 (20.11 ערב): בן אישר את הנוסחים - הכפתור, השורה מעל הטופס ותיבה אחת חובה.
 import sys, os, re
 SRC, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
+QUOTES, LIVE = "--quotes" in sys.argv[3:], "--live" in sys.argv[3:]
 s = open(os.path.join(SRC, "nlp", "a5s.html"), encoding="utf8").read()
 def rep(s, a, b, n=1):
     assert s.count(a) == n, (a[:90], s.count(a)); return s.replace(a, b)
 
-s = rep(s, 'data-variant="a5s"', 'data-variant="a5s_f"')  # בטיוטה: גרסה נפרדת, כדי שלא תתערבב בנתונים של a5s
+if not LIVE: s = rep(s, 'data-variant="a5s"', 'data-variant="a5s_f"')  # בטיוטה: גרסה נפרדת, כדי שלא תתערבב בנתונים של a5s
 assert "noindex" in s
 
-PH_LINE = "[שורת הסבר מעל הטופס - מחכה לבן]"
-PH_BOX = "[נוסח ההסכמה לדיוור - מחכה לבן]"
-PH_BTN = "[כפתור בגוף ראשון, פונה לבן - מחכה לבן]"
-TERMS = 'מדיניות ביטול לעסקה זו הינה לפי חוק שירותי תשלום בישראל. מאשר אני כי הנני מכיר את <a href="terms.html" target="_blank" rel="noopener">תנאי ופרטי העסקה</a> ואת <a href="privacy.html" target="_blank" rel="noopener">מדיניות הפרטיות</a>.'
+PH_LINE = "ממלאים שם ומייל, עוברים לתשלום מאובטח, והגישה לקורס מגיעה למייל תוך כמה דקות."
+PH_BOX = 'קראתי ואני מאשר/ת את <a href="terms.html" target="_blank" rel="noopener">התקנון</a> ו<a href="privacy.html" target="_blank" rel="noopener">מדיניות הפרטיות</a>, ומסכים/ה לקבל מבן נחום מיילים עם תוכן והצעות. אפשר להסיר בכל רגע.'
+PH_BTN = "בן, אני רוצה להתחיל עכשיו"
+# ב52 (חובה של קארדקום, כמו בסליקה): משפט מדיניות הביטול נשאר כשורה קטנה מתחת לתיבה - לא חלק מהנוסח של בן. להוריד רק אם קארדקום/בן אומרים שהתיבה מספיקה
+TERMS = '<p class="lpf-legal">מדיניות ביטול לעסקה זו הינה לפי חוק שירותי תשלום בישראל (<a href="terms.html" target="_blank" rel="noopener">תנאי ופרטי העסקה</a>).</p>'
 LOCK = '<svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>'
 
 def form(n):
@@ -30,19 +35,19 @@ def form(n):
             '<label class="lpf-f"><b>שם מלא</b><input id="lfName%d" name="name" autocomplete="name" maxlength="50" required></label>' % n +
             '<label class="lpf-f"><b>מייל</b><input id="lfEmail%d" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" required></label>' % n +
             '<input class="lpf-hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">'
-            '<label class="lpf-c" data-box="one"><input type="checkbox" id="lfBox%d" name="box" value="1"><span>' % n + PH_BOX + ' ' + TERMS + '</span></label>'
-            '<label class="lpf-c" data-box="news" hidden><input type="checkbox" id="lfNews%d" name="news" value="1"><span>' % n + PH_BOX + '</span></label>'
+            '<label class="lpf-c" data-box="one"><input type="checkbox" id="lfBox%d" name="box" value="1" required><span>' % n + PH_BOX + '</span></label>' + TERMS +
             '<p class="lpf-err" id="lfErr%d" role="alert"></p>' % n +
             '<button class="cta" type="submit" data-cta="form%d"><span class="ct-t">' % n + PH_BTN + '</span> <span>←</span><span class="v4-pay">' + LOCK + 'תשלום מאובטח</span></button>'
             '</form>')
 
 # 1. טופס בכרטיס ההצעה, מתחת למחיר (במקום כפתור ההצעה). שורת 3 התשלומים - הנוסח שכבר באוויר בסליקה
 m = re.search(r'<a class="cta" data-cta="offer" data-checkout href="#">.*?</a>', s, re.S); assert m
-# ב114 (20.11): בלוק של 3 המלצות קצרות מתחת למחיר ולפני הטופס - סימונים בלבד, עד שהטקסטים יאושרו. data-quote לכל המלצה; מחיקת כרטיס = 2 המלצות
+# ב114 (20.11): בלוק של 2 המלצות קצרות מתחת למחיר ולפני הטופס (בן אישר 2). סימונים עד שהטקסטים מגיעים מצ'אט האורגני דרך יהב.
+# רק עם --quotes (שלב 2, 3 ימים אחרי הטופס)
 TESTI = ('<div class="lpf-q" data-testimonials="price" aria-label="המלצות">'
          + ''.join('<figure class="lpf-qc" data-quote="%d"><blockquote>[המלצה קצרה %d - מחכה לטקסט מאושר, עד 2 שורות]</blockquote>'
-                   '<figcaption>[שם פרטי + פרט קצר - מחכה לאישור]</figcaption></figure>' % (i, i) for i in (1, 2, 3))
-         + '</div>')
+                   '<figcaption>[שם פרטי + פרט קצר - מחכה לאישור]</figcaption></figure>' % (i, i) for i in (1, 2))
+         + '</div>') if QUOTES else ''
 s = s[:m.start()] + '<p class="lpf-pay3">או 3 תשלומים של 99 ₪</p>' + TESTI + form(1) + s[m.end():]
 # 2. טופס בסוף הדף, אחרי השאלות הנפוצות (במקום הכפתור האחרון)
 m = re.search(r'<a class="cta" data-cta="final" data-checkout href="#">.*?</a>', s, re.S); assert m
@@ -72,7 +77,8 @@ CSS = """<style>/* ב110 v2 (טיוטה): טופס שם + מייל בכרטיס 
 .lpf-qc{margin:0;padding:10px 12px;border-radius:12px;border:1px solid var(--gold-a,#8a7340);background:rgba(255,255,255,.03);text-align:right}
 .lpf-qc blockquote{margin:0;font-size:14.5px;line-height:1.5;color:var(--ink,#fff)}
 .lpf-qc figcaption{margin-top:4px;font-size:12.5px;color:var(--ink2,#ccc)}
-@media (min-width:760px){.lpf-q{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:760px){.lpf-q{grid-template-columns:repeat(2,1fr)}}
+.lpf-legal{margin:-4px 0 0;font-size:12px;line-height:1.5;color:var(--ink2,#ccc);opacity:.8}.lpf-legal a{color:inherit;text-decoration:underline}
 html.lpf-in #sticky{opacity:0!important;pointer-events:none!important;transform:translateY(120%)!important} /* הכפתור הדביק לא מכסה טופס פתוח */
 .lpf.hl{animation:lpfHl 1.2s ease-out 1}@keyframes lpfHl{0%{box-shadow:0 0 0 0 rgba(254,207,0,.55)}100%{box-shadow:0 0 0 18px rgba(254,207,0,0)}}
 </style>
@@ -136,5 +142,8 @@ JS = """<script>/* ב110 v2 (טיוטה): כפתורי הקנייה גוללים
 """
 s = rep(s, "</head>", CSS + "</head>"); s = rep(s, "</body>", JS + "</body>")
 assert 'data-cta="offer"' not in s and 'data-cta="final"' not in s and s.count('class="lpf"') == 2
-open(os.path.join(OUT, "a5s_b110v2.html"), "w", encoding="utf8").write(s)
+assert "[" not in re.sub(r"<script.*?</script>|<style.*?</style>", "", s.split('id="lpForm1"')[1].split("</form>")[0], flags=re.S), "סימון שנשאר בטופס"
+fn = "a5s.html" if LIVE else ("a5s_b110v2_q.html" if QUOTES else "a5s_b110v2.html")
+open(os.path.join(OUT, fn), "w", encoding="utf8").write(s)
+print(fn, "quotes" if QUOTES else "form only", "live variant a5s" if LIVE else "draft variant a5s_f")
 print("ok", len(s))
