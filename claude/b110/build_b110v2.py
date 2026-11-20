@@ -8,13 +8,14 @@
 #    אם יצירת דף התשלום נכשלת - מעבר ל-checkout.html עם הפרטים ממולאים (גיבוי).
 #  - aff ו-UTM: נשלחים ל-7827398 בדיוק כמו מהסליקה (utm_*, aff מ-NLP_OWNER, v, sid, fbp/fbc/ua).
 #  - נוסחים שמחכים לבן מסומנים בסוגריים מרובעים. שורת 3 התשלומים היא הנוסח שכבר באוויר בסליקה.
-# הרצה: python3 build_b110v2.py <שורש main> <תיקיית יעד> [--quotes] [--live]
-#   --quotes: עם בלוק 2 ההמלצות ליד המחיר (שלב 2, 3 ימים אחרי הטופס). בלי - הטופס בלבד (שלב 1).
+# הרצה: python3 build_b110v2.py <שורש main> <תיקיית יעד> [--live]
+#   (בלוק ההמלצות ליד המחיר הוסר ב-20.11 לבקשת יהב - אין שלב 2.)
 #   --live: הקובץ לפריסה - nlp/a5s.html עם variant=a5s (הדשבורד מכיר את a5s; a5s_f לא ב-ALLV). בלי - טיוטה a5s_b110v2*.html עם variant=a5s_f.
 # ב110 (20.11 ערב): בן אישר את הנוסחים - הכפתור, השורה מעל הטופס ותיבה אחת חובה.
 import sys, os, re
 SRC, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
-QUOTES, LIVE = "--quotes" in sys.argv[3:], "--live" in sys.argv[3:]
+LIVE = "--live" in sys.argv[3:]
+assert "--quotes" not in sys.argv[3:], "בלוק ההמלצות הוסר (20.11) - אין --quotes"
 s = open(os.path.join(SRC, "nlp", "a5s.html"), encoding="utf8").read()
 def rep(s, a, b, n=1):
     assert s.count(a) == n, (a[:90], s.count(a)); return s.replace(a, b)
@@ -42,17 +43,8 @@ def form(n):
 
 # 1. טופס בכרטיס ההצעה, מתחת למחיר (במקום כפתור ההצעה). שורת 3 התשלומים - הנוסח שכבר באוויר בסליקה
 m = re.search(r'<a class="cta" data-cta="offer" data-checkout href="#">.*?</a>', s, re.S); assert m
-# ב114 (20.11): בלוק של 2 המלצות קצרות מתחת למחיר ולפני הטופס (בן אישר 2). סימונים עד שהטקסטים מגיעים מצ'אט האורגני דרך יהב.
-# רק עם --quotes (שלב 2, 3 ימים אחרי הטופס)
-# א27 (20.11, בן אישר): טקסט בלבד, בלי תמונה/וידאו/סימן מים. הציטוטים מילה במילה. השמות - סימונים עד שיגיעו.
-Q27 = [("״תמיד הייתי נתקעת איפשהו, ותמיד זה היה חוזר על עצמו, זה אף פעם לא היה יציב. (...) עד שהבנתי שברגע שאני בעלת ערך, ושאני מבינה את הערך שיש בי, אני באמת יכולה לתת ערך ולהשפיע על אנשים.״", "[שם פרטי 1], תלמידה של בן"),
-       ("״ממליצה בחום לכל מי שהתחום הזה מעניין אותו.״", "[שם פרטי 2], תלמידה של בן")]
-TESTI = ('<div class="lpf-q" data-testimonials="price" aria-label="המלצות"><p class="lpf-qh">מה אומרות תלמידות של בן</p>'
-         + ''.join('<figure class="lpf-qc" data-quote="%d"><blockquote>%s</blockquote><figcaption>%s</figcaption></figure>' % (i + 1, q, c) for i, (q, c) in enumerate(Q27))
-         + '</div>') if QUOTES else ''
-if LIVE and QUOTES: assert '[' not in TESTI, 'שמות ההמלצות עוד לא הגיעו - לא עולים'
-QCSS = '<style>.lpf-qh{margin:0;font-size:13.5px;font-weight:700;color:var(--gold,#d4b06a);text-align:right}@media (min-width:760px){.lpf-qh{grid-column:1/-1}}</style>' if QUOTES else ''  # רק בשלב 2, כדי שקובץ שלב 1 יישאר זהה
-s = s[:m.start()] + '<p class="lpf-pay3">או 3 תשלומים של 99 ₪</p>' + QCSS + TESTI + form(1) + s[m.end():]
+# ב110: בלוק ההמלצות הוסר (יהב 20.11: "הורד את הציטוטים"). אין שלב 2.
+s = s[:m.start()] + '<p class="lpf-pay3">או 3 תשלומים של 99 ₪</p>' + form(1) + s[m.end():]
 # 2. טופס בסוף הדף, אחרי השאלות הנפוצות (במקום הכפתור האחרון)
 m = re.search(r'<a class="cta" data-cta="final" data-checkout href="#">.*?</a>', s, re.S); assert m
 pl = re.search(r'<div class="paylogos" data-paylogos="offer">.*?</div>', s, re.S).group(0).replace('data-paylogos="offer"', 'data-paylogos="final"')
@@ -77,11 +69,6 @@ CSS = """<style>/* ב110 v2 (טיוטה): טופס שם + מייל בכרטיס 
 .lpf-pay3{margin:-2px 0 0;text-align:center;font-size:14.5px;font-weight:700;color:var(--ink2,#ccc)}
 .lpf-price{text-align:center}
 /* ב114: בלוק המלצות ליד המחיר (סימונים) - בנייד עמודה, במחשב 3 בשורה */
-.lpf-q{display:grid;gap:8px;margin:12px 0 2px}
-.lpf-qc{margin:0;padding:10px 12px;border-radius:12px;border:1px solid var(--gold-a,#8a7340);background:rgba(255,255,255,.03);text-align:right}
-.lpf-qc blockquote{margin:0;font-size:14.5px;line-height:1.5;color:var(--ink,#fff)}
-.lpf-qc figcaption{margin-top:4px;font-size:12.5px;color:var(--ink2,#ccc)}
-@media (min-width:760px){.lpf-q{grid-template-columns:repeat(2,1fr)}}
 .lpf-legal{margin:-4px 0 0;font-size:12px;line-height:1.5;color:var(--ink2,#ccc);opacity:.8}.lpf-legal a{color:inherit;text-decoration:underline}
 html.lpf-in #sticky{opacity:0!important;pointer-events:none!important;transform:translateY(120%)!important} /* הכפתור הדביק לא מכסה טופס פתוח */
 .lpf.hl{animation:lpfHl 1.2s ease-out 1}@keyframes lpfHl{0%{box-shadow:0 0 0 0 rgba(254,207,0,.55)}100%{box-shadow:0 0 0 18px rgba(254,207,0,0)}}
@@ -147,7 +134,7 @@ JS = """<script>/* ב110 v2 (טיוטה): כפתורי הקנייה גוללים
 s = rep(s, "</head>", CSS + "</head>"); s = rep(s, "</body>", JS + "</body>")
 assert 'data-cta="offer"' not in s and 'data-cta="final"' not in s and s.count('class="lpf"') == 2
 assert "[" not in re.sub(r"<script.*?</script>|<style.*?</style>", "", s.split('id="lpForm1"')[1].split("</form>")[0], flags=re.S), "סימון שנשאר בטופס"
-fn = "a5s.html" if LIVE else ("a5s_b110v2_q.html" if QUOTES else "a5s_b110v2.html")
+fn = "a5s.html" if LIVE else "a5s_b110v2.html"
 open(os.path.join(OUT, fn), "w", encoding="utf8").write(s)
-print(fn, "quotes" if QUOTES else "form only", "live variant a5s" if LIVE else "draft variant a5s_f")
+print(fn, "form only", "live variant a5s" if LIVE else "draft variant a5s_f")
 print("ok", len(s))
