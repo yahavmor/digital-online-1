@@ -28,6 +28,10 @@ const PAGE = "https://local.test/nlp/a5s_b110v2.html";
    ok("fields: name, email, one box (unchecked), no phone", st.fields === "name,email,box,news" && st.boxUnchecked && !st.phone, st);
    ok("one visible box (second box hidden in BOX_MODE one_required)", await X.p.evaluate(() => [...document.querySelectorAll("#lpForm1 .lpf-c")].filter(l => getComputedStyle(l).display !== "none").length === 1));
    ok("draft is separate (variant a5s_f, noindex)", st.variant === "a5s_f" && st.noindex, st);
+   const tq = await X.p.evaluate(() => { const q = document.querySelector('[data-testimonials="price"]'), f1 = document.getElementById("lpForm1"), pr = document.querySelector("#offer .v4-ko-now");
+     return { n: q ? q.querySelectorAll("[data-quote]").length : 0, ph: q ? [...q.querySelectorAll("blockquote")].every(b => /^\[.*מחכה/.test(b.innerText.trim())) : false,
+       afterPrice: !!(q && (pr.compareDocumentPosition(q) & Node.DOCUMENT_POSITION_FOLLOWING)), beforeForm: !!(q && (q.compareDocumentPosition(f1) & Node.DOCUMENT_POSITION_FOLLOWING)), inOffer: !!(q && q.closest("#offer")) } });
+   ok("ב114: testimonials block (3 placeholders) between the price and the form", tq.n === 3 && tq.ph && tq.afterPrice && tq.beforeForm && tq.inOffer, tq);
    // 2. כפתורי קנייה גוללים לטופס הקרוב, בלי מעבר דף
    for (const [cta, exp] of [["hero_main", "1"], ["guar", "1"]]) { await X.p.evaluate(() => scrollTo(0, 0)); await X.p.waitForTimeout(200);
      const k = X.ev.length; await X.p.click('a[data-cta="' + cta + '"]'); await X.p.waitForTimeout(1300); const nf = await nearest(X.p); const e = X.ev.slice(k).find(e => e.ev === "cta_click");

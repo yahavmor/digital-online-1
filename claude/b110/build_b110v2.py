@@ -38,7 +38,12 @@ def form(n):
 
 # 1. טופס בכרטיס ההצעה, מתחת למחיר (במקום כפתור ההצעה). שורת 3 התשלומים - הנוסח שכבר באוויר בסליקה
 m = re.search(r'<a class="cta" data-cta="offer" data-checkout href="#">.*?</a>', s, re.S); assert m
-s = s[:m.start()] + '<p class="lpf-pay3">או 3 תשלומים של 99 ₪</p>' + form(1) + s[m.end():]
+# ב114 (20.11): בלוק של 3 המלצות קצרות מתחת למחיר ולפני הטופס - סימונים בלבד, עד שהטקסטים יאושרו. data-quote לכל המלצה; מחיקת כרטיס = 2 המלצות
+TESTI = ('<div class="lpf-q" data-testimonials="price" aria-label="המלצות">'
+         + ''.join('<figure class="lpf-qc" data-quote="%d"><blockquote>[המלצה קצרה %d - מחכה לטקסט מאושר, עד 2 שורות]</blockquote>'
+                   '<figcaption>[שם פרטי + פרט קצר - מחכה לאישור]</figcaption></figure>' % (i, i) for i in (1, 2, 3))
+         + '</div>')
+s = s[:m.start()] + '<p class="lpf-pay3">או 3 תשלומים של 99 ₪</p>' + TESTI + form(1) + s[m.end():]
 # 2. טופס בסוף הדף, אחרי השאלות הנפוצות (במקום הכפתור האחרון)
 m = re.search(r'<a class="cta" data-cta="final" data-checkout href="#">.*?</a>', s, re.S); assert m
 pl = re.search(r'<div class="paylogos" data-paylogos="offer">.*?</div>', s, re.S).group(0).replace('data-paylogos="offer"', 'data-paylogos="final"')
@@ -62,6 +67,12 @@ CSS = """<style>/* ב110 v2 (טיוטה): טופס שם + מייל בכרטיס 
 .lpf .cta{width:100%;border:0;cursor:pointer;font:inherit}.lpf .cta[disabled]{opacity:.7;cursor:wait}
 .lpf-pay3{margin:-2px 0 0;text-align:center;font-size:14.5px;font-weight:700;color:var(--ink2,#ccc)}
 .lpf-price{text-align:center}
+/* ב114: בלוק המלצות ליד המחיר (סימונים) - בנייד עמודה, במחשב 3 בשורה */
+.lpf-q{display:grid;gap:8px;margin:12px 0 2px}
+.lpf-qc{margin:0;padding:10px 12px;border-radius:12px;border:1px solid var(--gold-a,#8a7340);background:rgba(255,255,255,.03);text-align:right}
+.lpf-qc blockquote{margin:0;font-size:14.5px;line-height:1.5;color:var(--ink,#fff)}
+.lpf-qc figcaption{margin-top:4px;font-size:12.5px;color:var(--ink2,#ccc)}
+@media (min-width:760px){.lpf-q{grid-template-columns:repeat(3,1fr)}}
 html.lpf-in #sticky{opacity:0!important;pointer-events:none!important;transform:translateY(120%)!important} /* הכפתור הדביק לא מכסה טופס פתוח */
 .lpf.hl{animation:lpfHl 1.2s ease-out 1}@keyframes lpfHl{0%{box-shadow:0 0 0 0 rgba(254,207,0,.55)}100%{box-shadow:0 0 0 18px rgba(254,207,0,0)}}
 </style>
