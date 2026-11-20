@@ -700,7 +700,7 @@ html{scroll-padding-top:12px}
 .v4-ko{width:100%;max-width:560px;margin:6px auto 0;padding:22px 20px 20px;border-radius:22px;border:1px solid rgba(254,207,0,.45);
   background:radial-gradient(420px circle at 50% 0,rgba(254,207,0,.10),transparent 70%),linear-gradient(180deg,#1A1A1E,#111114);
   box-shadow:0 40px 80px -40px rgba(0,0,0,.95),inset 0 1px 0 rgba(255,255,255,.06);display:grid;gap:14px;text-align:center}
-.v4-ko-list{list-style:none;margin:0;padding:0}
+.v4-ko-list{list-style:none;margin:0;padding:0}.v4-ko-list li:last-child{border-bottom:0}
 .v4-ko-list li{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:11px 2px;border-bottom:1px solid rgba(254,207,0,.22);text-align:start}
 .v4-ko-list li span{font-size:15.5px;line-height:1.45;color:#E6E6E6}
 .v4-ko-list li b{flex:none;font-size:15.5px;font-weight:700;color:#FFFFFF;font-variant-numeric:tabular-nums}
@@ -1099,7 +1099,7 @@ html.v5a .v4-ko-now b{transition:opacity .45s var(--ease),transform .5s var(--ea
 
 <section id="offer" data-sec="16" data-name="ההצעה" data-buyzone data-stage="offer"><div class="wrap stack">
 <h2>כל מה שאתה צריך כדי שהשנה הבאה שלך תיראה אחרת.</h2>
-<div class="v4-ko"><ul class="v4-ko-list"><li><span>קורס הליבה "לנצח את האוטומט"</span><b>1,290 ₪</b></li><li><span>קורס מוקלט "ממחשבה לביצוע"</span><b>397 ₪</b></li><li><span>קורס מוקלט "כוחה של השפעה"</span><b>497 ₪</b></li><li><span>מחברת העבודה "אתגר 30 הימים"</span><b>79 ₪</b></li><li><span>ערכת התבניות "היום המנצח שלי"</span><b>59 ₪</b></li><li><span>המדריך "לדבר בביטחון ולהשפיע באמת"</span><b>89 ₪</b></li></ul><div class="v4-ko-tot"><span>שווי כולל:</span><b>2,411 ₪</b></div><div class="v4-ko-price"><p class="v4-ko-reg">מחיר כולל הבונוסים <s>2,411 ₪</s></p><p class="v4-ko-now"><span>מחיר השקה לזמן מוגבל</span> <b>297 ₪</b></p></div><a class="cta" data-cta="offer" data-checkout href="#"><span class="ct-t">כן, אני רוצה להתחיל עכשיו ב-297 ₪</span> <span>←</span><span class="v4-pay"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></a>
+<div class="v4-ko"><ul class="v4-ko-list"><li><span>קורס הליבה "לנצח את האוטומט"</span><b>1,290 ₪</b></li><li><span>קורס מוקלט "ממחשבה לביצוע"</span><b>397 ₪</b></li><li><span>קורס מוקלט "כוחה של השפעה"</span><b>497 ₪</b></li><li><span>מחברת העבודה "אתגר 30 הימים"</span><b>79 ₪</b></li><li><span>ערכת התבניות "היום המנצח שלי"</span><b>59 ₪</b></li><li><span>המדריך "לדבר בביטחון ולהשפיע באמת"</span><b>89 ₪</b></li></ul><div class="v4-ko-price"><p class="v4-ko-reg">מחיר הקורס <s>1,290 ₪</s></p><p class="v4-ko-now"><span>מחיר השקה לזמן מוגבל</span> <b>297 ₪</b></p></div><a class="cta" data-cta="offer" data-checkout href="#"><span class="ct-t">כן, אני רוצה להתחיל עכשיו ב-297 ₪</span> <span>←</span><span class="v4-pay"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></a>
 <p class="cta-micro">גישה מיידית לקורס ולבונוסים · החזר מלא תוך 7 ימים</p>
 <p class="cheap">פחות ממחיר של יציאה בערב. בשביל תהליך פרקטי שיכול לשנות את הדרך שבה אתה חי בכל יום. כי ערב אחד נגמר אחרי כמה שעות. אבל הכלים שתטמיע כאן נשארים איתך ומשפיעים לך על חוויה של חיים שלמים.</p></div>
 
@@ -1386,7 +1386,7 @@ document.querySelectorAll("a.cta").forEach(function(b){io.observe(b);});})();</s
   if(tot){var T=tot.textContent,N=parseInt(T.replace(/\D/g,""),10)||0;
    tw.__fn=function(){var t0=null,d=900;function f(ts){if(t0===null)t0=ts;var k=Math.min(1,(ts-t0)/d),val=Math.round(N*(1-Math.pow(1-k,3)));
      tot.textContent=T.replace(/[\d,]+/,val.toLocaleString("en-US"));if(k<1)requestAnimationFrame(f);else{tot.textContent=T;setTimeout(function(){if(reg)reg.classList.add("in");setTimeout(function(){if(now)now.classList.add("in");},350);},150);}}
-     requestAnimationFrame(f);};io.observe(tw);}}
+     requestAnimationFrame(f);};io.observe(tw);}else{if(reg)reg.classList.add("in");if(now)now.classList.add("in");}}
  document.querySelectorAll(".bio img").forEach(function(i){if(below(i)){i.classList.add("v5o");io.observe(i);}});
  /* פוסטרים של סרטונים: הגדלה איטית כשהם במסך */
  var kb=new IntersectionObserver(function(es){es.forEach(function(x){x.target.classList.toggle("kb",x.isIntersecting);});},{threshold:.3});
