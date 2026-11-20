@@ -44,11 +44,15 @@ def form(n):
 m = re.search(r'<a class="cta" data-cta="offer" data-checkout href="#">.*?</a>', s, re.S); assert m
 # ב114 (20.11): בלוק של 2 המלצות קצרות מתחת למחיר ולפני הטופס (בן אישר 2). סימונים עד שהטקסטים מגיעים מצ'אט האורגני דרך יהב.
 # רק עם --quotes (שלב 2, 3 ימים אחרי הטופס)
-TESTI = ('<div class="lpf-q" data-testimonials="price" aria-label="המלצות">'
-         + ''.join('<figure class="lpf-qc" data-quote="%d"><blockquote>[המלצה קצרה %d - מחכה לטקסט מאושר, עד 2 שורות]</blockquote>'
-                   '<figcaption>[שם פרטי + פרט קצר - מחכה לאישור]</figcaption></figure>' % (i, i) for i in (1, 2))
+# א27 (20.11, בן אישר): טקסט בלבד, בלי תמונה/וידאו/סימן מים. הציטוטים מילה במילה. השמות - סימונים עד שיגיעו.
+Q27 = [("״תמיד הייתי נתקעת איפשהו, ותמיד זה היה חוזר על עצמו, זה אף פעם לא היה יציב. (...) עד שהבנתי שברגע שאני בעלת ערך, ושאני מבינה את הערך שיש בי, אני באמת יכולה לתת ערך ולהשפיע על אנשים.״", "[שם פרטי 1], תלמידה של בן"),
+       ("״ממליצה בחום לכל מי שהתחום הזה מעניין אותו.״", "[שם פרטי 2], תלמידה של בן")]
+TESTI = ('<div class="lpf-q" data-testimonials="price" aria-label="המלצות"><p class="lpf-qh">מה אומרות תלמידות של בן</p>'
+         + ''.join('<figure class="lpf-qc" data-quote="%d"><blockquote>%s</blockquote><figcaption>%s</figcaption></figure>' % (i + 1, q, c) for i, (q, c) in enumerate(Q27))
          + '</div>') if QUOTES else ''
-s = s[:m.start()] + '<p class="lpf-pay3">או 3 תשלומים של 99 ₪</p>' + TESTI + form(1) + s[m.end():]
+if LIVE and QUOTES: assert '[' not in TESTI, 'שמות ההמלצות עוד לא הגיעו - לא עולים'
+QCSS = '<style>.lpf-qh{margin:0;font-size:13.5px;font-weight:700;color:var(--gold,#d4b06a);text-align:right}@media (min-width:760px){.lpf-qh{grid-column:1/-1}}</style>' if QUOTES else ''  # רק בשלב 2, כדי שקובץ שלב 1 יישאר זהה
+s = s[:m.start()] + '<p class="lpf-pay3">או 3 תשלומים של 99 ₪</p>' + QCSS + TESTI + form(1) + s[m.end():]
 # 2. טופס בסוף הדף, אחרי השאלות הנפוצות (במקום הכפתור האחרון)
 m = re.search(r'<a class="cta" data-cta="final" data-checkout href="#">.*?</a>', s, re.S); assert m
 pl = re.search(r'<div class="paylogos" data-paylogos="offer">.*?</div>', s, re.S).group(0).replace('data-paylogos="offer"', 'data-paylogos="final"')

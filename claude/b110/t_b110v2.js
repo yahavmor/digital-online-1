@@ -30,10 +30,11 @@ const PAGE = "https://local.test/nlp/" + PFILE;
    ok("fields: name, email, one box (unchecked), no phone", st.fields === "name,email,box" && st.boxUnchecked && !st.phone, st);
    ok("one visible box (second box hidden in BOX_MODE one_required)", await X.p.evaluate(() => [...document.querySelectorAll("#lpForm1 .lpf-c")].filter(l => getComputedStyle(l).display !== "none").length === 1));
    ok("noindex kept", st.noindex, st);
+   await X.p.evaluate(q => { window.__Q27 = q }, ["״תמיד הייתי נתקעת איפשהו, ותמיד זה היה חוזר על עצמו, זה אף פעם לא היה יציב. (...) עד שהבנתי שברגע שאני בעלת ערך, ושאני מבינה את הערך שיש בי, אני באמת יכולה לתת ערך ולהשפיע על אנשים.״", "[שם פרטי 1], תלמידה של בן", "״ממליצה בחום לכל מי שהתחום הזה מעניין אותו.״", "[שם פרטי 2], תלמידה של בן"]);
    const tq = await X.p.evaluate(() => { const q = document.querySelector('[data-testimonials="price"]'), f1 = document.getElementById("lpForm1"), pr = document.querySelector("#offer .v4-ko-now");
-     return { n: q ? q.querySelectorAll("[data-quote]").length : 0, ph: q ? [...q.querySelectorAll("blockquote")].every(b => /^\[.*מחכה/.test(b.innerText.trim())) : false,
+     return { n: q ? q.querySelectorAll("[data-quote]").length : 0, ph: q ? JSON.stringify([...q.querySelectorAll("blockquote,figcaption")].map(b => b.innerText.trim())) === JSON.stringify(window.__Q27 || []) : false, head: q ? (q.querySelector(".lpf-qh") || {}).innerText === "מה אומרות תלמידות של בן" : false, media: q ? q.querySelectorAll("img,video,iframe,picture,svg").length : -1,
        afterPrice: !!(q && (pr.compareDocumentPosition(q) & Node.DOCUMENT_POSITION_FOLLOWING)), beforeForm: !!(q && (q.compareDocumentPosition(f1) & Node.DOCUMENT_POSITION_FOLLOWING)), inOffer: !!(q && q.closest("#offer")) } });
-   if (QUOTES) ok("ב114 stage 2: testimonials block (2 placeholders) between the price and the form", tq.n === 2 && tq.ph && tq.afterPrice && tq.beforeForm && tq.inOffer, tq);
+   if (QUOTES) ok("א27 stage 2: heading + 2 approved quotes word for word, text only, between the price and the form", tq.n === 2 && tq.ph && tq.head && tq.media === 0 && tq.afterPrice && tq.beforeForm && tq.inOffer, tq);
    else ok("stage 1 (form only): no testimonials block", tq.n === 0, tq);
    const wd = await X.p.evaluate(() => { const f = document.getElementById("lpForm1"), l = f.querySelector('[data-box="one"]');
      return { btn: f.querySelector("button .ct-t").innerText.trim(), how: f.querySelector(".lpf-how").innerText.trim(), box: l.innerText.replace(/\s+/g, " ").trim(),
