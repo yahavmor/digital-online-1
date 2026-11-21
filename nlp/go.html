@@ -32,20 +32,22 @@ var NLP_OWNER=(function(){var K="nlp_aff",D=2592e6,now=Date.now(),cur=null;
   /* ב105 ("מאשר ב105" מיהב, בן אישר, 2026-11-17 20:47): ניסוי on_1711 - המסלול הישן (a.html + סליקה A) מול a5v7 + סליקה B2 (הדף החדש של בן: הוק חדש, ההצעה מיד אחרי הפתרון,
      ההוכחות מתחתיה, בלי "למה בניתי"). חצי-חצי, קבוע לדפדפן, ספירה חדשה. on_1611 נסגר: מי ששובץ בו נשאר בדף שלו (a או a5v6) עם exp=on_1611 ולא נכנס לניתוח החדש;
      כך גם מי ששובץ ב-pg_1611 או ב-ap2_0811. הזרוע נשמרת ב-nlp_co_ab כמו קודם (a -> A, a5v7 -> B2). אינסטגרם אורגני בלי שינוי (ב44) */
-  var EXP="on_1711", K="nlp_go_"+EXP, v=null, p16=null, pg=null, o=null, ex=EXP; try{ v=localStorage.getItem(K); p16=localStorage.getItem("nlp_go_on_1611"); pg=localStorage.getItem("nlp_go_pg_1611"); o=localStorage.getItem("nlp_go_ap2_0811"); }catch(e){}
-  if(v!=="a"&&v!=="a5v7"){
-    if(p16==="a"||p16==="a5v6"){ v=p16; ex="on_1611"; }
-    else if(pg==="a5v6"||pg==="pr2"){ v=pg; ex="pg_1611"; }
-    else if(o==="a5"||o==="pr2"){ v=(o==="a5"?"a5v6":"pr2"); ex="ap2_0811"; }
-    else { var A=["a","a5v7"]; try{ var r=new Uint8Array(1); crypto.getRandomValues(r); v=A[r[0]%2]; }catch(e){ v=A[Math.random()<0.5?0:1]; }
-      try{ localStorage.setItem(K,v); localStorage.setItem("nlp_co_ab",v==="a"?"a":"b2"); }catch(e){} }
+  /* ב115 ("מאשר" מהראשי, 21.11): on_1711 נסגר (הנתונים שלו נשארים בגיליון עם exp=on_1711). מאז on_1711: 137 מבקרים ו-0 לחיצות קנייה;
+     13.11-17.11: 687 מבקרים ו-37 הגיעו לסליקה, a5v6 30 מתוך 403. ניתוב rt_2111: 80% ל-a5v6, 20% ל-a5v7, קבוע לדפדפן.
+     כל דפדפן מוגרל מחדש, גם מי ששובץ ב-on_1711, on_1611, pg_1611 או ap2_0811 (השיבוצים הישנים נשארים בדפדפן ולא נקראים).
+     שני הדפים עם סליקה B2 (nlp_co_ab=b2). a, pr2 ו-a5s נשארים באתר, מחוץ לניתוב. אינסטגרם אורגני בלי שינוי (ב44) */
+  var EXP="rt_2111", K="nlp_go_"+EXP, v=null, ex=EXP; try{ v=localStorage.getItem(K); }catch(e){}
+  if(v!=="a5v6"&&v!=="a5v7"){
+    var n=0; try{ var r=new Uint32Array(1); crypto.getRandomValues(r); n=r[0]%100; }catch(e){ n=Math.floor(Math.random()*100); }
+    v=(n<80?"a5v6":"a5v7");
+    try{ localStorage.setItem(K,v); }catch(e){}
   }
   var q=new URLSearchParams(location.search); if(!q.has("go")) q.set("go","1");
   /* ב44 (בקשת בן 4.11): אינסטגרם אורגני (ביו ו-ManyChat: utm_source=instagram/ig עם utm_medium=bio/dm, בלי aff ובלי utm_id) תמיד ל-a, מחוץ לניסוי.
      השיבוץ השמור בדפדפן לא משתנה, ומבקר שיחזור ממודעה ימשיך לגרסה שלו. */
   var s0=(q.get("utm_source")||"").toLowerCase(), m0=(q.get("utm_medium")||"").toLowerCase();
   if((s0==="instagram"||s0==="ig")&&(m0==="bio"||m0==="dm")&&!q.get("aff")&&!q.get("utm_id")){ q.delete("exp"); q.set("route","ig_org"); location.replace("a.html?"+q.toString()); return; }
-  q.set("exp",ex);
+  q.set("exp",ex); try{ localStorage.setItem("nlp_co_ab","b2"); }catch(e){}
   location.replace(v+".html?"+q.toString()); /* a, a1-a5, b, c, a2/b2/c2, pr ו-pr_v1 נשארים באתר, מחוץ לניסוי */
 })();
 </script></head><body>טוען...</body></html>
