@@ -58,7 +58,7 @@ def agg(v, only_y):
     buys = sum(1 for s in S.values() if s["buy"] and (not v or s["v"] == v) and (not only_y or s.get("buyday") == Y))
     return len(P), sum(o["cta"] for o in P.values()), sum(o["chk"] for o in P.values()), buys
 def line(lab, a): return "%s: מבקרים %d, לחצו על קנייה %d, הגיעו לסליקה %d, רכישות %d" % ((lab,) + a)
-print("b115 rt_2111 (go.html 80%% a5v6 / 20%% a5v7, from 21.11 12:34), by device")
+print("b115 rt_2111 (go.html 80% a5v6 / 20% a5v7, from 21.11 12:34), by device")
 for lab, only_y in (("אתמול (%s)" % Y.strftime("%d.%m"), True), ("מצטבר מ-21.11 12:34", False)):
     for v in ARMS: print(line(v + " " + lab, agg(v, only_y)))
     print(line("סה\"כ " + lab, agg(None, only_y)))
