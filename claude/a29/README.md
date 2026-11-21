@@ -57,3 +57,11 @@ a5s.html?utm_source=email&utm_medium=recovery&utm_campaign=b110_follow&utm_conte
 - לא שונה דבר ב-Make, ברב מסר או בדפים.
 - נקראו רק 8397098 ו-7798267, ורשימת התרחישים.
 - לא נפתחו 7827404, 7827398, 8463714 ו-8463689.
+
+## החלטות (ראשי 21.11)
+1. **7798267 נשאר בלי שינוי.** ארבע האוטומציות ברב מסר (nlp_rec1, nlp_rec1f, nlp_rec2, nlp_rec3) קיימות, פעילות ומוגדרות לפעול על נמען פעם אחת בלבד. לכן איפוס הרצף ב-Make לא ישלח מיילים חוזרים.
+2. **שיוך למשווקים:** מחכה להחלטה של בן.
+3. **כתובת הכפתור מאושרת לנוסחים:**
+   ```
+   a5s.html?utm_source=email&utm_medium=recovery&utm_campaign=b110_follow&utm_content=email1|email2|email3#offer
+   ```
