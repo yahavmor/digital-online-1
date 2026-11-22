@@ -148,6 +148,11 @@ window.submitForm = async function submitForm() {
   var email = document.getElementById('fEmail').value.trim();
   var ok = true;
   const p = getParams();
+  /* ב118: משווק גם לפי aff= (כמו בקישורי המשפך הנמכר), בנוסף ל-marketer=. gal ו-karlin נקראים ב-marketers.json galba ו-karlen */
+  var AFFMAP = {gal: 'galba', karlin: 'karlen'};
+  var affQ = (new URLSearchParams(location.search).get('aff') || '').toLowerCase().replace(/[^a-z0-9_-]/g, '');
+  if (!p.marketer && affQ) p.marketer = AFFMAP[affQ] || affQ;
+  var mkCode = (p.marketer || '').toLowerCase();
   const resolvedSupplier = await resolveSupplier(p);
   document.getElementById('eName').classList.remove('show');
   document.getElementById('ePhone').classList.remove('show');
@@ -176,7 +181,8 @@ window.submitForm = async function submitForm() {
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({ name: name, phone: phone, email: email, page: 'landing_option2', metric: 'landing', panel: PANEL })
     }),
-    fetch('https://hook.eu1.make.com/jp6ukjt7tpk3y4yly9c691g01f47cq8q', {
+    /* ב118: התראה במייל ליהב ולבן על כל ליד (8737914), במקום ההוק jp6uk שכבר לא קיים */
+    fetch('https://hook.eu1.make.com/78f809msf3m36h2r8g2q4s6khabqj8vs', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
@@ -185,6 +191,7 @@ window.submitForm = async function submitForm() {
         name: name,
         phone: phone,
         email: email,
+        marketer: mkCode,
         supplier: resolvedSupplier,
         timestamp: new Date().toLocaleString('he-IL')
       })
@@ -224,7 +231,7 @@ window.submitForm = async function submitForm() {
   try {
     fetch('https://hook.eu1.make.com/9nycxwodyby36g30ezp05idn0rqihnlh', {
       method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({phone: phone, name: name, email: email, stage: 1, stage_label: 'landing', page: 'landing_option2'}),
+      body: JSON.stringify({phone: phone, name: name, email: email, stage: 1, stage_label: 'landing', page: 'landing_option2', marketer: mkCode}),
       keepalive: true
     }).catch(function(){});
   } catch(e) {}
