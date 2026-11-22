@@ -47,6 +47,10 @@ var NLP_OWNER=(function(){var K="nlp_aff",D=2592e6,now=Date.now(),cur=null;
      השיבוץ השמור בדפדפן לא משתנה, ומבקר שיחזור ממודעה ימשיך לגרסה שלו. */
   var s0=(q.get("utm_source")||"").toLowerCase(), m0=(q.get("utm_medium")||"").toLowerCase();
   if((s0==="instagram"||s0==="ig")&&(m0==="bio"||m0==="dm")&&!q.get("aff")&&!q.get("utm_id")){ q.delete("exp"); q.set("route","ig_org"); location.replace("a.html?"+q.toString()); return; }
+  /* ב116 (החלטת בן 22.11, "מאשר"): תנועה קרה מהסרטונים של בן (utm_campaign=lenatzeach_cold, או קמפיין שמתחיל ב-"NLP | Cold"),
+     בלי aff ובלי utm_medium=affiliate -> הדף הקצר a5s עם סליקה B2, כמו הקמפיין לנשים. exp=cold_2211. השיבוץ של rt_2111 בדפדפן לא משתנה */
+  var c0=(q.get("utm_campaign")||"").toLowerCase().trim();
+  if(!q.get("aff")&&m0!=="affiliate"&&(c0==="lenatzeach_cold"||/^nlp\s*\|\s*cold\b/.test(c0))){ q.set("exp","cold_2211"); try{ localStorage.setItem("nlp_co_ab","b2"); }catch(e){} location.replace("a5s.html?"+q.toString()); return; }
   q.set("exp",ex); try{ localStorage.setItem("nlp_co_ab","b2"); }catch(e){}
   location.replace(v+".html?"+q.toString()); /* a, a1-a5, b, c, a2/b2/c2, pr ו-pr_v1 נשארים באתר, מחוץ לניסוי */
 })();
