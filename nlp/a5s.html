@@ -884,6 +884,25 @@ section:has(>.wrap>.fold.hot){padding-block:14px}
 @keyframes hotpulse{0%,100%{box-shadow:0 0 0 6px rgba(212,175,55,.18)}50%{box-shadow:0 0 0 11px rgba(212,175,55,.06)}}
 @media (prefers-reduced-motion:reduce){.fold.hot:not([open])>summary::before{animation:none}}
 </style>
+<style>/* ב110 v2 (טיוטה): טופס שם + מייל בכרטיס ההצעה ובסוף הדף */
+.lpf{display:grid;gap:10px;margin:12px 0 4px;text-align:right;scroll-margin-top:90px}
+.lpf-how{margin:0 0 2px;font-size:14.5px;line-height:1.5;color:var(--ink2,#ccc);text-align:center}
+.lpf-f{display:grid;gap:4px;font-size:15px}.lpf-f b{font-weight:700}
+.lpf-f input{font:inherit;font-size:16px;min-height:48px;padding:8px 14px;border-radius:12px;border:1.5px solid var(--gold-a,#8a7340);background:var(--card,#16161a);color:var(--ink,#fff)}
+.lpf-f input:focus{outline:2px solid var(--gold2,#fecf00);outline-offset:1px}
+.lpf-f input.bad{border-color:#e5484d}
+.lpf-hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0}
+.lpf-c[hidden]{display:none}.lpf-c{display:flex;gap:9px;align-items:flex-start;font-size:13px;line-height:1.55;color:var(--ink2,#ccc)}.lpf-c input{width:20px;height:20px;margin-top:2px;flex:none}
+.lpf-c a{color:inherit;text-decoration:underline}.lpf-c.need{outline:2px solid #e5484d;outline-offset:4px;border-radius:6px}
+.lpf-err{min-height:1em;margin:0;color:#e5484d;font-size:14px}
+.lpf .cta{width:100%;border:0;cursor:pointer;font:inherit}.lpf .cta[disabled]{opacity:.7;cursor:wait}
+.lpf-pay3{margin:-2px 0 0;text-align:center;font-size:14.5px;font-weight:700;color:var(--ink2,#ccc)}
+.lpf-price{text-align:center}
+/* ב114: בלוק המלצות ליד המחיר (סימונים) - בנייד עמודה, במחשב 3 בשורה */
+.lpf-legal{margin:-4px 0 0;font-size:12px;line-height:1.5;color:var(--ink2,#ccc);opacity:.8}.lpf-legal a{color:inherit;text-decoration:underline}
+html.lpf-in #sticky{opacity:0!important;pointer-events:none!important;transform:translateY(120%)!important} /* הכפתור הדביק לא מכסה טופס פתוח */
+.lpf.hl{animation:lpfHl 1.2s ease-out 1}@keyframes lpfHl{0%{box-shadow:0 0 0 0 rgba(254,207,0,.55)}100%{box-shadow:0 0 0 18px rgba(254,207,0,0)}}
+</style>
 </head>
 <body>
 <div class="prog" id="prog" aria-hidden="true"><span id="progLbl"></span><i id="progFill"></i></div>
@@ -923,7 +942,7 @@ section:has(>.wrap>.fold.hot){padding-block:14px}
 </div></div></section>
 <section id="offer" data-sec="3" data-name="ההצעה" data-buyzone data-stage="offer"><div class="wrap stack">
 <h2>כל מה שאתה צריך כדי שהשנה הבאה שלך תיראה אחרת.</h2>
-<div class="v4-ko"><ul class="v4-ko-list"><li><span>קורס הליבה "לנצח את האוטומט"</span><b>1,290 ₪</b></li><li><span>קורס מוקלט "ממחשבה לביצוע"</span><b>397 ₪</b></li><li><span>קורס מוקלט "כוחה של השפעה"</span><b>497 ₪</b></li><li><span>מחברת העבודה "אתגר 30 הימים"</span><b>79 ₪</b></li><li><span>ערכת התבניות "היום המנצח שלי"</span><b>59 ₪</b></li><li><span>המדריך "לדבר בביטחון ולהשפיע באמת"</span><b>89 ₪</b></li></ul><div class="v4-ko-price"><p class="v4-ko-reg">מחיר הקורס <s>1,290 ₪</s></p><p class="v4-ko-now"><span>מחיר השקה לזמן מוגבל</span> <b>297 ₪</b></p></div><a class="cta" data-cta="offer" data-checkout href="#"><span class="ct-t">כן, אני רוצה להתחיל עכשיו ב-297 ₪</span> <span>←</span><span class="v4-pay"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></a>
+<div class="v4-ko"><ul class="v4-ko-list"><li><span>קורס הליבה "לנצח את האוטומט"</span><b>1,290 ₪</b></li><li><span>קורס מוקלט "ממחשבה לביצוע"</span><b>397 ₪</b></li><li><span>קורס מוקלט "כוחה של השפעה"</span><b>497 ₪</b></li><li><span>מחברת העבודה "אתגר 30 הימים"</span><b>79 ₪</b></li><li><span>ערכת התבניות "היום המנצח שלי"</span><b>59 ₪</b></li><li><span>המדריך "לדבר בביטחון ולהשפיע באמת"</span><b>89 ₪</b></li></ul><div class="v4-ko-price"><p class="v4-ko-reg">מחיר הקורס <s>1,290 ₪</s></p><p class="v4-ko-now"><span>מחיר השקה לזמן מוגבל</span> <b>297 ₪</b></p></div><p class="lpf-pay3">או 3 תשלומים של 99 ₪</p><form class="lpf" id="lpForm1" data-form="1" novalidate><p class="lpf-how">ממלאים שם ומייל, עוברים לתשלום מאובטח, והגישה לקורס מגיעה למייל תוך כמה דקות.</p><label class="lpf-f"><b>שם מלא</b><input id="lfName1" name="name" autocomplete="name" maxlength="50" required></label><label class="lpf-f"><b>מייל</b><input id="lfEmail1" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" required></label><input class="lpf-hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true"><label class="lpf-c" data-box="one"><input type="checkbox" id="lfBox1" name="box" value="1" required><span>קראתי ואני מאשר/ת את <a href="terms.html" target="_blank" rel="noopener">התקנון</a> ו<a href="privacy.html" target="_blank" rel="noopener">מדיניות הפרטיות</a>, ומסכים/ה לקבל מבן נחום מיילים עם תוכן והצעות. אפשר להסיר בכל רגע.</span></label><p class="lpf-legal">מדיניות ביטול לעסקה זו הינה לפי חוק שירותי תשלום בישראל (<a href="terms.html" target="_blank" rel="noopener">תנאי ופרטי העסקה</a>).</p><p class="lpf-err" id="lfErr1" role="alert"></p><button class="cta" type="submit" data-cta="form1"><span class="ct-t">בן, אני רוצה להתחיל עכשיו</span> <span>←</span><span class="v4-pay"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></button></form>
 <div class="paylogos" data-paylogos="offer"><ul class="pl-row" aria-hidden="true"><li data-pl="apple"><img src="assets/pay/apple-pay-mark.svg" alt="" width="41" height="26" loading="lazy" decoding="async"></li><li data-pl="google"><img src="assets/pay/google-pay-mark.svg" alt="" width="49" height="26" loading="lazy" decoding="async"></li><li data-pl="bit" hidden><img src="assets/pay/bit-mark.svg" alt="" width="41" height="26" loading="lazy" decoding="async"></li><li data-pl="card"><img src="assets/pay/card.svg" alt="" width="41" height="26" loading="lazy" decoding="async"></li></ul><p class="pl-t">אפשר לשלם ב-<bdi>Apple Pay</bdi>, <bdi>Google Pay</bdi> או אשראי</p><p class="pl-h" hidden></p></div>
 <p class="cta-micro">גישה מיידית לקורס ולבונוסים · החזר מלא תוך 7 ימים</p>
 <p class="cheap">פחות ממחיר של יציאה בערב. בשביל תהליך פרקטי שיכול לשנות את הדרך שבה אתה חי בכל יום. כי ערב אחד נגמר אחרי כמה שעות. אבל הכלים שתטמיע כאן נשארים איתך ומשפיעים לך על חוויה של חיים שלמים.</p></div>
@@ -1079,7 +1098,7 @@ section:has(>.wrap>.fold.hot){padding-block:14px}
 </div></details></div></section>
 <section class="faq alt" data-sec="15" data-name="שאלות" data-stage="objections"><div class="wrap stack"><details class="fold" data-fold="שאלות"><summary><h2>שאלות נפוצות</h2></summary><div class="fold-b"><details><summary>כבר קראתי ספרים או עשיתי קורסים. זה עדיין רלוונטי בשבילי?</summary><div class="a"><p>כן. המטרה היא לא רק לתת עוד ידע, אלא לעזור לך לקחת את הדברים שאתה אולי כבר יודע, ולהתחיל לזהות וליישם אותם בתוך החיים עצמם.</p></div></details><details><summary>צריך ניסיון קודם?</summary><div class="a"><p>לא. התהליך בנוי בצורה פשוטה ומדורגת, ואפשר להתחיל מהבסיס.</p></div></details><details><summary>כמה זמן צריך להשקיע?</summary><div class="a"><p>לא צריך להפוך את החיים. עדיף מעט יישום עקבי מאשר שעות של צפייה בלי תרגול.</p></div></details><details><summary>מקבלים גישה מיד?</summary><div class="a"><p>כן. לאחר השלמת התשלום תקבל גישה לתוכן בצורה אוטומטית.</p></div></details><details><summary>זה מתאים למי שמרגיש תקוע אבל לא יודע בדיוק מה הבעיה?</summary><div class="a"><p>כן. חלק גדול מהתהליך הוא קודם כל לזהות מה חוזר על עצמו ומה מנהל אותך, לפני שמנסים לשנות אותו.</p></div></details><details class="more"><summary>שאלות נוספות</summary><div class="a"><details><summary>איפה צופים בתכנים? אפשר מהטלפון?</summary><div class="a"><p>כן. הכל באתר הקורס (Schooler), מהטלפון או מהמחשב, דרך הקישור האישי שמגיע במייל.</p></div></details><details><summary>לכמה זמן יש לי גישה?</summary><div class="a"><p>12 חודשים מיום הרכישה, בקצב שלך.</p></div></details><details><summary>צריך לראות את כל 90 השיעורים?</summary><div class="a"><p>לא. זו ספריית כלים. מתחילים בחלק 1, ומשם נכנסים לפי הנושא שאתה עובד עליו עכשיו.</p></div></details><details><summary>יש מנוי או חיוב נוסף?</summary><div class="a"><p>לא. <span class="pgrp"><s class="was">1,290</s> 297 ₪</span>, בלי מנוי ובלי חיובים נוספים.</p></div></details><details><summary>מה בדיוק כוללת האחריות?</summary><div class="a"><p>יש לך 7 ימים. אם עברת על התוכן, נתת לו הזדמנות אמיתית והרגשת שהוא לא בשבילך, שולחים לנו מייל ומקבלים החזר מלא.</p></div></details><details><summary>לא קיבלתי את המייל או לא מצליח להתחבר. מה עושים?</summary><div class="a"><p>בודקים בספאם או בקידומי מכירות. במייל יש קישור כניסה ישיר בלי סיסמה. אם עדיין לא עובד, פנו אלינו ונסדר את זה מהר.</p></div></details></div></details></div></details></div></section>
 <section class="ctab" data-buyzone><div class="wrap"><div class="box">
-<a class="cta" data-cta="final" data-checkout href="#"><span class="ct-t">כן, אני רוצה להתחיל עכשיו <span class="pgrp">ב-<s class="was">1,290</s> 297 ₪</span></span> <span>←</span><span class="v4-pay"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></a>
+<p class="v4-ko-now lpf-price"><span>מחיר השקה לזמן מוגבל</span> <b>297 ₪</b></p><p class="lpf-pay3">או 3 תשלומים של 99 ₪</p><form class="lpf" id="lpForm2" data-form="2" novalidate><p class="lpf-how">ממלאים שם ומייל, עוברים לתשלום מאובטח, והגישה לקורס מגיעה למייל תוך כמה דקות.</p><label class="lpf-f"><b>שם מלא</b><input id="lfName2" name="name" autocomplete="name" maxlength="50" required></label><label class="lpf-f"><b>מייל</b><input id="lfEmail2" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" required></label><input class="lpf-hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true"><label class="lpf-c" data-box="one"><input type="checkbox" id="lfBox2" name="box" value="1" required><span>קראתי ואני מאשר/ת את <a href="terms.html" target="_blank" rel="noopener">התקנון</a> ו<a href="privacy.html" target="_blank" rel="noopener">מדיניות הפרטיות</a>, ומסכים/ה לקבל מבן נחום מיילים עם תוכן והצעות. אפשר להסיר בכל רגע.</span></label><p class="lpf-legal">מדיניות ביטול לעסקה זו הינה לפי חוק שירותי תשלום בישראל (<a href="terms.html" target="_blank" rel="noopener">תנאי ופרטי העסקה</a>).</p><p class="lpf-err" id="lfErr2" role="alert"></p><button class="cta" type="submit" data-cta="form2"><span class="ct-t">בן, אני רוצה להתחיל עכשיו</span> <span>←</span><span class="v4-pay"><svg class="v4-li" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>תשלום מאובטח</span></button></form><div class="paylogos" data-paylogos="final"><ul class="pl-row" aria-hidden="true"><li data-pl="apple"><img src="assets/pay/apple-pay-mark.svg" alt="" width="41" height="26" loading="lazy" decoding="async"></li><li data-pl="google"><img src="assets/pay/google-pay-mark.svg" alt="" width="49" height="26" loading="lazy" decoding="async"></li><li data-pl="bit" hidden><img src="assets/pay/bit-mark.svg" alt="" width="41" height="26" loading="lazy" decoding="async"></li><li data-pl="card"><img src="assets/pay/card.svg" alt="" width="41" height="26" loading="lazy" decoding="async"></li></ul><p class="pl-t">אפשר לשלם ב-<bdi>Apple Pay</bdi>, <bdi>Google Pay</bdi> או אשראי</p><p class="pl-h" hidden></p></div>
 <p class="cta-micro"><b class="launch">מחיר השקה לזמן מוגבל</b> · גישה מיידית לקורס ולבונוסים · החזר מלא תוך 7 ימים</p>
 </div></div></section>
 <footer><div class="wrap">© בן נחום · תוכנית NLP דיגיטלית<br><a href="privacy.html" style="color:inherit;text-decoration:underline">מדיניות פרטיות</a></div></footer>
@@ -1147,7 +1166,7 @@ const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6
     try{ if(window.fbq) fbq("trackCustom","LP_"+ev,{variant:V}); }catch(e){}
     if(TRACK_ENDPOINT){ try{ const f=new URLSearchParams(); for(const k in p) f.append(k, p[k]); if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT, f))) fetch(TRACK_ENDPOINT,{method:"POST",body:f,mode:"no-cors",keepalive:true}); }catch(e){} }
   }
-  window.__lpSend = send; send("view");
+  window.__lpSend = send; window.__lpSid = sid; send("view");
   /* js errors (max 3 per visit) */
   let errs=0; addEventListener("error",e=>{ if(errs++>=3) return; send("js_error",{name:String(e.message||"error").slice(0,90)}); });
   try{const ls=localStorage;if(!ls.getItem("nlp_ft"))ls.setItem("nlp_ft",JSON.stringify({v:V,qs:location.search.slice(1),ts:Date.now()}));}catch(e){}
@@ -1155,7 +1174,7 @@ const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6
   const qs = new URLSearchParams(location.search); if(!qs.has("utm_content")) qs.set("utm_content","lp_"+V); qs.set("v",V); qs.set("sid",sid);
   cta.forEach(a=>{
     a.href = CHECKOUT_URL + (CHECKOUT_URL.includes("?")?"&":"?") + qs.toString();
-    a.addEventListener("click",()=>{ try{localStorage.setItem("nlp_lc",JSON.stringify({v:V,sid:sid,qs:location.search.slice(1),cta:a.dataset.cta||"",ts:Date.now()}));}catch(e){} const s=a.closest("[data-sec]"); send("cta_click",{at_section:s?+s.dataset.sec:0, cta:a.dataset.cta||"", checkout_started:1, x:xstr()+";fc="+Math.round((Date.now()-t0)/1000)}); try{ if(window.fbq&&!window.__ic){ let d=false; try{ d=sessionStorage.getItem("nlp_ic")==="1"; sessionStorage.setItem("nlp_ic","1"); }catch(e){} window.__ic=1; if(!d) fbq("track","InitiateCheckout",{value:297,currency:"ILS"}); } }catch(e){} /* ב23: פעם אחת בביקור */ });
+    a.addEventListener("click",(ev)=>{ if(window.__lpFormGo){ window.__lpFormGo(a,ev); return; } try{localStorage.setItem("nlp_lc",JSON.stringify({v:V,sid:sid,qs:location.search.slice(1),cta:a.dataset.cta||"",ts:Date.now()}));}catch(e){} const s=a.closest("[data-sec]"); send("cta_click",{at_section:s?+s.dataset.sec:0, cta:a.dataset.cta||"", checkout_started:1, x:xstr()+";fc="+Math.round((Date.now()-t0)/1000)}); try{ if(window.fbq&&!window.__ic){ let d=false; try{ d=sessionStorage.getItem("nlp_ic")==="1"; sessionStorage.setItem("nlp_ic","1"); }catch(e){} window.__ic=1; if(!d) fbq("track","InitiateCheckout",{value:297,currency:"ILS"}); } }catch(e){} /* ב23: פעם אחת בביקור */ });
   });
   document.querySelectorAll("a[data-cta]:not([data-checkout])").forEach(a=>a.addEventListener("click",()=>{ const s=a.closest("[data-sec]"); send("shortcut_click",{cta:a.dataset.cta, at_section:s?+s.dataset.sec:0}); }));
   // progress bar + section reach
@@ -1330,6 +1349,62 @@ var els=document.querySelectorAll("[data-paylogos]");for(var i=0;i<els.length;i+
 })();</script>
 <script>/* ב107: אירוע fold_open בפתיחה הראשונה של כל קיפול */
 document.querySelectorAll("details.fold").forEach(function(d){d.addEventListener("toggle",function(){if(d.open&&!d.dataset.o){d.dataset.o="1";try{window.__lpSend&&window.__lpSend("fold_open",{name:d.dataset.fold})}catch(e){}}})});
+</script>
+<script>/* ב110 v2 (טיוטה): כפתורי הקנייה גוללים לטופס הקרוב; שליחת הטופס שומרת ליד ועוברת ישר לדף התשלום של קארדקום */
+(function(){
+ var BOX_MODE="one_required"; /* one_required: תיבה אחת חובה (תנאי העסקה של קארדקום + פרטיות + דיוור) - הדיוור נעשה תנאי, החלטה של בן.
+                                 two: תיבת תנאים חובה + תיבת דיוור רשות. one_optional: תיבה אחת רשות - רק אם קארדקום מאשרים בלי תיבת תנאים */
+ var CHECKOUT_ENDPOINT="https://hook.eu1.make.com/9yp88pz9bfvxbr7w6xkb4ckun82ote6a"; /* אותו hook של הסליקה (7827398) - יוצר דף Low Profile ומחזיר {url} */
+ var F=[].slice.call(document.querySelectorAll("form.lpf"));if(!F.length)return;
+ var S=function(ev,ex){try{(window.__lpSend||function(){})(ev,ex||{})}catch(e){}};
+ var qs=new URLSearchParams(location.search),INT=false;try{INT=localStorage.getItem("nlp_int")==="1"}catch(e){}
+ if(BOX_MODE==="two")F.forEach(function(f){f.querySelector('[data-box="news"]').hidden=false;var o=f.querySelector('[data-box="one"] span');o.innerHTML=o.innerHTML.replace(/^\[[^\]]*\]\s*/,"")});
+ /* פתיחת טופס: פעם אחת לכל טופס כשהוא נראה (60%), וגם התחלת מילוי */
+ var seen={},started={};
+ var inV={};
+ if("IntersectionObserver" in window){new IntersectionObserver(function(es){es.forEach(function(e){inV[e.target.dataset.form]=e.isIntersecting});document.documentElement.classList.toggle("lpf-in",Object.keys(inV).some(function(k){return inV[k]}))},{threshold:[0]}).observe(F[0]);
+  if(F[1])new IntersectionObserver(function(es){es.forEach(function(e){inV[e.target.dataset.form]=e.isIntersecting});document.documentElement.classList.toggle("lpf-in",Object.keys(inV).some(function(k){return inV[k]}))},{threshold:[0]}).observe(F[1])}
+ if("IntersectionObserver" in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){var n=e.target.dataset.form;if(e.isIntersecting&&e.intersectionRatio>=.6&&!seen[n]){seen[n]=1;S("form_open",{name:"form"+n,x:"form="+n})}})},{threshold:[.6]});F.forEach(function(f){io.observe(f)})}
+ F.forEach(function(f){f.addEventListener("focusin",function(){var n=f.dataset.form;if(!started[n]){started[n]=1;S("form_start",{name:"form"+n,x:"form="+n})}})});
+ /* כפתור קנייה: גלילה לטופס הקרוב (לפי המרחק בדף), בלי מעבר דף */
+ window.__lpFormGo=function(a,ev){if(ev)ev.preventDefault();var m=document.getElementById("spModal");if(m&&!m.hidden){var x=m.querySelector(".sp-x");if(x)x.click()}
+  var y=a.getBoundingClientRect().top+scrollY,best=F[0],bd=1e12;if(a.dataset.cta==="sticky"){y=scrollY+innerHeight/2}
+  F.forEach(function(f){var d=Math.abs(f.getBoundingClientRect().top+scrollY-y);if(d<bd){bd=d;best=f}});
+  var sec=a.closest("[data-sec]");S("cta_click",{cta:a.dataset.cta||"",at_section:sec?+sec.dataset.sec:0,x:"to=form"+best.dataset.form});
+  try{best.scrollIntoView({behavior:"smooth",block:"center"})}catch(e){best.scrollIntoView()}
+  best.classList.remove("hl");void best.offsetWidth;best.classList.add("hl")}; /* בלי פוקוס אוטומטי: גלילה בלבד, כמו אצל המתחרה (פוקוס בנייד פותח מקלדת שמכסה את הטופס) */
+ function $(f,k){return f.querySelector('[name="'+k+'"]')}
+ function chk(f){var n=$(f,"name").value.replace(/["\\<>{}]/g,"").trim().replace(/\s+/g," "),e=$(f,"email").value.trim(),bad=[];
+  var nok=n.length>=2&&/\s/.test(n),eok=/^[^\s@"'\\<>{}]+@[^\s@"'\\<>{}]+\.[^\s@"'\\<>{}]{2,}$/.test(e);
+  $(f,"name").classList.toggle("bad",!nok);$(f,"email").classList.toggle("bad",!eok);if(!nok)bad.push("שם מלא (שם פרטי ומשפחה)");if(!eok)bad.push("מייל תקין");
+  var bx=$(f,"box"),boxReq=BOX_MODE!=="one_optional",bw=bx.closest(".lpf-c");bw.classList.toggle("need",boxReq&&!bx.checked);if(boxReq&&!bx.checked)bad.push("סימון התיבה");
+  f.querySelector(".lpf-err").textContent=bad.length?"חסר: "+bad.join(", "):"";
+  return bad.length?null:{name:n,email:e,phone:""}}
+ function ck(n){var m=document.cookie.match(new RegExp("(?:^|; )"+n+"=([^;]*)"));return m?decodeURIComponent(m[1]):""}
+ F.forEach(function(f){f.addEventListener("submit",function(ev){ev.preventDefault();var fn=f.dataset.form,btn=f.querySelector("button");if(btn.disabled)return;
+  if($(f,"company").value){S("form_bot",{x:"form="+fn});return}
+  var d=chk(f);if(!d){S("form_error",{name:["name","email","box"].filter(function(k){var el=$(f,k);return k==="box"?el.closest(".lpf-c").classList.contains("need"):el.classList.contains("bad")}).join(","),x:"form="+fn});return}
+  var cn=BOX_MODE==="two"?($(f,"news").checked?"1":"0"):($(f,"box").checked?"1":"0"),V=document.documentElement.dataset.variant,sid=window.__lpSid||"";
+  try{sessionStorage.setItem("cc_det",JSON.stringify(d));sessionStorage.setItem("cc_cons",cn);sessionStorage.setItem("cc_from_lp","1")}catch(e){}
+  try{localStorage.setItem("nlp_lc",JSON.stringify({v:V,sid:sid,qs:location.search.slice(1),cta:"form"+fn,ts:Date.now()}))}catch(e){}
+  S("form_submit",{name:"form"+fn,cta:"form"+fn,checkout_started:1,x:"form="+fn+";cons="+cn});
+  S("checkout_details",{lead_name:d.name,lead_email:d.email,lead_phone:"",lead_consent:cn,x:"cons="+cn+";form=lp"+fn}); /* אותו אירוע ואותו hook כמו בסליקה -> 7798267 -> 210989 ונטישה */
+  try{if(window.fbq&&!window.__noPix){var w=d.name.toLowerCase().split(/\s+/),ud={em:d.email.toLowerCase()};if(w[0])ud.fn=w[0];if(w.length>1)ud.ln=w[w.length-1];
+   fbq("init","1278104408729813",ud);fbq("init","1651086743466533",ud);fbq("track","Lead",{content_name:"lpform",value:297,currency:"ILS"});
+   if(!window.__ic){var dn=false;try{dn=sessionStorage.getItem("nlp_ic")==="1";sessionStorage.setItem("nlp_ic","1")}catch(e){}window.__ic=1;if(!dn)fbq("track","InitiateCheckout",{value:297,currency:"ILS"})}}}catch(e){}
+  btn.disabled=true;var bt=btn.querySelector(".ct-t"),old=bt.textContent;bt.textContent="מעבירים לתשלום מאובטח...";
+  var U=function(k){return qs.get(k)||""},utmC=U("utm_content")||("lp_"+V);
+  var body=new URLSearchParams({variant:V,sid:sid,name:d.name,email:d.email,phone:"",utm_source:U("utm_source"),utm_medium:U("utm_medium"),utm_campaign:U("utm_campaign"),utm_content:utmC,co:"b"});
+  var ow=window.NLP_OWNER?NLP_OWNER():"";if(ow)body.set("aff",ow);if(INT)body.set("test","1");
+  try{var fbp=ck("_fbp"),fbc=ck("_fbc"),fc=qs.get("fbclid");if(!fbc&&fc)fbc="fb.1."+Date.now()+"."+fc;if(navigator.userAgent)body.set("ua",navigator.userAgent);if(fbp)body.set("fbp",fbp);if(fbc)body.set("fbc",fbc)}catch(e){}
+  var fallback=function(code){S("checkout_load_error",{code:String(code||""),x:"form="+fn});var q=new URLSearchParams(location.search);if(!q.has("utm_content"))q.set("utm_content","lp_"+V);q.set("v",V);q.set("sid",sid);location.href="checkout.html?"+q.toString()};
+  var ctl=("AbortController" in self)?new AbortController():null,t0=Date.now(),to=setTimeout(function(){ctl&&ctl.abort()},15000);
+  fetch(CHECKOUT_ENDPOINT,{method:"POST",body:body,signal:ctl?ctl.signal:undefined}).then(function(r){return r.json()}).then(function(r){clearTimeout(to);
+   if(!r||!r.url||!/^https:\/\/[^\/]*cardcom\.solutions\//i.test(r.url)||(r.code&&String(r.code)!=="0"))return fallback(r&&r.code);
+   try{if(r.lp)sessionStorage.setItem("cc_lp",r.lp)}catch(e){}
+   S("checkout_pay_redirect",{x:"form="+fn+";pay_load_ms="+(Date.now()-t0)});
+   setTimeout(function(){location.href=r.url},250)}).catch(function(){clearTimeout(to);btn.disabled=false;bt.textContent=old;fallback()})})});
+})();
 </script>
 </body>
 </html>
