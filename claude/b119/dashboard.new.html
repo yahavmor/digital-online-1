@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="robots" content="noindex, nofollow"/>
+<title>משפך הלידים</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+<!-- ב119 (23.11): דשבורד פשוט למשפך הלידים, בשביל בן. הדף הקודם נשמר כמו שהוא ב-dashboard-full.html.
+     הנתונים: לשונית LeadFunnel בגיליון dashboard_metrics - רק סיכומים לפי יום ומשווק (בלי פרטים אישיים),
+     נכתבים כל 30 דקות ע"י תרחיש Make 8745278 מתוך 148094 (לידים, וואטסאפ), 153039 (ביקשו שיחה),
+     גיליון "הוצאה יומית - משפך הלידים (ב119)" (הממומן) ולשונית "מכירות" בגיליון הפרטי (יהב). -->
+<style>
+  :root{--bg:#f4f5f8;--card:#fff;--line:#e6e8ef;--text:#1c2033;--sub:#5f6577;--muted:#8a90a0;--accent:#1e6b3a;
+    --grey:#9aa0ad;--green:#1f9d55;--yellow:#e0a100;--red:#d93636}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--text);font-family:Heebo,Arial,sans-serif;-webkit-text-size-adjust:100%}
+  .wrap{max-width:720px;margin:0 auto;padding:16px 16px 40px}
+  h1{font-size:24px;font-weight:800;margin:4px 0 2px}
+  .upd{font-size:15px;color:var(--sub);margin:0 0 14px}
+  .upd.old{color:var(--red);font-weight:700}
+  .seg{display:flex;background:#e9ebf1;border-radius:14px;padding:4px;gap:4px;margin:0 0 16px}
+  .seg button{flex:1;border:0;background:transparent;font:inherit;font-size:16px;font-weight:700;color:var(--sub);padding:12px 4px;border-radius:11px;cursor:pointer;min-height:48px}
+  .seg button[aria-pressed="true"]{background:#fff;color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:0 0 14px}
+  .card.sum{border:2px solid var(--accent)}
+  .head{display:flex;align-items:center;gap:10px;margin:0 0 4px}
+  .head h2{font-size:21px;font-weight:800;margin:0}
+  .dot{width:18px;height:18px;border-radius:50%;flex:none;background:var(--grey)}
+  .dot.g{background:var(--green)}.dot.y{background:var(--yellow)}.dot.r{background:var(--red)}.dot.n{background:var(--grey)}
+  .why{font-size:15px;color:var(--sub);margin:0 0 12px;line-height:1.4}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(min-width:560px){.grid{grid-template-columns:1fr 1fr 1fr}}
+  .t{background:#f7f8fb;border-radius:12px;padding:10px 12px;min-height:86px}
+  .t .k{font-size:14px;color:var(--sub);font-weight:500}
+  .t .v{font-size:30px;font-weight:800;line-height:1.15;margin-top:4px;direction:rtl}
+  .t .v.na{font-size:17px;font-weight:700;color:var(--muted);line-height:1.3;margin-top:8px}
+  .t .s{font-size:12.5px;color:var(--muted);margin-top:2px;line-height:1.3}
+  .t .v.bad{color:var(--red)}.t .v.good{color:var(--green)}
+  .legend{font-size:14px;color:var(--sub);line-height:1.7;padding:4px 2px}
+  .legend b{display:inline-flex;align-items:center;gap:6px}
+  .legend .dot{width:12px;height:12px;display:inline-block}
+  .err{background:#fff3f3;border:1px solid #f3c6c6;color:#8a1f1f;border-radius:12px;padding:12px;font-size:16px;margin:0 0 14px}
+  .load{color:var(--muted);font-size:16px;padding:20px 0;text-align:center}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1>משפך הלידים</h1>
+  <p class="upd" id="upd">טוען...</p>
+  <div class="seg" role="group" aria-label="תקופה">
+    <button type="button" data-p="today" aria-pressed="false">היום</button>
+    <button type="button" data-p="7" aria-pressed="false">7 ימים</button>
+    <button type="button" data-p="all" aria-pressed="true">מאז ההתחלה (22.11)</button>
+  </div>
+  <div id="out"><div class="load">טוען את המספרים...</div></div>
+  <div class="legend" id="legend" hidden>
+    <b><span class="dot n"></span>אפור</b> - פחות מ-60 ₪ הוצאה, מוקדם לדעת.<br>
+    <b><span class="dot g"></span>ירוק</b> - ליד עולה עד 20 ₪.<br>
+    <b><span class="dot y"></span>צהוב</b> - ליד עולה 20-30 ₪, או 450 ₪ בלי אף ליד חם.<br>
+    <b><span class="dot r"></span>אדום</b> - ליד עולה יותר מ-30 ₪, או 1,000 ₪ בלי מכירה.<br>
+    לידים חמים = ביקשו שיחה או הצטרפו לוואטסאפ. המספרים מתעדכנים כל חצי שעה.
+  </div>
+</main>
+<script>
+(function(){
+  var SHEET="1BH9ek3TUQYyeTqPfxuW6Sio1dkt-Jari688owyiSRtM", TAB="LeadFunnel", START="2026-11-22";
+  var MK=[["rachel","רחל"],["amir","אמיר"],["gal","גל"]];
+  var period="all", D=null, updated="", spendRows=0, salesRows=0, failed=false;
+  var $=function(id){return document.getElementById(id)};
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+  function ilDate(off){var d=new Date(Date.now()-(off||0)*864e5);return d.toLocaleString("sv-SE",{timeZone:"Asia/Jerusalem"}).slice(0,10)}
+  function nf(n){return Math.round(n).toLocaleString("he-IL")}
+  function ils(n){return nf(n)+" ₪"}
+  function range(){var to=ilDate(0);return period==="today"?[to,to]:period==="7"?[ilDate(6),to]:[START,to]}
+  function sum(mk){var r=range(),o={l:0,h:0,s:null,n:0};
+    D.forEach(function(x){if(x.d<r[0]||x.d>r[1])return;if(mk&&x.m!==mk)return;o.l+=x.l;o.h+=x.h;if(x.s!=null)o.s=(o.s||0)+x.s;o.n+=x.n});
+    if(!salesRows)o.n=null;return o}
+  function dot(o){
+    if(o.s==null)return ["n","מוקדם לדעת - עוד אין נתון על ההוצאה."];
+    if(o.s<60)return ["n","מוקדם לדעת - הוצאנו פחות מ-60 ₪."];
+    var cpl=o.l?o.s/o.l:Infinity;
+    if(cpl>30)return ["r",o.l?"ליד עולה "+ils(cpl)+" - יותר מ-30 ₪.":"הוצאנו "+ils(o.s)+" ועוד אין אף ליד."];
+    if(o.n===0&&o.s>=1000)return ["r","הוצאנו "+ils(o.s)+" ועוד אין מכירה."];
+    if(cpl>20)return ["y","ליד עולה "+ils(cpl)+" - בין 20 ל-30 ₪."];
+    if(o.s>=450&&!o.h)return ["y","הוצאנו "+ils(o.s)+" ועוד אין אף ליד חם."];
+    return ["g","ליד עולה "+ils(cpl)+" - עד 20 ₪, טוב."]}
+  function tile(k,v,s,cls){var na=v==null;return '<div class="t"><div class="k">'+k+'</div><div class="v'+(na?" na":"")+(cls?" "+cls:"")+'">'+(na?"עוד אין נתון":v)+'</div>'+(s?'<div class="s">'+s+'</div>':"")+'</div>'}
+  function tiles(o){
+    var cpl=o.s==null?null:o.l?ils(o.s/o.l):"<span style='font-size:17px'>עוד אין לידים</span>";
+    var cps=o.s==null||o.n==null?null:o.n?ils(o.s/o.n):"<span style='font-size:17px'>עוד אין מכירה</span>";
+    var cpsCls=o.s!=null&&o.n?(o.s/o.n<=1000?"good":"bad"):"";
+    return '<div class="grid">'+tile("הוצאנו",o.s==null?null:ils(o.s))+tile("לידים",nf(o.l))+tile("עלות לליד",cpl)
+      +tile("לידים חמים",nf(o.h),"ביקשו שיחה או הצטרפו לוואטסאפ")+tile("מכירות",o.n==null?null:nf(o.n))+tile("עלות למכירה",cps,"יעד: עד 1,000 ₪",cpsCls)+'</div>'}
+  function render(){
+    document.querySelectorAll(".seg button").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.p===period))});
+    if(failed&&!D){$("out").innerHTML='<div class="err">לא הצלחנו לטעון את המספרים. נסו לרענן את הדף בעוד דקה.</div>';return}
+    if(!D)return;
+    var h='<section class="card sum"><div class="head"><h2>כל הקמפיינים</h2></div>'+tiles(sum(null))+'</section>';
+    MK.forEach(function(m){var o=sum(m[0]),dt=dot(o);
+      h+='<section class="card" data-mk="'+m[0]+'"><div class="head"><span class="dot '+dt[0]+'" role="img" aria-label="'+esc(dt[1])+'"></span><h2>'+m[1]+'</h2></div><p class="why">'+esc(dt[1])+'</p>'+tiles(o)+'</section>'});
+    $("out").innerHTML=h;$("legend").hidden=false;
+    var u=$("upd");if(updated){var day=updated.slice(0,10),t=updated.slice(11,16);
+      u.textContent="עודכן לאחרונה: "+(day===ilDate(0)?"היום":day===ilDate(1)?"אתמול":day.split("-").reverse().slice(0,2).join("."))+" ב-"+t;
+      var nowIL=new Date().toLocaleString("sv-SE",{timeZone:"Asia/Jerusalem"}).slice(0,16),age=(Date.parse(nowIL.replace(" ","T")+":00Z")-Date.parse(updated.replace(" ","T")+":00Z"))/36e5;u.className="upd"+(age>2?" old":"");if(age>2)u.textContent+=" (לא מעודכן - כדאי לבדוק)"}
+    else{u.textContent="עודכן לאחרונה: עוד אין נתון"}}
+  function parse(txt){
+    var j=JSON.parse(txt.slice(txt.indexOf("{"),txt.lastIndexOf("}")+1)),rows=(j.table&&j.table.rows)||[],cell=function(r){var c=rows[r]&&rows[r].c&&rows[r].c[1];return c&&c.v!=null?String(c.v):""};
+    updated=cell(0);var data=cell(1),out=[];spendRows=0;salesRows=0;
+    data.split("\n").forEach(function(l){var a=l.split("\t");
+      if(a[0]==="spend_rows")spendRows=+a[1]||0;else if(a[0]==="sales_rows")salesRows=+a[1]||0;
+      else if(/^\d{4}-\d{2}-\d{2}$/.test(a[0]))out.push({d:a[0],m:a[1],l:+a[2]||0,h:+a[3]||0,s:a[4]===""||a[4]==null?null:+a[4],n:+a[5]||0})});
+    D=out}
+  function load(){
+    fetch("https://docs.google.com/spreadsheets/d/"+SHEET+"/gviz/tq?tqx=out:json&headers=0&range=A1:B2&sheet="+encodeURIComponent(TAB)+"&t="+Date.now(),{cache:"no-store"})
+      .then(function(r){if(!r.ok)throw new Error(r.status);return r.text()}).then(function(t){parse(t);failed=false;render()})
+      .catch(function(){failed=true;render()})}
+  document.querySelectorAll(".seg button").forEach(function(b){b.addEventListener("click",function(){period=b.dataset.p;render()})});
+  load();setInterval(load,5*60*1000);
+})();
+</script>
+</body>
+</html>

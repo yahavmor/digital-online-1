@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><script>/* ב25: שיוך רכישות למשווקים - הקליק האחרון ב-30 יום. aff בכתובת = משווק; ערוץ של בן (מודעות עם utm_id או paid, מייל, ביו, ManyChat) = בן; ביקור ישיר או לא מזוהה לא משנה. נשמר ב-localStorage ובעוגייה. NLP_OWNER() מחזיר את קוד המשווק, או "" = בן */
+var NLP_OWNER=(function(){var K="nlp_aff",D=2592e6,now=Date.now(),cur=null;
+ function rd(){var a=null,b=null;try{a=JSON.parse(localStorage.getItem(K)||"null")}catch(e){}try{var m=document.cookie.match(/(?:^|; )nlp_aff=([^;]*)/);if(m){var v=decodeURIComponent(m[1]).split(".");b={c:v[0]||"",t:+v[1]||0}}}catch(e){}return a&&b?(a.t>=b.t?a:b):(a||b)}
+ function wr(c){cur={c:c,t:now};try{localStorage.setItem(K,JSON.stringify(cur))}catch(e){}try{document.cookie=K+"="+encodeURIComponent(c+"."+now)+"; max-age=2592000; path=/; SameSite=Lax"}catch(e){}}
+ try{var q=new URLSearchParams(location.search),a=(q.get("aff")||"").toLowerCase().replace(/[^a-z0-9_-]/g,"").slice(0,32),s=(q.get("utm_source")||"").toLowerCase(),m=(q.get("utm_medium")||"").toLowerCase();
+  if(a)wr(a);else if(m!=="affiliate"&&(q.get("utm_id")||/^(paid|paid_social|cpc|responder|email|bio|dm|manychat)$/.test(m)||/^(email|responder|manychat)$/.test(s)))wr("");else cur=rd()}catch(e){}
+ return function(){return cur&&cur.c&&now-cur.t<=D?cur.c:""}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>
+/* Microsoft Clarity: heatmaps + session recordings. Form fields are masked. */
+(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yuzolf9nxn");
+(function(){try{var q=new URLSearchParams(location.search),v=document.documentElement.getAttribute("data-variant")||q.get("v")||"",cr=(q.get("utm_content")||"").replace(/^lp_[abc]$/,"");
+clarity("set","page","checkout");if(v)clarity("set","variant",v);if(cr)clarity("set","creative",cr);
+["utm_source","utm_campaign","placement"].forEach(function(k){var x=q.get(k);if(x)clarity("set",k.replace("utm_",""),x);});
+if(/test|claude/i.test(location.search))clarity("set","internal","1");}catch(e){}})();
+</script>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#ffffff">
+<title>תשלום · לנצח את האוטומט · בן נחום</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap">
+<style>
+:root{--ink:#14161B;--ink2:#3A3E47;--muted:#6B707B;--line:#E7E3DA;--soft:#FAF8F4;--gold:#A8823F;--gold2:#C9A96E;--ok:#1F7A4D;--err:#B42318;--r:16px}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.5}
+.wrap{max-width:520px;margin:0 auto;padding:18px 16px 40px}
+.brand{display:flex;justify-content:center;align-items:center;gap:8px;font-size:14px;font-weight:700;letter-spacing:.04em;color:var(--ink2);padding:4px 0 14px;border-bottom:1px solid var(--line)}
+.brand i{width:7px;height:7px;border-radius:50%;background:var(--gold2)}
+.top{text-align:center;padding:20px 0 6px}
+.top h1{font-size:clamp(26px,7.4vw,34px);font-weight:900;line-height:1.15;margin:0 0 6px}
+.top .what{font-size:17px;color:var(--ink2);margin:0}
+.price{display:flex;justify-content:center;align-items:baseline;gap:6px;margin:14px 0 2px}
+.price b{font-size:52px;font-weight:900;line-height:1;letter-spacing:-.02em}
+.price span{font-size:24px;font-weight:800;color:var(--gold)}
+.once{font-size:15px;color:var(--muted);margin:0}
+.access{display:inline-flex;align-items:center;gap:8px;margin:12px 0 0;font-size:15px;font-weight:600;color:var(--ok);background:#EEF7F1;border-radius:999px;padding:6px 14px}
+.order{margin:20px 0 0;border:1px solid var(--line);border-radius:var(--r);background:var(--soft);padding:16px 18px}
+.order h2{font-size:15px;font-weight:700;color:var(--muted);margin:0 0 8px;letter-spacing:.02em}
+.order .item{font-size:18px;font-weight:800;margin:0 0 8px}
+.order ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.order li{display:flex;gap:9px;align-items:center;font-size:15.5px;color:var(--ink2)}
+.order li::before{content:"✓";font-weight:900;color:var(--gold)}
+.order .sum{display:flex;justify-content:space-between;align-items:baseline;border-top:1px dashed var(--line);margin-top:12px;padding-top:12px;font-weight:800;font-size:17px}
+.order .sum small{display:block;font-size:13px;font-weight:500;color:var(--muted)}
+.pay{margin:20px 0 0}
+.err{display:none;border:1px solid #F3C9C4;background:#FEF3F2;color:var(--err);border-radius:12px;padding:12px 14px;margin:0 0 12px;font-size:15px}
+.err b{display:block;font-size:16px}
+.err.on{display:block}
+.frame{position:relative;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:#fff;min-height:620px}
+.frame iframe{display:block;width:100%;height:960px;border:0}
+.loading{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:12px;color:var(--muted);font-size:15px;background:#fff;padding:0 20px;text-align:center}
+.spin{width:30px;height:30px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--gold);animation:s 0.9s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}}
+.retry{display:none;margin-top:6px;font:inherit;font-weight:700;font-size:16px;color:#fff;background:var(--ink);border:0;border-radius:12px;padding:12px 22px;cursor:pointer}
+.secure{text-align:center;font-size:14px;color:var(--muted);margin:12px 0 0}
+.help{text-align:center;font-size:14px;margin:16px 0 0}
+.help a{color:var(--ink2)}
+.back{display:block;text-align:center;font-size:13px;color:var(--muted);margin-top:20px}
+.top{text-align:center;padding:22px 0 4px}
+.order{text-align:center}
+.order .item{font-size:18px;font-weight:800;margin:0}
+.order .price{margin:8px 0 0}
+.nosub{font-size:14px;color:var(--ok);font-weight:600;margin:6px 0 0}
+.paytitle{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px 12px;font-size:17px;font-weight:800;margin:0 0 10px}
+.walnote{margin:0 0 10px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:#F4F6F8;color:var(--ink2);font-size:15px;font-weight:600;line-height:1.5}
+.paytitle span{font-size:13.5px;font-weight:500;color:var(--muted)}
+.terms{text-align:center;font-size:13px;color:var(--muted);margin:8px 0 0}
+.terms a{color:var(--ink2)}
+.incl{list-style:none;margin:14px 0 0;padding:12px 0 0;border-top:1px dashed var(--line);display:grid;gap:6px;text-align:right}
+.incl li{display:flex;gap:9px;font-size:15px;color:var(--ink2)}
+.incl li::before{content:"✓";font-weight:900;color:var(--gold)}
+.why{margin:18px 0 0;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r)}
+.why h2,.deal h2,.safe h2{font-size:16px;font-weight:800;margin:0 0 8px}
+.frow{display:grid;grid-template-columns:86px 1fr;gap:10px;padding:7px 0;border-top:1px solid #F1EEE7;font-size:14.5px}
+.frow:first-of-type{border-top:0}
+.frow b{font-weight:700}
+.frow span{color:var(--muted);line-height:1.5}
+.deal{margin:28px 0 0}
+.deal dl{margin:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.deal dl>div{display:grid;grid-template-columns:104px 1fr;gap:10px;padding:10px 14px;border-top:1px solid var(--line);font-size:14.5px}
+.deal dl>div:first-child{border-top:0}
+.deal dt{font-weight:700;color:var(--ink)}
+.deal dd{margin:0;color:var(--ink2);line-height:1.5}
+.safe{margin:20px 0 0}
+.safe ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.safe li{position:relative;padding-inline-start:30px;font-size:14px;color:var(--muted);line-height:1.5}
+.safe li::before{content:"🔒";position:absolute;inset-inline-start:0;top:1px;font-size:15px}
+.safe li b{display:block;color:var(--ink);font-size:14.5px}
+.fld{display:block;margin:0 0 12px}
+.fld b{display:block;font-size:15px;font-weight:700;margin:0 0 5px}
+.fld input{display:block;width:100%;font:inherit;font-size:17px;padding:12px 14px;border:1px solid #D9D4C9;border-radius:12px;background:#fff;color:var(--ink)}
+.fld input[dir=ltr]{text-align:right}
+.fld input:focus{outline:2px solid var(--gold2);outline-offset:1px;border-color:var(--gold2)}
+.fld input.bad{border-color:var(--err)}
+.fld span{display:block;font-size:13px;color:var(--muted);margin-top:4px}
+.cons{display:flex;gap:10px;align-items:flex-start;margin:2px 0 12px;font-size:14px;line-height:1.5;color:var(--muted);cursor:pointer}
+.cons input{flex:none;width:20px;height:20px;margin:1px 0 0;accent-color:var(--gold2,#B8892F)}
+.cons a{color:inherit}
+/* ב56: הצעה לתיקון טעות במייל, בלי חסימה */
+.esug{margin:-6px 0 12px;padding:9px 12px;border-radius:10px;background:#FFF8E6;border:1px solid #F0DDA8;font-size:15px;color:var(--ink)}
+.esug button{font:inherit;font-weight:800;color:var(--ink);background:none;border:0;padding:0;text-decoration:underline;cursor:pointer;direction:ltr;unicode-bidi:isolate}
+.esug .no{font-weight:500;font-size:13.5px;color:var(--muted);text-decoration:none;margin-inline-start:8px}
+.ferr{min-height:0;margin:0 0 8px;color:var(--err);font-size:14.5px;font-weight:600}
+.go{display:flex;justify-content:center;align-items:center;width:100%;min-height:56px;border:0;border-radius:14px;background:linear-gradient(180deg,#D9BE85,#C9A96E);color:#14161B;font:inherit;font-weight:800;font-size:18px;cursor:pointer;box-shadow:0 8px 24px rgba(168,130,63,.28)}
+.go[disabled]{opacity:.6}
+.tchk{display:flex;gap:12px;align-items:flex-start;margin:4px 0 10px;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--soft);font-size:14.5px;line-height:1.55;color:var(--ink2);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.tchk input{flex:none;width:22px;height:22px;margin:1px 0 0;accent-color:var(--ok);cursor:pointer}
+.tchk a{color:var(--ink);font-weight:700}
+.tchk.need{border-color:var(--err);background:#FEF3F2}
+/* ב79: הדגשה כשניסו להמשיך בלי סימון התקנון */
+.tchk.need.pulse{animation:tpulse .9s ease 2}
+@keyframes tpulse{0%,100%{box-shadow:0 0 0 0 rgba(217,45,32,0)}50%{box-shadow:0 0 0 6px rgba(217,45,32,.18)}}
+@media (prefers-reduced-motion:reduce){.tchk.need.pulse{animation:none}}
+.fld .perr{color:var(--err);font-weight:600}
+.fld .perr:empty{display:none}
+.terr{margin:0 0 8px;color:var(--err);font-size:14.5px;font-weight:700}
+.terr:empty{display:none}
+.go.locked{opacity:.5;filter:grayscale(.3)}
+.tlock{padding:22px 16px;text-align:center;font-weight:700;color:var(--ink2)}
+html[data-co="b"] .tlock{display:none}
+.legal{text-align:center;font-size:13px;color:var(--muted);margin:10px 0 0}
+.legal a{color:inherit}
+.edit{display:block;margin:10px auto 0;font:inherit;font-size:14px;color:var(--ink2);background:none;border:0;text-decoration:underline;cursor:pointer}
+</style>
+<script>try{if(top!==self)top.location.replace(location.href)}catch(e){}</script>
+<script>/* ב39: פיקסל בדף התשלום (שני הפיקסלים), עם הגנת ב23 כמו בדף התודה: לא בסריקות Meta, לא בקישורי בדיקה ולא בדפדפן הפנימי.
+   לא בעותק שקארדקום טוענת בתוך המסגרת. InitiateCheckout לא נשלח כאן (כבר נשלח בלחיצה בדף המכירה).
+   התאמה מתקדמת: מייל וטלפון שהוזנו (Meta מגבבת אותם בדפדפן לפני השליחה, לפי מדיניות הפרטיות) */
+(function(){try{if(top!==self)return;var s=location.search.replace(/[?&](terminalnumber|lowprofile[a-z]*|respon[a-z]*code|operation|status|traceid|internaldealnumber|dealresponse|tranzactionid)=[^&]*/gi,""),off=/yNTYyODEwNDA1N|MjU2MjgxMDQwNT|I1NjI4MTA0MDU1|claude|test|nocache|internal/i.test(s);try{off=off||localStorage.getItem("nlp_int")==="1"}catch(e){}window.__noPix=off;if(off)return}catch(e){return}
+window.NLP_PIX_UD=function(d){var u={};try{if(d&&d.email)u.em=String(d.email).trim().toLowerCase();if(d&&d.phone){var p=String(d.phone).replace(/\D/g,"").replace(/^0/,"972");if(p)u.ph=p;}}catch(e){}return u};
+var ud={};try{ud=NLP_PIX_UD(JSON.parse(sessionStorage.getItem("cc_det")||"{}"))}catch(e){}
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","1278104408729813",ud);fbq("init","1651086743466533",ud);fbq("track","PageView");
+})();</script>
+<style>/* ב37 גרסה ב': בלי כפתור ביניים - טופס התשלום נטען מתחת לפרטים כששלושת השדות תקינים */
+html[data-co="b"] #det .go,html[data-co="b"] #editDet{display:none}
+.cohint{display:none;margin:2px 0 0;font-size:14px;color:var(--muted);text-align:center}
+html[data-co="b"] .cohint{display:block}
+html[data-co="b"] #paySec[hidden]{display:none}
+/* ב37 תיקון (בן 3.11): בגרסה ב' מסגרת התשלום מוצגת מההתחלה מתחת לשדות, וטופס קארדקום מחליף אותה באותו מקום */
+html[data-co="b"] .cohint{font-size:16px;font-weight:600;color:var(--ink2);margin-top:6px}
+.cohold{display:none}
+html[data-co="b"] .frame.wait{min-height:0}
+html[data-co="b"] .frame.wait .loading,html[data-co="b"] .frame.wait iframe{display:none}
+html[data-co="b"] .frame.wait .cohold{display:block;padding:18px 16px 20px}
+.cohold .cf{margin:0 0 12px}
+.cohold .cf b{display:block;font-size:14px;font-weight:600;color:var(--muted);margin-bottom:5px}
+.cohold .cf i{display:block;height:46px;border:1px solid var(--line);border-radius:10px;background:#F4F2EE}
+.cohold .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cohold .go{margin-top:4px}
+.cohold .note{margin:12px 0 0;text-align:center;font-size:15px;font-weight:600;color:var(--ink2)}
+</style>
+<style>/* 1,290 מחוק ליד 297 (19.10) */
+s.was{opacity:.6;font-weight:500;font-size:.8em;text-decoration-thickness:1px;white-space:nowrap}
+.pgrp{white-space:nowrap}
+.price s.was{font-size:22px;font-weight:700}
+</style>
+</head>
+<body>
+<main class="wrap">
+<div class="brand"><i></i>בן נחום · לנצח את האוטומט</div>
+
+<section class="top">
+<h1>השלמת הרכישה</h1>
+<p class="what">עוד רגע זה שלך. לאחר אישור התשלום תקבל גישה מיידית לקורס ולכל הבונוסים.</p>
+</section>
+
+<section class="order" aria-label="ההזמנה שלך">
+<p class="item">הקורס המלא + כל הבונוסים</p>
+<p class="price"><b>297</b><span>₪</span></p>
+<p class="once">תשלום חד-פעמי</p>
+<p class="nosub">ללא מנוי · ללא חיובים נוספים</p>
+<ul class="incl">
+<li>קורס הליבה: 90 שיעורים קצרים ומעשיים</li>
+<li>תרגולים מעשיים ליישום ביום-יום</li>
+<li>5 בונוסים בשווי 1,121 ₪: 2 קורסים מוקלטים + 3 ערכות עבודה</li>
+<li>גישה מיידית, מהטלפון או מהמחשב</li>
+</ul>
+</section>
+
+<section class="why" aria-label="הפרטים שלך">
+<h2>הפרטים שלך</h2>
+<form id="det" novalidate data-clarity-mask="True">
+<label class="fld"><b>שם מלא</b><input id="fName" name="name" autocomplete="name" required maxlength="50"><span>החשבונית תופק על השם הזה</span></label>
+<label class="fld"><b>מייל</b><input id="fEmail" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" required><span>לשם נשלחים החשבונית וקישור הכניסה לקורס</span></label>
+<p class="esug" id="eSug" role="status" hidden>התכוונת ל-<button type="button" id="eSugB"></button>? <button type="button" class="no" id="eSugX">לא, המייל נכון</button></p>
+<label class="fld"><b>טלפון נייד</b><input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required placeholder="05X-XXXXXXX"><span>רק למקרה שנצטרך לעזור לך עם הגישה. לא נעביר אותו לאף אחד</span><span class="perr" id="pErr" role="alert"></span></label>
+<label class="cons"><input type="checkbox" id="fConsent" name="consent" value="1"><span>אשמח לקבל מבן נחום עדכונים והצעות במייל ובוואטסאפ. אפשר להסיר בכל רגע. <a href="privacy.html" target="_blank" rel="noopener">מדיניות הפרטיות</a></span></label><!-- ב51: תיבת הסכמה לא מסומנת. רק מי שסימן נכנס להודעות האוטומטיות -->
+<label class="tchk" id="tWrap"><input type="checkbox" id="fTerms" name="terms" autocomplete="off"><span>מדיניות ביטול לעסקה זו הינה לפי חוק שירותי תשלום בישראל. מאשר אני כי הנני מכיר את <a href="terms.html" id="tLink" target="_blank" rel="noopener">תנאי ופרטי העסקה</a>.</span></label><!-- ב52: חובה של קארדקום. לא מסומן מראש ולא נשמר. טופס התשלום נטען רק אחרי סימון -->
+<p class="terr" id="terr" role="alert"></p>
+<p class="ferr" id="ferr" role="alert"></p>
+<p class="cohint" id="coHint">ממלאים את שלושת הפרטים, וטופס התשלום המאובטח נפתח כאן מתחת</p>
+<button class="go" type="submit"><span>המשך לתשלום מאובטח - <span class="pgrp">297 ₪</span></span></button>
+</form>
+</section>
+
+<section class="pay" id="paySec" aria-label="תשלום" hidden>
+<div class="err" id="err" role="alert"><b>נראה שהתשלום לא עבר</b>הכול בסדר - לא בוצע חיוב. <b class="wal">התשלום בארנק (Apple Pay / Google Pay) לא עבר? הקלידו את פרטי הכרטיס בטופס למטה.</b>אפשר לנסות שוב עם אותו הכרטיס או עם כרטיס אחר.</div>
+<p class="paytitle">פרטי תשלום<span>🔒 התשלום מאובטח באמצעות Cardcom</span></p>
+<p class="walnote" id="walNote">כרגע Apple Pay ו-Google Pay לא זמינים. אפשר לשלם בכרטיס אשראי כרגיל.</p><!-- ב41: הודעה זמנית בגרסאות A ו-B. להסיר כשכאל מסיימים את המעבר למסוף אינטרנטי -->
+<div class="frame">
+<div class="cohold" id="coHold"><div class="cf"><b>מספר כרטיס</b><i></i></div><div class="row2"><div class="cf"><b>תוקף</b><i></i></div><div class="cf"><b>3 ספרות</b><i></i></div></div><button class="go" type="button" id="coPay">לתשלום מאובטח - 297 ₪</button><p class="note">נפתח ברגע שממלאים את שלושת הפרטים</p></div>
+<div class="tlock" id="tLock" hidden>יש לסמן את האישור כדי להמשיך לתשלום</div>
+<div class="loading" id="loading"><div class="spin" aria-hidden="true"></div><span id="loadTxt">טוען תשלום מאובטח...</span><button class="retry" id="retry" type="button">נסו שוב</button></div>
+<iframe id="cc" title="תשלום מאובטח" allow="payment *" allowpaymentrequest="true" hidden></iframe>
+</div>
+<button class="edit" id="editDet" type="button">עריכת הפרטים שלי</button>
+<p class="secure">🔒 תשלום מאובטח · גישה מיידית לאחר אישור העסקה</p>
+<p class="terms" id="terms" hidden>בלחיצה על התשלום אני מאשר/ת את <a id="termsLink" href="#" target="_blank" rel="noopener">תנאי השימוש</a> ו<a id="privLink" href="#" target="_blank" rel="noopener">מדיניות הפרטיות</a></p>
+<p class="help" id="help" hidden><a id="helpLink" href="#" target="_blank" rel="noopener">צריך עזרה? אנחנו זמינים ב-WhatsApp</a></p>
+</section>
+<section class="deal" id="deal" aria-label="פרטי העסקה" tabindex="-1">
+<h2>פרטי העסקה</h2>
+<dl>
+<div><dt>מוצר</dt><dd>לנצח את האוטומט - הקורס המלא + כל הבונוסים</dd></div>
+<div><dt>סכום לתשלום</dt><dd><span class="pgrp">297 ₪</span>, כולל הכל</dd></div>
+<div><dt>אופן התשלום</dt><dd>תשלום חד-פעמי בכרטיס אשראי. ללא מנוי, ללא חיוב חוזר וללא עלויות נסתרות</dd></div>
+<div><dt>חשבונית</dt><dd>נשלחת אוטומטית למייל שהזנת מיד לאחר אישור העסקה</dd></div>
+<div><dt>גישה לקורס</dt><dd>נפתחת מיד לאחר אישור התשלום, ל-12 חודשים</dd></div>
+<div><dt>אחריות</dt><dd>7 ימים. אם הקורס לא מתאים לך, שולחים מייל ומקבלים החזר מלא</dd></div>
+<div><dt>תמיכה</dt><dd>זמינים בוואטסאפ לכל שאלה לפני ואחרי הרכישה</dd></div>
+</dl>
+</section>
+
+<section class="safe" aria-label="אבטחת התשלום">
+<h2>התשלום שלך מאובטח</h2>
+<ul>
+<li><b>סליקה דרך Cardcom</b>חברת סליקה ישראלית. פרטי הכרטיס מוזנים ישירות בדף המאובטח שלה</li>
+<li><b>פרטי הכרטיס לא נשמרים אצלנו</b>אנחנו לא רואים ולא שומרים את מספר הכרטיס</li>
+<li><b>חיבור מוצפן</b>כל המידע עובר בחיבור מאובטח (SSL)</li>
+<li><b>אימות בנקאי</b>ייתכן שהבנק יבקש אישור קצר בטלפון. זה חלק רגיל מאבטחת העסקה</li>
+</ul>
+</section>
+<a class="back" href="./" id="back">חזרה לדף</a>
+<p class="legal"><a href="terms.html" target="_blank" rel="noopener" id="tFoot">תקנון ותנאי שימוש</a> · <a href="#deal">פרטי העסקה</a> · <a href="privacy.html" target="_blank" rel="noopener">מדיניות פרטיות</a></p>
+</main>
+<script>
+/* ===== CONFIG ===== */
+const CHECKOUT_ENDPOINT = "https://hook.eu1.make.com/9yp88pz9bfvxbr7w6xkb4ckun82ote6a"; /* Make webhook: יוצר דף Low Profile ומחזיר {url} */
+const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6jc";
+const SUPPORT_WA = "972526951092";
+const TERMS_URL = "";   /* קישור לתנאי השימוש. ריק = השורה מוסתרת */
+const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיות */ /* לדוגמה 9725XXXXXXXX. ריק = מוסתר */
+(function(){
+  /* ב32: כשקארדקום מחזירה כשל, דף זה נטען קודם בתוך מסגרת התשלום ומיד עובר לחלון הראשי (הסקריפט בראש הדף).
+     העותק שבתוך המסגרת לא רושם אירועים ולא יוצר דף תשלום - רק העותק בחלון הראשי. */
+  let framed = false; try{ framed = window.self !== window.top; }catch(e){ framed = true; }
+  if (framed) return;
+  let leaving = false; addEventListener("pagehide", ()=>{ leaving = true; });
+  const qs = new URLSearchParams(location.search);
+  /* ב31(5): כתובת החזרה מקארדקום (כשל/ביטול) מגיעה בלי utm - שומרים את המקור מהכניסה הראשונה בלשונית ומשתמשים בו כגיבוי */
+  const UTM = ["utm_source","utm_medium","utm_campaign","utm_content"]; let utm = {};
+  try{ utm = JSON.parse(sessionStorage.getItem("cc_utm")||"{}")||{}; }catch(e){}
+  if (UTM.some(k=>qs.get(k))){ utm = {}; UTM.forEach(k=>{ utm[k] = qs.get(k)||""; }); try{ sessionStorage.setItem("cc_utm", JSON.stringify(utm)); }catch(e){} }
+  const U = k => qs.get(k) || utm[k] || "";
+  /* ב37: ניסוי סליקה co_0311 - a: היום (כפתור "המשך לתשלום"), b: מסך אחד (טופס קארדקום נטען מיד כששלושת השדות תקינים).
+     שיוך קבוע לכל דפדפן, חצי-חצי, במפתח נפרד מניסוי דפי המכירה. ?co=a או ?co=b לתצוגה מקדימה */
+  /* ב46 (תרשים "מבנה הקמפיין והבדיקות", 4.11): במקום החלוקה האקראית - הסליקה נקבעת לפי דף המכירה: דף B (a5) תמיד לסליקה B, כל דף אחר (a ודפים מחוץ לניסוי) לסליקה A.
+     ניסוי pc_0411 (דף+סליקה). co_0311 נסגר. ?co=a או ?co=b נשאר לתצוגה מקדימה בלבד */
+  /* ב54 (בן, 05.11): הגרלה נקייה co_0511 - חצי-חצי לכל מי שמגיע לדף התשלום, קבועה לדפדפן, בלי קשר לדף המכירה (במקום ב46/pc_0411).
+     ?co=a או ?co=b לתצוגה מקדימה בלבד (לא נשמר) */
+  /* ב63 (בן 08.11, "מאשר ב63" מיהב): הגרלת הסליקה co_0511 הסתיימה - דף התשלום B (מסך אחד) לכולם, כדי שלא ירוצו שתי בדיקות על תנועה קטנה. cx=co_b_0811 מסמן את התקופה.
+     ?co=a או ?co=b נשאר לתצוגה מקדימה בלבד (לא נשמר) */
+  const CO_EXP = "co_b_0811"; let CV = (qs.get("co")||"").toLowerCase();
+  if (CV!=="a" && CV!=="b") CV = "b";
+  document.documentElement.dataset.co = CV; try{ if(window.clarity) clarity("set","co",CV); }catch(e){}
+  const variant = qs.get("v") || U("utm_content").replace("lp_","") || "x";
+  const sid = qs.get("sid") || ((self.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now()+"-"+Math.random().toString(36).slice(2));
+  const $ = id => document.getElementById(id);
+  if (variant !== "x") $("back").href = variant + ".html" + location.search;
+  if (SUPPORT_WA){ $("help").hidden = false; $("helpLink").href = "https://wa.me/" + SUPPORT_WA; }
+  if (PRIVACY_URL){ $("terms").hidden=false; if (TERMS_URL){ $("termsLink").href=TERMS_URL; $("privLink").href=PRIVACY_URL; } else { $("terms").innerHTML='הפרטים משמשים לביצוע הרכישה, לחשבונית ולגישה לקורס. <a href="'+PRIVACY_URL+'" target="_blank" rel="noopener">מדיניות הפרטיות</a>'; } }
+  if (qs.get("status") === "failed") $("err").classList.add("on");
+  /* ב62 (תיקון 06.11): דחייה 60000303 = כשל Apple Pay / Google Pay בכל חברות הכרטיסים (מקור עסקה 11). כרטיס שמוקלד ידנית עובר. הודעה מדויקת במקום ההודעה הכללית. זהה ב-A וב-B */
+  if (qs.get("status") === "failed" && qs.get("ResponseCode") === "60000303"){ const er=$("err"); er.textContent=""; const t=document.createElement("b"); t.textContent="נראה שהתשלום לא עבר"; er.appendChild(t);
+    er.append("הכול בסדר - לא בוצע חיוב. התשלום ב-Apple Pay או Google Pay לא עובר אצלנו כרגע. הקלידו את פרטי הכרטיס בטופס למטה, כל הכרטיסים עובדים."); }
+  const t0 = Date.now(); let vid=""; try{ vid=localStorage.getItem("nlp_vid")||""; }catch(e){} let INT=false; try{ const ls=localStorage; if(/test|claude|internal/i.test(location.search)) ls.setItem("nlp_int","1"); INT=ls.getItem("nlp_int")==="1"; if(INT&&window.clarity) clarity("set","internal","1"); }catch(e){} try{ if(window.clarity&&vid){ clarity("identify",vid); clarity("set","vid",vid); } }catch(e){}
+  const ua=navigator.userAgent||"", os=/iPhone|iPad|iPod/.test(ua)?"ios":/Android/.test(ua)?"android":/Windows/.test(ua)?"win":/Mac OS X/.test(ua)?"mac":"other", app=/Instagram/.test(ua)?"ig":/FBAN|FBAV|FB_IAB/.test(ua)?"fb":"web";
+  const dev=(/Mobi|Android|iPhone|iPod/.test(ua)||(innerWidth<760)?"m":"d")+"-"+os+"-"+app;
+  /* Clarity: link each visit to its recording (first-party cookies _clck/_clsk) */
+  function clId(){ try{ const g=n=>{ const m=document.cookie.match(new RegExp("(?:^|; )"+n+"=([^;]*)")); return m?decodeURIComponent(m[1]).split(/[|^]/)[0]:""; }; const u=g("_clck"), s=g("_clsk"); return u&&s?u+"."+s:""; }catch(e){ return ""; } }
+  function track(ev, extra){
+    try{ if(window.clarity){ clarity("event",ev); clarity("upgrade",ev); } }catch(e){}
+    extra=Object.assign({},extra||{}); extra.x=(extra.x?extra.x+";":"")+"co="+CV+";cx="+CO_EXP;
+    const cl=clId(); if(cl){ extra=Object.assign({},extra||{}); extra.x=(extra.x?extra.x+";":"")+"cl="+cl; } if(INT){ extra=Object.assign({},extra||{}); extra.x=(extra.x?extra.x+";":"")+"int=1"; } { const ow=window.NLP_OWNER?NLP_OWNER():""; if(ow){ extra=Object.assign({},extra||{}); extra.x=(extra.x?extra.x+";":"")+"aff="+ow; } }
+    if(!TRACK_ENDPOINT || TRACK_ENDPOINT[0]==="%") return;
+    try{ const f=new URLSearchParams(Object.assign({ev, variant, sid, qs:location.search.slice(1), vid, dev, sec_on_page:Math.round((Date.now()-t0)/1000)}, extra||{}));
+      if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT,f))) fetch(TRACK_ENDPOINT,{method:"POST",body:f,mode:"no-cors",keepalive:true}); }catch(e){}
+  }
+  /* ב79: בכשל תשלום נרשם קוד הדחייה של קארדקום (rc, מכתובת החזרה), ו-rep=1 אם זה רענון של אותו כשל (אותו דף תשלום), כדי לא לספור ניסיון פעמיים */
+  if (qs.get("status")==="failed"){ const rc=(qs.get("ResponseCode")||"").replace(/\D/g,"").slice(0,10); let rep=0;
+    try{ const lp=sessionStorage.getItem("cc_lp")||""; if(lp){ if(sessionStorage.getItem("cc_failseen")===lp) rep=1; else sessionStorage.setItem("cc_failseen",lp); } }catch(e){}
+    track("checkout_failed",{x:"rc="+(rc||"none")+(rep?";rep=1":"")}); }
+  else track("checkout_view");
+  function fail(code){ if(leaving) return; $("loadTxt").textContent = "לא הצלחנו לטעון את דף התשלום. לא בוצע חיוב. נסה שוב, או כתוב לנו ב-WhatsApp ונעזור מיד."; $("retry").style.display = "inline-block"; document.querySelector(".spin").style.display="none"; $("cc").hidden = true; track("checkout_load_error", code ? {code:String(code)} : null); }
+  /* ב52: Cardcom's required box. The payment form (and the wallet buttons inside it) never loads while it is unticked */
+  const TB=$("fTerms"); TB.checked=false;
+  function lockBtn(){ const b=$("det").querySelector(".go"); b.classList.toggle("locked",!TB.checked); b.setAttribute("aria-disabled",String(!TB.checked)); }
+  function needTerms(via){ $("terr").textContent="יש לסמן את האישור כדי להמשיך לתשלום"; $("tWrap").classList.remove("pulse"); void $("tWrap").offsetWidth; $("tWrap").classList.add("need","pulse"); try{ $("tWrap").scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} TB.focus(); track("checkout_terms_missing", via?{x:"via="+via}:null); }
+  function lockPay(){ const f=$("cc"); if(f.getAttribute("src")&&f.getAttribute("src")!=="about:blank") f.src="about:blank"; f.hidden=true; $("loading").style.display="none"; $("tLock").hidden=false; if(CV==="b") f.parentNode.classList.add("wait"); }
+  function load(){
+    if(!TB.checked){ lockPay(); return; } $("tLock").hidden=true;
+    { const fr=$("cc").parentNode; if(fr) fr.classList.remove("wait"); }
+    $("loading").style.display = ""; $("cc").hidden = true; $("retry").style.display = "none"; document.querySelector(".spin").style.display=""; $("loadTxt").textContent = "טוען תשלום מאובטח...";
+    let prev=""; try{ if(qs.get("status")==="failed") prev=sessionStorage.getItem("cc_lp")||""; }catch(e){}
+    const body = new URLSearchParams({variant, sid, name:det.name, email:det.email, phone:det.phone, utm_source:U("utm_source"), utm_medium:U("utm_medium"), utm_campaign:U("utm_campaign"), utm_content:U("utm_content")}); if(prev) body.set("prev_lp", prev); body.set("co", CV); { const ow=window.NLP_OWNER?NLP_OWNER():""; if(ow) body.set("aff", ow); }
+    /* נתוני התאמה ל-Meta CAPI: נשמרים ב-Make לפי מזהה דף התשלום ונשלחים עם ה-Purchase מהשרת. כל שדה רק כשיש לו ערך */
+    try{ const ck=n=>{ const m=document.cookie.match(new RegExp("(?:^|; )"+n+"=([^;]*)")); return m?decodeURIComponent(m[1]):""; };
+      const fbp=ck("_fbp"), fbclid=qs.get("fbclid"); let fbc=ck("_fbc"); if(!fbc&&fbclid) fbc="fb.1."+Date.now()+"."+fbclid;
+      if(navigator.userAgent) body.set("ua", navigator.userAgent); if(fbp) body.set("fbp", fbp); if(fbc) body.set("fbc", fbc); }catch(e){}
+    const ctl = ("AbortController" in self) ? new AbortController() : null; const t = setTimeout(()=>ctl&&ctl.abort(), 15000);
+    fetch(CHECKOUT_ENDPOINT, {method:"POST", body, signal: ctl?ctl.signal:undefined})
+      .then(r => r.json()).then(d => {
+        clearTimeout(t);
+        if(!d || !d.url || !/^https:\/\/[^\/]*cardcom\.solutions\//i.test(d.url) || (d.code && String(d.code)!=="0")) return fail(d && d.code);
+        try{ if(d.lp) sessionStorage.setItem("cc_lp", d.lp); }catch(e){}
+        const f = $("cc"); f.src = d.url; f.hidden = false; const tl=Date.now();
+        f.addEventListener("load", ()=>{ $("loading").style.display="none"; track("checkout_payment_viewed",{x:"pay_load_ms="+(Date.now()-tl)});
+          if(!window.__nlpApi){ window.__nlpApi=1; try{ if(window.fbq) fbq("track","AddPaymentInfo",{value:297,currency:"ILS"}); }catch(e){} } }, {once:true});
+      }).catch(()=>{ clearTimeout(t); fail(); });
+  }
+  $("retry").addEventListener("click", load);
+  /* פרטי לקוח: נאספים כאן כדי שקארדקום יפיק חשבונית על שמו וישלח למייל */
+  let det = {name:"", email:"", phone:""};
+  try{ det = Object.assign(det, JSON.parse(sessionStorage.getItem("cc_det")||"{}")); }catch(e){}
+  $("fName").value = det.name; $("fEmail").value = det.email; $("fPhone").value = det.phone;
+  /* ב61: נרמול הטלפון לפני הבדיקה - רק ספרות (כולל ספרות בכתב ערבי/פרסי), בלי 00972/972 בהתחלה, 0 אחד בהתחלה (כך גם 9 ספרות שמתחילות ב-5 מקבלות 0). זהה בסליקה A ו-B */
+  function normPhone(v){ let d=String(v||"").replace(/[\u0660-\u0669]/g,c=>String(c.charCodeAt(0)-0x660)).replace(/[\u06F0-\u06F9]/g,c=>String(c.charCodeAt(0)-0x6F0)).replace(/\D/g,"");
+    d=d.replace(/^00972/,"").replace(/^972/,"").replace(/^0+/,""); return d ? "0"+d : ""; }
+  /* ב79: סוג הבעיה בטלפון, בלי אף ספרה מהמספר: empty / letters / intl (קידומת מדינה שאינה 972) / short / long / landline (קווי, 02-09 או 07) / prefix (לא 05) */
+  function phoneType(v){ const raw=String(v||"").trim(); if(!raw) return "empty"; if(/[A-Za-z\u0590-\u05FF]/.test(raw)) return "letters";
+    const d=raw.replace(/[\u0660-\u0669]/g,c=>String(c.charCodeAt(0)-0x660)).replace(/[\u06F0-\u06F9]/g,c=>String(c.charCodeAt(0)-0x6F0)).replace(/\D/g,"");
+    if(/^(\+|00)/.test(raw.replace(/[\s()\-.]/g,"")) && !/^(00)?972/.test(d)) return "intl";
+    const pn=normPhone(raw); if(/^05\d{8}$/.test(pn)) return "";
+    if(/^0(?:[2-489]|7)/.test(pn)) return "landline"; if(!/^05/.test(pn)) return "prefix"; return pn.length<10 ? "short" : "long"; }
+  const PMSG={landline:"צריך מספר נייד (מתחיל ב-05), למשל 050-1234567", intl:"צריך מספר נייד ישראלי, למשל 050-1234567 או 972-50-1234567+", letters:"רק ספרות, למשל 050-1234567"};
+  function phoneMsg(t){ return PMSG[t] || "מספר נייד של 10 ספרות, למשל 050-1234567"; }
+  function fmtPhone(pn){ return pn.slice(0,3)+"-"+pn.slice(3); }
+  /* ב61 + ב79: בשגיאת טלפון נרשם רק סוג הבעיה ומספר הספרות, לא המספר ולא חלק ממנו */
+  function verrX(x){ const parts=x?[x]:[]; if($("fPhone").classList.contains("bad")){ const r=String($("fPhone").value||""); parts.push("pt="+phoneType(r),"len="+r.replace(/\D/g,"").length); } return parts.join(";"); }
+  function check(show){ if(show===undefined) show=true;
+    const n = $("fName").value.replace(/["\\<>{}]/g,"").trim().replace(/\s+/g," "), e = $("fEmail").value.trim();
+    const pn = normPhone($("fPhone").value);
+    const bad = [];
+    if(show) $("fName").classList.toggle("bad", n.length < 2 || !/\s/.test(n)); if(n.length < 2 || !/\s/.test(n)) bad.push("שם מלא (שם פרטי ומשפחה)");
+    const eok = /^[^\s@"'\\<>{}]+@[^\s@"'\\<>{}]+\.[^\s@"'\\<>{}]{2,}$/.test(e); if(show) $("fEmail").classList.toggle("bad", !eok); if(!eok) bad.push("מייל תקין");
+    const pok = /^05\d{8}$/.test(pn); if(show){ $("fPhone").classList.toggle("bad", !pok); $("pErr").textContent = pok ? "" : phoneMsg(phoneType($("fPhone").value)); } if(!pok) bad.push("טלפון נייד תקין");
+    if(show) $("ferr").textContent = bad.length ? "חסר: " + bad.join(", ") : "";
+    return bad.length ? null : {name:n, email:e, phone:pn};
+  }
+  function start(){
+    $("paySec").hidden = false; $("det").querySelector(".go").textContent = "עדכון הפרטים";
+    try{ $("paySec").scrollIntoView({behavior:"smooth", block:"start"}); }catch(e){ $("paySec").scrollIntoView(); }
+    load();
+  }
+  const keyOf = d => d.name+"|"+d.email+"|"+d.phone; let loadedKey = "";
+  { const c=$("fConsent"); if(c){ try{ c.checked = sessionStorage.getItem("cc_cons")==="1"; }catch(e){} c.addEventListener("change",()=>{ const v=c.checked?"1":"0"; try{ sessionStorage.setItem("cc_cons",v); }catch(e){} if(loadedKey&&det.email) track("checkout_consent",{lead_email:det.email,lead_consent:v,x:"cons="+v}); }); } } /* ב51 */
+  function accept(d){
+    det = d; loadedKey = keyOf(d); try{ sessionStorage.setItem("cc_det", JSON.stringify(det)); }catch(e){}
+    { const h=$("coHint"); if(h) h.style.display="none"; }
+    try{ if(window.fbq && window.NLP_PIX_UD){ const ud=NLP_PIX_UD(det); fbq("init","1278104408729813",ud); fbq("init","1651086743466533",ud); } }catch(e){}
+    const cn=$("fConsent")&&$("fConsent").checked?"1":"0"; track("checkout_details",{lead_name:det.name,lead_email:det.email,lead_phone:det.phone,lead_consent:cn,x:"cons="+cn}); start();
+  }
+  function badList(){ return ["fName","fEmail","fPhone"].filter(i=>$(i).classList.contains("bad")).map(i=>i.slice(1).toLowerCase()).join(","); }
+  $("det").addEventListener("submit", ev => {
+    ev.preventDefault(); const d = check(); if(!d){ track("checkout_validation_error",{name:badList(),x:verrX("")}); return; }
+    if(!TB.checked){ needTerms("continue"); return; }
+    if (CV==="b" && keyOf(d)===loadedKey) return; accept(d);
+  });
+  if (CV==="b"){
+    /* גרסה ב': כששלושת השדות תקינים (שנייה אחרי ההקלדה האחרונה) טופס התשלום נטען מתחתם. שינוי בפרטים אחרי הטעינה = דף תשלום חדש עם הפרטים המעודכנים.
+       הודעות שגיאה רק ביציאה משדה, ורק כשכל השלושה מולאו */
+    let tmr=null, verr=false;
+    $("paySec").hidden = false; $("cc").parentNode.classList.add("wait");
+    /* לחיצה על הכפתור במסגרת לפני שהפרטים מלאים: מסמנת מה חסר ומחזירה לשדה הראשון (לא שלב ביניים) */
+    $("coPay").addEventListener("click", () => {
+      const d = check(true);
+      if(!d){ track("checkout_validation_error",{name:badList(),x:verrX("via=paybtn")}); const f=["fName","fEmail","fPhone"].find(i=>$(i).classList.contains("bad")); if(f){ try{ $(f).scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} $(f).focus(); } return; }
+      if(!TB.checked){ needTerms("paybtn"); return; }
+      clearTimeout(tmr); if(keyOf(d)!==loadedKey) accept(d);
+    });
+    const tryLoad = () => { const d = check(false); if(!d || keyOf(d)===loadedKey || !TB.checked) return; check(true); accept(d); };
+    ["fName","fEmail","fPhone"].forEach(i=>{
+      $(i).addEventListener("input",()=>{ clearTimeout(tmr); tmr=setTimeout(tryLoad, 1000); if($(i).classList.contains("bad")) check(true); });
+      $(i).addEventListener("blur",()=>{ if(!["fName","fEmail","fPhone"].every(k=>$(k).value.trim())) return; const d=check(true); if(!d && !verr && badList()!=="phone"){ verr=true; track("checkout_validation_error",{name:badList(),x:verrX("")}); } /* ב79: שגיאת טלפון בלבד נרשמת ביציאה משדה הטלפון */ if(d){ clearTimeout(tmr); tryLoad(); } });
+    });
+  }
+  /* ב79: טלפון - כל פורמט נפוץ מתקבל (רווחים, מקפים, סוגריים, 972, 972+, 00972, 9 ספרות בלי 0) ומנורמל ל-05X-XXXXXXX ביציאה מהשדה.
+     שגיאה מוצגת רק ביציאה מהשדה (או בלחיצה על המשך), עם דוגמה. בזמן ההקלדה לא מוצגת שגיאה, ושגיאה קיימת נעלמת כשהמספר נהיה תקין */
+  { let lastPt="";
+    $("fPhone").addEventListener("blur",()=>{ const f=$("fPhone"), v=f.value; if(!v.trim()){ f.classList.remove("bad"); $("pErr").textContent=""; return; }
+      const t=phoneType(v);
+      if(!t){ const pn=fmtPhone(normPhone(v)); if(f.value!==pn){ f.value=pn; } f.classList.remove("bad"); $("pErr").textContent=""; return; }
+      f.classList.add("bad"); $("pErr").textContent=phoneMsg(t);
+      if(t!==lastPt){ lastPt=t; track("checkout_validation_error",{name:"phone",x:"via=phone_blur;pt="+t+";len="+v.replace(/\D/g,"").length}); } });
+    $("fPhone").addEventListener("input",()=>{ const f=$("fPhone"); if(f.classList.contains("bad") && !phoneType(f.value)){ f.classList.remove("bad"); $("pErr").textContent=""; } });
+  }
+  /* ב79: יציאה מדף הסליקה - זמן בדף, גלילה, זמני טעינה של הדף (לפי הדפדפן), ואם נגעו בשדות או ראו את טופס התשלום. פעם אחת לביקור, בלי פרטים אישיים */
+  { let sent=false, maxScr=0, touched=0, payV=0;
+    addEventListener("scroll",()=>{ const h=document.documentElement; const p=Math.round(100*(scrollY+innerHeight)/Math.max(1,h.scrollHeight)); if(p>maxScr) maxScr=Math.min(100,p); },{passive:true});
+    ["fName","fEmail","fPhone","fTerms"].forEach(i=>$(i).addEventListener("focus",()=>{ touched=1; },{once:true}));
+    $("cc").addEventListener("load",()=>{ if($("cc").getAttribute("src")&&$("cc").getAttribute("src")!=="about:blank") payV=1; });
+    let lcp=0; try{ new PerformanceObserver(l=>{ const e=l.getEntries(); if(e.length) lcp=Math.round(e[e.length-1].startTime); }).observe({type:"largest-contentful-paint",buffered:true}); }catch(e){}
+    const leave=()=>{ if(sent) return; sent=true; let nav="";
+      try{ const n=performance.getEntriesByType("navigation")[0]; if(n) nav="ttfb="+Math.round(n.responseStart)+";dcl="+Math.round(n.domContentLoadedEventEnd)+";load="+Math.round(n.loadEventEnd); }catch(e){}
+      track("checkout_leave",{x:["scr="+maxScr,"touch="+touched,"payv="+payV,nav,lcp?"lcp="+lcp:""].filter(Boolean).join(";")}); };
+    addEventListener("pagehide",leave); document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden") leave(); });
+  }
+  $("editDet").addEventListener("click", () => { try{ $("det").scrollIntoView({behavior:"smooth"}); }catch(e){} $("fName").focus(); });
+  /* ב56: טעויות נפוצות במייל (gmial, hotmial, .con, .cmo...) - מציעים תיקון, לא חוסמים. אותו דבר בגרסה A ו-B */
+  const EDOM=["gmail.com","hotmail.com","yahoo.com","outlook.com","icloud.com","walla.co.il","walla.com","live.com","msn.com","hotmail.co.il","outlook.co.il","yahoo.co.il","bezeqint.net","012.net.il","netvision.net.il","me.com","aol.com","mail.com"];
+  function lev(a,b){ if(Math.abs(a.length-b.length)>2) return 9; const d=[]; for(let i=0;i<=a.length;i++){ d[i]=[i]; for(let j=1;j<=b.length;j++) d[i][j]= i? Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1), (i>1&&j>1&&a[i-1]===b[j-2]&&a[i-2]===b[j-1])?d[i-2][j-2]+1:9) : j; } return d[a.length][b.length]; }
+  function emailFix(e){ const m=/^([^@\s]+)@([^@\s]+)$/.exec(String(e||"").trim()); if(!m) return ""; let dom=m[2].toLowerCase().replace(/\.+$/,"");
+    if(EDOM.includes(dom)) return "";
+    let fx=dom.replace(/\.(con|cmo|cpm|vom|xom|comm|coom|om|c0m|cm)$/,".com").replace(/\.co\.(li|ll|il\.|i)$|\.coil$|\.co\.l$/,".co.il").replace(/\.co$/,(dom.startsWith("gmail")||dom.startsWith("hotmail")||dom.startsWith("yahoo")||dom.startsWith("outlook")||dom.startsWith("icloud"))?".com":".co");
+    let best="",bd=3; EDOM.forEach(k=>{ const v=lev(fx,k); if(v<bd){ bd=v; best=k; } });
+    if(best && bd<=2 && best!==dom && (bd<=1 || fx.split(".")[0].length>=5)) fx=best;
+    return fx!==dom ? m[1]+"@"+fx : ""; }
+  { let sugShown="", keep="";
+    const sug=()=>{ const v=$("fEmail").value.trim(), fx=emailFix(v), box=$("eSug"); if(!fx || v===keep){ box.hidden=true; return; }
+      $("eSugB").textContent=fx; box.hidden=false; if(sugShown!==fx){ sugShown=fx; const a=v.split("@")[1]||"", b=fx.split("@")[1]||""; track("checkout_email_suggest",{name:(a+">"+b).slice(0,60)}); } };
+    $("fEmail").addEventListener("blur", sug);
+    $("fEmail").addEventListener("input", ()=>{ if(!$("eSug").hidden) sug(); });
+    $("eSugB").addEventListener("click", ()=>{ const fx=$("eSugB").textContent, f=$("fEmail"); f.value=fx; $("eSug").hidden=true; track("checkout_email_fixed",{name:(fx.split("@")[1]||"").slice(0,40)}); f.dispatchEvent(new Event("input",{bubbles:true})); if(CV==="b") f.dispatchEvent(new Event("blur")); });
+    $("eSugX").addEventListener("click", ()=>{ keep=$("fEmail").value.trim(); $("eSug").hidden=true; track("checkout_email_keep"); });
+    window.__emailFix=emailFix; }
+  let cs=false; ["fName","fEmail","fPhone"].forEach(i=>$(i).addEventListener("input",()=>{ if(cs) return; cs=true; track("checkout_contact_started"); }));
+  $("back").addEventListener("click",()=>track("checkout_back"));
+  /* ב52: back from a failed payment the box starts unticked again; the payment form reloads once it is ticked */
+  if (qs.get("status") === "failed" && det.email){ $("paySec").hidden = false; lockPay(); }
+  else if (CV==="b" && check(false)) setTimeout(()=>{ const d=check(false); if(d && keyOf(d)!==loadedKey && TB.checked) accept(d); }, 300); /* ב52: never loads unticked */
+  lockBtn();
+  TB.addEventListener("change", () => {
+    lockBtn();
+    if (TB.checked){ $("terr").textContent=""; $("tWrap").classList.remove("need"); track("checkout_terms_checked");
+      const d = check(false); if(!d) return;
+      if (CV==="b"){ if(keyOf(d)!==loadedKey){ check(true); accept(d); } }
+      else if (!$("paySec").hidden){ accept(d); }
+    } else { track("checkout_terms_unchecked"); lockPay(); loadedKey = ""; }
+  });
+  /* back/forward cache restores form state: start unticked and locked again */
+  addEventListener("pageshow", e => { if(e.persisted){ TB.checked=false; lockBtn(); if(!$("paySec").hidden) lockPay(); loadedKey=""; } });
+  /* ב52: "תנאי ופרטי העסקה" פותח את התקנון בלשונית חדשה, כדי שהטופס והסימון יישארו */
+  $("tLink").addEventListener("click", () => track("checkout_terms_open"));
+  $("tFoot").addEventListener("click", () => track("checkout_terms_open", {name:"footer"}));
+})();
+</script>
+</body>
+</html>

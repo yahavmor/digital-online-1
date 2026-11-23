@@ -1,0 +1,28 @@
+// ב101: לשונית 12 - קישורים אישיים בנפרד. שימוש: node t_dash_personal.js <new root> <old root>
+const { chromium } = require("playwright"), fs = require("fs"), path = require("path");
+const [NEW, OLD] = process.argv.slice(2); let n = 0, f = 0; const ok = (m, c, d) => { n++; if (!c) f++; console.log((c ? "ok  " : "FAIL") + " " + m + (c ? "" : "  <- " + d)) };
+const H = "upsell\ttoken\tdeal\tcreated\texpires\tused\tdeclined\ttest\taff\tup_deal\tpaid_at";
+const row = (tok, deal, c, e, used, dec) => [tok, deal, c, e, used ? "true" : "false", dec ? "true" : "false", "false", "", "", ""].join("\t");
+const R = [row("r1", "111", "2026-11-17 09:00:00", "2026-11-17 09:30:00", 1, 0), row("r2", "222", "2026-11-17 10:00:00", "2026-11-17 10:30:00", 0, 1)];
+for (let i = 0; i < 8; i++) R.push(row("p" + i, String(267406260 + i), "2026-11-17 11:17:00", "2026-11-24 11:17:00", i === 0, i === 1));
+const UP = [H].concat(R).join("\n");
+(async () => { const b = await chromium.launch();
+ const dash = async root => { const c = await b.newContext({ timezoneId: "Asia/Jerusalem", viewport: { width: 1400, height: 900 } }); await c.clock.setFixedTime(new Date("2026-11-17T12:00:00+02:00")); const errs = [];
+  await c.route("**/*", r => { const u = new URL(r.request().url()); if (u.href.startsWith("https://local.test/")) return r.fulfill({ status: 200, contentType: "text/html; charset=utf-8", body: fs.readFileSync(path.join(root, "nlp/dashboard.html")) });
+   if (u.hostname.endsWith("make.com")) { const a = u.searchParams.get("action"); return r.fulfill({ status: 200, body: { rows: "", spend: "spend\n", upsell: UP }[a] || "" }) } return r.fulfill({ status: 204, body: "" }) });
+  const p = await c.newPage(); p.on("pageerror", e => errs.push(e.message)); await p.goto("https://local.test/nlp/dashboard.html#up"); await p.waitForTimeout(2500); return { p, errs } };
+ const N = await dash(NEW), O = await dash(OLD);
+ const tb = X => X.p.evaluate(() => [...document.getElementById("upTable").rows].map(r => [...r.cells].map(c => c.innerText.replace(/\s+/g, " ").trim())));
+ const T = await tb(N), T0 = await tb(O); T.forEach(r => console.log(r.join(" | ")));
+ const get = (t, re) => t.find(r => re.test(r[0])) || [];
+ ok("old version counted 10 codes (the problem)", /^10/.test(get(T0, /קודים שהונפקו/)[1] || ""), get(T0, /קודים שהונפקו/).join("|"));
+ ok("issued today = 2 (personal links excluded)", /^2/.test(get(T, /קודים שהונפקו/)[1] || ""), get(T, /קודים שהונפקו/).join("|"));
+ ok("used = 1 (50%), still-valid = 0", /^1/.test(get(T, /נוצלו/)[1] || "") && /50%/.test(get(T, /נוצלו/)[1] || "") && /^0/.test(get(T, /עדיין בתוקף/)[1] || ""), get(T, /נוצלו/).join("|"));
+ ok("conversion today 50%", /50%/.test(get(T, /אחוז המרה/)[1] || ""), get(T, /אחוז המרה/).join("|"));
+ ok("personal row: 8, 1 used, 1 declined", /^8/.test(get(T, /קישורים אישיים/)[1] || "") && /1 נוצלו · 1 נדחו/.test(get(T, /קישורים אישיים/)[1] || ""), get(T, /קישורים אישיים/).join("|"));
+ ok("note mentions personal links", /קישורים אישיים/.test(await N.p.evaluate(() => document.getElementById("upNote").textContent)));
+ ok("changelog ב101 first", /ב101/.test(await N.p.evaluate(() => CHANGELOG[0][1])));
+ ok("no JS errors", !N.errs.length, N.errs.join("|"));
+ const scr = async (X, s) => { await X.p.evaluate(s => setScreen(s), s); await X.p.waitForTimeout(300); return X.p.evaluate(s => document.getElementById("s-" + s).innerText.replace(/עודכן \d\d:\d\d/g, ""), s) };
+ for (const s of ["snap", "op", "fin", "af", "ws", "pr"]) ok("screen " + s + " unchanged", (await scr(O, s)) === (await scr(N, s)));
+ console.log("TOTAL", n - f + "/" + n); await b.close(); process.exit(f ? 1 : 0) })();

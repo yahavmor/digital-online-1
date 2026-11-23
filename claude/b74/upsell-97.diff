@@ -1,0 +1,67 @@
+--- upsell-97.orig.html
++++ upsell-97.html
+@@ -458,7 +458,10 @@
+     decline:  null,   // POST {token} -> שורף את הטוקן בשרת
+     track:    null    // POST אירוע אנליטיקה (בפורמט גיליון Events)
+   },
+-  courseUrl: '#',     // כניסה לקורס בסקולר אחרי ויתור
++  courseUrl: 'thanks.html?ups=1', // ב74: חזרה לדף התודה, שם מופיע כפתור הכניסה לקורס (קישור הקורס לא נכנס לקוד הציבורי)
++  // ב74: חיבור לסליקה. כפתורי הרכישה מובילים ל-checkout97.html?t=<טוקן>. הבדיקה והחיוב רק בשרת.
++  checkoutPage: 'checkout97.html',
++  upsellApi: '%UPSELL_API%', // תרחיש Make של האפסייל (טיוטה, לא קיים עדיין). עד שמוזן - אין פנייה לשרת
+   // צילומי מסך אמיתיים מהאפליקציה (אחרי שלב A של פ1). null = הדמיה זמנית בקוד
+   screenshots: { home: null, plan: null, sos: null },
+   // A/B: ?v=b מחליף טקסטים לפי המפתחות כאן
+@@ -494,7 +497,9 @@
+ document.querySelectorAll('[data-copy]').forEach(el => { el.innerHTML = COPY[el.dataset.copy]; });
+ const $ = (s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+ const qs = new URLSearchParams(location.search);
+-const TOKEN = qs.get('t') || qs.get('token') || '';
++const TOKEN = (qs.get('t') || qs.get('token') || '').replace(/[^A-Za-z0-9_-]/g,'').slice(0,64);
++const DEMO = qs.get('demo'); // ב74: תצוגה מקצה לקצה בלי שרת - ?demo=ok ממשיך ל-checkout97.html?demo=ok
++const API_ON = CONFIG.upsellApi && CONFIG.upsellApi[0] !== '%';
+ const TEST = qs.get('test') === '1';
+ const VARIANT = (qs.get('v') || 'a').toLowerCase();
+ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+@@ -614,6 +619,11 @@
+   track('UpsellCTA_Click',{placement},false);
+   const btns = $$('[data-buy]'); btns.forEach(b=>{b.disabled=true}); btn.classList.add('loading');
+   const done = ()=>{ inFlight=false; btns.forEach(b=>{b.disabled=false; b.classList.remove('loading')}); };
++  if (CONFIG.checkoutPage && (TOKEN || DEMO)) { // ב74: מעבר לדף הסליקה, הטוקן עובר כמו שהוא
++    track('UpsellCheckoutStarted',{placement});
++    location.href = CONFIG.checkoutPage + '?' + (TOKEN ? 't='+encodeURIComponent(TOKEN) : 'demo='+encodeURIComponent(DEMO));
++    return;
++  }
+   if (!CONFIG.api.checkout) { // מצב תצוגה
+     track('UpsellCheckoutStarted',{placement,demo:true});
+     setTimeout(()=>{ done(); notice('מצב תצוגה: הסליקה עדיין לא מחוברת (ב38). לא בוצע שום חיוב.','info'); },700);
+@@ -644,8 +654,10 @@
+ document.addEventListener('keydown',e=>{ if(e.key==='Escape' && modal.classList.contains('open')) closeModal(); });
+ $('#confirmDecline').addEventListener('click',()=>{
+   track('UpsellDeclined');
+-  if (CONFIG.api.decline) { const b=JSON.stringify({token:TOKEN}); navigator.sendBeacon ? navigator.sendBeacon(CONFIG.api.decline,b) : fetch(CONFIG.api.decline,{method:'POST',body:b,keepalive:true}); }
+-  if (CONFIG.courseUrl && CONFIG.courseUrl!=='#') location.href = CONFIG.courseUrl;
++  if (API_ON && TOKEN) { const b=new URLSearchParams({action:'decline',t:TOKEN}); /* ב74: ויתור שורף את ההצעה בשרת */
++    if (!(navigator.sendBeacon && navigator.sendBeacon(CONFIG.upsellApi,b))) fetch(CONFIG.upsellApi,{method:'POST',body:b,keepalive:true}).catch(()=>{}); }
++  else if (CONFIG.api.decline) { const b=JSON.stringify({token:TOKEN}); navigator.sendBeacon ? navigator.sendBeacon(CONFIG.api.decline,b) : fetch(CONFIG.api.decline,{method:'POST',body:b,keepalive:true}); }
++  if (CONFIG.courseUrl && CONFIG.courseUrl!=='#' && !DEMO && !TEST) location.href = CONFIG.courseUrl;
+   else { closeModal(false); notice('מצב תצוגה: כאן הלקוח עובר לקורס בסקולר.','info'); }
+ });
+ $$('[data-course-link]').forEach(a=>a.href=CONFIG.courseUrl);
+@@ -653,6 +665,16 @@
+ /* ===== טעינה: אימות טוקן בשרת ===== */
+ (async ()=>{
+   track('UpsellPageView');
++  if (API_ON && !DEMO) { // ב74: אותו שרת כמו checkout97 (action=check). ההצעה מוצגת רק כשהשרת מחזיר ok
++    if (!TOKEN) { track('UpsellExpired',{reason:'invalid'}); document.body.classList.add('expired'); return; }
++    try {
++      const r = await fetch(CONFIG.upsellApi,{method:'POST',body:new URLSearchParams({action:'check',t:TOKEN})});
++      const j = await r.json();
++      if (j.state !== 'ok') { track('UpsellExpired',{reason:j.state||'invalid'}); document.body.classList.add('expired'); }
++    } catch(e) { /* שרת לא זמין: לא חוסמים; checkout97 בודק שוב לפני כל תשלום */ }
++    return;
++  }
++  if (DEMO === 'expired') { document.body.classList.add('expired'); return; }
+   if (!CONFIG.api.validate) return;
+   try {
+     const r = await fetch(CONFIG.api.validate+'?token='+encodeURIComponent(TOKEN));

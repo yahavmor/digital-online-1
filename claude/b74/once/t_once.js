@@ -1,0 +1,25 @@
+// ב74 חד-פעמי: הנוסחים בדף האפסייל ובדף התשלום (מצב תצוגה ?demo=, בלי שרת). שימוש: node t_once.js <base של nlp/>
+const {chromium,devices}=require('playwright');const B=process.argv[2];
+const res=[];const ok=(n,c,e="")=>{res.push(!!c);console.log(c?"PASS":"FAIL",n,e)};
+(async()=>{const b=await chromium.launch();const c=await b.newContext(devices["iPhone 13"]);
+ await c.route("**/*",r=>r.request().url().startsWith("http://127.0.0.1")?r.continue():r.fulfill({status:204,body:""}));
+ const p=await c.newPage();const errs=[];p.on("pageerror",e=>errs.push(e.message));
+ await p.goto(B+"upsell-97.html?demo=ok",{waitUntil:"networkidle"});
+ const t=await p.evaluate(()=>document.body.innerText);
+ ok("upsell: no 147 anywhere in the page (text + source)",!/147/.test(t)&&!/147/.test(await p.content()));
+ ok("upsell: hero tag one-time",/הצעה חד-פעמית • לרוכשי הקורס/.test(t));
+ ok("upsell: offer tag + urgent line",/הצעה חד-פעמית, רק במסך הזה/.test(t)&&/זו הצעה חד-פעמית\. 97 ₪ רק במסך הזה, וכשתמשיך מהדף הזה היא לא תחזור\./.test(t.replace(/ /g," ")));
+ ok("upsell: no 'בהמשך באזור הקורס' / 'אפשר יהיה להוסיף'",!/באזור הקורס ב-|אפשר יהיה להוסיף|נשלח לך עוד הזדמנות/.test(t));
+ await p.click('[data-decline="hero"]');await p.waitForTimeout(400);
+ const m=await p.evaluate(()=>document.querySelector("#declineModal").innerText);
+ ok("decline modal: one-time wording",/זו הצעה חד-פעמית שלא תחזור/.test(m),m.replace(/\s+/g," ").slice(0,140));
+ await p.keyboard.press("Escape");await p.waitForTimeout(200);
+ const f=await p.evaluate(()=>[...document.querySelectorAll("details")].map(d=>d.textContent).find(x=>/מה קורה אם לא ארכוש עכשיו/.test(x))||"");
+ ok("FAQ: one-time answer",/חד-פעמית, רק במסך הזה, והיא לא תחזור/.test(f.replace(/ /g," ")),f.replace(/\s+/g," ").slice(0,160));
+ ok("upsell: no JS errors",errs.length===0,errs.join("|"));
+ await p.goto(B+"checkout97.html?demo=expired",{waitUntil:"networkidle"});
+ const e=await p.evaluate(()=>document.body.innerText);
+ ok("checkout97 expired: one-time wording, no 147",/זו הייתה הצעה חד-פעמית, והיא לא חוזרת/.test(e)&&!/147/.test(e),e.replace(/\s+/g," ").slice(0,160));
+ ok("checkout97: urgency line unchanged (Ben's wording)",/לאחר שתמשיך מהדף הזה, ההצעה המיוחדת ב-97 ₪ לא תהיה זמינה שוב/.test(await p.evaluate(()=>document.documentElement.innerHTML)));
+ ok("no JS errors",errs.length===0,errs.join("|"));
+ await b.close();console.log("TOTAL",res.length,"FAIL",res.filter(x=>!x).length)})();

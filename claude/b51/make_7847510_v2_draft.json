@@ -1,0 +1,782 @@
+{
+ "name": "DRAFT ב51 - לא להפעיל: נטישה בתשלום v2 (מחליף את 7847510 אחרי מאשר ב51)",
+ "flow": [
+  {
+   "id": 1,
+   "module": "datastore:SearchRecord",
+   "version": 1,
+   "parameters": {
+    "limit": 300,
+    "datastore": 210989
+   },
+   "mapper": {
+    "filter": [
+     [
+      {
+       "a": "email",
+       "b": null,
+       "o": "exist"
+      }
+     ]
+    ]
+   }
+  },
+  {
+   "id": 2,
+   "module": "datastore:SearchRecord",
+   "version": 1,
+   "parameters": {
+    "limit": 1,
+    "datastore": 210157,
+    "continueWhenNoRes": true
+   },
+   "metadata": {
+    "designer": {
+     "name": "רכש? לפי מייל, טלפון או sid (ב33)"
+    }
+   },
+   "filter": {
+    "name": "חדש (15 דק' אחרי כשל בתשלום, אחרת שעה; עד 3 ימים) או בתהליך (עד 5 ימים)",
+    "conditions": [
+     [
+      {
+       "a": "{{1.data.status}}",
+       "o": "notexist"
+      },
+      {
+       "a": "{{1.data.at}}",
+       "b": "{{addMinutes(now; if(1.data.pay_failed = \"1\"; -15; -60))}}",
+       "o": "date:less"
+      },
+      {
+       "a": "{{1.data.at}}",
+       "b": "{{addDays(now; -3)}}",
+       "o": "date:greater"
+      }
+     ],
+     [
+      {
+       "a": "{{1.data.status}}",
+       "b": "followed",
+       "o": "text:equal"
+      },
+      {
+       "a": "{{1.data.at}}",
+       "b": "{{addDays(now; -5)}}",
+       "o": "date:greater"
+      }
+     ]
+    ]
+   },
+   "mapper": {
+    "filter": [
+     [
+      {
+       "a": "email",
+       "b": "{{1.data.email}}",
+       "o": "text:equal:ci"
+      }
+     ],
+     [
+      {
+       "a": "phone",
+       "b": "{{ifempty(1.data.phone; \"__none__\")}}",
+       "o": "text:equal"
+      }
+     ],
+     [
+      {
+       "a": "sid",
+       "b": "{{ifempty(1.data.sid; \"__none__\")}}",
+       "o": "text:equal"
+      }
+     ]
+    ]
+   }
+  },
+  {
+   "id": 3,
+   "module": "builtin:BasicRouter",
+   "version": 1,
+   "mapper": null,
+   "routes": [
+    {
+     "flow": [
+      {
+       "id": 9,
+       "module": "util:SetVariable2",
+       "version": 1,
+       "parameters": {},
+       "filter": {
+        "name": "לא רכש - פעם ראשונה",
+        "conditions": [
+         [
+          {
+           "a": "{{2.key}}",
+           "o": "notexist"
+          },
+          {
+           "a": "{{1.data.status}}",
+           "o": "notexist"
+          }
+         ]
+        ]
+       },
+       "mapper": {
+        "name": "wamsg",
+        "scope": "roundtrip",
+        "value": "היי {{first(split(1.data.name; \" \"))}}, כאן מהצוות של בן נחום. {{if(1.data.pay_failed = \"1\"; \"ראינו שניסית להצטרף ל״לנצח את האוטומט״ והתשלום לא עבר. לפעמים זה קורה בתשלום בארנק דיגיטלי (אפל פיי או גוגל פיי) - בהקלדת פרטי הכרטיס זה עובד, ולא ירד ממך כסף. אם זה עדיין רלוונטי:\"; \"ראינו שהתחלת להצטרף ל״לנצח את האוטומט״ ולא השלמת את התשלום. הכל בסדר? אם יש שאלה או שמשהו לא עבד, אשמח לעזור. להשלמה:\")}} https://funnel.digitalonline.co.il/nlp/checkout.html?v={{1.data.variant}}&utm_source=whatsapp&utm_medium=recovery&utm_content=wa_manual{{if(1.data.pay_failed = \"1\"; \" . ואם יש שאלה, אני כאן.\"; emptystring)}}"
+       }
+      },
+      {
+       "id": 5,
+       "module": "google-email:sendAnEmail",
+       "version": 4,
+       "parameters": {
+        "__IMTCONN__": 11713706
+       },
+       "mapper": {
+        "to": [
+         "yahavmor77@gmail.com"
+        ],
+        "bodyType": "rawHtml",
+        "subject": "נטישה בתשלום ({{if(1.data.pay_failed = \"1\"; \"ניסה לשלם ונכשל\"; \"לא ניסה לשלם\")}}): {{1.data.name}} ({{1.data.phone}})",
+        "content": "<div dir=\"rtl\" style=\"font-family:Arial,sans-serif;font-size:15px;line-height:1.8\"><b>{{1.data.name}}</b> השאיר/ה פרטים בדף התשלום ולא שילם/ה - <b>{{if(1.data.pay_failed = \"1\"; \"ניסה לשלם ונכשל\"; \"לא ניסה לשלם\")}}</b>.<br>טלפון: {{1.data.phone}}<br>מייל: {{1.data.email}}<br>דף: {{1.data.variant}} · מקור: {{1.data.qs}}<br>הסכמה להודעות אוטומטיות: {{if(1.data.consent = \"1\"; \"כן - נכנס לסדרת המיילים\"; \"לא - רק הודעה אישית ממך\")}}<br><br><a href=\"https://wa.me/972{{substring(1.data.phone; 1)}}?text={{encodeURL(9.wamsg)}}\" style=\"background:#25d366;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none\">לשלוח וואטסאפ עם הודעה מוכנה</a></div>"
+       }
+      },
+      {
+       "id": 6,
+       "module": "datastore:AddRecord",
+       "version": 1,
+       "parameters": {
+        "datastore": 210989
+       },
+       "mapper": {
+        "key": "{{1.key}}",
+        "data": {
+         "at": "{{1.data.at}}",
+         "qs": "{{1.data.qs}}",
+         "sid": "{{1.data.sid}}",
+         "name": "{{1.data.name}}",
+         "email": "{{1.data.email}}",
+         "phone": "{{1.data.phone}}",
+         "status": "followed",
+         "variant": "{{1.data.variant}}",
+         "consent": "{{1.data.consent}}",
+         "pay_failed": "{{1.data.pay_failed}}",
+         "stop": "{{1.data.stop}}",
+         "rec1_at": "{{1.data.rec1_at}}",
+         "rec2_at": "{{1.data.rec2_at}}",
+         "rec3_at": "{{1.data.rec3_at}}"
+        },
+        "overwrite": true
+       }
+      }
+     ]
+    },
+    {
+     "flow": [
+      {
+       "id": 7,
+       "module": "datastore:AddRecord",
+       "version": 1,
+       "parameters": {
+        "datastore": 210989
+       },
+       "filter": {
+        "name": "רכש",
+        "conditions": [
+         [
+          {
+           "a": "{{2.key}}",
+           "o": "exist"
+          },
+          {
+           "a": "{{1.data.status}}",
+           "o": "notexist"
+          }
+         ]
+        ]
+       },
+       "mapper": {
+        "key": "{{1.key}}",
+        "data": {
+         "at": "{{1.data.at}}",
+         "qs": "{{1.data.qs}}",
+         "sid": "{{1.data.sid}}",
+         "name": "{{1.data.name}}",
+         "email": "{{1.data.email}}",
+         "phone": "{{1.data.phone}}",
+         "status": "bought",
+         "variant": "{{1.data.variant}}",
+         "consent": "{{1.data.consent}}",
+         "pay_failed": "{{1.data.pay_failed}}",
+         "stop": "{{1.data.stop}}",
+         "rec1_at": "{{1.data.rec1_at}}",
+         "rec2_at": "{{1.data.rec2_at}}",
+         "rec3_at": "{{1.data.rec3_at}}"
+        },
+        "overwrite": true
+       }
+      }
+     ]
+    },
+    {
+     "flow": [
+      {
+       "id": 10,
+       "module": "datastore:AddRecord",
+       "version": 1,
+       "parameters": {
+        "datastore": 210989
+       },
+       "filter": {
+        "name": "רכש אחרי מעקב: לעצור הכל",
+        "conditions": [
+         [
+          {
+           "a": "{{2.key}}",
+           "o": "exist"
+          },
+          {
+           "a": "{{1.data.status}}",
+           "b": "followed",
+           "o": "text:equal"
+          }
+         ]
+        ]
+       },
+       "mapper": {
+        "key": "{{1.key}}",
+        "data": {
+         "at": "{{1.data.at}}",
+         "qs": "{{1.data.qs}}",
+         "sid": "{{1.data.sid}}",
+         "name": "{{1.data.name}}",
+         "email": "{{1.data.email}}",
+         "phone": "{{1.data.phone}}",
+         "status": "bought",
+         "variant": "{{1.data.variant}}",
+         "consent": "{{1.data.consent}}",
+         "pay_failed": "{{1.data.pay_failed}}",
+         "stop": "{{1.data.stop}}",
+         "rec1_at": "{{1.data.rec1_at}}",
+         "rec2_at": "{{1.data.rec2_at}}",
+         "rec3_at": "{{1.data.rec3_at}}"
+        },
+        "overwrite": true
+       }
+      },
+      {
+       "id": 11,
+       "module": "responder-live:searchSubscriber",
+       "version": 1,
+       "parameters": {
+        "__IMTCONN__": 8760895
+       },
+       "mapper": {
+        "limit": 1,
+        "listId": "122947",
+        "searchKey": "{{1.data.email}}"
+       },
+       "onerror": [
+        {
+         "id": 13,
+         "module": "builtin:Ignore",
+         "version": 1,
+         "mapper": {}
+        }
+       ]
+      },
+      {
+       "id": 12,
+       "module": "responder-live:unsubscribeListSubscriber",
+       "version": 1,
+       "parameters": {
+        "__IMTCONN__": 8760895
+       },
+       "mapper": {
+        "listId": "122947",
+        "identifier": "{{11.id}}"
+       },
+       "onerror": [
+        {
+         "id": 14,
+         "module": "builtin:Ignore",
+         "version": 1,
+         "mapper": {}
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "flow": [
+      {
+       "id": 30,
+       "module": "responder-live:subscribeToList",
+       "version": 1,
+       "parameters": {
+        "__IMTCONN__": 8760895
+       },
+       "filter": {
+        "name": "מייל 1: הסכים, לא רכש, 08:30-22:00",
+        "conditions": [
+         [
+          {
+           "a": "{{2.key}}",
+           "o": "notexist"
+          },
+          {
+           "a": "{{1.data.consent}}",
+           "b": "1",
+           "o": "text:equal"
+          },
+          {
+           "a": "{{1.data.stop}}",
+           "o": "notexist"
+          },
+          {
+           "a": "{{parseNumber(formatDate(now; \"HHmm\"; \"Asia/Jerusalem\"))}}",
+           "b": "830",
+           "o": "number:greaterorequal"
+          },
+          {
+           "a": "{{parseNumber(formatDate(now; \"HHmm\"; \"Asia/Jerusalem\"))}}",
+           "b": "2200",
+           "o": "number:less"
+          },
+          {
+           "a": "{{1.data.rec1_at}}",
+           "o": "notexist"
+          },
+          {
+           "a": "{{1.data.at}}",
+           "b": "{{addMinutes(now; if(1.data.pay_failed = \"1\"; -15; -60))}}",
+           "o": "date:less"
+          }
+         ]
+        ]
+       },
+       "mapper": {
+        "name": "{{1.data.name}}",
+        "email": "{{1.data.email}}",
+        "phone": "{{1.data.phone}}",
+        "listId": "122947",
+        "disable_notification": true,
+        "tags_names": [
+         "nlp_abandoned",
+         "lp_{{1.data.variant}}",
+         "{{if(1.data.pay_failed = \"1\"; \"pay_failed\"; \"pay_not_tried\")}}",
+         "{{if(1.data.pay_failed = \"1\"; \"nlp_rec1f\"; \"nlp_rec1\")}}"
+        ]
+       },
+       "onerror": [
+        {
+         "id": 31,
+         "module": "google-email:sendAnEmail",
+         "version": 4,
+         "parameters": {
+          "__IMTCONN__": 11713706
+         },
+         "mapper": {
+          "to": [
+           "yahavmor77@gmail.com"
+          ],
+          "subject": "⚠️ רב מסר נכשל - החזרת נוטשים (מייל 1)",
+          "bodyType": "rawHtml",
+          "content": "<div dir='rtl' style='font-family:Arial,sans-serif;font-size:15px;line-height:1.8'><b>רב מסר נכשל</b> בשלב מייל 1 של החזרת הנוטשים (7847510).<br>מזהה הליד (sid): {{1.data.sid}} · דף {{1.data.variant}}<br>זמן: {{formatDate(now; \"DD.MM.YYYY HH:mm\"; \"Asia/Jerusalem\")}}<br>השלב לא סומן כנשלח, ולכן ינוסה שוב בהרצה הבאה (כל 15 דקות).<br><span style='color:#888;font-size:12px'>התראה אוטומטית (ב31/ב51).</span></div>"
+         },
+         "onerror": [
+          {
+           "id": 32,
+           "module": "builtin:Resume",
+           "version": 1,
+           "mapper": {}
+          }
+         ]
+        },
+        {
+         "id": 33,
+         "module": "builtin:Ignore",
+         "version": 1,
+         "mapper": {}
+        }
+       ]
+      },
+      {
+       "id": 34,
+       "module": "datastore:AddRecord",
+       "version": 1,
+       "parameters": {
+        "datastore": 210989
+       },
+       "mapper": {
+        "key": "{{1.key}}",
+        "data": {
+         "at": "{{1.data.at}}",
+         "qs": "{{1.data.qs}}",
+         "sid": "{{1.data.sid}}",
+         "name": "{{1.data.name}}",
+         "email": "{{1.data.email}}",
+         "phone": "{{1.data.phone}}",
+         "status": "followed",
+         "variant": "{{1.data.variant}}",
+         "consent": "{{1.data.consent}}",
+         "pay_failed": "{{1.data.pay_failed}}",
+         "stop": "{{1.data.stop}}",
+         "rec1_at": "{{now}}",
+         "rec2_at": "{{1.data.rec2_at}}",
+         "rec3_at": "{{1.data.rec3_at}}"
+        },
+        "overwrite": true
+       }
+      }
+     ]
+    },
+    {
+     "flow": [
+      {
+       "id": 40,
+       "module": "responder-live:searchSubscriber",
+       "version": 1,
+       "parameters": {
+        "__IMTCONN__": 8760895
+       },
+       "filter": {
+        "name": "מייל 2: 24 שעות, אחרי מייל 1",
+        "conditions": [
+         [
+          {
+           "a": "{{2.key}}",
+           "o": "notexist"
+          },
+          {
+           "a": "{{1.data.consent}}",
+           "b": "1",
+           "o": "text:equal"
+          },
+          {
+           "a": "{{1.data.stop}}",
+           "o": "notexist"
+          },
+          {
+           "a": "{{parseNumber(formatDate(now; \"HHmm\"; \"Asia/Jerusalem\"))}}",
+           "b": "830",
+           "o": "number:greaterorequal"
+          },
+          {
+           "a": "{{parseNumber(formatDate(now; \"HHmm\"; \"Asia/Jerusalem\"))}}",
+           "b": "2200",
+           "o": "number:less"
+          },
+          {
+           "a": "{{1.data.rec1_at}}",
+           "o": "exist"
+          },
+          {
+           "a": "{{1.data.rec2_at}}",
+           "o": "notexist"
+          },
+          {
+           "a": "{{1.data.at}}",
+           "b": "{{addHours(now; -24)}}",
+           "o": "date:less"
+          }
+         ]
+        ]
+       },
+       "mapper": {
+        "limit": 1,
+        "listId": "122947",
+        "searchKey": "{{1.data.email}}"
+       },
+       "onerror": [
+        {
+         "id": 41,
+         "module": "google-email:sendAnEmail",
+         "version": 4,
+         "parameters": {
+          "__IMTCONN__": 11713706
+         },
+         "mapper": {
+          "to": [
+           "yahavmor77@gmail.com"
+          ],
+          "subject": "⚠️ רב מסר נכשל - החזרת נוטשים (מייל 2 - חיפוש)",
+          "bodyType": "rawHtml",
+          "content": "<div dir='rtl' style='font-family:Arial,sans-serif;font-size:15px;line-height:1.8'><b>רב מסר נכשל</b> בשלב מייל 2 - חיפוש של החזרת הנוטשים (7847510).<br>מזהה הליד (sid): {{1.data.sid}} · דף {{1.data.variant}}<br>זמן: {{formatDate(now; \"DD.MM.YYYY HH:mm\"; \"Asia/Jerusalem\")}}<br>השלב לא סומן כנשלח, ולכן ינוסה שוב בהרצה הבאה (כל 15 דקות).<br><span style='color:#888;font-size:12px'>התראה אוטומטית (ב31/ב51).</span></div>"
+         },
+         "onerror": [
+          {
+           "id": 42,
+           "module": "builtin:Resume",
+           "version": 1,
+           "mapper": {}
+          }
+         ]
+        },
+        {
+         "id": 43,
+         "module": "builtin:Ignore",
+         "version": 1,
+         "mapper": {}
+        }
+       ]
+      },
+      {
+       "id": 44,
+       "module": "responder-live:updateSubscriber",
+       "version": 1,
+       "parameters": {
+        "__IMTCONN__": 8760895
+       },
+       "mapper": {
+        "identifier": "{{40.id}}",
+        "listId": "122947",
+        "tags_names": [
+         "nlp_rec2"
+        ]
+       },
+       "onerror": [
+        {
+         "id": 45,
+         "module": "google-email:sendAnEmail",
+         "version": 4,
+         "parameters": {
+          "__IMTCONN__": 11713706
+         },
+         "mapper": {
+          "to": [
+           "yahavmor77@gmail.com"
+          ],
+          "subject": "⚠️ רב מסר נכשל - החזרת נוטשים (מייל 2)",
+          "bodyType": "rawHtml",
+          "content": "<div dir='rtl' style='font-family:Arial,sans-serif;font-size:15px;line-height:1.8'><b>רב מסר נכשל</b> בשלב מייל 2 של החזרת הנוטשים (7847510).<br>מזהה הליד (sid): {{1.data.sid}} · דף {{1.data.variant}}<br>זמן: {{formatDate(now; \"DD.MM.YYYY HH:mm\"; \"Asia/Jerusalem\")}}<br>השלב לא סומן כנשלח, ולכן ינוסה שוב בהרצה הבאה (כל 15 דקות).<br><span style='color:#888;font-size:12px'>התראה אוטומטית (ב31/ב51).</span></div>"
+         },
+         "onerror": [
+          {
+           "id": 46,
+           "module": "builtin:Resume",
+           "version": 1,
+           "mapper": {}
+          }
+         ]
+        },
+        {
+         "id": 47,
+         "module": "builtin:Ignore",
+         "version": 1,
+         "mapper": {}
+        }
+       ]
+      },
+      {
+       "id": 48,
+       "module": "datastore:AddRecord",
+       "version": 1,
+       "parameters": {
+        "datastore": 210989
+       },
+       "mapper": {
+        "key": "{{1.key}}",
+        "data": {
+         "at": "{{1.data.at}}",
+         "qs": "{{1.data.qs}}",
+         "sid": "{{1.data.sid}}",
+         "name": "{{1.data.name}}",
+         "email": "{{1.data.email}}",
+         "phone": "{{1.data.phone}}",
+         "status": "followed",
+         "variant": "{{1.data.variant}}",
+         "consent": "{{1.data.consent}}",
+         "pay_failed": "{{1.data.pay_failed}}",
+         "stop": "{{1.data.stop}}",
+         "rec1_at": "{{1.data.rec1_at}}",
+         "rec2_at": "{{now}}",
+         "rec3_at": "{{1.data.rec3_at}}"
+        },
+        "overwrite": true
+       }
+      }
+     ]
+    },
+    {
+     "flow": [
+      {
+       "id": 50,
+       "module": "responder-live:searchSubscriber",
+       "version": 1,
+       "parameters": {
+        "__IMTCONN__": 8760895
+       },
+       "filter": {
+        "name": "מייל 3 (אחרון): 72 שעות, אחרי מייל 2",
+        "conditions": [
+         [
+          {
+           "a": "{{2.key}}",
+           "o": "notexist"
+          },
+          {
+           "a": "{{1.data.consent}}",
+           "b": "1",
+           "o": "text:equal"
+          },
+          {
+           "a": "{{1.data.stop}}",
+           "o": "notexist"
+          },
+          {
+           "a": "{{parseNumber(formatDate(now; \"HHmm\"; \"Asia/Jerusalem\"))}}",
+           "b": "830",
+           "o": "number:greaterorequal"
+          },
+          {
+           "a": "{{parseNumber(formatDate(now; \"HHmm\"; \"Asia/Jerusalem\"))}}",
+           "b": "2200",
+           "o": "number:less"
+          },
+          {
+           "a": "{{1.data.rec2_at}}",
+           "o": "exist"
+          },
+          {
+           "a": "{{1.data.rec3_at}}",
+           "o": "notexist"
+          },
+          {
+           "a": "{{1.data.at}}",
+           "b": "{{addHours(now; -72)}}",
+           "o": "date:less"
+          }
+         ]
+        ]
+       },
+       "mapper": {
+        "limit": 1,
+        "listId": "122947",
+        "searchKey": "{{1.data.email}}"
+       },
+       "onerror": [
+        {
+         "id": 51,
+         "module": "google-email:sendAnEmail",
+         "version": 4,
+         "parameters": {
+          "__IMTCONN__": 11713706
+         },
+         "mapper": {
+          "to": [
+           "yahavmor77@gmail.com"
+          ],
+          "subject": "⚠️ רב מסר נכשל - החזרת נוטשים (מייל 3 - חיפוש)",
+          "bodyType": "rawHtml",
+          "content": "<div dir='rtl' style='font-family:Arial,sans-serif;font-size:15px;line-height:1.8'><b>רב מסר נכשל</b> בשלב מייל 3 - חיפוש של החזרת הנוטשים (7847510).<br>מזהה הליד (sid): {{1.data.sid}} · דף {{1.data.variant}}<br>זמן: {{formatDate(now; \"DD.MM.YYYY HH:mm\"; \"Asia/Jerusalem\")}}<br>השלב לא סומן כנשלח, ולכן ינוסה שוב בהרצה הבאה (כל 15 דקות).<br><span style='color:#888;font-size:12px'>התראה אוטומטית (ב31/ב51).</span></div>"
+         },
+         "onerror": [
+          {
+           "id": 52,
+           "module": "builtin:Resume",
+           "version": 1,
+           "mapper": {}
+          }
+         ]
+        },
+        {
+         "id": 53,
+         "module": "builtin:Ignore",
+         "version": 1,
+         "mapper": {}
+        }
+       ]
+      },
+      {
+       "id": 54,
+       "module": "responder-live:updateSubscriber",
+       "version": 1,
+       "parameters": {
+        "__IMTCONN__": 8760895
+       },
+       "mapper": {
+        "identifier": "{{50.id}}",
+        "listId": "122947",
+        "tags_names": [
+         "nlp_rec3"
+        ]
+       },
+       "onerror": [
+        {
+         "id": 55,
+         "module": "google-email:sendAnEmail",
+         "version": 4,
+         "parameters": {
+          "__IMTCONN__": 11713706
+         },
+         "mapper": {
+          "to": [
+           "yahavmor77@gmail.com"
+          ],
+          "subject": "⚠️ רב מסר נכשל - החזרת נוטשים (מייל 3)",
+          "bodyType": "rawHtml",
+          "content": "<div dir='rtl' style='font-family:Arial,sans-serif;font-size:15px;line-height:1.8'><b>רב מסר נכשל</b> בשלב מייל 3 של החזרת הנוטשים (7847510).<br>מזהה הליד (sid): {{1.data.sid}} · דף {{1.data.variant}}<br>זמן: {{formatDate(now; \"DD.MM.YYYY HH:mm\"; \"Asia/Jerusalem\")}}<br>השלב לא סומן כנשלח, ולכן ינוסה שוב בהרצה הבאה (כל 15 דקות).<br><span style='color:#888;font-size:12px'>התראה אוטומטית (ב31/ב51).</span></div>"
+         },
+         "onerror": [
+          {
+           "id": 56,
+           "module": "builtin:Resume",
+           "version": 1,
+           "mapper": {}
+          }
+         ]
+        },
+        {
+         "id": 57,
+         "module": "builtin:Ignore",
+         "version": 1,
+         "mapper": {}
+        }
+       ]
+      },
+      {
+       "id": 58,
+       "module": "datastore:AddRecord",
+       "version": 1,
+       "parameters": {
+        "datastore": 210989
+       },
+       "mapper": {
+        "key": "{{1.key}}",
+        "data": {
+         "at": "{{1.data.at}}",
+         "qs": "{{1.data.qs}}",
+         "sid": "{{1.data.sid}}",
+         "name": "{{1.data.name}}",
+         "email": "{{1.data.email}}",
+         "phone": "{{1.data.phone}}",
+         "status": "followed",
+         "variant": "{{1.data.variant}}",
+         "consent": "{{1.data.consent}}",
+         "pay_failed": "{{1.data.pay_failed}}",
+         "stop": "{{1.data.stop}}",
+         "rec1_at": "{{1.data.rec1_at}}",
+         "rec2_at": "{{1.data.rec2_at}}",
+         "rec3_at": "{{now}}"
+        },
+        "overwrite": true
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "metadata": {
+  "instant": false,
+  "version": 1
+ },
+ "scheduling": {
+  "type": "indefinitely",
+  "interval": 900
+ }
+}

@@ -1,0 +1,62 @@
+{
+ "_": "ב83: קבצי בדיקה עד שע22 מגיע (12.11 14:00). רק לבדיקות ולצילומים",
+ "keep_cta1": true,
+ "hero": {
+  "code": "gold_h1_02",
+  "loop": {
+   "src": "assets/t3.mp4",
+   "poster": ""
+  },
+  "full": {
+   "code": "gold_h1_02",
+   "src": "assets/t1.mp4",
+   "poster": "assets/t1.jpg",
+   "w": 480,
+   "h": 848
+  }
+ },
+ "belief": {
+  "code": "gold_h2_01",
+  "src": "assets/t2.mp4",
+  "poster": "assets/t2.jpg",
+  "w": 430,
+  "h": 360
+ },
+ "strip": [
+  {
+   "code": "gold_h1_01",
+   "src": "assets/t1.mp4",
+   "poster": "assets/t1.jpg",
+   "w": 480,
+   "h": 848
+  },
+  {
+   "code": "gold_h2_02",
+   "src": "assets/t2.mp4",
+   "poster": "assets/t2.jpg",
+   "w": 430,
+   "h": 360
+  },
+  {
+   "code": "gold_h1_03",
+   "src": "assets/t3.mp4",
+   "poster": "assets/t3.webp",
+   "w": 480,
+   "h": 848
+  },
+  {
+   "code": "gold_h2_03",
+   "src": "assets/v4/e15.mp4",
+   "poster": "assets/v4/e15.webp",
+   "w": 720,
+   "h": 1280
+  },
+  {
+   "code": "gold_h1_04",
+   "src": "assets/v4/e20.mp4",
+   "poster": "assets/v4/e20.webp",
+   "w": 1280,
+   "h": 720
+  }
+ ]
+}

@@ -1,0 +1,224 @@
+import os,json,base64,urllib.parse as up,random,re,sys
+from datetime import datetime
+from collections import Counter,defaultdict
+o=json.load(open(sys.argv[1])); c=o["content"]
+try: t=base64.b64decode(c).decode()
+except Exception: t=c
+t=t.replace("\r","")
+COLS=["ts","ev","variant","sid","sec_on_page","max_section","sections","max_scroll_pct","qs","at_section","section","name","video","cta","checkout_started","depth","vid","dev","nv","act","x"]
+R=[]
+for l in t.split("\n")[1:]:
+    a=l.split("\t")
+    if len(a)<5: continue
+    r=dict(zip(COLS,a+[""]*(21-len(a))))
+    try: r["t"]=datetime.strptime(r["ts"],"%Y-%m-%d %H:%M:%S")
+    except: continue
+    R.append(r)
+print("rows",len(R),"last",max(r["ts"] for r in R))
+PREV=datetime.strptime(sys.argv[2],"%Y-%m-%d %H:%M")
+X0=datetime(2026,11,5,6,55); SW=datetime(2026,11,8,14,19); CO54=datetime(2026,11,8,9,58)
+V6=datetime(2026,11,12,11,54)
+PG=datetime(2026,11,15,14,17)  # ב94: pg_1611 a5v6 מול pr2 (פריסה + 10 דקות מטמון)
+SC=datetime(2026,11,15,7,33)  # ב68 שלב ג: go.html מפנה הכול ל-a5v6 עם exp=a5v6_1511 (פריסה 07:22, באוויר 07:23, ועוד עד 10 דקות מטמון)  # ב85: go.html מפנה את הזרוע a5 ל-a5v6 (פריסה 11:45, ועוד עד 10 דקות מטמון)
+def isTest(r):
+    q=r["qs"].lower()
+    return bool(re.search("claude|test|nocache",q)) or bool(re.search(r"(^|;)int=1(;|$)",r["x"] or "")) or r["variant"]=="test" or bool(re.search("בדיקה|בדיקת",r["name"] or "")) or r["sid"]=="6ac363a1-80a1-4715-9964-0a72520b66fb" or any(d in r["qs"] for d in ("267429750","270060105"))  # עסקאות בדיקה (270060105 = ב69, 13.11 19:24)
+TV={r["vid"] for r in R if r["vid"] and isTest(r)}|{"77438727"}
+def src(p):
+    s=(p.get("utm_source") or [""])[0].lower(); m=(p.get("utm_medium") or [""])[0].lower()
+    if p.get("aff") or m=="affiliate": return "aff"
+    if re.search("meta|facebook|fb|ig|instagram",s) and re.search("paid|cpc|ads?$|social_paid|paid_social",m): return "paid"
+    if re.search("manychat",(p.get("utm_campaign") or [""])[0]) or m=="dm": return "manychat"
+    if re.search("email|responder",s+m): return "mail"
+    if re.search("instagram|ig",s): return "ig_org"
+    return "other"
+L=[r for r in R if r["t"]>=datetime(2026,11,4) and not r["ev"].startswith("meta_scan:")]
+secn=defaultdict(dict)
+for r in L:
+    if r["ev"]=="section" and r["section"].isdigit(): secn[r["variant"]][int(r["section"])]=r["name"]
+offk={v:min([k for k,n in d.items() if "הצעה" in n] or [99]) for v,d in secn.items()}
+print("offer section idx:",{v:offk[v] for v in ("a","a5","a5v6","pr","pr2") if v in offk})
+S={}
+for r in L:
+    if not r["sid"] or isTest(r) or r["vid"] in TV: continue
+    s=S.get(r["sid"])
+    if not s:
+        p=up.parse_qs(r["qs"]); s=S[r["sid"]]={"v":r["variant"],"t":r["t"],"exp":(p.get("exp") or [""])[0],"vid":r["vid"],"qs":r["qs"],"src":src(p),"route":(p.get("route") or [""])[0],"uc":(p.get("utm_content") or [""])[0],"chk":0,"cta":0,"ctas":[],"maxsec":0,"pay":0,"cx":"","co":"","failed":0,"det":0}
+    s["t"]=min(s["t"],r["t"]); s["vid"]=s["vid"] or r["vid"]
+    x=dict(kv.split("=",1) for kv in (r["x"] or "").split(";") if "=" in kv)
+    if x.get("cx") and not s["cx"]: s["cx"]=x["cx"]
+    if x.get("co") and not s["co"]: s["co"]=x["co"]
+    e=r["ev"]
+    if e.startswith("checkout_"): s["chk"]=1
+    if e in("checkout_details","checkout_contact_started"): s["det"]=1
+    if e=="checkout_details": s["lead"]=1
+    if e=="checkout_payment_viewed": s["pay"]=1
+    try: s["time"]=max(s.get("time",0),float(r.get("sec_on_page") or 0))  # ב103: זמן בדף
+    except Exception: pass
+    if e=="checkout_failed": s["failed"]+=1
+    if e=="cta_click": s["cta"]=1; s["ctas"].append(r["cta"])
+    try: s["maxsec"]=max(s["maxsec"],int(r["max_section"] or 0))
+    except: pass
+seen=set(); B={}
+for r in R:
+    if r["ev"]=="purchase" and r["cta"] in("cardcom_webhook","cardcom_page_webhook","manual_bank_transfer") and r["t"]>=datetime(2026,11,4):
+        if r["cta"]=="manual_bank_transfer":  # ב64: bank transfer = verified purchase, key bank_<ref>
+            m=re.search(r"ref\s+([^\s|]+)",r["qs"]); d="bank_"+m.group(1) if m else r["sid"]
+        else:
+            m=re.search(r"deal\s+(\S+)",r["qs"]); d=m.group(1) if m else r["sid"]
+        if d in seen or d=="267429750": continue
+        seen.add(d); B[r["sid"]]=(r["ts"],r["variant"],d,"bank" if r["cta"]=="manual_bank_transfer" else "card")
+print("verified purchases since 4.11:",[(v[0],v[1],v[3]) for v in B.values()], "sids in S:",sum(1 for k in B if k in S))
+for s_id,s in S.items(): s["buy"]=1 if s_id in B else 0
+# ב108 (18.11): עד שהתיקון של NLP_OWNER באוויר - רכישה מוואטסאפ שמשויכת למשווק (aff ב-x) עלולה להיזקף למשווק בטעות. לבדוק לפני תשלום עמלה
+WA=[]
+for r in R:
+    if r["ev"]=="purchase" and r["t"]>=datetime(2026,11,18) and not isTest(r):
+        ses=[x for x in R if x["sid"]==r["sid"] and x["sid"]] if r["sid"] else []
+        wa=any(re.search(r"(?:^|&)utm_source=whatsapp(?:&|$)",x["qs"] or "") for x in ses)
+        aff=re.search(r"(?:^|;)aff=([^;]+)",r["x"] or "") or next((re.search(r"(?:^|;)aff=([^;]+)",x["x"] or "") for x in ses if re.search(r"(?:^|;)aff=",x["x"] or "")),None)
+        if wa and aff: WA.append((r["ts"][:16],r["variant"],aff.group(1)))
+print("b108 whatsapp purchases attributed to an affiliate (check before paying commission):",WA or "none")
+EXPID="ap2_0811"
+def report(lo,hi,arms,label,only_paid=True,since=None):
+    E=[s for s in S.values() if s["exp"]==EXPID and s["v"] in arms and lo<=s["t"]<hi and (not only_paid or s["src"]=="paid")]
+    print("==",label,"sessions",len(E))
+    A={}
+    for v in arms:
+        ss=[s for s in E if s["v"]==v]; P=defaultdict(lambda: defaultdict(int))
+        for s in ss:
+            k=s["vid"] or s["v"]+s["t"].isoformat(); o=P[k]
+            for f in ("cta","chk","det","pay","buy"): o[f]|=s[f]
+            o["fs"]|=int(s["maxsec"]>=2); o["off"]|=int(s["maxsec"]>=offk.get(v,99) or "offer" in s["ctas"])
+        n=len(P); A[v]={"visits":len(ss),"people":n,**{f:sum(o[f] for o in P.values()) for f in ("fs","off","cta","chk","det","pay","buy")}}
+        A[v]["ctapos"]=dict(Counter(c for s in ss for c in s["ctas"]))
+    random.seed(611); N=20000
+    for key in ("chk","buy"):
+        best=Counter(); worst=Counter()
+        for _ in range(N):
+            x={v:random.betavariate(1+A[v][key],1+max(0,A[v]["people"]-A[v][key])) for v in arms}
+            best[max(x,key=x.get)]+=1; worst[min(x,key=x.get)]+=1
+        for v in arms: A[v]["P_"+key]="%d%%/%d%%"%(best[v]*100/N,worst[v]*100/N)
+    for v in arms: print(" ",v,A[v])
+EXPID="aap_0511"
+report(datetime(2026,11,5,13,56),SW,["a","a5","pr2"],"OLD aap_0511 final (05.11 13:56 - 08.11 09:58), paid only")
+EXPID="ap2_0811"
+report(SW,V6,["a5","pr2"],"ap2_0811 phase 1: a5 vs pr2 (08.11 14:19 - 12.11 11:54), paid only")
+report(SW,V6,["a5","pr2"],"ap2_0811 phase 1 ALL sources (incl aff)",only_paid=False)
+report(V6,datetime(2100,1,1),["a5v6","pr2"],"ap2_0811 phase 2: a5v6 vs pr2 (from 12.11 11:54, b85), paid only")
+report(V6,datetime(2100,1,1),["a5v6","pr2"],"ap2_0811 phase 2 ALL sources (incl aff)",only_paid=False)
+EXPID="pg_1611"
+# ב94 (ראשי 15.11): לכל דף, ובכל דף בנפרד ממומן / משווקים / הכול: אנשים, הגיעו לתשלום, התחילו למלא, לידים, רכישות + SRM. מחליטים לפי לידים ורכישות
+import math
+def srm(a,b):
+    n=a+b
+    if not n: return "-"
+    x=(a-n/2)**2/(n/2)*2; p=math.erfc(math.sqrt(x/2)); return "%d מול %d, p=%.2f%s"%(a,b,p," - לבדוק" if p<0.01 else "")
+for lab,keep in (("paid",lambda s:s["src"]=="paid"),("aff",lambda s:s["src"]=="aff"),("all",lambda s:True)):
+    E=[s for s in S.values() if s["exp"]=="pg_1611" and s["v"] in("a5v6","pr2") and s["t"]>=PG and keep(s)]
+    P=defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+    for s in E:
+        o=P[s["v"]][s["vid"] or s["v"]+s["t"].isoformat()]
+        for f in ("chk","det","lead","buy"): o[f]|=s.get(f,0)
+    R2={v:{"people":len(P[v]),"checkout":sum(o["chk"] for o in P[v].values()),"started":sum(o["det"] for o in P[v].values()),"leads":sum(o["lead"] for o in P[v].values()),"buys":sum(o["buy"] for o in P[v].values())} for v in ("a5v6","pr2")}
+    print("b94 pg_1611",lab,R2,"| SRM",srm(R2["a5v6"]["people"],R2["pr2"]["people"]))
+# ב102: on_1611 - "ישן" (a + סליקה A) מול "חדש" (a5v6 + B2). ראשי: השאירו פרטים (checkout_details) לאדם, ממודעות של בן בלבד. משווקים בנפרד
+ON=ON0=datetime(2026,11,16,15,5)  # פריסה + 10 דקות מטמון
+# ב105 (17.11): on_1711 מחליף את on_1611 - "ישן" (a + סליקה A) מול "חדש" (a5v7 + B2). נדחף 20:47:55, ON_START 20:59. on_1611 נסגר; שאריות on_1611 לא נספרות
+ON=datetime(2026,11,17,20,59); OX="on_1711"; NV="a5v7"
+for lab,keep in (("paid",lambda s:s["src"]=="paid"),("aff",lambda s:s["src"]=="aff"),("ben+aff",lambda s:s["src"] in("paid","aff")),("all",lambda s:True)):  # ב103: ben+aff = סך הכול
+    E=[s for s in S.values() if s["exp"]==OX and s["v"] in("a",NV) and s["t"]>=ON and keep(s)]
+    P=defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+    for s in E:
+        o=P[s["v"]][s["vid"] or s["v"]+s["t"].isoformat()]
+        for f in ("chk","det","lead","pay","buy"): o[f]|=s.get(f,0)
+        o["min1"]|=int(s.get("time",0)>=60)
+    R3={v:{"people":len(P[v]),"stayed_1min":sum(o["min1"] for o in P[v].values()),"checkout":sum(o["chk"] for o in P[v].values()),"started":sum(o["det"] for o in P[v].values()),"leads":sum(o["lead"] for o in P[v].values()),"payform":sum(o["pay"] for o in P[v].values()),"buys":sum(o["buy"] for o in P[v].values())} for v in ("a",NV)}
+    print("b105 "+OX,lab,R3,"| SRM",srm(R3["a"]["people"],R3[NV]["people"]))
+print(("b105 stop rule: paid people per arm (150) a=%d "+NV+"=%d, days %d of 14") % (len({s["vid"] or s["t"] for s in S.values() if s["exp"]==OX and s["v"]=="a" and s["t"]>=ON and s["src"]=="paid"}),len({s["vid"] or s["t"] for s in S.values() if s["exp"]==OX and s["v"]==NV and s["t"]>=ON and s["src"]=="paid"}),max(0,(datetime.now()-ON).days)))
+OUT=defaultdict(set)  # ב103: ישר לדף בלי go.html - מחוץ לניסוי
+for s in S.values():
+    if s["v"] in("a","a5v6",NV,"a5s") and s["t"]>=ON and not s["exp"] and s["route"]!="ig_org" and "go=1" not in s["qs"]:
+        OUT[(s["src"],s["v"])].add(s["vid"] or s["t"].isoformat())
+print("b103 out of experiment (direct to page, no go.html):",{"%s/%s"%k:len(v) for k,v in sorted(OUT.items(),key=lambda kv:-len(kv[1]))})
+# ב111 (19.11): הקמפיין של בן לדף הקצר (lenatzeach_w40, בלי aff) - לפי מודעה, מאז הסיכום הקודם ומההתחלה. מחוץ לניסוי on_1711
+W40=defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+for s in S.values():
+    if s["v"]=="a5s" and s["src"]=="paid" and "utm_campaign=lenatzeach_w40" in s["qs"]:
+        for per in (("all",True),("prev",s["t"]>=PREV)):
+            if not per[1]: continue
+            o=W40[per[0]][s["uc"] or "-"]; k=s["vid"] or s["t"].isoformat()
+            o.setdefault("_p",set()).add(k)
+            if s["chk"]: o.setdefault("_c",set()).add(k)
+            if s.get("lead") or s["pay"] or s.get("buy"): o.setdefault("_l",set()).add(k)
+            if s.get("buy"): o.setdefault("_b",set()).add(k)
+print("b111 lenatzeach_w40 (Ben -> a5s) by ad:",{per:{uc:{"people":len(o.get("_p",())),"checkout":len(o.get("_c",())),"leads":len(o.get("_l",())),"buys":len(o.get("_b",()))} for uc,o in d.items()} for per,d in W40.items()} or "no visits yet")
+IG=defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+for s in S.values():
+    if s["route"]=="ig_org" and s["t"]>=ON and s["chk"]:
+        o=IG[s["co"] or "-"][s["vid"] or s["t"].isoformat()]
+        for f in ("chk","lead","buy"): o[f]|=s.get(f,0)
+IGP=defaultdict(set)
+for s in S.values():
+    if s["route"]=="ig_org" and s["t"]>=ON: IGP["all"].add(s["vid"] or s["t"].isoformat())
+print("b102 ig_org by checkout (A vs B2): people (all ig_org)",len(IGP["all"]),{co:{"reached checkout":len(P),"details":sum(o["lead"] for o in P.values()),"buys":sum(o["buy"] for o in P.values())} for co,P in IG.items()})
+print("b105 checkout version by arm (should be a->a, "+NV+"->b2):",Counter((s["v"],s["co"] or "-") for s in S.values() if s["exp"]==OX and s["chk"] and s["t"]>=ON))
+EXPID="a5v6_1511"
+report(SC,datetime(2100,1,1),["a5v6"],"a5v6 all traffic (b68 stage C, from 15.11 07:33), paid only")
+report(SC,datetime(2100,1,1),["a5v6"],"a5v6 all traffic (b68 stage C) ALL sources",only_paid=False)
+EXPID="ap2_0811"
+if PREV<V6: report(max(PREV,SW),V6,["a5","pr2"],"since last summary until the switch, paid only")
+report(max(PREV,V6),datetime(2100,1,1),["a5v6","pr2"],"since last summary (phase 2), paid only")
+E=[s for s in S.values() if s["exp"]=="ap2_0811" and s["t"]>=SW]
+print("ap2_0811 sources since SW:",Counter(s["src"] for s in E))
+print("ap2_0811 aff/non-paid sessions since SW:",Counter((s["v"],s["src"]) for s in E if s["src"]!="paid"))
+print("SRM people per arm (paid) phase 1:",Counter(s["v"] for s in {(s["vid"] or s["t"].isoformat()):s for s in E if s["src"]=="paid" and s["t"]<V6}.values()))
+print("SRM people per arm (paid) phase 2 (a5v6 vs pr2):",Counter(s["v"] for s in {(s["vid"] or s["t"].isoformat()):s for s in E if s["src"]=="paid" and s["t"]>=V6}.values()))
+print("a5 (old page) visits with exp=ap2_0811 after the switch (should be ~0):",sum(1 for s in E if s["v"]=="a5" and s["t"]>=V6))
+print("arms seen with exp=ap2_0811 since SW:",Counter(s["v"] for s in E))
+old=[s for s in S.values() if s["exp"]=="aa5_0411" and s["t"]>=X0]
+print("aa5_0411 since 05.11 06:55: sessions",len(old),Counter(s["v"] for s in old),"chk",sum(s["chk"] for s in old),"buy",sum(s["buy"] for s in old))
+print("go=1 to out-of-exp pages since X0:",[(s["v"],s["t"].strftime("%d %H:%M")) for s in S.values() if "go=1" in s["qs"] and s["t"]>=X0 and (s["v"] in("a1","a3","a4","b","c","pr") or (s["v"]=="a" and s["t"]<ON0)) and s["t"]>=SW])  # 17.11: מ-ON הדף a בניסוי on_1611 (ו-ig_org מגיע אליו עם go=1 בלי exp), אז הוא לא "מחוץ לניסוי"
+igo=[s for s in S.values() if s["route"]=="ig_org" and s["t"]>=X0]
+print("route=ig_org since X0:",Counter((s["v"],s["exp"] or "-") for s in igo))
+print("other exp keys since X0:",Counter((s["v"],s["exp"]) for s in S.values() if s["t"]>=X0 and s["exp"] and s["exp"] not in("ap2_0811",) and s["t"]>=SW))
+m2=[s for s in S.values() if s["uc"]=="mail2" and s["t"]>=PREV]
+print("mail2 since prev:",len(m2),Counter(s["v"] for s in m2),"chk",sum(s["chk"] for s in m2))
+print("checkout_failed since prev:",[(s["v"],s["t"].strftime("%d %H:%M"),s["failed"],s["co"]) for s in S.values() if s["failed"] and s["t"]>=PREV])
+for cx,co in (("co_0511","a"),("co_0511","b"),("co_b_0811","b")):
+    for lab,only in (("paid",True),("all",False)):
+        ss=[s for s in S.values() if s["cx"]==cx and s["co"]==co and s["chk"] and (not only or s["src"]=="paid")]
+        P={}
+        for s in ss:
+            k=s["vid"] or s["t"].isoformat(); o=P.setdefault(k,{"det":0,"pay":0,"buy":0})
+            for f in o: o[f]|=s[f]
+        print("checkout",cx,co.upper(),lab,"people reached",len(P),"filled",sum(o["det"] for o in P.values()),"payment form",sum(o["pay"] for o in P.values()),"bought",sum(o["buy"] for o in P.values()))
+# ב90: B מול B2 בדף התשלום (co_b2_1311), לפי אנשים, בכל דף מכירה בנפרד. בודקים אחרי כ-100 שהגיעו לדף התשלום בכל גרסה
+for pg in ("a5v6","pr2","*"):
+    for co in ("b","b2"):
+        for lab,only in (("paid",True),("all",False)):
+            ss=[s for s in S.values() if s["cx"]=="co_b2_1511m" and s["co"]==co and s["chk"] and (pg=="*" or s["v"]==pg) and (not only or s["src"]=="paid")]
+            P={}
+            for s in ss:
+                k=s["vid"] or s["t"].isoformat(); o=P.setdefault(k,{"det":0,"pay":0,"buy":0})
+                for f in o: o[f]|=s[f]
+            print("b90",pg,co.upper(),lab,"people reached",len(P),"started filling",sum(o["det"] for o in P.values()),"payment form",sum(o["pay"] for o in P.values()),"bought",sum(o["buy"] for o in P.values()),"(of 100)" if len(P)<100 else "(100+ - ready to compare)")
+print("chk sessions without cx since CO54:",Counter((s["v"],s["co"] or "-") for s in S.values() if s["chk"] and s["t"]>=CO54 and s["cx"] not in("co_b_0811","co_b2_1311","co_b2_1511","co_b2_1511t","co_b2_1511m")))
+print("cta/chk sessions since prev:",[(s["v"],s["t"].strftime("%d %H:%M"),s["ctas"],s["chk"],s["co"],s["src"],s["exp"]) for s in S.values() if (s["cta"] or s["chk"]) and s["t"]>=PREV])
+FB=datetime(2026,10,28,13,15)
+SS=defaultdict(list)
+for r in R:
+    if r["t"]>=PREV and r["sid"] and not isTest(r): SS[r["sid"]].append(r)
+scan=[rs for rs in SS.values() if any(x["ev"].startswith("meta_scan:") for x in rs)]
+print("b22 since prev: sessions",len(SS),"with meta_scan",len(scan),"by device",Counter(next((x["dev"] for x in rs if x["dev"]),"?") for rs in scan).most_common(6))
+print("b22 desktop non-scan sessions since prev:",Counter((next((x["dev"] for x in rs if x["dev"]),"?"),src(up.parse_qs(rs[0]["qs"]))) for rs in SS.values() if rs not in scan and next((x["dev"] for x in rs if x["dev"]),"").startswith("d-")).most_common(6))
+# ב86: קודי מודעה בלי שם במילון המודעות (לשונית Ads, עותק ב-claude/b86/ads_dict.json) - נכנסים לסיכום היומי כ"לא מזוהה"
+_AD=os.path.join(os.path.dirname(os.path.abspath(__file__)),"..","b86","ads_dict.json")
+KNOWN={a[0].lower() for a in json.load(open(_AD,encoding="utf8"))} if os.path.exists(_AD) else set()
+unk=Counter()
+for s in S.values():
+    if s["t"]<PREV or (s.get("vid") or "") in TV or (s.get("vid") or "").startswith(("fead4466","77438727")): continue
+    c=(up.parse_qs(s["qs"]).get("utm_content",[""])[0] or "").strip().lower()
+    if c and c not in KNOWN and not re.match(r"^lp_[abc]$",c): unk[c]+=1
+if KNOWN: print("b86 unknown ad codes since prev (not in Ads dictionary):",unk.most_common(15) if unk else "none")
+else: print("b86 unknown ad codes: SKIPPED - ads_dict.json not next to the script; check these codes against the live dictionary (dashboard API action=ads):",unk.most_common(15))

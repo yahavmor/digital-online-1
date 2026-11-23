@@ -1,0 +1,15 @@
+--- a/nlp/thanks.html
++++ b/nlp/thanks.html
+@@ -125,6 +125,12 @@
+       if(!(d && d.ok === true && typeof d.link === "string" && /^https:\/\/[^\/]*schooler\.biz\//i.test(d.link))) return false;
+       purchase(d);
+       const a = el("go"); a.href = d.link; a.hidden = false; el("wait").hidden = true;
++      /* ב74: הצעת האפסייל - רק עם טוקן מהשרת אחרי תשלום מאומת (7931441 מחזיר up), פעם אחת בלשונית, לא מתוך ה-iframe ולא בחזרה מהאפסייל (?ups=1).
++         ההמתנה נותנת ל-Purchase ולאירועי הדף להישלח לפני המעבר. כפתור הכניסה לקורס כבר מוצג, וגם מופיע שוב בחזרה מהאפסייל. */
++      if(!framed && typeof d.up === "string" && /^[A-Za-z0-9]{32}$/.test(d.up) && !new URLSearchParams(location.search).has("ups")){
++        let seen = false; try{ seen = sessionStorage.getItem("ups_seen") === d.up; sessionStorage.setItem("ups_seen", d.up); }catch(e){}
++        if(!seen) setTimeout(() => { location.href = "upsell-97.html?t=" + d.up; }, 1500);
++      }
+       if(d.email && window.__showTo) __showTo(d.email); /* ב56: המייל מוצג בתיבה "איפה פרטי הגישה?" */
+       if(typeof d.wa === "string" && /^https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]{10,40}$/.test(d.wa)){ const g = el("grp"); g.href = d.wa; g.hidden = false; el("grpNote").hidden = false; /* ב72 */
+         g.addEventListener("click", () => { try{ if(TRACK_ENDPOINT[0] === "%") return; let lc = {}; try{ lc = JSON.parse(localStorage.getItem("nlp_lc") || "{}"); }catch(e){} const q = new URLSearchParams(location.search); const f = new URLSearchParams({ev:"wa_group_click", variant:lc.v || q.get("v") || "", sid:lc.sid || q.get("sid") || ""}); try{ if(localStorage.getItem("nlp_int") === "1") f.set("x","int=1"); }catch(e){} if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT, f))) fetch(TRACK_ENDPOINT, {method:"POST", body:f, mode:"no-cors"}); }catch(e){} }, {once:true}); }
