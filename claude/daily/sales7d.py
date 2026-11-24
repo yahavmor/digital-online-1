@@ -55,7 +55,7 @@ def q(qs, k):
 for b in buys:
     f = first.get(b["sid"])
     if not f: b.update(camp="לא ידוע", ad="לא ידוע", aff="", page="", src=""); continue
-    x = f["x"] or ""; m = re.search(r"(?:^|;)aff=([a-z0-9_-]+)", x)
+    x = f["x"] or ""; m = re.search(r"(?:^|;)aff=(?:aff_?(?=[a-z0-9]))?([a-z0-9_-]+)", x)  # ב121: affX / aff_X = X
     b.update(camp=(q(f["qs"], "utm_campaign") or "(בלי קמפיין)").replace("|", "/"), ad=(q(f["qs"], "utm_content") or "(בלי מודעה)").lower(),
              aff=(m.group(1) if m else q(f["qs"], "aff")), page=f["variant"], src=q(f["qs"], "utm_source"), first=f["t"])
 # הוצאה

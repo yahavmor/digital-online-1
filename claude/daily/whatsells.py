@@ -51,7 +51,7 @@ for r in sorted(R,key=lambda r:r["t"]):
     s=S.get(r["sid"])
     if s is None:
         x=dict(kv.split("=",1) for kv in (r["x"] or "").split(";") if "=" in kv)
-        aff=(x.get("aff") or q(r["qs"],"aff")).lower()
+        aff=re.sub(r"^aff_?(?=[a-z0-9])","",(x.get("aff") or q(r["qs"],"aff")).lower())  # ב121: affX / aff_X = X
         s=S[r["sid"]]={"t":r["t"],"vid":r["vid"] or r["sid"],"camp":(q(r["qs"],"utm_campaign") or "(בלי קמפיין)").replace("|","/"),"ad":(q(r["qs"],"utm_content") or "(בלי מודעה)").lower(),
                       "aff":aff,"src":q(r["qs"],"utm_source").lower(),"med":q(r["qs"],"utm_medium").lower(),"chk":0,"start":0,"lead":0,"buy":0,"bt":None}
     if s.get("test"): continue

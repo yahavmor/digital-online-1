@@ -76,7 +76,7 @@ for r in R:
     if r["ev"]=="purchase" and r["t"]>=datetime(2026,11,18) and not isTest(r):
         ses=[x for x in R if x["sid"]==r["sid"] and x["sid"]] if r["sid"] else []
         wa=any(re.search(r"(?:^|&)utm_source=whatsapp(?:&|$)",x["qs"] or "") for x in ses)
-        aff=re.search(r"(?:^|;)aff=([^;]+)",r["x"] or "") or next((re.search(r"(?:^|;)aff=([^;]+)",x["x"] or "") for x in ses if re.search(r"(?:^|;)aff=",x["x"] or "")),None)
+        aff=re.search(r"(?:^|;)aff=(?:aff_?(?=[a-z0-9]))?([^;]+)",r["x"] or "") or next((re.search(r"(?:^|;)aff=(?:aff_?(?=[a-z0-9]))?([^;]+)",x["x"] or "") for x in ses if re.search(r"(?:^|;)aff=",x["x"] or "")),None)
         if wa and aff: WA.append((r["ts"][:16],r["variant"],aff.group(1)))
 print("b108 whatsapp purchases attributed to an affiliate (check before paying commission):",WA or "none")
 EXPID="ap2_0811"

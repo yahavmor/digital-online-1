@@ -11,7 +11,7 @@ for l in t.replace("\r","").split("\n")[1:]:
     a=l.split("\t")
     if len(a)<9 or a[0]<FROM or not a[3]:continue
     x=a[20] if len(a)>20 else ""
-    m=re.search(r"(?:^|;)aff=([a-z0-9_-]+)",x) or re.search(r"[?&]aff=([a-z0-9_-]+)",a[8])
+    m=re.search(r"(?:^|;)aff=(?:aff_?(?=[a-z0-9]))?([a-z0-9_-]+)",x) or re.search(r"[?&]aff=(?:aff_?(?=[a-z0-9]))?([a-z0-9_-]+)",a[8])  # ב121: affX / aff_X = X
     s=sess[a[3]];s["evs"].append(a[1]);s["t"]=min(s["t"] or a[0],a[0]);s["v"].add(a[2])
     cm=re.search(r"utm_content=([^&]*)",a[8])
     if cm:s["cr"].add(cm.group(1))
