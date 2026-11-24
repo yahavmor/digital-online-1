@@ -81,13 +81,13 @@ td.nw{white-space:nowrap}.sub2{margin-top:4px}
       <div class="panel-h"><h2>הלידים שלך</h2><span class="note">מי שהשאיר פרטים בדף התשלום. מוצג רק שם פרטי, אות ראשונה של שם המשפחה ו-3 ספרות אחרונות של הטלפון</span></div>
       <div class="tw"><table id="leads"></table></div>
     </div>
-    <p class="note">העמלה משולמת 7 ימים אחרי הרכישה, ורק אם לא הייתה בקשת החזר. הנתונים מתעדכנים בכל כניסה לדף.</p>
+    <p class="note">העמלה (220 ₪ לקורס, 72 ₪ לאפסייל) משולמת 7 ימים אחרי הרכישה, ורק אם לא הייתה בקשת החזר. הנתונים מתעדכנים בכל כניסה לדף.</p>
   </div>
 </main>
 <script>
 /* ב28: אזור אישי למשווק. הגישה בקישור אישי עם טוקן (#t=...). Make מחזיר רק את הנתונים של בעל הטוקן; בלי טוקן תקין לא חוזר כלום */
 try{localStorage.setItem("nlp_int","1")}catch(e){} /* הביקורים של המשווק עצמו בדפי המכירה לא נספרים */
-const PARTNER_API="https://hook.eu1.make.com/fyvfta25i5igncdufnq5wwkh17a2ubk5", PAY_DAYS=7;
+const PARTNER_API="https://hook.eu1.make.com/fyvfta25i5igncdufnq5wwkh17a2ubk5", PAY_DAYS=7, UP_FEE=72; /* ב121: עמלת אפסייל 97 ₪ - 72 ₪ קבוע */
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
 const fmt=n=>Math.round(n||0).toLocaleString("he-IL"), ils=n=>fmt(n)+" ₪";
@@ -113,23 +113,24 @@ function fee(amt){const m=D.me;return m.fee>0?m.fee:Math.round(amt*m.pct)/100}
 function render(){
   const now=Date.now(),from=range==="all"?0:now-(+range)*864e5,inR=t=>+t>=from;
   const R=D.rows.filter(r=>!isNaN(r.t)),seen=new Set(),buys=[];
-  R.forEach(r=>{if(r.ev!=="purchase")return;const m=r.q.match(/deal\s+(\d+)/),rf=/bank_transfer/.test(r.q)&&r.q.match(/ref\s+([^\s|]+)/),a=r.q.match(/(\d+(?:\.\d+)?)\s*ILS/),deal=m?m[1]:rf?"bank_"+rf[1]:""; /* ב64: העברה בנקאית - מפתח bank_אסמכתא, כמו בדשבורד */const k=deal||r.sid;if(seen.has(k))return;seen.add(k);
-    const st=D.refunds.has(deal)?"refund":D.paid.has(deal)?"paid":(now-r.t<PAY_DAYS*864e5?"pending":"due");buys.push({t:r.t,sid:r.sid,deal,amt:a?+a[1]:297,st,fee:fee(a?+a[1]:297)})});
+  R.forEach(r=>{const up=r.ev==="upsell_purchase";if(r.ev!=="purchase"&&!up)return; /* ב121: גם אפסייל (97 ₪) - "deal" של האפסייל ולא course_deal */
+    const m=r.q.match(/(?:^|[^_a-z])deal\s+(\d+)/),rf=/bank_transfer/.test(r.q)&&r.q.match(/ref\s+([^\s|]+)/),a=r.q.match(/(\d+(?:\.\d+)?)\s*ILS/),deal=m?m[1]:rf?"bank_"+rf[1]:""; /* ב64: העברה בנקאית - מפתח bank_אסמכתא, כמו בדשבורד */const k=(up?"up_":"")+(deal||r.sid);if(seen.has(k))return;seen.add(k);
+    const amt=a?+a[1]:(up?97:297),st=D.refunds.has(deal)?"refund":D.paid.has(deal)?"paid":(now-r.t<PAY_DAYS*864e5?"pending":"due");buys.push({t:r.t,sid:r.sid,deal,amt,st,up,fee:up?UP_FEE:fee(amt)})});
   const RR=R.filter(r=>inR(r.t)),sids=ev=>new Set(RR.filter(r=>r.ev===ev).map(r=>r.sid)).size;
   const leadSids=new Set(D.leads.filter(l=>inR(l.t)).map(l=>l.sid));RR.filter(r=>r.ev==="checkout_details").forEach(r=>leadSids.add(r.sid));
   const B=buys.filter(b=>inR(b.t)),sum=st=>buys.filter(b=>b.st===st).reduce((x,b)=>x+b.fee,0);
-  $("tiles").innerHTML=[["ביקורים",fmt(sids("view"))],["לחיצות קנייה",fmt(sids("cta_click"))],["לידים",fmt(leadSids.size)],["רכישות",fmt(B.filter(b=>b.st!=="refund").length)],
+  $("tiles").innerHTML=[["ביקורים",fmt(sids("view"))],["לחיצות קנייה",fmt(sids("cta_click"))],["לידים",fmt(leadSids.size)],["רכישות קורס",fmt(B.filter(b=>!b.up&&b.st!=="refund").length)],["אפסיילים",fmt(B.filter(b=>b.up&&b.st!=="refund").length)],
     ["עמלה ממתינה",ils(sum("pending")),1],["עמלה לתשלום",ils(sum("due")),1],["עמלה ששולמה",ils(sum("paid")),1]]
     .map(([k,v,m])=>'<div class="tile'+(m?" money":"")+'"><div class="k">'+k+'</div><div class="v">'+v+'</div></div>').join("");
-  $("feeNote").textContent="עמלה: "+(D.me.fee>0?ils(D.me.fee)+" לכל רכישה":D.me.pct+"% מכל רכישה")+". הביקורים, הלחיצות, הלידים והרכישות לפי התקופה שנבחרה; העמלות מכל הזמן.";
-  const byS=new Map(buys.map(b=>[b.sid,b])),rowsL=D.leads.filter(l=>inR(l.t)).map(l=>({t:l.t,nm:l.nm,ph:l.ph,b:byS.get(l.sid)||null}));
-  const leadS=new Set(D.leads.map(l=>l.sid));B.filter(b=>!leadS.has(b.sid)).forEach(b=>rowsL.push({t:b.t,nm:"",ph:"",b}));
+  $("feeNote").textContent="עמלה: "+(D.me.fee>0?ils(D.me.fee)+" לרכישת קורס":D.me.pct+"% מרכישת קורס")+" + "+ils(UP_FEE)+" לאפסייל (97 ₪). הביקורים, הלחיצות, הלידים והרכישות לפי התקופה שנבחרה; העמלות מכל הזמן.";
+  const byS=new Map(buys.filter(b=>!b.up).map(b=>[b.sid,b])),byU=new Map(buys.filter(b=>b.up).map(b=>[b.sid,b])),rowsL=D.leads.filter(l=>inR(l.t)).map(l=>({t:l.t,nm:l.nm,ph:l.ph,b:byS.get(l.sid)||null,u:byU.get(l.sid)||null}));
+  const leadS=new Set(D.leads.map(l=>l.sid));B.filter(b=>!b.up&&!leadS.has(b.sid)).forEach(b=>rowsL.push({t:b.t,nm:"",ph:"",b,u:byU.get(b.sid)||null}));
   rowsL.sort((x,y)=>y.t-x.t);
   const st={pending:["ממתין","warn"],due:["לתשלום","good"],paid:["שולם","off"],refund:["החזר","crit"]};
-  $("leads").innerHTML=rowsL.length?'<thead><tr><th>תאריך</th><th>שם</th><th>טלפון</th><th>סטטוס ועמלה</th></tr></thead><tbody>'+rowsL.map(x=>{const b=x.b;
+  $("leads").innerHTML=rowsL.length?'<thead><tr><th>תאריך</th><th>שם</th><th>טלפון</th><th>סטטוס ועמלה</th></tr></thead><tbody>'+rowsL.map(x=>{const b=x.b,u=x.u,uc=u?'<div class="sub2">אפסייל 97 ₪: <span class="pill '+st[u.st][1]+'">'+st[u.st][0]+(u.st==="pending"?" עד "+day(new Date(+u.t+PAY_DAYS*864e5)):"")+'</span> '+(u.st==="refund"?"":ils(u.fee))+'</div>':""; /* ב121 */
     let s,c;if(!b){s='<span class="pill off">השאיר פרטים ולא שילם</span>';c='<span class="note">-</span>'}
     else{s=b.st==="refund"?'<span class="pill crit">החזר</span>':'<span class="pill good">רכש</span>';const p=st[b.st];c='<span class="pill '+p[1]+'">'+p[0]+(b.st==="pending"?" עד "+day(new Date(+b.t+PAY_DAYS*864e5)):"")+'</span> '+(b.st==="refund"?"":ils(b.fee))}
-    return '<tr><td class="num">'+day(x.t)+'</td><td class="nw">'+(esc(x.nm)||'<span class="note">-</span>')+'</td><td class="num" dir="ltr">'+(x.ph?"***-"+esc(x.ph):'<span class="note">-</span>')+'</td><td>'+s+(b&&b.st!=="refund"?'<div class="sub2">'+c+'</div>':'')+'</td></tr>'}).join("")+'</tbody>'
+    return '<tr><td class="num">'+day(x.t)+'</td><td class="nw">'+(esc(x.nm)||'<span class="note">-</span>')+'</td><td class="num" dir="ltr">'+(x.ph?"***-"+esc(x.ph):'<span class="note">-</span>')+'</td><td>'+s+(b&&b.st!=="refund"?'<div class="sub2">'+c+'</div>':'')+uc+'</td></tr>'}).join("")+'</tbody>'
     :'<tbody><tr><td class="empty">עדיין אין לידים בתקופה הזו</td></tr></tbody>';
 }
 async function load(){

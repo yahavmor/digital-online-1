@@ -490,6 +490,7 @@ const EXPERIMENTS=[
  {id:"lp-abc-1",name:"שלושה דפי מכירה a/b/c",hyp:"פתיחה שונה (שיטה / כאב / הוכחה) תשנה את שיעור הרכישה למבקר",change:"הדף כולו: פתיחה, סדר אזורים ומסרים",arms:"a, b, c בחלוקה אקראית שווה (go.html)",start:"2026-10-09",end:"2026-10-26",split:"33/33/33",primary:"רכישות למבקר",secondary:"לחיצה על CTA, פתיחת סליקה, הכנסה למבקר",guard:"זמן טעינה, שגיאות, סליקות שנכשלו",status:"הסתיים, הוחלף ב-abc_2610",decision:""},
 ];
 const CHANGELOG=[
+["2026-11-24","06:13 - ב121 (\"מאשר\" מיהב): קוד משווק נקי בקריאה - affX ו-aff_X נחשבים X (רכישת 23.11 נשמרה כ-affyehudit). תמונת מצב: אריח אפסייל, הכנסות ו-ROAS כולל אפסייל עם פירוט קורס / אפסייל. אזור המשווקים: אפסייל 72 ₪ לצד 220 ₪ לקורס."],
 ["2026-11-23","18:59 - ב117 (\"מאשר ב117\" מיהב): יהודית בלשונית 10 (יעד הדף הקצר a5s, מימון שלה, תקציב לא נמסר). aff_yehudit ברשימה של טופס ההוצאה היומית לקמפיין. הרשומה במאגר המשווקים נוספה באותו יום."],
 ["2026-11-18","21:07 - תיקון מ53 (יהב): רמי וקרלין בלשונית 10 - קהל קר, נשים בלבד 40-60 (החלטת בן 18.11, לא 45-65+), 30 ₪ ליום לכל אחד."],
 ["2026-11-18","20:45 - מ53/ב109: רמי וקרלין בלשונית 10 (קהל קר 45-65+, יעד הדף הקצר a5s). aff_rami ו-aff_karlin ברשימה של טופס ההוצאה היומית לקמפיין."],
@@ -580,7 +581,8 @@ function source(p){const s=(p.get("utm_source")||"").toLowerCase(),m=(p.get("utm
  if(p.get("fbclid"))return "Meta (fbclid)";
  if(s)return s; return "ישיר / לא ידוע";}
 function angleOf(cr){if(ANGLES[cr])return ANGLES[cr];const c=(cr||"").toLowerCase();for(const [k,v] of ANGLE_KW)if(c.includes(k))return v;return "ללא תווית";}
-function parseX(x){const o={};(x||"").split(";").forEach(kv=>{const i=kv.indexOf("=");if(i>0)o[kv.slice(0,i)]=kv.slice(i+1)});return o}
+const normAff=c=>{c=String(c||"").trim().toLowerCase();const m=c.match(/^aff_?([a-z0-9][a-z0-9_-]*)$/);return m?m[1]:c}; /* ב121: קוד משווק נקי - "affX" ו-"aff_X" נחשבים X (שרשרת הקופה שמרה aff=affyehudit) */
+function parseX(x){const o={};(x||"").split(";").forEach(kv=>{const i=kv.indexOf("=");if(i>0){const k=kv.slice(0,i),v=kv.slice(i+1);o[k]=k==="aff"?normAff(v):v}});return o}
 function pairs(s){const o={};(s||"").split(",").forEach(p=>{const [k,v]=p.split(":");if(k)o[k]=+v||0});return o}
 
 /* period */
@@ -625,13 +627,13 @@ function build(a,b){
   const m=(r.qs||"").match(/(\d+(?:\.\d+)?)\s*ILS/), d=bank?(r.qs||"").match(/ref\s+([^\s|]+)/):(r.qs||"").match(/deal\s+(\S+)/); const deal=d?(bank?"bank_"+d[1]:d[1]):"";
   const key=deal||(r.sid?r.sid:"t"+Math.floor(r.t/6e4)); if(seen.has(key))return; seen.add(key);
   const s=r.sid&&S[r.sid]; if(s){s.buy=true; if(!s.buyT)s.buyT=r.t; s.pay=true; s.det=true; s.chk=true;}
-  buys.push({t:r.t,day:dayKey(r.t),amt:m?+m[1]:PRICE,deal,sid:r.sid||"",s:s||null,aff:parseX(r.x).aff||(bank&&((r.qs||"").match(/aff\s+([a-z0-9_-]+)/)||[])[1])||"",bank});});
+  buys.push({t:r.t,day:dayKey(r.t),amt:m?+m[1]:PRICE,deal,sid:r.sid||"",s:s||null,aff:parseX(r.x).aff||normAff(bank&&((r.qs||"").match(/aff\s+([a-z0-9_-]+)/)||[])[1])||"",bank});});
  let sess=Object.values(S).filter(s=>!(SCAN_FILTER&&isScanSess(s))); /* ב71: ביקור שכל האירועים בו הם סריקה של Meta (meta_scan) לא נספר באף לשונית */
  sess.forEach(s=>{s.offer=seenOffer(s,secNames); s.testi=seenTesti(s,secNames); s.eng=s.act>=20||s.scroll>=50||s.cta; s.dv=(s.dev||"").split("-")[0]||"?"; s.os=(s.dev||"").split("-")[1]||"?"; s.app=(s.dev||"").split("-")[2]||"?"; s.stage=stage(s); s.lastSec=s.sec;
   s.tbuy=s.buyT?(s.buyT-s.t)/1000:null;});
  if(fSrc)sess=sess.filter(s=>s.src===fSrc);
  if(fDev)sess=sess.filter(s=>s.dv===fDev);
- const affOf=s=>(s.aff||(s.p&&s.p.get("aff"))||"").toLowerCase(), fAff=fOwn.indexOf("aff:")===0?fOwn.slice(4):"";
+ const affOf=s=>normAff(s.aff||(s.p&&s.p.get("aff"))||""), fAff=fOwn.indexOf("aff:")===0?fOwn.slice(4):"";
  if(fOwn)sess=sess.filter(s=>fAff?affOf(s)===fAff:fOwn==="aff"?!!s.aff:!s.aff); /* ב25; משווק אחד (aff:קוד) - לפי בקשת יהב 09.11 */
  const sids=new Set(sess.map(s=>s.sid));
  const vbuys=(fSrc||fDev||fOwn)?buys.filter(b=>(b.sid&&sids.has(b.sid))||(!fSrc&&!fDev&&fAff&&(b.aff||"").toLowerCase()===fAff)):buys; /* רכישה של המשווק גם בלי ביקור (למשל העברה בנקאית) */
@@ -1165,12 +1167,15 @@ function renderSnap(){
  /* --- למעלה --- */
  const spLast=Object.keys(spend).filter(k=>{const d=new Date(k+"T12:00");return d>=B.a&&d<B.b}).sort().pop()||"";
  const sp=spendIn(B.a,B.b),ours=buys.filter(b=>!b.aff),rev=buys.reduce((x,b)=>x+b.amt,0),ourRev=ours.reduce((x,b)=>x+b.amt,0),cpa=sp!=null&&ours.length?sp/ours.length:null;
+ /* ב121: אפסייל (97 ₪, cardcom_upsell_webhook) בתמונת המצב - בלי ביקורים פנימיים (לפי הסשן של רכישת הקורס). ההכנסות וה-ROAS כוללים אותו, עם פירוט */
+ const sidS=new Map(M.sess.map(s=>[s.sid,s])),ups=finUps(M).filter(u=>{const s=u.sid&&sidS.get(u.sid);return !(s&&internal(s))}),upRev=ups.reduce((x,u)=>x+u.amt,0),ourUp=ups.filter(u=>!u.aff).reduce((x,u)=>x+u.amt,0),allRev=rev+upRev,allOur=ourRev+ourUp;
  $("snapKpi").innerHTML=[
   tile("הוצאה על מודעות",sp==null?na:ils(sp),"החשבון של בן"+(spLast&&spLast<dayKey(new Date(+B.b-2*864e5))?" · מוזן עד "+spLast.split("-").reverse().slice(0,2).join("."):""),""),
-  tile("הכנסות",ils(rev),"מרכישות מאומתות, כולל מע\"מ",""),
+  tile("הכנסות",ils(allRev),"קורס "+ils(rev)+" · אפסייל "+ils(upRev)+" · מאומתות, כולל מע\"מ",""),
   tile("רכישות",fmt(buys.length),buys.length?fmt(buys.filter(b=>b.bank).length)+" בהעברה בנקאית · "+fmt(buys.length-ours.length)+" דרך משווקים":"מאומתות בלבד",""),
+  tile("אפסייל",fmt(ups.length),ups.length?ils(upRev)+" · "+pf(pct(ups.length,buys.length))+" מהרוכשים":"אין עדיין רכישות אפסייל בתקופה","97 ₪ אחרי רכישת הקורס, מאומת"),
   tile("עלות לרכישה",cpa==null?na:ils(cpa),cpa==null?(sp?"אין עדיין רכישות מהמודעות של בן":""):'<span class="pill '+(cpa<=M35.cpa?"good":"crit")+'">'+(cpa<=M35.cpa?"עד ":"מעל ")+ils(M35.cpa)+'</span>',"הוצאה ÷ רכישות שלא דרך משווק"),
-  tile("ROAS",sp?(ourRev/sp).toFixed(2):na,sp?"כל 1 ₪ על מודעות החזיר "+(ourRev/sp).toFixed(2)+" ₪":"","הכנסה שלא דרך משווק ÷ הוצאה")].join("");
+  tile("ROAS",sp?(allOur/sp).toFixed(2):na,sp?"קורס "+(ourRev/sp).toFixed(2)+" · עם אפסייל "+(allOur/sp).toFixed(2)+" · כל 1 ₪ על מודעות החזיר "+(allOur/sp).toFixed(2)+" ₪":"","הכנסה שלא דרך משווק (קורס + אפסייל) ÷ הוצאה")].join("");
  /* --- מודעות --- */
  const spC={},spD={};for(const k in cspend){const [d,c]=k.split("|");if(!c||/^aff_/.test(c))continue;const dt=new Date(d+"T12:00");if(dt>=B.a&&dt<B.b){const kk=c.toLowerCase();spC[kk]=(spC[kk]||0)+cspend[k];(spD[kk]=spD[kk]||new Set()).add(d)}}
  const G={};S.forEach(s=>{const c=snapCode(s).toLowerCase();(G[c]=G[c]||[]).push(s)});
@@ -1209,7 +1214,7 @@ function renderSnap(){
   L.push(yellow?["y",nmT(yellow)+": "+(yellow.b&&yellow.cpa>tgt(yellow)?"עלות לרכישה "+ils(yellow.cpa)+", מעל היעד ("+ils(tgt(yellow))+"). לעקוב.":yellow.chk?ils(perC(yellow))+" לכל מי שהגיע לסליקה, מעל 35 ₪. לעקוב עוד כמה ימים.":"הוציאה "+ils(yellow.spend)+" ועוד אף אחד לא הגיע לסליקה (העצירה ב-250 ₪).")]:["y","אין מודעה באמצע - כל המודעות עם הוצאה כבר ביעד או מעבר לסף."]);
   L.push(red?["r",nmT(red)+": הוציאה "+ils(red.spend)+" "+(!red.chk?"בלי אף אחד שהגיע לסליקה":"בלי רכישה")+". לפי הכללים: לעצור."]:["r","אין מודעה שעברה את סף העצירה (250 ₪ בלי הגעה לסליקה, או "+ils(M35.noBuy)+" בלי רכישה)."]);}
  $("snapLines").innerHTML=L.slice(0,3).map(l=>'<div class="snap-line '+l[0]+'"><i aria-hidden="true"></i><span>'+esc(l[1])+'</span></div>').join("");
- $("snapNote").textContent="רק רכישות מאומתות (כרטיס והעברה בנקאית). אנשים = מבקר ייחודי לפי מזהה הדפדפן. בלי ביקורים פנימיים ובלי מבקרים שהופיעו בבדיקות שלנו, ובלי סריקות של Meta. הוצאה ועלות לרכישה - מטופס ההוצאה. הלשוניות המפורטות - בכפתור \"מתקדם\".";
+ $("snapNote").textContent="רק רכישות מאומתות (כרטיס והעברה בנקאית), והאפסייל (97 ₪) רק כשקארדקום אישרה אותו. אנשים = מבקר ייחודי לפי מזהה הדפדפן. בלי ביקורים פנימיים ובלי מבקרים שהופיעו בבדיקות שלנו, ובלי סריקות של Meta. הוצאה ועלות לרכישה - מטופס ההוצאה. הלשוניות המפורטות - בכפתור \"מתקדם\".";
 }
 /* ================= 11 בקרה כספית (ב84) =================
    קריאה בלבד (ב30). עמלה: fee מרשימת המשווקים (220 ₪) לרכישת קורס, 72 ₪ לאפסייל. ממתינה 7 ימים ואז "לתשלום". החזר מבטל.
@@ -1298,7 +1303,7 @@ let UPS=null, UPS_ST="idle";
 function upsParse(t){const L=t.replace(/\r/g,"").split("\n"),h=(L[0]||"").split("\t").map(x=>x.trim().toLowerCase());if(h[0]!=="upsell")return null;
  const D=v=>{v=(v||"").trim();if(!v)return null;const d=new Date(v.replace(" ","T"));return isNaN(d)?null:d},T=v=>/^true$/i.test((v||"").trim());
  return {cols:h,rows:L.slice(1).filter(l=>l.trim()).map(l=>{const a=l.split("\t"),o={};h.forEach((k,i)=>{if(i)o[k]=(a[i-1]||"").trim()});
-  return {created:D(o.created),expires:D(o.expires),paid:D(o.paid_at),used:T(o.used),declined:T(o.declined),test:T(o.test),aff:(o.aff||"").toLowerCase(),deal:o.deal||"",up:o.up_deal||"",
+  return {created:D(o.created),expires:D(o.expires),paid:D(o.paid_at),used:T(o.used),declined:T(o.declined),test:T(o.test),aff:normAff(o.aff),deal:o.deal||"",up:o.up_deal||"",
    opened:"opened" in o?D(o.opened):undefined}}).filter(r=>r.created)}}
 function upsLoad(){UPS_ST="loading";fetch(API+"upsell",{cache:"no-store"}).then(r=>r.ok?r.text():"").then(t=>{UPS=upsParse(t);UPS_ST=UPS?"ok":"none"}).catch(()=>{UPS=null;UPS_ST="err"}).finally(()=>{if(screen==="up")render()})}
 function upsTestDeal(d){return !!d&&TEST_DEALS.includes(d)}
@@ -1361,7 +1366,7 @@ function renderWs(){
  /* כמו whatsells.py: utm_campaign=x = בדיקה, ומבקר (vid) שהיה לו ביקור בדיקה כלשהו לא נספר */
  const TV=new Set(rows.filter(r=>r.vid&&r.ev!=="purchase"&&isTest(r)).map(r=>r.vid));
  const SS=M.sess.filter(s=>!(s.vid&&TV.has(s.vid))&&!(s.p&&s.p.get("utm_campaign")==="x")).map(s=>{const p=s.p||new URLSearchParams(),camp=(p.get("utm_campaign")||"(בלי קמפיין)").replace(/\|/g,"/");let ad=(p.get("utm_content")||"(בלי מודעה)").toLowerCase();if(ad==="p24"&&s.t>=WS_P24T)ad=WS_P24L;
-  return {t:s.t,who:s.vid||s.sid,camp,ad,aff:(p.get("aff")||s.aff||"").toLowerCase(),chk:!!s.chk,start:!!(s.cstart||s.det),lead:!!s.det,buy:vb.has(s.sid)}});
+  return {t:s.t,who:s.vid||s.sid,camp,ad,aff:normAff(p.get("aff")||s.aff||""),chk:!!s.chk,start:!!(s.cstart||s.det),lead:!!s.det,buy:vb.has(s.sid)}});
  const E=SS.filter(s=>s.t>=A&&s.t<now),AFFS=[...new Set(SS.map(s=>s.aff).filter(a=>a.length>2).concat(Object.keys(AFF||{})))];
  const agg=L=>{const P={};L.forEach(s=>{const o=P[s.who]||(P[s.who]=[1,0,0,0,0]);o[1]|=s.chk;o[2]|=s.start;o[3]|=s.lead;o[4]|=s.buy});const v=Object.values(P);return [0,1,2,3,4].map(i=>v.reduce((x,o)=>x+o[i],0))};
  /* הוצאה */
@@ -1509,7 +1514,7 @@ function affDaySpend(code){const S=AUD.seg.filter(g=>g.code===code),o={};
 function audAdSpend(g,ad){if(!(g.ads||[]).some(x=>x.toLowerCase()===String(ad).toLowerCase()))return null;let t=0,n=0;for(const k in cspend){const [d,cc]=k.split("|");if(cc&&d>=g.sday&&cc.toLowerCase()===String(ad).toLowerCase()){t+=cspend[k];n++}}return n?t:null}
 function audCopy(code){if(Array.isArray(code)){const L=code.map(audCopy);return {code:code.join(" + "),lbl:L.map(x=>x.lbl).join(" + "),text:L.map(x=>x.text).filter(Boolean).join(" | ")}}const i=LAB[code]||{};return {code,lbl:i.name&&/נוסח/.test(i.name)?i.name:(i.copy||"").replace(/^משווקים: /,"")||code,text:i.text||i.open||""}}
 function renderAud(){const now=new Date(),keep=[fSrc,fDev,fOwn];fSrc="";fDev="";fOwn="";let M;try{M=build(AUD.start,new Date(+now+864e5))}finally{[fSrc,fDev,fOwn]=keep}
- const affOf=s=>(s.aff||(s.p&&s.p.get("aff"))||"").toLowerCase(), who=s=>s.vid||s.sid, arms=(EXP.arms||[]).slice();
+ const affOf=s=>normAff(s.aff||(s.p&&s.p.get("aff"))||""), who=s=>s.vid||s.sid, arms=(EXP.arms||[]).slice();
  const lastRow=rows.length?rows[rows.length-1].t:null;
  const sel=$("audSpCamp"),OPT=AUD.seg.filter(g=>g.spk).concat(AUD_X,AUD_ADS);if(sel.options.length!==OPT.length)sel.innerHTML=OPT.map(g=>'<option value="'+esc(g.spk)+'">'+esc(g.lbl+" · "+g.phl+" · "+g.aud)+'</option>').join("");
  if(!$("audSpDate").value)$("audSpDate").value=dayKey(new Date(+now-864e5));
