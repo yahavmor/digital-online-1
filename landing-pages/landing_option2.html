@@ -171,6 +171,8 @@ window.submitForm = async function submitForm() {
 
   try { dataLayer.push({event:'form_submitted', name:name, phone:phone, email:email, page:'landing_option2'}); } catch(e) {}
   try { if(typeof fbq==='function') fbq('track','Lead'); } catch(e) {}
+  /* ב124: אמיר - ה-Lead גם לפיקסל NLP - Digital Online, עד שאמיר משתף את הפיקסל שלו. רק Lead, בלי PageView */
+  try { if(typeof fbq==='function' && mkCode==='amir'){ fbq('init','1651086743466533'); fbq('trackSingle','1651086743466533','Lead'); } } catch(e) {}
 
   // Fire the confirmation-email webhook and the tracking webhook in parallel
   // so a slow/failing call never delays or blocks the other — in particular,
