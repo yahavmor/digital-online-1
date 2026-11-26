@@ -8,6 +8,7 @@ import json, base64, re, sys, urllib.parse as up
 from datetime import datetime, timedelta
 from collections import defaultdict
 EXP, START, ARMS = "rt_2111", datetime(2026, 11, 21, 12, 34), ("a5v6", "a5v7")
+END = datetime(2026, 11, 26, 10, 28)  # ב125: מאז, go.html שולח הכול ל-a5s; הניתוב rt_2111 הסתיים
 o = json.load(open(sys.argv[1])); c = o["content"]
 try: t = base64.b64decode(c).decode()
 except Exception: t = c
@@ -58,7 +59,7 @@ def agg(v, only_y):
     buys = sum(1 for s in S.values() if s["buy"] and (not v or s["v"] == v) and (not only_y or s.get("buyday") == Y))
     return len(P), sum(o["cta"] for o in P.values()), sum(o["chk"] for o in P.values()), buys
 def line(lab, a): return "%s: מבקרים %d, לחצו על קנייה %d, הגיעו לסליקה %d, רכישות %d" % ((lab,) + a)
-print("b115 rt_2111 (go.html 80% a5v6 / 20% a5v7, from 21.11 12:34), by device")
+print("b115 rt_2111 (go.html 80% a5v6 / 20% a5v7, 21.11 12:34 - 26.11 10:28; ב125: מאז הכול ל-a5s, השורה הזו מסכמת ולא תגדל), by device")
 for lab, only_y in (("אתמול (%s)" % Y.strftime("%d.%m"), True), ("מצטבר מ-21.11 12:34", False)):
     for v in ARMS: print(line(v + " " + lab, agg(v, only_y)))
     print(line("סה\"כ " + lab, agg(None, only_y)))
