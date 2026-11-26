@@ -89,6 +89,7 @@ if(/test|claude/i.test(location.search))clarity("set","internal","1");}catch(e){
 <a class="cta" id="go" href="#" hidden>כניסה לקורס עכשיו</a>
 <!-- ב72: קבוצת הוואטסאפ של הרוכשים. הקישור לא נמצא בדף: הוא מגיע מ-7931441 רק אחרי אימות התשלום (כמו קישור הקורס). בלי קישור - הכפתור לא מוצג. הנוסח לאישור בן -->
 <a class="grp" id="grp" href="#" target="_blank" rel="noopener" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>הצטרפות לקבוצת הוואטסאפ של הרוכשים</a>
+<p class="sent2 bf-note" id="bfNote" hidden>🎁 קיבלת מתנה: הגישה לאפליקציה "האוטומט החדש שלי" תגיע במייל תוך 24 שעות.</p>
 <p class="sent2" id="sent" data-clarity-mask="True" hidden>שלחנו גם את כל פרטי הגישה לאימייל שהזנת.</p>
 <p class="sent2">3 ערכות העבודה מחכות בשיעור הפתיחה של הקורס, בלשונית "קבצים מצורפים".</p>
 <!-- ב81: שתי שאלות קצרות, רק אחרי אימות התשלום. לא חובה. התשובה נשמרת בגיליון האירועים עם מספר העסקה בלבד. הנוסח לאישור בן -->
@@ -133,6 +134,8 @@ const SUPPORT_WA = "972526951092";
   (function(){
     const VERIFY = "https://hook.eu1.make.com/s9ay2kp6sldk9527d77seuuq83xxto60";
     const UPSELL_ISSUE = "https://hook.eu1.make.com/qhq5knj8mf2npzvmn4wufssrsk7uzyqd"; /* ב74: 8463664 - קוד חד-פעמי לאפסייל אחרי תשלום מאומת */
+    var BF_START=Date.parse("2026-11-26T00:00:00+02:00"), BF_END=Date.parse("2026-11-30T23:59:59+02:00"); /* ב127.2: חלון בלאק פריידיי, שעון ישראל */
+function bfOn(){ var n=Date.now(); return n>=BF_START&&n<=BF_END; } /* ב127.2: בתקופה הגישה לאפליקציה נפתחת ידנית דרך צ'אט האפליקציה (החלטת יהב 26.11), בדף רק הודעת המתנה */
     const el = id => document.getElementById(id);
     let lp = "";
     try{ lp = sessionStorage.getItem("cc_lp") || ""; }catch(e){}
@@ -156,7 +159,7 @@ const SUPPORT_WA = "972526951092";
       if(!(d && d.ok === true && typeof d.link === "string" && /^https:\/\/[^\/]*schooler\.biz\//i.test(d.link))) return false;
       purchase(d);
       const a = el("go"); a.href = d.link; a.hidden = false; el("wait").hidden = true;
-      upsell(0);
+      if(bfOn()) bfAccess(); else upsell(0); /* ב127.2: בבלאק פריידיי בלי הצעת האפסייל; הגישה לאפליקציה נפתחת לכל רוכש */
       survey(d);
       if(d.email && window.__showTo) __showTo(d.email); /* ב56: המייל מוצג בתיבה "איפה פרטי הגישה?" */
       if(typeof d.wa === "string" && /^https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]{10,40}$/.test(d.wa)){ const g = el("grp"); g.href = d.wa; g.hidden = false; /* ב72; השורה שמתחת לכפתור הוסרה לפי החלטת בן 09.11 */
@@ -201,6 +204,8 @@ const SUPPORT_WA = "972526951092";
           if(!seen) setTimeout(() => { location.href = "upsell-97.html?t=" + t; }, 1500);
         }).catch(retry);
     }
+    /* ב127.2: בתקופת בלאק פריידיי - הודעת המתנה במקום הצעת האפסייל. הגישה לאפליקציה נפתחת ידנית (צ'אט האפליקציה), אין קריאה לשרת */
+    function bfAccess(){ if(framed) return; const note = el("bfNote"); if(note) note.hidden = false; }
     function ask(n){
       const ctl = ("AbortController" in self) ? new AbortController() : null; const t = setTimeout(() => ctl && ctl.abort(), 20000);
       const again = () => { if(n < 2) setTimeout(() => ask(n + 1), 2500); else fallback(); };
