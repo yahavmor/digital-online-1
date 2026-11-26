@@ -588,7 +588,7 @@ const PRIVACY_URL = "privacy.html"; /* קישור למדיניות הפרטיו�
 })();
 </script>
 <script>/* ב89: שורת אמצעי תשלום - ביט רק אחרי אימות, ובדפדפן פנימי של אינסטגרם/פייסבוק בלי Apple Pay ו-Google Pay */
-(function(){var PAYLOGO_BIT=false;
+(function(){var PAYLOGO_BIT=true; /* ב114 המשך (24.11): ביט פעיל במסוף, אומת ברכישת בדיקה */
 var ua=navigator.userAgent||"",inapp=/Instagram|FBAN|FBAV|FB_IAB|FBIOS|FB4A|FBAN\/Messenger/i.test(ua),ios=/iPhone|iPad|iPod/i.test(ua)||(/Macintosh/i.test(ua)&&navigator.maxTouchPoints>1),and=/Android/i.test(ua);
 var els=document.querySelectorAll("[data-paylogos]");for(var i=0;i<els.length;i++){var el=els[i],p=[];
  function show(k,on){var li=el.querySelector('[data-pl="'+k+'"]');if(li)li.hidden=!on}

@@ -888,12 +888,12 @@ const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6
     const cl=clId(); if(cl) p.x=(p.x?p.x+";":"")+"cl="+cl; if(INT) p.x=(p.x?p.x+";":"")+"int=1"; const ow=window.NLP_OWNER?NLP_OWNER():""; if(ow) p.x=(p.x?p.x+";":"")+"aff="+ow;
     try{ if(window.clarity&&CLE[ev]){ clarity("event",ev); if(ev==="cta_click") clarity("upgrade",ev); } }catch(e){}
     (window.dataLayer = window.dataLayer || []).push(Object.assign({event:"lp_"+ev}, p));
-    try{ if(window.fbq) fbq("trackCustom","LP_"+ev,{variant:V}); }catch(e){}
+    try{ if(window.fbq&&ev!=="js_error") fbq("trackCustom","LP_"+ev,{variant:V}); }catch(e){} /* ב126: שגיאות JS רק לגיליון, לא ל-Meta */
     if(TRACK_ENDPOINT){ try{ const f=new URLSearchParams(); for(const k in p) f.append(k, p[k]); if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT, f))) fetch(TRACK_ENDPOINT,{method:"POST",body:f,mode:"no-cors",keepalive:true}); }catch(e){} }
   }
   window.__lpSend = send; send("view");
   /* js errors (max 3 per visit) */
-  let errs=0; addEventListener("error",e=>{ if(errs++>=3) return; send("js_error",{name:String(e.message||"error").slice(0,90)}); });
+  let errs=0; addEventListener("error",e=>{ if(errs++>=3) return; let f=""; try{ f=String(e.filename||"").split("?")[0].split("/").pop(); }catch(x){} send("js_error",{name:(String(e.message||"error")+(f||e.lineno?" @"+f+":"+(e.lineno||0)+":"+(e.colno||0):"")).slice(0,150)}); }); /* ב126: הודעה + קובץ + שורה:עמודה, עד 150 תווים */
   try{const ls=localStorage;if(!ls.getItem("nlp_ft"))ls.setItem("nlp_ft",JSON.stringify({v:V,qs:location.search.slice(1),ts:Date.now()}));}catch(e){}
   // checkout links (keeps UTMs + variant)
   const qs = new URLSearchParams(location.search); if(!qs.has("utm_content")) qs.set("utm_content","lp_"+V); qs.set("v",V); qs.set("sid",sid);
