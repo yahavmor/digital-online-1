@@ -39,6 +39,5 @@ by = collections.Counter((g(r, "variant") or "-") for t, r in all_buys)
 src = collections.Counter()
 for t, r in all_buys:
     q = g(r, "qs").lower(); a = re.search(r"\baff\s+([a-z0-9_-]+)", q)
-    src["משווק " + a.group(1)] += 1 if a else 0
-    if not a: src["בן / אחר"] += 1
+    src["משווק " + re.sub(r"^aff[=_]?", "", a.group(1)) if a else "בן / אחר"] += 1
 print("כל הרכישות האמיתיות בתקופה: %d%s%s" % (len(all_buys), (" | לפי דף: " + ", ".join("%s %d" % kv for kv in by.most_common())) if all_buys else "", (" | לפי מקור: " + ", ".join("%s %d" % kv for kv in src.most_common() if kv[1])) if all_buys else ""))
