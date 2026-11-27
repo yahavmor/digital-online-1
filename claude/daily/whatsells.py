@@ -6,10 +6,32 @@
 #  - קהל - מיפוי קבוע: שם הקמפיין מכיל warm → חם; cold / lab / ic → קר; אחרת לפי עמודת הקהל במילון המודעות (action=ads), "חם" או "קר"; אחרת "לא ידוע".
 #  - הוצאה (מאגר 210972): מודעה של בן = מפתח "תאריך|utm_content" שאינו aff_ ואינו מכיל קוד של משווק. משווק = לכל יום: מודעות שהקוד שלו בשם (p25_yosef),
 #    אחרת aff_<קוד> ו-aff_<קוד>_*. הוצאה של בן שלא מפורטת לפי מודעה = הסה"כ היומי (מפתח תאריך בלבד) פחות המודעות של בן באותו יום (לא פחות מ-0) - בשורה נפרדת.
+# ב131: בלי ביקורי סורק הקישורים של מערכת המייל - ביקור עם variant=undefined שכולו ממכשיר m-win-web, או עד 5 שניות בלי גלילה (רץ בשעת שליחת המיילים). כל השורות של הביקור מוסרות.
+def _noscan(c):
+    L=c.split("\n"); H={k:i for i,k in enumerate(L[0].split("\t"))}
+    iv,isd,isec,isc=H.get("variant"),H.get("sid"),H.get("sec_on_page"),H.get("max_scroll_pct")
+    if iv is None or isd is None: return c
+    bad=set()
+    for l in L[1:]:
+        r=l.split("\t")
+        if len(r)<=max(iv,isd) or r[iv]!="undefined" or not r[isd]: continue
+        dev=r[17] if len(r)>17 else ""
+        def num(i):
+            try: return float(r[i] or 0)
+            except Exception: return 0.0
+        if dev.startswith("m-win") or (num(isec)<=5 and num(isc)<=0): bad.add(r[isd])
+    if not bad: return c
+    out=[L[0]]
+    for l in L[1:]:
+        r=l.split("\t")
+        if len(r)>isd and r[isd] in bad: continue
+        out.append(l)
+    return "\n".join(out)
+
 import json,re,sys,urllib.parse as up
 from datetime import datetime,timedelta
 from collections import defaultdict,Counter
-o=json.load(open(sys.argv[1])); t=o["content"].replace("\r","")
+o=json.load(open(sys.argv[1])); t=_noscan(o["content"]).replace("\r","")
 SPF,ADF=sys.argv[2],sys.argv[3]; NOW=datetime.strptime(sys.argv[4],"%Y-%m-%d %H:%M")
 RANGES=[("7 ימים",NOW-timedelta(days=7),NOW),("מ-20.10",datetime(2026,10,20),NOW)]
 if len(sys.argv)>5 and sys.argv[5]=="7": RANGES=RANGES[:1]  # הסיכום היומי: 7 ימים בלבד

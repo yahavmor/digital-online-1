@@ -4,12 +4,34 @@
 # אותם כללים כמו daily_0811.py ו-w40_line.py: בלי בדיקות פנימיות, בלי סריקות של Meta, עסקה אחת פעם אחת.
 # ("מאשר לתזמן" + בקשת יהב 21.11): חלק מהסיכום היומי מ-22.11.
 # שימוש: python3 rt_line.py <json של הגיליון> "<עכשיו YYYY-MM-DD HH:MM>"
+# ב131: בלי ביקורי סורק הקישורים של מערכת המייל - ביקור עם variant=undefined שכולו ממכשיר m-win-web, או עד 5 שניות בלי גלילה (רץ בשעת שליחת המיילים). כל השורות של הביקור מוסרות.
+def _noscan(c):
+    L=c.split("\n"); H={k:i for i,k in enumerate(L[0].split("\t"))}
+    iv,isd,isec,isc=H.get("variant"),H.get("sid"),H.get("sec_on_page"),H.get("max_scroll_pct")
+    if iv is None or isd is None: return c
+    bad=set()
+    for l in L[1:]:
+        r=l.split("\t")
+        if len(r)<=max(iv,isd) or r[iv]!="undefined" or not r[isd]: continue
+        dev=r[17] if len(r)>17 else ""
+        def num(i):
+            try: return float(r[i] or 0)
+            except Exception: return 0.0
+        if dev.startswith("m-win") or (num(isec)<=5 and num(isc)<=0): bad.add(r[isd])
+    if not bad: return c
+    out=[L[0]]
+    for l in L[1:]:
+        r=l.split("\t")
+        if len(r)>isd and r[isd] in bad: continue
+        out.append(l)
+    return "\n".join(out)
+
 import json, base64, re, sys, urllib.parse as up
 from datetime import datetime, timedelta
 from collections import defaultdict
 EXP, START, ARMS = "rt_2111", datetime(2026, 11, 21, 12, 34), ("a5v6", "a5v7")
 END = datetime(2026, 11, 26, 10, 28)  # ב125: מאז, go.html שולח הכול ל-a5s; הניתוב rt_2111 הסתיים
-o = json.load(open(sys.argv[1])); c = o["content"]
+o = json.load(open(sys.argv[1])); c=_noscan(o["content"])
 try: t = base64.b64decode(c).decode()
 except Exception: t = c
 t = t.replace("\r", "")
