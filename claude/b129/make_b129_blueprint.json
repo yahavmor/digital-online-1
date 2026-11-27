@@ -1,0 +1,505 @@
+{
+ "name": "ב129 - טלפון רשות מדף התודה → רשומת הרכישה (210157)",
+ "flow": [
+  {
+   "id": 1,
+   "mapper": {},
+   "module": "gateway:CustomWebHook",
+   "version": 1,
+   "parameters": {
+    "hook": 4195599,
+    "maxResults": 1
+   },
+   "metadata": {
+    "designer": {
+     "x": 0,
+     "y": 0,
+     "name": "דף התודה: deal, lookup_lp, phone"
+    }
+   }
+  },
+  {
+   "id": 2,
+   "mapper": {
+    "scope": "roundtrip",
+    "variables": [
+     {
+      "name": "test_mode",
+      "value": "0"
+     }
+    ]
+   },
+   "module": "util:SetVariables",
+   "version": 1,
+   "metadata": {
+    "designer": {
+     "x": 300,
+     "y": 0,
+     "name": "test_mode=1 רק לבדיקה (מאפשר test_key במקום אימות)"
+    }
+   }
+  },
+  {
+   "id": 3,
+   "mapper": null,
+   "module": "builtin:BasicRouter",
+   "version": 1,
+   "metadata": {
+    "designer": {
+     "x": 600,
+     "y": 0
+    }
+   },
+   "routes": [
+    {
+     "flow": [
+      {
+       "id": 4,
+       "filter": {
+        "name": "קלט תקין: מזהה תשלום, מספר עסקה, טלפון נייד",
+        "conditions": [
+         [
+          {
+           "a": "{{1.lookup_lp}}",
+           "b": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+           "o": "text:pattern"
+          },
+          {
+           "a": "{{1.deal}}",
+           "b": "^[0-9]{5,12}$",
+           "o": "text:pattern"
+          },
+          {
+           "a": "{{1.phone}}",
+           "b": "^05[0-9]{8}$",
+           "o": "text:pattern"
+          }
+         ]
+        ]
+       },
+       "mapper": {
+        "url": "https://hook.eu1.make.com/9yp88pz9bfvxbr7w6xkb4ckun82ote6a",
+        "method": "post",
+        "timeout": 25,
+        "contentType": "urlEncoded",
+        "shareCookies": false,
+        "parseResponse": true,
+        "allowRedirects": true,
+        "stopOnHttpError": false,
+        "urlEncodedBodyContent": [
+         {
+          "name": "lookup_lp",
+          "value": "{{1.lookup_lp}}"
+         }
+        ],
+        "requestCompressedContent": true
+       },
+       "module": "http:MakeRequest",
+       "version": 4,
+       "parameters": {
+        "tlsType": "",
+        "authenticationType": "noAuth"
+       },
+       "metadata": {
+        "designer": {
+         "x": 900,
+         "y": -300,
+         "name": "אימות התשלום (כמו 7931441): מחזיר deal רק אם שולם"
+        }
+       }
+      },
+      {
+       "id": 5,
+       "mapper": {
+        "filter": [
+         [
+          {
+           "a": "deal",
+           "b": "{{parseNumber(1.deal)}}",
+           "o": "number:equal"
+          }
+         ],
+         [
+          {
+           "a": "deal",
+           "b": "{{1.deal}}",
+           "o": "text:equal"
+          }
+         ]
+        ]
+       },
+       "module": "datastore:SearchRecord",
+       "version": 1,
+       "parameters": {
+        "limit": 1,
+        "datastore": 210157,
+        "continueWhenNoRes": true
+       },
+       "metadata": {
+        "designer": {
+         "x": 1200,
+         "y": -300,
+         "name": "210157: רשומת הרכישה"
+        }
+       }
+      },
+      {
+       "id": 6,
+       "mapper": null,
+       "module": "builtin:BasicRouter",
+       "version": 1,
+       "metadata": {
+        "designer": {
+         "x": 1500,
+         "y": -300
+        }
+       },
+       "routes": [
+        {
+         "flow": [
+          {
+           "id": 7,
+           "filter": {
+            "name": "אומת, נמצא, ואין טלפון ברשומה",
+            "conditions": [
+             [
+              {
+               "a": "{{ifempty(4.data.deal; emptystring)}}",
+               "b": "{{1.deal}}",
+               "o": "text:equal"
+              },
+              {
+               "a": "{{ifempty(5.data.deal; emptystring)}}",
+               "b": "^[0-9]+$",
+               "o": "text:pattern"
+              },
+              {
+               "a": "{{length(replace(ifempty(5.data.phone; emptystring); \"/[^0-9]/g\"; emptystring))}}",
+               "b": "7",
+               "o": "number:less"
+              }
+             ]
+            ]
+           },
+           "mapper": {
+            "key": "{{5.key}}",
+            "data": {
+             "phone": "{{1.phone}}"
+            },
+            "overwrite": false
+           },
+           "module": "datastore:UpdateRecord",
+           "version": 1,
+           "parameters": {
+            "datastore": 210157
+           },
+           "metadata": {
+            "designer": {
+             "x": 1800,
+             "y": -600,
+             "name": "שמירת הטלפון ברשומה (שדה phone בלבד)"
+            }
+           }
+          },
+          {
+           "id": 8,
+           "mapper": {
+            "body": "{\"ok\":true}",
+            "status": 200,
+            "headers": [
+             {
+              "key": "Content-Type",
+              "value": "application/json"
+             },
+             {
+              "key": "Access-Control-Allow-Origin",
+              "value": "https://funnel.digitalonline.co.il"
+             },
+             {
+              "key": "Cache-Control",
+              "value": "no-store"
+             }
+            ]
+           },
+           "module": "gateway:WebhookRespond",
+           "version": 1,
+           "metadata": {
+            "designer": {
+             "x": 2100,
+             "y": -600,
+             "name": "נשמר"
+            }
+           }
+          }
+         ]
+        },
+        {
+         "flow": [
+          {
+           "id": 9,
+           "filter": {
+            "name": "אומת ונמצא, כבר יש טלפון",
+            "conditions": [
+             [
+              {
+               "a": "{{ifempty(4.data.deal; emptystring)}}",
+               "b": "{{1.deal}}",
+               "o": "text:equal"
+              },
+              {
+               "a": "{{ifempty(5.data.deal; emptystring)}}",
+               "b": "^[0-9]+$",
+               "o": "text:pattern"
+              },
+              {
+               "a": "{{length(replace(ifempty(5.data.phone; emptystring); \"/[^0-9]/g\"; emptystring))}}",
+               "b": "7",
+               "o": "number:greaterorequal"
+              }
+             ]
+            ]
+           },
+           "mapper": {
+            "body": "{\"ok\":true,\"why\":\"has_phone\"}",
+            "status": 200,
+            "headers": [
+             {
+              "key": "Content-Type",
+              "value": "application/json"
+             },
+             {
+              "key": "Access-Control-Allow-Origin",
+              "value": "https://funnel.digitalonline.co.il"
+             },
+             {
+              "key": "Cache-Control",
+              "value": "no-store"
+             }
+            ]
+           },
+           "module": "gateway:WebhookRespond",
+           "version": 1,
+           "metadata": {
+            "designer": {
+             "x": 1800,
+             "y": -300,
+             "name": "כבר יש טלפון: לא משנים, מחזירים ok"
+            }
+           }
+          }
+         ]
+        },
+        {
+         "flow": [
+          {
+           "id": 10,
+           "filter": {
+            "name": "לא אומת או לא נמצא",
+            "conditions": [
+             [
+              {
+               "a": "{{ifempty(4.data.deal; emptystring)}}",
+               "b": "{{1.deal}}",
+               "o": "text:notequal"
+              }
+             ],
+             [
+              {
+               "a": "{{ifempty(5.data.deal; emptystring)}}",
+               "b": "^[0-9]+$",
+               "o": "text:notpattern"
+              }
+             ]
+            ]
+           },
+           "mapper": {
+            "body": "{\"ok\":false,\"why\":\"{{if(ifempty(4.data.deal; emptystring) = 1.deal; \\\"no_record\\\"; \\\"no_match\\\")}}\"}",
+            "status": 200,
+            "headers": [
+             {
+              "key": "Content-Type",
+              "value": "application/json"
+             },
+             {
+              "key": "Access-Control-Allow-Origin",
+              "value": "https://funnel.digitalonline.co.il"
+             },
+             {
+              "key": "Cache-Control",
+              "value": "no-store"
+             }
+            ]
+           },
+           "module": "gateway:WebhookRespond",
+           "version": 1,
+           "metadata": {
+            "designer": {
+             "x": 1800,
+             "y": 0,
+             "name": "לא נשמר"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "flow": [
+      {
+       "id": 11,
+       "filter": {
+        "name": "בדיקה בלבד: test_mode=1 + test_key",
+        "conditions": [
+         [
+          {
+           "a": "{{2.test_mode}}",
+           "b": "1",
+           "o": "text:equal"
+          },
+          {
+           "a": "{{ifempty(1.test_key; emptystring)}}",
+           "b": "^test_b129",
+           "o": "text:pattern"
+          },
+          {
+           "a": "{{1.phone}}",
+           "b": "^05[0-9]{8}$",
+           "o": "text:pattern"
+          }
+         ]
+        ]
+       },
+       "mapper": {
+        "key": "{{1.test_key}}",
+        "data": {
+         "phone": "{{1.phone}}"
+        },
+        "overwrite": false
+       },
+       "module": "datastore:UpdateRecord",
+       "version": 1,
+       "parameters": {
+        "datastore": 210157
+       },
+       "metadata": {
+        "designer": {
+         "x": 900,
+         "y": 300,
+         "name": "בדיקה: עדכון רשומת בדיקה (מפתח test_b129…)"
+        }
+       }
+      },
+      {
+       "id": 12,
+       "mapper": {
+        "body": "{\"ok\":true,\"why\":\"test\"}",
+        "status": 200,
+        "headers": [
+         {
+          "key": "Content-Type",
+          "value": "application/json"
+         },
+         {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://funnel.digitalonline.co.il"
+         },
+         {
+          "key": "Cache-Control",
+          "value": "no-store"
+         }
+        ]
+       },
+       "module": "gateway:WebhookRespond",
+       "version": 1,
+       "metadata": {
+        "designer": {
+         "x": 1200,
+         "y": 300,
+         "name": "בדיקה"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "flow": [
+      {
+       "id": 13,
+       "filter": {
+        "name": "קלט לא תקין",
+        "conditions": [
+         [
+          {
+           "a": "{{1.lookup_lp}}",
+           "b": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+           "o": "text:notpattern"
+          }
+         ],
+         [
+          {
+           "a": "{{1.deal}}",
+           "b": "^[0-9]{5,12}$",
+           "o": "text:notpattern"
+          }
+         ],
+         [
+          {
+           "a": "{{1.phone}}",
+           "b": "^05[0-9]{8}$",
+           "o": "text:notpattern"
+          }
+         ]
+        ]
+       },
+       "mapper": {
+        "body": "{\"ok\":false,\"why\":\"bad_input\"}",
+        "status": 200,
+        "headers": [
+         {
+          "key": "Content-Type",
+          "value": "application/json"
+         },
+         {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://funnel.digitalonline.co.il"
+         },
+         {
+          "key": "Cache-Control",
+          "value": "no-store"
+         }
+        ]
+       },
+       "module": "gateway:WebhookRespond",
+       "version": 1,
+       "metadata": {
+        "designer": {
+         "x": 900,
+         "y": 600,
+         "name": "קלט לא תקין"
+        }
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "metadata": {
+  "instant": true,
+  "version": 1,
+  "scenario": {
+   "dlq": false,
+   "dataloss": false,
+   "maxErrors": 3,
+   "autoCommit": true,
+   "roundtrips": 1,
+   "sequential": false,
+   "confidential": false,
+   "freshVariables": false,
+   "autoCommitTriggerLast": true
+  }
+ }
+}

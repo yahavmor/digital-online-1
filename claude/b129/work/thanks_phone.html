@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><script>/* ב25: שיוך רכישות למשווקים - הקליק האחרון ב-30 יום. aff בכתובת = משווק; ערוץ של בן (מודעות עם utm_id או paid, מייל, ביו, ManyChat) = בן; ביקור ישיר או לא מזוהה לא משנה. נשמר ב-localStorage ובעוגייה. NLP_OWNER() מחזיר את קוד המשווק, או "" = בן */
+var NLP_OWNER=(function(){var K="nlp_aff",D=2592e6,now=Date.now(),cur=null;
+ function rd(){var a=null,b=null;try{a=JSON.parse(localStorage.getItem(K)||"null")}catch(e){}try{var m=document.cookie.match(/(?:^|; )nlp_aff=([^;]*)/);if(m){var v=decodeURIComponent(m[1]).split(".");b={c:v[0]||"",t:+v[1]||0}}}catch(e){}return a&&b?(a.t>=b.t?a:b):(a||b)}
+ function wr(c){cur={c:c,t:now};try{localStorage.setItem(K,JSON.stringify(cur))}catch(e){}try{document.cookie=K+"="+encodeURIComponent(c+"."+now)+"; max-age=2592000; path=/; SameSite=Lax"}catch(e){}}
+ try{var q=new URLSearchParams(location.search),a=(q.get("aff")||"").toLowerCase().replace(/[^a-z0-9_-]/g,"").slice(0,32),s=(q.get("utm_source")||"").toLowerCase(),m=(q.get("utm_medium")||"").toLowerCase();
+  if(a)wr(a);else if(m!=="affiliate"&&(q.get("utm_id")||/^(paid|paid_social|cpc|responder|email|bio|dm|manychat|group|story|page|page_post)$/.test(m)||/^(email|responder|manychat|whatsapp)$/.test(s)))wr("");else cur=rd()}catch(e){}
+ return function(){return cur&&cur.c&&now-cur.t<=D?cur.c:""}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#ffffff">
+<title>אתם בפנים · לנצח את האוטומט · בן נחום</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap">
+<style>
+:root{--ink:#14161B;--ink2:#3A3E47;--muted:#6B707B;--line:#E7E3DA;--gold:#A8823F;--gold2:#C9A96E;--ok:#1F7A4D}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.55}
+.wrap{max-width:520px;margin:0 auto;padding:18px 16px 48px;text-align:center}
+.brand{display:flex;justify-content:center;align-items:center;gap:8px;font-size:14px;font-weight:700;letter-spacing:.04em;color:var(--ink2);padding:4px 0 14px;border-bottom:1px solid var(--line)}
+.brand i{width:7px;height:7px;border-radius:50%;background:var(--gold2)}
+.ok{width:72px;height:72px;border-radius:50%;margin:34px auto 14px;display:grid;place-items:center;background:#EEF7F1;color:var(--ok);font-size:36px;font-weight:900}
+h1{font-size:clamp(28px,8vw,36px);font-weight:900;line-height:1.15;margin:0 0 8px}
+.lead{font-size:18px;color:var(--ink2);margin:0 0 22px}
+.sent{font-size:16px;color:var(--ink2);margin:0 0 24px}
+.grp{display:flex;justify-content:center;align-items:center;gap:8px;min-height:52px;margin-top:12px;border-radius:14px;background:#1F7A4D;color:#fff;font-weight:700;font-size:17px;text-decoration:none}.grp svg{width:20px;height:20px;fill:#fff}.grp:focus-visible{outline:3px solid #9fd8b7;outline-offset:2px}
+.cta{display:flex;justify-content:center;align-items:center;min-height:56px;border-radius:14px;background:linear-gradient(180deg,#D9BE85,#C9A96E);color:#14161B;font-weight:800;font-size:19px;text-decoration:none;box-shadow:0 8px 24px rgba(168,130,63,.28)}
+.sent2{font-size:15.5px;color:var(--ink2);margin:18px 0 0}
+.sent2 b{direction:ltr;unicode-bidi:isolate}
+.note{font-size:14px;color:var(--muted);margin:16px 0 0}
+.help{font-size:14px;margin:10px 0 0}
+.help a{color:var(--ink2)}
+[hidden]{display:none!important}
+/* ב56: איפה פרטי הגישה */
+.acc{margin:22px 0 0;padding:16px 16px 14px;border:1px solid var(--line);border-radius:16px;background:#FBF9F4;text-align:right}
+.acc h2{font-size:17px;font-weight:800;margin:0 0 10px}
+.acc .to{font-size:15.5px;color:var(--ink2);margin:0 0 12px}
+.acc .to b{display:inline-block;direction:ltr;unicode-bidi:isolate;color:var(--ink);word-break:break-all}
+.acc dl{margin:0 0 12px;display:grid;grid-template-columns:auto 1fr;gap:6px 10px;font-size:15px}
+.acc dt{color:var(--muted)}
+.acc dd{margin:0;font-weight:700;color:var(--ink)}
+.acc ol{margin:0;padding:0 18px 0 0;font-size:14.5px;color:var(--ink2)}
+.acc ol li+li{margin-top:4px}
+.wa{display:flex;justify-content:center;align-items:center;gap:8px;min-height:50px;margin:14px 0 0;border-radius:12px;border:1.5px solid #25D366;color:#14161B;font-weight:700;font-size:16px;text-decoration:none;background:#fff}
+.wa svg{flex:none;width:20px;height:20px;fill:#25D366}
+.wait{display:flex;justify-content:center;align-items:center;gap:10px;min-height:56px;border-radius:14px;background:#F6F3EC;color:var(--ink2);font-weight:700;font-size:16px;padding:0 14px}
+.wait i{flex:none;width:18px;height:18px;border-radius:50%;border:3px solid #E2D6BC;border-top-color:var(--gold);animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+/* ב81: שתי שאלות אחרי התשלום - לא חובה, לחיצה אחת */
+.srv{margin:22px 0 0;padding:16px 14px 14px;border:1px solid var(--line);border-radius:16px;text-align:right}
+.srv h2{font-size:16px;font-weight:800;margin:0 0 2px}
+.srv .sub{font-size:13.5px;color:var(--muted);margin:0 0 10px}
+.srv fieldset{border:0;margin:0;padding:0}.srv fieldset+fieldset{margin-top:14px}
+.srv legend{font-size:15.5px;font-weight:700;padding:0;margin:0 0 8px;color:var(--ink)}
+.srv .ch{display:flex;flex-wrap:wrap;gap:7px}
+.srv .ch button{font:inherit;font-size:14.5px;min-height:40px;padding:6px 13px;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:var(--ink);cursor:pointer}
+.srv .ch button:focus-visible{outline:3px solid var(--gold2);outline-offset:2px}
+/* ב129: טלפון רשות אחרי תשלום מאומת */
+.ph{margin:22px 0 0;padding:16px 14px 14px;border:1px solid var(--line);border-radius:16px;background:#FBF9F4;text-align:right}
+.ph h2{font-size:16px;font-weight:800;margin:0 0 4px}
+.ph p{font-size:14.5px;color:var(--ink2);margin:0 0 10px}
+.ph form{display:flex;gap:8px}
+.ph input{flex:1;min-width:0;font:inherit;font-size:17px;min-height:46px;padding:0 12px;border:1.5px solid var(--line);border-radius:12px;background:#fff;direction:ltr;text-align:left}
+.ph input:focus-visible{outline:3px solid var(--gold2);outline-offset:1px}
+.ph button{font:inherit;font-weight:700;font-size:15px;min-height:46px;padding:0 16px;border-radius:12px;border:0;background:var(--ink);color:#fff;cursor:pointer;white-space:nowrap}
+.ph button[disabled]{opacity:.6;cursor:default}
+.ph .err{color:#B3261E;margin:8px 0 0}
+.ph .ty{color:var(--ok);font-weight:700;margin:8px 0 0}
+.srv .ch button[aria-pressed="true"]{border-color:var(--gold);background:#FBF5E8;font-weight:700}
+.srv .oth{display:flex;gap:7px;margin-top:8px}
+.srv .oth input{flex:1;min-width:0;font:inherit;font-size:15px;min-height:42px;padding:6px 12px;border:1.5px solid var(--line);border-radius:12px}
+.srv .oth button{font:inherit;font-weight:700;min-height:42px;padding:0 16px;border:0;border-radius:12px;background:var(--ink);color:#fff;cursor:pointer}
+.srv .ty{font-size:14.5px;color:var(--ok);font-weight:700;margin:6px 0 0}
+</style>
+<script>try{if(top!==self)top.location.replace(location.href)}catch(e){}</script>
+<script>/* ב23: בלי פיקסל לסריקות Meta (חתימת app_id 256281040558 ב-fbclid, כמו ב-7798267), לקישורי בדיקה ולדפדפן הפנימי */(function(){try{var s=location.search.replace(/[?&](terminalnumber|lowprofile[a-z]*|respon[a-z]*code|operation|status|traceid|internaldealnumber|dealresponse|tranzactionid)=[^&]*/gi,""),off=/yNTYyODEwNDA1N|MjU2MjgxMDQwNT|I1NjI4MTA0MDU1|claude|test|nocache|internal/i.test(s);try{off=off||localStorage.getItem("nlp_int")==="1"}catch(e){}window.__noPix=off;if(off)return}catch(e){}
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");var ud={};try{var d=JSON.parse(sessionStorage.getItem("cc_det")||"{}")||{};if(d.email)ud.em=String(d.email).trim().toLowerCase();if(d.phone){var p=String(d.phone).replace(/\D/g,"").replace(/^0/,"972");if(p)ud.ph=p}if(d.name){var w=String(d.name).trim().toLowerCase().split(/\s+/).filter(Boolean);if(w[0])ud.fn=w[0];if(w.length>1)ud.ln=w[w.length-1]}}catch(e){} /* ב100: התאמה מתקדמת ידנית ל-Purchase */fbq("init","1278104408729813",ud);fbq("init","1651086743466533",ud);fbq("track","PageView");fbq("trackCustom","ThanksView");
+})();</script>
+<script>
+/* Microsoft Clarity: heatmaps + session recordings. Form fields are masked. */
+if(top===self){
+(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yuzolf9nxn");
+(function(){try{var q=new URLSearchParams(location.search),v=document.documentElement.getAttribute("data-variant")||q.get("v")||"",cr=(q.get("utm_content")||"").replace(/^lp_[abc]$/,"");
+clarity("set","page","thanks");if(v)clarity("set","variant",v);if(cr)clarity("set","creative",cr);
+["utm_source","utm_campaign","placement"].forEach(function(k){var x=q.get(k);if(x)clarity("set",k.replace("utm_",""),x);});
+if(/test|claude/i.test(location.search))clarity("set","internal","1");}catch(e){}})();
+}
+</script>
+</head>
+<body>
+<main class="wrap">
+<div class="brand"><i></i>בן נחום · לנצח את האוטומט</div>
+<div class="ok" aria-hidden="true">✓</div>
+<h1>זהו. אתה בפנים 🎉</h1>
+<p class="lead">התשלום עבר בהצלחה והגישה שלך לקורס כבר נפתחה.</p>
+<div class="wait" id="wait" role="status"><i aria-hidden="true"></i>רגע, פותחים לך את הגישה...</div>
+<a class="cta" id="go" href="#" hidden>כניסה לקורס עכשיו</a>
+<!-- ב72: קבוצת הוואטסאפ של הרוכשים. הקישור לא נמצא בדף: הוא מגיע מ-7931441 רק אחרי אימות התשלום (כמו קישור הקורס). בלי קישור - הכפתור לא מוצג. הנוסח לאישור בן -->
+<a class="grp" id="grp" href="#" target="_blank" rel="noopener" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>הצטרפות לקבוצת הוואטסאפ של הרוכשים</a>
+<p class="sent2" id="sent" data-clarity-mask="True" hidden>שלחנו גם את כל פרטי הגישה לאימייל שהזנת.</p>
+<p class="sent2">3 ערכות העבודה מחכות בשיעור הפתיחה של הקורס, בלשונית "קבצים מצורפים".</p>
+<!-- ב81: שתי שאלות קצרות, רק אחרי אימות התשלום. לא חובה. התשובה נשמרת בגיליון האירועים עם מספר העסקה בלבד. הנוסח לאישור בן -->
+<section class="srv" id="srv" aria-labelledby="srvH" hidden>
+ <h2 id="srvH">3 שאלות קצרות, לא חובה</h2>
+ <p class="sub">לחיצה אחת בכל שאלה. זה עוזר לבן להבין מה באמת עובד.</p>
+ <fieldset id="srvQ1"><legend>מה הכי שכנע אותך להצטרף?</legend><div class="ch">
+  <button type="button" data-a="video">סרטון של בן</button><button type="button" data-a="testimonials">ההמלצות בדף</button><button type="button" data-a="method">ההסבר על השיטה</button><button type="button" data-a="price_bonus">המחיר והבונוסים</button><button type="button" data-a="refund7">7 ימים להחזר</button><button type="button" data-a="referral">המלצה של מישהו</button><button type="button" data-a="other">אחר</button></div>
+  <div class="oth" id="srvOth" hidden><input id="srvTxt" type="text" maxlength="60" placeholder="במילה או שתיים" aria-label="מה עוד שכנע אותך" data-clarity-mask="True"><button type="button" id="srvSend">שליחה</button></div>
+ </fieldset>
+ <fieldset id="srvQ2"><legend>איפה שמעת על בן לראשונה?</legend><div class="ch">
+  <button type="button" data-a="facebook">פייסבוק</button><button type="button" data-a="instagram">אינסטגרם</button><button type="button" data-a="friend_aff">חבר או משווק</button><button type="button" data-a="youtube_google">יוטיוב או גוגל</button><button type="button" data-a="other">אחר</button></div>
+ </fieldset>
+ <fieldset id="srvQ3"><legend>מה טווח הגיל שלך?</legend><div class="ch">
+  <button type="button" data-a="a18_24">18-24</button><button type="button" data-a="a25_34">25-34</button><button type="button" data-a="a35_44">35-44</button><button type="button" data-a="a45_54">45-54</button><button type="button" data-a="a55_64">55-64</button><button type="button" data-a="a65p">65+</button></div>
+ </fieldset>
+ <p class="ty" id="srvTy" role="status" hidden>תודה!</p>
+</section>
+<!-- ב129: טלפון רשות. מוצג רק אחרי אימות התשלום, רק כשאין טלפון מהסליקה (רוכשי a5s). נשלח ל-Make עם מספר העסקה ומזהה התשלום בלבד ונשמר ברשומת הרכישה. לא לגיליון ולא ל-Meta -->
+<section class="ph" id="ph" aria-labelledby="phH" hidden>
+ <h2 id="phH">בן ישמח לוודא שהכל עובד לך</h2>
+ <p>השאר טלפון (לא חובה) ובן יחזור אליך לוודא שהגישה לקורס עובדת ושאין שאלות פתוחות.</p>
+ <form id="phForm" novalidate><input id="phIn" type="tel" inputmode="tel" autocomplete="tel" placeholder="050-0000000" aria-label="טלפון" maxlength="20" data-clarity-mask="True"><button type="submit" id="phBtn">שלחו לבן</button></form>
+ <p class="err" id="phErr" role="alert" hidden>נראה שהמספר לא שלם. 10 ספרות, מתחיל ב-05.</p>
+ <p class="ty" id="phTy" role="status" hidden>תודה! בן יחזור אליך.</p>
+</section>
+<section class="acc" id="acc" aria-labelledby="accH"><!-- ב56: אחרי רוכשת שלא מצאה את פרטי הגישה -->
+ <h2 id="accH">איפה פרטי הגישה?</h2>
+ <p class="to" id="accTo" data-clarity-mask="True">שלחנו אותם לאימייל שהזנת בתשלום.</p>
+ <dl><dt>שולח:</dt><dd>בן נחום</dd><dt>נושא:</dt><dd>פרטי התחברות לקורס: לנצח את האוטומט</dd></dl>
+ <ol>
+  <li>המייל אמור להגיע תוך כמה דקות.</li>
+  <li>לא מוצא? חפש בתיבה "לנצח את האוטומט", ובדוק גם בקידומי מכירות ובספאם.</li>
+  <li>המייל שמופיע כאן לא נכון, או שעדיין אין מייל? כתוב לנו ונעביר לך את הגישה.</li>
+ </ol>
+ <a class="wa" id="helpLink" href="#" target="_blank" rel="noopener" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.3-.8-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.3 0 .5l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.6-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>עזרה בגישה לקורס בוואטסאפ</a>
+</section>
+</main>
+<script>
+const TRACK_ENDPOINT = "https://hook.eu1.make.com/axjt5wu2oh5vf4zz9uut24s1m79ot6jc";
+const SUPPORT_WA = "972526951092";
+(function(){
+  const qs = new URLSearchParams(location.search);
+  if (SUPPORT_WA){ const h=document.getElementById("helpLink"); h.hidden=false; h.href="https://wa.me/"+SUPPORT_WA+"?text="+encodeURIComponent("היי, רכשתי את לנצח את האוטומט ולא מצאתי את פרטי הגישה לקורס"); h.addEventListener("click",()=>{ try{ if(TRACK_ENDPOINT[0]==="%") return; let lc={}; try{lc=JSON.parse(localStorage.getItem("nlp_lc")||"{}");}catch(e){} const g=new URLSearchParams({ev:"access_help", variant:lc.v||qs.get("v")||"", sid:lc.sid||qs.get("sid")||""}); try{ if(localStorage.getItem("nlp_int")==="1") g.set("x","int=1"); }catch(e){} if(!(navigator.sendBeacon&&navigator.sendBeacon(TRACK_ENDPOINT,g))) fetch(TRACK_ENDPOINT,{method:"POST",body:g,mode:"no-cors"}); }catch(e){} }); }
+  /* ב56: לאיזה מייל נשלחה הגישה - מהאימות מול השרת, ואם הוא לא חזר, ממה שהוזן בדף התשלום באותו דפדפן. מוצג רק כאן, לא נשלח לשום מקום */
+  function showTo(m){ m=String(m||"").trim(); if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m)) return; const p=document.getElementById("accTo"),b=document.createElement("b"); b.textContent=m; p.textContent="שלחנו אותם ל: "; p.appendChild(b); }
+  window.__showTo=showTo;
+  try{ showTo((JSON.parse(sessionStorage.getItem("cc_det")||"{}")||{}).email); }catch(e){}
+  /* קישור הכניסה לקורס לא נמצא בקוד הדף: הוא מגיע מהשרת רק אחרי אימות התשלום מול Cardcom */
+  (function(){
+    const VERIFY = "https://hook.eu1.make.com/s9ay2kp6sldk9527d77seuuq83xxto60";
+    const PHONE_HOOK = "https://hook.eu1.make.com/9gjwxco9k4wj4pi9sdhe74jxg1o8gbkn"; /* ב129: טלפון רשות מדף התודה → רשומת הרכישה */
+    const UPSELL_ISSUE = "https://hook.eu1.make.com/qhq5knj8mf2npzvmn4wufssrsk7uzyqd"; /* ב74: 8463664 - קוד חד-פעמי לאפסייל אחרי תשלום מאומת */
+    const el = id => document.getElementById(id);
+    let lp = "";
+    try{ lp = sessionStorage.getItem("cc_lp") || ""; }catch(e){}
+    if(!lp){ for(const k of ["lowprofileid","LowProfileId","lowprofilecode","LowProfileCode"]){ const x = qs.get(k); if(x){ lp = x; break; } } }
+    let framed = false; try{ framed = window.self !== window.top; }catch(e){ framed = true; }
+    function fallback(){ el("wait").hidden = true; el("sent").hidden = false; el("sent").textContent = "קישור הכניסה לקורס נשלח לאימייל שהזנת ואמור להגיע תוך כמה דקות."; }
+    /* Purchase רק אחרי אימות מול Cardcom, פעם אחת לעסקה. eventID = מספר העסקה, זהה ל-event_id ב-CAPI (Make 7827404) */
+    function purchase(d){
+      if(framed) return; /* בתוך ה-iframe של Cardcom: לא שולחים ולא מסמנים */
+      const deal = d && /^\d+$/.test(String(d.deal || "")) ? String(d.deal) : "";
+      const id = deal; /* ב66: בלי מספר עסקה מאומת לא שולחים Purchase מהדפדפן (אחרת Meta לא מאחדת עם ה-CAPI וסופרת פעמיים). ה-CAPI של 7827404 מכסה את הרכישה */
+      if(!id || !window.fbq) return;
+      const key = "px_purchase_" + id;
+      try{ if(localStorage.getItem(key)) return; }catch(e){}
+      try{ fbq("track", "Purchase", {value:297, currency:"ILS", content_name:"השיטה - הקורס המלא"}, {eventID: id}); window.__pur = 1; }catch(e){ return; }
+      try{ if(window.__pxSend) window.__pxSend("pur"); else window.__pxPending = 1; }catch(e){} /* ב113: האבחון מיד אחרי ה-Purchase */
+      /* מסמנים "נשלח" רק אחרי שליחה בפועל בחלון הראשי */
+      try{ localStorage.setItem(key, "1"); }catch(e){}
+    }
+    function done(d){
+      if(!(d && d.ok === true && typeof d.link === "string" && /^https:\/\/[^\/]*schooler\.biz\//i.test(d.link))) return false;
+      purchase(d);
+      const a = el("go"); a.href = d.link; a.hidden = false; el("wait").hidden = true;
+      upsell(0);
+      survey(d);
+      phone(d); /* ב129 */
+      if(d.email && window.__showTo) __showTo(d.email); /* ב56: המייל מוצג בתיבה "איפה פרטי הגישה?" */
+      if(typeof d.wa === "string" && /^https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]{10,40}$/.test(d.wa)){ const g = el("grp"); g.href = d.wa; g.hidden = false; /* ב72; השורה שמתחת לכפתור הוסרה לפי החלטת בן 09.11 */
+        g.addEventListener("click", () => { try{ if(TRACK_ENDPOINT[0] === "%") return; let lc = {}; try{ lc = JSON.parse(localStorage.getItem("nlp_lc") || "{}"); }catch(e){} const q = new URLSearchParams(location.search); const f = new URLSearchParams({ev:"wa_group_click", variant:lc.v || q.get("v") || "", sid:lc.sid || q.get("sid") || ""}); try{ if(localStorage.getItem("nlp_int") === "1") f.set("x","int=1"); }catch(e){} if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT, f))) fetch(TRACK_ENDPOINT, {method:"POST", body:f, mode:"no-cors"}); }catch(e){} }, {once:true}); }
+      return true;
+    }
+    /* ב81: שתי שאלות אחרי תשלום מאומת בלבד (גם בחזרה מדף האפסייל, ups=1). לחיצה אחת שולחת אירוע buyer_survey לגיליון:
+       cta = q1 (מה שכנע), q2 (איפה שמע) או q3 (טווח גיל, ב106), name = קוד התשובה (או other:טקסט קצר בלי מספרים ובלי מייל), x = deal=<מספר העסקה>.
+       תשובה שכבר נשלחה מאותו דפדפן לא מוצגת שוב. לא חוסם ולא משנה את ההפניה לאפסייל */
+    function survey(d){
+      if(framed || TRACK_ENDPOINT[0] === "%") return;
+      const deal = d && /^\d+$/.test(String(d.deal || "")) ? String(d.deal) : ""; if(!deal) return;
+      const box = el("srv"); if(!box || box.dataset.on) return; box.dataset.on = "1";
+      const K = q => "srv_" + deal + "_" + q, done = q => { try{ return !!localStorage.getItem(K(q)); }catch(e){ return false; } };
+      const send = (q, a) => { try{ localStorage.setItem(K(q), "1"); }catch(e){}
+        try{ let lc = {}; try{ lc = JSON.parse(localStorage.getItem("nlp_lc") || "{}"); }catch(e){}
+          const f = new URLSearchParams({ev:"buyer_survey", variant:lc.v || qs.get("v") || "", sid:lc.sid || qs.get("sid") || "", cta:q, name:a, x:"deal=" + deal});
+          try{ if(localStorage.getItem("nlp_int") === "1") f.set("x", f.get("x") + ";int=1"); }catch(e){}
+          try{ const ow = window.NLP_OWNER ? NLP_OWNER() : ""; if(ow) f.set("x", f.get("x") + ";aff=" + ow); }catch(e){}
+          if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT, f))) fetch(TRACK_ENDPOINT, {method:"POST", body:f, mode:"no-cors"}); }catch(e){} };
+      const fin = () => { if(done("q1") && done("q2") && done("q3")) el("srvTy").hidden = false; };
+      [["q1", "srvQ1"], ["q2", "srvQ2"], ["q3", "srvQ3"]].forEach(([q, id]) => { const fs = el(id); if(done(q)){ fs.hidden = true; return; }
+        fs.querySelectorAll(".ch button").forEach(b => b.addEventListener("click", () => { if(done(q)) return;
+          fs.querySelectorAll(".ch button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+          if(q === "q1" && b.dataset.a === "other"){ el("srvOth").hidden = false; el("srvTxt").focus(); return; }
+          send(q, b.dataset.a); fs.hidden = true; fin(); })); });
+      el("srvSend").addEventListener("click", () => { if(done("q1")) return;
+        const t = String(el("srvTxt").value || "").replace(/\S+@\S+/g, "").replace(/[\d+()\-]{5,}/g, "").replace(/[\t\r\n;|]+/g, " ").trim().slice(0, 60);
+        send("q1", t ? "other:" + t : "other"); el("srvQ1").hidden = true; fin(); });
+      if(done("q1") && done("q2") && done("q3")) return; box.hidden = false;
+    }
+    /* ב129: טלפון רשות, רק אחרי תשלום מאומת ובחלון הראשי, ורק כשאין טלפון מהסליקה באותו דפדפן (רוכשי a5s; ב-checkout.html הטלפון כבר נשמר).
+       נשלח ל-Make עם מספר העסקה, מזהה התשלום והטלפון. נשמר ברשומת הרכישה רק אם אין בה טלפון. לגיליון נשלח רק אירוע thanks_phone בלי המספר. לא ל-Meta */
+    function phone(d){
+      if(framed || PHONE_HOOK[0] === "%") return;
+      const deal = d && /^\d+$/.test(String(d.deal || "")) ? String(d.deal) : ""; if(!deal || !lp) return;
+      const box = el("ph"); if(!box || box.dataset.on) return; box.dataset.on = "1";
+      const K = "ph_" + deal; try{ if(localStorage.getItem(K)) return; }catch(e){}
+      let cc = ""; try{ cc = String((JSON.parse(sessionStorage.getItem("cc_det") || "{}") || {}).phone || ""); }catch(e){}
+      if(cc.replace(/\D/g, "").length >= 9) return;
+      const ev = r => { try{ if(TRACK_ENDPOINT[0] === "%") return; let lc = {}; try{ lc = JSON.parse(localStorage.getItem("nlp_lc") || "{}"); }catch(e){}
+        const f = new URLSearchParams({ev:"thanks_phone", variant:lc.v || qs.get("v") || "", sid:lc.sid || qs.get("sid") || "", name:r, x:"deal=" + deal});
+        try{ if(localStorage.getItem("nlp_int") === "1") f.set("x", f.get("x") + ";int=1"); }catch(e){}
+        if(!(navigator.sendBeacon && navigator.sendBeacon(TRACK_ENDPOINT, f))) fetch(TRACK_ENDPOINT, {method:"POST", body:f, mode:"no-cors"}); }catch(e){} };
+      const err = el("phErr"), btn = el("phBtn");
+      const fail = () => { btn.disabled = false; err.textContent = "לא הצלחנו לשמור. אפשר לנסות שוב, או לכתוב לנו בוואטסאפ למטה."; err.hidden = false; ev("fail"); };
+      el("phForm").addEventListener("submit", e => { e.preventDefault();
+        let p = String(el("phIn").value || "").replace(/\D/g, ""); if(p.startsWith("972")) p = "0" + p.slice(3);
+        if(!/^05\d{8}$/.test(p)){ err.textContent = "נראה שהמספר לא שלם. 10 ספרות, מתחיל ב-05."; err.hidden = false; return; }
+        err.hidden = true; btn.disabled = true;
+        fetch(PHONE_HOOK, {method:"POST", body:new URLSearchParams({deal:deal, lookup_lp:lp, phone:p})})
+          .then(r => r.json()).then(j => { if(!(j && j.ok === true)) return fail();
+            try{ localStorage.setItem(K, "1"); }catch(e){} el("phForm").hidden = true; el("phTy").hidden = false; ev("saved"); })
+          .catch(fail); });
+      box.hidden = false; ev("shown");
+    }
+    /* ב74: הצעת האפסייל. ההמתנה של 1.5 שניות נותנת ל-Purchase ולאירועי הדף להישלח לפני המעבר */
+    let upFired = false;
+    function upsell(n){
+      if(framed || !lp || qs.has("ups") || (n === 0 && upFired)) return; upFired = true;
+      const retry = () => { if(n < 4) setTimeout(() => upsell(n + 1), 3000); };
+      fetch(UPSELL_ISSUE, {method:"POST", body:new URLSearchParams({lookup_lp: lp})})
+        .then(r => r.json()).then(u => {
+          const t = u && typeof u.up === "string" ? u.up : "";
+          if(!/^[A-Za-z0-9]{32}$/.test(t)) return retry();
+          let seen = false; try{ seen = sessionStorage.getItem("ups_seen") === t; sessionStorage.setItem("ups_seen", t); }catch(e){}
+          if(!seen) setTimeout(() => { location.href = "upsell-97.html?t=" + t; }, 1500);
+        }).catch(retry);
+    }
+    function ask(n){
+      const ctl = ("AbortController" in self) ? new AbortController() : null; const t = setTimeout(() => ctl && ctl.abort(), 20000);
+      const again = () => { if(n < 2) setTimeout(() => ask(n + 1), 2500); else fallback(); };
+      fetch(VERIFY, {method:"POST", body:new URLSearchParams({lookup_lp: lp}), signal: ctl ? ctl.signal : undefined})
+        .then(r => r.json()).then(d => { clearTimeout(t); if(!done(d)) again(); })
+        .catch(() => { clearTimeout(t); again(); });
+    }
+    if(!lp) return fallback();
+    setTimeout(() => ask(0), framed ? 1500 : 0);
+  })();
+  /* מעקב פנימי לדשבורד. אירוע Purchase ל-Meta נשלח למעלה, אחרי אימות התשלום. */
+  try{ if(TRACK_ENDPOINT[0]!=="%"){ let lc={},ft={};try{lc=JSON.parse(localStorage.getItem("nlp_lc")||"{}");ft=JSON.parse(localStorage.getItem("nlp_ft")||"{}");}catch(e){} const cc=qs.get("src")==="cc"||!!qs.get("sid"); let dup=false; try{dup=cc&&sessionStorage.getItem("px_ret")==="1"; if(cc)sessionStorage.setItem("px_ret","1");}catch(e){} try{ if(window.clarity){ if(lc.v) clarity("set","variant",lc.v); let vd=""; try{vd=localStorage.getItem("nlp_vid")||"";}catch(e){} if(vd){ clarity("identify",vd); clarity("set","vid",vd); } if(cc){ clarity("event","purchase_return"); clarity("upgrade","purchase"); } else clarity("event","thanks_view"); } }catch(e){} const f=new URLSearchParams({ev:cc?(dup?"thanks_view":"purchase_return"):"thanks_view", variant:lc.v||qs.get("v")||"", sid:lc.sid||qs.get("sid")||("t-"+Date.now()), qs:lc.qs!=null?lc.qs:location.search.slice(1), cta:lc.cta||"", name:ft.qs!=null?("ft:"+ft.v+"|"+ft.qs):"", sec_on_page:lc.ts?Math.round((Date.now()-lc.ts)/1000):""});
+    try{ if(localStorage.getItem("nlp_int")==="1") f.set("x","int=1"); }catch(e){} try{ const ow=window.NLP_OWNER?NLP_OWNER():""; if(ow) f.set("x",(f.get("x")?f.get("x")+";":"")+"aff="+ow); }catch(e){}
+    if(!(navigator.sendBeacon&&navigator.sendBeacon(TRACK_ENDPOINT,f))) fetch(TRACK_ENDPOINT,{method:"POST",body:f,mode:"no-cors"}); } }catch(e){}
+  /* ב34: אבחון פיקסל בדף התודה (חלון ראשי בלבד) - האם הספרייה של Meta נטענה, האם נשלח Purchase, ושמות הפרמטרים בכתובת (בלי ערכים) */
+  /* ב113: אותו אבחון, פעם אחת בביקור - מיד אחרי Purchase (at=pur), אחרת אחרי 12 שניות (at=12s) */
+  window.__pxSend = function(at){ try{ if(window.__pxSent || window.self !== window.top || TRACK_ENDPOINT[0]==="%") return; window.__pxSent = 1;
+    const st = window.__noPix ? "off" : (!window.fbq ? "nofbq" : (window.fbq.callMethod ? "loaded" : "blocked"));
+    const keys = []; qs.forEach(function(v,k){ keys.push(k); });
+    const g = new URLSearchParams({ev:"px_status", variant:qs.get("v")||"", sid:qs.get("sid")||"", x:"px="+st+";pur="+(window.__pur?1:0)+";at="+at, name:keys.join(",").slice(0,200)});
+    try{ if(localStorage.getItem("nlp_int")==="1") g.set("x", g.get("x")+";int=1"); }catch(e){}
+    if(!(navigator.sendBeacon&&navigator.sendBeacon(TRACK_ENDPOINT,g))) fetch(TRACK_ENDPOINT,{method:"POST",body:g,mode:"no-cors"});
+  }catch(e){} };
+  if(window.__pxPending) window.__pxSend("pur");
+  setTimeout(function(){ window.__pxSend("12s"); }, 12000);
+})();
+</script>
+</body>
+</html>
