@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="he" dir="rtl"><head><meta charset="utf-8"><script>/* ב25: שיוך רכישות למשווקים - הקליק האחרון ב-30 יום. aff בכתובת = משווק; ערוץ של בן (מודעות עם utm_id או paid, מייל, ביו, ManyChat) = בן; ביקור ישיר או לא מזוהה לא משנה. נשמר ב-localStorage ובעוגייה. NLP_OWNER() מחזיר את קוד המשווק, או "" = בן */
+var NLP_OWNER=(function(){var K="nlp_aff",D=2592e6,now=Date.now(),cur=null;
+ function rd(){var a=null,b=null;try{a=JSON.parse(localStorage.getItem(K)||"null")}catch(e){}try{var m=document.cookie.match(/(?:^|; )nlp_aff=([^;]*)/);if(m){var v=decodeURIComponent(m[1]).split(".");b={c:v[0]||"",t:+v[1]||0}}}catch(e){}return a&&b?(a.t>=b.t?a:b):(a||b)}
+ function wr(c){cur={c:c,t:now};try{localStorage.setItem(K,JSON.stringify(cur))}catch(e){}try{document.cookie=K+"="+encodeURIComponent(c+"."+now)+"; max-age=2592000; path=/; SameSite=Lax"}catch(e){}}
+ try{var q=new URLSearchParams(location.search),a=(q.get("aff")||"").toLowerCase().replace(/[^a-z0-9_-]/g,"").slice(0,32),s=(q.get("utm_source")||"").toLowerCase(),m=(q.get("utm_medium")||"").toLowerCase();
+  if(a)wr(a);else if(m!=="affiliate"&&(q.get("utm_id")||/^(paid|paid_social|cpc|responder|email|bio|dm|manychat|group|story|page|page_post)$/.test(m)||/^(email|responder|manychat|whatsapp)$/.test(s)))wr("");else cur=rd()}catch(e){}
+ return function(){return cur&&cur.c&&now-cur.t<=D?cur.c:""}})();</script><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>לנצח את האוטומט · בן נחום</title>
+<meta name="description" content="לנצח את האוטומט - שיטה מעשית של בן נחום: 90 שיעורים קצרים + 5 בונוסים בשווי 1,121 ₪. 297 ₪.">
+<meta property="og:title" content="לנצח את האוטומט · בן נחום">
+<meta property="og:description" content="לא עוד ידע שנשאר בראש - דרך מעשית לתרגל מחשבות ותגובות חדשות בתוך החיים. 90 שיעורים קצרים + 5 בונוסים. 297 ₪.">
+<meta property="og:image" content="https://funnel.digitalonline.co.il/nlp/assets/ben.jpg">
+<meta property="og:type" content="website">
+<style>html,body{margin:0;background:#0d0d0f;color:#d6b26a;font-family:Arial,sans-serif;height:100%;display:grid;place-items:center}</style>
+<script>
+(function(){
+  /* ב63 (בן 08.11, "מאשר ב63" מיהב): ניסוי ap2_0811 - a5 מול pr2, חצי-חצי, קבוע לדפדפן, לכל התנועה שעוברת ב-go.html (כל המודעות והמשווקים).
+     מי ששובץ ב-aap_0511 ל-a5 או ל-pr נשאר בדף שלו (pr = pr2), כדי שלא יראה דף אחר בחזרה; זה סימטרי בין שני הדפים. כל השאר (כולל מי ששובץ ל-a) מוגרלים מחדש.
+     הניסוי הקודם: ב47/ב49 aap_0511 (a, a5, pr2 שליש לכל אחד) - הסתיים. a.html נשאר באתר (אינסטגרם אורגני, ב44)
+     ב85 ("מאשר" מיהב, 12.11 11:44): הזרוע a5 מופנית ל-a5v6 (a5v4 עם הכפתורים הירוקים). השיבוץ השמור לא משתנה - מי ששובץ ל-a5 מקבל את a5v6, ו-pr2 נשאר pr2.
+     a5.html נשאר באתר, מחוץ לחלוקה */
+  /* ב68 שלב ג ("מאשר" מיהב, 15.11 07:22): ap2_0811 נסגר - a5v6 נקבע כדף המוביל (9 מתוך 96 הגיעו לסליקה, מול 0 מתוך 90 ב-pr2).
+     כל התנועה שעוברת ב-go.html (כל המודעות והמשווקים) עוברת ל-a5v6, בלי הגרלה, עם exp=a5v6_1511. גם מי ששובץ קודם ל-pr2.
+     pr2 ו-a5 נשארים באתר, מחוץ לחלוקה. השיבוץ השמור של ap2_0811 נשאר בדפדפן ולא נקרא */
+  /* ב94 ("מאשר ב94" מיהב, 15.11 14:07): ניסוי דפים pg_1611 - a5v6 מול pr2, חצי-חצי, קבוע לדפדפן, לכל התנועה שעוברת ב-go.html (כל המודעות והמשווקים).
+     מי ששובץ ב-ap2_0811 נשאר בדף שלו (a5 = a5v6, pr2 = pr2), כדי שלא יראה דף אחר בחזרה; זה סימטרי בין שני הדפים. כל השאר מוגרלים.
+     אינסטגרם אורגני ממשיך ל-a (ב44). הדפים, דף התשלום וניסוי B מול B2 לא משתנים */
+  /* ב102 ("מאשר ב102" מיהב, 16.11 14:55, בן אישר): ניסוי on_1611 - המסלול הישן (a.html + סליקה A, שני שלבים) מול a5v6 + סליקה B2. חצי-חצי, קבוע לדפדפן,
+     לכל התנועה שעוברת ב-go.html. pg_1611 נסגר: מי ששובץ בו (או ב-ap2_0811) נשאר בדף שלו עם ה-exp הישן ולא נכנס לניתוח. pr2 נשאר באתר, מחוץ לחלוקה.
+     הזרוע נשמרת גם ב-nlp_co_ab, ודף התשלום פותח לפיה סליקה A או B2. אינסטגרם אורגני ממשיך ל-a בלי exp (ב44), אבל מבקר חדש מוגרל קודם לזרוע (nlp_co_ab), ולכן בסליקה הוא מקבל A או B2 לפי הזרוע */
+  /* ב105 ("מאשר ב105" מיהב, בן אישר, 2026-11-17 20:47): ניסוי on_1711 - המסלול הישן (a.html + סליקה A) מול a5v7 + סליקה B2 (הדף החדש של בן: הוק חדש, ההצעה מיד אחרי הפתרון,
+     ההוכחות מתחתיה, בלי "למה בניתי"). חצי-חצי, קבוע לדפדפן, ספירה חדשה. on_1611 נסגר: מי ששובץ בו נשאר בדף שלו (a או a5v6) עם exp=on_1611 ולא נכנס לניתוח החדש;
+     כך גם מי ששובץ ב-pg_1611 או ב-ap2_0811. הזרוע נשמרת ב-nlp_co_ab כמו קודם (a -> A, a5v7 -> B2). אינסטגרם אורגני בלי שינוי (ב44) */
+  /* ב115 ("מאשר" מהראשי, 21.11): on_1711 נסגר (הנתונים שלו נשארים בגיליון עם exp=on_1711). מאז on_1711: 137 מבקרים ו-0 לחיצות קנייה;
+     13.11-17.11: 687 מבקרים ו-37 הגיעו לסליקה, a5v6 30 מתוך 403. ניתוב rt_2111: 80% ל-a5v6, 20% ל-a5v7, קבוע לדפדפן.
+     כל דפדפן מוגרל מחדש, גם מי ששובץ ב-on_1711, on_1611, pg_1611 או ap2_0811 (השיבוצים הישנים נשארים בדפדפן ולא נקראים).
+     שני הדפים עם סליקה B2 (nlp_co_ab=b2). a, pr2 ו-a5s נשארים באתר, מחוץ לניתוב. אינסטגרם אורגני בלי שינוי (ב44) */
+  /* ב125 ("מאשר" מיהב, בן אישר, 26.11): כל התנועה שעוברת ב-go.html - המודעות של בן, המשווקים, מיילי הרצף, הביו ואינסטגרם אורגני - לדף הקצר a5s עם סליקה B2.
+     הסיבה: ב-14 יום a5v6 קיבל 567 כניסות ו-0 התחילו למלא; a5s 121 כניסות ומכירה. exp=a5s_2611. aff וכל ה-UTM נשמרים בכתובת עד הרכישה.
+     ההגרלה של rt_2111 הופסקה (השיבוץ הישן נשאר בדפדפן ולא נקרא). אינסטגרם אורגני מסומן route=ig_org כמו קודם (ב44) אבל מגיע ל-a5s.
+     a, a5v6, a5v7 ו-pr2 נשארים באתר, מחוץ לניתוב. הקישורים הישירים ל-a5s (W40/W45, יהודית, יהל, רמי) לא עוברים כאן */
+  var q=new URLSearchParams(location.search); if(!q.has("go")) q.set("go","1");
+  var s0=(q.get("utm_source")||"").toLowerCase(), m0=(q.get("utm_medium")||"").toLowerCase();
+  if((s0==="instagram"||s0==="ig")&&(m0==="bio"||m0==="dm")&&!q.get("aff")&&!q.get("utm_id")) q.set("route","ig_org");
+  /* ב132 ("מאשר" מיהב 28.11, מ-1.12): חלוקה 50/50 דביקה בין a5s (exp=a5s_v1) ל-a5s2 (exp=a5s_v2). v2=0/1 בכתובת כופה שיבוץ (לבדיקות) */
+  var v2=null; try{ v2=localStorage.getItem("nlp_v2"); }catch(e){} var fv=q.get("v2"); if(fv==="0"||fv==="1") v2=fv;
+  if(v2!=="0"&&v2!=="1") v2=Math.random()<0.5?"1":"0"; try{ localStorage.setItem("nlp_v2",v2); }catch(e){} q.delete("v2");
+  q.set("exp",v2==="1"?"a5s_v2":"a5s_v1"); try{ localStorage.setItem("nlp_co_ab","b2"); }catch(e){}
+  location.replace((v2==="1"?"a5s2.html?":"a5s.html?")+q.toString());
+})();
+</script></head><body>טוען...</body></html>
