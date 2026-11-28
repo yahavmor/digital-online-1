@@ -20,7 +20,7 @@ const sent=h=>h.filter(x=>x.p.includes("9yp88pz9")).map(x=>Object.fromEntries(ne
 {const X=await page();const st=await X.p.evaluate(()=>({v:document.documentElement.dataset.variant,phones:document.querySelectorAll('input[name="phone"]').length,pay3:[...document.querySelectorAll(".lpf-pay3.v2")].map(e=>e.textContent),guar:[...document.querySelectorAll(".lpf-guar")].map(e=>e.textContent),boxReq:[...document.querySelectorAll('input[name="box"]')].map(b=>b.required),peek:document.getElementById("v2Peek").hidden,ben:document.getElementById("v2Ben").hidden,consent:document.querySelector('[data-v2text="consent"]').textContent}));
  ok("וריאנט a5s2",st.v==="a5s2",st.v);ok("שדה טלפון בשני הטפסים",st.phones===2,st.phones);
  ok("3 תשלומים בולט בשני המקומות",st.pay3.length===2&&/3 תשלומים של 99 ₪/.test(st.pay3[0]),st.pay3);
- ok("אחריות + שורת תנאים צמודות לכפתור בשני הטפסים",st.guar.length===2&&/7 ימי אחריות/.test(st.guar[0])&&/התקנון/.test(st.guar[0]),st.guar);
+ ok("אחריות + שורת תנאים צמודות לכפתור בשני הטפסים",st.guar.length===2&&/החזר מלא תוך 7 ימים/.test(st.guar[0])&&/התקנון/.test(st.guar[0]),st.guar);
  ok("התיבה לא חובה ונוסח ההסכמה מכסה מייל ווואטסאפ",st.boxReq.every(b=>!b)&&/וואטסאפ/.test(st.consent),[st.boxReq,st.consent]);
  ok("סלוטי הווידאו מוסתרים כשאין קובץ",st.peek&&st.ben,[st.peek,st.ben]);
  ok("אירוע view עם variant=a5s2",X.track.some(t=>t.ev==="view"&&t.variant==="a5s2"),X.track.filter(t=>t.ev==="view"));
